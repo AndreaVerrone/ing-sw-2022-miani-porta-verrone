@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * A class used to store list of students
  */
-public class StudentList {
+public class StudentList implements Cloneable{
 
     private int yellow = 0;
     private int blue = 0;
@@ -96,5 +96,14 @@ public class StudentList {
      */
     public void empty(){
         setAllAs(0);
+    }
+
+    @Override
+    public StudentList clone() {
+        try {
+            return (StudentList) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
