@@ -99,4 +99,13 @@ public class StudentList implements Cloneable{
             throw new AssertionError();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentList that = (StudentList) o;
+        return yellow == that.yellow && blue == that.blue && green == that.green && red == that.red && pink == that.pink;
+    }
+
 }
