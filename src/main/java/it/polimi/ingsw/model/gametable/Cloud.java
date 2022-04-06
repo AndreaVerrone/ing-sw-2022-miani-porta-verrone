@@ -28,6 +28,10 @@ class Cloud {
         return ID;
     }
 
+    public StudentList getStudents() {
+        return students.clone();
+    }
+
     /**
      * Adds to the cloud a student of the given {@code PawnType}
      * @param type the type of the student to add
