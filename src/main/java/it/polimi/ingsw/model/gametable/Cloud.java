@@ -28,6 +28,10 @@ class Cloud {
         return ID;
     }
 
+    /**
+     * gives a copy of the {@code students} attribute without modifying it
+     * @return a copy of {@code students}
+     */
     public StudentList getStudents() {
         return students.clone();
     }
