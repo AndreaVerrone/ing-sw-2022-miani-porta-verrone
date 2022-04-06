@@ -29,7 +29,7 @@ class Cloud {
     }
 
     /**
-     * gives a copy of the {@code students} attribute without modifying it
+     * Gives a copy of the {@code students} attribute without modifying it
      * @return a copy of {@code students}
      */
     public StudentList getStudents() {
@@ -45,7 +45,7 @@ class Cloud {
     }
 
     /**
-     * givesd a copy of the {@code students} attribute and empties the list by calling the {@code students.empty()} method
+     * Gives a copy of the {@code students} attribute and empties the list by calling the {@code students.empty()} method
      * @return the copy of the {@code students} attribute
      */
     public StudentList getAllStudents() {
