@@ -62,4 +62,20 @@ class StudentListTest {
                 () -> studentList.setAllAs(-3));
     }
 
+    @Test
+    public void add_EmptyList_ShouldDoNothing(){
+        int initialStudents = studentList.numAllStudents();
+        StudentList emptyList = new StudentList();
+        studentList.add(emptyList);
+        assertEquals(initialStudents, studentList.numAllStudents());
+    }
+
+    @Test
+    public void add_NonEmptyList_ShouldAddStudents(){
+        StudentList newList = new StudentList();
+        newList.setAllAs(2);
+        studentList.add(newList);
+        assertEquals(PawnType.values().length * 2, studentList.numAllStudents());
+    }
+
 }
