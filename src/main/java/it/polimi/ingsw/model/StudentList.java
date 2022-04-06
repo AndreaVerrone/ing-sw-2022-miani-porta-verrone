@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import java.util.Objects;
+
 
 /**
  * A class used to store list of students
