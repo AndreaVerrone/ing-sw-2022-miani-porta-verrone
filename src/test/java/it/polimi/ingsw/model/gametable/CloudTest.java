@@ -46,8 +46,6 @@ class CloudTest {
         StudentList studentsCopyBefore = cloud.getStudents();
         StudentList studentsCopy = cloud.getAllStudents();
         assertEquals(0, cloud.getStudents().numAllStudents());
-        for (PawnType p : PawnType.values()){
-            assertEquals(studentsCopyBefore.getNumOf(p), studentsCopy.getNumOf(p));
-        }
+        assertTrue(studentsCopy.equals(studentsCopyBefore));
     }
 }
