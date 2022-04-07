@@ -4,6 +4,10 @@ import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
 
+/**
+ * A class representing the dining room of a school board. Here the students are placed in tables accordingly
+ * to their type, so that a table contains only students of a type and a maximum of 10 students in total.
+ */
 class DiningRoom {
 
     @SuppressWarnings("FieldCanBeLocal")
