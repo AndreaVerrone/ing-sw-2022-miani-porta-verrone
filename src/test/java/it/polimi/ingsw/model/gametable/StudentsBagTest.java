@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.gametable;
 import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
+import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class StudentsBagTest {
             PawnType typeTest = bag.draw();
             assertEquals(students.getNumOf(typeTest)-1, bag.getStudents().getNumOf(typeTest));
             students.changeNumOf(typeTest, - 1);
-            assertTrue(students.equals(bag.getStudents()));
+            assertEquals(students, bag.getStudents());
 
         } catch (NotEnoughStudentException | EmptyBagException e) {
             fail();
@@ -50,7 +51,7 @@ class StudentsBagTest {
             PawnType typeTest = bag.draw();
             assertEquals(PawnType.GREEN_FROGS, typeTest);
             students.empty();
-            assertTrue(students.equals(bag.getStudents()));
+            assertEquals(students, bag.getStudents());
 
         } catch (NotEnoughStudentException | EmptyBagException e) {
             fail();
@@ -58,15 +59,10 @@ class StudentsBagTest {
     }
 
     @Test
-    void draw_bagEmpty_shouldThrowException() {
+    void draw_bagEmpty_shouldThrowException(){
         StudentList students = new StudentList();
-        try {
-
-            bag.fillWith(students);
-            assertThrows(EmptyBagException.class, () -> bag.draw());
-        } catch (NotEnoughStudentException e) {
-            fail();
-        }
+        bag.fillWith(students);
+        assertThrows(EmptyBagException.class, () -> bag.draw());
     }
 
     @Test
@@ -77,11 +73,11 @@ class StudentsBagTest {
             students.changeNumOf(PawnType.YELLOW_GNOMES, 2);
             students.changeNumOf(PawnType.PINK_FAIRIES, 2);
             bag.fillWith(students);
-            assertTrue(students.equals(bag.getStudents()));
+            assertEquals(students, bag.getStudents());
 
         } catch (NotEnoughStudentException e) {
             fail();
         }
-
     }
+
 }
