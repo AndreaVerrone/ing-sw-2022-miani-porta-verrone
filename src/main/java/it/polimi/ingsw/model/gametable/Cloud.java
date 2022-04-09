@@ -40,8 +40,12 @@ class Cloud {
      * Adds to the cloud a student of the given {@code PawnType}
      * @param type the type of the student to add
      */
-    public void addStudent(PawnType type) throws NotEnoughStudentException {
-        students.changeNumOf(type, 1);
+    public void addStudent(PawnType type) {
+        try {
+            students.changeNumOf(type, 1);
+        } catch (NotEnoughStudentException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
