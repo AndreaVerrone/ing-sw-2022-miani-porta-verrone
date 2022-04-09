@@ -161,6 +161,10 @@ public class GameTable {
         islands.remove(islandToRemove);
     }
 
+    /**
+     * Fill the {@code studentsBag} with the {@code StudentList} given
+     * @param students {@code StudentList} to add to the bag
+     */
     public void fillBag(StudentList students){
         studentsBag.fillWith(students);
     }
