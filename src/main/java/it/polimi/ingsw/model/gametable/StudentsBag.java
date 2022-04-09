@@ -31,14 +31,18 @@ class StudentsBag {
      * it finds one and removes it
      * @return the type of the student randomly taken
      */
-    public PawnType draw() throws NotEnoughStudentException, EmptyBagException {
+    public PawnType draw() throws EmptyBagException {
         PawnType type;
         if(students.numAllStudents() == 0) throw new EmptyBagException();
         do {
             int random = new Random().nextInt(PawnType.values().length);
             type = PawnType.values()[random];
         }while (students.getNumOf(type)<=0);
-        students.changeNumOf(type, -1);
+        try {
+            students.changeNumOf(type, -1);
+        } catch (NotEnoughStudentException e) {
+            throw new EmptyBagException();
+        }
         return type;
     }
 
