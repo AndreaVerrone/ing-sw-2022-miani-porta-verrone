@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.gametable;
 import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
+import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 
 import java.util.Random;
 
@@ -51,10 +52,14 @@ class StudentsBag {
      * @param students a {@code StudentList} of students to add to the bag
      * @throws NullPointerException if the {@code StudentList} given is null
      */
-    public void fillWith(StudentList students) throws NullPointerException, NotEnoughStudentException {
+    public void fillWith(StudentList students) throws NullPointerException {
         if (students == null) throw new NullPointerException();
         for (PawnType type : PawnType.values()) {
-            this.students.changeNumOf(type, students.getNumOf(type));
+            try {
+                this.students.changeNumOf(type, students.getNumOf(type));
+            } catch (NotEnoughStudentException e) {
+                e.printStackTrace();
+            }
 
         }
     }
