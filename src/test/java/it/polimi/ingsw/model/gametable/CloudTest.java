@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.gametable;
 
-import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
 import org.junit.jupiter.api.AfterEach;
@@ -32,13 +31,9 @@ class CloudTest {
 
     @Test
     void addStudent_Red() {
-        try {
-            cloud.addStudent(PawnType.RED_DRAGONS);
-            int numOfRed = cloud.getStudents().getNumOf(PawnType.RED_DRAGONS);
-            assertEquals(1, numOfRed);
-        } catch (NotEnoughStudentException e) {
-            fail();
-        }
+        cloud.addStudent(PawnType.RED_DRAGONS);
+        int numOfRed = cloud.getStudents().getNumOf(PawnType.RED_DRAGONS);
+        assertEquals(1, numOfRed);
     }
 
     @Test
@@ -46,6 +41,6 @@ class CloudTest {
         StudentList studentsCopyBefore = cloud.getStudents();
         StudentList studentsCopy = cloud.getAllStudents();
         assertEquals(0, cloud.getStudents().numAllStudents());
-        assertTrue(studentsCopy.equals(studentsCopyBefore));
+        assertEquals(studentsCopy, studentsCopyBefore);
     }
 }
