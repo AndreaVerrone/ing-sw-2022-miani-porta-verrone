@@ -11,6 +11,11 @@ public class StudentList implements Cloneable{
     private int red = 0;
     private int pink = 0;
 
+    /**
+     * Gets the number of students of the given {@code PawnType} contained in this student list.
+     * @param type the type of student to check
+     * @return the number of student of that type
+     */
     public int getNumOf(PawnType type){
         return switch (type){
             case YELLOW_GNOMES -> yellow;
@@ -89,6 +94,23 @@ public class StudentList implements Cloneable{
      */
     public void empty(){
         setAllAs(0);
+    }
+
+    /**
+     * Add another student list to this list. At the end of this method, the number of each student in this
+     * list will be equal to the sum of that already present in this list
+     * and those contained in {@code studentList}.
+     * @param studentList the other {@code StudentList} to add to this
+     */
+    public void add(StudentList studentList){
+        if (studentList.numAllStudents() == 0) return;
+        for (PawnType type : PawnType.values()){
+            try {
+                changeNumOf(type, studentList.getNumOf(type));
+            } catch (NotEnoughStudentException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
