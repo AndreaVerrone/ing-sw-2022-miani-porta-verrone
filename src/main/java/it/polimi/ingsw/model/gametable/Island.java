@@ -112,7 +112,7 @@ public class Island {
         assert ID != island.ID : "You can't unify the same island";
         assert tower == island.tower : "You're trying to unify two islands that have different towers on them";
 
-        // TODO: add student list merging
+        students.add(island.students);
         size++;
         if (island.isDisabled())
             ban = true;
