@@ -99,7 +99,7 @@ class GameTableTest {
         gameTable.fillBag(studentsForBag);
         try {
             gameTable.fillClouds();
-        } catch (EmptyBagException | LastRoundException e) {
+        } catch (EmptyBagException e) {
             fail();
         }
         for (int ID = 0; ID < gameTable.getNumberOfClouds(); ID++){

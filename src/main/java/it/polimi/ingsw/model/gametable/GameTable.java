@@ -59,10 +59,6 @@ public class GameTable {
      */
     public int getNumberOfClouds(){ return clouds.size();}
 
-    public int getMaxStudentPerCloud(){
-        return maxStudentPerCloud;
-    }
-
     public int getMotherNaturePosition(){
         return motherNaturePosition;
     }
@@ -128,11 +124,14 @@ public class GameTable {
      * Fills all the clouds with the maximum number of students taken from the bag
      * @throws EmptyBagException if the bag is empty and there are no more students
      */
-    public void fillClouds() throws EmptyBagException, LastRoundException {
+    public void fillClouds() throws EmptyBagException {
         PawnType student;
         for (Cloud cloud : clouds){
             for (int i = 0; i < maxStudentPerCloud; i++){
                 student = studentsBag.draw();
+                if (studentsBag.studentsRemaining() == 0){
+                    //TODO: notify observer to end the game
+                }
                 cloud.addStudent(student);
             }
         }
