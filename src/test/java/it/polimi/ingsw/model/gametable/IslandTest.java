@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.TowerType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +33,6 @@ class IslandTest {
         assertEquals(2, island1.getSize());
     }
 
-    @Disabled
     @Test
     public void unifyWith_CorrectIsland_ShouldAddStudents(){
         // add students on islands

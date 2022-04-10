@@ -93,6 +93,23 @@ public class StudentList implements Cloneable{
         setAllAs(0);
     }
 
+    /**
+     * Add another student list to this list. At the end of this method, the number of each student in this
+     * list will be equal to the sum of that already present in this list
+     * and those contained in {@code studentList}.
+     * @param studentList the other {@code StudentList} to add to this
+     */
+    public void add(StudentList studentList){
+        if (studentList.numAllStudents() == 0) return;
+        for (PawnType type : PawnType.values()){
+            try {
+                changeNumOf(type, studentList.getNumOf(type));
+            } catch (NotEnoughStudentException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public StudentList clone() {
         try {
