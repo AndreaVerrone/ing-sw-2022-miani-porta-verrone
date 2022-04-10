@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.gametable;
 
+import it.polimi.ingsw.model.LastRoundException;
 import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
@@ -36,8 +37,7 @@ class StudentsBagTest {
             assertEquals(students.getNumOf(typeTest)-1, bag.getStudents().getNumOf(typeTest));
             students.changeNumOf(typeTest, - 1);
             assertEquals(students, bag.getStudents());
-
-        } catch (NotEnoughStudentException | EmptyBagException e) {
+        } catch (NotEnoughStudentException | EmptyBagException | LastRoundException e) {
             fail();
         }
     }
@@ -52,17 +52,28 @@ class StudentsBagTest {
             assertEquals(PawnType.GREEN_FROGS, typeTest);
             students.empty();
             assertEquals(students, bag.getStudents());
-
-        } catch (NotEnoughStudentException | EmptyBagException e) {
+        } catch (NotEnoughStudentException | EmptyBagException | LastRoundException e) {
             fail();
         }
     }
 
     @Test
-    void draw_bagEmpty_shouldThrowException(){
+    void draw_bagEmpty_shouldThrow(){
         StudentList students = new StudentList();
         bag.fillWith(students);
         assertThrows(EmptyBagException.class, () -> bag.draw());
+    }
+
+    @Test
+    void draw_bagAlmostEMpty_shouldThrow(){
+        StudentList students = new StudentList();
+        try {
+            students.changeNumOf(PawnType.RED_DRAGONS, 1);
+        } catch (NotEnoughStudentException e) {
+            fail();
+        }
+        bag.fillWith(students);
+        assertThrows(LastRoundException.class, () -> bag.draw());
     }
 
     @Test
@@ -74,7 +85,6 @@ class StudentsBagTest {
             students.changeNumOf(PawnType.PINK_FAIRIES, 2);
             bag.fillWith(students);
             assertEquals(students, bag.getStudents());
-
         } catch (NotEnoughStudentException e) {
             fail();
         }

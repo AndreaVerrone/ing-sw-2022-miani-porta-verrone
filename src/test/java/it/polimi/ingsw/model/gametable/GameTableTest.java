@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.gametable;
 
-import it.polimi.ingsw.model.NotEnoughStudentException;
-import it.polimi.ingsw.model.PawnType;
-import it.polimi.ingsw.model.StudentList;
-import it.polimi.ingsw.model.TowerType;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.gametable.exceptions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,11 +13,7 @@ class GameTableTest {
 
     @BeforeEach
     void setUp() {
-        try {
-            gameTable = new GameTable(2);
-        } catch (TooManyCloudsException | NotEnoughCloudsException e) {
-            fail();
-        }
+        gameTable = new GameTable(2);
     }
 
     @AfterEach
@@ -30,12 +23,12 @@ class GameTableTest {
 
     @Test
     void gameTableConstructor_fiveClouds_shouldThrowException(){
-        assertThrows(TooManyCloudsException.class, () -> new GameTable(5));
+        assertThrows(AssertionError.class, () -> new GameTable(5));
     }
 
     @Test
     void gameTableConstructor_oneCloud_shouldThrowException(){
-        assertThrows(NotEnoughCloudsException.class, () -> new GameTable(1));
+        assertThrows(AssertionError.class, () -> new GameTable(1));
     }
 
     @Test
@@ -106,7 +99,7 @@ class GameTableTest {
         gameTable.fillBag(studentsForBag);
         try {
             gameTable.fillClouds();
-        } catch (EmptyBagException e) {
+        } catch (EmptyBagException | LastRoundException e) {
             fail();
         }
         for (int ID = 0; ID < gameTable.getNumberOfClouds(); ID++){

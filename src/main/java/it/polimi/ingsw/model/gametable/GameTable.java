@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.gametable;
 
+import it.polimi.ingsw.model.LastRoundException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
 import it.polimi.ingsw.model.gametable.exceptions.*;
@@ -26,13 +27,10 @@ public class GameTable {
      * Constructor of the class. Creates a list of clouds and a list of islands. The number of clouds is given and must not be greater than four, while the number of islands starts
      * always from 12. Moreover, the maximum number of students per cloud is saved in a final attribute as it depends on the number of clouds and cannot change
      * @param numberOfClouds number of clouds on the table. It depends on the number of players
-     * @throws TooManyCloudsException if too many clouds are given by input
-     * @throws NotEnoughCloudsException if too few clouds are give by input
      */
-    public GameTable(int numberOfClouds) throws TooManyCloudsException, NotEnoughCloudsException {
+    public GameTable(int numberOfClouds){
         int initialNumberOfIslands = 12;
-        if(numberOfClouds<2) throw new NotEnoughCloudsException();
-        if(numberOfClouds>4) throw new TooManyCloudsException();
+        assert (numberOfClouds>=2 && numberOfClouds<=4): "Wrong number of clouds!";
         if(numberOfClouds == 3) maxStudentPerCloud = 4;
         else maxStudentPerCloud = 3;
         islands = new ArrayList<Island>();
@@ -119,6 +117,7 @@ public class GameTable {
      * @param numberOfIslands number of islands on which mother nature moves
      */
     public void moveMotherNature(int numberOfIslands){
+        assert (numberOfIslands>=0): "Movements cannot be negative!";
         motherNaturePosition = (numberOfIslands + motherNaturePosition) % getNumberOfIslands();
     }
 
@@ -137,7 +136,7 @@ public class GameTable {
      * Fills all the clouds with the maximum number of students taken from the bag
      * @throws EmptyBagException if the bag is empty and there are no more students
      */
-    public void fillClouds() throws EmptyBagException {
+    public void fillClouds() throws EmptyBagException, LastRoundException {
         PawnType student;
         for (Cloud cloud : clouds){
             for (int i = 0; i < maxStudentPerCloud; i++){
@@ -188,7 +187,7 @@ public class GameTable {
       }
 
       public void notifyObservers(){
-        for(TableObserver observer : observers) observer.update();
+        for(TableObserver observer : observers) observer.update();ìì
       }
       */
 }
