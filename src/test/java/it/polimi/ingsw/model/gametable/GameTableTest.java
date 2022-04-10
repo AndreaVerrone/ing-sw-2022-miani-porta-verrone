@@ -104,12 +104,11 @@ class GameTableTest {
         }
         for (int ID = 0; ID < gameTable.getNumberOfClouds(); ID++){
             try {
-                assertEquals(gameTable.getMaxStudentPerCloud(), gameTable.getFromCloud(ID).numAllStudents());
+                assertEquals(3, gameTable.getFromCloud(ID).numAllStudents());
             } catch (CloudNotFoundException e) {
                 fail();
             }
         }
-        assertEquals(160 - gameTable.getMaxStudentPerCloud() * gameTable.getNumberOfClouds(), gameTable.getFromBag().numAllStudents());
     }
 
     @Test

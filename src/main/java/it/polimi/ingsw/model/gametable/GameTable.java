@@ -33,8 +33,8 @@ public class GameTable {
         assert (numberOfClouds>=2 && numberOfClouds<=4): "Wrong number of clouds!";
         if(numberOfClouds == 3) maxStudentPerCloud = 4;
         else maxStudentPerCloud = 3;
-        islands = new ArrayList<Island>();
-        clouds = new ArrayList<Cloud>();
+        islands = new ArrayList<>();
+        clouds = new ArrayList<>();
         studentsBag = new StudentsBag();
 
         for (int i = 0; i < initialNumberOfIslands; i++){
@@ -61,14 +61,6 @@ public class GameTable {
 
     public int getMaxStudentPerCloud(){
         return maxStudentPerCloud;
-    }
-
-    /**
-     * Return a copy of the list of students in the bag. Useful for testing
-     * @return a copy of the {@code StudentList} in {@code studentsBag}
-     */
-    public StudentList getFromBag(){
-        return studentsBag.getStudents();
     }
 
     public int getMotherNaturePosition(){

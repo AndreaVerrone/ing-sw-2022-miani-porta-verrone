@@ -22,25 +22,25 @@ class CloudTest {
     }
 
     @Test
-    void getID(){
-        int ID = 2;
-        Cloud cloudTest = new Cloud(ID);
-        assertEquals(ID, cloudTest.getID());
-    }
-
-
-    @Test
     void addStudent_Red() {
         cloud.addStudent(PawnType.RED_DRAGONS);
-        int numOfRed = cloud.getStudents().getNumOf(PawnType.RED_DRAGONS);
+        int numOfRed = cloud.getAllStudents().getNumOf(PawnType.RED_DRAGONS);
         assertEquals(1, numOfRed);
     }
 
     @Test
-    void getAllStudents() {
-        StudentList studentsCopyBefore = cloud.getStudents();
-        StudentList studentsCopy = cloud.getAllStudents();
-        assertEquals(0, cloud.getStudents().numAllStudents());
-        assertEquals(studentsCopy, studentsCopyBefore);
+    void getAllStudents_ShouldReturnAllStudents() {
+        cloud.addStudent(PawnType.GREEN_FROGS);
+        cloud.addStudent(PawnType.RED_DRAGONS);
+        StudentList students = cloud.getAllStudents();
+        assertEquals(1, students.getNumOf(PawnType.GREEN_FROGS));
+        assertEquals(1, students.getNumOf(PawnType.RED_DRAGONS));
+    }
+
+    @Test
+    void getAllStudents_ShouldEmptyCloud(){
+        cloud.addStudent(PawnType.GREEN_FROGS);
+        cloud.getAllStudents();
+        assertEquals(0, cloud.getAllStudents().numAllStudents());
     }
 }

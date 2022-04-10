@@ -29,14 +29,6 @@ class Cloud {
     }
 
     /**
-     * Gives a copy of the {@code students} attribute without modifying it
-     * @return a copy of {@code students}
-     */
-    public StudentList getStudents() {
-        return students.clone();
-    }
-
-    /**
      * Adds to the cloud a student of the given {@code PawnType}
      * @param type the type of the student to add
      */
