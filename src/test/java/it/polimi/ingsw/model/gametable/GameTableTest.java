@@ -18,8 +18,8 @@ class GameTableTest {
     void setUp() {
         try {
             gameTable = new GameTable(2);
-        } catch (TooManyCloudsException | NotEnoughClouds e) {
-            e.printStackTrace();
+        } catch (TooManyCloudsException | NotEnoughCloudsException e) {
+            fail();
         }
     }
 
@@ -35,7 +35,7 @@ class GameTableTest {
 
     @Test
     void gameTableConstructor_oneCloud_shouldThrowException(){
-        assertThrows(NotEnoughClouds.class, () -> new GameTable(1));
+        assertThrows(NotEnoughCloudsException.class, () -> new GameTable(1));
     }
 
     @Test
@@ -113,7 +113,7 @@ class GameTableTest {
             try {
                 assertEquals(gameTable.getMaxStudentPerCloud(), gameTable.getFromCloud(ID).numAllStudents());
             } catch (CloudNotFoundException e) {
-                e.printStackTrace();
+                fail();
             }
         }
         assertEquals(160 - gameTable.getMaxStudentPerCloud() * gameTable.getNumberOfClouds(), gameTable.getFromBag().numAllStudents());

@@ -27,11 +27,11 @@ public class GameTable {
      * always from 12. Moreover, the maximum number of students per cloud is saved in a final attribute as it depends on the number of clouds and cannot change
      * @param numberOfClouds number of clouds on the table. It depends on the number of players
      * @throws TooManyCloudsException if too many clouds are given by input
-     * @throws NotEnoughClouds if too few clouds are give by input
+     * @throws NotEnoughCloudsException if too few clouds are give by input
      */
-    public GameTable(int numberOfClouds) throws TooManyCloudsException, NotEnoughClouds {
+    public GameTable(int numberOfClouds) throws TooManyCloudsException, NotEnoughCloudsException {
         int initialNumberOfIslands = 12;
-        if(numberOfClouds<2) throw new NotEnoughClouds();
+        if(numberOfClouds<2) throw new NotEnoughCloudsException();
         if(numberOfClouds>4) throw new TooManyCloudsException();
         if(numberOfClouds == 3) maxStudentPerCloud = 4;
         else maxStudentPerCloud = 3;
@@ -66,7 +66,7 @@ public class GameTable {
     }
 
     /**
-     * Return a copy of the list of students in the bag. Usefull for testing
+     * Return a copy of the list of students in the bag. Useful for testing
      * @return a copy of the {@code StudentList} in {@code studentsBag}
      */
     public StudentList getFromBag(){
@@ -148,18 +148,21 @@ public class GameTable {
     }
 
     /**
-     * Unifies two islands using the {@code unifyWith} method of the island with {@code islandIDToKeep} ID and removes
-     * the island with ({@code islandIDToRemove} ID from {@code islands} list, in order to eliminate duplicates
+     * Unifies tWO islands using the {@code unifyWith} method of the island with {@code islandIDToKeep} ID and removes
+     * the island with {@code islandIDToRemove} ID from {@code islands} list, in order to eliminate duplicates.
+     * <p>Also it controls the two islands given are not adjacent, it finds their indexes in the list and controls
+     * their difference is either one or the number of islands minus one, since it would mean they are near each other</p>
      * @param islandIDToKeep ID of the island to unify and keep
      * @param islandIDToRemove ID of the island to unify and remove
      * @throws IslandNotFoundException if either one of the IDs doesn't exist
+     * @throws IslandsNotAdjacentException if the two given islands are not adjacent, therefore if  their indexes in the {@code islands} list are near
      */
     public void unify(int islandIDToKeep, int islandIDToRemove) throws IslandNotFoundException, IslandsNotAdjacentException {
         Island islandToKeep = getIsland(islandIDToKeep);
         Island islandToRemove = getIsland(islandIDToRemove);
         int indexIslandToKeep = islands.indexOf(islandToKeep);
         int indexIslandToRemove = islands.indexOf(islandToRemove);
-        if(!(Math.abs(indexIslandToKeep - indexIslandToRemove) == 1 | Math.abs(indexIslandToKeep - indexIslandToRemove) == islands.size() - 1)){
+        if(!(Math.abs(indexIslandToKeep - indexIslandToRemove) == 1 | Math.abs(indexIslandToKeep - indexIslandToRemove) == getNumberOfIslands() - 1)){
             throw new IslandsNotAdjacentException(islandIDToKeep, islandIDToRemove);
         }
         islandToKeep.unifyWith(islandToRemove);
