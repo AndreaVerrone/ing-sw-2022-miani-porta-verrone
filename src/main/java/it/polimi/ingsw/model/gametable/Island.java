@@ -113,7 +113,7 @@ public class Island {
         assert tower == island.tower : "You're trying to unify two islands that have different towers on them";
 
         students.add(island.students);
-        size++;
+        size += island.size;
         if (island.isDisabled())
             ban = true;
     }

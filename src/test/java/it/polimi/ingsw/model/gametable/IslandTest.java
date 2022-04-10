@@ -29,8 +29,13 @@ class IslandTest {
 
     @Test
     public void unifyWith_CorrectIsland_ShouldIncreaseSize(){
+        Island island3 = new Island(3);
+        island3.setTower(TowerType.BLACK);
+        island2.unifyWith(island3);
+        assertEquals(2, island2.getSize());
+
         island1.unifyWith(island2);
-        assertEquals(2, island1.getSize());
+        assertEquals(3, island1.getSize());
     }
 
     @Test
