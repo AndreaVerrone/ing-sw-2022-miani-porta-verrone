@@ -41,7 +41,7 @@ class StudentsBag {
      * it finds one and removes it
      * @return the type of the student randomly taken
      */
-    public PawnType draw() throws EmptyBagException, LastRoundException {
+    public PawnType draw() throws EmptyBagException {
         PawnType type;
         if(students.numAllStudents() == 0) throw new EmptyBagException();
         do {
@@ -50,7 +50,6 @@ class StudentsBag {
         }while (students.getNumOf(type)<=0);
         try {
             students.changeNumOf(type, -1);
-            if(students.numAllStudents() == 0) throw new LastRoundException("Empty bag");
         } catch (NotEnoughStudentException e) {
             throw new EmptyBagException();
         }

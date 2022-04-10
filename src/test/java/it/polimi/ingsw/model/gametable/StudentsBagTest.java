@@ -37,7 +37,7 @@ class StudentsBagTest {
             assertEquals(students.getNumOf(typeTest)-1, bag.getStudents().getNumOf(typeTest));
             students.changeNumOf(typeTest, - 1);
             assertEquals(students, bag.getStudents());
-        } catch (NotEnoughStudentException | EmptyBagException | LastRoundException e) {
+        } catch (NotEnoughStudentException | EmptyBagException e) {
             fail();
         }
     }
@@ -52,7 +52,7 @@ class StudentsBagTest {
             assertEquals(PawnType.GREEN_FROGS, typeTest);
             students.empty();
             assertEquals(students, bag.getStudents());
-        } catch (NotEnoughStudentException | EmptyBagException | LastRoundException e) {
+        } catch (NotEnoughStudentException | EmptyBagException e) {
             fail();
         }
     }
@@ -62,18 +62,6 @@ class StudentsBagTest {
         StudentList students = new StudentList();
         bag.fillWith(students);
         assertThrows(EmptyBagException.class, () -> bag.draw());
-    }
-
-    @Test
-    void draw_bagAlmostEMpty_shouldThrow(){
-        StudentList students = new StudentList();
-        try {
-            students.changeNumOf(PawnType.RED_DRAGONS, 1);
-        } catch (NotEnoughStudentException e) {
-            fail();
-        }
-        bag.fillWith(students);
-        assertThrows(LastRoundException.class, () -> bag.draw());
     }
 
     @Test
