@@ -101,13 +101,11 @@ public class StudentList implements Cloneable{
      */
     public void add(StudentList studentList){
         if (studentList.numAllStudents() == 0) return;
-        for (PawnType type : PawnType.values()){
-            try {
-                changeNumOf(type, studentList.getNumOf(type));
-            } catch (NotEnoughStudentException e) {
-                e.printStackTrace();
-            }
-        }
+        yellow += studentList.yellow;
+        red += studentList.red;
+        blue += studentList.blue;
+        green += studentList.green;
+        pink += studentList.pink;
     }
 
     @Override
