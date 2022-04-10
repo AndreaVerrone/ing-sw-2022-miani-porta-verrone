@@ -27,31 +27,27 @@ class StudentsBagTest {
 
     @Test
     void draw_bagNotEmpty_shouldRemove() {
-        StudentList students = new StudentList();
         try {
+            StudentList students = new StudentList();
             students.changeNumOf(PawnType.GREEN_FROGS, 2);
             students.changeNumOf(PawnType.YELLOW_GNOMES, 2);
             students.changeNumOf(PawnType.PINK_FAIRIES, 2);
             bag.fillWith(students);
-            PawnType typeTest = bag.draw();
-            assertEquals(students.getNumOf(typeTest)-1, bag.getStudents().getNumOf(typeTest));
-            students.changeNumOf(typeTest, - 1);
-            assertEquals(students, bag.getStudents());
+            bag.draw();
+            assertEquals(students.numAllStudents() - 1, bag.studentsRemaining());
         } catch (NotEnoughStudentException | EmptyBagException e) {
             fail();
         }
     }
 
     @Test
-    void draw_bagWithOnlyOneStudentGreen_shouldRemove() {
-        StudentList students = new StudentList();
+    void draw_bagWithOnlyOneStudentGreen_shouldReturnGreen() {
         try {
+            StudentList students = new StudentList();
             students.changeNumOf(PawnType.GREEN_FROGS, 1);
             bag.fillWith(students);
             PawnType typeTest = bag.draw();
             assertEquals(PawnType.GREEN_FROGS, typeTest);
-            students.empty();
-            assertEquals(students, bag.getStudents());
         } catch (NotEnoughStudentException | EmptyBagException e) {
             fail();
         }
@@ -72,7 +68,7 @@ class StudentsBagTest {
             students.changeNumOf(PawnType.YELLOW_GNOMES, 2);
             students.changeNumOf(PawnType.PINK_FAIRIES, 2);
             bag.fillWith(students);
-            assertEquals(students, bag.getStudents());
+            assertEquals(students.numAllStudents(), bag.studentsRemaining());
         } catch (NotEnoughStudentException e) {
             fail();
         }

@@ -29,14 +29,6 @@ class StudentsBag {
     }
 
     /**
-     * private method that return the {@code students} attribute for testing
-     * @return {@code students} attribute
-     */
-    public StudentList getStudents() {
-        return students.clone();
-    }
-
-    /**
      * Takes a random type of student from the bag and controls it's in the bag, if not continues drawing until
      * it finds one and removes it
      * @return the type of the student randomly taken
