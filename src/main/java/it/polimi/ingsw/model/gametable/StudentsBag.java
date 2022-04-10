@@ -21,6 +21,14 @@ class StudentsBag {
     }
 
     /**
+     * Gets the number of students contained in this bag
+     * @return the number of students in this bag
+     */
+    protected int studentsRemaining(){
+        return students.numAllStudents();
+    }
+
+    /**
      * private method that return the {@code students} attribute for testing
      * @return {@code students} attribute
      */
