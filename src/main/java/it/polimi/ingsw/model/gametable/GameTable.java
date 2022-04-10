@@ -154,9 +154,14 @@ public class GameTable {
      * @param islandIDToRemove ID of the island to unify and remove
      * @throws IslandNotFoundException if either one of the IDs doesn't exist
      */
-    public void unify(int islandIDToKeep, int islandIDToRemove) throws IslandNotFoundException {
+    public void unify(int islandIDToKeep, int islandIDToRemove) throws IslandNotFoundException, IslandsNotAdjacentException {
         Island islandToKeep = getIsland(islandIDToKeep);
         Island islandToRemove = getIsland(islandIDToRemove);
+        int indexIslandToKeep = islands.indexOf(islandToKeep);
+        int indexIslandToRemove = islands.indexOf(islandToRemove);
+        if(!(Math.abs(indexIslandToKeep - indexIslandToRemove) == 1 | Math.abs(indexIslandToKeep - indexIslandToRemove) == islands.size() - 1)){
+            throw new IslandsNotAdjacentException(islandIDToKeep, islandIDToRemove);
+        }
         islandToKeep.unifyWith(islandToRemove);
         islands.remove(islandToRemove);
     }

@@ -127,14 +127,45 @@ class GameTableTest {
     }
 
     @Test
-    void unify_TwoValidIslands() throws IslandNotFoundException {
-        gameTable.addToIsland(PawnType.RED_DRAGONS, 1);
-        gameTable.getIsland(0).setTower(TowerType.BLACK);
-        gameTable.getIsland(1). setTower(TowerType.BLACK);
-        gameTable.unify(0,1);
-        // TODO: control on list merging in island 0
-        assertEquals(11, gameTable.getNumberOfIslands());
-        assertThrows(IslandNotFoundException.class, () -> gameTable.getIsland(1));
-
+    void unify_ThreeAdjacentIslands_ShouldMerge(){
+        int ID1 = 0;
+        int ID2 = 11;
+        int ID3 = 1;
+        try {
+            gameTable.addToIsland(PawnType.RED_DRAGONS, ID2);
+            gameTable.addToIsland(PawnType.GREEN_FROGS, ID3);
+            gameTable.addToIsland(PawnType.RED_DRAGONS, ID3);
+            gameTable.getIsland(ID1).setTower(TowerType.BLACK);
+            gameTable.getIsland(ID2).setTower(TowerType.BLACK);
+            gameTable.getIsland(ID3).setTower(TowerType.BLACK);
+            gameTable.unify(ID1,ID2);
+            // TODO: control on list merging in island 0
+            //assertEquals(1, gameTable.getIsland(ID1).numStudentsOf(PawnType.RED_DRAGONS));
+            assertEquals(2, gameTable.getIsland(ID1).getSize());
+            assertEquals(11, gameTable.getNumberOfIslands());
+            assertThrows(IslandNotFoundException.class, () -> gameTable.getIsland(ID2));
+            gameTable.unify(ID3, ID1);
+            // TODO: control on list merging in island 3
+            //assertEquals(2, gameTable.getIsland(ID3).numStudentsOf(PawnType.RED_DRAGONS));
+            //assertEquals(1, gameTable.getIsland(ID3).numStudentsOf(PawnType.GREEN_FROGS));
+            assertEquals(3, gameTable.getIsland(ID3).getSize());
+            assertEquals(10, gameTable.getNumberOfIslands());
+            assertThrows(IslandNotFoundException.class, () -> gameTable.getIsland(ID1));
+        } catch (IslandNotFoundException | IslandsNotAdjacentException e) {
+            fail();
+        }
+    }
+    @Test
+    void unify_TwoNotAdjacentIslands_ShouldThrow(){
+        int ID1 = 3;
+        int ID2 = 5;
+        try {
+            gameTable.addToIsland(PawnType.RED_DRAGONS, ID2);
+            gameTable.getIsland(ID1).setTower(TowerType.BLACK);
+            gameTable.getIsland(ID2).setTower(TowerType.BLACK);
+        } catch (IslandNotFoundException e) {
+            fail();
+        }
+        assertThrows(IslandsNotAdjacentException.class, () -> gameTable.unify(ID1, ID2));
     }
 }
