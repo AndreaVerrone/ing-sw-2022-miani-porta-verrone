@@ -42,6 +42,11 @@ class DiningRoom {
         tables.changeNumOf(type, -1);
     }
 
+    /**
+     * Get the number of students in a table of a particular type
+     * @param type the type of student to get the number
+     * @return the number of students of that type
+     */
     protected int getNumStudentsOf(PawnType type){
         return tables.getNumOf(type);
     }

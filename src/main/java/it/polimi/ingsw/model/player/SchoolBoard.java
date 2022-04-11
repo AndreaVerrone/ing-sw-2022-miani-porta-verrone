@@ -123,10 +123,18 @@ class SchoolBoard {
         entrance.changeNumOf(type, -1);
     }
 
+    /**
+     * Add a professor of a particular type in the professor table of this school board
+     * @param type the type of professor to add
+     */
     protected void addProfessor(PawnType type){
         professorTable.add(type);
     }
 
+    /**
+     * Remove a professor of a particular type in the professor table of this school board
+     * @param type the type of professor to remove
+     */
     protected void removeProfessor(PawnType type){
         professorTable.remove(type);
     }
