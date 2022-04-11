@@ -67,6 +67,22 @@ class SchoolBoardTest {
     }
 
     @Test
+    public void removeStudentFromEntrance_WithEntranceEmpty_ShouldThrow(){
+        assertThrows(NotEnoughStudentException.class,
+                () -> schoolBoard.removeStudentFromEntrance(PawnType.RED_DRAGONS));
+    }
+
+    @Test
+    public void addStudentToDiningRoom_GreenWithSpaceLeft_ShouldAdd(){
+        try{
+            schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
+            assertEquals(1, schoolBoard.getNumStudentsOf(PawnType.GREEN_FROGS));
+        } catch (ReachedMaxStudentException e){
+            fail();
+        }
+    }
+
+    @Test
     public void addStudentToDiningRoom_GreenWithAlreadyTwoStudent_ShouldAddCoin(){
         try{
             // add the first two green students
@@ -79,6 +95,44 @@ class SchoolBoardTest {
             fail();
         }
         assertEquals(2, schoolBoard.getCoins());
+    }
+
+    @Test
+    public void addStudentToDiningRoom_WithTableFull_ShouldThrow(){
+        //fill the red table
+        try{
+            for (int i = 0; i < 10; i++) {
+                schoolBoard.addStudentToDiningRoom(PawnType.RED_DRAGONS);
+            }
+        } catch (ReachedMaxStudentException e){
+            fail();
+        }
+
+        assertThrows(ReachedMaxStudentException.class,
+                () -> schoolBoard.addStudentToDiningRoom(PawnType.RED_DRAGONS));
+    }
+
+    @Test
+    public void removeStudentFromDiningRoom_WithGreenStudents_ShouldRemove(){
+        //add a student in the dining room to remove
+        try {
+            schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
+        } catch (ReachedMaxStudentException e){
+            fail();
+        }
+
+        try {
+            schoolBoard.removeStudentFromDiningRoom(PawnType.GREEN_FROGS);
+        } catch (NotEnoughStudentException e){
+            fail();
+        }
+        assertEquals(0, schoolBoard.getNumStudentsOf(PawnType.GREEN_FROGS));
+    }
+
+    @Test
+    public void removeStudentFromDiningRoom_WithEmptyTable_ShouldThrow(){
+        assertThrows(NotEnoughStudentException.class,
+                () -> schoolBoard.removeStudentFromDiningRoom(PawnType.GREEN_FROGS));
     }
 
     @Test

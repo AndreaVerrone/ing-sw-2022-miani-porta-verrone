@@ -33,7 +33,7 @@ class DiningRoomTest {
     }
 
     @Test
-    public void addStudentOf_GreenWithTwoStudents_ShouldReturnTrue(){
+    public void addStudentOf_GreenWithTwoGreenStudents_ShouldReturnTrue(){
         // initialize table with two students
         try {
             diningRoom.addStudentOf(PawnType.GREEN_FROGS);
@@ -63,7 +63,7 @@ class DiningRoomTest {
     }
 
     @Test
-    public void removeStudentOf_Green_ShouldRemove() {
+    public void removeStudentOf_GreenWithStudents_ShouldRemove() {
         // init table with one student
         try {
             diningRoom.addStudentOf(PawnType.GREEN_FROGS);
