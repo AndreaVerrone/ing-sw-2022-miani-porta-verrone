@@ -28,6 +28,12 @@ class IslandTest {
     }
 
     @Test
+    public void addStudentOf_Blue_ShouldAdd(){
+        island1.addStudentOf(PawnType.BLUE_UNICORNS);
+        assertEquals(1, island1.numStudentsOf(PawnType.BLUE_UNICORNS));
+    }
+
+    @Test
     public void unifyWith_CorrectIsland_ShouldIncreaseSize(){
         Island island3 = new Island(3);
         island3.setTower(TowerType.BLACK);
