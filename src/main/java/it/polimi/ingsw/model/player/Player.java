@@ -100,7 +100,6 @@ public class Player {
      * tower type during the game.
      * @param type the type of the tower (i.e., the color) to associate to the player
      */
-    // todo TEST
     public void setTowerType(TowerType type){
         if (this.towerType == null) {
             this.towerType = type;
@@ -121,7 +120,6 @@ public class Player {
      * @param wizard is the wizard that must be associated to the player's deck (i.e., the wizard that the
      *               player choose to impersonate during a game)
      */
-    //todo TEST
     public void setAssistantDeck(Wizard wizard){
         if(this.assistantDeck == null) {
             assistantDeck = new AssistantDeck(wizard);
@@ -141,7 +139,7 @@ public class Player {
     }
 
     /**
-     * This method will return the collection of professors that are in the Schoool Board of the player
+     * This method will return the collection of professors that are in the School Board of the player
      * <p>
      * Note: this method should be used only to observe the content.
      * @return the professors in the School Board
@@ -182,7 +180,6 @@ public class Player {
      * @param type of the student to add to entrance
      * @throws ReachedMaxStudentException if the entrance is full
      */
-    //todo TEST
     public void addStudentToEntrance(PawnType type) throws ReachedMaxStudentException {
         schoolBoard.addStudentToEntrance(type);
     }
@@ -193,7 +190,6 @@ public class Player {
      * @param type type of the student to remove
      * @throws NotEnoughStudentException if there isn't any student of that type to remove
      */
-    //todo TEST
     public void removeStudentFromEntrance(PawnType type) throws NotEnoughStudentException {
         schoolBoard.removeStudentFromEntrance(type);
     }
@@ -203,7 +199,6 @@ public class Player {
      * of the player.
      * @param professor is the type of the professor
      */
-    //todo TEST
     public void addProfessor(PawnType professor){
         schoolBoard.addProfessor(professor);
     }
@@ -213,7 +208,6 @@ public class Player {
      * school board of the player.
      * @param professor is the type of the professor to remove
      */
-    //todo TEST
     public void removeProfessor(PawnType professor){
         schoolBoard.removeProfessor(professor);
     }
@@ -227,7 +221,6 @@ public class Player {
      * @param delta the number of tower to add (if {@code delta} is positive) or remove
      *              (if {@code delta} is negative)
      */
-    //todo TEST
     public void changeTowerNumber(int delta){
         schoolBoard.changeTowerNumber(delta);
     }
@@ -238,7 +231,6 @@ public class Player {
      * @param student type of student to add
      * @throws ReachedMaxStudentException if the table of that type is full
      */
-    //todo TEST
     public void addStudentToDiningRoom(PawnType student) throws ReachedMaxStudentException {
         schoolBoard.addStudentToDiningRoom(student);
     }
@@ -249,7 +241,6 @@ public class Player {
      * @param student type of the student to remove
      * @throws NotEnoughStudentException if there is not any student to remove of the specified type
      */
-    //todo TEST
     public void removeStudentFromDiningRoom(PawnType student) throws NotEnoughStudentException {
         schoolBoard.removeStudentFromDiningRoom(student);
     }
@@ -260,9 +251,7 @@ public class Player {
      * @param cost number of coin to remove
      * @throws NotEnoughCoinsException if there are no enough coins in the {@code SchoolBoard}
      * of the player to fulfil the request
-     * @see SchoolBoard
      */
-    //todo TEST
     public void removeCoins(int cost) throws NotEnoughCoinsException {
         schoolBoard.removeCoin(cost);
     }
