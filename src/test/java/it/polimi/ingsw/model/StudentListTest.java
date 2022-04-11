@@ -74,8 +74,9 @@ class StudentListTest {
     public void add_NonEmptyList_ShouldAddStudents(){
         StudentList newList = new StudentList();
         newList.setAllAs(2);
+        studentList.setAllAs(1);
         studentList.add(newList);
-        assertEquals(PawnType.values().length * 2, studentList.numAllStudents());
+        assertEquals(PawnType.values().length * 3, studentList.numAllStudents());
     }
 
 }
