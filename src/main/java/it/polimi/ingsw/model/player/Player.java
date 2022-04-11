@@ -35,17 +35,17 @@ public class Player {
     /**
      * this is a reference to the school board of the player.
      */
-    private SchoolBoard schoolBoard;
+    private final SchoolBoard schoolBoard;
 
     /**
-     * The constructor of the class takes in input 2 parameters: the nickname and the schoolboard of
-     * the player.
+     * The constructor of the class takes in input 2 parameters: the nickname of the player and a boolean
+     * to indicate if the player is staring a game that involves 3 players or not
      * @param nickname the nickname of the player
-     * @param schoolBoard the schoolboard of the player
+     * @param isThreePlayerGame is {@code true} if the game involves 3 players, {@code false} otherwise
      */
-    public Player(String nickname, SchoolBoard schoolBoard) {
+    public Player(String nickname, Boolean isThreePlayerGame) {
         this.nickName = nickname;
-        this.schoolBoard = schoolBoard;
+        this.schoolBoard = new SchoolBoard(isThreePlayerGame);
     }
 
     /**
@@ -75,6 +75,14 @@ public class Player {
         }
     }
 
+    /**
+     * This method gets the current deck of the player
+     * Note: this should be used only to observe the content.
+     * To modify it, use the appropriate methods of {@code Player}
+     * @see #setAssistantDeck(Wizard)
+     * @see #useAssistant(Assistant)
+     * @return the current deck of the player
+     */
     public Collection<Assistant> getHand(){
         return assistantDeck.getCards();
     }
@@ -83,16 +91,41 @@ public class Player {
         return nickName;
     }
 
+    /**
+     * This method will set the color of the tower the player will play with.
+     * <p>
+     * The color to set is passed as a parameter in input to this method.
+     * <p>
+     * Note that the tower type can be set only one time since the player is not allowed to change
+     * tower type during the game.
+     * @param type the type of the tower (i.e., the color) to associate to the player
+     */
+    // todo TEST
     public void setTowerType(TowerType type){
-        this.towerType=type;
+        if (this.towerType == null) {
+            this.towerType = type;
+        }
     }
 
     public TowerType getTowerType(){
         return towerType;
     }
 
+    /**
+     * This method will set the deck of the assistant card to the player.
+     * It requires in input the wizard that the player choose to impersonate since each deck
+     * must be associated to a wizard.
+     * <p>
+     * Note that the assistant deck can be set only one time since the player is not allowed to
+     * change the wizard to impersonate during the game.
+     * @param wizard is the wizard that must be associated to the player's deck (i.e., the wizard that the
+     *               player choose to impersonate during a game)
+     */
+    //todo TEST
     public void setAssistantDeck(Wizard wizard){
-        assistantDeck = new AssistantDeck(wizard);
+        if(this.assistantDeck == null) {
+            assistantDeck = new AssistantDeck(wizard);
+        }
     }
 
     public Assistant getLastAssistant(){
@@ -111,8 +144,7 @@ public class Player {
      * This method will return the collection of professors that are in the Schoool Board of the player
      * <p>
      * Note: this method should be used only to observe the content.
-     * @return the professors in the Schoool Board
-     * @see SchoolBoard
+     * @return the professors in the School Board
      */
     public Collection<PawnType> getProfessors(){
         return schoolBoard.getProfessors();
@@ -121,7 +153,6 @@ public class Player {
     /**
      * This method will return the number of towers that are in the school board of the player
      * @return the number of towers in the school board
-     * @see SchoolBoard
      */
     public int getTowerNumbers(){
         return schoolBoard.getTowersNumber();
@@ -132,8 +163,6 @@ public class Player {
      * that are in the dining room of the school board of the player
      * @param type of the student to check the number
      * @return number of students of the specified type passed as a parameter
-     * @see SchoolBoard
-     * @see DiningRoom
      */
     public int getNumStudentOf(PawnType type){
         return schoolBoard.getNumStudentsOf(type);
@@ -142,7 +171,6 @@ public class Player {
     /**
      * This method will return the number of coins that are available in the school board of the player.
      * @return the number of coins
-     * @see SchoolBoard
      */
     public int getCoins(){
         return schoolBoard.getCoins();
@@ -153,8 +181,8 @@ public class Player {
      * the school board of the player
      * @param type of the student to add to entrance
      * @throws ReachedMaxStudentException if the entrance is full
-     * @see SchoolBoard
      */
+    //todo TEST
     public void addStudentToEntrance(PawnType type) throws ReachedMaxStudentException {
         schoolBoard.addStudentToEntrance(type);
     }
@@ -163,9 +191,9 @@ public class Player {
      * This method will remove one student (of the specified type in the parameter) from the
      * entrance of the school board of the player.
      * @param type type of the student to remove
-     * @throws NotEnoughStudentException if there is any student of that type to remove
-     * @see SchoolBoard
+     * @throws NotEnoughStudentException if there isn't any student of that type to remove
      */
+    //todo TEST
     public void removeStudentFromEntrance(PawnType type) throws NotEnoughStudentException {
         schoolBoard.removeStudentFromEntrance(type);
     }
@@ -174,8 +202,8 @@ public class Player {
      * This method will add the professor (of the type specified in the parameter) to the school board
      * of the player.
      * @param professor is the type of the professor
-     * @see SchoolBoard
      */
+    //todo TEST
     public void addProfessor(PawnType professor){
         schoolBoard.addProfessor(professor);
     }
@@ -184,17 +212,22 @@ public class Player {
      * This method will remove the professor (of the type specified in the parameter) from the
      * school board of the player.
      * @param professor is the type of the professor to remove
-     * @see SchoolBoard
      */
+    //todo TEST
     public void removeProfessor(PawnType professor){
         schoolBoard.removeProfessor(professor);
     }
 
     /**
-     * This method will modify the number of tower that are in the school board
-     * @param delta the number of tower to add or remove (depending on the sign of the parameter {@code delta})
-     * @see SchoolBoard
+     * This method will modify the number of tower that are in the school board of the player by adding
+     * the parameter {@code delta} (taken in input) on it.
+     * Based on the sign of delta this could be an increase (if positive) or a decrease (if negative).
+     * <p>
+     * Note that the number of towers can't exceed the maximum supported
+     * @param delta the number of tower to add (if {@code delta} is positive) or remove
+     *              (if {@code delta} is negative)
      */
+    //todo TEST
     public void changeTowerNumber(int delta){
         schoolBoard.changeTowerNumber(delta);
     }
@@ -204,8 +237,8 @@ public class Player {
      * as parameter) to the dining room.
      * @param student type of student to add
      * @throws ReachedMaxStudentException if the table of that type is full
-     * @see SchoolBoard
      */
+    //todo TEST
     public void addStudentToDiningRoom(PawnType student) throws ReachedMaxStudentException {
         schoolBoard.addStudentToDiningRoom(student);
     }
@@ -215,18 +248,21 @@ public class Player {
      * as parameter) from the dining room.
      * @param student type of the student to remove
      * @throws NotEnoughStudentException if there is not any student to remove of the specified type
-     * @see SchoolBoard
      */
+    //todo TEST
     public void removeStudentFromDiningRoom(PawnType student) throws NotEnoughStudentException {
         schoolBoard.removeStudentFromDiningRoom(student);
     }
 
     /**
      * This method will remove the number of coins passed as parameter from the school board of the player.
+     * The {@code cost} must be greater that zero.
      * @param cost number of coin to remove
      * @throws NotEnoughCoinsException if there are no enough coins in the {@code SchoolBoard}
+     * of the player to fulfil the request
      * @see SchoolBoard
      */
+    //todo TEST
     public void removeCoins(int cost) throws NotEnoughCoinsException {
         schoolBoard.removeCoin(cost);
     }
