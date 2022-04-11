@@ -106,4 +106,319 @@ class PlayerTest {
                 "fail due to condition on number of students in entrance");
     }
 
+    @Test
+    public void setTowerType_BLACK_towerTypeIsNull_ShouldSetBLACK(){
+        player.setTowerType(TowerType.BLACK);
+
+        assertEquals(TowerType.BLACK,player.getTowerType());
+    }
+
+    @Test
+    public void setTowerType_BLACK_towerTypeIsWHITE_ShouldRemainBLACK(){
+        // set the tower as BLACK
+        player.setTowerType(TowerType.BLACK);
+
+        // try to set the tower to white
+        player.setTowerType(TowerType.WHITE);
+
+        assertEquals(TowerType.BLACK,player.getTowerType());
+    }
+
+    @Test
+    public void setAssistantDeck_W1_DeckIsNull_ShouldSet(){
+        player.setAssistantDeck(Wizard.W1);
+        assertEquals(new AssistantDeck(Wizard.W1).getCards(),player.getHand());
+    }
+
+    @Test
+    public void setAssistantDeck_W1_DeckIsNotNull_ShouldNotChange(){
+        // set the tower as W1
+        player.setAssistantDeck(Wizard.W1);
+
+        // try to set the assistant deck to W2
+        player.setAssistantDeck(Wizard.W2);
+
+        assertEquals(new AssistantDeck(Wizard.W1).getCards(),player.getHand());
+    }
+
+    @Test
+    public void addStudentToEntrance_BLUEUNICORN_EntranceIsFull_ShouldThrow(){
+
+        // fill the entrance
+        try{
+            for (int i = 0; i < 7; i++) {
+                player.addStudentToEntrance(PawnType.GREEN_FROGS);
+            }
+        } catch (ReachedMaxStudentException e){
+            fail();
+        }
+
+        // try to add one student to the full entrance
+        assertThrows(ReachedMaxStudentException.class,
+                ()-> player.addStudentToEntrance(PawnType.BLUE_UNICORNS));
+    }
+
+    @Test
+    public void addStudentToEntrance_BLUEUNICORN_EntranceIsFull_ShouldAdd(){
+        try {
+            player.addStudentToEntrance(PawnType.BLUE_UNICORNS);
+        } catch (ReachedMaxStudentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void removeStudentToEntrance_BLUEUNICORN_EntranceIsEmpty_ShouldThrow(){
+        assertThrows(NotEnoughStudentException.class, ()->player.removeStudentFromEntrance(PawnType.BLUE_UNICORNS));
+    }
+
+    @Test
+    public void removeStudentToEntrance_BLUEUNICORN_EntranceIsNotEmpty_ShouldRemove(){
+        // add a BLUE_UNICORN to entrance
+        try {
+            player.addStudentToEntrance(PawnType.BLUE_UNICORNS);
+        } catch (ReachedMaxStudentException e) {
+            fail();
+        }
+
+        // this is the number of BLUE_UNICORNS at the entrance before the calling of the method
+        int oldNumOfBlueUnicornsInEntrance = player.getStudentsInEntrance().getNumOf(PawnType.BLUE_UNICORNS);
+
+        // remove the BLUE unicorn from entrance
+        try {
+            player.removeStudentFromEntrance(PawnType.BLUE_UNICORNS);
+        } catch (NotEnoughStudentException e) {
+            fail();
+        }
+
+        // this is the number of BLUE_UNICORNS at the entrance after the calling of the method
+        int numOfBlueUnicornsInEntrance = player.getStudentsInEntrance().getNumOf(PawnType.BLUE_UNICORNS);
+
+        // check that after the calling of the method the number of BLUE_UNICORNS at the entrance has been decreased by 1
+        assertTrue(oldNumOfBlueUnicornsInEntrance - 1 == numOfBlueUnicornsInEntrance);
+    }
+
+    @Test
+    public void addProfessors_BLUEUNICORN_ProfessorTableIsEmpty_ShouldAdd(){
+
+        player.addProfessor(PawnType.BLUE_UNICORNS);
+
+        assertTrue(player.getProfessors().contains(PawnType.BLUE_UNICORNS),
+                "fail due to BLUE UNICORN has not been inserted in the collection ");
+        assertTrue(player.getProfessors().size()==1,
+                "fail due to wrong size of final collection");
+    }
+
+    @Test
+    public void addProfessors_BLUEUNICORN_ProfessorIsAlreadyThere_ShouldNotAdd(){
+
+        // add the BLUE UNICORN professor
+        player.addProfessor(PawnType.BLUE_UNICORNS);
+
+        // this is the size of the collection of professor before the calling of the method
+        int oldSizeOfCollection = player.getProfessors().size();
+
+        // try to add another time the BLUE UNICORN professor
+        player.addProfessor(PawnType.BLUE_UNICORNS);
+
+        assertTrue(player.getProfessors().contains(PawnType.BLUE_UNICORNS),
+                "fail due to BLUE unicorn is not there any more");
+        assertTrue(player.getProfessors().size()==oldSizeOfCollection,
+                "fail due to wrong size of final collection");
+    }
+
+    @Test
+    public void removeProfessors_ProfessorIsPresent_ShouldRemove(){
+
+        // add the BLUE UNICORN professor
+        player.addProfessor(PawnType.BLUE_UNICORNS);
+        // add the RED DRAGON professor
+        player.addProfessor(PawnType.RED_DRAGONS);
+
+        // this is the size of the collection before the calling of the method
+        int oldSizeCollection = player.getProfessors().size();
+
+        // remove the BLUE UNICORN PROFESSOR
+        player.removeProfessor(PawnType.BLUE_UNICORNS);
+
+        // CHECKS AFTER THE CALLING OF THE METHOD
+        // 1) check that after the calling of the method the RED DRAGON professor is still there
+        assertTrue(player.getProfessors().contains(PawnType.RED_DRAGONS),
+                "fail due to the fact that the RED DRAGON professor is missing");
+
+        // 2) check that after the calling of the method the BLUE UNICORN professor is not there anymore
+        assertTrue(!(player.getProfessors().contains(PawnType.BLUE_UNICORNS)),
+                "fail due to the fact that the BLUE UNICORN professor is there");
+
+        // 3) check that the size of the collection has decreased by 1
+        assertTrue(oldSizeCollection - 1 == player.getProfessors().size(),
+                "fail due to the wrong size of the collection ");
+
+    }
+
+    @Test
+    public void removeProfessors_ProfessorIsNotPresent_ShouldNotRemove(){
+
+        // add the RED DRAGON professor
+        player.addProfessor(PawnType.RED_DRAGONS);
+
+        // this is the size of the collection before the calling of the method
+        int oldSizeCollection = player.getProfessors().size();
+
+        // remove the BLUE UNICORN PROFESSOR that is not present
+        player.removeProfessor(PawnType.BLUE_UNICORNS);
+
+        // CHECKS AFTER THE CALLING OF THE METHOD
+        // 1) check that after the calling of the method the RED DRAGON professor is still there
+        assertTrue(player.getProfessors().contains(PawnType.RED_DRAGONS),
+                "fail due to the fact that the RED DRAGON professor is missing");
+
+        // 2) check that the size of the collection is the same
+        assertTrue(oldSizeCollection == player.getProfessors().size(),
+                "fail due to the wrong size of the collection");
+    }
+
+    @Test
+    public void changeTowerNumber_WithPositiveValueAndEnoughFreeSpace_ShouldAdd(){
+
+        //remove 2 towers
+        player.changeTowerNumber(-2);
+
+        // this is the number of towers before the calling of the method
+        int oldTowerNumber = player.getTowerNumbers();
+
+        //add one tower
+        player.changeTowerNumber(1);
+
+        // check that the number of tower has been increased by 1
+        assertEquals(oldTowerNumber + 1, player.getTowerNumbers());
+    }
+
+    @Test
+    public void changeTowerNumber_WithNegativeValueAndEnoughTowers_ShouldRemove(){
+
+        // this is the number of towers before the calling of the method
+        int oldTowerNumber = player.getTowerNumbers();
+
+        //add one tower
+        player.changeTowerNumber(-2);
+
+        // check that after the calling of the method the number of towers has been decreased by 2
+        assertEquals(oldTowerNumber - 2, player.getTowerNumbers());
+
+    }
+
+    @Test
+    public void changeTowerNumber_WithPositiveValueAndNotEnoughSpace_ShouldThrow(){
+        assertThrows(AssertionError.class,
+                () -> player.changeTowerNumber(1));
+    }
+
+    @Test
+    public void addStudentToDiningRoom_BLUEUNICORN_EnoughSpace_ShouldAdd(){
+        try {
+            player.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+        } catch (ReachedMaxStudentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void addStudentToDiningRoom_BLUEUNICORN_NotEnoughSpace_ShouldThrow(){
+
+        // fill the BLUE_UNICORN table
+        for (int i=0 ; i<10 ; i=i+1) {
+            try {
+                player.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+            } catch (ReachedMaxStudentException e) {
+                fail();
+            }
+        }
+
+        assertThrows(ReachedMaxStudentException.class,
+                ()->player.addStudentToDiningRoom(PawnType.BLUE_UNICORNS));
+    }
+
+    @Test
+    public void removeStudentFromDiningRoom_BLUEUNICORN_StudentIsPresent_ShouldRemove(){
+
+        // add 2 BLUE UNICORN students
+        try {
+            player.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+            player.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+        } catch (ReachedMaxStudentException e) {
+            fail();
+        }
+
+        // add 1 student for all the other types
+        try {
+            player.addStudentToDiningRoom(PawnType.GREEN_FROGS);
+            player.addStudentToDiningRoom(PawnType.RED_DRAGONS);
+            player.addStudentToDiningRoom(PawnType.YELLOW_GNOMES);
+            player.addStudentToDiningRoom(PawnType.PINK_FAIRIES);
+        } catch (ReachedMaxStudentException e) {
+            fail();
+        }
+        // number of all the other students before the calling of the method
+        int oldNum = 1;
+
+        // number of BLUE unicorns before the calling of the method
+        int oldNumberOfBLUEUNICORNS = player.getNumStudentOf(PawnType.BLUE_UNICORNS);
+
+        // remove a BLUE UNICORN student
+        try {
+            player.removeStudentFromDiningRoom(PawnType.BLUE_UNICORNS);
+        } catch (NotEnoughStudentException e) {
+            fail();
+        }
+
+        // number of BLUE unicorns after the calling of the method
+        int numberOfBLUEUNICORNS = player.getNumStudentOf(PawnType.BLUE_UNICORNS);
+
+        // CHECKS AFTER THE CALLING OF THE METHOD
+        // 1) check that the number of BLUE UNICORN after the calling of the method is decreased by one
+        assertTrue(oldNumberOfBLUEUNICORNS - 1  == numberOfBLUEUNICORNS,
+                "fail due to wrong number of unicorns ");
+
+        // 2) check that the number of all the other students after the calling of the method is the same
+        assertTrue(player.getNumStudentOf(PawnType.GREEN_FROGS)==1 &&
+                player.getNumStudentOf(PawnType.PINK_FAIRIES)==1 &&
+                player.getNumStudentOf(PawnType.YELLOW_GNOMES)==1 &&
+                player.getNumStudentOf(PawnType.RED_DRAGONS)==1
+        , "fail due to modify of number of students of other types");
+    }
+
+    @Test
+    public void removeStudentFromDiningRoom_BLUEUNICORN_StudentIsNotPresent_ShouldThrow(){
+
+        // remove a BLUE UNICORN student that is not present
+        assertThrows(NotEnoughStudentException.class,
+                ()-> player.removeStudentFromDiningRoom(PawnType.BLUE_UNICORNS));
+    }
+
+    @Test
+    public void removeCoins_Remove1_1CoinIsPresent_ShouldRemove(){
+        // remove the coin that is present in the school board of the player
+        try {
+            player.removeCoins(1);
+        } catch (NotEnoughCoinsException e) {
+            fail();
+        }
+
+        // check that after the calling of the method there is not any coin in the shool board
+        assertTrue(player.getCoins()==0);
+
+    }
+
+    @Test
+    public void removeCoins_Remove1_NoCoinIsPresent_ShouldThrow(){
+        // remove the coin that is present in the school board of the player
+        try {
+            player.removeCoins(1);
+        } catch (NotEnoughCoinsException e) {
+            fail();
+        }
+
+        assertThrows(NotEnoughCoinsException.class, ()->player.removeCoins(1));
+    }
 }
