@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-
+import java.util.Objects;
 
 /**
  * A class used to store list of students
@@ -13,6 +13,11 @@ public class StudentList implements Cloneable{
     private int red = 0;
     private int pink = 0;
 
+    /**
+     * Gets the number of students of the given {@code PawnType} contained in this student list.
+     * @param type the type of student to check
+     * @return the number of student of that type
+     */
     public int getNumOf(PawnType type){
         return switch (type){
             case YELLOW_GNOMES -> yellow;
@@ -125,4 +130,8 @@ public class StudentList implements Cloneable{
         return yellow == that.yellow && blue == that.blue && green == that.green && red == that.red && pink == that.pink;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(yellow, blue, green, red, pink);
+    }
 }
