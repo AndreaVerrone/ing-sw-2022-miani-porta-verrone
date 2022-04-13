@@ -39,7 +39,7 @@ public class Player {
 
     /**
      * The constructor of the class takes in input 2 parameters: the nickname of the player and a boolean
-     * to indicate if the player is staring a game that involves 3 players or not
+     * to indicate if the player is starting a game that involves 3 players or not
      * @param nickname the nickname of the player
      * @param isThreePlayerGame is {@code true} if the game involves 3 players, {@code false} otherwise
      */
@@ -49,7 +49,7 @@ public class Player {
     }
 
     /**
-     * This method will use the {@code assistant} passed ad parameter.
+     * This method will use the {@code assistant} passed as parameter.
      * Note that after the calling of this method, the {@code assistant} will not be available anymore from the player's deck.
      * @param assistant that will be used
      */
@@ -60,7 +60,7 @@ public class Player {
 
     /**
      * This method will move the student (of the specified type passed as parameter) from the entrance to
-     * the dining room of the school board of the player
+     * the dining room of the school board of the player.
      * @param student type of the student to move
      * @throws NotEnoughStudentException if there is not any student to remove from entrance
      * @throws ReachedMaxStudentException if the dining room is full
@@ -139,7 +139,7 @@ public class Player {
     }
 
     /**
-     * This method will return the collection of professors that are in the School Board of the player
+     * This method will return the collection of professors that are in the School Board of the player.
      * <p>
      * Note: this method should be used only to observe the content.
      * @return the professors in the School Board
@@ -149,7 +149,7 @@ public class Player {
     }
 
     /**
-     * This method will return the number of towers that are in the school board of the player
+     * This method will return the number of towers that are in the school board of the player.
      * @return the number of towers in the school board
      */
     public int getTowerNumbers(){
@@ -158,7 +158,7 @@ public class Player {
 
     /**
      * This method will return the number of students of the specified type passed as parameter
-     * that are in the dining room of the school board of the player
+     * that are in the dining room of the school board of the player.
      * @param type of the student to check the number
      * @return number of students of the specified type passed as a parameter
      */
@@ -176,7 +176,7 @@ public class Player {
 
     /**
      * This method will add the student (of the specified type passed as a parameter) to the entrance of
-     * the school board of the player
+     * the school board of the player.
      * @param type of the student to add to entrance
      * @throws ReachedMaxStudentException if the entrance is full
      */
