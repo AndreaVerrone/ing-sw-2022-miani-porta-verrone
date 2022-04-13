@@ -114,6 +114,7 @@ class GameTableTest {
     @Test
     void fillClouds_StudentsBagEmpty_ShouldThrow() {
         StudentList studentsForBag = new StudentList();
+        //Fill the bag with an empty students list
         gameTable.fillBag(studentsForBag);
         assertThrows(EmptyBagException.class, () -> gameTable.fillClouds());
     }
@@ -124,23 +125,29 @@ class GameTableTest {
         int ID2 = 11;
         int ID3 = 1;
         try {
+            // Add students to island
             gameTable.addToIsland(PawnType.RED_DRAGONS, ID2);
             gameTable.addToIsland(PawnType.GREEN_FROGS, ID3);
             gameTable.addToIsland(PawnType.RED_DRAGONS, ID3);
+            //Set all the towers on the islands black
             gameTable.getIsland(ID1).setTower(TowerType.BLACK);
             gameTable.getIsland(ID2).setTower(TowerType.BLACK);
             gameTable.getIsland(ID3).setTower(TowerType.BLACK);
             gameTable.unify(ID1,ID2);
-            // TODO: control on list merging in island 0
-            //assertEquals(1, gameTable.getIsland(ID1).numStudentsOf(PawnType.RED_DRAGONS));
+            //Control on list merging in island 0
+            assertEquals(1, gameTable.getIsland(ID1).numStudentsOf(PawnType.RED_DRAGONS));
+            //Control size increasing
             assertEquals(2, gameTable.getIsland(ID1).getSize());
+            //Control island 2 has been removed
             assertEquals(11, gameTable.getNumberOfIslands());
             assertThrows(IslandNotFoundException.class, () -> gameTable.getIsland(ID2));
             gameTable.unify(ID3, ID1);
-            // TODO: control on list merging in island 3
-            //assertEquals(2, gameTable.getIsland(ID3).numStudentsOf(PawnType.RED_DRAGONS));
-            //assertEquals(1, gameTable.getIsland(ID3).numStudentsOf(PawnType.GREEN_FROGS));
+            //Control on list merging in island 3
+            assertEquals(2, gameTable.getIsland(ID3).numStudentsOf(PawnType.RED_DRAGONS));
+            assertEquals(1, gameTable.getIsland(ID3).numStudentsOf(PawnType.GREEN_FROGS));
+            //Control size increasing
             assertEquals(3, gameTable.getIsland(ID3).getSize());
+            //Control island 1 has been removed
             assertEquals(10, gameTable.getNumberOfIslands());
             assertThrows(IslandNotFoundException.class, () -> gameTable.getIsland(ID1));
         } catch (IslandNotFoundException | IslandsNotAdjacentException e) {
