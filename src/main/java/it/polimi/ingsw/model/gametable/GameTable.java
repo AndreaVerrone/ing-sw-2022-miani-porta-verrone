@@ -91,7 +91,7 @@ public class GameTable {
      * and saves {@code cloudID}
      */
     public StudentList getFromCloud(int cloudID) throws CloudNotFoundException {
-        if (cloudID >= clouds.size() ) throw new CloudNotFoundException(cloudID);
+        if (cloudID <0 || cloudID >= clouds.size() ) throw new CloudNotFoundException(cloudID);
         StudentList students = null;
         for (Cloud cloud : clouds){
             if(cloud.getID() == cloudID) students = cloud.getAllStudents();
