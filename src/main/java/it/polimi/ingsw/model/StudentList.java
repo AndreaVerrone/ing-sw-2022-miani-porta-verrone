@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.Objects;
+
 /**
  * A class used to store list of students
  */
@@ -128,4 +130,8 @@ public class StudentList implements Cloneable{
         return yellow == that.yellow && blue == that.blue && green == that.green && red == that.red && pink == that.pink;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(yellow, blue, green, red, pink);
+    }
 }
