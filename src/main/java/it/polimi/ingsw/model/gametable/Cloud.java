@@ -8,7 +8,13 @@ import it.polimi.ingsw.model.StudentList;
  * Class to handle clouds
  */
 class Cloud {
+    /**
+     * Number to identify uniquely the cloud
+     */
     private final int ID;
+    /**
+     * Students on the cloud
+     */
     private final StudentList students;
 
     /**
@@ -20,10 +26,7 @@ class Cloud {
         this.students = new StudentList();
     }
 
-    /**
-     * ID attribute getter
-     * @return the cloud ID
-     */
+
     public int getID(){
         return ID;
     }
@@ -41,8 +44,8 @@ class Cloud {
     }
 
     /**
-     * Gives a copy of the {@code students} attribute and empties the list by calling the {@code students.empty()} method
-     * @return the copy of the {@code students} attribute
+     * Returns and removes all the students on the cloud
+     * @return students on the cloud
      */
     public StudentList getAllStudents() {
         StudentList studentsClone =  students.clone();

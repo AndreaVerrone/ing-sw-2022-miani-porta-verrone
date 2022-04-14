@@ -1,5 +1,4 @@
 package it.polimi.ingsw.model.gametable;
-import it.polimi.ingsw.model.LastRoundException;
 import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
@@ -11,7 +10,9 @@ import java.util.Random;
  * Class to handle the bag of students
  */
 class StudentsBag {
-
+    /**
+     * Students in the bag
+     */
     private final StudentList students;
     /**
      * Class constructor
@@ -29,8 +30,7 @@ class StudentsBag {
     }
 
     /**
-     * Takes a random type of student from the bag and controls it's in the bag, if not continues drawing until
-     * it finds one and removes it
+     * Takes and removes a random student from the bag
      * @return the type of the student randomly taken
      */
     public PawnType draw() throws EmptyBagException {
@@ -49,7 +49,7 @@ class StudentsBag {
     }
 
     /**
-     * fills the bag with the students given
+     * Fills the bag with the students given
      * @param students a {@code StudentList} of students to add to the bag
      * @throws NullPointerException if the {@code StudentList} given is null
      */

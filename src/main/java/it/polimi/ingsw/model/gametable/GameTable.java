@@ -20,8 +20,17 @@ public class GameTable {
      * from position zero
      */
     private int motherNaturePosition  = 0;
+    /**
+     * Islands on the gametable
+     */
     private final List<Island> islands;
+    /**
+     * Clouds on the gametable
+     */
     private final List<Cloud> clouds;
+    /**
+     * Bag with the students inside
+     */
     private final StudentsBag studentsBag;
     // TODO add private List<TableObserver> observers = new ArrayList<TableObserver>
 
@@ -85,12 +94,10 @@ public class GameTable {
     }
 
     /**
-     * Gives all the students on a cloud with a given ID, leaving the cloud empty. If the ID is greater than the number of clouds
-     * throws an exception
+     * Gives all the students on a cloud with a given ID, leaving the cloud empty. If the ID doesn't exist throws an exception
      * @param cloudID the ID of the cloud from which we want to get the students
      * @return a {@code StudentList} of the students on the cloud
-     * @throws CloudNotFoundException if the cloud doesn't exist, therefore if the ID is greater than the number of clouds
-     * and saves {@code cloudID}
+     * @throws CloudNotFoundException if the cloud doesn't exist
      */
     public StudentList getFromCloud(int cloudID) throws CloudNotFoundException {
         if (cloudID <0 || cloudID >= clouds.size() ) throw new CloudNotFoundException(cloudID);
@@ -102,8 +109,7 @@ public class GameTable {
     }
 
     /**
-     * Moves mother nature of a number of islands given. The new position is calculated as the rest of the division between
-     * the new position and the number of islands, so it goes back to the first position every time it surpasses the number of islands
+     * Moves mother nature of a number of islands given. Goes back to the first island after surpassing the last one
      * @param numberOfIslands number of islands on which mother nature moves
      */
     public void moveMotherNature(int numberOfIslands){
@@ -140,14 +146,13 @@ public class GameTable {
     }
 
     /**
-     * Unifies tWO islands using the {@code unifyWith} method of the island with {@code islandIDToKeep} ID and removes
+     * Unifies two islands using the {@code unifyWith} method of the island with {@code islandIDToKeep} ID and removes
      * the island with {@code islandIDToRemove} ID from {@code islands} list, in order to eliminate duplicates.
-     * <p>Also it controls the two islands given are not adjacent, it finds their indexes in the list and controls
-     * their difference is either one or the number of islands minus one, since it would mean they are near each other</p>
+     * <p>Also it controls the two islands given are not adjacent</p>
      * @param islandIDToKeep ID of the island to unify and keep
      * @param islandIDToRemove ID of the island to unify and remove
      * @throws IslandNotFoundException if either one of the IDs doesn't exist
-     * @throws IslandsNotAdjacentException if the two given islands are not adjacent, therefore if  their indexes in the {@code islands} list are near
+     * @throws IslandsNotAdjacentException if the two given islands are not adjacent
      */
     public void unify(int islandIDToKeep, int islandIDToRemove) throws IslandNotFoundException, IslandsNotAdjacentException {
         Island islandToKeep = getIsland(islandIDToKeep);
