@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.CoinsBag;
+import it.polimi.ingsw.model.NotEnoughCoinsException;
 import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import org.junit.jupiter.api.AfterEach;
@@ -14,7 +16,7 @@ class SchoolBoardTest {
 
     @BeforeEach
     public void setUp() {
-        schoolBoard = new SchoolBoard(false);
+        schoolBoard = new SchoolBoard(false, new CoinsBag());
     }
 
     @AfterEach

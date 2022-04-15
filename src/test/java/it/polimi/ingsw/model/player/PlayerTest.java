@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.NotEnoughStudentException;
-import it.polimi.ingsw.model.PawnType;
-import it.polimi.ingsw.model.TowerType;
+import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,7 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player("Player1",false);
+        player = new Player("Player1",false, new CoinsBag());
     }
 
     @AfterEach
@@ -96,6 +94,8 @@ class PlayerTest {
             player.moveFromEntranceToDiningRoom(PawnType.BLUE_UNICORNS);
         } catch (NotEnoughStudentException | ReachedMaxStudentException e) {
             fail();
+        } catch (NotEnoughCoinsException e) {
+            e.printStackTrace();
         }
 
         // this is the number of BLUE_UNICORNS in the dining room after the calling of the method
@@ -360,7 +360,7 @@ class PlayerTest {
         }
 
         // CHECKS AFTER THE CALLING OF THE METHOD
-        // 1) check that the number of BLUE UNICORNs in the dining room is equal to 1
+        // 1) check that the number of BLUE UNICORNS in the dining room is equal to 1
         assertEquals(1,player.getNumStudentOf(PawnType.BLUE_UNICORNS));
 
         // 2) check that the number of all the other students after the calling of the method is still zero
