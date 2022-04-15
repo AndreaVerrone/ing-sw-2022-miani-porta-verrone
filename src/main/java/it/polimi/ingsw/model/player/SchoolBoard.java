@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.NotEnoughStudentException;
-import it.polimi.ingsw.model.PawnType;
-import it.polimi.ingsw.model.StudentList;
+import it.polimi.ingsw.model.*;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -38,7 +36,9 @@ class SchoolBoard {
     /**
      * The number of coins that the player who owns this school board has.
      */
-    private int coins = 1;
+    private int coins = 0;
+
+    private final CoinsBag coinsBag;
 
     /**
      * The constructor for the school board of a player. Based on the number of players, the initial
@@ -46,7 +46,7 @@ class SchoolBoard {
      * @param isThreePlayerGame if the game played is a match between three players or not. According to this,
      *                          the number of towers and student in entrance changes.
      */
-    protected SchoolBoard(boolean isThreePlayerGame){
+    protected SchoolBoard(boolean isThreePlayerGame, CoinsBag coinsBag){
         if (isThreePlayerGame) {
             maxNumStudentsInEntrance = 9;
             maxNumTowers = towers = 6;
@@ -55,7 +55,19 @@ class SchoolBoard {
             maxNumStudentsInEntrance = 7;
             maxNumTowers = towers = 8;
         }
+        this.coinsBag = coinsBag;
+        takeCoin();
     }
+
+    private void takeCoin(){
+        try{
+            coinsBag.takeCoin();
+            coins++;
+        } catch (NotEnoughCoinsException e){
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Gets the students in this school board entrance.
@@ -147,8 +159,9 @@ class SchoolBoard {
      */
     protected void addStudentToDiningRoom(PawnType type) throws ReachedMaxStudentException {
         boolean needCoin = diningRoom.addStudentOf(type);
-        if (needCoin)
-            coins++;
+        if (needCoin) {
+            takeCoin();
+        }
     }
 
     /**
@@ -170,6 +183,7 @@ class SchoolBoard {
         assert cost > 0 : "The cost can't be negative";
         if (cost > coins)
             throw new NotEnoughCoinsException();
+        coinsBag.addCoins(cost);
         coins -= cost;
     }
 
