@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.gametable;
 
-import it.polimi.ingsw.model.LastRoundException;
 import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
