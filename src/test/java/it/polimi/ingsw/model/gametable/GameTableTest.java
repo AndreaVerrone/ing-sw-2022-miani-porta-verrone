@@ -167,4 +167,124 @@ class GameTableTest {
         }
         assertThrows(IslandsNotAdjacentException.class, () -> gameTable.unify(ID1, ID2));
     }
+
+    @Test
+    public void checkForUnify_WithIslandDifferentTowers_ShouldDoNothing(){
+        Island island;
+        try {
+            island = gameTable.getIsland(3);
+        } catch (IslandNotFoundException e) {
+            fail();
+            return;
+        }
+        island.setTower(TowerType.BLACK);
+        int previousIslands = gameTable.getNumberOfIslands();
+        int previousSize = island.getSize();
+        gameTable.checkForUnify(island);
+        assertEquals(previousIslands, gameTable.getNumberOfIslands());
+        assertEquals(previousSize, island.getSize());
+    }
+
+    @Test
+    public void checkForUnify_WithIslandBeforeSameTower_ShouldUnify(){
+        Island island;
+        Island islandBefore;
+        try {
+            island = gameTable.getIsland(3);
+            islandBefore = gameTable.getIsland(2);
+        } catch (IslandNotFoundException e) {
+            fail();
+            return;
+        }
+        island.setTower(TowerType.BLACK);
+        islandBefore.setTower(TowerType.BLACK);
+        int previousSize = island.getSize();
+        gameTable.checkForUnify(island);
+        assertEquals(previousSize + 1, island.getSize());
+    }
+
+    @Test
+    public void checkForUnify_WithIslandBeforeSameTower_ShouldRemoveIt(){
+        Island island;
+        Island islandBefore;
+        try {
+            island = gameTable.getIsland(3);
+            islandBefore = gameTable.getIsland(2);
+        } catch (IslandNotFoundException e) {
+            fail();
+            return;
+        }
+        island.setTower(TowerType.BLACK);
+        islandBefore.setTower(TowerType.BLACK);
+        int previousIslands = gameTable.getNumberOfIslands();
+        gameTable.checkForUnify(island);
+        assertEquals(previousIslands - 1, gameTable.getNumberOfIslands());
+        assertThrows(IslandNotFoundException.class,
+                () -> gameTable.getIsland(islandBefore.getID()));
+    }
+
+    @Test
+    public void checkForUnify_WithIslandsAdjacentSameTower_ShouldUnify(){
+        Island island;
+        Island islandBefore;
+        Island islandAfter;
+        try {
+            island = gameTable.getIsland(11);
+            islandBefore = gameTable.getIsland(10);
+            islandAfter = gameTable.getIsland(0);
+        } catch (IslandNotFoundException e) {
+            fail();
+            return;
+        }
+        island.setTower(TowerType.BLACK);
+        islandBefore.setTower(TowerType.BLACK);
+        islandAfter.setTower(TowerType.BLACK);
+        int previousSize = island.getSize();
+        gameTable.checkForUnify(island);
+        assertEquals(previousSize + 2, island.getSize());
+    }
+
+    @Test
+    public void checkForUnify_WithIslandsAdjacentSameTower_ShouldRemoveThem(){
+        Island island;
+        Island islandBefore;
+        Island islandAfter;
+        try {
+            island = gameTable.getIsland(11);
+            islandBefore = gameTable.getIsland(10);
+            islandAfter = gameTable.getIsland(0);
+        } catch (IslandNotFoundException e) {
+            fail();
+            return;
+        }
+        island.setTower(TowerType.BLACK);
+        islandBefore.setTower(TowerType.BLACK);
+        islandAfter.setTower(TowerType.BLACK);
+        int previousIslands = gameTable.getNumberOfIslands();
+        gameTable.checkForUnify(island);
+        assertEquals(previousIslands - 2, gameTable.getNumberOfIslands());
+        assertThrows(IslandNotFoundException.class,
+                () -> gameTable.getIsland(islandBefore.getID()));
+        assertThrows(IslandNotFoundException.class,
+                () -> gameTable.getIsland(islandAfter.getID()));
+    }
+
+    @Test
+    public void checkForUnify_WithIslandNotPresent_ShouldThrow(){
+        Island island;
+        Island islandBefore;
+        try {
+            island = gameTable.getIsland(3);
+            islandBefore = gameTable.getIsland(2);
+        } catch (IslandNotFoundException e) {
+            fail();
+            return;
+        }
+        island.setTower(TowerType.BLACK);
+        islandBefore.setTower(TowerType.BLACK);
+        gameTable.checkForUnify(island);
+
+        assertThrows(AssertionError.class,
+                () -> gameTable.checkForUnify(islandBefore));
+    }
 }
