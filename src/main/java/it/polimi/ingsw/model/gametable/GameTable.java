@@ -167,6 +167,34 @@ public class GameTable {
     }
 
     /**
+     * Checks if the passed island needs to be unified with the ones immediately before and after,
+     * and if so it does it.
+     * @param island the island to check for unification
+     */
+    public void checkForUnify(Island island){
+        assert islands.contains(island) : "The island is not present on the table";
+
+        int index = islands.indexOf(island);
+        int lastIndex = islands.size() - 1;
+        int indexBefore = index == 0 ? lastIndex : index - 1;
+        int indexAfter = index == lastIndex ? 0 : index + 1;
+        Island islandBefore = islands.get(indexBefore);
+        Island islandAfter = islands.get(indexAfter);
+        unify(island, islandBefore);
+        unify(island, islandAfter);
+    }
+
+    private void unify(Island island, Island islandAdjacent){
+        int indexDistance = Math.abs(islands.indexOf(island) - islands.indexOf(islandAdjacent));
+        assert indexDistance == 1 || indexDistance == islands.size() - 1 : "Islands not adjacent";
+
+        if (island.getTower() == islandAdjacent.getTower()){
+            island.unifyWith(islandAdjacent);
+            islands.remove(islandAdjacent);
+        }
+    }
+
+    /**
      * Fill the {@code studentsBag} with the {@code StudentList} given
      * @param students {@code StudentList} to add to the bag
      */
