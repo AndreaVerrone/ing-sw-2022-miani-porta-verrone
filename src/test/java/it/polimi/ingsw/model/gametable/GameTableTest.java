@@ -1,7 +1,12 @@
 package it.polimi.ingsw.model.gametable;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.gametable.exceptions.*;
+import it.polimi.ingsw.model.NotEnoughStudentException;
+import it.polimi.ingsw.model.PawnType;
+import it.polimi.ingsw.model.StudentList;
+import it.polimi.ingsw.model.TowerType;
+import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
+import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
+import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -117,55 +122,6 @@ class GameTableTest {
         //Fill the bag with an empty students list
         gameTable.fillBag(studentsForBag);
         assertThrows(EmptyBagException.class, () -> gameTable.fillClouds());
-    }
-
-    @Test
-    void unify_ThreeAdjacentIslands_ShouldMerge(){
-        int ID1 = 0;
-        int ID2 = 11;
-        int ID3 = 1;
-        try {
-            // Add students to island
-            gameTable.addToIsland(PawnType.RED_DRAGONS, ID2);
-            gameTable.addToIsland(PawnType.GREEN_FROGS, ID3);
-            gameTable.addToIsland(PawnType.RED_DRAGONS, ID3);
-            //Set all the towers on the islands black
-            gameTable.getIsland(ID1).setTower(TowerType.BLACK);
-            gameTable.getIsland(ID2).setTower(TowerType.BLACK);
-            gameTable.getIsland(ID3).setTower(TowerType.BLACK);
-            gameTable.unify(ID1,ID2);
-            //Control on list merging in island 0
-            assertEquals(1, gameTable.getIsland(ID1).numStudentsOf(PawnType.RED_DRAGONS));
-            //Control size increasing
-            assertEquals(2, gameTable.getIsland(ID1).getSize());
-            //Control island 2 has been removed
-            assertEquals(11, gameTable.getNumberOfIslands());
-            assertThrows(IslandNotFoundException.class, () -> gameTable.getIsland(ID2));
-            gameTable.unify(ID3, ID1);
-            //Control on list merging in island 3
-            assertEquals(2, gameTable.getIsland(ID3).numStudentsOf(PawnType.RED_DRAGONS));
-            assertEquals(1, gameTable.getIsland(ID3).numStudentsOf(PawnType.GREEN_FROGS));
-            //Control size increasing
-            assertEquals(3, gameTable.getIsland(ID3).getSize());
-            //Control island 1 has been removed
-            assertEquals(10, gameTable.getNumberOfIslands());
-            assertThrows(IslandNotFoundException.class, () -> gameTable.getIsland(ID1));
-        } catch (IslandNotFoundException | IslandsNotAdjacentException e) {
-            fail();
-        }
-    }
-    @Test
-    void unify_TwoNotAdjacentIslands_ShouldThrow(){
-        int ID1 = 3;
-        int ID2 = 5;
-        try {
-            gameTable.addToIsland(PawnType.RED_DRAGONS, ID2);
-            gameTable.getIsland(ID1).setTower(TowerType.BLACK);
-            gameTable.getIsland(ID2).setTower(TowerType.BLACK);
-        } catch (IslandNotFoundException e) {
-            fail();
-        }
-        assertThrows(IslandsNotAdjacentException.class, () -> gameTable.unify(ID1, ID2));
     }
 
     @Test

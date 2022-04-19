@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.StudentList;
 import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
 import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
-import it.polimi.ingsw.model.gametable.exceptions.IslandsNotAdjacentException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,27 +142,6 @@ public class GameTable {
                 cloud.addStudent(student);
             }
         }
-    }
-
-    /**
-     * Unifies two islands using the {@code unifyWith} method of the island with {@code islandIDToKeep} ID and removes
-     * the island with {@code islandIDToRemove} ID from {@code islands} list, in order to eliminate duplicates.
-     * <p>Also it controls the two islands given are not adjacent</p>
-     * @param islandIDToKeep ID of the island to unify and keep
-     * @param islandIDToRemove ID of the island to unify and remove
-     * @throws IslandNotFoundException if either one of the IDs doesn't exist
-     * @throws IslandsNotAdjacentException if the two given islands are not adjacent
-     */
-    public void unify(int islandIDToKeep, int islandIDToRemove) throws IslandNotFoundException, IslandsNotAdjacentException {
-        Island islandToKeep = getIsland(islandIDToKeep);
-        Island islandToRemove = getIsland(islandIDToRemove);
-        int indexIslandToKeep = islands.indexOf(islandToKeep);
-        int indexIslandToRemove = islands.indexOf(islandToRemove);
-        if(!(Math.abs(indexIslandToKeep - indexIslandToRemove) == 1 | Math.abs(indexIslandToKeep - indexIslandToRemove) == getNumberOfIslands() - 1)){
-            throw new IslandsNotAdjacentException(islandIDToKeep, islandIDToRemove);
-        }
-        islandToKeep.unifyWith(islandToRemove);
-        islands.remove(islandToRemove);
     }
 
     /**
