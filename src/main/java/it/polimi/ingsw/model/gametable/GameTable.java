@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.StudentList;
 import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
 import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
-import it.polimi.ingsw.model.gametable.exceptions.IslandsNotAdjacentException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,24 +145,31 @@ public class GameTable {
     }
 
     /**
-     * Unifies two islands using the {@code unifyWith} method of the island with {@code islandIDToKeep} ID and removes
-     * the island with {@code islandIDToRemove} ID from {@code islands} list, in order to eliminate duplicates.
-     * <p>Also it controls the two islands given are not adjacent</p>
-     * @param islandIDToKeep ID of the island to unify and keep
-     * @param islandIDToRemove ID of the island to unify and remove
-     * @throws IslandNotFoundException if either one of the IDs doesn't exist
-     * @throws IslandsNotAdjacentException if the two given islands are not adjacent
+     * Checks if the passed island needs to be unified with the ones immediately before and after,
+     * and if so it does it.
+     * @param island the island to check for unification
      */
-    public void unify(int islandIDToKeep, int islandIDToRemove) throws IslandNotFoundException, IslandsNotAdjacentException {
-        Island islandToKeep = getIsland(islandIDToKeep);
-        Island islandToRemove = getIsland(islandIDToRemove);
-        int indexIslandToKeep = islands.indexOf(islandToKeep);
-        int indexIslandToRemove = islands.indexOf(islandToRemove);
-        if(!(Math.abs(indexIslandToKeep - indexIslandToRemove) == 1 | Math.abs(indexIslandToKeep - indexIslandToRemove) == getNumberOfIslands() - 1)){
-            throw new IslandsNotAdjacentException(islandIDToKeep, islandIDToRemove);
+    public void checkForUnify(Island island){
+        assert islands.contains(island) : "The island is not present on the table";
+
+        int index = islands.indexOf(island);
+        int lastIndex = islands.size() - 1;
+        int indexBefore = index == 0 ? lastIndex : index - 1;
+        int indexAfter = index == lastIndex ? 0 : index + 1;
+        Island islandBefore = islands.get(indexBefore);
+        Island islandAfter = islands.get(indexAfter);
+        unify(island, islandBefore);
+        unify(island, islandAfter);
+    }
+
+    private void unify(Island island, Island islandAdjacent){
+        int indexDistance = Math.abs(islands.indexOf(island) - islands.indexOf(islandAdjacent));
+        assert indexDistance == 1 || indexDistance == islands.size() - 1 : "Islands not adjacent";
+
+        if (island.getTower() == islandAdjacent.getTower()){
+            island.unifyWith(islandAdjacent);
+            islands.remove(islandAdjacent);
         }
-        islandToKeep.unifyWith(islandToRemove);
-        islands.remove(islandToRemove);
     }
 
     /**
