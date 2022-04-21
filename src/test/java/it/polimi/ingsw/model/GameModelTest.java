@@ -300,6 +300,8 @@ class GameModelTest {
 
                 assertThrows(IslandNotFoundException.class,
                         () -> gameModel.getGameTable().getIsland(islandID3-1));
+                assertThrows(IslandNotFoundException.class,
+                        () -> gameModel.getGameTable().getIsland(islandID3+1));
             }
             @Test
             public void withBothIslandsSameTower_ShouldIncreaseIslandSize(){
@@ -364,11 +366,14 @@ class GameModelTest {
                     @BeforeEach
                     public void setUp() {
                         try {
-                            gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
-                            gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
+                            //player 1
                             gameModel.getGameTable().addToIsland(PawnType.RED_DRAGONS, islandID3);
+                            //player 2
                             gameModel.getGameTable().addToIsland(PawnType.BLUE_UNICORNS, islandID3);
                             gameModel.getGameTable().addToIsland(PawnType.PINK_FAIRIES, islandID3);
+                            //player 3
+                            gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
+                            gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
                         } catch (IslandNotFoundException e) {
                             fail();
                         }
@@ -382,12 +387,15 @@ class GameModelTest {
                     @BeforeEach
                     public void setUp() {
                         try {
-                            gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
-                            gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
+                            //player 1
                             gameModel.getGameTable().addToIsland(PawnType.RED_DRAGONS, islandID3);
+                            //player 2
                             gameModel.getGameTable().addToIsland(PawnType.BLUE_UNICORNS, islandID3);
                             gameModel.getGameTable().addToIsland(PawnType.BLUE_UNICORNS, islandID3);
                             gameModel.getGameTable().addToIsland(PawnType.PINK_FAIRIES, islandID3);
+                            //player 3
+                            gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
+                            gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
                         } catch (IslandNotFoundException e) {
                             fail();
                         }
@@ -439,9 +447,11 @@ class GameModelTest {
         class YesTowerStudentsProfessors {
             @BeforeEach
             public void setUp() {
+                //set the tower
                 island3.setTower(player1.getTowerType());
                 player1.changeTowerNumber(-island3.getSize());
 
+                //set the professors
                 player1.addProfessor(PawnType.RED_DRAGONS);
 
                 player2.addProfessor(PawnType.BLUE_UNICORNS);
