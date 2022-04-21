@@ -131,8 +131,8 @@ public class GameModel {
         Island island = gameTable.getIsland(islandID);
         Player maxInfluencePlayer = computeMaxPlayerInfluence(island);
         boolean towerHasChanged = changeTowerOn(island, maxInfluencePlayer);
-
-        //TODO: check for unification of island
+        if(towerHasChanged)
+            gameTable.checkForUnify(island);
     }
 
     /**

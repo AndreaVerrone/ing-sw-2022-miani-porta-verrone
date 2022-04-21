@@ -9,8 +9,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameModelTest {
 
@@ -115,6 +114,208 @@ class GameModelTest {
                 TowerType towerAfter = island3.getTower();
                 assertEquals(towerBefore, towerAfter);
             }
+
+            /**
+             * A method that sets the tower on an island near the one tested in order to see the different
+             * behaviour of the method. This is executed only before test for the unification of the island,
+             * as the towers on nearby islands are relevant only in that situation.
+             */
+            private void beforeEachUnifyTest(){
+                try {
+                    gameModel.getGameTable().getIsland(islandID3 - 1).setTower(TowerType.BLACK);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+            }
+
+            @Test
+            public void shouldNotRemoveIslands() {
+                beforeEachUnifyTest();
+
+                int numberOfIslands = gameModel.getGameTable().getNumberOfIslands();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertEquals(numberOfIslands, gameModel.getGameTable().getNumberOfIslands());
+            }
+
+            @Test
+            public void shouldNotChangeIslandSize(){
+                beforeEachUnifyTest();
+
+                int prevSize = island3.getSize();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertEquals(prevSize, island3.getSize());
+            }
+        }
+
+        /**
+         * A class encapsulating the test to check if the conquerIsland method unify island correctly.
+         * This test the behaviour if there are no island nearby with the same tower, if there is only one
+         * or both.
+         */
+        abstract class UnifyIslandBehaviourTest{
+
+            /**
+             * The tower type to set on the island nearby the one tested. This should be the sae as the one
+             * expected to be found after the calling of the method conquerIsland in order to see the
+             * correct unification behaviour
+             */
+            TowerType expectedTower;
+
+            abstract void setExpectedTower();
+
+            @BeforeEach
+            public void beforeEach(){
+                setExpectedTower();
+            }
+
+            @AfterEach
+            public void afterEach(){
+                expectedTower = null;
+            }
+
+            private void setPreviousIslandSameTower(){
+                try {
+                    gameModel.getGameTable().getIsland(islandID3-1).setTower(expectedTower);
+                }catch (IslandNotFoundException e){
+                    fail();
+                }
+            }
+
+            private void setNextIslandSameTower(){
+                try {
+                    gameModel.getGameTable().getIsland(islandID3+1).setTower(expectedTower);
+                }catch (IslandNotFoundException e){
+                    fail();
+                }
+            }
+
+            @Test
+            public void withNoIslandsSameTower_ShouldNotChangeIslandNumber(){
+                int numberOfIslands = gameModel.getGameTable().getNumberOfIslands();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertEquals(numberOfIslands, gameModel.getGameTable().getNumberOfIslands());
+            }
+
+            @Test
+            public void withNoIslandsSameTower_ShouldNotChangeIslandSize(){
+
+                int prevSize = island3.getSize();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertEquals(prevSize, island3.getSize());
+            }
+
+            @Test
+            public void withPreviousIslandSameTower_ShouldRemoveOneIsland(){
+                setPreviousIslandSameTower();
+
+                int numberOfIslands = gameModel.getGameTable().getNumberOfIslands();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertEquals(numberOfIslands-1, gameModel.getGameTable().getNumberOfIslands());
+            }
+
+            @Test
+            public void withPreviousIslandSameTower_ShouldRemoveIsland(){
+                setPreviousIslandSameTower();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertThrows(IslandNotFoundException.class,
+                        () -> gameModel.getGameTable().getIsland(islandID3-1));
+            }
+            @Test
+            public void withPreviousIslandsSameTower_ShouldIncreaseIslandSize(){
+                setPreviousIslandSameTower();
+
+                int prevSize = island3.getSize();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertEquals(prevSize+1, island3.getSize());
+            }
+
+            @Test
+            public void withBothIslandSameTower_ShouldRemoveTwoIsland(){
+                setPreviousIslandSameTower();
+                setNextIslandSameTower();
+
+                int numberOfIslands = gameModel.getGameTable().getNumberOfIslands();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertEquals(numberOfIslands-2, gameModel.getGameTable().getNumberOfIslands());
+            }
+
+            @Test
+            public void withBothIslandSameTower_ShouldRemoveIslands(){
+                setPreviousIslandSameTower();
+                setNextIslandSameTower();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertThrows(IslandNotFoundException.class,
+                        () -> gameModel.getGameTable().getIsland(islandID3-1));
+            }
+            @Test
+            public void withBothIslandsSameTower_ShouldIncreaseIslandSize(){
+                setPreviousIslandSameTower();
+                setNextIslandSameTower();
+
+                int prevSize = island3.getSize();
+
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+
+                assertEquals(prevSize+2, island3.getSize());
+            }
         }
 
 
@@ -176,7 +377,7 @@ class GameModelTest {
 
                 @Nested
                 @DisplayName("Player 2 highest influence")
-                class Player2Wins {
+                class Player2Wins extends UnifyIslandBehaviourTest{
 
                     @BeforeEach
                     public void setUp() {
@@ -190,6 +391,11 @@ class GameModelTest {
                         } catch (IslandNotFoundException e) {
                             fail();
                         }
+                    }
+
+                    @Override
+                    void setExpectedTower() {
+                        expectedTower = player2.getTowerType();
                     }
 
                     @Test
@@ -305,7 +511,7 @@ class GameModelTest {
 
             @Nested
             @DisplayName("a player not controlling island wins")
-            class NonControllingPlayer2Win {
+            class NonControllingPlayer2Win extends UnifyIslandBehaviourTest{
 
                 @BeforeEach
                 public void setUp() {
@@ -321,6 +527,11 @@ class GameModelTest {
                     } catch (IslandNotFoundException e) {
                         fail();
                     }
+                }
+
+                @Override
+                void setExpectedTower() {
+                    expectedTower = player2.getTowerType();
                 }
 
                 @Test
