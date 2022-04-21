@@ -9,7 +9,8 @@ import org.junit.jupiter.api.*;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class GameModelTest {
 
@@ -82,42 +83,52 @@ class GameModelTest {
             island3 = null;
         }
 
+
+        /**
+         * A class encapsulating the test to check if the conquerIsland method has no effect
+         */
+        class DoNothingBehaviourTest {
+
+            @Test
+            public void shouldNotChangeTowersOfPlayers() {
+                int towerNumber1 = player1.getTowerNumbers();
+                int towerNumber2 = player2.getTowerNumbers();
+                int towerNumber3 = player3.getTowerNumbers();
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+                assertEquals(towerNumber1, player1.getTowerNumbers());
+                assertEquals(towerNumber2, player2.getTowerNumbers());
+                assertEquals(towerNumber3, player3.getTowerNumbers());
+            }
+
+            @Test
+            public void shouldNotChangeTowerOnIsland() {
+                TowerType towerBefore = island3.getTower();
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+                TowerType towerAfter = island3.getTower();
+                assertEquals(towerBefore, towerAfter);
+            }
+        }
+
+
         @Nested
         @DisplayName("with no initial tower")
         class NoInitialTowerOnIsland {
             @Nested
             @DisplayName("and no students")
-            class NoStudents {
-
-                @Test
-                public void shouldNotRemoveTowersFromPlayers() {
-                    int towerNumber = player1.getTowerNumbers();
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                    assertEquals(towerNumber, player1.getTowerNumbers());
-                    assertEquals(towerNumber, player2.getTowerNumbers());
-                    assertEquals(towerNumber, player3.getTowerNumbers());
-                }
-
-                @Test
-                public void shouldNotSetTowerOnIsland() {
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                        TowerType towerAfter = island3.getTower();
-                        assertNull(towerAfter);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                }
-                
+            class NoStudents extends DoNothingBehaviourTest {
             }
 
             @Nested
             @DisplayName("and no professors but with students")
-            class YesStudentsNoProfessors {
+            class YesStudentsNoProfessors extends DoNothingBehaviourTest {
 
                 @BeforeEach
                 public void setUp() {
@@ -125,30 +136,6 @@ class GameModelTest {
                         gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
                         gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
                         gameModel.getGameTable().addToIsland(PawnType.RED_DRAGONS, islandID3);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                }
-
-                @Test
-                public void shouldNotRemoveTowersFromPlayers() {
-                    int towerNumber = player1.getTowerNumbers();
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                    assertEquals(towerNumber, player1.getTowerNumbers());
-                    assertEquals(towerNumber, player2.getTowerNumbers());
-                    assertEquals(towerNumber, player3.getTowerNumbers());
-                }
-
-                @Test
-                public void shouldNotSetTowerOnIsland() {
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                        TowerType towerAfter = island3.getTower();
-                        assertNull(towerAfter);
                     } catch (IslandNotFoundException e) {
                         fail();
                     }
@@ -171,7 +158,7 @@ class GameModelTest {
 
                 @Nested
                 @DisplayName("tie condition")
-                class Tie {
+                class Tie extends DoNothingBehaviourTest {
 
                     @BeforeEach
                     public void setUp() {
@@ -181,30 +168,6 @@ class GameModelTest {
                             gameModel.getGameTable().addToIsland(PawnType.RED_DRAGONS, islandID3);
                             gameModel.getGameTable().addToIsland(PawnType.BLUE_UNICORNS, islandID3);
                             gameModel.getGameTable().addToIsland(PawnType.PINK_FAIRIES, islandID3);
-                        } catch (IslandNotFoundException e) {
-                            fail();
-                        }
-                    }
-
-                    @Test
-                    public void shouldNotRemoveTowersFromPlayers() {
-                        int towerNumber = player1.getTowerNumbers();
-                        try {
-                            gameModel.conquerIsland(islandID3);
-                        } catch (IslandNotFoundException e) {
-                            fail();
-                        }
-                        assertEquals(towerNumber, player1.getTowerNumbers());
-                        assertEquals(towerNumber, player2.getTowerNumbers());
-                        assertEquals(towerNumber, player3.getTowerNumbers());
-                    }
-
-                    @Test
-                    public void shouldNotSetTowerOnIsland() {
-                        try {
-                            gameModel.conquerIsland(islandID3);
-                            TowerType towerAfter = island3.getTower();
-                            assertNull(towerAfter);
                         } catch (IslandNotFoundException e) {
                             fail();
                         }
@@ -283,7 +246,7 @@ class GameModelTest {
 
             @Nested
             @DisplayName("tie between controlling player and another")
-            class TieBetweenPlayer1And2 {
+            class TieBetweenPlayer1And2 extends DoNothingBehaviourTest {
                 @BeforeEach
                 public void setUp() {
                     try {
@@ -297,39 +260,12 @@ class GameModelTest {
                     } catch (IslandNotFoundException e) {
                         fail();
                     }
-                }
-
-                @Test
-                public void shouldNotRemoveTowersFromPlayers() {
-                    int towerNumber1 = player1.getTowerNumbers();
-                    int towerNumber2 = player2.getTowerNumbers();
-                    int towerNumber3 = player3.getTowerNumbers();
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                    assertEquals(towerNumber1, player1.getTowerNumbers());
-                    assertEquals(towerNumber2, player2.getTowerNumbers());
-                    assertEquals(towerNumber3, player3.getTowerNumbers());
-                }
-
-                @Test
-                public void shouldNotSetTowerOnIsland() {
-                    TowerType towerBefore = island3.getTower();
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                    TowerType towerAfter = island3.getTower();
-                    assertEquals(towerBefore, towerAfter);
                 }
             }
 
             @Nested
             @DisplayName("tie between two non controlling players")
-            class TieBetweenPlayer2And3 {
+            class TieBetweenPlayer2And3 extends DoNothingBehaviourTest {
                 @BeforeEach
                 public void setUp() {
                     try {
@@ -343,39 +279,12 @@ class GameModelTest {
                     } catch (IslandNotFoundException e) {
                         fail();
                     }
-                }
-
-                @Test
-                public void shouldNotRemoveTowersFromPlayers() {
-                    int towerNumber1 = player1.getTowerNumbers();
-                    int towerNumber2 = player2.getTowerNumbers();
-                    int towerNumber3 = player3.getTowerNumbers();
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                    assertEquals(towerNumber1, player1.getTowerNumbers());
-                    assertEquals(towerNumber2, player2.getTowerNumbers());
-                    assertEquals(towerNumber3, player3.getTowerNumbers());
-                }
-
-                @Test
-                public void shouldNotChangeTowerOnIsland() {
-                    TowerType towerBefore = island3.getTower();
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                    TowerType towerAfter = island3.getTower();
-                    assertEquals(towerBefore, towerAfter);
                 }
             }
 
             @Nested
             @DisplayName("the player controlling island wins")
-            class ControllingPlayerWin {
+            class ControllingPlayerWin extends DoNothingBehaviourTest {
 
                 @BeforeEach
                 public void setUp() {
@@ -392,34 +301,6 @@ class GameModelTest {
                         fail();
                     }
                 }
-
-                @Test
-                public void shouldNotRemoveTowersFromPlayers() {
-                    int towerNumber1 = player1.getTowerNumbers();
-                    int towerNumber2 = player2.getTowerNumbers();
-                    int towerNumber3 = player3.getTowerNumbers();
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                    assertEquals(towerNumber1, player1.getTowerNumbers());
-                    assertEquals(towerNumber2, player2.getTowerNumbers());
-                    assertEquals(towerNumber3, player3.getTowerNumbers());
-                }
-
-                @Test
-                public void shouldNotChangeTowerOnIsland() {
-                    TowerType towerBefore = island3.getTower();
-                    try {
-                        gameModel.conquerIsland(islandID3);
-                    } catch (IslandNotFoundException e) {
-                        fail();
-                    }
-                    TowerType towerAfter = island3.getTower();
-                    assertEquals(towerBefore, towerAfter);
-                }
-
             }
 
             @Nested
