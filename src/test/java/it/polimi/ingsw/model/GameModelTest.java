@@ -167,7 +167,7 @@ class GameModelTest {
         abstract class UnifyIslandBehaviourTest{
 
             /**
-             * The tower type to set on the island nearby the one tested. This should be the sae as the one
+             * The tower type to set on the island nearby the one tested. This should be the same as the one
              * expected to be found after the calling of the method conquerIsland in order to see the
              * correct unification behaviour
              */
@@ -256,6 +256,7 @@ class GameModelTest {
                 assertThrows(IslandNotFoundException.class,
                         () -> gameModel.getGameTable().getIsland(islandID3-1));
             }
+
             @Test
             public void withPreviousIslandsSameTower_ShouldIncreaseIslandSize(){
                 setPreviousIslandSameTower();
