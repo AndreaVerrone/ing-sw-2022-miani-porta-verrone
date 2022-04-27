@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.controller.PlayerLoginInfo;
 import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,10 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
 
     Player player = null;
+    PlayerLoginInfo playerLoginInfo = null;
 
     @BeforeEach
     void setUp() {
-        player = new Player("Player1",false, new CoinsBag());
+        playerLoginInfo = new PlayerLoginInfo("Player1");
+        playerLoginInfo.setWizard(Wizard.W2);
+        player = new Player(playerLoginInfo,false, new CoinsBag());
     }
 
     @AfterEach
@@ -23,8 +27,6 @@ class PlayerTest {
 
     @Test
     public void useAssistant_assistant_setLastUsed(){
-        // set the assistant deck
-        player.setAssistantDeck(Wizard.W2);
         // use CARD_9
         player.useAssistant(Assistant.CARD_9);
 
@@ -111,42 +113,6 @@ class PlayerTest {
                 " fail due to condition on dining room student's number");
         assertEquals(numberOfStudentsInEntrance + 1 , oldNumberOfStudentsInEntrance ,
                 "fail due to condition on number of students in entrance");
-    }
-
-    @Test
-    public void setTowerType_BLACK_towerTypeIsNull_ShouldSetBLACK(){
-        // set the tower to BLACK
-        player.setTowerType(TowerType.BLACK);
-        // check that the set is done
-        assertEquals(TowerType.BLACK,player.getTowerType());
-    }
-
-    @Test
-    public void setTowerType_BLACK_towerTypeIsWHITE_ShouldRemainBLACK(){
-        // set the tower as BLACK
-        player.setTowerType(TowerType.BLACK);
-        // try to set the tower to WHITE
-        player.setTowerType(TowerType.WHITE);
-        // check that the tower type is still BLACK
-        assertEquals(TowerType.BLACK,player.getTowerType());
-    }
-
-    @Test
-    public void setAssistantDeck_W1_DeckIsNull_ShouldSet(){
-        // set the assistant deck with wizard W1
-        player.setAssistantDeck(Wizard.W1);
-        // check that the set has been done
-        assertEquals(new AssistantDeck(Wizard.W1).getCards(),player.getHand());
-    }
-
-    @Test
-    public void setAssistantDeck_W1_DeckIsNotNull_ShouldNotChange(){
-        // set the assistant deck as W1
-        player.setAssistantDeck(Wizard.W1);
-        // try to set the assistant deck to W2
-        player.setAssistantDeck(Wizard.W2);
-        // check that the deck is still the same
-        assertEquals(new AssistantDeck(Wizard.W1).getCards(),player.getHand());
     }
 
     @Test

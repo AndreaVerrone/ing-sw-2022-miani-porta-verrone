@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.controller.PlayerLoginInfo;
 import it.polimi.ingsw.model.*;
 
 import java.util.Collection;
@@ -17,12 +18,12 @@ public class Player {
     /**
      * the {@code towerType} is the color of the tower that the player is using.
      */
-    private TowerType towerType;
+    private final TowerType towerType;
 
     /**
      * this is the deck containing all the assistant cards in the deck's player.
      */
-    private AssistantDeck assistantDeck;
+    private final AssistantDeck assistantDeck;
 
     /**
      * this is the last assistant card used by the player.
@@ -35,14 +36,24 @@ public class Player {
     private final SchoolBoard schoolBoard;
 
     /**
-     * The constructor of the class takes in input 2 parameters: the nickname of the player and a boolean
-     * to indicate if the player is starting a game that involves 3 players or not
+     * The constructor of the class takes in input 3 parameters:
+     * <ul>
+     *     <li> the corresponding PlayerLoginInfo that was created before the starting of the game </li>
      *
-     * @param nickname          the nickname of the player
+     *     <li> a boolean to indicate if the player is starting a game that involves
+     *     3 players or not </li>
+     *
+     *     <li> the coins bag that collects all the coins that are present the game </li>
+     * </ul>
+     *
+     * @param playerLoginInfo is the corresponding playerLoginInfo that was created before the starting of the game
      * @param isThreePlayerGame is {@code true} if the game involves 3 players, {@code false} otherwise
+     * @param coinsBag  the coins bag of the game
      */
-    public Player(String nickname, Boolean isThreePlayerGame, CoinsBag coinsBag) {
-        this.nickName = nickname;
+    public Player(PlayerLoginInfo playerLoginInfo, Boolean isThreePlayerGame, CoinsBag coinsBag) {
+        this.nickName=playerLoginInfo.getNickname();
+        this.towerType=playerLoginInfo.getTowerType();
+        this.assistantDeck = new AssistantDeck(playerLoginInfo.getWizard());
         this.schoolBoard = new SchoolBoard(isThreePlayerGame, coinsBag);
     }
 
@@ -84,7 +95,6 @@ public class Player {
      * To modify it, use the appropriate methods of {@code Player}
      *
      * @return the current deck of the player
-     * @see #setAssistantDeck(Wizard)
      * @see #useAssistant(Assistant)
      */
     public Collection<Assistant> getHand() {
@@ -95,42 +105,10 @@ public class Player {
         return nickName;
     }
 
-    /**
-     * This method will set the color of the tower the player will play with.
-     * <p>
-     * The color to set is passed as a parameter in input to this method.
-     * <p>
-     * Note that the tower type can be set only one time since the player is not allowed to change
-     * tower type during the game.
-     *
-     * @param type the type of the tower (i.e., the color) to associate to the player
-     */
-    public void setTowerType(TowerType type) {
-        if (this.towerType == null) {
-            this.towerType = type;
-        }
-    }
-
     public TowerType getTowerType() {
         return towerType;
     }
 
-    /**
-     * This method will set the deck of the assistant card to the player.
-     * It requires in input the wizard that the player choose to impersonate since each deck
-     * must be associated to a wizard.
-     * <p>
-     * Note that the assistant deck can be set only one time since the player is not allowed to
-     * change the wizard to impersonate during the game.
-     *
-     * @param wizard is the wizard that must be associated to the player's deck (i.e., the wizard that the
-     *               player choose to impersonate during a game)
-     */
-    public void setAssistantDeck(Wizard wizard) {
-        if (this.assistantDeck == null) {
-            assistantDeck = new AssistantDeck(wizard);
-        }
-    }
 
     public Assistant getLastAssistant() {
         return lastUsed;
