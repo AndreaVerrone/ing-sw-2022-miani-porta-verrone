@@ -88,7 +88,7 @@ public class GameTable {
                 break;
             }
         }
-        if (islandRequested == null) throw new IslandNotFoundException(islandID);
+        if (islandRequested == null) throw new IslandNotFoundException();
         return islandRequested;
     }
 
@@ -99,7 +99,7 @@ public class GameTable {
      * @throws CloudNotFoundException if the cloud doesn't exist
      */
     public StudentList getFromCloud(int cloudID) throws CloudNotFoundException {
-        if (cloudID <0 || cloudID >= clouds.size() ) throw new CloudNotFoundException(cloudID);
+        if (cloudID <0 || cloudID >= clouds.size() ) throw new CloudNotFoundException();
         StudentList students = null;
         for (Cloud cloud : clouds){
             if(cloud.getID() == cloudID) students = cloud.getAllStudents();

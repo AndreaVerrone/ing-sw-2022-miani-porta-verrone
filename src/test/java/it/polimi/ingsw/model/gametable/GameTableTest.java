@@ -53,8 +53,13 @@ class GameTableTest {
     }
 
     @Test
-    void getFromCloud() {
+    void getFromCloud_IDNotPresent_ShouldThrow(){
+        int IDTooLow = -1;
+        int IDTooBig = gameTable.getNumberOfClouds();
+        assertThrows(CloudNotFoundException.class, () -> gameTable.getFromCloud(IDTooLow));
+        assertThrows(CloudNotFoundException.class, () -> gameTable.getFromCloud(IDTooBig));
     }
+
 
     @Test
     void moveMotherNature_differentMovements() {
