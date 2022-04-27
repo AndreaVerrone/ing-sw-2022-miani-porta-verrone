@@ -27,7 +27,7 @@ public class PlayerLoginInfo {
      * The constructor of the class takes in input the nickname of the player
      * @param nickname of the player
      */
-    PlayerLoginInfo(String nickname){
+    public PlayerLoginInfo(String nickname){
         this.nickname=nickname;
     }
 
