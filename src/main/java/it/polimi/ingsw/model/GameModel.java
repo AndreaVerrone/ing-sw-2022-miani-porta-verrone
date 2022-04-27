@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.PlayerLoginInfo;
 import it.polimi.ingsw.model.gametable.GameTable;
 import it.polimi.ingsw.model.gametable.Island;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.model.player.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class GameModel {
 
@@ -30,14 +28,24 @@ public class GameModel {
     /**
      * Constructs a new game model with the {@code players} passed as a parameter.
      * The game is supported for 2, 3, 4 players.
-     * @param players the player playing this game
+     * @param playersLoginInfo the player playing this game
      */
-    public GameModel(Collection<Player> players){
-        assert players.size() >= 2 && players.size() <= 4 : "Number of players not supported";
+    public GameModel(Collection<PlayerLoginInfo> playersLoginInfo){
 
-        this.players.addAll(players);
-        int numPlayers = players.size();
+        assert playersLoginInfo.size() >= 2 && playersLoginInfo.size() <= 4 : "Number of players not supported";
+
+        CoinsBag coinsBag = new CoinsBag();
+
+        int numPlayers = playersLoginInfo.size();
+
+        boolean isThreePlayerGame = numPlayers == 3;
+
+        for(PlayerLoginInfo playerInfo :playersLoginInfo){
+            this.players.add(new Player(playerInfo,isThreePlayerGame,coinsBag));
+        }
+
         gameTable = new GameTable(numPlayers);
+
         currentPlayer = this.players.get(0);
     }
 
@@ -47,6 +55,14 @@ public class GameModel {
 
     public GameTable getGameTable() {
         return gameTable;
+    }
+
+    /**
+     * This method will return an unmodifiable view of the list of player.
+     * @return the list of players
+     */
+    public List<Player> getPlayerList(){
+        return Collections.unmodifiableList(players);
     }
 
     /**
