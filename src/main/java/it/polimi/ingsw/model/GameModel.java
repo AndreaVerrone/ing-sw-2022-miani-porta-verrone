@@ -94,6 +94,15 @@ public class GameModel {
     }
 
     /**
+     * The maximum value of which mother nature can be moved.
+     * This usually corresponds to the value on the last assistant card the player used.
+     * @return The maximum value of which mother nature can be moved.
+     */
+    public int getMNMovementLimit(){
+        return currentPlayer.getLastAssistant().getRangeOfMotion();
+    }
+
+    /**
      * Calculates the order of the players based on their last assistant card played, in ascending order.
      * After this call, the current player will be the first player calculated as before.
      */
