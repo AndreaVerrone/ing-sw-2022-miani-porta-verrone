@@ -4,9 +4,11 @@ import it.polimi.ingsw.model.gametable.GameTable;
 import it.polimi.ingsw.model.gametable.Island;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Wizard;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 public class GameModel {
 
@@ -24,16 +26,6 @@ public class GameModel {
      * The game table associated to this game.
      */
     private final GameTable gameTable;
-
-    /**
-     * The wizards available to be chosen by a player.
-     */
-    private final Set<Wizard> wizardsAvailable = new HashSet<>(List.of(Wizard.values()));
-
-    /**
-     * The color of tower available to be chosen by a player.
-     */
-    private final Set<TowerType> towersAvailable = new HashSet<>(List.of(TowerType.values()));
 
     /**
      * Constructs a new game model with the {@code players} passed as a parameter.
@@ -55,42 +47,6 @@ public class GameModel {
 
     public GameTable getGameTable() {
         return gameTable;
-    }
-
-    /**
-     * The wizards available to be chosen by a player.
-     * <p>
-     * Note: this should be used only to display the possibilities.
-     * To modify the content use the appropriate methods.
-     * @return the wizards available
-     * @see #removeWizard(Wizard) 
-     */
-    public Set<Wizard> getWizardsAvailable() {
-        return new HashSet<>(wizardsAvailable);
-    }
-
-    /**
-     * The color of tower available to be chosen by a player.
-     * <p>
-     * Note: this should be used only to display the possibilities.
-     * To modify the content use the appropriate methods.
-     * @return the color of tower available
-     * @see #removeTower(TowerType) 
-     */
-    public Set<TowerType> getTowersAvailable() {
-        return new HashSet<>(towersAvailable);
-    }
-
-    public void removeWizard(Wizard wizard){
-        assert wizardsAvailable.contains(wizard) : "The wizard is not available";
-
-        wizardsAvailable.remove(wizard);
-    }
-
-    public void removeTower(TowerType tower){
-        assert towersAvailable.contains(tower);
-
-        towersAvailable.remove(tower);
     }
 
     /**
