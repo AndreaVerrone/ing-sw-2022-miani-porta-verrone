@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.PlayerLoginInfo;
 import it.polimi.ingsw.model.gametable.Island;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.model.player.Assistant;
@@ -14,33 +15,49 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameModelTest {
 
     GameModel gameModel;
-    CoinsBag coinsBag;
+
+    PlayerLoginInfo playerLoginInfo1;
+
+    PlayerLoginInfo playerLoginInfo2;
+
+    PlayerLoginInfo playerLoginInfo3;
+
     Player player1;
     Player player2;
     Player player3;
 
     @BeforeEach
     void setUp() {
-        boolean threePlayers = true;
-        coinsBag = new CoinsBag();
-        player1 = new Player("player 1", threePlayers, coinsBag);
-        player1.setAssistantDeck(Wizard.W1);
-        player1.setTowerType(TowerType.BLACK);
-        player2 = new Player("player 2", threePlayers, coinsBag);
-        player2.setAssistantDeck(Wizard.W2);
-        player2.setTowerType(TowerType.WHITE);
-        player3 = new Player("player 3", threePlayers, coinsBag);
-        player3.setAssistantDeck(Wizard.W3);
-        player3.setTowerType(TowerType.GREY);
-        gameModel = new GameModel(List.of(player1, player2, player3));
+
+        playerLoginInfo1=new PlayerLoginInfo("player 1");
+        playerLoginInfo1.setWizard(Wizard.W1);
+        playerLoginInfo1.setTowerType(TowerType.BLACK);
+
+        playerLoginInfo2 = new PlayerLoginInfo("player 2");
+        playerLoginInfo2.setWizard(Wizard.W2);
+        playerLoginInfo2.setTowerType(TowerType.WHITE);
+
+        playerLoginInfo3 = new PlayerLoginInfo("player 3");
+        playerLoginInfo3.setWizard(Wizard.W3);
+        playerLoginInfo3.setTowerType(TowerType.GREY);
+
+        gameModel = new GameModel(List.of(playerLoginInfo1,playerLoginInfo2,playerLoginInfo3));
+
+        List<Player> players = gameModel.getPlayerList();
+        player1 = players.get(0);
+        player2 = players.get(1);
+        player3 = players.get(2);
+
     }
 
     @AfterEach
     void tearDown() {
-        coinsBag = null;
         player1 = null;
+        playerLoginInfo1 = null;
         player2 = null;
+        playerLoginInfo2 = null;
         player3 = null;
+        playerLoginInfo3 = null;
         gameModel = null;
     }
 
