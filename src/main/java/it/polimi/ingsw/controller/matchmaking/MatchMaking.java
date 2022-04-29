@@ -64,6 +64,14 @@ public class MatchMaking {
     }
 
     /**
+     * An unmodifiable view of the players currently present in this lobby.
+     * @return the players in this lobby
+     */
+    public Collection<PlayerLoginInfo> getPlayers(){
+        return Collections.unmodifiableCollection(players);
+    }
+
+    /**
      * The wizards available to be chosen by a player.
      * <p>
      * Note: this should be used only to display the possibilities.
