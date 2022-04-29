@@ -1,5 +1,7 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.matchmaking;
 
+import it.polimi.ingsw.controller.NotValidArgumentException;
+import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Wizard;
 
@@ -15,6 +17,14 @@ public interface MatchMakingState {
      * @throws NotValidOperationException if a new player can't be added in the current state
      */
     void addPlayer(String nickname) throws NotValidArgumentException, NotValidOperationException;
+
+    /**
+     * Removes the player with the provided nickname from the lobby.
+     * @param nickname the nickname of the player to remove
+     * @throws NotValidArgumentException if there is no player with the provided nickname
+     * @throws NotValidOperationException if a player can't leave the game in the current state
+     */
+    void removePlayer(String nickname) throws NotValidArgumentException, NotValidOperationException;
 
     /**
      * Sets the tower type of the current player in the queue.
