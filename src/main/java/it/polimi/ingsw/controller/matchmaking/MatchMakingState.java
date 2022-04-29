@@ -47,14 +47,14 @@ public interface MatchMakingState {
      * present in the lobby.
      * @param value the new number of players
      * @throws NotValidArgumentException if the selected number of players is not valid (i.e. if it's not
-     * one of the value supported or less than the player already present in the lobby
+     * one of the value supported or less than the player already present in the lobby)
      * @throws NotValidOperationException if the number of player can't be changed in the current state
      */
     void changeNumOfPlayers(int value) throws NotValidArgumentException, NotValidOperationException;
 
     /**
      * Moves the match making to the next state.
-     * @throws NotValidOperationException if the state can't be changed (i.e. not of the expected operations
+     * @throws NotValidOperationException if the state can't be changed (i.e. not all the expected operations
      * of the current state were done)
      */
     void next() throws NotValidOperationException;
