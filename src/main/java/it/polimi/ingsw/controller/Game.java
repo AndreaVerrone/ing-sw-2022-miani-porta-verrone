@@ -54,7 +54,7 @@ public class Game{
      * Method to use an assistant card
      * @param assistant is the assistant card to be played
      */
-    public void useAssistant(Assistant assistant) {
+    public void useAssistant(Assistant assistant) throws NotValidOperationException, NotValidArgumentException {
         state.useAssistant(assistant);
     }
 
@@ -63,7 +63,7 @@ public class Game{
      * @param student student color to move
      * @param islandID island ID to where move the student
      */
-    public void moveStudentToIsland(PawnType student, int islandID) {
+    public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
         state.moveStudentToIsland(student, islandID);
     }
 
@@ -71,7 +71,7 @@ public class Game{
      * Method to move a student from the entrance to the dining room
      * @param student student color to move
      */
-    public void moveStudentToDiningRoom(PawnType student) {
+    public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
         state.moveStudentToDiningRoom(student);
     }
 
@@ -79,7 +79,7 @@ public class Game{
      * Method to move mother nature of a certain number of islands
      * @param positions number of islands to move on mother nature
      */
-    public void moveMotherNature(int positions) {
+    public void moveMotherNature(int positions) throws NotValidOperationException, NotValidArgumentException {
         state.moveMotherNature(positions);
     }
 
@@ -87,7 +87,7 @@ public class Game{
      * Method to get all the students from a chosen cloud and put them in the entrance
      * @param cloudID ID of the cloud from which get the students
      */
-    public void takeFromCloud(int cloudID) {
+    public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {
         state.takeFromCloud(cloudID);
     }
 
