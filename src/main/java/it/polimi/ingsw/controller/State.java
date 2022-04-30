@@ -18,8 +18,13 @@ public interface State {
      * This can be done only in the rare situation in which it has in hand only cards played by another one.
      * In this case this player will play after the player has played the same card before.
      * @param assistant is the assistant card to be played by player
+     * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
+     * @throws NotValidArgumentException if has been passed an assistant card that cannot be used,
+     *                                   or it is not present in the player's deck
      */
-    public void useAssistant(Assistant assistant);
+    default public void useAssistant(Assistant assistant)throws NotValidOperationException,NotValidArgumentException{
+        throw new NotValidOperationException();
+    }
 
     /**
      * This method allows the current player to move one student
@@ -27,27 +32,45 @@ public interface State {
      * to the island passed as input.
      * @param student is the color of the student to move
      * @param islandID is ID of the island on which put the student
+     * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
+     * @throws NotValidArgumentException if the student to move is not present in entrance
      */
-    public void moveStudentToIsland(PawnType student, int islandID);
+    default public void moveStudentToIsland(PawnType student, int islandID)throws NotValidOperationException,NotValidArgumentException{
+        throw new NotValidOperationException();
+    }
 
     /**
      * This method allows the current player to move one student
      * (of the specified type in the parameters) from the entrance of its school board
      * to its dining room.
      * @param student is the color of the student to move
+     * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
+     * @throws NotValidArgumentException if the student is not present in entrance or it is present, but the the table for the
+     *                                   students of that color is full
      */
-    public void moveStudentToDiningRoom(PawnType student);
+    default public void moveStudentToDiningRoom(PawnType student)throws NotValidOperationException,NotValidArgumentException {
+        throw new NotValidOperationException();
+    }
 
     /**
      * This method allows the current player to move mother nature of a {@code position} number of steps forward.
      * @param positions is the number of step to move mother nature
+     * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
+     * @throws NotValidArgumentException if the position is negative, or it is not compliant with the rules of the game
      */
-    public void moveMotherNature(int positions);
+    default public void moveMotherNature(int positions)throws NotValidOperationException,NotValidArgumentException{
+        throw new NotValidOperationException();
+    }
 
     /**
      * This method allows the current player to move the students
      * from the cloud specified in input to the entrance of its school board.
      * @param cloudID is the ID of the cloud from which take the students
+     * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
+     * @throws NotValidArgumentException if the cloud passed as a parameter is empty
      */
-    public void takeFromCloud(int cloudID);
+    default public void takeFromCloud(int cloudID)throws NotValidOperationException,NotValidArgumentException{
+        throw new NotValidOperationException();
+    }
+
 }
