@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.player.Assistant;
 
 import java.util.Collection;
 
-public class Game implements State{
+public class Game{
     /**
      * State in which the player is playing an assistant card
      */
@@ -42,31 +42,51 @@ public class Game implements State{
         state = playAssistantState;
     }
 
+    /**
+     * Changes the current state of the game
+     * @param newState new state of the game
+     */
     protected void setState(State newState){
         state = newState;
     }
 
-    @Override
+    /**
+     * Method to use an assistant card
+     * @param assistant is the assistant card to be played
+     */
     public void useAssistant(Assistant assistant) {
         state.useAssistant(assistant);
     }
 
-    @Override
+    /**
+     * Method to move a student from the entrance to an island
+     * @param student student color to move
+     * @param islandID island ID to where move the student
+     */
     public void moveStudentToIsland(PawnType student, int islandID) {
         state.moveStudentToIsland(student, islandID);
     }
 
-    @Override
+    /**
+     * Method to move a student from the entrance to the dining room
+     * @param student student color to move
+     */
     public void moveStudentToDiningRoom(PawnType student) {
         state.moveStudentToDiningRoom(student);
     }
 
-    @Override
+    /**
+     * Method to move mother nature of a certain number of islands
+     * @param positions number of islands to move on mother nature
+     */
     public void moveMotherNature(int positions) {
         state.moveMotherNature(positions);
     }
 
-    @Override
+    /**
+     * Method to get all the students from a chosen cloud and put them in the entrance
+     * @param cloudID ID of the cloud from which get the students
+     */
     public void takeFromCloud(int cloudID) {
         state.takeFromCloud(cloudID);
     }
