@@ -56,7 +56,7 @@ public interface State {
      * This method allows the current player to move mother nature of a {@code position} number of steps forward.
      * @param positions is the number of step to move mother nature
      * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
-     * @throws NotValidArgumentException if the position is negative, or it is not compliant with the rules of the game
+     * @throws NotValidArgumentException if the position is not positive, or it is not compliant with the rules of the game
      */
     default public void moveMotherNature(int positions)throws NotValidOperationException,NotValidArgumentException{
         throw new NotValidOperationException();
