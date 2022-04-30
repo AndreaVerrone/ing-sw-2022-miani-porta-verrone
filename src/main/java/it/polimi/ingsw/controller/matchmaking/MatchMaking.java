@@ -31,7 +31,12 @@ public class MatchMaking {
     /**
      * The players present in this lobby ready to play.
      */
-    private final Collection<PlayerLoginInfo> players = new ArrayList<>();
+    private final List<PlayerLoginInfo> players = new ArrayList<>();
+
+    /**
+     * The index of the current player. This is used to set the tower and wizard.
+     */
+    private int currentPlayer;
 
     /**
      * The wizards available to be chosen by a player.
@@ -53,6 +58,7 @@ public class MatchMaking {
     public MatchMaking(int numPlayers, boolean isHardMode){
         this.numPlayers = numPlayers;
         this.isHardMode = isHardMode;
+        state = new ChangePlayersState(this);
     }
 
     public int getNumPlayers() {
@@ -69,6 +75,14 @@ public class MatchMaking {
      */
     public Collection<PlayerLoginInfo> getPlayers(){
         return Collections.unmodifiableCollection(players);
+    }
+
+    /**
+     * Gets the player that need to choose a tower and a wizard
+     * @return the current player in turn
+     */
+    public PlayerLoginInfo getCurrentPlayer(){
+        return players.get(currentPlayer);
     }
 
     /**
@@ -169,4 +183,40 @@ public class MatchMaking {
         state.next();
     }
 
+
+    /**
+     * Adds a player in this lobby.
+     * <p>
+     * This is a protected version intended to be used only by the states of this class.
+     * For the general method, see {@link #addPlayer(String)}.
+     * @param playerLoginInfo the player to add
+     */
+    protected void addPlayer(PlayerLoginInfo playerLoginInfo){
+        players.add(playerLoginInfo);
+    }
+
+    /**
+     * Removes a player from this lobby.
+     * <p>
+     * This is a protected version intended to be used only by the states of this class.
+     * For the general method, see {@link #removePlayer(String)}.
+     * @param playerLoginInfo the player to remove
+     */
+    protected void removePlayer(PlayerLoginInfo playerLoginInfo){
+        players.remove(playerLoginInfo);
+    }
+
+    /**
+     * Choose a random player to be the first in the selection of tower color and wizard.
+     */
+    protected void chooseFirstPlayer(){
+        currentPlayer = new Random().nextInt(numPlayers);
+    }
+
+    /**
+     * Change the current player to be the next in this game
+     */
+    protected void nextPlayer(){
+        currentPlayer = (currentPlayer + 1) % numPlayers;
+    }
 }
