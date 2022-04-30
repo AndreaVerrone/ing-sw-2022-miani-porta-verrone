@@ -6,13 +6,16 @@ import it.polimi.ingsw.model.player.Assistant;
 
 import java.util.Collection;
 
+/**
+ *A class to handle the various states of the game.It can change the current state and can call operations on it.
+ */
 public class Game{
     /**
      * State in which the player is playing an assistant card
      */
     private State playAssistantState;
     /**
-     * State in which the player is a student to an island or his dining room
+     * State in which the player moves a student from his entrance to an island or his dining room
      */
     private State moveStudentState;
     /**
@@ -52,7 +55,7 @@ public class Game{
 
     /**
      * Method to use an assistant card
-     * @param assistant is the assistant card to be player
+     * @param assistant is the assistant card to be played
      * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
      * @throws NotValidArgumentException if has been passed an assistant card that cannot be used,
      *                                   or it is not present in the player's deck
@@ -75,6 +78,7 @@ public class Game{
     /**
      * Method to move a student from the entrance to the dining room
      * @param student student color to move
+     * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
      * @throws NotValidArgumentException if the student is not present in entrance or it is present, but the table for the
      *                                   students of that color is full
      */
