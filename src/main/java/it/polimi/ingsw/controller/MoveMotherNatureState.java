@@ -1,10 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.gametable.GameTable;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
-import it.polimi.ingsw.model.player.Assistant;
 
 public class MoveMotherNatureState implements State {
 
