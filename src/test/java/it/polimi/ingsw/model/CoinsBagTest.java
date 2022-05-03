@@ -22,35 +22,23 @@ class CoinsBagTest {
 
     @Test
     public void takeCoin_WithEnoughCoins_ShouldRemove(){
-        try {
-            coinsBag.takeCoin();
-        } catch (NotEnoughCoinsException e) {
-            fail();
-        }
+        coinsBag.takeCoin();
         assertEquals(19, coinsBag.getCoinsAvailable());
     }
 
     @Test
-    public void takeCoin_WithEmptyBag_ShouldThrow(){
-        try{
-            for (int i = 0; i < 20; i++) {
-                coinsBag.takeCoin();
-            }
-        } catch (NotEnoughCoinsException e){
-            fail();
+    public void takeCoin_WithEmptyBag_ShouldDoNothing(){
+
+        for (int i = 0; i < 20; i++) {
+            coinsBag.takeCoin();
         }
-        assertThrows(NotEnoughCoinsException.class,
-                () -> coinsBag.takeCoin());
+        assertEquals(0,coinsBag.getCoinsAvailable());
     }
 
     @Test
     public void addCoins_WithPositiveCorrectValue_ShouldAdd(){
-        try{
-            coinsBag.takeCoin();
-            coinsBag.takeCoin();
-        } catch (NotEnoughCoinsException e){
-            fail();
-        }
+        coinsBag.takeCoin();
+        coinsBag.takeCoin();
         int oldCoins = coinsBag.getCoinsAvailable();
         coinsBag.addCoins(1);
         assertEquals(oldCoins+1, coinsBag.getCoinsAvailable());

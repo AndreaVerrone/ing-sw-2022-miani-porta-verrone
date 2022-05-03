@@ -75,11 +75,9 @@ public class Player {
      * @param student type of the student to move
      * @throws NotEnoughStudentException  if there is not any student to remove from entrance
      * @throws ReachedMaxStudentException if the dining room is full
-     * @throws NotEnoughCoinsException    if the player should take a coin after this action but
-     *                                    there aren't anymore available
      */
     public void moveFromEntranceToDiningRoom(PawnType student)
-            throws NotEnoughStudentException, ReachedMaxStudentException, NotEnoughCoinsException {
+            throws NotEnoughStudentException, ReachedMaxStudentException{
         schoolBoard.removeStudentFromEntrance(student);
         try {
             schoolBoard.addStudentToDiningRoom(student);

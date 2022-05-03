@@ -22,11 +22,11 @@ public class CoinsBag {
 
     /**
      * Takes a coin from this bag.
-     * @throws NotEnoughCoinsException if this bag is empty
      */
-    public void takeCoin() throws NotEnoughCoinsException {
-        if (coinsAvailable <= 0)
-            throw new NotEnoughCoinsException();
+    public void takeCoin() {
+        if (coinsAvailable <= 0) {
+            return;
+        }
         coinsAvailable --;
     }
 
