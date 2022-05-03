@@ -77,7 +77,7 @@ class ChangePlayersState implements MatchMakingState {
         if (matchMaking.getNumPlayers() != matchMaking.getPlayers().size())
             throw new NotValidOperationException();
         matchMaking.chooseFirstPlayer();
-        //set new state
+        matchMaking.setState(new SetPlayerParametersState(matchMaking, 1));
     }
 
     private boolean isNicknameOfAPlayer(String nickname) {
