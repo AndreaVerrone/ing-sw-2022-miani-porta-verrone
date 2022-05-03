@@ -13,7 +13,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SuppressWarnings("MissingJavadoc")
 class ChangePlayersStateTest {
 
     private MatchMaking matchMaking = null;
@@ -100,7 +99,7 @@ class ChangePlayersStateTest {
         assertEquals(value, matchMaking.getNumPlayers());
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "with value equals {0}")
     @ValueSource(ints = {-1, 1, 5})
     public void changeNumOfPlayers_WithInvalidArgument_ShouldThrow(int value){
         assertThrows(NotValidArgumentException.class, () -> state.changeNumOfPlayers(value));
