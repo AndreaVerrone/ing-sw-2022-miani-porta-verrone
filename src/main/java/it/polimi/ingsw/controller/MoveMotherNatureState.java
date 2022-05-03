@@ -9,6 +9,7 @@ public class MoveMotherNatureState implements State {
     private final Game game;
     private final GameModel model;
     private final GameTable gameTable;
+    private int numberOfPlayers = 0;
 
     public MoveMotherNatureState(Game game){
         this.game = game;
@@ -30,9 +31,22 @@ public class MoveMotherNatureState implements State {
         } catch (IslandNotFoundException e) {
             throw new NotValidArgumentException();
         }
+        changeState();
+    }
+
+    private void changeState(){
         if(game.getLastRoundFlag()){
             //If this is the last round
-            game.setState(game.getEndState());
+            if (numberOfPlayers == model.getPlayerList().size()){
+                //If all players have played their turn go at the end of the game
+                game.setState(game.getEndState());
+            }
+            else{
+                //More players have to play their last turn
+                numberOfPlayers++;
+                model.nextPlayerTurn();
+                game.setState(game.getMoveStudentState());
+            }
         }
         else {
             //Otherwise, go to the next state
