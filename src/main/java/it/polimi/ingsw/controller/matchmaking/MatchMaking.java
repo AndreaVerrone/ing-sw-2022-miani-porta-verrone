@@ -219,4 +219,34 @@ public class MatchMaking {
     protected void nextPlayer(){
         currentPlayer = (currentPlayer + 1) % numPlayers;
     }
+
+    /**
+     * Sets the tower of the current player to be the one passed as argument.
+     * @param tower the tower to assign to the current player
+     */
+    protected void setTowerOfCurrentPlayer(TowerType tower){
+        PlayerLoginInfo player = getCurrentPlayer();
+        TowerType towerOfPlayer = player.getTowerType();
+        if (towerOfPlayer == tower)
+            return;
+        if (towerOfPlayer != null)
+            towersAvailable.add(towerOfPlayer);
+        player.setTowerType(tower);
+        towersAvailable.remove(tower);
+    }
+
+    /**
+     * Sets the wizard of the current player to be the one passed as argument.
+     * @param wizard the tower to assign to the current player
+     */
+    protected void setWizardOfCurrentPlayer(Wizard wizard){
+        PlayerLoginInfo player = getCurrentPlayer();
+        Wizard wizardOfPlayer = player.getWizard();
+        if (wizardOfPlayer == wizard)
+            return;
+        if (wizardOfPlayer != null)
+            wizardsAvailable.add(wizardOfPlayer);
+        player.setWizard(wizard);
+        wizardsAvailable.remove(wizard);
+    }
 }
