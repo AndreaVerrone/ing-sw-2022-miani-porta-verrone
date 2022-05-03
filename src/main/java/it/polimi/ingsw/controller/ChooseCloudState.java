@@ -65,6 +65,8 @@ public class ChooseCloudState implements State{
     private void changeState(){
         if (numberOfPlayers == model.getPlayerList().size()){
             //End of the round
+            //Fill the clouds
+            model.getGameTable().fillClouds();
             //Calculate new players order
             model.calculatePlayersOrder();
             game.setState(game.getPlayAssistantState());
