@@ -30,7 +30,15 @@ public class MoveMotherNatureState implements State {
         } catch (IslandNotFoundException e) {
             throw new NotValidArgumentException();
         }
-        game.setState(game.getChooseCloudState());
+        //TODO: change condition for 4 players
+        if(gameTable.getNumberOfIslands() <= 3 || model.getCurrentPlayer().getTowerNumbers() == 0){
+            //If there are less than four islands or the current player as no tower the game instantly ends.
+            game.setState(game.getEndState());
+        }
+        else {
+            //Otherwise, go to the next state
+            game.setState(game.getChooseCloudState());
+        }
     }
 
 }
