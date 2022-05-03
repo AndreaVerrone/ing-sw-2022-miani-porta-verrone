@@ -54,8 +54,8 @@ public class ChooseCloudState implements State{
     }
 
     /**
-     * Class to handle the change of the state.<p>
-     *     If all players have played its the end of the round and the game returns to the state where players can use an assistant card
+     * Method to handle the change of the state.<p>
+     *     If all players have played it's the end of the round and the game returns to the state where players can use an assistant card
      * </p>
      * <p>
      *     If there are still players that haven't played yet the game returns to the state where the next player can
