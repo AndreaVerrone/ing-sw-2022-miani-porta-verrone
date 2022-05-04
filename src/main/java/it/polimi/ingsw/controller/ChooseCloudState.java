@@ -18,17 +18,19 @@ public class ChooseCloudState implements State{
      */
     private final GameModel model;
     /**
-     * Number of players  that have chosen already a cloud
+     * Number of players that have chosen already a cloud
      */
     private int numberOfPlayers;
 
     /**
-     * Constructor of the class. Saves the game and the model of the game
+     * Constructor of the class. Saves the game and the model of the game and sets the number of players that have
+     * already played to zero
      * @param game class used to change the current state
      */
     public ChooseCloudState(Game game){
         this.game = game;
         this.model = game.getModel();
+        numberOfPlayers = 0;
     }
 
     @Override
