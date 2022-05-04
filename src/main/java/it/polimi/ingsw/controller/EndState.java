@@ -9,6 +9,10 @@ import it.polimi.ingsw.model.player.Player;
 public class EndState {
 
     /**
+     * Game class of the game
+     */
+    private final Game game;
+    /**
      * Model of the game
      */
     private final GameModel model;
@@ -18,12 +22,17 @@ public class EndState {
      * @param game Game class
      */
     public EndState(Game game){
+        this.game = game;
         this.model = game.getModel();
         calculateWinner();
     }
 
     /**
-     * Method to calculate the winner
+     * Method to calculate the winner.
+     * <p>
+     *     Wins the player with fewer towers, in case of a draw, wins the player with more professors. If these are equals too,
+     *     wins the player that come first in the turn
+     *</p>
      */
     private void calculateWinner(){
 
@@ -41,6 +50,6 @@ public class EndState {
                         return player2;
                     }
                 }));
-        //TODO: observer to notify winner
+        game.setWinner(winner);
     }
 }

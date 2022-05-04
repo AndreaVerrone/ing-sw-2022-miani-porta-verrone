@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.model.player.Player;
 
 import java.util.Collection;
 
@@ -42,6 +43,10 @@ public class Game{
      * If this flag is true the game is in its last round
      */
     private boolean lastRoundFlag = false;
+    /**
+     * Winner of the game
+     */
+    private Player winner = null;
 
     public Game(Collection<PlayerLoginInfo> players){
         //TODO: create all states and add documentation
@@ -61,6 +66,15 @@ public class Game{
      * Sets the {@code lastRoundFlag} to true
      */
     protected void setLastRoundFlag(){ lastRoundFlag = true;}
+
+    /**
+     * Set the winner of the game
+     * @param winner player that has won
+     */
+    protected void setWinner(Player winner){
+        this.winner = winner;
+        //TODO: update observer
+    }
 
     /**
      * Method to use an assistant card
@@ -144,6 +158,8 @@ public class Game{
     protected State getEndState() {
         return endState;
     }
+
+    protected Player getWinner(){return winner;}
 
     //TODO: setters for all states if needed for characters cards
 }
