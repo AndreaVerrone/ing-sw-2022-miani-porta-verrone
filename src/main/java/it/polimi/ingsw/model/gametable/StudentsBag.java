@@ -32,6 +32,7 @@ class StudentsBag {
     /**
      * Takes and removes a random student from the bag
      * @return the type of the student randomly taken
+     * @throws EmptyBagException if the bag is empty
      */
     public PawnType draw() throws EmptyBagException {
         PawnType type;
