@@ -38,10 +38,10 @@ public class MoveMotherNatureState implements State {
 
     @Override
     public void moveMotherNature(int positions) throws NotValidArgumentException{
-        if (positions == 0) throw new NotValidArgumentException();
+        if (positions == 0) throw new NotValidArgumentException("Mother nature movements cannot be zero!");
         //Get mother nature movements limit
         int movementsLimit = model.getMNMovementLimit();
-        if (positions > movementsLimit) throw new NotValidArgumentException();
+        if (positions > movementsLimit) throw new NotValidArgumentException("Mother nature movements over the limit!");
         //Move mother nature
         gameTable.moveMotherNature(positions);
         //Try to conquer the island
