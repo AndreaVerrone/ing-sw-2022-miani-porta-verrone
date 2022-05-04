@@ -26,6 +26,11 @@ public class GameModel {
     private final GameTable gameTable;
 
     /**
+     * The strategy to use to compute {@code checkProfessor(studentColor)} method
+     */
+    private CheckProfessorStrategy checkProfessorStrategy;
+
+    /**
      * Constructs a new game model with the {@code players} passed as a parameter.
      * The game is supported for 2, 3, 4 players.
      * @param playersLoginInfo the player playing this game
@@ -47,6 +52,8 @@ public class GameModel {
         gameTable = new GameTable(numPlayers);
 
         currentPlayer = this.players.get(0);
+
+        this.checkProfessorStrategy = new CheckProfessorStandard(this);
     }
 
     public Player getCurrentPlayer() {
@@ -72,6 +79,10 @@ public class GameModel {
      */
     public int getMNMovementLimit(){
         return currentPlayer.getLastAssistant().getRangeOfMotion();
+    }
+
+    public void setCheckProfessorStrategy(CheckProfessorStrategy checkProfessorStrategy){
+        this.checkProfessorStrategy=checkProfessorStrategy;
     }
 
     /**
