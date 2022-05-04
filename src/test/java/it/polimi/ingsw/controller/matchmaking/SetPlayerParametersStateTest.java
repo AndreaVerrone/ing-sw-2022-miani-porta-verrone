@@ -117,33 +117,6 @@ class SetPlayerParametersStateTest {
         }
     }
 
-//    @Test
-//    public void setTowerOfPlayer_WithTowerAvailableAndPlayerEmpty_ShouldSet() {
-//        try {
-//            state.setTowerOfPlayer(TowerType.BLACK);
-//        } catch (NotValidArgumentException e) {
-//            fail();
-//        }
-//        assertEquals(TowerType.BLACK, matchMaking.getCurrentPlayer().getTowerType());
-//    }
-
-//    @Test
-//    public void setTowerOfPlayer_WithTowerAvailableAndPlayerFull_ShouldSwap() {
-//        try {
-//            state.setTowerOfPlayer(TowerType.BLACK);
-//        } catch (NotValidArgumentException e) {
-//            fail();
-//        }
-//
-//        try {
-//            state.setTowerOfPlayer(TowerType.WHITE);
-//        } catch (NotValidArgumentException e){
-//            fail();
-//        }
-//        assertEquals(TowerType.WHITE, matchMaking.getCurrentPlayer().getTowerType());
-//        assertTrue(matchMaking.getTowersAvailable().contains(TowerType.BLACK));
-//    }
-
     @Test
     public void setTowerOfPlayer_WithTowerNotAvailable_ShouldThrow() {
         try {
@@ -229,33 +202,6 @@ class SetPlayerParametersStateTest {
             }
         }
     }
-
-//    @Test
-//    public void setWizardOfPlayer_WithWizardAvailableAndPlayerEmpty_ShouldSet() {
-//        try {
-//            state.setWizardOfPlayer(Wizard.W1);
-//        } catch (NotValidArgumentException e) {
-//            fail();
-//        }
-//        assertEquals(Wizard.W1, matchMaking.getCurrentPlayer().getWizard());
-//    }
-//
-//    @Test
-//    public void setTowerOfPlayer_WithWizardTowerAvailableAndPlayerFull_ShouldSwap() {
-//        try {
-//            state.setWizardOfPlayer(Wizard.W1);
-//        } catch (NotValidArgumentException e) {
-//            fail();
-//        }
-//
-//        try {
-//            state.setWizardOfPlayer(Wizard.W3);
-//        } catch (NotValidArgumentException e){
-//            fail();
-//        }
-//        assertEquals(Wizard.W3, matchMaking.getCurrentPlayer().getWizard());
-//        assertTrue(matchMaking.getWizardsAvailable().contains(Wizard.W1));
-//    }
 
     @Test
     public void setWizardOfPlayer_WithWizardNotAvailable_ShouldThrow() {
