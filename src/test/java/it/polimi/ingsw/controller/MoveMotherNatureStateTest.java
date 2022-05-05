@@ -82,10 +82,6 @@ class MoveMotherNatureStateTest {
         players.add(playerLoginInfo2);
         ModelStub modelStub = new ModelStub(players);
         game = new GameStub(players, modelStub);//Create game
-        //game = new Game(collection);
-        //Use an assistant card with the first player
-        //Assistant assistant1 = Assistant.CARD_7;
-        //game.getModel().getPlayerList().get(0).useAssistant(assistant1);
         //Create the state
         state = new MoveMotherNatureState(game);
     }
