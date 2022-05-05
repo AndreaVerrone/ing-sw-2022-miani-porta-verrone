@@ -16,12 +16,12 @@ class PlayAssistantStateTest {
 
     PlayAssistantState playAssistantState;
 
-    Collection<PlayerLoginInfo> playerLoginInfo = new ArrayList<>();
     Game game;
 
     @BeforeEach
     void setUp() {
 
+        Collection<PlayerLoginInfo> playerLoginInfo = new ArrayList<>();
         playerLoginInfo.addAll(
                 List.of(
                         new PlayerLoginInfo("Player1"),
@@ -38,7 +38,6 @@ class PlayAssistantStateTest {
 
     @AfterEach
     void tearDown() {
-        playerLoginInfo=null;
         game=null;
         playAssistantState=null;
     }
