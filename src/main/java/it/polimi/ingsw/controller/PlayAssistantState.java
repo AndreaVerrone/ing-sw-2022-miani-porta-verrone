@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * This state allows the current player to use the assistant card.
@@ -32,7 +32,7 @@ public class PlayAssistantState implements State{
     /**
      * This is the list of the assistant cards played during the round.
      */
-    private List<Assistant> assistantsPlayed;
+    private Collection<Assistant> assistantsPlayed;
 
     /**
      * This is the number of players of the game.
