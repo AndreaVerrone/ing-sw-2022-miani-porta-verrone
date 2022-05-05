@@ -32,9 +32,10 @@ public class Island {
     private int size = 1;
 
     /**
-     * If the island must be ignored when mother nature lands on it
+     * The number of ban on the island.
+     * If the island has at least 1 ban, it must be ignored when mother nature lands on it.
      */
-    private boolean ban = false;
+    private int ban;
 
     /**
      * A class representing the island in the game.
@@ -66,7 +67,7 @@ public class Island {
         return students.getNumOf(type);
     }
 
-    public boolean isDisabled(){
+    public int getBan(){
         return ban;
     }
 
@@ -80,11 +81,19 @@ public class Island {
     }
 
     /**
-     *
-     * @param val {@code true} if this island must be ignored, {@code false} otherwise
+     * This method will add one ban card on the island.
      */
-    public void setAsDisabled(boolean val){
-        ban = val;
+    public void addBan(){
+        ban = ban + 1;
+    }
+
+    /**
+     * This method will remove one ban from the island.
+     */
+    public void removeBan(){
+        if(ban>0){
+            ban = ban - 1;
+        }
     }
 
     /**
@@ -114,8 +123,8 @@ public class Island {
 
         students.add(island.students);
         size += island.size;
-        if (island.isDisabled())
-            ban = true;
+        ban += island.ban;
+
     }
 
 }
