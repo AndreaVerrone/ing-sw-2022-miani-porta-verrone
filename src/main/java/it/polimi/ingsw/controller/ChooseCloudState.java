@@ -40,14 +40,14 @@ public class ChooseCloudState implements State{
         try {
             //Get the students from the chosen cloud and fill with it the entrance of the current player
             StudentList students = model.getGameTable().getFromCloud(cloudID);
-            if (students.numAllStudents()==0) throw new NotValidArgumentException();
+            if (students.numAllStudents()==0) throw new NotValidArgumentException("The cloud is empty!");
             for(PawnType p : PawnType.values()){
                 for (int i = students.getNumOf(p); i>0; i--){
                     player.addStudentToEntrance(p);
                 }
             }
         } catch (CloudNotFoundException e) {
-            throw new NotValidArgumentException();
+            throw new NotValidArgumentException("The cloud doesn't exist!");
         } catch (ReachedMaxStudentException e) {
             throw new NotValidOperationException();
         }
