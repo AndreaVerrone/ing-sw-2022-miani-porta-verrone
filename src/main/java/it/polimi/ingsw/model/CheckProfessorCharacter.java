@@ -44,24 +44,21 @@ public class CheckProfessorCharacter implements CheckProfessorStrategy{
          */
         Collection<Player> playerList = gameModel.getPlayerList();
         int numOfStudents=currentPlayer.getNumStudentOf(studentColor);
-        boolean noOneHasProfessor=true;
 
         for(Player player:playerList){
             if(player.getProfessors().contains(studentColor)){
-                noOneHasProfessor=false;
                 if(numOfStudents >= player.getNumStudentOf(studentColor)){
                     player.removeProfessor(studentColor);
                     currentPlayer.addProfessor(studentColor);
-                    return;
                 }
+                return;
             }
         }
 
         /* 3. No one has the professor
          * If I have added one student, necessarily I have to take the professor
          */
-        if(noOneHasProfessor) {
-            currentPlayer.addProfessor(studentColor);
-        }
+        currentPlayer.addProfessor(studentColor);
+
     }
 }
