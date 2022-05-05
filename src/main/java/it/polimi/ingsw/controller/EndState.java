@@ -31,20 +31,26 @@ public class EndState {
      * Method to calculate the winner.
      * <p>
      *     Wins the player with fewer towers, in case of a draw, wins the player with more professors. If these are equals too,
-     *     wins the player that come first in the turn
+     *     returns null and no one wins
      *</p>
      */
     private void calculateWinner(){
 
         Player winner = model.getPlayerList().stream().
                 reduce(model.getCurrentPlayer(), ((player1, player2) -> {
+                    if (player1 == null || player2 == null) return null;
                     if (player1.getTowerNumbers() < player2.getTowerNumbers()) {
                         return player1;
                     }
                     else{
                         if (player1.getTowerNumbers() == player2.getTowerNumbers()){
-                            if (player1.getProfessors().size() >= player2.getProfessors().size()){
+                            if (player1.getProfessors().size() > player2.getProfessors().size()){
                                 return player1;
+                            }
+                            else{
+                                if (player1.getProfessors().size() == player2.getProfessors().size()){
+                                    return null;
+                                }
                             }
                         }
                         return player2;
