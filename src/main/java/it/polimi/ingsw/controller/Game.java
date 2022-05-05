@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Assistant;
 
 import java.util.Collection;
 
+
 /**
  *A class to handle the various states of the game.It can change the current state and can call operations on it.
  */
@@ -87,6 +88,7 @@ public class Game{
     /**
      * Method to move a student from the entrance to the dining room
      * @param student student color to move
+
      * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
      * @throws NotValidArgumentException if the student is not present in entrance or it is present, but the table for the
      *                                   students of that color is full
