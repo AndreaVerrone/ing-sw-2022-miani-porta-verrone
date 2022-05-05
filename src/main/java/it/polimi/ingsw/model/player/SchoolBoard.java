@@ -179,7 +179,6 @@ class SchoolBoard {
         assert cost > 0 : "The cost can't be negative";
         if (cost > coins)
             throw new NotEnoughCoinsException();
-        coinsBag.addCoins(cost);
         coins -= cost;
     }
 
