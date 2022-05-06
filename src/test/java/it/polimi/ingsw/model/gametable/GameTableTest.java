@@ -107,11 +107,7 @@ class GameTableTest {
             fail();
         }
         gameTable.fillBag(studentsForBag);
-        try {
-            gameTable.fillClouds();
-        } catch (EmptyBagException e) {
-            fail();
-        }
+        gameTable.fillClouds();
         for (int ID = 0; ID < gameTable.getNumberOfClouds(); ID++){
             try {
                 assertEquals(3, gameTable.getFromCloud(ID).numAllStudents());
@@ -122,11 +118,16 @@ class GameTableTest {
     }
 
     @Test
-    void fillClouds_StudentsBagEmpty_ShouldThrow() {
+    void fillClouds_StudentsBagEmpty_ShouldDoNothing() {
         StudentList studentsForBag = new StudentList();
         //Fill the bag with an empty students list
         gameTable.fillBag(studentsForBag);
-        assertThrows(EmptyBagException.class, () -> gameTable.fillClouds());
+        try {
+            int studentsOnCloud = gameTable.getFromCloud(0).numAllStudents();
+            assertEquals(0, studentsOnCloud);
+        } catch (CloudNotFoundException e) {
+            fail();
+        }
     }
 
     @Test
