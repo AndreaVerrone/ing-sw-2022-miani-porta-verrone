@@ -173,13 +173,25 @@ class SchoolBoard {
      * Remove the specified amount of coins from the player's reserve.
      * The {@code cost} must be grater than zero.
      * @param cost the amount of coins to remove
+     * @param putInBag is true if all the coins should be put in the general reserve of coins,
+     *                 false if one of them should be used to indicate that
+     *                 the cost of the character card should be increased
      * @throws NotEnoughCoinsException if there aren't enough coins to fulfill the request
      */
-    protected void removeCoin(int cost) throws NotEnoughCoinsException {
+    protected void removeCoin(int cost, boolean putInBag) throws NotEnoughCoinsException {
         assert cost > 0 : "The cost can't be negative";
-        if (cost > coins)
+        if (cost > coins) {
             throw new NotEnoughCoinsException();
+        }
         coins -= cost;
+        if(putInBag){
+            // put all the coins in the bag
+            coinsBag.addCoins(cost);
+        }else{
+            // put all the coins except one in the bag
+            // the other should be put on the card used
+            coinsBag.addCoins(cost-1);
+        }
     }
 
     /**
