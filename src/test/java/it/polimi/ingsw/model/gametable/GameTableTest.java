@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
-import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -114,6 +113,23 @@ class GameTableTest {
             } catch (CloudNotFoundException e) {
                 fail();
             }
+        }
+    }
+
+    @Test
+    public void fillClouds_StudentsBagAlmostEmpty_ShouldPutAllRemaining(){
+        StudentList studentList = new StudentList();
+        try {
+            studentList.changeNumOf(PawnType.RED_DRAGONS, 2);
+        } catch (NotEnoughStudentException e) {
+            throw new RuntimeException(e);
+        }
+        gameTable.fillBag(studentList);
+        gameTable.fillClouds();
+        try {
+            assertEquals(2, gameTable.getFromCloud(0).numAllStudents());
+        } catch (CloudNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
