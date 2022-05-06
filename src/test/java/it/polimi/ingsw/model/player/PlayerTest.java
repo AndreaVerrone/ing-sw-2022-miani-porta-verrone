@@ -96,8 +96,6 @@ class PlayerTest {
             player.moveFromEntranceToDiningRoom(PawnType.BLUE_UNICORNS);
         } catch (NotEnoughStudentException | ReachedMaxStudentException e) {
             fail();
-        } catch (NotEnoughCoinsException e) {
-            e.printStackTrace();
         }
 
         // this is the number of BLUE_UNICORNS in the dining room after the calling of the method

@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Assistant;
 
 import java.util.Collection;
 
+
 /**
  *A class to handle the various states of the game.It can change the current state and can call operations on it.
  */

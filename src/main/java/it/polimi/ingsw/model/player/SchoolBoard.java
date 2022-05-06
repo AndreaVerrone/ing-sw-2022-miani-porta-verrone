@@ -60,12 +60,8 @@ class SchoolBoard {
     }
 
     private void takeCoin(){
-        try{
-            coinsBag.takeCoin();
-            coins++;
-        } catch (NotEnoughCoinsException e){
-            e.printStackTrace();
-        }
+        coinsBag.takeCoin();
+        coins++;
     }
 
 
