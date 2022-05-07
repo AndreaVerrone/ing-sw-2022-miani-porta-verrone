@@ -174,6 +174,7 @@ class GameModelTest {
 
                 assertEquals(prevSize, island3.getSize());
             }
+
         }
 
         /**
@@ -606,10 +607,43 @@ class GameModelTest {
                 }
             }
         }
+
+        @Nested
+        @DisplayName("with bans on island")
+        class ConquerIslandWIthBan extends DoNothingBehaviourTest{
+
+            @BeforeEach
+            public void setUp(){
+                island3.addBan();
+                island3.addBan();
+                try {
+                    //player 1 (+1 from tower)
+                    gameModel.getGameTable().addToIsland(PawnType.RED_DRAGONS, islandID3);
+                    //player 2
+                    gameModel.getGameTable().addToIsland(PawnType.BLUE_UNICORNS, islandID3);
+                    gameModel.getGameTable().addToIsland(PawnType.PINK_FAIRIES, islandID3);
+                    gameModel.getGameTable().addToIsland(PawnType.PINK_FAIRIES, islandID3);
+                    //player 3
+                    gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+            }
+
+            @Test
+            public void conquerIslandWithBans_ShouldRemoveBan(){
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+                assertEquals(1, island3.getBan());
+            }
+        }
     }
 
     @Nested
-    @DisplayName("Calculate influence using strategies")
+    @DisplayName("calculate influence using strategies")
     class CalculateInfluence{
 
         private Island island;

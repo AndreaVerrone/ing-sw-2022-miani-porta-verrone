@@ -29,7 +29,8 @@ public class GameModel {
      * Strategy to compute the influence on an island
      */
     private ComputeInfluenceStrategy computeInfluenceStrategy;
-  
+
+    /**
      * The strategy to use to compute {@code checkProfessor(studentColor)} method
      */
     private CheckProfessorStrategy checkProfessorStrategy;
@@ -148,6 +149,10 @@ public class GameModel {
      */
     public void conquerIsland(int islandID) throws IslandNotFoundException {
         Island island = gameTable.getIsland(islandID);
+        if (island.getBan()>0){
+            island.removeBan();
+            return;
+        }
         Player maxInfluencePlayer = computeMaxPlayerInfluence(island);
         boolean towerHasChanged = changeTowerOn(island, maxInfluencePlayer);
         if(towerHasChanged)
