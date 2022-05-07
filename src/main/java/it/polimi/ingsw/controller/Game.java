@@ -73,7 +73,7 @@ public class Game{
     /**
 
      * Set the winners of the game
-     * @param winner players that has won. If more than one is considered a draw
+     * @param winners players that have won. If more than one is considered a draw
      */
     protected void setWinner(ArrayList<Player> winners){
         this.winners = winners;
