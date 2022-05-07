@@ -3,10 +3,20 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.gametable.Island;
 import it.polimi.ingsw.model.player.Player;
 
+/**
+ * Implementation of the strategy where a given student's color is not being considered in the computation of the island
+ */
 public class ComputeInfluenceWithoutStudentColor implements ComputeInfluenceStrategy{
 
+    /**
+     * Student that is not being considered for the calculation of the influence
+     */
     private final PawnType notCountedType;
 
+    /**
+     * Constructor of the class
+     * @param type student color that is not being considered in the computation
+     */
     public  ComputeInfluenceWithoutStudentColor(PawnType type){
         notCountedType = type;
     }

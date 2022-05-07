@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.gametable.GameTable;
 import it.polimi.ingsw.model.gametable.Island;
-import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.model.player.Player;
 
+/**
+ * Implementation of the strategy for the standard computation of the influence on a given island
+ */
 public class ComputeInfluenceStandard implements ComputeInfluenceStrategy {
 
     @Override

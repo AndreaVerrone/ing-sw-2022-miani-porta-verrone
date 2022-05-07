@@ -26,6 +26,11 @@ public class GameModel {
     private final GameTable gameTable;
 
     /**
+     * Strategy to compute the influence on an island
+     */
+    private ComputeInfluenceStrategy computeInfluenceStrategy;
+
+    /**
      * Constructs a new game model with the {@code players} passed as a parameter.
      * The game is supported for 2, 3, 4 players.
      * @param playersLoginInfo the player playing this game
@@ -47,6 +52,8 @@ public class GameModel {
         gameTable = new GameTable(numPlayers);
 
         currentPlayer = this.players.get(0);
+
+        computeInfluenceStrategy = new ComputeInfluenceStandard();
     }
 
     public Player getCurrentPlayer() {
@@ -72,6 +79,14 @@ public class GameModel {
      */
     public int getMNMovementLimit(){
         return currentPlayer.getLastAssistant().getRangeOfMotion();
+    }
+
+    /**
+     * Set the strategy to calculate the influence on an island
+     * @param strategy strategy to use for the calculation of the influence
+     */
+    public void setComputeInfluenceStrategy(ComputeInfluenceStrategy strategy) {
+        computeInfluenceStrategy = strategy;
     }
 
     /**
@@ -160,13 +175,7 @@ public class GameModel {
      * @return the influence calculated
      */
     private int computeInfluence(Player player, Island island){
-        int influence = 0;
-        if (player.getTowerType() == island.getTower())
-            influence += island.getSize();
-        for (PawnType professor : player.getProfessors()){
-            influence += island.numStudentsOf(professor);
-        }
-        return influence;
+        return computeInfluenceStrategy.computeInfluence(player, island);
     }
 
     /**
