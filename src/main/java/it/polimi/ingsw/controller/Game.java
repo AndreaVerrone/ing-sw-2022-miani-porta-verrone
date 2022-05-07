@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -44,9 +45,9 @@ public class Game{
      */
     private boolean lastRoundFlag = false;
     /**
-     * Winner of the game
+     * List of winners of the game.If the list has more than one player it is considered a draw
      */
-    private Player winner = null;
+    private ArrayList<Player> winner = null;
 
     public Game(Collection<PlayerLoginInfo> players){
         //TODO: create all states and add documentation
@@ -68,10 +69,10 @@ public class Game{
     protected void setLastRoundFlag(){ lastRoundFlag = true;}
 
     /**
-     * Set the winner of the game
-     * @param winner player that has won
+     * Set the winners of the game
+     * @param winner players that has won. If more than one is considered a draw
      */
-    protected void setWinner(Player winner){
+    protected void setWinner(ArrayList<Player> winner){
         this.winner = winner;
         //TODO: update observer
     }
@@ -159,7 +160,7 @@ public class Game{
         return endState;
     }
 
-    protected Player getWinner(){return winner;}
+    protected ArrayList<Player> getWinner(){return winner;}
 
     //TODO: setters for all states if needed for characters cards
 }

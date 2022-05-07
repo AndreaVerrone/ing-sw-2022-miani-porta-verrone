@@ -3,6 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * A class to handle the end of the game
  */
@@ -31,14 +35,13 @@ public class EndState {
      * Method to calculate the winner.
      * <p>
      *     Wins the player with fewer towers, in case of a draw, wins the player with more professors. If these are equals too,
-     *     returns null and no one wins
+     *     both players are considered winners
      *</p>
      */
     private void calculateWinner(){
 
-        Player winner = model.getPlayerList().stream().
+        Player firstWinner = model.getPlayerList().stream().
                 reduce(model.getCurrentPlayer(), ((player1, player2) -> {
-                    if (player1 == null || player2 == null) return null;
                     if (player1.getTowerNumbers() < player2.getTowerNumbers()) {
                         return player1;
                     }
@@ -49,13 +52,25 @@ public class EndState {
                             }
                             else{
                                 if (player1.getProfessors().size() == player2.getProfessors().size()){
-                                    return null;
+                                    return player1;
                                 }
                             }
                         }
                         return player2;
                     }
                 }));
-        game.setWinner(winner);
+        //Number of towers of the winner
+        int winnerNumberOfTowers = firstWinner.getTowerNumbers();
+        //Number of professors of the winner
+        int winnerNumberOfProfessors = firstWinner.getProfessors().size();
+        //List of winners, there is more than one in case of draw
+        ArrayList<Player> winners;
+        winners = model.getPlayerList().stream()
+                        //If a player has same number of towers and professors is considered a draw
+                        .filter(player -> (player.getTowerNumbers() == winnerNumberOfTowers && player.getProfessors().size() == winnerNumberOfProfessors))
+                        .collect(ArrayList::new,
+                                ArrayList::add,
+                                ArrayList::addAll);
+        game.setWinner(winners);
     }
 }

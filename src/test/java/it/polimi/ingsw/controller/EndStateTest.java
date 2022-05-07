@@ -89,25 +89,77 @@ class EndStateTest {
     }
 
     @Test
-    public void onePlayerWithLessTowersThanTheOthers_ShouldWin(){
+    public void onePlayerWithLessTowersThanTheOthers_ShouldWinPlayer1(){
         PlayerStub player1 = new PlayerStub(2, 1);
         PlayerStub player2 = new PlayerStub(3, 3);
         PlayerStub player3 = new PlayerStub(3, 1);
         Game game = new GameStub(List.of(player1, player2, player3));
         new EndState(game);
-        Player winner = game.getWinner();
-        assertEquals(player1, winner);
+        ArrayList<Player> winners = game.getWinner();
+        //Player1 has fewer towers than everyone
+        assertEquals(player1, winners.get(0));
+        //Only one player wins
+        assertEquals(1, winners.size());
     }
 
     @Test
-    public void twoPlayersWithSameTowers_OneOfThemWithMoreProfessors_ShouldWin(){
-        PlayerStub player1 = new PlayerStub(2, 3);
+    public void twoPlayersWithSameTowers_OneOfThemWithMoreProfessors_ShouldWinPlayer2(){
+        PlayerStub player1 = new PlayerStub(2, 2);
+        PlayerStub player2 = new PlayerStub(2, 3);
+        PlayerStub player3 = new PlayerStub(3, 0);
+        Game game = new GameStub(List.of(player1, player2, player3));
+        new EndState(game);
+        ArrayList<Player> winners = game.getWinner();
+        //Player2 as same towers as player1, but has more professors
+        assertEquals(player2, winners.get(0));
+        //There should be one winner
+        assertEquals(1, winners.size());
+    }
+
+    @Test
+    public void twoPlayersWithSameTowers_AndWithSameProfessors_ShouldDrawPlayer1AndPlayer2(){
+        PlayerStub player1 = new PlayerStub(2, 2);
         PlayerStub player2 = new PlayerStub(2, 2);
         PlayerStub player3 = new PlayerStub(3, 0);
         Game game = new GameStub(List.of(player1, player2, player3));
         new EndState(game);
-        Player winner = game.getWinner();
-        assertEquals(player1, winner);
+        ArrayList<Player> winners = game.getWinner();
+        //Both player1 and player2 should be in the winner list
+        assertEquals(player1, winners.get(0));
+        assertEquals(player2, winners.get(1));
+        //There should be two winners
+        assertEquals(2, winners.size());
     }
+
+    @Test
+    public void threePlayersWithSameTowers_AndWithSameProfessors_ShouldDrawPlayer1AndPlayer2AndPlayer3(){
+        PlayerStub player1 = new PlayerStub(2, 1);
+        PlayerStub player2 = new PlayerStub(2, 1);
+        PlayerStub player3 = new PlayerStub(2, 1);
+        Game game = new GameStub(List.of(player1, player2, player3));
+        new EndState(game);
+        ArrayList<Player> winners = game.getWinner();
+        //Both player1, player2 and player3 should be in the winner list
+        assertEquals(player1, winners.get(0));
+        assertEquals(player2, winners.get(1));
+        assertEquals(player3, winners.get(2));
+        //There should be three winners
+        assertEquals(3, winners.size());
+    }
+
+    @Test
+    public void threePlayersWithSameTowers_OnePlayerWithMoreProfessors_ShouldWinPlayerOne(){
+        PlayerStub player1 = new PlayerStub(2, 0);
+        PlayerStub player2 = new PlayerStub(2, 3);
+        PlayerStub player3 = new PlayerStub(2, 0);
+        Game game = new GameStub(List.of(player1, player2, player3));
+        new EndState(game);
+        ArrayList<Player> winners = game.getWinner();
+        //Player2 has more professors
+        assertEquals(player2, winners.get(0));
+        //There should be one winner
+        assertEquals(1, winners.size());
+    }
+
 
 }
