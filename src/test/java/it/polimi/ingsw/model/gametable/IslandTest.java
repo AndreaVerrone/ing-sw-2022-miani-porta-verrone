@@ -55,12 +55,31 @@ class IslandTest {
     }
 
     @Test
-    public void unifyWith_CorrectIslandDisabled_ShouldDisable(){
-        // disable island2
-        island2.setAsDisabled(true);
+    public void unifyWith_CorrectIslandWith2BanCards_ShouldAdd2BanCard(){
+        // add 2 ban to island 2
+        island2.addBan();
+        island2.addBan();
 
         island1.unifyWith(island2);
-        assertTrue(island1.isDisabled());
+        assertEquals(2,island1.getBan());
+    }
+
+    @Test
+    public void unifyWith_CorrectIslandWithNoBan_BanShouldBeZero(){
+        island1.unifyWith(island2);
+        assertEquals(0,island1.getBan());
+    }
+
+    @Test
+    public void unifyWith_CorrectIslandWithBothIslandsHaveOneBan_BanShouldBeTwo(){
+        // add ban to island 1
+        island1.addBan();
+
+        // add ban to island 2
+        island2.addBan();
+
+        island1.unifyWith(island2);
+        assertEquals(2,island1.getBan());
     }
 
     @Test
