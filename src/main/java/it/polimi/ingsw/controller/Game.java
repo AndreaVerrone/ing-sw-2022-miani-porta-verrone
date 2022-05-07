@@ -51,7 +51,7 @@ public class Game{
 
         playAssistantState = new PlayAssistantState(this);
         moveStudentState = new MoveStudentState(this);
-        moveMotherNatureState = new MoveStudentState(this);
+        moveMotherNatureState = new MoveMotherNatureState(this);
     }
 
     /**
