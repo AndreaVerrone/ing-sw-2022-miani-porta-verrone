@@ -62,12 +62,64 @@ class GameModelTest {
     }
 
     @Test
-    public void calculatePlayersOrder_WithPlayer3UsingLowestAssistant_ShouldBeFirstPlayer() {
+    public void calculatePlanningPhaseOrder__InitialOrder213_FinalOrder231(){
+
+        // initial order at the moment of the creation is: player1, player2, player3
+
+        // use assistants and compute the order to play the action phase
+        // order of the action phase is: player2, player1, player3
+        player2.useAssistant(Assistant.CARD_1);
+        player1.useAssistant(Assistant.CARD_2);
+        player3.useAssistant(Assistant.CARD_3);
+        gameModel.calculateActionPhaseOrder();
+
+        // compute panning phase order
+        // the order should be: player2, player3, player1
+        // and assert that it is
+        gameModel.calculatePlanningPhaseOrder();
+        assertEquals(player2,gameModel.getPlayerList().get(0));
+        assertEquals(player3,gameModel.getPlayerList().get(1));
+        assertEquals(player1,gameModel.getPlayerList().get(2));
+    }
+
+    @Test
+    public void calculatePlanningPhaseOrder___InitialOrder321_FinalOrder312(){
+
+        // initial order at the moment of the creation is: player1, player2, player3
+
+        // use assistants and compute the order to play the action phase
+        // order of the action phase is: player3, player2, player1
+        player3.useAssistant(Assistant.CARD_1);
+        player2.useAssistant(Assistant.CARD_2);
+        player1.useAssistant(Assistant.CARD_3);
+        gameModel.calculateActionPhaseOrder();
+
+        // compute panning phase order
+        // the order should be: player3, player1, player2
+        // and assert that it is
+        gameModel.calculatePlanningPhaseOrder();
+        assertEquals(player3,gameModel.getPlayerList().get(0));
+        assertEquals(player1,gameModel.getPlayerList().get(1));
+        assertEquals(player2,gameModel.getPlayerList().get(2));
+    }
+
+    @Test
+    public void calculatePlanningPhaseOrder__UnalteredOrderByActionPhase_OrderShouldBeTheSame(){
+        // initial order --> 1 2 3
+        // compute panning phase order --> order 1 2 3
+        gameModel.calculatePlanningPhaseOrder();
+        assertEquals(player1,gameModel.getPlayerList().get(0));
+        assertEquals(player2,gameModel.getPlayerList().get(1));
+        assertEquals(player3,gameModel.getPlayerList().get(2));
+    }
+
+    @Test
+    public void calculatePlanningPhaseOrder_WithPlayer3UsingLowestAssistant_ShouldBeFirstPlayer() {
         player1.useAssistant(Assistant.CARD_9);
         player2.useAssistant(Assistant.CARD_5);
         player3.useAssistant(Assistant.CARD_1);
 
-        gameModel.calculatePlayersOrder();
+        gameModel.calculateActionPhaseOrder();
 
         assertEquals("player 3", gameModel.getCurrentPlayer().getNickname());
     }

@@ -21,6 +21,12 @@ public class GameModel {
     private final List<Player> players = new ArrayList<>();
 
     /**
+     * This is the list of the players at the moment of the creation.
+     * It is useful to handle the management of the turn of players.
+     */
+    private final List<Player> initialPlayerList;
+
+    /**
      * The game table associated to this game.
      */
     private final GameTable gameTable;
@@ -54,6 +60,10 @@ public class GameModel {
         for(PlayerLoginInfo playerInfo :playersLoginInfo){
             this.players.add(new Player(playerInfo,isThreePlayerGame,coinsBag));
         }
+
+        // the initial player list is equal to the list of the player at the moment of the creation.
+        // and it will not be modified
+        initialPlayerList=new ArrayList<>(players);
 
         gameTable = new GameTable(numPlayers);
 
@@ -117,8 +127,34 @@ public class GameModel {
     /**
      * Calculates the order of the players based on their last assistant card played, in ascending order.
      * After this call, the current player will be the first player calculated as before.
+     * This method will compute the order of players to play the planning phase.
      */
-    public void calculatePlayersOrder(){
+    public void calculatePlanningPhaseOrder(){
+
+        // this is the index of the first player of the action phase in the initial list of players
+        int index=initialPlayerList.indexOf(players.get(0));
+
+        int numOfIteration=0;
+        for(int i=1;i<players.size();i++){
+            players.set(i,nextPlayerInInitialList(index+numOfIteration));
+            numOfIteration ++;
+        }
+    }
+
+    /**
+     * this method return the next player considering the initial list of player and
+     * clockwise rotation.
+     * @param index this is the index from which consider the next player
+     * @return the next player in the list
+     */
+    private Player nextPlayerInInitialList(int index){
+        return initialPlayerList.get((index+1)%(initialPlayerList.size()));
+    }
+
+    /**
+     * Calculates the order of the players to play the action phase
+     */
+    public void calculateActionPhaseOrder(){
         players.sort(Comparator.comparingInt(o -> o.getLastAssistant().getValue()));
         currentPlayer = players.get(0);
     }
@@ -132,7 +168,7 @@ public class GameModel {
      * </pre>
      * and the current player is Player1, after this call the current player would be Player2.
      * <p>
-     * For how the player's order is calculated, see {@link #calculatePlayersOrder()}.
+     * For how the player's order is calculated, see {@link #calculateActionPhaseOrder()}.
      */
     public void nextPlayerTurn(){
         int currentPlayerPos = players.indexOf(currentPlayer);
