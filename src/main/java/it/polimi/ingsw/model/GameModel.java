@@ -37,7 +37,6 @@ public class GameModel {
     private ComputeInfluenceStrategy computeInfluenceStrategy;
 
     /**
-     /**
       * The strategy to use to compute {@code checkProfessor(studentColor)} method
      */
     private CheckProfessorStrategy checkProfessorStrategy;
