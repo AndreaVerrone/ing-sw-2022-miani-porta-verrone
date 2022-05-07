@@ -769,7 +769,7 @@ class GameModelTest {
         }
 
         @Test
-        public void calculateInfluenceWithTwoAdditional_ShouldWinPlayer3(){
+        public void calculateInfluenceWithTwoAdditional_ShouldWinPlayer1(){
             //Change strategy
             gameModel.setComputeInfluenceStrategy(new ComputeInfluenceWithTwoAdditional(gameModel));
             try {
