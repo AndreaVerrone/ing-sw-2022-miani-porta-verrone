@@ -122,14 +122,14 @@ class GameTableTest {
         try {
             studentList.changeNumOf(PawnType.RED_DRAGONS, 2);
         } catch (NotEnoughStudentException e) {
-            fail()
+            fail();
         }
         gameTable.fillBag(studentList);
         gameTable.fillClouds();
         try {
             assertEquals(2, gameTable.getFromCloud(0).numAllStudents());
         } catch (CloudNotFoundException e) {
-            fail()
+            fail();
         }
     }
 
