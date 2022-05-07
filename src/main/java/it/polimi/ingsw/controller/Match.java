@@ -34,6 +34,9 @@ public class Match implements IMatchMaking, IGame {
     }
 
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     */
     @Override
     public void setHardMode(boolean isHardMode) throws NotValidOperationException {
         if (matchMaking == null)
@@ -43,6 +46,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has started or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void changeNumOfPlayers(int value) throws NotValidOperationException, NotValidArgumentException {
@@ -53,6 +57,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has started or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void addPlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
@@ -63,6 +68,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has started or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void removePlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
@@ -73,6 +79,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has started or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void setTowerOfPlayer(TowerType towerType) throws NotValidOperationException, NotValidArgumentException {
@@ -83,6 +90,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has started or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void setWizardOfPlayer(Wizard wizard) throws NotValidOperationException, NotValidArgumentException {
@@ -103,6 +111,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void useAssistant(Assistant assistant) throws NotValidOperationException, NotValidArgumentException {
@@ -113,6 +122,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
@@ -123,6 +133,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
@@ -133,6 +144,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void moveMotherNature(int positions) throws NotValidOperationException, NotValidArgumentException {
@@ -143,6 +155,7 @@ public class Match implements IMatchMaking, IGame {
 
     /**
      * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {

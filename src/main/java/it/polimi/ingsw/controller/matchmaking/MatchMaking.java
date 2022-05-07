@@ -109,31 +109,54 @@ public class MatchMaking implements IMatchMaking{
         this.isHardMode = isHardMode;
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void changeNumOfPlayers(int value) throws NotValidOperationException, NotValidArgumentException {
         state.changeNumOfPlayers(value);
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void addPlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         state.addPlayer(nickname);
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void removePlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         state.removePlayer(nickname);
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void setTowerOfPlayer(TowerType towerType) throws NotValidOperationException, NotValidArgumentException {
         state.setTowerOfPlayer(towerType);
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void setWizardOfPlayer(Wizard wizard) throws NotValidOperationException, NotValidArgumentException {
         state.setWizardOfPlayer(wizard);
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     */
     @Override
     public void next() throws NotValidOperationException {
         state.next();

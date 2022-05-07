@@ -63,26 +63,46 @@ public class Game implements IGame{
      */
     protected void setLastRoundFlag(){ lastRoundFlag = true;}
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void useAssistant(Assistant assistant) throws NotValidOperationException, NotValidArgumentException {
         state.useAssistant(assistant);
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
         state.moveStudentToIsland(student, islandID);
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
         state.moveStudentToDiningRoom(student);
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void moveMotherNature(int positions) throws NotValidOperationException, NotValidArgumentException {
         state.moveMotherNature(positions);
     }
 
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
     @Override
     public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {
         state.takeFromCloud(cloudID);
