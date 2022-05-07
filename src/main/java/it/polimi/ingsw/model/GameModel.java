@@ -30,6 +30,7 @@ public class GameModel {
      */
     private CheckProfessorStrategy checkProfessorStrategy;
 
+    private MotherNatureLimitStrategy motherNatureLimitStrategy;
     /**
      * Constructs a new game model with the {@code players} passed as a parameter.
      * The game is supported for 2, 3, 4 players.
@@ -54,6 +55,8 @@ public class GameModel {
         currentPlayer = this.players.get(0);
 
         this.checkProfessorStrategy = new CheckProfessorStandard(this);
+
+        this.motherNatureLimitStrategy = new MotherNatureLimitStandard();
     }
 
     public Player getCurrentPlayer() {
@@ -73,12 +76,20 @@ public class GameModel {
     }
 
     /**
+     * Change the strategy to calculate mother nature range of motion
+     * @param strategy strategy to calculate mother nature range of motion
+     */
+    public void setMotherNatureLimitStrategy(MotherNatureLimitStrategy strategy) {
+        this.motherNatureLimitStrategy = strategy;
+    }
+
+    /**
      * The maximum value of which mother nature can be moved.
      * This usually corresponds to the value on the last assistant card the player used.
      * @return The maximum value of which mother nature can be moved.
      */
     public int getMNMovementLimit(){
-        return currentPlayer.getLastAssistant().getRangeOfMotion();
+        return motherNatureLimitStrategy.getMNMovementLimit(currentPlayer);
     }
 
     public void setCheckProfessorStrategy(CheckProfessorStrategy checkProfessorStrategy){
