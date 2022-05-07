@@ -42,7 +42,7 @@ class SetPlayerParametersState implements MatchMakingState{
     @Override
     public void setTowerOfPlayer(TowerType tower) throws NotValidArgumentException {
         if (!matchMaking.getTowersAvailable().contains(tower))
-            throw new NotValidArgumentException();
+            throw new NotValidArgumentException("Tower not available!");
         matchMaking.setTowerOfCurrentPlayer(tower);
     }
 
@@ -52,7 +52,7 @@ class SetPlayerParametersState implements MatchMakingState{
     @Override
     public void setWizardOfPlayer(Wizard wizard) throws NotValidArgumentException {
         if (!matchMaking.getWizardsAvailable().contains(wizard))
-            throw new NotValidArgumentException();
+            throw new NotValidArgumentException("Wizard not available!");
         matchMaking.setWizardOfCurrentPlayer(wizard);
     }
 

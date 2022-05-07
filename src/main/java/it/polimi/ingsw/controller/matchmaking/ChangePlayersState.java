@@ -33,9 +33,9 @@ class ChangePlayersState implements MatchMakingState {
     @Override
     public void addPlayer(String nickname) throws NotValidArgumentException, NotValidOperationException {
         if (isNicknameOfAPlayer(nickname))
-            throw new NotValidArgumentException();
+            throw new NotValidArgumentException("Nickname already taken!");
         if (matchMaking.getPlayers().size() == matchMaking.getNumPlayers())
-            throw new NotValidOperationException();
+            throw new NotValidOperationException("The lobby is already full!");
         matchMaking.addPlayer(new PlayerLoginInfo(nickname));
     }
 
@@ -47,7 +47,7 @@ class ChangePlayersState implements MatchMakingState {
     @Override
     public void removePlayer(String nickname) throws NotValidArgumentException {
         if (!isNicknameOfAPlayer(nickname))
-            throw new NotValidArgumentException();
+            throw new NotValidArgumentException("There isn't a player with this nickname!");
         for (PlayerLoginInfo player : matchMaking.getPlayers()) {
             if (player.getNickname().equals(nickname)) {
                 matchMaking.removePlayer(player);
@@ -64,7 +64,7 @@ class ChangePlayersState implements MatchMakingState {
     @Override
     public void changeNumOfPlayers(int value) throws NotValidArgumentException {
         if (value < 2 || value > 4 || value < matchMaking.getPlayers().size())
-            throw new NotValidArgumentException();
+            throw new NotValidArgumentException("Number of players not valid!");
         matchMaking.setNumPlayers(value);
     }
 
@@ -75,7 +75,7 @@ class ChangePlayersState implements MatchMakingState {
     @Override
     public void next() throws NotValidOperationException {
         if (matchMaking.getNumPlayers() != matchMaking.getPlayers().size())
-            throw new NotValidOperationException();
+            throw new NotValidOperationException("There aren't enough players in the lobby to start the game!");
         matchMaking.chooseFirstPlayer();
         matchMaking.setState(new SetPlayerParametersState(matchMaking, 1));
     }
