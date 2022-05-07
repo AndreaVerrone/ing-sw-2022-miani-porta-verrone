@@ -81,7 +81,7 @@ public class PlayAssistantState implements State{
         // after computing the order of the play the subsequent action phase and
         // resetting the state such that it is ready for the next use
         if(numOfPlayersHavePlayed==numOfPlayers) {
-            game.getModel().calculatePlayersOrder();
+            game.getModel().calculateActionPhaseOrder();
             resetState();
             game.setState(game.getMoveStudentState());
         }else{
