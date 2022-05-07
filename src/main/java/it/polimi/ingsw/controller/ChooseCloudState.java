@@ -72,7 +72,7 @@ public class ChooseCloudState implements State{
             //Fill the clouds
             model.getGameTable().fillClouds();
             //Calculate new players order
-            model.calculatePlayersOrder();
+            model.calculatePlanningPhaseOrder();
             game.setState(game.getPlayAssistantState());
         }
         else{
