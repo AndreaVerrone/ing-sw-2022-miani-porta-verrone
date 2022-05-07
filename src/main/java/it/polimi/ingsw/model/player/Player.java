@@ -245,10 +245,13 @@ public class Player {
      * The {@code cost} must be greater that zero.
      *
      * @param cost number of coin to remove
+     * @param putInBag is true if all the coins should be put in the general reserve of coins,
+     *                 false if one of them should be used to indicate that
+     *                 the cost of the character card should be increased
      * @throws NotEnoughCoinsException if there are no enough coins in the {@code SchoolBoard}
      *                                 of the player to fulfil the request
      */
-    public void removeCoins(int cost) throws NotEnoughCoinsException {
-        schoolBoard.removeCoin(cost);
+    public void removeCoins(int cost,boolean putInBag) throws NotEnoughCoinsException {
+        schoolBoard.removeCoin(cost,putInBag);
     }
 }

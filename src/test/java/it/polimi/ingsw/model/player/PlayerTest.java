@@ -407,7 +407,7 @@ class PlayerTest {
     public void removeCoins_Remove1_1CoinIsPresent_ShouldRemove(){
         // remove the coin that is present in the school board of the player
         try {
-            player.removeCoins(1);
+            player.removeCoins(1,true);
         } catch (NotEnoughCoinsException e) {
             fail();
         }
@@ -421,11 +421,11 @@ class PlayerTest {
     public void removeCoins_Remove1_NoCoinIsPresent_ShouldThrow(){
         // remove the coin that is present in the school board of the player
         try {
-            player.removeCoins(1);
+            player.removeCoins(1,true);
         } catch (NotEnoughCoinsException e) {
             fail();
         }
         // try to remove another coin
-        assertThrows(NotEnoughCoinsException.class, ()->player.removeCoins(1));
+        assertThrows(NotEnoughCoinsException.class, ()->player.removeCoins(1,true));
     }
 }
