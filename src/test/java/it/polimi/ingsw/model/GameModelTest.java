@@ -83,7 +83,7 @@ class GameModelTest {
         //Use assistant
         gameModel.getCurrentPlayer().useAssistant(Assistant.CARD_9);
         //Use standard strategy
-        assertEquals(5, gameModel.getMNMovementLimit());
+        assertEquals(Assistant.CARD_9.getRangeOfMotion(), gameModel.getMNMovementLimit());
     }
 
     @Test
