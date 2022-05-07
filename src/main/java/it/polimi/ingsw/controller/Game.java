@@ -48,6 +48,10 @@ public class Game{
         //TODO: create all states and add documentation
         model = new GameModel(players);
         state = playAssistantState;
+
+        playAssistantState = new PlayAssistantState(this);
+        moveStudentState = new MoveStudentState(this);
+        moveMotherNatureState = new MoveStudentState(this);
     }
 
     /**
