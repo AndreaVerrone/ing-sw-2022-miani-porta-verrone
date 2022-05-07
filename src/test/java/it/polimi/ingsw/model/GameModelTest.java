@@ -92,7 +92,7 @@ class GameModelTest {
         gameModel.getCurrentPlayer().useAssistant(Assistant.CARD_9);
         //Change strategy
         gameModel.setMotherNatureLimitStrategy(new MotherNatureLimitPlusTwo());
-        assertEquals(7, gameModel.getMNMovementLimit());
+        assertEquals(Assistant.CARD_9.getRangeOfMotion()+2, gameModel.getMNMovementLimit());
     }
 
     @Nested
