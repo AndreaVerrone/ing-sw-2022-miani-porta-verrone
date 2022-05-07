@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
-import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,11 +106,7 @@ class GameTableTest {
             fail();
         }
         gameTable.fillBag(studentsForBag);
-        try {
-            gameTable.fillClouds();
-        } catch (EmptyBagException e) {
-            fail();
-        }
+        gameTable.fillClouds();
         for (int ID = 0; ID < gameTable.getNumberOfClouds(); ID++){
             try {
                 assertEquals(3, gameTable.getFromCloud(ID).numAllStudents());
@@ -122,11 +117,33 @@ class GameTableTest {
     }
 
     @Test
-    void fillClouds_StudentsBagEmpty_ShouldThrow() {
+    public void fillClouds_StudentsBagAlmostEmpty_ShouldPutAllRemaining(){
+        StudentList studentList = new StudentList();
+        try {
+            studentList.changeNumOf(PawnType.RED_DRAGONS, 2);
+        } catch (NotEnoughStudentException e) {
+            fail()
+        }
+        gameTable.fillBag(studentList);
+        gameTable.fillClouds();
+        try {
+            assertEquals(2, gameTable.getFromCloud(0).numAllStudents());
+        } catch (CloudNotFoundException e) {
+            fail()
+        }
+    }
+
+    @Test
+    void fillClouds_StudentsBagEmpty_ShouldDoNothing() {
         StudentList studentsForBag = new StudentList();
         //Fill the bag with an empty students list
         gameTable.fillBag(studentsForBag);
-        assertThrows(EmptyBagException.class, () -> gameTable.fillClouds());
+        try {
+            int studentsOnCloud = gameTable.getFromCloud(0).numAllStudents();
+            assertEquals(0, studentsOnCloud);
+        } catch (CloudNotFoundException e) {
+            fail();
+        }
     }
 
     @Test
