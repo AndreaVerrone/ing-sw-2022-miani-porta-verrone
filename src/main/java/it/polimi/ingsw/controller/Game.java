@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.player.Player;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 /**
  *A class to handle the various states of the game.It can change the current state and can call operations on it.
  */
@@ -44,10 +45,11 @@ public class Game{
      * If this flag is true the game is in its last round
      */
     private boolean lastRoundFlag = false;
+ 
     /**
      * List of winners of the game.If the list has more than one player it is considered a draw
      */
-    private ArrayList<Player> winner = null;
+    private ArrayList<Player> winners = null;
 
     public Game(Collection<PlayerLoginInfo> players){
         //TODO: create all states and add documentation
@@ -69,11 +71,12 @@ public class Game{
     protected void setLastRoundFlag(){ lastRoundFlag = true;}
 
     /**
+
      * Set the winners of the game
      * @param winner players that has won. If more than one is considered a draw
      */
-    protected void setWinner(ArrayList<Player> winner){
-        this.winner = winner;
+    protected void setWinner(ArrayList<Player> winners){
+        this.winners = winners;
         //TODO: update observer
     }
 
@@ -160,7 +163,7 @@ public class Game{
         return endState;
     }
 
-    protected ArrayList<Player> getWinner(){return winner;}
+    protected ArrayList<Player> getWinner(){return winners;}
 
     //TODO: setters for all states if needed for characters cards
 }

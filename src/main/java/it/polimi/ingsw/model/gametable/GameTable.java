@@ -128,18 +128,24 @@ public class GameTable {
     }
 
     /**
-     * Fills all the clouds with the maximum number of students taken from the bag
-     * @throws EmptyBagException if the bag is empty and there are no more students
+     * Fills all the clouds with the maximum number of students taken from the bag. If the bag is empty do nothing
      */
-    public void fillClouds() throws EmptyBagException {
+    public void fillClouds() {
         PawnType student;
+        if (studentsBag.studentsRemaining() == 0) return;
         for (Cloud cloud : clouds){
             for (int i = 0; i < maxStudentPerCloud; i++){
-                student = studentsBag.draw();
-                if (studentsBag.studentsRemaining() == 0){
-                    //TODO: notify observer to end the game
+                try {
+                    student = studentsBag.draw();
+                    cloud.addStudent(student);
+                    if (studentsBag.studentsRemaining() == 0) {
+                        //TODO: notify observer to end the game
+                        return;
+                    }
+                } catch (EmptyBagException e) {
+                    e.printStackTrace();
                 }
-                cloud.addStudent(student);
+
             }
         }
     }

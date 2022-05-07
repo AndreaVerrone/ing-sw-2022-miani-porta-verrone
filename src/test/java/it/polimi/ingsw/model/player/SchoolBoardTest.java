@@ -140,7 +140,7 @@ class SchoolBoardTest {
     @Test
     public void removeCoin_WithEnoughCoins_ShouldRemove(){
         try {
-            schoolBoard.removeCoin(1);
+            schoolBoard.removeCoin(1,true);
         } catch (NotEnoughCoinsException e) {
             fail();
         }
@@ -150,13 +150,13 @@ class SchoolBoardTest {
     @Test
     public void removeCoin_WithNegativeCost_ShouldThrow(){
         assertThrows(AssertionError.class,
-                () -> schoolBoard.removeCoin(-2));
+                () -> schoolBoard.removeCoin(-2,true));
     }
 
     @Test
     public void removeCoin_WithExcessiveCost_ShouldThrow(){
         assertThrows(NotEnoughCoinsException.class,
-                () -> schoolBoard.removeCoin(10));
+                () -> schoolBoard.removeCoin(10,true));
     }
 
     @Test
