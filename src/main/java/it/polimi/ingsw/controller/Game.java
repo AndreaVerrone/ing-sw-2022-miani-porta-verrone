@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Assistant;
 
 import java.util.Collection;
 
+
 /**
  *A class to handle the various states of the game.It can change the current state and can call operations on it.
  */
@@ -38,9 +39,13 @@ public class Game{
      * Model of the game
      */
     private final GameModel model;
+    /**
+     * If this flag is true the game is in its last round
+     */
+    private boolean lastRoundFlag = false;
 
     public Game(Collection<PlayerLoginInfo> players){
-        //TODO: create all states
+        //TODO: create all states and add documentation
         model = new GameModel(players);
         state = playAssistantState;
     }
@@ -52,6 +57,11 @@ public class Game{
     protected void setState(State newState){
         state = newState;
     }
+
+    /**
+     * Sets the {@code lastRoundFlag} to true
+     */
+    protected void setLastRoundFlag(){ lastRoundFlag = true;}
 
     /**
      * Method to use an assistant card
@@ -109,6 +119,8 @@ public class Game{
     protected GameModel getModel() {
         return model;
     }
+
+    protected boolean getLastRoundFlag(){ return lastRoundFlag;}
 
     protected State getState() {
         return state;

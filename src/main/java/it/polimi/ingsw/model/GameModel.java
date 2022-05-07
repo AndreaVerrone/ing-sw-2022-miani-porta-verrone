@@ -29,6 +29,10 @@ public class GameModel {
      * Strategy to compute the influence on an island
      */
     private ComputeInfluenceStrategy computeInfluenceStrategy;
+  
+     * The strategy to use to compute {@code checkProfessor(studentColor)} method
+     */
+    private CheckProfessorStrategy checkProfessorStrategy;
 
     /**
      * Constructs a new game model with the {@code players} passed as a parameter.
@@ -54,6 +58,9 @@ public class GameModel {
         currentPlayer = this.players.get(0);
 
         computeInfluenceStrategy = new ComputeInfluenceStandard();
+
+        this.checkProfessorStrategy = new CheckProfessorStandard(this);
+
     }
 
     public Player getCurrentPlayer() {
@@ -79,6 +86,22 @@ public class GameModel {
      */
     public int getMNMovementLimit(){
         return currentPlayer.getLastAssistant().getRangeOfMotion();
+    }
+
+    public void setCheckProfessorStrategy(CheckProfessorStrategy checkProfessorStrategy){
+        this.checkProfessorStrategy=checkProfessorStrategy;
+    }
+
+    /**
+     * This method check if after the adding of a student, of the {@code PawnType} specified in the parameter,
+     * in the table of the dining room of the current player, the professor must be given to the player.
+     * If it is yes the professor will be given to the current player and removed from the previous owner
+     * if there was one, otherwise the professor will be just added to the current player.
+     *
+     * @param studentColor the {@code PawnType} of the student that has been added in the dining room
+     */
+    public void checkProfessor(PawnType studentColor){
+        checkProfessorStrategy.checkProfessor(studentColor);
     }
 
     /**
