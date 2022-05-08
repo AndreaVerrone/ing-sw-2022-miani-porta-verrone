@@ -74,6 +74,15 @@ public class GameTable {
     }
 
     /**
+     * This method allow to take one student from the student bag and removing it.
+     * @return the PawnType of the student extracted
+     * @throws EmptyBagException if the bag is empty
+     */
+    public PawnType getStudentFromBag() throws EmptyBagException {
+        return studentsBag.draw();
+    }
+
+    /**
      * Returns the island with the ID given. If the island doesn't exist because it has been merged or the ID is wrong,
      * throws an exception
      * @param islandID ID of the island searched
