@@ -159,10 +159,6 @@ public class Game{
         return chooseCloudState;
     }
 
-    protected State getEndState() {
-        return endState;
-    }
-
     protected Collection<Player> getWinner(){return Collections.unmodifiableCollection(winners);}
 
     //TODO: setters for all states if needed for characters cards
