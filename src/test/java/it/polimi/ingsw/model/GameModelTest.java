@@ -130,6 +130,23 @@ class GameModelTest {
         assertEquals("player 2", gameModel.getCurrentPlayer().getNickname());
     }
 
+    @Test
+    public void getMotherNatureMovementsLimit_StandardStrategy(){
+        //Use assistant
+        gameModel.getCurrentPlayer().useAssistant(Assistant.CARD_9);
+        //Use standard strategy
+        assertEquals(Assistant.CARD_9.getRangeOfMotion(), gameModel.getMNMovementLimit());
+    }
+
+    @Test
+    public void getMotherNatureMovementsLimit_PlusTwoMovementsStrategy(){
+        //Use assistant
+        gameModel.getCurrentPlayer().useAssistant(Assistant.CARD_9);
+        //Change strategy
+        gameModel.setMotherNatureLimitStrategy(new MotherNatureLimitPlusTwo());
+        assertEquals(Assistant.CARD_9.getRangeOfMotion()+2, gameModel.getMNMovementLimit());
+    }
+
     @Nested
     @DisplayName("conquerIsland method")
     class ConquerIslandMethod {
