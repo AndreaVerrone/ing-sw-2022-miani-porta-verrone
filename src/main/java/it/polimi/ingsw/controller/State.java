@@ -76,11 +76,12 @@ public interface State {
     /**
      * This method allow to use the character card passed as a parameter.
      * @param characterCard the character card to use
-     * @throws NotValidArgumentException if the character card cannot be used because the player cannot pay
+     * @throws NotValidOperationException if the character card cannot be used because the player cannot pay
      * for the usage, the state of the game do not allow the usage or the player has already used a character card
      * during its turn.
+     * @throws NotValidArgumentException if the character card does not exist
      */
-    default void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException{
+    default void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException, NotValidArgumentException{
         characterCard.effect();
     }
 
