@@ -32,7 +32,12 @@ public class GameModel {
     private final GameTable gameTable;
 
     /**
-     * The strategy to use to compute {@code checkProfessor(studentColor)} method
+     * Strategy to compute the influence on an island
+     */
+    private ComputeInfluenceStrategy computeInfluenceStrategy;
+
+    /**
+      * The strategy to use to compute {@code checkProfessor(studentColor)} method
      */
     private CheckProfessorStrategy checkProfessorStrategy;
 
@@ -63,7 +68,10 @@ public class GameModel {
 
         currentPlayer = this.players.get(0);
 
+        computeInfluenceStrategy = new ComputeInfluenceStandard();
+
         this.checkProfessorStrategy = new CheckProfessorStandard(this);
+
     }
 
     public Player getCurrentPlayer() {
@@ -108,6 +116,16 @@ public class GameModel {
     }
 
     /**
+     * Set the strategy to calculate the influence on an island
+     * @param strategy strategy to use for the calculation of the influence
+     */
+    public void setComputeInfluenceStrategy(ComputeInfluenceStrategy strategy) {
+        computeInfluenceStrategy = strategy;
+    }
+
+    /**
+     * Calculates the order of the players based on their last assistant card played, in ascending order.
+     * After this call, the current player will be the first player calculated as before.
      * This method will compute the order of players to play the planning phase.
      */
     public void calculatePlanningPhaseOrder(){
@@ -167,6 +185,10 @@ public class GameModel {
      */
     public void conquerIsland(int islandID) throws IslandNotFoundException {
         Island island = gameTable.getIsland(islandID);
+        if (island.getBan()>0){
+            island.removeBan();
+            return;
+        }
         Player maxInfluencePlayer = computeMaxPlayerInfluence(island);
         boolean towerHasChanged = changeTowerOn(island, maxInfluencePlayer);
         if(towerHasChanged)
@@ -217,13 +239,7 @@ public class GameModel {
      * @return the influence calculated
      */
     private int computeInfluence(Player player, Island island){
-        int influence = 0;
-        if (player.getTowerType() == island.getTower())
-            influence += island.getSize();
-        for (PawnType professor : player.getProfessors()){
-            influence += island.numStudentsOf(professor);
-        }
-        return influence;
+        return computeInfluenceStrategy.computeInfluence(player, island);
     }
 
     /**

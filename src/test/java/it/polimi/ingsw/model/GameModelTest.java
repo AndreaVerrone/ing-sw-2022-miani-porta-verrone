@@ -226,6 +226,7 @@ class GameModelTest {
 
                 assertEquals(prevSize, island3.getSize());
             }
+
         }
 
         /**
@@ -657,6 +658,126 @@ class GameModelTest {
                     assertEquals(player2.getTowerType(), island3.getTower());
                 }
             }
+        }
+
+        @Nested
+        @DisplayName("with bans on island")
+        class ConquerIslandWIthBan extends DoNothingBehaviourTest{
+
+            @BeforeEach
+            public void setUp(){
+                island3.addBan();
+                island3.addBan();
+                try {
+                    //player 1 (+1 from tower)
+                    gameModel.getGameTable().addToIsland(PawnType.RED_DRAGONS, islandID3);
+                    //player 2
+                    gameModel.getGameTable().addToIsland(PawnType.BLUE_UNICORNS, islandID3);
+                    gameModel.getGameTable().addToIsland(PawnType.PINK_FAIRIES, islandID3);
+                    gameModel.getGameTable().addToIsland(PawnType.PINK_FAIRIES, islandID3);
+                    //player 3
+                    gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+            }
+
+            @Test
+            public void conquerIslandWithBans_ShouldRemoveBan(){
+                try {
+                    gameModel.conquerIsland(islandID3);
+                } catch (IslandNotFoundException e) {
+                    fail();
+                }
+                assertEquals(1, island3.getBan());
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("calculate influence using strategies")
+    class CalculateInfluence{
+
+        private Island island;
+        private final int islandID = 4;
+
+        @BeforeEach
+        public void setUp() {
+            try {
+                island = gameModel.getGameTable().getIsland(islandID);
+            } catch (IslandNotFoundException e) {
+                fail();
+            }
+            //set the tower
+            island.setTower(player3.getTowerType());
+            player3.changeTowerNumber(-island.getSize());
+
+            //set the professors
+            player1.addProfessor(PawnType.RED_DRAGONS);
+
+            player2.addProfessor(PawnType.BLUE_UNICORNS);
+            player2.addProfessor(PawnType.PINK_FAIRIES);
+
+            player3.addProfessor(PawnType.GREEN_FROGS);
+            //set the students
+            try {
+                //player 1
+                gameModel.getGameTable().addToIsland(PawnType.RED_DRAGONS, islandID);
+                //player 2
+                gameModel.getGameTable().addToIsland(PawnType.BLUE_UNICORNS, islandID);
+                gameModel.getGameTable().addToIsland(PawnType.PINK_FAIRIES, islandID);
+                //player 3 (+1 from tower)
+                gameModel.getGameTable().addToIsland(PawnType.GREEN_FROGS, islandID);
+            } catch (IslandNotFoundException e) {
+                fail();
+            }
+        }
+
+        @Test
+        public void calculateStandardInfluence_ShouldWinPlayer3(){
+            //Use standard strategy
+            try {
+                gameModel.conquerIsland(islandID);
+            } catch (IslandNotFoundException e) {
+                fail();
+            }
+            assertEquals(player3.getTowerType(), island.getTower());
+        }
+
+        @Test
+        public void calculateInfluenceWithNoTowers_ShouldWinPlayer2(){
+            //Change strategy
+            gameModel.setComputeInfluenceStrategy(new ComputeInfluenceWithNoTowers());
+            try {
+                gameModel.conquerIsland(islandID);
+            } catch (IslandNotFoundException e) {
+                fail();
+            }
+            assertEquals(player2.getTowerType(), island.getTower());
+        }
+
+        @Test
+        public void calculateInfluenceWithoutStudentColor_ShouldWinPlayer2(){
+            //Change strategy
+            gameModel.setComputeInfluenceStrategy(new ComputeInfluenceWithoutStudentColor(PawnType.GREEN_FROGS));
+            try {
+                gameModel.conquerIsland(islandID);
+            } catch (IslandNotFoundException e) {
+                fail();
+            }
+            assertEquals(player2.getTowerType(), island.getTower());
+        }
+
+        @Test
+        public void calculateInfluenceWithTwoAdditional_ShouldWinPlayer1(){
+            //Change strategy
+            gameModel.setComputeInfluenceStrategy(new ComputeInfluenceWithTwoAdditional(gameModel));
+            try {
+                gameModel.conquerIsland(islandID);
+            } catch (IslandNotFoundException e) {
+                fail();
+            }
+            assertEquals(player1.getTowerType(), island.getTower());
         }
     }
 }
