@@ -73,4 +73,29 @@ public interface State {
         throw new NotValidOperationException();
     }
 
+    /**
+     * This method allow to use the character card passed as a parameter.
+     * @param characterCard the character card to use
+     * @throws NotValidArgumentException if the character card cannot be used because the player cannot pay
+     * for the usage, the state of the game do not allow the usage or the player has already used a character card
+     * during its turn.
+     */
+    default void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException{
+        characterCard.effect();
+    }
+
+    /**
+     * This method allow to move one student from the character card 1
+     * to the island passed as a parameter.
+     * After the calling of the method, if the student bag is not empty,
+     * a student (taken from the bag) will be added on the character card.
+     * @param pawnType color of the student to move to island
+     * @param islandID island on which put the student
+     * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
+     * @throws NotValidArgumentException if the student or the island does not exist
+     */
+    default public void moveFromCardToIsland(PawnType pawnType, int islandID) throws NotValidOperationException, NotValidArgumentException{
+        throw new NotValidOperationException();
+    }
+
 }
