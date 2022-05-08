@@ -48,6 +48,11 @@ public class Game implements IGame{
         //TODO: create all states and add documentation
         model = new GameModel(players);
         state = playAssistantState;
+
+        playAssistantState = new PlayAssistantState(this);
+        moveStudentState = new MoveStudentState(this);
+        moveMotherNatureState = new MoveMotherNatureState(this);
+        chooseCloudState = new ChooseCloudState(this);
     }
 
     /**
