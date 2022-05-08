@@ -12,7 +12,7 @@ abstract public class ServerCommandNetMsg extends NetworkMessage {
     /**
      * The time, expressed in milliseconds since epoch, when this message was sent.
      */
-    private final long whenSent;
+    private long whenSent;
 
     /**
      * Creates a new message that needs to be sent to a client
@@ -42,5 +42,12 @@ abstract public class ServerCommandNetMsg extends NetworkMessage {
         long timePassed = System.currentTimeMillis() - whenSent;
         long expireTime = 2000;
         return timePassed > expireTime;
+    }
+
+    /**
+     * Change the time in which this message was sent to now.
+     */
+    public void resetTimestamp(){
+        whenSent = System.currentTimeMillis();
     }
 }
