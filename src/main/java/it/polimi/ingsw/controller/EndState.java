@@ -4,7 +4,9 @@ import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -64,13 +66,11 @@ public class EndState {
         //Number of professors of the winner
         int winnerNumberOfProfessors = firstWinner.getProfessors().size();
         //List of winners, there is more than one in case of draw
-        ArrayList<Player> winners;
+        Collection<Player> winners;
         winners = model.getPlayerList().stream()
                         //If a player has same number of towers and professors is considered a draw
                         .filter(player -> (player.getTowerNumbers() == winnerNumberOfTowers && player.getProfessors().size() == winnerNumberOfProfessors))
-                        .collect(ArrayList::new,
-                                ArrayList::add,
-                                ArrayList::addAll);
+                        .collect(Collectors.toList());
         game.setWinner(winners);
     }
 }

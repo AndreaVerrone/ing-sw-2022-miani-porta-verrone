@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.*;
 
+import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -95,9 +96,13 @@ class EndStateTest {
         PlayerStub player3 = new PlayerStub(3, 1);
         Game game = new GameStub(List.of(player1, player2, player3));
         new EndState(game);
-        ArrayList<Player> winners = game.getWinner();
+        Collection<Player> winners = game.getWinner();
         //Player1 has fewer towers than everyone
-        assertEquals(player1, winners.get(0));
+        assertTrue(winners.contains(player1));
+        //Not contains player2
+        assertFalse(winners.contains(player2));
+        //Not contains player3
+        assertFalse(winners.contains(player3));
         //Only one player wins
         assertEquals(1, winners.size());
     }
@@ -109,9 +114,13 @@ class EndStateTest {
         PlayerStub player3 = new PlayerStub(3, 0);
         Game game = new GameStub(List.of(player1, player2, player3));
         new EndState(game);
-        ArrayList<Player> winners = game.getWinner();
+        Collection<Player> winners = game.getWinner();
         //Player2 as same towers as player1, but has more professors
-        assertEquals(player2, winners.get(0));
+        assertTrue(winners.contains(player2));
+        //Not contains player1
+        assertFalse(winners.contains(player1));
+        //Not contains player3
+        assertFalse(winners.contains(player3));
         //There should be one winner
         assertEquals(1, winners.size());
     }
@@ -123,10 +132,12 @@ class EndStateTest {
         PlayerStub player3 = new PlayerStub(3, 0);
         Game game = new GameStub(List.of(player1, player2, player3));
         new EndState(game);
-        ArrayList<Player> winners = game.getWinner();
+        Collection<Player> winners = game.getWinner();
         //Both player1 and player2 should be in the winner list
-        assertEquals(player1, winners.get(0));
-        assertEquals(player2, winners.get(1));
+        assertTrue(winners.contains(player1));
+        assertTrue(winners.contains(player2));
+        //Not contains player3
+        assertFalse(winners.contains(player3));
         //There should be two winners
         assertEquals(2, winners.size());
     }
@@ -138,11 +149,11 @@ class EndStateTest {
         PlayerStub player3 = new PlayerStub(2, 1);
         Game game = new GameStub(List.of(player1, player2, player3));
         new EndState(game);
-        ArrayList<Player> winners = game.getWinner();
+        Collection<Player> winners = game.getWinner();
         //Both player1, player2 and player3 should be in the winner list
-        assertEquals(player1, winners.get(0));
-        assertEquals(player2, winners.get(1));
-        assertEquals(player3, winners.get(2));
+        assertTrue(winners.contains(player1));
+        assertTrue(winners.contains(player2));
+        assertTrue(winners.contains(player3));
         //There should be three winners
         assertEquals(3, winners.size());
     }
@@ -154,9 +165,13 @@ class EndStateTest {
         PlayerStub player3 = new PlayerStub(2, 0);
         Game game = new GameStub(List.of(player1, player2, player3));
         new EndState(game);
-        ArrayList<Player> winners = game.getWinner();
+        Collection<Player> winners = game.getWinner();
         //Player2 has more professors
-        assertEquals(player2, winners.get(0));
+        assertTrue(winners.contains(player2));
+        //Not contains player1
+        assertFalse(winners.contains(player1));
+        //Not contains player3
+        assertFalse(winners.contains(player3));
         //There should be one winner
         assertEquals(1, winners.size());
     }
