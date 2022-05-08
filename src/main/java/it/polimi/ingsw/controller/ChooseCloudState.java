@@ -1,11 +1,14 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.CheckProfessorStandard;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
 import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.ReachedMaxStudentException;
+
+import java.util.ArrayList;
 
 /**
  * A class to handle the state of the game in which the player can choose a cloud and take all the students from it
@@ -65,6 +68,7 @@ public class ChooseCloudState implements State{
      * </p>
      */
     private void changeState(){
+
         if (numberOfPlayers == model.getPlayerList().size()){
             //End of the round
             //Reset number of players that have played
@@ -77,6 +81,14 @@ public class ChooseCloudState implements State{
         }
         else{
             //End of the current player turn
+
+            // RESET ALL THE STANDARD STRATEGY
+            // reset the standard strategy for check professor
+            game.getModel().setCheckProfessorStrategy(new CheckProfessorStandard(game.getModel()));
+
+            // RESET THE POSSIBILITY TO USE A CHARACTER CARD
+            game.setCanUseCharacterCard(true);
+
             //Change current player
             model.nextPlayerTurn();
             game.setState(game.getMoveStudentState());
