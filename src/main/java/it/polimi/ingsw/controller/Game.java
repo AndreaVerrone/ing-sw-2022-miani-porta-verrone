@@ -52,6 +52,7 @@ public class Game{
         playAssistantState = new PlayAssistantState(this);
         moveStudentState = new MoveStudentState(this);
         moveMotherNatureState = new MoveMotherNatureState(this);
+        chooseCloudState = new ChooseCloudState(this);
     }
 
     /**
