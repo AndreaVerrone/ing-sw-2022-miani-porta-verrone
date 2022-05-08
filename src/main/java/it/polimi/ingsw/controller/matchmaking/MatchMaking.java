@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * A class used to handle the lobby of players when a new game is requested
  */
-public class MatchMaking {
+public class MatchMaking implements IMatchMaking{
 
     /**
      * The current state of this match making
@@ -118,67 +118,60 @@ public class MatchMaking {
         numPlayers = value;
     }
 
+    @Override
     public void setHardMode(boolean isHardMode){
         this.isHardMode = isHardMode;
     }
 
     /**
-     * Change the number of players needed in this game. This cannot be less than the player already
-     * present in this lobby.
-     * @param value the new number of players
-     * @throws NotValidArgumentException if the selected number of players is not valid (i.e. if it's not
-     * one of the value supported or less than the player already present in this lobby)
-     * @throws NotValidOperationException if the number of player can't be changed in the current state
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
+    @Override
     public void changeNumOfPlayers(int value) throws NotValidOperationException, NotValidArgumentException {
         state.changeNumOfPlayers(value);
     }
 
     /**
-     * Adds a player with the provided nickname to this lobby. The nickname must be unique.
-     * @param nickname the nickname chosen by the player
-     * @throws NotValidArgumentException if the nickname is already taken
-     * @throws NotValidOperationException if a new player can't be added in the current state
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
+    @Override
     public void addPlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         state.addPlayer(nickname);
     }
 
     /**
-     * Removes the player with the provided nickname from this lobby.
-     * @param nickname the nickname of the player to remove
-     * @throws NotValidArgumentException if there is no player with the provided nickname
-     * @throws NotValidOperationException if a player can't leave the game in the current state
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
+    @Override
     public void removePlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         state.removePlayer(nickname);
     }
 
     /**
-     * Sets the tower type of the current player in the queue.
-     * @param towerType the type of tower to assign
-     * @throws NotValidArgumentException if the tower selected is not available
-     * @throws NotValidOperationException if the tower of the player can't be changed in the current state
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
+    @Override
     public void setTowerOfPlayer(TowerType towerType) throws NotValidOperationException, NotValidArgumentException {
         state.setTowerOfPlayer(towerType);
     }
 
     /**
-     * Sets the wizard of the current player in the queue.
-     * @param wizard the wizard to assign
-     * @throws NotValidArgumentException if the wizard selected is not available
-     * @throws NotValidOperationException if the wizard of the player can't be changed in the current state
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
+    @Override
     public void setWizardOfPlayer(Wizard wizard) throws NotValidOperationException, NotValidArgumentException {
         state.setWizardOfPlayer(wizard);
     }
 
     /**
-     * Moves the match making to the next state.
-     * @throws NotValidOperationException if the state can't be changed (i.e. not all the expected operations
-     * of the current state were done)
+     * @throws NotValidOperationException {@inheritDoc}
      */
+    @Override
     public void next() throws NotValidOperationException {
         state.next();
     }
