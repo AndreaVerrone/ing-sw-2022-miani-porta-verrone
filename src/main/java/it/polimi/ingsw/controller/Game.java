@@ -84,6 +84,7 @@ public class Game implements IGame{
         //TODO: update observer
     }
 
+    /**
      * @throws NotValidOperationException {@inheritDoc}
      * @throws NotValidArgumentException {@inheritDoc}
      */
