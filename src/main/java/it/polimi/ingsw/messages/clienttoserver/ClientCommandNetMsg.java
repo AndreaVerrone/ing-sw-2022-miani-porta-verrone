@@ -23,15 +23,17 @@ abstract public class ClientCommandNetMsg extends NetworkMessage {
 
     /**
      * A method used to process this message.
-     * @param client the client that sent this message
-     * @apiNote This method runs in the server.
+     * <p>
+     * This method runs in the server.
+     * @param clientInServer the clientInServer that sent this message
      */
-    abstract public void processMessage(ClientHandler client);
+    abstract public void processMessage(ClientHandler clientInServer);
 
     /**
      * Processes the response sent from the server.
+     * <p>
+     * This method runs in the client.
      * @param response the response of this request
-     * @apiNote This method runs in the client.
      */
     abstract public void processResponse(ResponseMessage response);
 

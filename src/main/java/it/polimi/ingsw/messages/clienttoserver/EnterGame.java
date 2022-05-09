@@ -33,14 +33,14 @@ public class EnterGame extends ClientCommandNetMsg{
     }
 
     @Override
-    public void processMessage(ClientHandler client) {
+    public void processMessage(ClientHandler clientInServer) {
         try {
-            client.getSessionController().enterGame(nickname, gameID);
-            client.sendMessage(ResponseMessage.newSuccess(this));
+            clientInServer.getSessionController().enterGame(nickname, gameID);
+            clientInServer.sendMessage(ResponseMessage.newSuccess(this));
         } catch (NotValidOperationException e) {
-            client.sendMessage(new ResponseMessage(this, Result.INVALID_OPERATION, e.getErrorCode()));
+            clientInServer.sendMessage(new ResponseMessage(this, Result.INVALID_OPERATION, e.getErrorCode()));
         } catch (NotValidArgumentException e) {
-            client.sendMessage(new ResponseMessage(this, Result.INVALID_ARGUMENT, e.getErrorCode()));
+            clientInServer.sendMessage(new ResponseMessage(this, Result.INVALID_ARGUMENT, e.getErrorCode()));
         }
     }
 
