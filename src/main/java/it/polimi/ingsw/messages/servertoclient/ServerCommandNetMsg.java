@@ -1,5 +1,6 @@
 package it.polimi.ingsw.messages.servertoclient;
 
+import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.messages.NetworkMessage;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
@@ -23,14 +24,17 @@ abstract public class ServerCommandNetMsg extends NetworkMessage {
 
     /**
      * A method used to process this message.
-     * @apiNote This method runs in the client.
+     * <p>
+     * This method runs in the client.
+     * @param client the client that receives this message
      */
-    abstract public void processMessage();
+    abstract public void processMessage(ConnectionHandler client);
 
     /**
      * Processes the response sent from the client.
+     * <p>
+     * This method runs in the server.
      * @param response the response of this request
-     * @implNote This method runs in the server.
      */
     abstract public void processResponse(ResponseMessage response);
 
