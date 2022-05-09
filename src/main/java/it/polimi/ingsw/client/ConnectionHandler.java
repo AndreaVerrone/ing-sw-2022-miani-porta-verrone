@@ -1,16 +1,12 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.messages.NetworkMessage;
-import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
-import it.polimi.ingsw.messages.clienttoserver.CreateNewGameMessage;
-import it.polimi.ingsw.messages.clienttoserver.EnterGame;
-import it.polimi.ingsw.messages.clienttoserver.GetGames;
+import it.polimi.ingsw.messages.clienttoserver.*;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
+import it.polimi.ingsw.server.User;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -58,6 +54,18 @@ public class ConnectionHandler implements Runnable {
             input = new ObjectInputStream(server.getInputStream());
         } catch (IOException e) {
             System.out.println("Can't reach the server!");
+            return;
+        }
+
+        try {
+            trySendSecret();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Can't send identity to server!");
+            try {
+                server.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             return;
         }
 
@@ -179,5 +187,34 @@ public class ConnectionHandler implements Runnable {
         }
         if (message instanceof ClientCommandNetMsg clientMsg)
             sentMessages.putIfAbsent(clientMsg.getIdentifier(), clientMsg);
+    }
+
+    private void trySendSecret() throws IOException, ClassNotFoundException {
+        String identifier;
+        try {
+            identifier = readSecret();
+        } catch (IOException e){
+            identifier = new User().getIdentifier();
+        }
+
+        System.out.println("The secret is:\t" + identifier);
+        sendMessage(new SendUserIdentifier(identifier));
+        ResponseMessage responseMessage = (ResponseMessage) input.readObject();
+        if (responseMessage.isSuccess())
+            System.out.println("Secret received successfully");
+    }
+
+    private String readSecret() throws IOException {
+        String path = "secret.txt";
+        File file = new File(path);
+        boolean createdNew = file.createNewFile();
+        if (createdNew){
+            User newUser = new User();
+            DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(file));
+            outputStream.writeUTF(newUser.getIdentifier());
+            return newUser.getIdentifier();
+        }
+        DataInputStream fileInputStream = new DataInputStream(new FileInputStream(file));
+        return fileInputStream.readUTF();
     }
 }
