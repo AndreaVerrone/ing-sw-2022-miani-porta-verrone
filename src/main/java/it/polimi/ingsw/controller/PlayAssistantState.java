@@ -100,4 +100,9 @@ public class PlayAssistantState implements State{
         // the list that collects all the assistant card that have been used in the current round should be empty
         assistantsPlayed = new ArrayList<>();
     }
+
+    @Override
+    public void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException {
+        throw new NotValidOperationException("you cannot use a character card during planning phase");
+    }
 }
