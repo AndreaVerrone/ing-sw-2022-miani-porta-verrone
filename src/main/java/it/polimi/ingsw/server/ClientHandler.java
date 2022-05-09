@@ -1,15 +1,18 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.NetworkMessage;
-import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
+import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +36,11 @@ public class ClientHandler implements Runnable{
      * The input stream of this client
      */
     private ObjectInputStream input;
+
+    /**
+     * The session controller for this client.
+     */
+    private final SessionController sessionController = new SessionController();
 
     /**
      * A collection of all the request messages sent to the client that not received a response yet
@@ -135,4 +143,17 @@ public class ClientHandler implements Runnable{
             }
         }
     }
+
+    /**
+     * Sets the user of this connection.
+     * @param user the user that opened this connection
+     */
+    public void setUser(User user) {
+        sessionController.setUser(user);
+    }
+
+    public SessionController getSessionController() {
+        return sessionController;
+    }
+
 }
