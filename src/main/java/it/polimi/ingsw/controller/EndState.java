@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * A class to handle the end of the game
  */
-public class EndState {
+public class EndState implements State {
 
     /**
      * Game class of the game

@@ -68,7 +68,7 @@ public class MoveMotherNatureState implements State {
             //If this is the last round
             if (numberOfPlayersLastRound == model.getPlayerList().size()){
                 //If all players have played their turn go at the end of the game
-                game.setState(game.getEndState());
+                game.setState(new EndState(game));
             }
             else{
                 //More players have to play their last turn, update the current player and go to the next state
