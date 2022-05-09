@@ -35,6 +35,16 @@ public class Match implements IMatchMaking, IGame {
 
 
     /**
+     * Gets the nickname of the player that need to play now.
+     * @return the nickname of the current player
+     */
+    public String getCurrentPlayerNickname(){
+        if (matchMaking != null)
+            return matchMaking.getCurrentPlayer().getNickname();
+        return game.getModel().getCurrentPlayer().getNickname();
+    }
+
+    /**
      * @throws NotValidOperationException {@inheritDoc}
      */
     @Override
