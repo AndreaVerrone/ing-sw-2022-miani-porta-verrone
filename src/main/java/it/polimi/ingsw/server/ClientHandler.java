@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.NetworkMessage;
 import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
+import it.polimi.ingsw.messages.clienttoserver.SendUserIdentifier;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 
@@ -62,6 +63,18 @@ public class ClientHandler implements Runnable{
             input = new ObjectInputStream(client.getInputStream());
         } catch (IOException e) {
             System.out.println("Can't open connection to " + client.getInetAddress());
+            return;
+        }
+
+        try {
+            ((SendUserIdentifier) input.readObject()).process(this);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("An error occurred with identification of client");
+            try {
+                client.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             return;
         }
 
