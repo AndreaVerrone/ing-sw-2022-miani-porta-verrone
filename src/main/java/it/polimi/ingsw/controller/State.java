@@ -98,4 +98,8 @@ public interface State {
         throw new NotValidOperationException();
     }
 
+    default public void chooseStudent(PawnType pawnType) throws NotValidOperationException, NotValidArgumentException{
+        throw new NotValidOperationException();
+    }
+
 }
