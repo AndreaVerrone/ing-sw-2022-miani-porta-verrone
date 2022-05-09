@@ -106,7 +106,7 @@ public class ConnectionHandler implements Runnable {
                     int number = Integer.parseInt(scanner.nextLine());
                     System.out.println("choose difficulty");
                     boolean hard = Boolean.parseBoolean(scanner.nextLine());
-                    output.writeObject(new CreateNewGameMessage(number, hard));
+                    output.writeObject(new CreateNewGame(number, hard));
                     ((ServerCommandNetMsg) input.readObject()).processMessage(this);
                     stop = true;
                 }
