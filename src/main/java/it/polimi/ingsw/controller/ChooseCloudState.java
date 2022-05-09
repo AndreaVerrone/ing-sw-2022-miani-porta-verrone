@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.CheckProfessorStandard;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.PawnType;
-import it.polimi.ingsw.model.StudentList;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.ReachedMaxStudentException;
@@ -85,7 +82,8 @@ public class ChooseCloudState implements State{
             // RESET ALL THE STANDARD STRATEGY
             // reset the standard strategy for check professor
             game.getModel().setCheckProfessorStrategy(new CheckProfessorStandard(game.getModel()));
-
+            // reset the standard strategy for check professor
+            game.getModel().setMotherNatureLimitStrategy(new MotherNatureLimitStandard());
             // RESET THE POSSIBILITY TO USE A CHARACTER CARD
             game.setCanUseCharacterCard(true);
 
