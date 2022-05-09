@@ -95,16 +95,33 @@ public class Server {
     /**
      * Adds a new game to the list of games in this server.
      * @param match the new game generated
+     * @return the ID associated to the new game
      */
-    public void addNewGame(Match match){
+    public String addNewGame(Match match){
         String gameID = generateGameID();
         synchronized (games){
             if (!games.containsKey(gameID)) {
                 games.put(gameID, match);
-                return;
+                return gameID;
             }
         }
-        addNewGame(match);
+        return addNewGame(match);
+    }
+
+    /**
+     * Gets the game associated with the provided gameID.
+     * @param gameID the ID of the game
+     * @return the game associated with that ID
+     * @throws NotValidArgumentException if there is no game with that ID
+     */
+    public Match getGame(String gameID) throws NotValidArgumentException {
+        Match match;
+        synchronized (games){
+            match = games.get(gameID);
+        }
+        if (match == null)
+            throw new NotValidArgumentException();
+        return match;
     }
 
     /**
@@ -140,9 +157,7 @@ public class Server {
         Random random = new Random();
         int length = 10;
         StringBuilder gameID = new StringBuilder(length);
-        for (int i=0;i<length;i++){
-            gameID.append(random.nextInt(10));
-        }
+        random.ints(length, 0, 10).forEach(gameID::append);
         return gameID.toString();
     }
 }
