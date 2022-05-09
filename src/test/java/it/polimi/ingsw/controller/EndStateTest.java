@@ -44,6 +44,12 @@ class EndStateTest {
         player3 = null;
     }
 
+    /**
+     * Method to change the number of towers and professors of a player
+     * @param player player to change towers and professors
+     * @param numberOfTowers number of towers to change of the players
+     * @param numberOfProfessors number of professors to change to the player
+     */
     private void changeTowerAndProfessors(Player player, int numberOfTowers, int numberOfProfessors ){
         player.changeTowerNumber(numberOfTowers-player.getTowerNumbers());
         int i= 0;
