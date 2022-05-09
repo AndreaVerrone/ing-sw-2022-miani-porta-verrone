@@ -44,7 +44,12 @@ public class Server {
 
     public static void main(String[] args) {
 
-        int portNumber = Integer.parseInt(args[1]);
+        //code used for initial debugging
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Server port?");
+        int portNumber = Integer.parseInt(scanner.nextLine());
+        //end of code used for initial debugging
 
         ServerSocket serverSocket;
         try {
@@ -58,7 +63,7 @@ public class Server {
         while (true){
             try {
                 Socket socket = serverSocket.accept();
-                //Todo: add client handler
+                new Thread(new ClientHandler(socket)).start();
             } catch (IOException e) {
                 System.out.println("Connection dropped!");
             }
