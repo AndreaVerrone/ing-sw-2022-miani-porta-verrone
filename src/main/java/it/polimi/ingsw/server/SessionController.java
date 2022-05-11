@@ -17,6 +17,11 @@ import java.util.Collection;
 public class SessionController {
 
     /**
+     * The sender associated with this session controller.
+     */
+    private final NetworkSender sender;
+
+    /**
      * The user associated with this session.
      * @implNote This is initialized as a new user to handle the case were
      * the client does not succeed to send his identifier
@@ -32,6 +37,14 @@ public class SessionController {
      * The nickname chosen by the user to be used in the game.
      */
     private String nickname;
+
+    /**
+     * Creates a new session controller associated with the provided {@code NetworkSender}.
+     * @param sender the sender associated with this
+     */
+    protected SessionController(NetworkSender sender){
+        this.sender = sender;
+    }
 
     public void setUser(User user) {
         this.user = user;
