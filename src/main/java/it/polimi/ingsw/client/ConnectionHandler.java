@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.clienttoserver.launcher.SendUserIdentifier;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.messages.servertoclient.PingMessage;
 import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
+import it.polimi.ingsw.server.NetworkSender;
 import it.polimi.ingsw.server.User;
 
 import java.io.*;
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A class used to handle the connection with the server
  */
-public class ConnectionHandler implements Runnable {
+public class ConnectionHandler implements Runnable, NetworkSender {
 
     /**
      * The socket connected to the server
@@ -170,6 +171,7 @@ public class ConnectionHandler implements Runnable {
      *
      * @param message the message to send
      */
+    @Override
     public void sendMessage(NetworkMessage message) {
         try {
             output.writeObject(message);
@@ -188,6 +190,7 @@ public class ConnectionHandler implements Runnable {
         sendMessage(userIdentifier);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private String readIdentifier() {
         File file = new File(fileIdentifierPath);
         if (file.exists()) {
@@ -212,6 +215,7 @@ public class ConnectionHandler implements Runnable {
     /**
      * Quits from the game the client is in, regardless of the state of the game.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void quitGame(){
         sendMessage(new QuitGame());
         new File(fileIdentifierPath).delete();

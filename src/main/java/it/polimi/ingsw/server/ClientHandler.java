@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A class used to handle client connection
  */
-public class ClientHandler implements Runnable {
+public class ClientHandler implements Runnable, NetworkSender {
 
     /**
      * The socket bound to this client
@@ -32,7 +32,7 @@ public class ClientHandler implements Runnable {
     /**
      * The session controller for this client.
      */
-    private final SessionController sessionController = new SessionController();
+    private final SessionController sessionController;
     /**
      * A collection of all the request messages sent to the client that not received a response yet
      */
@@ -53,6 +53,7 @@ public class ClientHandler implements Runnable {
      */
     public ClientHandler(Socket client) {
         this.client = client;
+        sessionController = new SessionController(this);
     }
 
     @Override
@@ -142,6 +143,7 @@ public class ClientHandler implements Runnable {
      *
      * @param message the message to send
      */
+    @Override
     public void sendMessage(NetworkMessage message) {
         try {
             output.writeObject(message);
