@@ -2,10 +2,16 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.matchmaking.IMatchMaking;
 import it.polimi.ingsw.controller.matchmaking.MatchMaking;
+import it.polimi.ingsw.network.VirtualView;
+import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Wizard;
+import it.polimi.ingsw.network.NetworkSender;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * A class used as a common interface for the Matchmaking and Game
@@ -23,6 +29,12 @@ public class Match implements IMatchMaking, IGame {
     private Game game;
 
     /**
+     * The views of the player in this match. All of this should be notified
+     * when something in the match changes
+     */
+    private final Collection<VirtualView> playersView = new ArrayList<>();
+
+    /**
      * Creates a new Match for the number of player specified using the expert rules if {@code wantExpert}
      * is {@code true}, or using the normal rules otherwise.
      *
@@ -31,6 +43,25 @@ public class Match implements IMatchMaking, IGame {
      */
     public Match(int numOfPlayers, boolean wantExpert) {
         matchMaking = new MatchMaking(numOfPlayers, wantExpert);
+    }
+
+    /**
+     * Subscribe the view of a client to be notified of changes in the game.
+     * If the client already was subscribed to this, the method actually do nothing.
+     * @param client the view of the client to add
+     */
+    public void addClient(VirtualView client){
+        if (playersView.contains(client))
+            return;
+        playersView.add(client);
+    }
+
+    /**
+     * Unsubscribe the view of a client to not receive any more update from this game.
+     * @param client the view of the client to remove
+     */
+    public void removeClient(VirtualView client){
+        playersView.remove(client);
     }
 
 
