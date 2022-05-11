@@ -5,7 +5,8 @@ package it.polimi.ingsw.messages.responses;
  */
 public enum ErrorCode{
     NONE,
-    GENERIC,
+    GENERIC_INVALID_ARGUMENT,
+    GENERIC_INVALID_OPERATION,
     GAME_NOT_EXIST,
     GAME_IS_FULL,
     NICKNAME_TAKEN,

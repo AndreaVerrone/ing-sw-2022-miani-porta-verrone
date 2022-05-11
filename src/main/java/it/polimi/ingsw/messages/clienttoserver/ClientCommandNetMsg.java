@@ -36,10 +36,10 @@ abstract public class ClientCommandNetMsg extends NetworkMessage {
             normalProcess(clientInServer);
         } catch (NotValidOperationException e) {
             clientInServer.sendMessage(
-                    new ResponseMessage(this, Result.INVALID_OPERATION, e.getErrorCode()));
+                    new ResponseMessage(this, Result.FAILURE, e.getErrorCode()));
         } catch (NotValidArgumentException e) {
             clientInServer.sendMessage(
-                    new ResponseMessage(this, Result.INVALID_ARGUMENT, e.getErrorCode()));
+                    new ResponseMessage(this, Result.FAILURE, e.getErrorCode()));
         }
     }
 

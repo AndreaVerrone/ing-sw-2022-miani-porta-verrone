@@ -10,10 +10,10 @@ public class NotValidArgumentException extends Exception{
     /**
      * The error associated with this exception
      */
-    private ErrorCode errorCode = ErrorCode.GENERIC;
+    private ErrorCode errorCode = ErrorCode.GENERIC_INVALID_ARGUMENT;
 
     /**
-     * Constructs a new exception with {@link ErrorCode#GENERIC} as the error code.
+     * Constructs a new exception with {@link ErrorCode#GENERIC_INVALID_ARGUMENT} as the error code.
      */
     public NotValidArgumentException(){
         super();

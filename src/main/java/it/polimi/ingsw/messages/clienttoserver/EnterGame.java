@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.messages.responses.ErrorCode;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
-import it.polimi.ingsw.messages.responses.Result;
 import it.polimi.ingsw.server.ClientHandler;
 
 /**
@@ -47,24 +46,20 @@ public class EnterGame extends ClientCommandNetMsg {
             return;
         }
         ErrorCode errorCode = response.getErrorCode();
-        if (response.getResult() == Result.INVALID_ARGUMENT) {
-            switch (errorCode) {
-                case GAME_NOT_EXIST -> {
-                    //TODO: notify view
-                }
-                case NICKNAME_TAKEN -> {
-                    // TODO: 09/05/2022 ask for another nickname 
-                }
+        switch (errorCode) {
+            case GAME_NOT_EXIST -> {
+                //TODO: notify view
             }
-        } else {
-            switch (errorCode) {
-                case GAME_IS_FULL -> {
-                    // TODO: 09/05/2022 notify view
-                }
-                case GENERIC -> {
-                    // TODO: 09/05/2022 notify view can't join
-                }
+            case NICKNAME_TAKEN -> {
+                // TODO: 09/05/2022 ask for another nickname
+            }
+            case GAME_IS_FULL -> {
+                // TODO: 09/05/2022 notify view
+            }
+            case GENERIC_INVALID_OPERATION -> {
+                // TODO: 09/05/2022 notify view can't join
             }
         }
+
     }
 }

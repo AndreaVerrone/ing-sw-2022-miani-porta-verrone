@@ -6,6 +6,5 @@ package it.polimi.ingsw.messages.responses;
 public enum Result {
 
         SUCCESS,
-        INVALID_ARGUMENT,
-        INVALID_OPERATION
+        FAILURE
 }
