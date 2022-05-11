@@ -9,11 +9,11 @@ import java.util.Collection;
 /**
  * A message sent from client to the server to ask for existing games.
  */
-public class GetGames extends ClientCommandNetMsg{
+public class GetGames extends ClientCommandNetMsg {
 
 
     @Override
-    public void processMessage(ClientHandler clientInServer) {
+    protected void normalProcess(ClientHandler clientInServer) {
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
         Collection<String> games = clientInServer.getSessionController().getGames();
         clientInServer.sendMessage(new PossibleGames(games));

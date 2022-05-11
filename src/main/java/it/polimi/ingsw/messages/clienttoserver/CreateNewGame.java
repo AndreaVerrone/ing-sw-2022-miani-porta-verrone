@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages.clienttoserver;
 
-import it.polimi.ingsw.messages.responses.ErrorCode;
+import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.messages.responses.Result;
 import it.polimi.ingsw.messages.servertoclient.GameCreated;
@@ -24,18 +24,20 @@ public class CreateNewGame extends ClientCommandNetMsg {
     /**
      * Creates a new request to create a new game for the specified number of player using the
      * expert rules, if requested.
+     *
      * @param numOfPlayers the number of players needed
-     * @param wantExpert {@code true} if the expert rules must be applied, {@code false} otherwise
+     * @param wantExpert   {@code true} if the expert rules must be applied, {@code false} otherwise
      */
-    public CreateNewGame(int numOfPlayers, boolean wantExpert){
+    public CreateNewGame(int numOfPlayers, boolean wantExpert) {
         this.numOfPlayers = numOfPlayers;
         this.wantExpert = wantExpert;
     }
 
     @Override
-    public void processMessage(ClientHandler clientInServer) {
+    protected void normalProcess(ClientHandler clientInServer)
+            throws NotValidArgumentException {
         if (!(numOfPlayers == 2 || numOfPlayers == 3))
-            clientInServer.sendMessage(new ResponseMessage(this, Result.INVALID_ARGUMENT, ErrorCode.GENERIC));
+            throw new NotValidArgumentException();
         String newGameID = clientInServer.getSessionController().createNewGame(numOfPlayers, wantExpert);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
         clientInServer.sendMessage(new GameCreated(newGameID));
@@ -44,7 +46,7 @@ public class CreateNewGame extends ClientCommandNetMsg {
 
     @Override
     public void processResponse(ResponseMessage response) {
-        if (response.getResult() == Result.INVALID_ARGUMENT){
+        if (response.getResult() == Result.INVALID_ARGUMENT) {
             // TODO: 09/05/2022 notify view of the error
         }
     }
