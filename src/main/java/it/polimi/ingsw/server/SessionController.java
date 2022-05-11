@@ -18,8 +18,10 @@ public class SessionController {
 
     /**
      * The user associated with this session.
+     * @implNote This is initialized as a new user to handle the case were
+     * the client does not succeed to send his identifier
      */
-    private User user;
+    private User user = new User();
 
     /**
      * The game associated with this session, if any.
@@ -75,7 +77,7 @@ public class SessionController {
     }
 
     /**
-     * Removes the player from the game.
+     * Removes the player from the game. This is used in the matchmaking state to gracefully exit from a game.
      *
      * @param nickname the nickname of the player to remove
      * @throws NotValidArgumentException  if there is no player with the provided nickname
@@ -139,6 +141,13 @@ public class SessionController {
         return Server.getInstance().getGames();
     }
 
+    /**
+     * Forces the player to exit the game.
+     */
+    public void quitGame(){
+        Server.getInstance().removePlayer(user);
+        match = null;
+    }
 
     private void checkIfCanDo() throws NotValidOperationException {
         if (match == null)

@@ -35,7 +35,7 @@ public class User {
     private String generateNew(){
         int start = '0';
         int end = 'z';
-        int size = 10;
+        int size = 20;
         StringBuilder stringBuilder = new StringBuilder();
         Random random = new Random();
 
