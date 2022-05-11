@@ -10,10 +10,10 @@ public class NotValidOperationException extends Exception{
     /**
      * The error associated with this exception
      */
-    private ErrorCode errorCode = ErrorCode.GENERIC;
+    private ErrorCode errorCode = ErrorCode.GENERIC_INVALID_OPERATION;
 
     /**
-     * Constructs a new exception with {@link ErrorCode#GENERIC} as the error code.
+     * Constructs a new exception with {@link ErrorCode#GENERIC_INVALID_OPERATION} as the error code.
      */
     public NotValidOperationException() {
         super();

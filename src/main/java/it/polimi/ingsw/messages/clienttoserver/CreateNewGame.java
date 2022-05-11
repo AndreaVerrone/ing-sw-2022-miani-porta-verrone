@@ -46,7 +46,7 @@ public class CreateNewGame extends ClientCommandNetMsg {
 
     @Override
     public void processResponse(ResponseMessage response) {
-        if (response.getResult() == Result.INVALID_ARGUMENT) {
+        if (!response.isSuccess()) {
             // TODO: 09/05/2022 notify view of the error
         }
     }
