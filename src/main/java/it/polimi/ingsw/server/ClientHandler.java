@@ -4,12 +4,14 @@ import it.polimi.ingsw.messages.NetworkMessage;
 import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.messages.clienttoserver.launcher.SendUserIdentifier;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.PingMessage;
 import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,7 +81,9 @@ public class ClientHandler implements Runnable{
         }
 
         long resendDelay = 4000;
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+        executorService.scheduleWithFixedDelay(
+                this::sendPing, 1, Server.CLIENT_SOCKET_TIME_OUT/3, TimeUnit.SECONDS);
         executorService.scheduleWithFixedDelay(
                 this::resendMessages, resendDelay,resendDelay, TimeUnit.MILLISECONDS);
 
@@ -106,10 +110,14 @@ public class ClientHandler implements Runnable{
             }
         } catch (ClassNotFoundException | ClassCastException e) {
             System.out.println("A violation of the protocol occurred for " + client.getInetAddress());
+        } catch (SocketTimeoutException e){
+            // TODO: 11/05/2022 skip turn
         }
     }
 
     private void handleMessage(Object message) {
+        if (message instanceof PingMessage)
+            return;
         if (message instanceof ResponseMessage response){
             UUID parentId = response.getParentMessage();
             boolean exists;
@@ -154,6 +162,14 @@ public class ClientHandler implements Runnable{
                 message.resetTimestamp();
                 sendMessage(message);
             }
+        }
+    }
+
+    private void sendPing(){
+        try {
+            output.writeObject(new PingMessage());
+        } catch (IOException e){
+            System.out.println("Can't send ping to " + client.getInetAddress());
         }
     }
 
