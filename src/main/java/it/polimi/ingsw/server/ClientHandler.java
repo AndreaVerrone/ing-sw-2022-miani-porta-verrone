@@ -23,38 +23,35 @@ import java.util.concurrent.TimeUnit;
 /**
  * A class used to handle client connection
  */
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable {
 
     /**
      * The socket bound to this client
      */
     private final Socket client;
-
+    /**
+     * The session controller for this client.
+     */
+    private final SessionController sessionController = new SessionController();
+    /**
+     * A collection of all the request messages sent to the client that not received a response yet
+     */
+    private final Map<UUID, ServerCommandNetMsg> sentMessages = new HashMap<>();
     /**
      * The output stream of this client
      */
     private ObjectOutputStream output;
-
     /**
      * The input stream of this client
      */
     private ObjectInputStream input;
 
     /**
-     * The session controller for this client.
-     */
-    private final SessionController sessionController = new SessionController();
-
-    /**
-     * A collection of all the request messages sent to the client that not received a response yet
-     */
-    private final Map<UUID, ServerCommandNetMsg> sentMessages = new HashMap<>();
-
-    /**
      * Creates a new client handler for the provided socket connection
+     *
      * @param client the socket bound to this client
      */
-    public ClientHandler(Socket client){
+    public ClientHandler(Socket client) {
         this.client = client;
     }
 
@@ -83,13 +80,13 @@ public class ClientHandler implements Runnable{
         long resendDelay = 4000;
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
         executorService.scheduleWithFixedDelay(
-                this::sendPing, 1, Server.CLIENT_SOCKET_TIME_OUT/3, TimeUnit.SECONDS);
+                this::sendPing, 1, Server.CLIENT_SOCKET_TIME_OUT / 3, TimeUnit.SECONDS);
         executorService.scheduleWithFixedDelay(
-                this::resendMessages, resendDelay,resendDelay, TimeUnit.MILLISECONDS);
+                this::resendMessages, resendDelay, resendDelay, TimeUnit.MILLISECONDS);
 
         try {
             handleConnection();
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("An error occurred when handling client " + client.getInetAddress());
         } finally {
             executorService.shutdown();
@@ -105,28 +102,30 @@ public class ClientHandler implements Runnable{
 
         try {
             while (true) {
-                Object message = input.readObject();
-                handleMessage(message);
+                try {
+                    Object message = input.readObject();
+                    handleMessage(message);
+                } catch (SocketTimeoutException e) {
+                    // TODO: 11/05/2022 skip turn
+                }
             }
         } catch (ClassNotFoundException | ClassCastException e) {
             System.out.println("A violation of the protocol occurred for " + client.getInetAddress());
-        } catch (SocketTimeoutException e){
-            // TODO: 11/05/2022 skip turn
         }
     }
 
     private void handleMessage(Object message) {
         if (message instanceof PingMessage)
             return;
-        if (message instanceof ResponseMessage response){
+        if (message instanceof ResponseMessage response) {
             UUID parentId = response.getParentMessage();
             boolean exists;
-            synchronized (sentMessages){
+            synchronized (sentMessages) {
                 exists = sentMessages.containsKey(parentId);
             }
             if (exists) {
                 ServerCommandNetMsg parentMessage;
-                synchronized (sentMessages){
+                synchronized (sentMessages) {
                     parentMessage = sentMessages.remove(parentId);
                 }
                 parentMessage.processResponse(response);
@@ -140,6 +139,7 @@ public class ClientHandler implements Runnable{
     /**
      * Sends a message to the client associated with this handler. If the message is a request, it also
      * put it in the queue for resending.
+     *
      * @param message the message to send
      */
     public void sendMessage(NetworkMessage message) {
@@ -154,10 +154,10 @@ public class ClientHandler implements Runnable{
 
     private void resendMessages() {
         Collection<ServerCommandNetMsg> messages;
-        synchronized (sentMessages){
+        synchronized (sentMessages) {
             messages = sentMessages.values();
         }
-        for (var message: messages){
+        for (var message : messages) {
             if (message.isExpired()) {
                 message.resetTimestamp();
                 sendMessage(message);
@@ -165,16 +165,17 @@ public class ClientHandler implements Runnable{
         }
     }
 
-    private void sendPing(){
+    private void sendPing() {
         try {
             output.writeObject(new PingMessage());
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Can't send ping to " + client.getInetAddress());
         }
     }
 
     /**
      * Sets the user of this connection.
+     *
      * @param user the user that opened this connection
      */
     public void setUser(User user) {
