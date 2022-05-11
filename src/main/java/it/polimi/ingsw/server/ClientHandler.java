@@ -2,7 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.NetworkMessage;
 import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
-import it.polimi.ingsw.messages.clienttoserver.SendUserIdentifier;
+import it.polimi.ingsw.messages.clienttoserver.launcher.SendUserIdentifier;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 

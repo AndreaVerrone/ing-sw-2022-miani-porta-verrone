@@ -1,7 +1,8 @@
-package it.polimi.ingsw.messages.clienttoserver;
+package it.polimi.ingsw.messages.clienttoserver.matchmaking;
 
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
+import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.server.ClientHandler;
@@ -9,7 +10,7 @@ import it.polimi.ingsw.server.ClientHandler;
 /**
  * A message sent from the client to the server to communicate the chosen wizard.
  */
-public class SetWizard extends ClientCommandNetMsg{
+public class SetWizard extends ClientCommandNetMsg {
 
     /**
      * The wizard chosen by the player.

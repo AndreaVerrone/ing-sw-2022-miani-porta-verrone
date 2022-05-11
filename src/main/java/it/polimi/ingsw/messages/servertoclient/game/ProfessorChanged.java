@@ -1,7 +1,8 @@
-package it.polimi.ingsw.messages.servertoclient;
+package it.polimi.ingsw.messages.servertoclient.game;
 
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.model.PawnType;
 
 import java.util.Collection;
@@ -11,7 +12,7 @@ import java.util.HashSet;
  * A message sent from server to all clients connected to a game to indicate that something
  * in the professors list of a player changed
  */
-public class ProfessorChanged extends ServerCommandNetMsg{
+public class ProfessorChanged extends ServerCommandNetMsg {
 
     /**
      * The nickname of the player

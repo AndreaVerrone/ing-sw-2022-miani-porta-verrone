@@ -1,7 +1,8 @@
-package it.polimi.ingsw.messages.servertoclient;
+package it.polimi.ingsw.messages.servertoclient.game;
 
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import java.util.HashSet;
  * A message sent from the server to all clients connected to a game to indicate that the game ended.
  * This will also contain information about which player won the game.
  */
-public class GameEnded extends ServerCommandNetMsg{
+public class GameEnded extends ServerCommandNetMsg {
 
     /**
      * The players that won the game.

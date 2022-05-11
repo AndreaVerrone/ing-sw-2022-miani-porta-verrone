@@ -20,7 +20,7 @@ abstract public class ClientCommandNetMsg extends NetworkMessage {
     /**
      * Creates a new message that needs to be sent to a client
      */
-    ClientCommandNetMsg() {
+    protected ClientCommandNetMsg() {
         whenSent = System.currentTimeMillis();
     }
 
