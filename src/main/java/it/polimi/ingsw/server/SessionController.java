@@ -3,13 +3,14 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.Match;
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
-import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.User;
+import it.polimi.ingsw.network.VirtualView;
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 
 import java.util.Collection;
 
@@ -19,12 +20,13 @@ import java.util.Collection;
 public class SessionController {
 
     /**
-     * The sender associated with this session controller.
+     * The virtual view associated with the client represented by this session controller.
      */
-    private final NetworkSender sender;
+    private final VirtualView view;
 
     /**
      * The user associated with this session.
+     *
      * @implNote This is initialized as a new user to handle the case were
      * the client does not succeed to send his identifier
      */
@@ -42,10 +44,11 @@ public class SessionController {
 
     /**
      * Creates a new session controller associated with the provided {@code NetworkSender}.
+     *
      * @param sender the sender associated with this
      */
-    protected SessionController(NetworkSender sender){
-        this.sender = sender;
+    protected SessionController(NetworkSender sender) {
+        view = new NetworkView(sender);
     }
 
     public void setUser(User user) {
@@ -84,6 +87,7 @@ public class SessionController {
             throw new NotValidArgumentException(ErrorCode.GAME_NOT_EXIST);
         }
         match.addPlayer(nickname);
+        match.addClient(view);
 
         this.match = match;
         this.nickname = nickname;
@@ -115,6 +119,7 @@ public class SessionController {
         if (match == null)
             throw new NotValidOperationException(ErrorCode.GAME_NOT_EXIST);
         match.removePlayer(nickname);
+        match.removeClient(view);
         Server.getInstance().removePlayer(user);
     }
 
@@ -159,7 +164,8 @@ public class SessionController {
     /**
      * Forces the player to exit the game.
      */
-    public void quitGame(){
+    public void quitGame() {
+        match.removeClient(view);
         Server.getInstance().removePlayer(user);
         match = null;
     }
