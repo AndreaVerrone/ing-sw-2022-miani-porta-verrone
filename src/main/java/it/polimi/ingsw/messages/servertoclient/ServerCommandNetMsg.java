@@ -18,7 +18,7 @@ abstract public class ServerCommandNetMsg extends NetworkMessage {
     /**
      * Creates a new message that needs to be sent to a client
      */
-    ServerCommandNetMsg(){
+    protected ServerCommandNetMsg(){
         whenSent = System.currentTimeMillis();
     }
 

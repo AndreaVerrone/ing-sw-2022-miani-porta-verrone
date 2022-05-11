@@ -1,14 +1,15 @@
-package it.polimi.ingsw.messages.clienttoserver;
+package it.polimi.ingsw.messages.clienttoserver.game;
 
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
+import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
 
 /**
  * A message sent from the client to the server to indicate the number of movements wanted for mother nature
  */
-public class MoveMotherNature extends ClientCommandNetMsg{
+public class MoveMotherNature extends ClientCommandNetMsg {
 
     /**
      * The number of movement mother nature need to do

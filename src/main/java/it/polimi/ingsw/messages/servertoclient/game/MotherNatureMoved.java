@@ -1,13 +1,14 @@
-package it.polimi.ingsw.messages.servertoclient;
+package it.polimi.ingsw.messages.servertoclient.game;
 
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 
 /**
  * A message sent from the server to all the client connected to a game to indicate that mother nature
  * has moved from its previous position
  */
-public class MotherNatureMoved extends ServerCommandNetMsg{
+public class MotherNatureMoved extends ServerCommandNetMsg {
 
     /**
      * The number of movement mother nature has done

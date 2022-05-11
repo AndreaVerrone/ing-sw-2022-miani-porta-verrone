@@ -1,14 +1,15 @@
-package it.polimi.ingsw.messages.clienttoserver;
+package it.polimi.ingsw.messages.clienttoserver.game;
 
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
+import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
 
 /**
  * A message sent from the client to the server to tell from which cloud take the students
  */
-public class TakeStudentsFromCloud extends ClientCommandNetMsg{
+public class TakeStudentsFromCloud extends ClientCommandNetMsg {
 
     /**
      * The ID of the cloud chosen

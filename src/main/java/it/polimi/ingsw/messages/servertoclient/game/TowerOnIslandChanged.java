@@ -1,14 +1,15 @@
-package it.polimi.ingsw.messages.servertoclient;
+package it.polimi.ingsw.messages.servertoclient.game;
 
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.model.TowerType;
 
 /**
  * A message sent from the server to all clients connected to a game
  * to indicate that the tower on an island has changed
  */
-public class TowerOnIslandChanged extends ServerCommandNetMsg{
+public class TowerOnIslandChanged extends ServerCommandNetMsg {
 
     /**
      * The new tower on the island

@@ -1,7 +1,8 @@
-package it.polimi.ingsw.messages.clienttoserver;
+package it.polimi.ingsw.messages.clienttoserver.launcher;
 
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
+import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.messages.responses.ErrorCode;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;

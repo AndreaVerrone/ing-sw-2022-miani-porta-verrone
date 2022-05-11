@@ -1,13 +1,14 @@
-package it.polimi.ingsw.messages.servertoclient;
+package it.polimi.ingsw.messages.servertoclient.matchmaking;
 
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 
 /**
  * A message sent from the server to the client to communicate
  * the changing of the number of players requested to begin a game.
  */
-public class NumPlayersChanged extends ServerCommandNetMsg{
+public class NumPlayersChanged extends ServerCommandNetMsg {
 
     /**
      * The new number of players requested in the game

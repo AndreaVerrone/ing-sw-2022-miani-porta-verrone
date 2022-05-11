@@ -1,7 +1,8 @@
-package it.polimi.ingsw.messages.servertoclient;
+package it.polimi.ingsw.messages.servertoclient.launcher;
 
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.HashSet;
 /**
  * A message sent from server to client to send all the games that can be joined
  */
-public class PossibleGames extends ServerCommandNetMsg{
+public class PossibleGames extends ServerCommandNetMsg {
 
     /**
      * All the IDs of the games present in server

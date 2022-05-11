@@ -1,7 +1,8 @@
-package it.polimi.ingsw.messages.clienttoserver;
+package it.polimi.ingsw.messages.clienttoserver.launcher;
 
+import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
-import it.polimi.ingsw.messages.servertoclient.PossibleGames;
+import it.polimi.ingsw.messages.servertoclient.launcher.PossibleGames;
 import it.polimi.ingsw.server.ClientHandler;
 
 import java.util.Collection;

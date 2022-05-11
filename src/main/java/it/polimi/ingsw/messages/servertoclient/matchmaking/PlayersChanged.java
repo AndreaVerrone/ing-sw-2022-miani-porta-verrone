@@ -1,8 +1,9 @@
-package it.polimi.ingsw.messages.servertoclient;
+package it.polimi.ingsw.messages.servertoclient.matchmaking;
 
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.controller.PlayerLoginInfo;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,7 +11,7 @@ import java.util.Collection;
 /**
  * A message sent from the server to the client to notify the changing of the players in the game.
  */
-public class PlayersChanged extends ServerCommandNetMsg{
+public class PlayersChanged extends ServerCommandNetMsg {
 
     /**
      * The players currently in the game

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.messages.clienttoserver;
+package it.polimi.ingsw.messages.clienttoserver.launcher;
 
 import it.polimi.ingsw.messages.NetworkMessage;
 import it.polimi.ingsw.messages.responses.ResponseMessage;

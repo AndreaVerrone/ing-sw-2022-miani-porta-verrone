@@ -1,14 +1,15 @@
-package it.polimi.ingsw.messages.servertoclient;
+package it.polimi.ingsw.messages.servertoclient.game;
 
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.model.player.Assistant;
 
 /**
  * A message sent from server to all client connected to a game to indicate that the current
  * player used an assistant
  */
-public class AssistantUsed extends ServerCommandNetMsg{
+public class AssistantUsed extends ServerCommandNetMsg {
 
     /**
      * The assistant used.

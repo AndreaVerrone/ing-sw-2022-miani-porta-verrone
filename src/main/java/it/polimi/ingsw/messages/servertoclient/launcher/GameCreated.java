@@ -1,15 +1,14 @@
-package it.polimi.ingsw.messages.servertoclient;
+package it.polimi.ingsw.messages.servertoclient.launcher;
 
 import it.polimi.ingsw.client.ConnectionHandler;
-import it.polimi.ingsw.messages.clienttoserver.EnterGame;
+import it.polimi.ingsw.messages.clienttoserver.launcher.EnterGame;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
-
-import java.util.Scanner;
+import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 
 /**
  * Message sent from the server to the client to notify the creation of a new game
  */
-public class GameCreated extends ServerCommandNetMsg{
+public class GameCreated extends ServerCommandNetMsg {
 
     /**
      * The unique id of the game created.

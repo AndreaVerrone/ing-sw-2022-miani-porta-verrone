@@ -2,6 +2,10 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.messages.NetworkMessage;
 import it.polimi.ingsw.messages.clienttoserver.*;
+import it.polimi.ingsw.messages.clienttoserver.launcher.CreateNewGame;
+import it.polimi.ingsw.messages.clienttoserver.launcher.EnterGame;
+import it.polimi.ingsw.messages.clienttoserver.launcher.GetGames;
+import it.polimi.ingsw.messages.clienttoserver.launcher.SendUserIdentifier;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.User;
