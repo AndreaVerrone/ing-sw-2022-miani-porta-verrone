@@ -40,10 +40,23 @@ public class SessionController {
      *
      * @param nickname the nickname chosen
      * @param gameID   the ID of the game chosen
-     * @throws NotValidArgumentException  if there is no game with that ID or
-     *                                    if the nickname is already taken
-     * @throws NotValidOperationException if the game has started or
-     *                                    if a new player can't be added
+     * @throws NotValidArgumentException  if there is no game with that ID or if the nickname is already taken.
+     * @throws NotValidOperationException if the game has started or if a new player can't be added.
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *         {@link ErrorCode#GAME_NOT_EXIST}: if there is no game with that ID
+     *     </li>
+     *     <li>
+     *         {@link ErrorCode#NICKNAME_TAKEN}: if there is already a player with that nickname
+     *     </li>
+     *     <li>
+     *         {@link ErrorCode#GAME_IS_FULL}: if the game already reached the maximum number of players supported
+     *     </li>
+     *     <li>
+     *         {@link ErrorCode#GENERIC_INVALID_OPERATION}: if for any other reason the game can't be joined
+     *     </li>
+     * </ul>
      */
     public void enterGame(String nickname, String gameID)
             throws NotValidOperationException, NotValidArgumentException {
@@ -66,8 +79,19 @@ public class SessionController {
      *
      * @param nickname the nickname of the player to remove
      * @throws NotValidArgumentException  if there is no player with the provided nickname
-     * @throws NotValidOperationException if there is no game associated to this
-     *                                    or if a player can't leave the game
+     * @throws NotValidOperationException if there is no game associated to this or if a player can't leave the game
+     * @apiNote Possible error codes:
+     * <ul>
+     *      <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_ARGUMENT}: if there is no player with the nickname provided in the game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the player can't leave the game now
+     *      </li>
+     *  </ul>
      */
     public void exitFromGame(String nickname)
             throws NotValidOperationException, NotValidArgumentException {
@@ -82,6 +106,12 @@ public class SessionController {
      * from a game and wants to resume it.
      *
      * @throws NotValidArgumentException if there is no game associated to that player
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *         {@link ErrorCode#GENERIC_INVALID_ARGUMENT}: if there is no game associated to the user
+     *     </li>
+     * </ul>
      */
     public void resumeGame() throws NotValidArgumentException {
         match = Server.getInstance().resumeGame(user);
@@ -112,7 +142,7 @@ public class SessionController {
 
     private void checkIfCanDo() throws NotValidOperationException {
         if (match == null)
-            throw new NotValidOperationException();
+            throw new NotValidOperationException(ErrorCode.GAME_NOT_EXIST);
         if (!match.getCurrentPlayerNickname().equals(nickname))
             throw new NotValidOperationException();
     }
@@ -121,11 +151,20 @@ public class SessionController {
      * Sets if the game need to use expert rules.
      *
      * @param isHardMode true if expert rules are required, false otherwise
-     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidOperationException if the game has started
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *         {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *         {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the rules can't be changed now
+     *      </li>
+     *  </ul>
      */
     public void setHardMode(boolean isHardMode) throws NotValidOperationException {
         if (match == null)
-            throw new NotValidOperationException();
+            throw new NotValidOperationException(ErrorCode.GAME_NOT_EXIST);
         match.setHardMode(isHardMode);
     }
 
@@ -134,19 +173,59 @@ public class SessionController {
      * This cannot be less than the player already present in this lobby.
      *
      * @param value the new number of players
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException  {@inheritDoc}
+     * @throws NotValidOperationException if there is no game associated to this client or
+     *                                    if the number of players can't be changed in the current state
+     * @throws NotValidArgumentException  if the selected number of players is not valid
+     *                                    (i.e. if it's not one of the value supported or
+     *                                    less than the player already present in this lobby)
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#NUMBER_PLAYERS_NOT_SUPPORTED}: if the selected number of players is not one of the
+     *          supported options
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_ARGUMENT}: if the selected number of players is less than the
+     *          actual players present in the game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the number of players can't be changed now
+     *      </li>
+     *  </ul>
      */
     public void changeNumOfPlayers(int value) throws NotValidOperationException, NotValidArgumentException {
         if (match == null)
-            throw new NotValidOperationException();
+            throw new NotValidOperationException(ErrorCode.GAME_NOT_EXIST);
         match.changeNumOfPlayers(value);
     }
 
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException  {@inheritDoc}
+     * Change the tower type of the player making the request.
+     *
+     * @param towerType the type of tower to assign
+     * @throws NotValidOperationException if there is no game associated to this client,
+     *                                    if it's not the turn of this client to choose the tower or
+     *                                    if the tower of the players can't be changed now
+     * @throws NotValidArgumentException  if the tower selected is not available
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_ARGUMENT}: if the selected tower is not available to be chosen
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to choose the tower
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the tower of players can't be changed now
+     *      </li>
+     *  </ul>
      */
     public void setTowerOfPlayer(TowerType towerType) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
@@ -154,8 +233,28 @@ public class SessionController {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException  {@inheritDoc}
+     * Change the wizard of the player making the request.
+     *
+     * @param wizard the wizard to assign
+     * @throws NotValidOperationException if there is no game associated to this client,
+     *                                    if it's not the turn of this client to choose the wizard or
+     *                                    if the wizard of the players can't be changed now
+     * @throws NotValidArgumentException  if the wizard selected is not available
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_ARGUMENT}: if the selected wizard is not available to be chosen
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to choose the wizard
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the wizard of players can't be changed now
+     *      </li>
+     *  </ul>
      */
     public void setWizardOfPlayer(Wizard wizard) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
@@ -163,7 +262,24 @@ public class SessionController {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
+     * Moves the match making to the next state.
+     *
+     * @throws NotValidOperationException if there is no game associated to this client,
+     *                                    if it's not the turn of this client to take a decision or
+     *                                    if the matchmaking can't be moved to the next state
+     *                                    (i.e. not all the expected operations of the current state were done)
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to take a decision
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the matchmaking can't be moved to the next state
+     *      </li>
+     *  </ul>
      */
     public void next() throws NotValidOperationException {
         checkIfCanDo();
@@ -171,9 +287,31 @@ public class SessionController {
     }
 
     /**
-     * @param assistant
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException  {@inheritDoc}
+     * Uses the selected assistant from the client.
+     *
+     * @param assistant the assistant to use
+     * @throws NotValidOperationException if there is no game associated to this client,
+     *                                    if it's not the turn of this client to choose the assistant or
+     *                                    if the players can't use an assistant now
+     * @throws NotValidArgumentException  if the assistant cannot be used, or it is not present in the player's deck
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#ASSISTANT_NOT_EXIST}: if the selected assistant is not in the player's deck
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#ASSISTANT_NOT_USABLE}: if the selected assistant can't be used
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to choose the wizard
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the players can't use an assistant now
+     *      </li>
+     *  </ul>
      */
     public void useAssistant(Assistant assistant) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
@@ -181,10 +319,33 @@ public class SessionController {
     }
 
     /**
-     * @param student
-     * @param islandID
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException  {@inheritDoc}
+     * Moves the passed student from the entrance of the player to the specified island.
+     *
+     * @param student  the student to move
+     * @param islandID the ID of the island in which put the student
+     * @throws NotValidOperationException if there is no game associated to this client,
+     *                                    if it's not the turn of this client to move a student or
+     *                                    if the players can't move a student now
+     * @throws NotValidArgumentException  if the student to move is not present in the entrance or
+     *                                    if there is no island with the specified ID
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#STUDENT_NOT_PRESENT}: if the selected student is not in the player's entrance
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#ISLAND_NOT_EXIST}: if the selected island doesn't exist
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to move a student
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the players can't move a student now
+     *      </li>
+     *  </ul>
      */
     public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
@@ -192,9 +353,33 @@ public class SessionController {
     }
 
     /**
-     * @param student
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException  {@inheritDoc}
+     * Moves the passed student from the entrance of the player to his dining room.
+     *
+     * @param student the student to move
+     * @throws NotValidOperationException if there is no game associated to this client,
+     *                                    if it's not the turn of this client to move a student or
+     *                                    if the players can't move a student now
+     * @throws NotValidArgumentException  if the student to move is not present in the entrance or
+     *                                    if no more student of that type can be added to the dining room
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#STUDENT_NOT_PRESENT}: if the selected student is not in the player's entrance
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#DININGROOM_FULL}: if the dining room of the player can't accept
+     *          anymore students of that type
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to move a student
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the players can't move a student now
+     *      </li>
+     *  </ul>
      */
     public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
@@ -202,9 +387,29 @@ public class SessionController {
     }
 
     /**
-     * @param positions
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException  {@inheritDoc}
+     * Moves mother nature of the specified number of islands.
+     *
+     * @param positions the number of islands to move mother nature
+     * @throws NotValidOperationException if there is no game associated to this client,
+     *                                    if it's not the turn of this client to move mother nature or
+     *                                    if the players can't move mother nature now
+     * @throws NotValidArgumentException  if the passed value is not positive or
+     *                                    if it exceeds the maximum value
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_ARGUMENT}: if the passed value is not correct
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to move mother nature
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the players can't move mother nature now
+     *      </li>
+     *  </ul>
      */
     public void moveMotherNature(int positions) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
@@ -212,9 +417,32 @@ public class SessionController {
     }
 
     /**
-     * @param cloudID
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException  {@inheritDoc}
+     * Takes the student in the specified cloud and put them in the entrance of this client
+     *
+     * @param cloudID the ID of the chosen cloud
+     * @throws NotValidOperationException if there is no game associated to this client,
+     *                                    if it's not the turn of this client to take students from a cloud or
+     *                                    if the players can't take students from a cloud now
+     * @throws NotValidArgumentException  if the passed ID does not correspond to an existing cloud or
+     *                                    if the selected cloud is empty
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#CLOUD_EMPTY}: if the selected cloud is empty
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#CLOUD_NOT_EXIST}: if the passed ID does not correspond to an existing cloud
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to take students from a cloud
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the players can't take students from a cloud now
+     *      </li>
+     *  </ul>
      */
     public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
