@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Match;
 import it.polimi.ingsw.controller.NotValidArgumentException;
+import it.polimi.ingsw.network.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;

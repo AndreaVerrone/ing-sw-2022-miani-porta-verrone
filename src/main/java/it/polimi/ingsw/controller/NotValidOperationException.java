@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.messages.responses.ErrorCode;
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 
 /**
  * Thrown if an operation is called in the wrong state of the game
