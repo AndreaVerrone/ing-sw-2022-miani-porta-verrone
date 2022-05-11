@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.clienttoserver.launcher.EnterGame;
 import it.polimi.ingsw.messages.clienttoserver.launcher.GetGames;
 import it.polimi.ingsw.messages.clienttoserver.launcher.SendUserIdentifier;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.servertoclient.PingMessage;
 import it.polimi.ingsw.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.User;
 
@@ -39,6 +40,16 @@ public class ConnectionHandler implements Runnable {
      */
     private ObjectOutputStream output;
 
+    /**
+     * The time, in seconds, after that this socket will signal a time-out exception
+     */
+    private final int SOKET_TIME_OUT = 10;
+
+    /**
+     * The time, in seconds, after that the socket server side will signal a timo-out exception
+     */
+    private final int Server_SOCKET_TIME_OUT = 15;
+
 
     /**
      * Creates a new connection with the server using the IP and port specified.
@@ -49,6 +60,7 @@ public class ConnectionHandler implements Runnable {
      */
     protected ConnectionHandler(String serverIP, int serverPort) throws IOException {
         server = new Socket(serverIP, serverPort);
+        server.setSoTimeout(SOKET_TIME_OUT*1000);
     }
 
     @Override
@@ -74,7 +86,9 @@ public class ConnectionHandler implements Runnable {
         }
 
         long resendDelay = 8000;
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+        executorService.scheduleWithFixedDelay(
+                this::sendPing, 1, Server_SOCKET_TIME_OUT/3, TimeUnit.SECONDS);
         executorService.scheduleWithFixedDelay(
                 this::checkForExpired, resendDelay, resendDelay, TimeUnit.MILLISECONDS);
 
@@ -143,6 +157,8 @@ public class ConnectionHandler implements Runnable {
     }
 
     private void handleMessage(Object message) {
+        if (message instanceof PingMessage)
+            return;
         if (message instanceof ResponseMessage response) {
             UUID parentId = response.getParentMessage();
             boolean exists;
@@ -174,6 +190,14 @@ public class ConnectionHandler implements Runnable {
                     sentMessages.remove(message.getIdentifier());
                 }
             }
+        }
+    }
+
+    private void sendPing(){
+        try {
+            output.writeObject(new PingMessage());
+        } catch (IOException e){
+            System.out.println("Can't send ping to the server");
         }
     }
 

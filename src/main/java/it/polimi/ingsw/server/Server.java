@@ -29,6 +29,16 @@ public class Server {
      */
     private static Server instance = null;
 
+    /**
+     * The time, in seconds, after that this socket will signal a time-out exception
+     */
+    private static final int SOKET_TIME_OUT = 15;
+
+    /**
+     * The time, in seconds, after that the socket client side will signal a time-out exception
+     */
+    protected static final int CLIENT_SOCKET_TIME_OUT = 10;
+
     private Server() {}
 
     /**
@@ -63,6 +73,7 @@ public class Server {
         while (true){
             try {
                 Socket socket = serverSocket.accept();
+                socket.setSoTimeout(Server.SOKET_TIME_OUT * 1000);
                 new Thread(new ClientHandler(socket)).start();
             } catch (IOException e) {
                 System.out.println("Connection dropped!");
