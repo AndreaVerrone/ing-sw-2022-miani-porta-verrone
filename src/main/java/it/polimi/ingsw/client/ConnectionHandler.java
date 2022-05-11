@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.messages.NetworkMessage;
 import it.polimi.ingsw.messages.clienttoserver.ClientCommandNetMsg;
+import it.polimi.ingsw.messages.clienttoserver.game.QuitGame;
 import it.polimi.ingsw.messages.clienttoserver.launcher.SendUserIdentifier;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
 import it.polimi.ingsw.messages.servertoclient.PingMessage;
@@ -35,11 +36,11 @@ public class ConnectionHandler implements Runnable {
     /**
      * The time, in seconds, after that this socket will signal a time-out exception
      */
-    private final int SOKET_TIME_OUT = 10;
+    private static final int SOKET_TIME_OUT = 10;
     /**
      * The time, in seconds, after that the socket server side will signal a timo-out exception
      */
-    private final int Server_SOCKET_TIME_OUT = 15;
+    private static final int Server_SOCKET_TIME_OUT = 15;
     /**
      * The input stream from the server
      */
@@ -49,6 +50,10 @@ public class ConnectionHandler implements Runnable {
      */
     private ObjectOutputStream output;
 
+    /**
+     * The path where the file containing the identifier of the user should be saved
+     */
+    public static final String fileIdentifierPath = "src/main/java/it/polimi/ingsw/client/identifier.txt";
 
     /**
      * Creates a new connection with the server using the IP and port specified.
@@ -72,24 +77,14 @@ public class ConnectionHandler implements Runnable {
             return;
         }
 
-        try {
-            trySendSecret();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Can't send identity to server!");
-            try {
-                server.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            return;
-        }
+        sendIdentifier();
 
-        long resendDelay = 8000;
+        long checkUnreceivedDelay = 8000;
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
         executorService.scheduleWithFixedDelay(
                 this::sendPing, 1, Server_SOCKET_TIME_OUT / 3, TimeUnit.SECONDS);
         executorService.scheduleWithFixedDelay(
-                this::checkForExpired, resendDelay, resendDelay, TimeUnit.MILLISECONDS);
+                this::checkForExpired, checkUnreceivedDelay, checkUnreceivedDelay, TimeUnit.MILLISECONDS);
 
         try {
             handleConnection();
@@ -185,32 +180,41 @@ public class ConnectionHandler implements Runnable {
             sentMessages.putIfAbsent(clientMsg.getIdentifier(), clientMsg);
     }
 
-    private void trySendSecret() throws IOException, ClassNotFoundException {
-        String identifier;
-        try {
-            identifier = readSecret();
-        } catch (IOException e) {
-            identifier = new User().getIdentifier();
-        }
+    private void sendIdentifier() {
+        String identifier = readIdentifier();
 
         System.out.println("The secret is:\t" + identifier);
-        sendMessage(new SendUserIdentifier(identifier));
-        ResponseMessage responseMessage = (ResponseMessage) input.readObject();
-        if (responseMessage.isSuccess())
-            System.out.println("Secret received successfully");
+        SendUserIdentifier userIdentifier = new SendUserIdentifier(identifier);
+        sendMessage(userIdentifier);
     }
 
-    private String readSecret() throws IOException {
-        String path = "secret.txt";
-        File file = new File(path);
-        boolean createdNew = file.createNewFile();
-        if (createdNew) {
-            User newUser = new User();
-            DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(file));
-            outputStream.writeUTF(newUser.getIdentifier());
-            return newUser.getIdentifier();
+    private String readIdentifier() {
+        File file = new File(fileIdentifierPath);
+        if (file.exists()) {
+            try (FileInputStream fileInput = new FileInputStream(file);
+                 DataInputStream inputStream = new DataInputStream(fileInput)) {
+                return inputStream.readUTF();
+            } catch (IOException e) {
+                file.delete();
+            }
         }
-        DataInputStream fileInputStream = new DataInputStream(new FileInputStream(file));
-        return fileInputStream.readUTF();
+        User newUser = new User();
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             DataOutputStream outputStream = new DataOutputStream(fileOutputStream)) {
+            outputStream.writeUTF(newUser.getIdentifier());
+        } catch (IOException e) {
+            if (file.exists())
+                file.delete();
+        }
+        return newUser.getIdentifier();
+    }
+
+    /**
+     * Quits from the game the client is in, regardless of the state of the game.
+     */
+    public void quitGame(){
+        sendMessage(new QuitGame());
+        new File(fileIdentifierPath).delete();
+        sendIdentifier();
     }
 }
