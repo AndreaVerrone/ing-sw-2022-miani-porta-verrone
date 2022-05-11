@@ -1,7 +1,10 @@
 package it.polimi.ingsw.messages.clienttoserver;
 
+import it.polimi.ingsw.controller.NotValidArgumentException;
+import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.messages.NetworkMessage;
 import it.polimi.ingsw.messages.responses.ResponseMessage;
+import it.polimi.ingsw.messages.responses.Result;
 import it.polimi.ingsw.server.ClientHandler;
 
 /**
@@ -17,7 +20,7 @@ abstract public class ClientCommandNetMsg extends NetworkMessage {
     /**
      * Creates a new message that needs to be sent to a client
      */
-    ClientCommandNetMsg(){
+    ClientCommandNetMsg() {
         whenSent = System.currentTimeMillis();
     }
 
@@ -25,23 +28,46 @@ abstract public class ClientCommandNetMsg extends NetworkMessage {
      * A method used to process this message.
      * <p>
      * This method runs in the server.
+     *
      * @param clientInServer the clientInServer that sent this message
      */
-    abstract public void processMessage(ClientHandler clientInServer);
+    public void processMessage(ClientHandler clientInServer) {
+        try {
+            normalProcess(clientInServer);
+        } catch (NotValidOperationException e) {
+            clientInServer.sendMessage(
+                    new ResponseMessage(this, Result.INVALID_OPERATION, e.getErrorCode()));
+        } catch (NotValidArgumentException e) {
+            clientInServer.sendMessage(
+                    new ResponseMessage(this, Result.INVALID_ARGUMENT, e.getErrorCode()));
+        }
+    }
+
+    /**
+     * The behaviour of this message in the server if everything is fine.
+     *
+     * @param clientInServer the clientInServer that sent this message
+     * @throws NotValidArgumentException  if something is wrong with the argument of the message
+     * @throws NotValidOperationException if the message was sent in an invalid moment
+     */
+    abstract protected void normalProcess(ClientHandler clientInServer)
+            throws NotValidArgumentException, NotValidOperationException;
 
     /**
      * Processes the response sent from the server.
      * <p>
      * This method runs in the client.
+     *
      * @param response the response of this request
      */
     abstract public void processResponse(ResponseMessage response);
 
     /**
      * Returns if this message was sent more than 4 seconds ago.
+     *
      * @return {@code true} if 4 seconds are passed, {@code false} otherwise
      */
-    public boolean isExpired(){
+    public boolean isExpired() {
         long timePassed = System.currentTimeMillis() - whenSent;
         long expireTime = 4000;
         return timePassed > expireTime;
