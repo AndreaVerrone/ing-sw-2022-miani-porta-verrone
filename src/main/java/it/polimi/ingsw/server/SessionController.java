@@ -3,11 +3,13 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.Match;
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
-import it.polimi.ingsw.messages.responses.ErrorCode;
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Wizard;
+import it.polimi.ingsw.network.NetworkSender;
+import it.polimi.ingsw.network.User;
 
 import java.util.Collection;
 
