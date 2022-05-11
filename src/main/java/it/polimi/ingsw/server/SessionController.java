@@ -144,7 +144,7 @@ public class SessionController {
         if (match == null)
             throw new NotValidOperationException(ErrorCode.GAME_NOT_EXIST);
         if (!match.getCurrentPlayerNickname().equals(nickname))
-            throw new NotValidOperationException();
+            throw new NotValidOperationException(ErrorCode.PLAYER_NOT_IN_TURN);
     }
 
     /**
