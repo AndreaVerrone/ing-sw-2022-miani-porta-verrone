@@ -16,7 +16,7 @@ public class CharacterCard1 extends CharacterCard{
      * This is the Game class
      * @see Game
      */
-    private Game game;
+    private final Game game;
 
     /**
      * The constructor of the class creates a new character card with the specified initial cost,
@@ -28,6 +28,8 @@ public class CharacterCard1 extends CharacterCard{
     CharacterCard1(int cost, String effectDescription, Game game) {
 
         super(cost, effectDescription);
+
+        this.game=game;
 
         // add students to the card
         for(int i=0;i<4;i++) {
