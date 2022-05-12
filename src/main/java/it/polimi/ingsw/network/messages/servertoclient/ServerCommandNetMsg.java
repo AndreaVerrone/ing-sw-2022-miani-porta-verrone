@@ -29,13 +29,6 @@ abstract public class ServerCommandNetMsg extends NetworkMessage {
      */
     abstract public void processMessage(ConnectionHandler client);
 
-    /**
-     * Processes the response sent from the client.
-     * <p>
-     * This method runs in the server.
-     * @param response the response of this request
-     */
-    abstract public void processResponse(ResponseMessage response);
 
     /**
      * Returns if this message was sent more than 2 seconds ago.

@@ -32,8 +32,4 @@ public class PlayersChanged extends ServerCommandNetMsg {
         // TODO: 10/05/2022 update the list of players showed 
     }
 
-    @Override
-    public void processResponse(ResponseMessage response) {
-
-    }
 }

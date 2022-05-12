@@ -32,8 +32,4 @@ public class GameCreated extends ServerCommandNetMsg {
         client.sendMessage(new EnterGame(nickname, gameID));
     }
 
-    @Override
-    public void processResponse(ResponseMessage response) {
-
-    }
 }

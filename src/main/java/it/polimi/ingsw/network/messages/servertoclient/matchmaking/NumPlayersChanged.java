@@ -29,8 +29,4 @@ public class NumPlayersChanged extends ServerCommandNetMsg {
         // TODO: 11/05/2022 update the view of the client
     }
 
-    @Override
-    public void processResponse(ResponseMessage response) {
-
-    }
 }

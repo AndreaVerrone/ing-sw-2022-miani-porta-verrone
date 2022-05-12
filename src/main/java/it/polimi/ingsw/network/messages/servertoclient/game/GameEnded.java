@@ -34,8 +34,4 @@ public class GameEnded extends ServerCommandNetMsg {
         // TODO: 11/05/2022 show in view
     }
 
-    @Override
-    public void processResponse(ResponseMessage response) {
-
-    }
 }

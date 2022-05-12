@@ -40,8 +40,4 @@ public class ProfessorChanged extends ServerCommandNetMsg {
         // TODO: 11/05/2022 update view
     }
 
-    @Override
-    public void processResponse(ResponseMessage response) {
-
-    }
 }
