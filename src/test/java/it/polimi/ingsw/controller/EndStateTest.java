@@ -47,7 +47,7 @@ class EndStateTest {
     /**
      * Method to change the number of towers and professors of a player
      * @param player player to change towers and professors
-     * @param numberOfTowers number of towers to change of the players
+     * @param numberOfTowers number of towers that should remain to the player
      * @param numberOfProfessors number of professors to change to the player
      */
     private void changeTowerAndProfessors(Player player, int numberOfTowers, int numberOfProfessors ){
