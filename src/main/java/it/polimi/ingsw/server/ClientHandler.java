@@ -1,13 +1,13 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.network.NetworkSender;
+import it.polimi.ingsw.network.User;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.SendUserIdentifier;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.PingMessage;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
-import it.polimi.ingsw.network.NetworkSender;
-import it.polimi.ingsw.network.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -122,16 +122,8 @@ public class ClientHandler implements Runnable, NetworkSender {
             return;
         if (message instanceof ResponseMessage response) {
             UUID parentId = response.getParentMessage();
-            boolean exists;
             synchronized (sentMessages) {
-                exists = sentMessages.containsKey(parentId);
-            }
-            if (exists) {
-                ServerCommandNetMsg parentMessage;
-                synchronized (sentMessages) {
-                    parentMessage = sentMessages.remove(parentId);
-                }
-                parentMessage.processResponse(response);
+                sentMessages.remove(parentId);
             }
             return;
         }

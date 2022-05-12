@@ -30,8 +30,4 @@ public class AssistantUsed extends ServerCommandNetMsg {
         // TODO: 11/05/2022 update the view
     }
 
-    @Override
-    public void processResponse(ResponseMessage response) {
-
-    }
 }

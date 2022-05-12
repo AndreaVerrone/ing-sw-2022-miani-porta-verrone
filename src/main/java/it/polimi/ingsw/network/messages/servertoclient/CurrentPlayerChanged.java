@@ -27,8 +27,4 @@ public class CurrentPlayerChanged extends ServerCommandNetMsg{
         // TODO: 11/05/2022 handle change and show in view
     }
 
-    @Override
-    public void processResponse(ResponseMessage response) {
-
-    }
 }

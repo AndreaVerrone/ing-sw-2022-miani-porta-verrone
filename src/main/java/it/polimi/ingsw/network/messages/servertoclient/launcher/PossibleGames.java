@@ -31,8 +31,4 @@ public class PossibleGames extends ServerCommandNetMsg {
         // TODO: 09/05/2022 show in view the ids
     }
 
-    @Override
-    public void processResponse(ResponseMessage response) {
-
-    }
 }
