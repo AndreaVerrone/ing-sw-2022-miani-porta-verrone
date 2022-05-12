@@ -2,13 +2,11 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.matchmaking.IMatchMaking;
 import it.polimi.ingsw.controller.matchmaking.MatchMaking;
-import it.polimi.ingsw.network.VirtualView;
-import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Wizard;
-import it.polimi.ingsw.network.NetworkSender;
+import it.polimi.ingsw.network.VirtualView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,9 +49,11 @@ public class Match implements IMatchMaking, IGame {
      * @param client the view of the client to add
      */
     public void addClient(VirtualView client){
-        if (playersView.contains(client))
-            return;
-        playersView.add(client);
+        synchronized (playersView) {
+            if (playersView.contains(client))
+                return;
+            playersView.add(client);
+        }
     }
 
     /**
@@ -61,7 +61,9 @@ public class Match implements IMatchMaking, IGame {
      * @param client the view of the client to remove
      */
     public void removeClient(VirtualView client){
-        playersView.remove(client);
+        synchronized (playersView) {
+            playersView.remove(client);
+        }
     }
 
 
@@ -104,7 +106,9 @@ public class Match implements IMatchMaking, IGame {
     public void addPlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
-        matchMaking.addPlayer(nickname);
+        synchronized (this) {
+            matchMaking.addPlayer(nickname);
+        }
     }
 
     /**
@@ -115,7 +119,9 @@ public class Match implements IMatchMaking, IGame {
     public void removePlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
-        matchMaking.removePlayer(nickname);
+        synchronized (this) {
+            matchMaking.removePlayer(nickname);
+        }
     }
 
     /**
