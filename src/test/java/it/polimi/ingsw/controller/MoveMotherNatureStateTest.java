@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.player.Assistant;
-import it.polimi.ingsw.model.player.Wizard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
