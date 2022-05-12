@@ -26,8 +26,17 @@ public class UseCharacterCard1State implements State {
      */
     private final State originState;
 
+    /**
+     * The character card that uses this state
+     */
     private final CharacterCard1 characterCard1;
 
+    /**
+     * The constructor of the class
+     * @param game the Game class
+     * @param originState the state from which the character card has been used
+     * @param characterCard1 the character card that uses this state
+     */
     public UseCharacterCard1State(Game game, State originState, CharacterCard1 characterCard1) {
         this.game = game;
         this.originState = originState;
