@@ -56,6 +56,13 @@ public class SessionController {
     }
 
     /**
+     * Unsubscribe the view of the client to not receive any more update the game he was in.
+     */
+    protected void detachFromGame(){
+        match.removeClient(view);
+    }
+
+    /**
      * Checks if the player can be added to the chosen game, and if so it adds a new player.
      *
      * @param nickname the nickname chosen
@@ -119,7 +126,7 @@ public class SessionController {
         if (match == null)
             throw new NotValidOperationException(ErrorCode.GAME_NOT_EXIST);
         match.removePlayer(nickname);
-        match.removeClient(view);
+        detachFromGame();
         Server.getInstance().removePlayer(user);
     }
 
@@ -165,7 +172,7 @@ public class SessionController {
      * Forces the player to exit the game.
      */
     public void quitGame() {
-        match.removeClient(view);
+        detachFromGame();
         Server.getInstance().removePlayer(user);
         match = null;
     }
