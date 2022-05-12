@@ -83,6 +83,26 @@ public class Server {
 
     }
 
+    /**
+     * Deletes a game from the list of existing games.
+     * @param match the game to delete
+     */
+    public void deleteGame(Match match){
+        makeGameUnavailable(match);
+        synchronized (players){
+            players.values().removeIf(game -> game.equals(match));
+        }
+    }
+
+    /**
+     * Makes a game unavailable to accept more players and remove from the list of games showed to join.
+     * @param match the game to remove from view
+     */
+    public void makeGameUnavailable(Match match){
+        synchronized (games) {
+            games.values().removeIf(value -> value.equals(match));
+        }
+    }
 
     /**
      * Adds a new player to an existing game.

@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.VirtualView;
+import it.polimi.ingsw.server.Server;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -121,6 +122,8 @@ public class Match implements IMatchMaking, IGame {
             throw new NotValidOperationException();
         synchronized (this) {
             matchMaking.removePlayer(nickname);
+            if (matchMaking.getPlayers().isEmpty())
+                Server.getInstance().deleteGame(this);
         }
     }
 
