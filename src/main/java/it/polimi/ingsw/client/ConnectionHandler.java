@@ -57,6 +57,12 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     public static final String fileIdentifierPath = "src/main/java/it/polimi/ingsw/client/identifier.txt";
 
     /**
+     * A flag indicating if the client requested to close the application.
+     * This is used to gracefully close all the tasks and delete all not necessary resources.
+     */
+    private boolean wantToClose = false;
+
+    /**
      * Creates a new connection with the server using the IP and port specified.
      *
      * @param serverIP   the IP of the server
@@ -106,7 +112,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
 
     private void handleConnection() throws IOException, ClassNotFoundException {
         try {
-            while (true) {
+            while (!wantToClose) {
                 try {
                     Object message = input.readObject();
                     handleMessage(message);
@@ -190,7 +196,6 @@ public class ConnectionHandler implements Runnable, NetworkSender {
         sendMessage(userIdentifier);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     private String readIdentifier() {
         File file = new File(fileIdentifierPath);
         if (file.exists()) {
@@ -198,7 +203,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
                  DataInputStream inputStream = new DataInputStream(fileInput)) {
                 return inputStream.readUTF();
             } catch (IOException e) {
-                file.delete();
+                deleteIdentifier();
             }
         }
         User newUser = new User();
@@ -206,8 +211,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
              DataOutputStream outputStream = new DataOutputStream(fileOutputStream)) {
             outputStream.writeUTF(newUser.getIdentifier());
         } catch (IOException e) {
-            if (file.exists())
-                file.delete();
+            deleteIdentifier();
         }
         return newUser.getIdentifier();
     }
@@ -215,10 +219,24 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     /**
      * Quits from the game the client is in, regardless of the state of the game.
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void quitGame(){
         sendMessage(new QuitGame());
-        new File(fileIdentifierPath).delete();
+        deleteIdentifier();
         sendIdentifier();
+    }
+
+    /**
+     * Closes all the current tasks and terminates the applicaton, causing no more messages to be read or sent.
+     */
+    public void closeApplication(){
+        wantToClose = true;
+        deleteIdentifier();
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void deleteIdentifier(){
+        File file = new File(fileIdentifierPath);
+        if (file.exists())
+            file.delete();
     }
 }
