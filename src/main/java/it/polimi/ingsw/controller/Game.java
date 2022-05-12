@@ -3,8 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.model.player.Player;
 
 import java.util.Collection;
+import java.util.Collections;
 
 
 /**
@@ -43,16 +45,22 @@ public class Game implements IGame{
      * If this flag is true the game is in its last round
      */
     private boolean lastRoundFlag = false;
+ 
+    /**
+     * List of winners of the game.If the list has more than one player it is considered a draw
+     */
+    private Collection<Player> winners = null;
 
     public Game(Collection<PlayerLoginInfo> players){
         //TODO: create all states and add documentation
         model = new GameModel(players);
-        state = playAssistantState;
 
         playAssistantState = new PlayAssistantState(this);
         moveStudentState = new MoveStudentState(this);
         moveMotherNatureState = new MoveMotherNatureState(this);
         chooseCloudState = new ChooseCloudState(this);
+
+        state = playAssistantState;
     }
 
     /**
@@ -67,6 +75,15 @@ public class Game implements IGame{
      * Sets the {@code lastRoundFlag} to true
      */
     protected void setLastRoundFlag(){ lastRoundFlag = true;}
+
+    /**
+     * Set the winners of the game
+     * @param winners players that have won. If more than one is considered a draw
+     */
+    protected void setWinner(Collection<Player> winners){
+        this.winners = winners;
+        //TODO: update observer
+    }
 
     /**
      * @throws NotValidOperationException {@inheritDoc}
@@ -139,9 +156,7 @@ public class Game implements IGame{
         return chooseCloudState;
     }
 
-    protected State getEndState() {
-        return endState;
-    }
+    protected Collection<Player> getWinner(){return Collections.unmodifiableCollection(winners);}
 
     //TODO: setters for all states if needed for characters cards
 }
