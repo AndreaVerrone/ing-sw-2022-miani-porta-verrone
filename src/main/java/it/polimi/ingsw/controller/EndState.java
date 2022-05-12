@@ -3,10 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.player.Player;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
