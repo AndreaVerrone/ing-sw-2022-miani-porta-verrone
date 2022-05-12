@@ -92,6 +92,7 @@ public class ClientHandler implements Runnable, NetworkSender {
         } catch (IOException e) {
             System.out.println("An error occurred when handling client " + client.getInetAddress());
         } finally {
+            sessionController.detachFromGame();
             executorService.shutdown();
             try {
                 client.close();
