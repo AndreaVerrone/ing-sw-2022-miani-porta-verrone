@@ -29,7 +29,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     /**
      * The socket connected to the server
      */
-    private final Socket server;
+    private Socket server;
     /**
      * A collection of all the request messages sent to the client that not received a response yet
      */
@@ -62,6 +62,18 @@ public class ConnectionHandler implements Runnable, NetworkSender {
      */
     private boolean wantToClose = false;
 
+    private static ConnectionHandler instance = null;
+
+
+    private ConnectionHandler(){}
+
+    protected static ConnectionHandler getInstance(){
+        if(instance == null){
+            instance = new ConnectionHandler();
+        }
+        return instance;
+    }
+
     /**
      * Creates a new connection with the server using the IP and port specified.
      *
@@ -69,10 +81,11 @@ public class ConnectionHandler implements Runnable, NetworkSender {
      * @param serverPort the port to use to connect on the server
      * @throws IOException if an I/O error occurs when creating the connection
      */
-    protected ConnectionHandler(String serverIP, int serverPort) throws IOException {
+    protected void SetIpAndPort(String serverIP, int serverPort) throws IOException {
         server = new Socket(serverIP, serverPort);
         server.setSoTimeout(SOKET_TIME_OUT * 1000);
     }
+
 
     @Override
     public void run() {

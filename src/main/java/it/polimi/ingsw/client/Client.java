@@ -23,7 +23,8 @@ public class Client {
 
         ConnectionHandler connectionHandler;
         try {
-            connectionHandler = new ConnectionHandler("localhost", socketPort);
+            connectionHandler = ConnectionHandler.getInstance();
+            connectionHandler.SetIpAndPort("localhost", socketPort);
         } catch (IOException e){
             System.out.println("Can't reach the server!");
             return;
