@@ -163,17 +163,25 @@ public class Game{
     }
 
     /**
-     * This method allow to move one student from the character card 1
-     * to the island passed as a parameter.
-     * After the calling of the method, if the student bag is not empty,
-     * a student (taken from the bag) will be added on the character card.
-     * @param pawnType color of the student to move to island
-     * @param islandID island on which put the student
-     * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
-     * @throws NotValidArgumentException if the student or the island does not exist
+     * This method allows to select a student (of the PawnType specified in the parameter) that comes from the position
+     * (also specified in the parameters).
+     * @param color the {@code PawnType} of the student
+     * @param originPosition the {@code Position} from where take the student
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the student is not present in the specified location
      */
-    public void moveFromCardToIsland(PawnType pawnType, int islandID) throws NotValidOperationException, NotValidArgumentException{
-        state.moveFromCardToIsland(pawnType,islandID);
+    void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
+        state.choseStudentFromLocation(color,originPosition);
+    }
+
+    /**
+     * This method allows to choose a destination on which operate based on the state.
+     * @param destination the Position
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the
+     */
+    public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
+        state.chooseDestination(destination);
     }
 
     protected GameModel getModel() {
