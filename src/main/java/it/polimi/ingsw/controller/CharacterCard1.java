@@ -36,11 +36,9 @@ public class CharacterCard1 extends CharacterCard{
             try {
                 studentList.changeNumOf(game.getModel().getStudentFromBag(),1);
             } catch (EmptyBagException e) {
-                // todo: how to manage ?
                 // it is impossible that happen since the card is built at the begging of the game
                 e.printStackTrace();
             } catch (NotEnoughStudentException e) {
-                // todo: how to manage ?
                 // it is impossible that is thrown since the delta is positive.
                 e.printStackTrace();
             }
@@ -61,7 +59,6 @@ public class CharacterCard1 extends CharacterCard{
         try {
             studentList.changeNumOf(pawnType, 1);
         } catch (NotEnoughStudentException e) {
-            // todo: how to manage ?
             // it is impossible that is thrown since the delta is positive.
             e.printStackTrace();
         }
@@ -74,5 +71,13 @@ public class CharacterCard1 extends CharacterCard{
      */
     public void removeStudentFromCard(PawnType pawnType) throws NotEnoughStudentException {
         studentList.changeNumOf(pawnType, -1);
+    }
+
+    /**
+     * This method allow to get a copy of the student that are present on the card.
+     * @return the studentList of the student on the card
+     */
+    public StudentList getStudentList() {
+        return studentList.clone();
     }
 }
