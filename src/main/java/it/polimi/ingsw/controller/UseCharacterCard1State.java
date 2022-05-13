@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.NotEnoughCoinsException;
 import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
@@ -32,7 +31,12 @@ public class UseCharacterCard1State implements State {
     private final CharacterCard1 characterCard1;
 
     /**
-     * The constructor of the class
+     * This is the student to move from the card to the island.
+     */
+    private PawnType studentToMove;
+
+    /**
+     * The constructor of the class.
      * @param game the Game class
      * @param originState the state from which the character card has been used
      * @param characterCard1 the character card that uses this state
@@ -44,25 +48,71 @@ public class UseCharacterCard1State implements State {
         this.characterCard1=characterCard1;
     }
 
+    /**
+     * @param color the {@code PawnType} of the student
+     * @param position the {@code Position} from where take the student
+     * @throws NotValidOperationException if the location of the position is not the character card 1
+     * @throws NotValidArgumentException if the student is not present on the character card 1
+     */
     @Override
-    public void moveFromCardToIsland(PawnType pawnType, int islandID) throws NotValidArgumentException, NotValidOperationException {
+    public void choseStudentFromLocation(PawnType color, Position position) throws NotValidArgumentException, NotValidOperationException {
 
-        // remove student from card
-        try {
-            characterCard1.removeStudentFromCard(pawnType);
-        } catch (NotEnoughStudentException e) {
+        // CHECKS
+        // 1. check that the location is the one of character card 1
+        if(!position.isLocation(Location.CHARACTER_CARD_1)){
+            throw new NotValidOperationException("you have to take a student from the character card 1");
+        }
+
+        // 2. the student to move is present on the card
+        if(characterCard1.getStudentList().getNumOf(color)<0) {
             throw new NotValidArgumentException("is not present a student of that color");
         }
 
-        // add student removed from the card to the island
+        // ACTIONS
+        // if everything is right set the student to move
+        studentToMove=color;
+    }
+
+    /**
+     * This method allows to put a student on the island specified in the parameter.
+     * @param destination the Position
+     * @throws NotValidArgumentException if the island does not exist
+     * @throws NotValidOperationException if the location of the position is not an island or the student to move is null
+     *                                    or there are no more student on the card
+     *                                    (this is a rare situation, but it may happen)
+     */
+    @Override
+    public void chooseDestination(Position destination) throws NotValidArgumentException, NotValidOperationException {
+
+        // CHECKS
+        // 1. check that the destination is an island
+        if(!destination.isLocation(Location.ISLAND)){
+            throw new NotValidOperationException("you have to chose an island");
+        }
+
+        // 2. check that the student to move has been set
+        if(studentToMove==null){
+            throw new NotValidOperationException("you have to chose a student");
+        }
+
+        // ACTIONS OF THE METHOD
+        // 1. remove student from card
         try {
-            gameModel.getGameTable().addToIsland(pawnType,islandID);
+            characterCard1.removeStudentFromCard(studentToMove);
+        }catch (NotEnoughStudentException e) {
+            throw new NotValidOperationException("there are no more students on the card, so it cannot be used");
+        }
+
+        // 2. add the student removed from the card to the island if the island
+        // exist otherwise throw an exception
+        try {
+            gameModel.getGameTable().addToIsland(studentToMove,destination.getField());
         } catch (IslandNotFoundException e) {
-            characterCard1.addStudentToCard(pawnType);
+            characterCard1.addStudentToCard(studentToMove);
             throw new NotValidArgumentException("island does not exist");
         }
 
-        // take a student from the bag and put on the card
+        // 2. take a student from the bag and put on the card
         try {
             characterCard1.addStudentToCard(gameModel.getStudentFromBag());
         } catch (EmptyBagException e) {
@@ -71,9 +121,15 @@ public class UseCharacterCard1State implements State {
             // e.printStackTrace();
         }
 
-        // if everything is fine:
-        characterCard1.effectEpilogue();
+        // GO BACK
+        returnBack();
+    }
 
+    /**
+     * This method allows to go back to the state at which the character card has been used.
+     */
+    private void returnBack(){
+        characterCard1.effectEpilogue();
         // return to the origin state
         game.setState(originState);
     }
