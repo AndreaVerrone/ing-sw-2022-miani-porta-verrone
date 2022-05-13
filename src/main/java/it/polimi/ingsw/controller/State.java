@@ -45,7 +45,7 @@ public interface State {
      * to its dining room.
      * @param student is the color of the student to move
      * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
-     * @throws NotValidArgumentException if the student is not present in entrance or it is present, but the the table for the
+     * @throws NotValidArgumentException if the student is not present in entrance, or it is present, but the table for the
      *                                   students of that color is full
      */
     default public void moveStudentToDiningRoom(PawnType student)throws NotValidOperationException,NotValidArgumentException {
