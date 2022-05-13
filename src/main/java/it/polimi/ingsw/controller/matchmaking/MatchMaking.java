@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.matchmaking;
 
+import it.polimi.ingsw.controller.IGame;
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.controller.PlayerLoginInfo;
@@ -172,8 +173,8 @@ public class MatchMaking implements IMatchMaking{
      * @throws NotValidOperationException {@inheritDoc}
      */
     @Override
-    public void next() throws NotValidOperationException {
-        state.next();
+    public Optional<IGame> next() throws NotValidOperationException {
+        return state.next();
     }
 
 
