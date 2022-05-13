@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-public class CharacterCard5 extends CharacterCard implements ObserverInterface{
+public class CharacterCard5 extends CharacterCard{
 
     /**
      * This is the Game class
@@ -23,8 +23,6 @@ public class CharacterCard5 extends CharacterCard implements ObserverInterface{
         super(cost, effectDescription);
         this.game=game;
         numOfBans=4;
-        // attach the subject
-        game.getModel().attach(this);
     }
 
     @Override
@@ -40,7 +38,7 @@ public class CharacterCard5 extends CharacterCard implements ObserverInterface{
      * This method allow to add a ban on the card.
      * <p>
      * Note:
-     * The number of bans on this card cannot be more that 4
+     * The number of bans on this card cannot be more than 4
      */
     public void addBan() {
         assert numOfBans<=4 : "bans are too much";
@@ -58,8 +56,4 @@ public class CharacterCard5 extends CharacterCard implements ObserverInterface{
         }
     }
 
-    @Override
-    public void update() {
-        addBan();
-    }
 }
