@@ -48,6 +48,7 @@ public class CoinsBag {
         notifyChangeCoinNumberInBagObservers();
     }
 
+    // MANAGEMENT OF OBSERVERS ON COINS IN THE COINS BAG
     /**
      * List of the observer on the coin number in coins bag.
      */
