@@ -2,9 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.*;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A class representing the school board of a player.
@@ -157,6 +155,7 @@ class SchoolBoard {
         boolean needCoin = diningRoom.addStudentOf(type);
         if (needCoin) {
             takeCoin();
+            notifyChangeCoinNumberObservers();
         }
     }
 
@@ -192,6 +191,7 @@ class SchoolBoard {
             // the other should be put on the card used
             coinsBag.addCoins(cost-1);
         }
+        notifyChangeCoinNumberObservers();
     }
 
     /**
@@ -205,6 +205,36 @@ class SchoolBoard {
     protected void changeTowerNumber(int delta){
         assert towers + delta <= maxNumTowers : "The towers added are too much";
         towers += delta;
+    }
+
+
+    /**
+     * List of the observer on the tower number.
+     */
+    private final List<ChangeCoinNumberObserver> changeCoinNumberObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the tower number.
+     * @param observer the observer to be added
+     */
+    public void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+        changeCoinNumberObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the tower number.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+        changeCoinNumberObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the tower number.
+     */
+    public void notifyChangeCoinNumberObservers(){
+        for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
+            observer.changeCoinNumberObserverUpdate();
     }
 
 }
