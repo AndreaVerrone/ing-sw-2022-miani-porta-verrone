@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.basecomponents;
+package it.polimi.ingsw.view.cli.fancy_cli.base_components;
 
 /**
  * An interface representing the ability to be drawn on a cli
