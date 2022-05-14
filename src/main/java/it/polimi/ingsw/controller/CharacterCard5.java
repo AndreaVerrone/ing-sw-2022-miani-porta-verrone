@@ -13,14 +13,11 @@ public class CharacterCard5 extends CharacterCard{
      */
     private int numOfBans;
     /**
-     * Creates a new character card with the specified initial cost, the description
-     * and the game passed as a parameter.
-     * @param cost              the initial cost of the card
-     * @param effectDescription the description of the effect of this card
-     * @param game              the Game class
+     * Creates a new character card.
+     * @param game the Game class
      */
-    CharacterCard5(int cost, String effectDescription, Game game) {
-        super(cost, effectDescription);
+    CharacterCard5(Game game) {
+        super(2, "allow the player to choose an island on which put the ban");
         this.game=game;
         numOfBans=4;
     }
