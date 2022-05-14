@@ -1,20 +1,15 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 
-public class UseCharacterCard4State implements State{
+public class UseCharacterCard4State extends UseCharacterCardState implements State{
 
     /**
-     * This is the Game class
-     * @see Game
+     * This is the model of the game
+     * @see GameModel
      */
-    private final Game game;
-
-    /**
-     * This is the state from which the character card has been used and
-     * this is the state in which the game have to return after the usage of the card.
-     */
-    private final State originState;
+    private final GameModel gameModel;
 
     /**
      * The character card that uses this state
@@ -28,8 +23,8 @@ public class UseCharacterCard4State implements State{
      * @param characterCard4 the character card that uses this state
      */
     public UseCharacterCard4State(Game game, State originState, CharacterCard4 characterCard4) {
-        this.game = game;
-        this.originState = originState;
+        super(game,originState,characterCard4);
+        gameModel=game.getModel();
         this.characterCard4=characterCard4;
     }
 
@@ -39,20 +34,10 @@ public class UseCharacterCard4State implements State{
      */
     private void computeInfluenceOn(int islandID) throws NotValidArgumentException {
         try {
-            game.getModel().conquerIsland(islandID);
+            gameModel.conquerIsland(islandID);
         } catch (IslandNotFoundException e) {
             throw new NotValidArgumentException("the island does not exist");
         }
-    }
-
-    /**
-     * This method allows to go back to the state at which the character card has been used.
-     */
-    private void returnBack(){
-        // return to the original state
-        game.effectEpilogue(characterCard4);
-        characterCard4.setAsUsed();
-        game.setState(originState);
     }
 
     /**
@@ -70,6 +55,8 @@ public class UseCharacterCard4State implements State{
 
         computeInfluenceOn(destination.getField());
 
+        // EPILOGUE
+        finalizeCardUsed();
         returnBack();
     }
 }

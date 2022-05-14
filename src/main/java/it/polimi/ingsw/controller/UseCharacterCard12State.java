@@ -1,17 +1,18 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.model.player.Player;
 
-public class UseCharacterCard12State implements State{
+public class UseCharacterCard12State extends UseCharacterCardState implements State{
 
     /**
-     * This is the Game class
-     * @see Game
+     * This is the GameModel class
+     * @see it.polimi.ingsw.model.GameModel
      */
-    private final Game game;
+    private final GameModel gameModel;
 
     /**
      * This is the state from which the character card has been used and
@@ -25,7 +26,8 @@ public class UseCharacterCard12State implements State{
     private final CharacterCard12 characterCard12;
 
     public UseCharacterCard12State(Game game, State originState, CharacterCard12 characterCard12) {
-        this.game = game;
+        super(game,originState,characterCard12);
+        this.gameModel = game.getModel();
         this.originState = originState;
         this.characterCard12=characterCard12;
     }
@@ -36,7 +38,7 @@ public class UseCharacterCard12State implements State{
      */
     private void removeStudentFromDiningRoom(PawnType color){
 
-        for (Player player : game.getModel().getPlayerList()) {
+        for (Player player : gameModel.getPlayerList()) {
             try {
                 for (int i = 0; i < 3; i++) {
                     player.removeStudentFromDiningRoom(color);
@@ -45,15 +47,6 @@ public class UseCharacterCard12State implements State{
                 // do nothing
             }
         }
-    }
-
-    /**
-     * This method allows to go back to the state at which the character card has been used.
-     */
-    private void returnBack(){
-        game.effectEpilogue(characterCard12);
-        characterCard12.setAsUsed();
-        game.setState(originState);
     }
 
     /**
@@ -72,6 +65,9 @@ public class UseCharacterCard12State implements State{
         }
 
         removeStudentFromDiningRoom(color);
+
+        // EPILOGUE
+        finalizeCardUsed();
         returnBack();
     }
 }

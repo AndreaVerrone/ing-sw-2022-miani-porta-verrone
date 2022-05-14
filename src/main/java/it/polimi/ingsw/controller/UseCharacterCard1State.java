@@ -6,24 +6,13 @@ import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 
-public class UseCharacterCard1State implements State {
-    /**
-     * This is the Game class
-     * @see Game
-     */
-    private final Game game;
+public class UseCharacterCard1State extends UseCharacterCardState implements State {
 
     /**
      * This is the model of the game
      * @see GameModel
      */
     private final GameModel gameModel;
-
-    /**
-     * This is the state from which the character card has been used and
-     * this is the state in which the game have to return after the usage of the card.
-     */
-    private final State originState;
 
     /**
      * The character card that uses this state
@@ -42,8 +31,7 @@ public class UseCharacterCard1State implements State {
      * @param characterCard1 the character card that uses this state
      */
     public UseCharacterCard1State(Game game, State originState, CharacterCard1 characterCard1) {
-        this.game = game;
-        this.originState = originState;
+        super(game,originState,characterCard1);
         this.gameModel=game.getModel();
         this.characterCard1=characterCard1;
     }
@@ -122,16 +110,8 @@ public class UseCharacterCard1State implements State {
             // e.printStackTrace();
         }
 
-        // GO BACK
+        // EPILOGUE
+        finalizeCardUsed();
         returnBack();
-    }
-
-    /**
-     * This method allows to go back to the state at which the character card has been used.
-     */
-    private void returnBack(){
-        game.effectEpilogue(characterCard1);
-        characterCard1.setAsUsed();
-        game.setState(originState);
     }
 }

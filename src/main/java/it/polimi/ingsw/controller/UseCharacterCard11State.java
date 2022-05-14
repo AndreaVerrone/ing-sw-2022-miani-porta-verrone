@@ -7,14 +7,7 @@ import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.model.player.ReachedMaxStudentException;
 
-public class UseCharacterCard11State implements State {
-
-    /**
-     * This is the Game class
-     *
-     * @see Game
-     */
-    private final Game game;
+public class UseCharacterCard11State extends UseCharacterCardState implements State {
 
     /**
      * This is the model of the game
@@ -22,12 +15,6 @@ public class UseCharacterCard11State implements State {
      * @see GameModel
      */
     private final GameModel gameModel;
-
-    /**
-     * This is the state from which the character card has been used and
-     * this is the state in which the game have to return after the usage of the card.
-     */
-    private final State originState;
 
     /**
      * The character card that uses this state
@@ -41,8 +28,7 @@ public class UseCharacterCard11State implements State {
      * @param characterCard11 the character card that uses this state
      */
     public UseCharacterCard11State(Game game, State originState, CharacterCard11 characterCard11) {
-        this.game = game;
-        this.originState = originState;
+        super(game,originState,characterCard11);
         this.gameModel = game.getModel();
         this.characterCard11 = characterCard11;
     }
@@ -75,17 +61,6 @@ public class UseCharacterCard11State implements State {
     }
 
     /**
-     * This method allows to go back to the state at which the character card has been used.
-     */
-    private void returnBack(){
-        // if everything is fine:
-        game.effectEpilogue(characterCard11);
-        characterCard11.setAsUsed();
-        // return to the origin state
-        game.setState(originState);
-    }
-
-    /**
      * This method allows to put a student to the dining room.
      * @param color the {@code PawnType} of the student
      * @param originPosition the {@code Position} from where take the student
@@ -100,6 +75,9 @@ public class UseCharacterCard11State implements State {
         }
 
         moveFromCardToDiningRoom(color);
+
+        // EPILOGUE
+        finalizeCardUsed();
         returnBack();
     }
 }

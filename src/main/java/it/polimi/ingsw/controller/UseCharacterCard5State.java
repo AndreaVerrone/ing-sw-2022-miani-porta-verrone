@@ -1,20 +1,15 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 
-public class UseCharacterCard5State implements State {
+public class UseCharacterCard5State extends UseCharacterCardState implements State {
 
     /**
-     * This is the Game class
-     * @see Game
+     * This is the model of the game
+     * @see GameModel
      */
-    private final Game game;
-
-    /**
-     * This is the state from which the character card has been used and
-     * this is the state in which the game have to return after the usage of the card.
-     */
-    private final State originState;
+    private final GameModel gameModel;
 
     /**
      * The character card that uses this state
@@ -28,8 +23,8 @@ public class UseCharacterCard5State implements State {
      * @param characterCard5 the character card that uses this state
      */
     public UseCharacterCard5State(Game game, State originState, CharacterCard5 characterCard5) {
-        this.game=game;
-        this.originState=originState;
+        super(game,originState,characterCard5);
+        this.gameModel=game.getModel();
         this.characterCard5=characterCard5;
     }
 
@@ -40,23 +35,10 @@ public class UseCharacterCard5State implements State {
      */
     private void setBanOnIsland(int islandID) throws NotValidArgumentException {
         try {
-            game.getModel().getGameTable().getIsland(islandID).addBan();
+            gameModel.getGameTable().getIsland(islandID).addBan();
         } catch (IslandNotFoundException e) {
             throw new NotValidArgumentException("the island does not exist");
         }
-    }
-
-    /**
-     * This method allows to go back to the state at which the character card has been used.
-     */
-    private void returnBack(){
-        // if everything is fine:
-        game.effectEpilogue(characterCard5);
-        characterCard5.setAsUsed();
-        // in addiction to the usual epilogue remove a ban from the card
-        characterCard5.removeBan();
-        // return to the origin state
-        game.setState(originState);
     }
 
     /** This method allows to set the ban on the island specified on the parameter.
@@ -72,6 +54,11 @@ public class UseCharacterCard5State implements State {
         }
 
         setBanOnIsland(destination.getField());
+
+        // EPILOGUE
+        finalizeCardUsed();
+        // in addiction to the usual epilogue remove a ban from the card
+        characterCard5.removeBan();
         returnBack();
     }
 }

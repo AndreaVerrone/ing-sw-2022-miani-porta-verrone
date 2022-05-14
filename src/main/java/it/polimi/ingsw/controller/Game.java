@@ -196,6 +196,11 @@ public class Game implements IGame{
         state.chooseDestination(destination);
     }
 
+    /**
+     * This method allow to conclude the usage of a character card by saving the fact taht
+     * the current player has used a character card during his turn and by making it pay for the usage.
+     * @param card the card that has been used
+     */
     public void effectEpilogue(CharacterCard card){
 
         // 1. set that the current player has used a character card
