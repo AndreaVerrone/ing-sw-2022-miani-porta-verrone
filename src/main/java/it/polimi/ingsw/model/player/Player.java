@@ -198,6 +198,7 @@ public class Player {
      */
     public void addProfessor(PawnType professor) {
         schoolBoard.addProfessor(professor);
+        notifyProfessorObservers();
     }
 
     /**
@@ -208,6 +209,7 @@ public class Player {
      */
     public void removeProfessor(PawnType professor) {
         schoolBoard.removeProfessor(professor);
+        notifyProfessorObservers();
     }
 
     /**
@@ -265,6 +267,7 @@ public class Player {
         schoolBoard.removeCoin(cost,putInBag);
     }
 
+    // MANAGEMENT OF OBSERVERS ON STUDENTS ON ENTRANCE
     /**
      * List of the observer on the students on entrance.
      */
@@ -294,6 +297,7 @@ public class Player {
             observer.studentsOnEntranceObserverUpdate();
     }
 
+    // MANAGEMENT OF OBSERVERS ON STUDENTS IN DINING ROOM
     /**
      * List of the observer on the students dining room.
      */
@@ -323,6 +327,7 @@ public class Player {
             observer.studentsInDiningRoomObserverUpdate();
     }
 
+    // MANAGEMENT OF OBSERVERS ON TOWER NUMBER
     /**
      * List of the observer on the tower number.
      */
@@ -352,6 +357,7 @@ public class Player {
             observer.changeTowerNumberUpdate();
     }
 
+    // MANAGEMENT OF OBSERVERS ON ASSISTANT DECK
     /**
      * List of the observer on the assistant deck.
      */
@@ -379,5 +385,35 @@ public class Player {
     public void notifyChangeAssistantDeckObservers(){
         for(ChangeAssistantDeckObserver observer : changeAssistantDeckObservers)
             observer.changeAssistantDeckObserverUpdate();
+    }
+
+    // MANAGEMENT OF OBSERVERS ON PROFESSOR
+    /**
+     * List of the observer on the assistant deck.
+     */
+    private final List<ProfessorObserver> professorObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the assistant deck.
+     * @param observer the observer to be added
+     */
+    public void addProfessorObserver(ProfessorObserver observer){
+        professorObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the assistant deck.
+     * @param observer the observer to be removed
+     */
+    public void removeProfessorObserver(ProfessorObserver observer){
+        professorObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the assistant deck.
+     */
+    public void notifyProfessorObservers(){
+        for(ProfessorObserver observer : professorObservers)
+            observer.professorObserverUpdate();
     }
 }
