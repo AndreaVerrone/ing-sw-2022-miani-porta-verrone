@@ -2,6 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.ComputeInfluenceWithTwoAdditional;
 
+/**
+ * Class to implement the card 7 to calculate the influence with to additional points to the current player
+ */
 public class CharacterCard7 extends CharacterCard{
 
     private final Game game;
