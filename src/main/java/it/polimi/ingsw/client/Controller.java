@@ -49,7 +49,7 @@ public class Controller {
     /**
      * Sends a message to the server to create a new game and controls the input given is right
      * @param numberOfPlayersString number of players given in input as a string
-     * @param wantExpertString it is true if the input given is Yes, if is No is false
+     * @param wantExpertString input from the client to tell the server if the game created is in expert mode or not
      */
     public void createGame(String numberOfPlayersString, String wantExpertString){
         int numberOfPlayers;
@@ -75,7 +75,7 @@ public class Controller {
             if (wantExpertString.length() > 0 && wantExpertString.charAt(0) == 'N') {
                 wantExpert = false;
             } else {
-                //TODO wrong input
+                //TODO: wrong input
                 return;
             }
         }
@@ -83,7 +83,7 @@ public class Controller {
     }
 
     /**
-     * Seves the nickname of the client and sends a message to the server to enter a game
+     * Saves the nickname of the client and sends a message to the server to enter a game
      * @param nickName nickname of the client
      * @param gameId gameId of the match the client wants to enter
      */
@@ -93,19 +93,19 @@ public class Controller {
     }
 
     /**
+     * Sends a message to the server to get all the available games
+     */
+    public void getGames(){
+        ConnectionHandler.getInstance().sendMessage(new GetGames());
+    }
+
+    /**
      * Sends a message to the server to resume the match
      */
     public void resumeGame(){
         ConnectionHandler.getInstance().sendMessage(new ResumeGame());
     }
 
-    /**
-     * Sends a message to the server with the identifier of the client
-     * @param ID identifier of the client
-     */
-    public void sendUserIdentifier(String ID){
-        ConnectionHandler.getInstance().sendMessage(new SendUserIdentifier(ID));
-    }
 
     /**
      * Sends a message to the server to change the number of players and controls the input given is right
@@ -146,13 +146,13 @@ public class Controller {
     }
 
     /**
-     * Sends a message to the server to set the towerType of the client and controls the input give is right
+     * Sends a message to the server to set the towerType of the client and controls the input given is right
      * @param tower tower color chosen by the client
      */
     public void setTower(String tower){
         if(wrongPlayerTurn()) return;
         TowerType towerType;
-        //control it is a valid tower type
+        //Control the tower given is valid
         try {
             towerType = TowerType.valueOf(tower);
         }
@@ -170,7 +170,7 @@ public class Controller {
     public void setWizard(String wizard){
         if(wrongPlayerTurn()) return;
         Wizard wizardType;
-        //Control it is a valid wizard
+        //Control the wizard given is valid
         try {
             wizardType = Wizard.valueOf(wizard);
         }
@@ -188,7 +188,7 @@ public class Controller {
     public void moveMotherNature(String movementsString){
         if(wrongPlayerTurn()) return;
         int movements;
-        //Control it is an integer
+        //Control the input given is an integer
         try {
             movements = Integer.parseInt(movementsString);
         }
@@ -218,7 +218,7 @@ public class Controller {
     public void takeStudentFromCloud(String cloudIdString){
         if(wrongPlayerTurn()) return;
         int cloudId;
-        //Control it is an integer
+        //Control the input given is an integer
         try {
             cloudId = Integer.parseInt(cloudIdString);
         }
@@ -241,7 +241,7 @@ public class Controller {
     public void useAssistant(String assistantString){
         if(wrongPlayerTurn()) return;
         Assistant assistant;
-        //Control it is a valid assistant
+        //Control the assistant given is valid
         try {
             assistant = Assistant.valueOf(assistantString);
         }
