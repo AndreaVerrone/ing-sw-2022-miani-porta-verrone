@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli.fancy_cli;
 
-import it.polimi.ingsw.view.cli.fancy_cli.base_components.Widget;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.TextStyle;
@@ -73,6 +72,7 @@ public class Text extends Widget {
 
     @Override
     public void show() {
+        ConsoleCli.moveToColumn(getStartingPoint());
         System.out.print(backgroundColor+foregroundColor+style+text);
         ConsoleCli.resetStyle();
     }

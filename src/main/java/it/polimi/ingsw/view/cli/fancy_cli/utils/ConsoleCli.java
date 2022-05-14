@@ -12,6 +12,14 @@ public class ConsoleCli {
         System.out.print("\u001b[0m");
     }
 
+    /**
+     * Moves the cursor to a specific column in the console.
+     * @param column the column to move to
+     */
+    static public void moveToColumn(int column){
+        System.out.print("\u001b["+column+"G");
+    }
+
     static private void moveCursor(int value, String direction){
         if (value<1)
             return;

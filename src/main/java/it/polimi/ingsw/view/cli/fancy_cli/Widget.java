@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.fancy_cli.base_components;
+package it.polimi.ingsw.view.cli.fancy_cli;
 
 /**
  * A class representing a generic component of the cli
@@ -24,23 +24,23 @@ public abstract class Widget implements Drawable {
         return width;
     }
 
-    public void setWidth(int width) {
+    protected void setWidth(int width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    protected int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    protected void setHeight(int height) {
         this.height = height;
     }
 
-    public int getStartingPoint() {
+    protected int getStartingPoint() {
         return startingPoint;
     }
 
-    public void setStartingPoint(int startingPoint) {
+    protected void setStartingPoint(int startingPoint) {
         this.startingPoint = startingPoint;
     }
 }
