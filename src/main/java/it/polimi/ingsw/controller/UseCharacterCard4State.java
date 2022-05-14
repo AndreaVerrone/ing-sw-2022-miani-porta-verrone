@@ -50,7 +50,8 @@ public class UseCharacterCard4State implements State{
      */
     private void returnBack(){
         // return to the original state
-        characterCard4.effectEpilogue();
+        game.effectEpilogue(characterCard4);
+        characterCard4.setAsUsed();
         game.setState(originState);
     }
 
@@ -68,6 +69,7 @@ public class UseCharacterCard4State implements State{
         }
 
         computeInfluenceOn(destination.getField());
+
         returnBack();
     }
 }

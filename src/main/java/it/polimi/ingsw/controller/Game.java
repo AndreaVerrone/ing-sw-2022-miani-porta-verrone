@@ -196,6 +196,24 @@ public class Game implements IGame{
         state.chooseDestination(destination);
     }
 
+    public void effectEpilogue(CharacterCard card){
+
+        // 1. set that the current player has used a character card
+        setCanUseCharacterCard(false);
+
+        // 2. take the cost of the card from the player
+        boolean putInBagAllCoins = card.isUsed();
+        int cost = card.getCost();
+        try {
+            getModel().getCurrentPlayer().removeCoins(cost,putInBagAllCoins);
+        } catch (NotEnoughCoinsException e) {
+            // todo: how to manage?
+            // it is impossible
+            // I have checked before
+        }
+
+    }
+
     protected GameModel getModel() {
         return model;
     }

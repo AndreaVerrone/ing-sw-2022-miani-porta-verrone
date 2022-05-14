@@ -26,6 +26,7 @@ public class CharacterCard2 extends CharacterCard{
     @Override
     public void effect() {
         game.getModel().setCheckProfessorStrategy(new CheckProfessorCharacter(game.getModel()));
-        effectEpilogue();
+        game.effectEpilogue(this);
+        this.setAsUsed();
     }
 }

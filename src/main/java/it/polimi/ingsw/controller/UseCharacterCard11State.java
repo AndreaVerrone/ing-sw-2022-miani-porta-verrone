@@ -79,7 +79,8 @@ public class UseCharacterCard11State implements State {
      */
     private void returnBack(){
         // if everything is fine:
-        characterCard11.effectEpilogue();
+        game.effectEpilogue(characterCard11);
+        characterCard11.setAsUsed();
         // return to the origin state
         game.setState(originState);
     }

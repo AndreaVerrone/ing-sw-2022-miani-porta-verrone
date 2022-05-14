@@ -51,7 +51,8 @@ public class UseCharacterCard5State implements State {
      */
     private void returnBack(){
         // if everything is fine:
-        characterCard5.effectEpilogue();
+        game.effectEpilogue(characterCard5);
+        characterCard5.setAsUsed();
         // in addiction to the usual epilogue remove a ban from the card
         characterCard5.removeBan();
         // return to the origin state

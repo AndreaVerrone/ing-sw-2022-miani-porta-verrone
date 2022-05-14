@@ -51,8 +51,8 @@ public class UseCharacterCard12State implements State{
      * This method allows to go back to the state at which the character card has been used.
      */
     private void returnBack(){
-        // return to the original state
-        characterCard12.effectEpilogue();
+        game.effectEpilogue(characterCard12);
+        characterCard12.setAsUsed();
         game.setState(originState);
     }
 
