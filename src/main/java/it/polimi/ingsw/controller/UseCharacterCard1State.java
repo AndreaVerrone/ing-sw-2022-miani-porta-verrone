@@ -100,7 +100,8 @@ public class UseCharacterCard1State implements State {
         try {
             characterCard1.removeStudentFromCard(studentToMove);
         }catch (NotEnoughStudentException e) {
-            throw new NotValidOperationException("there are no more students on the card, so it cannot be used");
+            // there is a check before, so it is impossible that this exception will be thrown
+            e.printStackTrace();
         }
 
         // 2. add the student removed from the card to the island if the island
