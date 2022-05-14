@@ -37,7 +37,7 @@ public class UseCharacterCard4State implements State{
      * @param islandID the island on which compute the influence
      * @throws NotValidArgumentException if the island does not exist
      */
-    public void computeInfluenceOn(int islandID) throws NotValidArgumentException {
+    private void computeInfluenceOn(int islandID) throws NotValidArgumentException {
         try {
             game.getModel().conquerIsland(islandID);
         } catch (IslandNotFoundException e) {

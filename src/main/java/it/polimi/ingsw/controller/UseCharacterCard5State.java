@@ -38,7 +38,7 @@ public class UseCharacterCard5State implements State {
      * @param islandID the island ID of the island on which put the ban
      * @throws NotValidArgumentException if the island does not exist
      */
-    public void setBanOnIsland(int islandID) throws NotValidArgumentException {
+    private void setBanOnIsland(int islandID) throws NotValidArgumentException {
         try {
             game.getModel().getGameTable().getIsland(islandID).addBan();
         } catch (IslandNotFoundException e) {

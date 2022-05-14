@@ -34,7 +34,7 @@ public class UseCharacterCard12State implements State{
      * of all players.
      * If there are less than 3 players, it will be removed all the students of that color that is possible to remove.
      */
-    public void removeStudentFromDiningRoom(PawnType color){
+    private void removeStudentFromDiningRoom(PawnType color){
 
         for (Player player : game.getModel().getPlayerList()) {
             try {

@@ -47,7 +47,7 @@ public class UseCharacterCard11State implements State {
         this.characterCard11 = characterCard11;
     }
 
-    public void moveFromCardToDiningRoom(PawnType pawnType) throws NotValidArgumentException{
+    private void moveFromCardToDiningRoom(PawnType pawnType) throws NotValidArgumentException{
 
         // remove student from card
         try {
