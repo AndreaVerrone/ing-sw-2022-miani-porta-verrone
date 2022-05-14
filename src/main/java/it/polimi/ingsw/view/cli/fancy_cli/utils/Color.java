@@ -5,7 +5,7 @@ package it.polimi.ingsw.view.cli.fancy_cli.utils;
  */
 @SuppressWarnings("MissingJavadoc")
 public enum Color {
-    DEFAULT(0),
+    DEFAULT(""),
     BLACK(30),
     WHITE(97),
     RED(31),
@@ -30,6 +30,11 @@ public enum Color {
         String base = "\u001b[";
         foreground = base + code + "m";
         background = base + (code+10) + "m";
+    }
+
+    Color(String s){
+        foreground = s;
+        background = s;
     }
 
 }
