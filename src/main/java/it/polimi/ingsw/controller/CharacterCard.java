@@ -53,7 +53,7 @@ abstract public class CharacterCard {
     /**
      * This method will mark this card as used
      */
-    public void setAsUsed(){
+    private void setAsUsed(){
         if (!used){
             used = true;
         }
@@ -62,7 +62,7 @@ abstract public class CharacterCard {
     /**
      * This method allow to increment the cost of the usage of the card
      */
-    public void incrementCost(){
+    private void incrementCost(){
         cost ++;
     }
 
@@ -94,9 +94,9 @@ abstract public class CharacterCard {
         }
 
         // 2. set the card as used
-        used=true;
+        setAsUsed();
 
         // 3. increment the cost of the card
-        this.cost++;
+        incrementCost();
     }
 }
