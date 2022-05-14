@@ -2,6 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.ComputeInfluenceWithNoTowers;
 
+/**
+ * Class to implement card 6 to calculate the influence without counting the towers
+ */
 public class CharacterCard6 extends CharacterCard{
 
     private final Game game;
