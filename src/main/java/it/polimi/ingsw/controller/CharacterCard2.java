@@ -11,14 +11,15 @@ public class CharacterCard2 extends CharacterCard{
     Game game;
 
     /**
-     * Creates a new character card with the specified initial cost, the description
-     * and the game passed as a parameter.
-     * @param cost              the initial cost of the card
-     * @param effectDescription the description of the effect of this card
-     * @param game              the Game class
+     * Creates a new character card
+     * @param game the Game class
      */
-    CharacterCard2(int cost, String effectDescription, Game game) {
-        super(cost, effectDescription);
+    CharacterCard2(Game game) {
+        super(
+                2,
+                "allow a player to control a professor even if he has the same number " +
+                                "of student of the player that controls it in that moment."
+        );
         this.game=game;
     }
 
