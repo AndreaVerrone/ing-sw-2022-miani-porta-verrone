@@ -13,7 +13,7 @@ public class CharacterCard4 extends CharacterCard{
      * @param game the Game class
      */
     CharacterCard4(Game game) {
-        super(3, "allow the player to choose an island on which compute influence");
+        super(3, "allow to choose an island on which compute influence");
         this.game=game;
     }
 

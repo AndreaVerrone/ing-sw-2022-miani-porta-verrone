@@ -19,13 +19,12 @@ public class CharacterCard1 extends CharacterCard{
     private final Game game;
 
     /**
-     * The constructor of the class creates a new character card with the specified initial cost,
-     * the description and the game class passed as a parameter.
-     * @param game              the Game class
+     * The constructor of the class.
+     * @param game the Game class
      */
     CharacterCard1(Game game) {
 
-        super(1,"move student from card to island");
+        super(1,"allow to move one student from card to island");
 
         this.game=game;
 

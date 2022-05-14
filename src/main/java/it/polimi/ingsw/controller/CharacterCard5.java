@@ -17,7 +17,7 @@ public class CharacterCard5 extends CharacterCard{
      * @param game the Game class
      */
     CharacterCard5(Game game) {
-        super(2, "allow the player to choose an island on which put the ban");
+        super(2, "allow to choose an island on which put the ban");
         this.game=game;
         numOfBans=4;
     }
