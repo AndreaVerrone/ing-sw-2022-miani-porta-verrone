@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.cli.fancy_cli;
 
 import it.polimi.ingsw.view.cli.fancy_cli.base_components.Widget;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
+import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.TextStyle;
 
 /**
@@ -17,12 +18,12 @@ public class Text extends Widget {
     /**
      * The foreground color of the text
      */
-    private Color foregroundColor;
+    private String foregroundColor;
 
     /**
      * The background color of the text
      */
-    private Color backgroundColor;
+    private String backgroundColor;
 
     /**
      * All the styles to apply to the text.
@@ -45,19 +46,19 @@ public class Text extends Widget {
      */
     public Text(String text, Color foregroundColor, Color backgroundColor){
         this.text = text;
-        this.foregroundColor = foregroundColor;
-        this.backgroundColor = backgroundColor;
+        this.foregroundColor = foregroundColor.foreground;
+        this.backgroundColor = backgroundColor.background;
         setWidth(text.length());
         setHeight(1);
     }
 
     public Text setForegroundColor(Color foregroundColor){
-        this.foregroundColor = foregroundColor;
+        this.foregroundColor = foregroundColor.foreground;
         return this;
     }
 
     public Text setBackgroundColor(Color backgroundColor){
-        this.backgroundColor = backgroundColor;
+        this.backgroundColor = backgroundColor.background;
         return this;
     }
 
@@ -72,11 +73,7 @@ public class Text extends Widget {
 
     @Override
     public void show() {
-        if (foregroundColor != Color.DEFAULT)
-            System.out.print(foregroundColor.foreground);
-        if (backgroundColor != Color.DEFAULT)
-            System.out.print(backgroundColor.background);
-        System.out.print(style+text);
-        System.out.print(Color.DEFAULT);
+        System.out.print(backgroundColor+foregroundColor+style+text);
+        ConsoleCli.resetStyle();
     }
 }
