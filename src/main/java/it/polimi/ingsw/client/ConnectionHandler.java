@@ -62,11 +62,20 @@ public class ConnectionHandler implements Runnable, NetworkSender {
      */
     private boolean wantToClose = false;
 
+    /**
+     * Instance of the ConnectionHandler needed to implement Singleton pattern
+     */
     private static ConnectionHandler instance = null;
 
-
+    /**
+     * Constructor of the class
+     */
     private ConnectionHandler(){}
 
+    /**
+     * Gets the only instance created of the connection handler
+     * @return the instance of connection handler
+     */
     protected static ConnectionHandler getInstance(){
         if(instance == null){
             instance = new ConnectionHandler();
@@ -76,7 +85,6 @@ public class ConnectionHandler implements Runnable, NetworkSender {
 
     /**
      * Creates a new connection with the server using the IP and port specified.
-     *
      * @param serverIP   the IP of the server
      * @param serverPort the port to use to connect on the server
      * @throws IOException if an I/O error occurs when creating the connection
