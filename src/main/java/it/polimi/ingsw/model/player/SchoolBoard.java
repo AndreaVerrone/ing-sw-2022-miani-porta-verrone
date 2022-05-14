@@ -207,14 +207,13 @@ class SchoolBoard {
         towers += delta;
     }
 
-
     /**
-     * List of the observer on the tower number.
+     * List of the observer on the coin number.
      */
     private final List<ChangeCoinNumberObserver> changeCoinNumberObservers = new ArrayList<>();
 
     /**
-     * This method allows to add the observer, passed as a parameter, on the tower number.
+     * This method allows to add the observer, passed as a parameter, on the coin number.
      * @param observer the observer to be added
      */
     public void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
@@ -222,7 +221,7 @@ class SchoolBoard {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the tower number.
+     * This method allows to remove the observer, passed as a parameter, on the coin number.
      * @param observer the observer to be removed
      */
     public void removeChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
@@ -230,11 +229,10 @@ class SchoolBoard {
     }
 
     /**
-     * This method notify all the attached observers that a change has been happened on the tower number.
+     * This method notify all the attached observers that a change has been happened on the coin number.
      */
     public void notifyChangeCoinNumberObservers(){
         for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
             observer.changeCoinNumberObserverUpdate();
     }
-
 }
