@@ -2,6 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.MotherNatureLimitPlusTwo;
 
+/**
+ * Class to implement card 3 to add two additional movements to mother nature
+ */
 public class CharacterCard3 extends CharacterCard {
 
     private final Game game;
