@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.gametable;
 
-import it.polimi.ingsw.model.IslandUnificationObserver;
-import it.polimi.ingsw.model.StudentsOnIslandObserver;
-import it.polimi.ingsw.model.PawnType;
-import it.polimi.ingsw.model.StudentList;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
 import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
@@ -115,6 +112,7 @@ public class GameTable {
     public void moveMotherNature(int numberOfIslands){
         assert (numberOfIslands>=0): "Movements cannot be negative!";
         motherNaturePosition = (numberOfIslands + motherNaturePosition) % getNumberOfIslands();
+        notifyMotherNaturePositionObservers();
     }
 
     /**
@@ -190,6 +188,7 @@ public class GameTable {
         studentsBag.fillWith(students);
     }
 
+    // MANAGEMENT OF OBSERVERS ON UNIFICATION OF ISLANDS
     /**
      * List of the observer on unification of island
      */
@@ -219,7 +218,7 @@ public class GameTable {
             observer.islandUnificationObserverUpdate();
       }
 
-
+    // MANAGEMENT OF OBSERVERS ON STUDENTS ON ISLAND
     /**
      * List of the observer on the students on island
      */
@@ -247,6 +246,36 @@ public class GameTable {
     public void notifyStudentsOnIslandObservers(){
         for(StudentsOnIslandObserver observer : studentsOnIslandObservers)
             observer.studentsOnIslandObserverUpdate();
+    }
+
+    // MANAGEMENT OF OBSERVERS ON MOTHER NATURE POSITION
+    /**
+     * List of the observer on mother nature position
+     */
+    private final List<MotherNaturePositionObserver> motherNaturePositionObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on mother nature position.
+     * @param observer the observer to be added
+     */
+    public void addMotherNaturePositionObserver(MotherNaturePositionObserver observer){
+        motherNaturePositionObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on mother nature position.
+     * @param observer the observer to be removed
+     */
+    public void removeMotherNaturePositionObserver(MotherNaturePositionObserver observer){
+        motherNaturePositionObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on mother nature position.
+     */
+    public void notifyMotherNaturePositionObservers(){
+        for(MotherNaturePositionObserver observer : motherNaturePositionObservers)
+            observer.motherNaturePositionObserverUpdate();
     }
 }
 
