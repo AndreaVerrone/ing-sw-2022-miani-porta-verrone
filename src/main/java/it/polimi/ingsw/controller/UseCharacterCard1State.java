@@ -96,7 +96,16 @@ public class UseCharacterCard1State implements State {
         }
 
         // ACTIONS OF THE METHOD
-        // 1. remove student from card
+
+        // 1. add the student removed from the card to the island if the island
+        // exist otherwise throw an exception
+        try {
+            gameModel.getGameTable().addToIsland(studentToMove,destination.getField());
+        } catch (IslandNotFoundException e) {
+            throw new NotValidArgumentException("island does not exist");
+        }
+
+        // 2. remove student from card
         try {
             characterCard1.removeStudentFromCard(studentToMove);
         }catch (NotEnoughStudentException e) {
@@ -104,16 +113,7 @@ public class UseCharacterCard1State implements State {
             e.printStackTrace();
         }
 
-        // 2. add the student removed from the card to the island if the island
-        // exist otherwise throw an exception
-        try {
-            gameModel.getGameTable().addToIsland(studentToMove,destination.getField());
-        } catch (IslandNotFoundException e) {
-            characterCard1.addStudentToCard(studentToMove);
-            throw new NotValidArgumentException("island does not exist");
-        }
-
-        // 2. take a student from the bag and put on the card
+        // 3. take a student from the bag and put on the card
         try {
             characterCard1.addStudentToCard(gameModel.getStudentFromBag());
         } catch (EmptyBagException e) {
