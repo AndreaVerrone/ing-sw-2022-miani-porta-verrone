@@ -15,6 +15,11 @@ public abstract class Widget implements Drawable {
      */
     private int height;
 
+    /**
+     * The column number from which this widget should be drawn
+     */
+    private int startingPoint = 0;
+
     public int getWidth() {
         return width;
     }
@@ -29,5 +34,13 @@ public abstract class Widget implements Drawable {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public int getStartingPoint() {
+        return startingPoint;
+    }
+
+    public void setStartingPoint(int startingPoint) {
+        this.startingPoint = startingPoint;
     }
 }
