@@ -100,7 +100,9 @@ public class GameModel {
      */
     public PawnType getStudentFromBag() throws EmptyBagException {
         return gameTable.getStudentFromBag();
+    }
 
+    /**
      * Change the strategy to calculate mother nature range of motion
      * @param strategy strategy to calculate mother nature range of motion
      */
