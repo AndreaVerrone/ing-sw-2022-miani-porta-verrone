@@ -5,10 +5,29 @@ package it.polimi.ingsw.view.cli.basecomponents;
  */
 public abstract class Widget implements Drawable {
 
+    /**
+     * The width, in character width number, of this widget
+     */
+    private int width;
 
+    /**
+     * The height, in number of lines, of this widget
+     */
+    private int height;
 
-    @Override
-    public String toString() {
-        return show();
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
