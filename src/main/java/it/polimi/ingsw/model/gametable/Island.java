@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.gametable;
 
-import it.polimi.ingsw.model.NotEnoughStudentException;
-import it.polimi.ingsw.model.PawnType;
-import it.polimi.ingsw.model.StudentList;
-import it.polimi.ingsw.model.TowerType;
+import it.polimi.ingsw.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class representing the island in the game.
@@ -85,6 +85,7 @@ public class Island {
      */
     public void addBan(){
         ban = ban + 1;
+        notifyBanOnIslandObservers();
     }
 
     /**
@@ -93,6 +94,7 @@ public class Island {
     public void removeBan(){
         if(ban>0){
             ban = ban - 1;
+            notifyBanOnIslandObservers();
         }
     }
 
@@ -127,4 +129,33 @@ public class Island {
 
     }
 
+    // MANAGEMENT OF OBSERVERS ON BAN ON ISLAND
+    /**
+     * List of the observer on ban on island
+     */
+    private final List<BanOnIslandObserver> banOnIslandObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on ban on island.
+     * @param observer the observer to be added
+     */
+    public void addBanOnIslandObserver(BanOnIslandObserver observer){
+        banOnIslandObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on ban on island.
+     * @param observer the observer to be removed
+     */
+    public void removeBanOnIslandObserver(BanOnIslandObserver observer){
+        banOnIslandObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on ban on island.
+     */
+    public void notifyBanOnIslandObservers(){
+        for(BanOnIslandObserver observer : banOnIslandObservers)
+            observer.banOnIslandObserverUpdate();
+    }
 }
