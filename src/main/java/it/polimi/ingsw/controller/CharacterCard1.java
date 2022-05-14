@@ -21,13 +21,11 @@ public class CharacterCard1 extends CharacterCard{
     /**
      * The constructor of the class creates a new character card with the specified initial cost,
      * the description and the game class passed as a parameter.
-     * @param cost              the initial cost of the card
-     * @param effectDescription the description of the effect of this card
      * @param game              the Game class
      */
-    CharacterCard1(int cost, String effectDescription, Game game) {
+    CharacterCard1(Game game) {
 
-        super(cost, effectDescription);
+        super(1,"move student from card to island");
 
         this.game=game;
 
