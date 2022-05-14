@@ -9,14 +9,11 @@ public class CharacterCard12 extends CharacterCard{
     private final Game game;
 
     /**
-     * Creates a new character card with the specified initial cost, the description
-     * and the game passed as a parameter.
-     * @param cost              the initial cost of the card
-     * @param effectDescription the description of the effect of this card
-     * @param game              the Game class
+     * Creates a new character card.
+     * @param game the Game class
      */
-    CharacterCard12(int cost, String effectDescription, Game game) {
-        super(cost, effectDescription);
+    CharacterCard12(Game game) {
+        super(3, "allow to remove 3 student of one color from the dining room of all players");
         this.game=game;
     }
 
