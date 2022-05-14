@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.gametable;
 
+import it.polimi.ingsw.model.IslandUnificationObserver;
+import it.polimi.ingsw.model.StudentsOnIslandObserver;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
 import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
@@ -31,7 +33,6 @@ public class GameTable {
      * Bag with the students inside
      */
     private final StudentsBag studentsBag;
-    // TODO add private List<TableObserver> observers = new ArrayList<TableObserver>
 
     /**
      * Constructor of the class. Creates a list of clouds and a list of islands. The number of clouds is given and must not be greater than four, while the number of islands starts
@@ -125,6 +126,7 @@ public class GameTable {
     public void addToIsland(PawnType student, int islandID) throws IslandNotFoundException {
         Island island = getIsland(islandID);
         island.addStudentOf(student);
+        notifyStudentsOnIslandObservers();
     }
 
     /**
@@ -166,6 +168,8 @@ public class GameTable {
         Island islandAfter = islands.get(indexAfter);
         unify(island, islandBefore);
         unify(island, islandAfter);
+
+        notifyUnificationIslandObservers();
     }
 
     private void unify(Island island, Island islandAdjacent){
@@ -186,19 +190,63 @@ public class GameTable {
         studentsBag.fillWith(students);
     }
 
-    // TODO: add these three classes
-    /*
-    public void addObserver(TableObserver observer){
-        observers.add(observer);
+    /**
+     * List of the observer on unification of island
+     */
+    private final List<IslandUnificationObserver> unificationIslandObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the unification of islands.
+     * @param observer the observer to be added
+     */
+    public void addUnificationIslandObserver(IslandUnificationObserver observer){
+        unificationIslandObservers.add(observer);
      }
 
-     public void removeObserver(TableObserver observer){
-        observers.remove(observer);
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the unification of islands.
+     * @param observer the observer to be removed
+     */
+     public void removeUnificationIslandObserver(IslandUnificationObserver observer){
+         unificationIslandObservers.remove(observer);
       }
 
-      public void notifyObservers(){
-        for(TableObserver observer : observers) observer.update();ìì
+    /**
+     * This method notify all the attached observers a change involving the unification of islands.
+     */
+      public void notifyUnificationIslandObservers(){
+        for(IslandUnificationObserver observer : unificationIslandObservers)
+            observer.islandUnificationObserverUpdate();
       }
-      */
+
+
+    /**
+     * List of the observer on the students on island
+     */
+    private final List<StudentsOnIslandObserver> studentsOnIslandObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students on island.
+     * @param observer the observer to be added
+     */
+    public void addStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+        studentsOnIslandObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students on island.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+        studentsOnIslandObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the students on island.
+     */
+    public void notifyStudentsOnIslandObservers(){
+        for(StudentsOnIslandObserver observer : studentsOnIslandObservers)
+            observer.studentsOnIslandObserverUpdate();
+    }
 }
 
