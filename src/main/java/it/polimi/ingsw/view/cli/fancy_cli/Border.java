@@ -82,11 +82,13 @@ public class Border extends Widget{
         drawSegment(borderType.getTopRight());
         System.out.print("\n");
         for (int i = 0; i < child.getHeight(); i++) {
+            ConsoleCli.moveToColumn(getStartingPoint());
             drawSegment(borderType.getVertical());
             ConsoleCli.moveCursorRight(child.getWidth());
             drawSegment(borderType.getVertical());
             System.out.print("\n");
         }
+        ConsoleCli.moveToColumn(getStartingPoint());
         drawSegment(borderType.getBottomLeft());
         for (int i = 0; i < child.getWidth(); i++) {
             drawSegment(borderType.getHorizontal());
