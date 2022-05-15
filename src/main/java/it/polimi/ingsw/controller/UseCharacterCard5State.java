@@ -32,8 +32,14 @@ public class UseCharacterCard5State extends UseCharacterCardState implements Sta
      * This method allows to set the ban on the island specified on the parameter
      * @param islandID the island ID of the island on which put the ban
      * @throws NotValidArgumentException if the island does not exist
+     * @throws NotValidOperationException if there is no any ban on the island
      */
-    private void setBanOnIsland(int islandID) throws NotValidArgumentException {
+    private void setBanOnIsland(int islandID) throws NotValidArgumentException, NotValidOperationException {
+
+        if(characterCard5.getNumOfBans()<=0){
+            throw new NotValidOperationException("this card cannot be used, there are no bans on it");
+        }
+
         try {
             gameModel.getGameTable().getIsland(islandID).addBan();
         } catch (IslandNotFoundException e) {
@@ -43,7 +49,8 @@ public class UseCharacterCard5State extends UseCharacterCardState implements Sta
 
     /** This method allows to set the ban on the island specified on the parameter.
      * @param destination the Position
-     * @throws NotValidOperationException if the location of the position is not an island
+     * @throws NotValidOperationException if the location of the position is not an island or
+     *                                    if there is no any ban on the island
      * @throws NotValidArgumentException if the island does not exist
      */
     @Override
