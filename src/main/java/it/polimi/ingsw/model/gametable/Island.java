@@ -85,7 +85,7 @@ public class Island {
      */
     public void addBan(){
         ban = ban + 1;
-        notifyBanOnIslandObservers();
+        notifyBanOnIslandObservers(this.ID);
     }
 
     /**
@@ -94,7 +94,7 @@ public class Island {
     public void removeBan(){
         if(ban>0){
             ban = ban - 1;
-            notifyBanOnIslandObservers();
+            notifyBanOnIslandObservers(this.ID);
         }
     }
 
@@ -154,8 +154,9 @@ public class Island {
 
     /**
      * This method notify all the attached observers that a change has been happened on ban on island.
+     * @param islandIDWithBan the island on which a ban has been put or removed
      */
-    public void notifyBanOnIslandObservers(){
+    public void notifyBanOnIslandObservers(int islandIDWithBan){
         for(BanOnIslandObserver observer : banOnIslandObservers)
             observer.banOnIslandObserverUpdate();
     }
