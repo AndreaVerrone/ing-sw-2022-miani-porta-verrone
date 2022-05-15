@@ -45,7 +45,7 @@ public interface State {
      * to its dining room.
      * @param student is the color of the student to move
      * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
-     * @throws NotValidArgumentException if the student is not present in entrance or it is present, but the the table for the
+     * @throws NotValidArgumentException if the student is not present in entrance, or it is present, but the table for the
      *                                   students of that color is full
      */
     default public void moveStudentToDiningRoom(PawnType student)throws NotValidOperationException,NotValidArgumentException {
@@ -83,20 +83,6 @@ public interface State {
      */
     default void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException, NotValidArgumentException{
         characterCard.effect();
-    }
-
-    /**
-     * This method allow to move one student from the character card 1
-     * to the island passed as a parameter.
-     * After the calling of the method, if the student bag is not empty,
-     * a student (taken from the bag) will be added on the character card.
-     * @param pawnType color of the student to move to island
-     * @param islandID island on which put the student
-     * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
-     * @throws NotValidArgumentException if the student or the island does not exist
-     */
-    default public void moveFromCardToIsland(PawnType pawnType, int islandID) throws NotValidOperationException, NotValidArgumentException{
-        throw new NotValidOperationException();
     }
 
     /**

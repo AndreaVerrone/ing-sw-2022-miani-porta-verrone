@@ -1,9 +1,12 @@
 package it.polimi.ingsw.controller.matchmaking;
 
+import it.polimi.ingsw.controller.IGame;
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Wizard;
+
+import java.util.Optional;
 
 /**
  * The interface of the MatchMaking class
@@ -60,9 +63,11 @@ public interface IMatchMaking {
     void setWizardOfPlayer(Wizard wizard) throws NotValidOperationException, NotValidArgumentException;
 
     /**
-     * Moves the match making to the next state.
+     * Moves the match making to the next state. It also returns the new game created, if any.
      * @throws NotValidOperationException if the state can't be changed (i.e. not all the expected operations
      * of the current state were done)
+     * @return {@link Optional#empty()} if no game was meant to be created, or an {@code Optional} containing
+     * the game created
      */
-    void next() throws NotValidOperationException;
+    Optional<IGame> next() throws NotValidOperationException;
 }
