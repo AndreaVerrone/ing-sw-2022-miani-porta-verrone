@@ -245,7 +245,7 @@ public class GameTable {
      */
     public void notifyMotherNaturePositionObservers(int actualMotherNaturePosition){
         for(MotherNaturePositionObserver observer : motherNaturePositionObservers)
-            observer.motherNaturePositionObserverUpdate();
+            observer.motherNaturePositionObserverUpdate(actualMotherNaturePosition);
     }
 
 }
