@@ -45,7 +45,7 @@ class Cloud {
         } catch (NotEnoughStudentException e) {
             e.printStackTrace();
         }
-        notifyStudentsOnCloudObservers();
+        notifyStudentsOnCloudObservers(this.ID,this.students.clone());
     }
 
     /**
@@ -55,7 +55,7 @@ class Cloud {
     public StudentList getAllStudents() {
         StudentList studentsClone =  students.clone();
         students.empty();
-        notifyStudentsOnCloudObservers();
+        notifyStudentsOnCloudObservers(this.ID,students.clone());
         return studentsClone;
     }
 
@@ -83,8 +83,10 @@ class Cloud {
 
     /**
      * This method notify all the attached observers that a change has been happened on students on cloud.
+     * @param cloudID the ID of the cloud on which the students have been changed
+     * @param actualStudentList the actual student list on the cloud
      */
-    public void notifyStudentsOnCloudObservers(){
+    public void notifyStudentsOnCloudObservers(int cloudID, StudentList actualStudentList){
         for(StudentsOnCloudObserver observer : studentsOnCloudObservers)
             observer.studentsOnCloudObserverUpdate();
     }
