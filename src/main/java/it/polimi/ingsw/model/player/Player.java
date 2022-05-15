@@ -69,6 +69,7 @@ public class Player {
     public void useAssistant(Assistant assistant) {
         assistantDeck.removeAssistant(assistant);
         lastUsed = assistant;
+        notifyChangeAssistantDeckObservers(this.nickName,getHand());
     }
 
     /**
@@ -428,5 +429,37 @@ public class Player {
     public void notifyProfessorObservers(String nickName, Collection<PawnType> actualProfessors){
         for(ProfessorObserver observer : professorObservers)
             observer.professorObserverUpdate(nickName,actualProfessors);
+    }
+
+    // MANAGEMENT OF OBSERVERS ON ASSISTANT DECK
+    /**
+     * List of the observer on the assistant deck.
+     */
+    private final List<ChangeAssistantDeckObserver> changeAssistantDeckObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the assistant deck.
+     * @param observer the observer to be added
+     */
+    public void addChangeAssistantDeckObserver(ChangeAssistantDeckObserver observer){
+        changeAssistantDeckObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the assistant deck.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeAssistantDeckObserver(ChangeAssistantDeckObserver observer){
+        changeAssistantDeckObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the assistant deck.
+     * @param nickName the nickname of the player that has the deck that has been changed
+     * @param actualDeck the actual deck
+     */
+    public void notifyChangeAssistantDeckObservers(String nickName, Collection<Assistant> actualDeck){
+        for(ChangeAssistantDeckObserver observer : changeAssistantDeckObservers)
+            observer.changeAssistantDeckObserverUpdate(nickName,actualDeck);
     }
 }
