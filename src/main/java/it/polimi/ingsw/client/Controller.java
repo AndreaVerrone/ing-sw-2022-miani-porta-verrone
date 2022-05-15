@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Wizard;
+import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.*;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.*;
@@ -21,9 +22,15 @@ public class Controller {
     private String nickNameCurrentPlayer;
 
     /**
+     * Virtual match played by the client
+     */
+    private final NetworkSender match;
+
+    /**
      * Constructor of the class
      */
     public Controller(){
+        this.match = ConnectionHandler.getInstance();
     }
 
     /**
@@ -79,7 +86,7 @@ public class Controller {
                 return;
             }
         }
-        ConnectionHandler.getInstance().sendMessage(new CreateNewGame(numberOfPlayers, wantExpert));
+        match.sendMessage(new CreateNewGame(numberOfPlayers, wantExpert));
     }
 
     /**
@@ -89,21 +96,21 @@ public class Controller {
      */
     public void enterGame(String nickName, String gameId){
         nickNameOwner = nickName;
-        ConnectionHandler.getInstance().sendMessage(new EnterGame(nickName, gameId));
+        match.sendMessage(new EnterGame(nickName, gameId));
     }
 
     /**
      * Sends a message to the server to get all the available games
      */
     public void getGames(){
-        ConnectionHandler.getInstance().sendMessage(new GetGames());
+        match.sendMessage(new GetGames());
     }
 
     /**
      * Sends a message to the server to resume the match
      */
     public void resumeGame(){
-        ConnectionHandler.getInstance().sendMessage(new ResumeGame());
+        match.sendMessage(new ResumeGame());
     }
 
 
@@ -127,14 +134,14 @@ public class Controller {
             //TODO: wrong input
             return;
         }
-        ConnectionHandler.getInstance().sendMessage(new ChangeNumPlayers(newNumberPlayers));
+        match.sendMessage(new ChangeNumPlayers(newNumberPlayers));
     }
 
     /**
      * Sends a message to the server to exit the game
      */
     public void exitFromGame(){
-        ConnectionHandler.getInstance().sendMessage(new ExitFromGame(nickNameOwner));
+        match.sendMessage(new ExitFromGame(nickNameOwner));
     }
 
     /**
@@ -142,7 +149,7 @@ public class Controller {
      */
     public void nextPhase() {
         if(wrongPlayerTurn()) return;
-        ConnectionHandler.getInstance().sendMessage(new NextPhase());
+        match.sendMessage(new NextPhase());
     }
 
     /**
@@ -160,7 +167,7 @@ public class Controller {
             //TODO: wrong input
             return;
         }
-        ConnectionHandler.getInstance().sendMessage(new SetTower(towerType));
+        match.sendMessage(new SetTower(towerType));
     }
 
     /**
@@ -178,7 +185,7 @@ public class Controller {
             //TODO: wrong input
             return;
         }
-        ConnectionHandler.getInstance().sendMessage(new SetWizard(wizardType));
+        match.sendMessage(new SetWizard(wizardType));
     }
 
     /**
@@ -201,19 +208,19 @@ public class Controller {
             //TODO: wrong input
             return;
         }
-        ConnectionHandler.getInstance().sendMessage(new MoveMotherNature(movements));
+        match.sendMessage(new MoveMotherNature(movements));
     }
 
     /**
      * Sends a message to the server to quit the game during the creation of the match
      */
     public void quitGame(){
-        ConnectionHandler.getInstance().sendMessage(new QuitGame());
+        match.sendMessage(new QuitGame());
     }
 
     /**
      * Sends a message to the server to take all the student from the cloud given and controls the input is right
-     * @param cloudIdString Id of the cloud from where the client wants to take all the students
+     * @param cloudIdString ID of the cloud from where the client wants to take all the students
      */
     public void takeStudentFromCloud(String cloudIdString){
         if(wrongPlayerTurn()) return;
@@ -231,7 +238,7 @@ public class Controller {
             //TODO: wrongInput
             return;
         }
-        ConnectionHandler.getInstance().sendMessage(new TakeStudentsFromCloud(cloudId));
+        match.sendMessage(new TakeStudentsFromCloud(cloudId));
     }
 
     /**
@@ -249,6 +256,6 @@ public class Controller {
             //TODO: wrong input
             return;
         }
-        ConnectionHandler.getInstance().sendMessage(new UseAssistant(assistant));
+        match.sendMessage(new UseAssistant(assistant));
     }
 }
