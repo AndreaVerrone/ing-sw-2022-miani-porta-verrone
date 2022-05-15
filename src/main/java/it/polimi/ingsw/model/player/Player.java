@@ -67,9 +67,12 @@ public class Player {
      * @param assistant that will be used
      */
     public void useAssistant(Assistant assistant) {
+
         assistantDeck.removeAssistant(assistant);
-        lastUsed = assistant;
         notifyChangeAssistantDeckObservers(this.nickName,getHand());
+
+        lastUsed = assistant;
+        notifyLastAssistantUsedObservers(this.nickName,getLastAssistant());
     }
 
     /**
@@ -454,12 +457,44 @@ public class Player {
     }
 
     /**
-     * This method notify all the attached observers that a change has been happened on the assistant deck.
+     * This method notify all the attached observers that a change has been happened on last assistant.
      * @param nickName the nickname of the player that has the deck that has been changed
      * @param actualDeck the actual deck
      */
     public void notifyChangeAssistantDeckObservers(String nickName, Collection<Assistant> actualDeck){
         for(ChangeAssistantDeckObserver observer : changeAssistantDeckObservers)
             observer.changeAssistantDeckObserverUpdate(nickName,actualDeck);
+    }
+
+    // MANAGEMENT OF OBSERVERS ON LAST ASSISTANT USED
+    /**
+     * List of the observer on the assistant deck.
+     */
+    private final List<LastAssistantUsedObserver> lastAssistantUsedObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on last assistant.
+     * @param observer the observer to be added
+     */
+    public void addLastAssistantUsedObserver(LastAssistantUsedObserver observer){
+        lastAssistantUsedObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on last assistant.
+     * @param observer the observer to be removed
+     */
+    public void removeLastAssistantUsedObserver(LastAssistantUsedObserver observer){
+        lastAssistantUsedObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on last assistant.
+     * @param nickName the nickname of the player that has the deck that has been changed
+     * @param actualLastAssistant the actual last assistant
+     */
+    public void notifyLastAssistantUsedObservers(String nickName, Assistant actualLastAssistant){
+        for(LastAssistantUsedObserver observer : lastAssistantUsedObservers)
+            observer.lastAssistantUsedObserverUpdate(nickName,actualLastAssistant);
     }
 }
