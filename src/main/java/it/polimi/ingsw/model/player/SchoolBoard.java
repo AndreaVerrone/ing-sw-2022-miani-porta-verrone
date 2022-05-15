@@ -118,7 +118,7 @@ class SchoolBoard {
         } catch (NotEnoughStudentException e) {
             e.printStackTrace();
         }
-        notifyStudentsInDiningRoomObservers();
+        notifyStudentsOnEntranceObservers();
     }
 
     /**
@@ -128,7 +128,7 @@ class SchoolBoard {
      */
     protected void removeStudentFromEntrance(PawnType type) throws NotEnoughStudentException {
         entrance.changeNumOf(type, -1);
-        notifyStudentsInDiningRoomObservers();
+        notifyStudentsOnEntranceObservers();
     }
 
     /**
@@ -161,6 +161,7 @@ class SchoolBoard {
             takeCoin();
             notifyChangeCoinNumberObservers();
         }
+        notifyStudentsInDiningRoomObservers();
     }
 
     /**
@@ -170,6 +171,7 @@ class SchoolBoard {
      */
     protected void removeStudentFromDiningRoom(PawnType type) throws NotEnoughStudentException {
         diningRoom.removeStudentOf(type);
+        notifyStudentsInDiningRoomObservers();
     }
 
     /**
@@ -329,5 +331,35 @@ class SchoolBoard {
     public void notifyStudentsInDiningRoomObservers(){
         for(StudentsInDiningRoomObserver observer : studentsInDiningRoomObservers)
             observer.studentsInDiningRoomObserverUpdate();
+    }
+
+    // MANAGEMENT OF OBSERVERS ON STUDENTS ON ENTRANCE
+    /**
+     * List of the observer on the students on entrance.
+     */
+    private final List<StudentsOnEntranceObserver> studentsOnEntranceObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students on entrance.
+     * @param observer the observer to be added
+     */
+    public void addStudentsOnEntranceObserver(StudentsOnEntranceObserver observer){
+        studentsOnEntranceObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students on entrance.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsOnEntranceObserver(StudentsOnEntranceObserver observer){
+        studentsOnEntranceObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the students on entrance.
+     */
+    public void notifyStudentsOnEntranceObservers(){
+        for(StudentsOnEntranceObserver observer : studentsOnEntranceObservers)
+            observer.studentsOnEntranceObserverUpdate();
     }
 }

@@ -174,7 +174,6 @@ public class Player {
      */
     public void addStudentToEntrance(PawnType type) throws ReachedMaxStudentException {
         schoolBoard.addStudentToEntrance(type);
-        notifyStudentsOnEntranceObservers();
     }
 
     /**
@@ -186,7 +185,6 @@ public class Player {
      */
     public void removeStudentFromEntrance(PawnType type) throws NotEnoughStudentException {
         schoolBoard.removeStudentFromEntrance(type);
-        notifyStudentsOnEntranceObservers();
     }
 
     /**
@@ -259,36 +257,6 @@ public class Player {
      */
     public void removeCoins(int cost,boolean putInBag) throws NotEnoughCoinsException {
         schoolBoard.removeCoin(cost,putInBag);
-    }
-
-    // MANAGEMENT OF OBSERVERS ON STUDENTS ON ENTRANCE
-    /**
-     * List of the observer on the students on entrance.
-     */
-    private final List<StudentsOnEntranceObserver> studentsOnEntranceObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the students on entrance.
-     * @param observer the observer to be added
-     */
-    public void addStudentsOnEntranceObserver(StudentsOnEntranceObserver observer){
-        studentsOnEntranceObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the students on entrance.
-     * @param observer the observer to be removed
-     */
-    public void removeStudentsOnEntranceObserver(StudentsOnEntranceObserver observer){
-        studentsOnEntranceObservers.remove(observer);
-    }
-
-    /**
-     * This method notify all the attached observers that a change has been happened on the students on entrance.
-     */
-    public void notifyStudentsOnEntranceObservers(){
-        for(StudentsOnEntranceObserver observer : studentsOnEntranceObservers)
-            observer.studentsOnEntranceObserverUpdate();
     }
 
     // MANAGEMENT OF OBSERVERS ON ASSISTANT DECK
