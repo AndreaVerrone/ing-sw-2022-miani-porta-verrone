@@ -271,7 +271,7 @@ class SchoolBoard {
      */
     public void notifyChangeTowerNumberObservers(int numOfActualTowers){
         for(ChangeTowerNumberObserver observer : changeTowerNumberObservers)
-            observer.changeTowerNumberUpdate();
+            observer.changeTowerNumberUpdate(numOfActualTowers);
     }
 
     // MANAGEMENT OF OBSERVERS ON PROFESSOR
