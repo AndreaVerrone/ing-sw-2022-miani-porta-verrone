@@ -60,13 +60,6 @@ public class Game implements IGame{
      */
     private boolean canUseCharacterCard=true;
 
-    /**
-     * It is true, if the current player can use the character card.
-     * <p>
-     * Note that a player can use only one time a character card during its turn in the action phase
-     */
-    private boolean canUseCharacterCard=true;
-
     public Game(Collection<PlayerLoginInfo> players){
         //TODO: create all states and add documentation
         model = new GameModel(players);
@@ -77,14 +70,6 @@ public class Game implements IGame{
         chooseCloudState = new ChooseCloudState(this);
 
         state = playAssistantState;
-    }
-
-    public boolean getCanUseCharacterCard() {
-        return canUseCharacterCard;
-    }
-
-    public void setCanUseCharacterCard(boolean canUseCharacterCard) {
-        this.canUseCharacterCard = canUseCharacterCard;
     }
 
     public boolean getCanUseCharacterCard() {
