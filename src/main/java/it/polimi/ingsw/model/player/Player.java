@@ -218,6 +218,7 @@ public class Player {
      */
     public void changeTowerNumber(int delta) {
         schoolBoard.changeTowerNumber(delta);
+        notifyChangeTowerNumberObservers(getTowerNumbers());
     }
 
     /**
@@ -257,5 +258,37 @@ public class Player {
     public void removeCoins(int cost,boolean putInBag) throws NotEnoughCoinsException {
         schoolBoard.removeCoin(cost,putInBag);
     }
+
+    // MANAGEMENT OF OBSERVERS ON TOWER NUMBER
+    /**
+     * List of the observer on the tower number.
+     */
+    private final List<ChangeTowerNumberObserver> changeTowerNumberObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the tower number.
+     * @param observer the observer to be added
+     */
+    public void addChangeTowerNumberObserver(ChangeTowerNumberObserver observer){
+        changeTowerNumberObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the tower number.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeTowerNumberObserver(ChangeTowerNumberObserver observer){
+        changeTowerNumberObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the tower number.
+     * @param numOfActualTowers the actual number of towers
+     */
+    public void notifyChangeTowerNumberObservers(int numOfActualTowers){
+        for(ChangeTowerNumberObserver observer : changeTowerNumberObservers)
+            observer.changeTowerNumberUpdate(numOfActualTowers);
+    }
+
 
 }
