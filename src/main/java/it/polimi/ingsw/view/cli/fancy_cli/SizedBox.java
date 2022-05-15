@@ -61,7 +61,7 @@ public class SizedBox extends Widget{
      * @param height the minimum height of this widget
      */
     public SizedBox(int width, int height) {
-        this(new Text(" "), width, height, Alignment.CENTER);
+        this(new Text(" "), width, height, Alignment.BOTTOM);
     }
 
 

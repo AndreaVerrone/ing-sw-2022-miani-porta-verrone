@@ -68,10 +68,13 @@ public class Border extends Widget{
     protected void display() {
 
         child.setStartingPoint(getStartingPoint()+1);
+        System.out.print("\n");
+        child.show();
 
+        ConsoleCli.moveCursorUp(child.getHeight());
+        ConsoleCli.moveToColumn(getStartingPoint());
         drawBorder();
 
-        child.show();
     }
 
     private void drawBorder(){
@@ -94,7 +97,6 @@ public class Border extends Widget{
             drawSegment(borderType.getHorizontal());
         }
         drawSegment(borderType.getBottomRight());
-        ConsoleCli.moveCursorUp(child.getHeight());
     }
 
     private void drawSegment(Icons segment){
