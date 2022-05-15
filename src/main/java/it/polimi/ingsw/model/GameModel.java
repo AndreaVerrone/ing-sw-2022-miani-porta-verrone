@@ -308,6 +308,6 @@ public class GameModel {
      */
     public void notifyChangeCurrentPlayerObservers(String actualCurrentPlayerNickname){
         for(ChangeCurrentPlayerObserver observer : changeCurrentPlayerObservers)
-            observer.changeCurrentPlayerObserverUpdate();
+            observer.changeCurrentPlayerObserverUpdate(actualCurrentPlayerNickname);
     }
 }
