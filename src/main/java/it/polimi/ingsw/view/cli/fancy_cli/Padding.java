@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli.fancy_cli;
 
+import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
+
 /**
  * A widget that make possible to add padding around a widget
  */
@@ -35,10 +37,10 @@ public class Padding extends Widget {
     public Padding(Widget child, int verticalPadding, int horizontalPadding){
         this.child = child;
         this.verticalPadding = verticalPadding;
-        this.horizontalPadding = horizontalPadding;
+        this.horizontalPadding = ConsoleCli.convertFromGeneralWidthToCharNumber(horizontalPadding);
 
-        setWidth(child.getWidth()+horizontalPadding*2);
-        setHeight(child.getHeight()+verticalPadding*2);
+        setWidth(child.getWidth()+this.horizontalPadding*2);
+        setHeight(child.getHeight()+this.verticalPadding*2);
     }
 
     /**
@@ -48,7 +50,7 @@ public class Padding extends Widget {
      * @param padding the number of empty lines to put in the vertical direction
      */
     public Padding(Widget child, int padding){
-        this(child, padding, Math.round(padding*2.5f));
+        this(child, padding, padding);
     }
 
     @Override

@@ -13,6 +13,16 @@ public class ConsoleCli {
     }
 
     /**
+     * Converts the width given into character number so that
+     * one point of the provided width have the same size as one line height.
+     * @param width the width in general points
+     * @return the number of characters required
+     */
+    static public int convertFromGeneralWidthToCharNumber(int width){
+        return Math.round(width*3.3f);
+    }
+
+    /**
      * Moves the cursor to a specific column in the console.
      * @param column the column to move to
      */
