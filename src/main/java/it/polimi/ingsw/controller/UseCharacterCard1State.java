@@ -52,7 +52,7 @@ public class UseCharacterCard1State extends UseCharacterCardState implements Sta
         }
 
         // 2. the student to move is present on the card
-        if(characterCard1.getStudentList().getNumOf(color)<0) {
+        if(characterCard1.getStudentList().getNumOf(color)<=0) {
             throw new NotValidArgumentException("is not present a student of that color");
         }
 
