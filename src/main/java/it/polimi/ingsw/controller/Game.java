@@ -182,7 +182,6 @@ public class Game implements IGame{
      * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
      * @throws NotValidArgumentException if the student is not present in the specified location
      */
-
     public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
         state.choseStudentFromLocation(color,originPosition);
     }
