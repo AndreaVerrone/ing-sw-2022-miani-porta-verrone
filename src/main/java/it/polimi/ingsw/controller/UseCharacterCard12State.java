@@ -14,22 +14,9 @@ public class UseCharacterCard12State extends UseCharacterCardState implements St
      */
     private final GameModel gameModel;
 
-    /**
-     * This is the state from which the character card has been used and
-     * this is the state in which the game have to return after the usage of the card.
-     */
-    private final State originState;
-
-    /**
-     * The character card that uses this state
-     */
-    private final CharacterCard12 characterCard12;
-
     public UseCharacterCard12State(Game game, State originState, CharacterCard12 characterCard12) {
         super(game,originState,characterCard12);
         this.gameModel = game.getModel();
-        this.originState = originState;
-        this.characterCard12=characterCard12;
     }
 
     /** This method allows to remove 3 student of the specified color in the parameter from the dining room
