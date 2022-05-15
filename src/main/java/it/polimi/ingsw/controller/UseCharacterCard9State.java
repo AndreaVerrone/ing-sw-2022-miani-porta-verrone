@@ -43,7 +43,7 @@ public class UseCharacterCard9State extends UseCharacterCardState implements Sta
     public UseCharacterCard9State(Game game, State originState, CharacterCard9 card){
         super(game, originState, card);
         this.model = game.getModel();
-        this. card = card;
+        this.card = card;
     }
 
     @Override
