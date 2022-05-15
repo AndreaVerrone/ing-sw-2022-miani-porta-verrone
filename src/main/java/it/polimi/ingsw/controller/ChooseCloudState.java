@@ -83,8 +83,7 @@ public class ChooseCloudState implements State{
             //End of the current player turn
 
             // RESET ALL THE STANDARD STRATEGY
-            // reset the standard strategy for check professor
-            game.getModel().setCheckProfessorStrategy(new CheckProfessorStandard(game.getModel()));
+            game.getModel().resetStrategy();
 
             // RESET THE POSSIBILITY TO USE A CHARACTER CARD
             game.setCanUseCharacterCard(true);
