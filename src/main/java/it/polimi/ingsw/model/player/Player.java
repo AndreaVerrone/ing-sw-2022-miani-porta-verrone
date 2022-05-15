@@ -288,5 +288,4 @@ public class Player {
         for(ChangeAssistantDeckObserver observer : changeAssistantDeckObservers)
             observer.changeAssistantDeckObserverUpdate();
     }
-
 }

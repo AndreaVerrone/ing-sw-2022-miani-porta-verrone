@@ -214,6 +214,7 @@ class SchoolBoard {
         notifyChangeTowerNumberObservers();
     }
 
+    // MANAGEMENT OF OBSERVERS ON COINS
     /**
      * List of the observer on the coin number.
      */
