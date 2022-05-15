@@ -240,7 +240,7 @@ class SchoolBoard {
      */
     public void notifyChangeCoinNumberObservers(int actualNumOfCoins){
         for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
-            observer.changeCoinNumberObserverUpdate();
+            observer.changeCoinNumberObserverUpdate(actualNumOfCoins);
     }
 
     // MANAGEMENT OF OBSERVERS ON TOWER NUMBER
