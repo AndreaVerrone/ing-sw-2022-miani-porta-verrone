@@ -40,6 +40,8 @@ public class MoveStudentState implements State{
     }
 
     PawnType studentToMove;
+
+    @Override
     public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
 
         // 1. check that the student comes from the entrance
@@ -52,6 +54,7 @@ public class MoveStudentState implements State{
         studentToMove = color;
     }
 
+    @Override
     public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
 
         if (studentToMove == null)
