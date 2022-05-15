@@ -112,7 +112,7 @@ public class GameTable {
     public void moveMotherNature(int numberOfIslands){
         assert (numberOfIslands>=0): "Movements cannot be negative!";
         motherNaturePosition = (numberOfIslands + motherNaturePosition) % getNumberOfIslands();
-        notifyMotherNaturePositionObservers();
+        notifyMotherNaturePositionObservers(motherNaturePosition);
     }
 
     /**
@@ -241,8 +241,9 @@ public class GameTable {
 
     /**
      * This method notify all the attached observers that a change has been happened on mother nature position.
+     * @param actualMotherNaturePosition the actual islandID on which mother nature is
      */
-    public void notifyMotherNaturePositionObservers(){
+    public void notifyMotherNaturePositionObservers(int actualMotherNaturePosition){
         for(MotherNaturePositionObserver observer : motherNaturePositionObservers)
             observer.motherNaturePositionObserverUpdate();
     }
