@@ -135,7 +135,6 @@ class SchoolBoard {
      */
     protected void addProfessor(PawnType type){
         professorTable.add(type);
-        notifyProfessorObservers();
     }
 
     /**
@@ -144,7 +143,6 @@ class SchoolBoard {
      */
     protected void removeProfessor(PawnType type){
         professorTable.remove(type);
-        notifyProfessorObservers();
     }
 
     /**
@@ -238,36 +236,6 @@ class SchoolBoard {
     public void notifyChangeCoinNumberObservers(int actualNumOfCoins){
         for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
             observer.changeCoinNumberObserverUpdate(actualNumOfCoins);
-    }
-
-    // MANAGEMENT OF OBSERVERS ON PROFESSOR
-    /**
-     * List of the observer on the assistant deck.
-     */
-    private final List<ProfessorObserver> professorObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the assistant deck.
-     * @param observer the observer to be added
-     */
-    public void addProfessorObserver(ProfessorObserver observer){
-        professorObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the assistant deck.
-     * @param observer the observer to be removed
-     */
-    public void removeProfessorObserver(ProfessorObserver observer){
-        professorObservers.remove(observer);
-    }
-
-    /**
-     * This method notify all the attached observers that a change has been happened on the assistant deck.
-     */
-    public void notifyProfessorObservers(){
-        for(ProfessorObserver observer : professorObservers)
-            observer.professorObserverUpdate();
     }
 
 }
