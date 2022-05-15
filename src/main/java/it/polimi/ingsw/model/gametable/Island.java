@@ -158,7 +158,7 @@ public class Island {
      */
     public void notifyBanOnIslandObservers(int islandIDWithBan){
         for(BanOnIslandObserver observer : banOnIslandObservers)
-            observer.banOnIslandObserverUpdate();
+            observer.banOnIslandObserverUpdate(islandIDWithBan);
     }
 
     // MANAGEMENT OF OBSERVERS ON STUDENTS ON ISLAND
