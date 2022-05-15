@@ -161,7 +161,6 @@ class SchoolBoard {
             takeCoin();
             notifyChangeCoinNumberObservers();
         }
-        notifyStudentsInDiningRoomObservers();
     }
 
     /**
@@ -171,7 +170,6 @@ class SchoolBoard {
      */
     protected void removeStudentFromDiningRoom(PawnType type) throws NotEnoughStudentException {
         diningRoom.removeStudentOf(type);
-        notifyStudentsInDiningRoomObservers();
     }
 
     /**
@@ -302,36 +300,6 @@ class SchoolBoard {
     public void notifyProfessorObservers(){
         for(ProfessorObserver observer : professorObservers)
             observer.professorObserverUpdate();
-    }
-
-    // MANAGEMENT OF OBSERVERS ON STUDENTS IN DINING ROOM
-    /**
-     * List of the observer on the students dining room.
-     */
-    private final List<StudentsInDiningRoomObserver> studentsInDiningRoomObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the students in dining room.
-     * @param observer the observer to be added
-     */
-    public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
-        studentsInDiningRoomObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the students dining room.
-     * @param observer the observer to be removed
-     */
-    public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
-        studentsInDiningRoomObservers.remove(observer);
-    }
-
-    /**
-     * This method notify all the attached observers that a change has been happened on the students dining room.
-     */
-    public void notifyStudentsInDiningRoomObservers(){
-        for(StudentsInDiningRoomObserver observer : studentsInDiningRoomObservers)
-            observer.studentsInDiningRoomObserverUpdate();
     }
 
     // MANAGEMENT OF OBSERVERS ON STUDENTS ON ENTRANCE
