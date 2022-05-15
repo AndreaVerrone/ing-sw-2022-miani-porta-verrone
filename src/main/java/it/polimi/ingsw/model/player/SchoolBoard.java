@@ -209,7 +209,7 @@ class SchoolBoard {
     protected void changeTowerNumber(int delta){
         assert towers + delta <= maxNumTowers : "The towers added are too much";
         towers += delta;
-        notifyChangeTowerNumberObservers();
+        notifyChangeTowerNumberObservers(towers);
     }
 
     // MANAGEMENT OF OBSERVERS ON COINS
@@ -266,8 +266,9 @@ class SchoolBoard {
 
     /**
      * This method notify all the attached observers that a change has been happened on the tower number.
+     * @param numOfActualTowers the actual number of towers
      */
-    public void notifyChangeTowerNumberObservers(){
+    public void notifyChangeTowerNumberObservers(int numOfActualTowers){
         for(ChangeTowerNumberObserver observer : changeTowerNumberObservers)
             observer.changeTowerNumberUpdate();
     }
