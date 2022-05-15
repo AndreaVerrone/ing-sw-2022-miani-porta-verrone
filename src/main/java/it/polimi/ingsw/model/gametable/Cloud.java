@@ -88,7 +88,7 @@ class Cloud {
      */
     public void notifyStudentsOnCloudObservers(int cloudID, StudentList actualStudentList){
         for(StudentsOnCloudObserver observer : studentsOnCloudObservers)
-            observer.studentsOnCloudObserverUpdate();
+            observer.studentsOnCloudObserverUpdate(cloudID,actualStudentList);
     }
 
 }
