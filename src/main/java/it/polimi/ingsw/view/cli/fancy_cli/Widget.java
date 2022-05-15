@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli.fancy_cli;
 
+import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
+
 /**
  * A class representing a generic component of the cli
  */
@@ -20,7 +22,7 @@ public abstract class Widget implements Drawable {
      */
     private int startingPoint = 1;
 
-    public int getWidth() {
+    protected int getWidth() {
         return width;
     }
 
@@ -43,4 +45,13 @@ public abstract class Widget implements Drawable {
     protected void setStartingPoint(int startingPoint) {
         this.startingPoint = startingPoint;
     }
+
+    @Override
+    public void show() {
+        ConsoleCli.moveToColumn(startingPoint);
+        display();
+        ConsoleCli.resetStyle();
+    }
+
+    abstract protected void display();
 }

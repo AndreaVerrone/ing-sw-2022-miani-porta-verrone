@@ -67,9 +67,7 @@ public class Icon extends Widget {
     }
 
     @Override
-    public void show() {
-        ConsoleCli.moveToColumn(getStartingPoint());
+    protected void display() {
         System.out.print(backgroundColor+color+icon);
-        ConsoleCli.resetStyle();
     }
 }

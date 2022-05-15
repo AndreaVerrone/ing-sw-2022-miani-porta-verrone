@@ -71,9 +71,7 @@ public class Text extends Widget {
     }
 
     @Override
-    public void show() {
-        ConsoleCli.moveToColumn(getStartingPoint());
+    protected void display() {
         System.out.print(backgroundColor+foregroundColor+style+text);
-        ConsoleCli.resetStyle();
     }
 }

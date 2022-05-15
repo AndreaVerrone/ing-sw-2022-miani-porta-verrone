@@ -65,13 +65,11 @@ public class Border extends Widget{
     }
 
     @Override
-    public void show() {
+    protected void display() {
 
         child.setStartingPoint(getStartingPoint()+1);
 
-        ConsoleCli.moveToColumn(getStartingPoint());
         drawBorder();
-
 
         child.show();
     }

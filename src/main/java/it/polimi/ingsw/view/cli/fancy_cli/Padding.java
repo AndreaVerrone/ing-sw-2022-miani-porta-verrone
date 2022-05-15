@@ -52,7 +52,7 @@ public class Padding extends Widget {
     }
 
     @Override
-    public void show() {
+    protected void display() {
         showVerticalPadding();
         child.setStartingPoint(getStartingPoint()+horizontalPadding);
         child.show();
