@@ -31,7 +31,7 @@ public class CoinsBag {
             return;
         }
         coinsAvailable --;
-        notifyChangeCoinNumberInBagObservers();
+        notifyChangeCoinNumberInBagObservers(this.coinsAvailable);
     }
 
     /**
@@ -45,7 +45,7 @@ public class CoinsBag {
         assert coinsAvailable + coins <= MAX_COINS : "The coins added are too much";
 
         coinsAvailable += coins;
-        notifyChangeCoinNumberInBagObservers();
+        notifyChangeCoinNumberInBagObservers(this.coinsAvailable);
     }
 
     // MANAGEMENT OF OBSERVERS ON COINS IN THE COINS BAG
@@ -72,9 +72,10 @@ public class CoinsBag {
 
     /**
      * This method notify all the attached observers that a change has been happened on the coin number in coins bag.
+     * @param actualNumOfCoins the actual number of coins in the bag
      */
-    public void notifyChangeCoinNumberInBagObservers(){
+    public void notifyChangeCoinNumberInBagObservers(int actualNumOfCoins){
         for(ChangeCoinNumberInBagObserver observer : changeCoinNumberInBagObservers)
-            observer.changeCoinNumberInBagObserverUpdate();
+            observer.changeCoinNumberInBagObserverUpdate(actualNumOfCoins);
     }
 }
