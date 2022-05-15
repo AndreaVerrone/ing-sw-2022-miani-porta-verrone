@@ -108,6 +108,7 @@ public class Island {
         } catch (NotEnoughStudentException e) {
             e.printStackTrace();
         }
+        notifyStudentsOnIslandObservers();
     }
 
     /**
@@ -157,5 +158,35 @@ public class Island {
     public void notifyBanOnIslandObservers(){
         for(BanOnIslandObserver observer : banOnIslandObservers)
             observer.banOnIslandObserverUpdate();
+    }
+
+    // MANAGEMENT OF OBSERVERS ON STUDENTS ON ISLAND
+    /**
+     * List of the observer on the students on island
+     */
+    private final List<StudentsOnIslandObserver> studentsOnIslandObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students on island.
+     * @param observer the observer to be added
+     */
+    public void addStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+        studentsOnIslandObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students on island.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+        studentsOnIslandObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the students on island.
+     */
+    public void notifyStudentsOnIslandObservers(){
+        for(StudentsOnIslandObserver observer : studentsOnIslandObservers)
+            observer.studentsOnIslandObserverUpdate();
     }
 }
