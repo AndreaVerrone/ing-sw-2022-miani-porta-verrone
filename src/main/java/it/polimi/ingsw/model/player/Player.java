@@ -88,6 +88,23 @@ public class Player {
             schoolBoard.addStudentToEntrance(student);
             throw e;
         }
+
+        // NOTIFY THE UPDATE
+        // 1. students in dining room
+        // create the actual student list of students on table
+        StudentList studentsInDiningRoom = new StudentList();
+        for(int i=0;i<PawnType.values().length;i++){
+            try {
+                studentsInDiningRoom.changeNumOf(PawnType.values()[i],getNumStudentOf(PawnType.values()[i]));
+            } catch (NotEnoughStudentException e) {
+                // it is impossible
+                e.printStackTrace();
+            }
+        }
+        notifyStudentsInDiningRoomObservers(this.nickName,studentsInDiningRoom);
+
+        // 2. students in entrance
+        notifyStudentsOnEntranceObservers(this.nickName,getStudentsInEntrance());
     }
 
     /**
@@ -173,7 +190,7 @@ public class Player {
      */
     public void addStudentToEntrance(PawnType type) throws ReachedMaxStudentException {
         schoolBoard.addStudentToEntrance(type);
-        notifyStudentsOnEntranceObservers(this, getStudentsInEntrance());
+        notifyStudentsOnEntranceObservers(this.nickName, getStudentsInEntrance());
     }
 
     /**
@@ -185,7 +202,7 @@ public class Player {
      */
     public void removeStudentFromEntrance(PawnType type) throws NotEnoughStudentException {
         schoolBoard.removeStudentFromEntrance(type);
-        notifyStudentsOnEntranceObservers(this,getStudentsInEntrance());
+        notifyStudentsOnEntranceObservers(this.nickName,getStudentsInEntrance());
     }
 
     /**
@@ -230,9 +247,20 @@ public class Player {
      * @param student type of student to add
      * @throws ReachedMaxStudentException if the table of that type is full
      */
-    public void addStudentToDiningRoom(PawnType student)
-            throws ReachedMaxStudentException {
+    public void addStudentToDiningRoom(PawnType student) throws ReachedMaxStudentException {
         schoolBoard.addStudentToDiningRoom(student);
+
+        // create the actual student list of students on table
+        StudentList studentsInDiningRoom = new StudentList();
+        for(int i=0;i<PawnType.values().length;i++){
+            try {
+                studentsInDiningRoom.changeNumOf(PawnType.values()[i],getNumStudentOf(PawnType.values()[i]));
+            } catch (NotEnoughStudentException e) {
+                // it is impossible
+                e.printStackTrace();
+            }
+        }
+        notifyStudentsInDiningRoomObservers(this.nickName,studentsInDiningRoom);
     }
 
     /**
@@ -244,6 +272,18 @@ public class Player {
      */
     public void removeStudentFromDiningRoom(PawnType student) throws NotEnoughStudentException {
         schoolBoard.removeStudentFromDiningRoom(student);
+
+        // create the actual student list of students on table
+        StudentList studentsInDiningRoom = new StudentList();
+        for(int i=0;i<PawnType.values().length;i++){
+            try {
+                studentsInDiningRoom.changeNumOf(PawnType.values()[i],getNumStudentOf(PawnType.values()[i]));
+            } catch (NotEnoughStudentException e) {
+                // it is impossible
+                e.printStackTrace();
+            }
+        }
+        notifyStudentsInDiningRoomObservers(this.nickName,studentsInDiningRoom);
     }
 
     /**
@@ -316,12 +356,44 @@ public class Player {
 
     /**
      * This method notify all the attached observers that a change has been happened on the students on entrance.
-     * @param player the player that has the school board on which the changes have been happened
+     * @param nickName the nickname of the player that has the school board on which the changes have been happened
      * @param actualStudents the actual student list in entrance
      */
-    public void notifyStudentsOnEntranceObservers(Player player, StudentList actualStudents){
+    public void notifyStudentsOnEntranceObservers(String nickName, StudentList actualStudents){
         for(StudentsOnEntranceObserver observer : studentsOnEntranceObservers)
-            observer.studentsOnEntranceObserverUpdate(player, actualStudents);
+            observer.studentsOnEntranceObserverUpdate(nickName, actualStudents);
+    }
+
+    // MANAGEMENT OF OBSERVERS ON STUDENTS IN DINING ROOM
+    /**
+     * List of the observer on the students dining room.
+     */
+    private final List<StudentsInDiningRoomObserver> studentsInDiningRoomObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students in dining room.
+     * @param observer the observer to be added
+     */
+    public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        studentsInDiningRoomObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students dining room.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        studentsInDiningRoomObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the students dining room.
+     * @param nickName the nickname of the player that has the school board on which the changes have been happened
+     * @param actualStudents the actual student list in dining room
+     */
+    public void notifyStudentsInDiningRoomObservers(String nickName, StudentList actualStudents){
+        for(StudentsInDiningRoomObserver observer : studentsInDiningRoomObservers)
+            observer.studentsInDiningRoomObserverUpdate(nickName,actualStudents);
     }
 
 }
