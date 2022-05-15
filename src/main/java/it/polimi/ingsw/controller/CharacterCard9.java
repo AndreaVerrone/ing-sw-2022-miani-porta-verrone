@@ -22,11 +22,9 @@ public class CharacterCard9 extends CharacterCard{
     /**
      * Creates a new character card with the specified initial cost and the description passed as a parameter.
      * @param game Game class of the game
-     * @param cost              the initial cost of the card
-     * @param effectDescription the description of the effect of this card
      */
-    CharacterCard9(int cost, String effectDescription, Game game) {
-        super(cost, effectDescription);
+    CharacterCard9(Game game) {
+        super(1, "Allows to swap up to three chosen students from this card with the entrance of the player");
         this.game = game;
         this.studentsOnCard = new StudentList();
 
