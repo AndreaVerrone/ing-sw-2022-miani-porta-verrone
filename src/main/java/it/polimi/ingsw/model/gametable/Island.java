@@ -108,7 +108,7 @@ public class Island {
         } catch (NotEnoughStudentException e) {
             e.printStackTrace();
         }
-        notifyStudentsOnIslandObservers();
+        notifyStudentsOnIslandObservers(this.ID,type);
     }
 
     /**
@@ -185,10 +185,12 @@ public class Island {
 
     /**
      * This method notify all the attached observers that a change has been happened on the students on island.
+     * @param islandID the islandID of the island on which the student has been added
+     * @param studentChanged the pawn type of the student that has been added on island
      */
-    public void notifyStudentsOnIslandObservers(){
+    public void notifyStudentsOnIslandObservers(int islandID, PawnType studentChanged){
         for(StudentsOnIslandObserver observer : studentsOnIslandObservers)
-            observer.studentsOnIslandObserverUpdate();
+            observer.studentsOnIslandObserverUpdate(islandID, studentChanged);
     }
 
     // MANAGEMENT OF OBSERVERS ON UNIFICATION OF ISLANDS
