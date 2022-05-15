@@ -51,7 +51,11 @@ public abstract class Widget implements Drawable {
         ConsoleCli.moveToColumn(startingPoint);
         display();
         ConsoleCli.resetStyle();
+        ConsoleCli.moveToColumn(startingPoint+width);
     }
 
+    /**
+     * A method to describe in which way this widget should be displayed on the console
+     */
     abstract protected void display();
 }

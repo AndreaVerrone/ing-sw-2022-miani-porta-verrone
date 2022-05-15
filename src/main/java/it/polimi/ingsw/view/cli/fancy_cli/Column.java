@@ -4,6 +4,7 @@ import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 
 /**
  * A widget to show other widgets one above each other
@@ -26,6 +27,11 @@ public class Column extends Widget{
      */
     public Column(Collection<Widget> children){
         this.children.addAll(children);
+        int width = children.stream().max(Comparator.comparingInt(Widget::getWidth))
+                .map(Widget::getWidth).orElse(0);
+        int height = children.stream().reduce(0, (integer, widget) -> integer+widget.getHeight(), Integer::sum);
+        setWidth(width);
+        setHeight(height);
     }
 
     /**
@@ -35,6 +41,9 @@ public class Column extends Widget{
      */
     public Column addChild(Widget child){
         children.add(child);
+        if (child.getWidth()>getWidth())
+            setWidth(child.getWidth());
+        setHeight(getHeight()+child.getHeight());
         return this;
     }
 
@@ -45,5 +54,7 @@ public class Column extends Widget{
             child.show();
             System.out.print("\n");
         }
+        ConsoleCli.moveCursorUp(1);
+//        ConsoleCli.moveToColumn(getStartingPoint()+getWidth());
     }
 }
