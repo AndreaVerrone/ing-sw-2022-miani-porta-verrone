@@ -80,12 +80,8 @@ public class ChooseCloudState implements State{
             //End of the current player turn
 
             // RESET ALL THE STANDARD STRATEGY
-            // reset the standard strategy for check professor
-            game.getModel().setCheckProfessorStrategy(new CheckProfessorStandard(game.getModel()));
-            // reset the standard strategy for mother nature movements limit
-            game.getModel().setMotherNatureLimitStrategy(new MotherNatureLimitStandard());
-            // reset the standard strategy for influence computation
-            game.getModel().setComputeInfluenceStrategy(new ComputeInfluenceStandard());
+            resetAllStrategies();
+
             // RESET THE POSSIBILITY TO USE A CHARACTER CARD
             game.setCanUseCharacterCard(true);
 
@@ -93,5 +89,14 @@ public class ChooseCloudState implements State{
             model.nextPlayerTurn();
             game.setState(game.getMoveStudentState());
         }
+    }
+
+    private void resetAllStrategies(){
+        // reset the standard strategy for check professor
+        game.getModel().setCheckProfessorStrategy(new CheckProfessorStandard(game.getModel()));
+        // reset the standard strategy for mother nature movements limit
+        game.getModel().setMotherNatureLimitStrategy(new MotherNatureLimitStandard());
+        // reset the standard strategy for influence computation
+        game.getModel().setComputeInfluenceStrategy(new ComputeInfluenceStandard());
     }
 }
