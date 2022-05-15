@@ -18,7 +18,7 @@ public abstract class Widget implements Drawable {
     /**
      * The column number from which this widget should be drawn
      */
-    private int startingPoint = 0;
+    private int startingPoint = 1;
 
     public int getWidth() {
         return width;
