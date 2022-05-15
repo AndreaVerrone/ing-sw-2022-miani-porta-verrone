@@ -12,11 +12,6 @@ public class UseCharacterCard4State extends UseCharacterCardState implements Sta
     private final GameModel gameModel;
 
     /**
-     * The character card that uses this state
-     */
-    private final CharacterCard4 characterCard4;
-
-    /**
      * The constructor of the class
      * @param game the Game class
      * @param originState the state from which the character card has been used
@@ -25,7 +20,6 @@ public class UseCharacterCard4State extends UseCharacterCardState implements Sta
     public UseCharacterCard4State(Game game, State originState, CharacterCard4 characterCard4) {
         super(game,originState,characterCard4);
         gameModel=game.getModel();
-        this.characterCard4=characterCard4;
     }
 
     /** This method allows to compute the influence on the island specified on the parameter
