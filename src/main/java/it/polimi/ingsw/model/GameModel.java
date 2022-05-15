@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.PlayerLoginInfo;
 import it.polimi.ingsw.model.gametable.GameTable;
 import it.polimi.ingsw.model.gametable.Island;
+import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.model.player.Player;
 
@@ -90,6 +91,15 @@ public class GameModel {
      */
     public List<Player> getPlayerList(){
         return Collections.unmodifiableList(players);
+    }
+
+    /**
+     * This method allow to take one student from the bag and removing it.
+     * @return the PawnType of the student extracted
+     * @throws EmptyBagException if the bag is empty
+     */
+    public PawnType getStudentFromBag() throws EmptyBagException {
+        return gameTable.getStudentFromBag();
     }
 
     /**

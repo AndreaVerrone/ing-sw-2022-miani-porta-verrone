@@ -45,7 +45,7 @@ public interface State {
      * to its dining room.
      * @param student is the color of the student to move
      * @throws NotValidOperationException if this method has been invoked in a state in which this operation is not supported
-     * @throws NotValidArgumentException if the student is not present in entrance or it is present, but the the table for the
+     * @throws NotValidArgumentException if the student is not present in entrance, or it is present, but the table for the
      *                                   students of that color is full
      */
     default public void moveStudentToDiningRoom(PawnType student)throws NotValidOperationException,NotValidArgumentException {
@@ -70,6 +70,40 @@ public interface State {
      * @throws NotValidArgumentException if the cloud passed as a parameter is empty
      */
     default public void takeFromCloud(int cloudID)throws NotValidOperationException,NotValidArgumentException{
+        throw new NotValidOperationException();
+    }
+
+    /**
+     * This method allow to use the character card passed as a parameter.
+     * @param characterCard the character card to use
+     * @throws NotValidOperationException if the character card cannot be used because the player cannot pay
+     * for the usage, the state of the game do not allow the usage or the player has already used a character card
+     * during its turn.
+     * @throws NotValidArgumentException if the character card does not exist
+     */
+    default void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException, NotValidArgumentException{
+        characterCard.effect();
+    }
+
+    /**
+     * This method allows to select a student (of the PawnType specified in the parameter) that comes from the position
+     * (also specified in the parameters).
+     * @param color the {@code PawnType} of the student
+     * @param originPosition the {@code Position} from where take the student
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the student is not present in the specified location
+     */
+    default void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
+        throw new NotValidOperationException();
+    }
+
+    /**
+     * This method allows to choose a destination on which operate based on the state.
+     * @param destination the Position
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the
+     */
+    default public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
         throw new NotValidOperationException();
     }
 
