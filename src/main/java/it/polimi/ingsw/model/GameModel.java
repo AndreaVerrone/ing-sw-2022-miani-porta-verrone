@@ -289,4 +289,13 @@ public class GameModel {
         }
         return true;
     }
+
+    /**
+     * This method will reset all the strategy to the standard
+     */
+    public void resetStrategy(){
+        this.checkProfessorStrategy = new CheckProfessorStandard(this);
+        this.computeInfluenceStrategy = new ComputeInfluenceStandard();
+        this.motherNatureLimitStrategy = new MotherNatureLimitStandard();
+    }
 }
