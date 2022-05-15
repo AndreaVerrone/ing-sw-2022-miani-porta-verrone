@@ -69,7 +69,6 @@ public class Player {
     public void useAssistant(Assistant assistant) {
         assistantDeck.removeAssistant(assistant);
         lastUsed = assistant;
-        notifyChangeAssistantDeckObservers();
     }
 
     /**
@@ -259,33 +258,4 @@ public class Player {
         schoolBoard.removeCoin(cost,putInBag);
     }
 
-    // MANAGEMENT OF OBSERVERS ON ASSISTANT DECK
-    /**
-     * List of the observer on the assistant deck.
-     */
-    private final List<ChangeAssistantDeckObserver> changeAssistantDeckObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the assistant deck.
-     * @param observer the observer to be added
-     */
-    public void addChangeAssistantDeckObserver(ChangeAssistantDeckObserver observer){
-        changeAssistantDeckObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the assistant deck.
-     * @param observer the observer to be removed
-     */
-    public void removeChangeAssistantDeckObserver(ChangeAssistantDeckObserver observer){
-        changeAssistantDeckObservers.remove(observer);
-    }
-
-    /**
-     * This method notify all the attached observers that a change has been happened on the assistant deck.
-     */
-    public void notifyChangeAssistantDeckObservers(){
-        for(ChangeAssistantDeckObserver observer : changeAssistantDeckObservers)
-            observer.changeAssistantDeckObserverUpdate();
-    }
 }
