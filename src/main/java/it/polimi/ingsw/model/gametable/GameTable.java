@@ -166,7 +166,6 @@ public class GameTable {
         unify(island, islandBefore);
         unify(island, islandAfter);
 
-        notifyUnificationIslandObservers();
     }
 
     private void unify(Island island, Island islandAdjacent){
@@ -176,6 +175,7 @@ public class GameTable {
         if (island.getTower() == islandAdjacent.getTower()){
             island.unifyWith(islandAdjacent);
             islands.remove(islandAdjacent);
+            notifyIslandNumberObservers(getNumberOfIslands());
         }
     }
 
@@ -187,34 +187,35 @@ public class GameTable {
         studentsBag.fillWith(students);
     }
 
-    // MANAGEMENT OF OBSERVERS ON UNIFICATION OF ISLANDS
+    // MANAGEMENT OF OBSERVERS ON NUMBER OF ISLANDS
     /**
-     * List of the observer on unification of island
+     * List of the observer on the number of islands.
      */
-    private final List<IslandUnificationObserver> unificationIslandObservers = new ArrayList<>();
+    private final List<IslandNumberObserver> islandNumberObservers = new ArrayList<>();
 
     /**
-     * This method allows to add the observer, passed as a parameter, on the unification of islands.
+     * This method allows to add the observer, passed as a parameter, on the number of islands.
      * @param observer the observer to be added
      */
-    public void addUnificationIslandObserver(IslandUnificationObserver observer){
-        unificationIslandObservers.add(observer);
+    public void addIslandNumberObserver(IslandNumberObserver observer){
+        islandNumberObservers.add(observer);
      }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the unification of islands.
+     * This method allows to remove the observer, passed as a parameter, on the number of islands.
      * @param observer the observer to be removed
      */
-     public void removeUnificationIslandObserver(IslandUnificationObserver observer){
-         unificationIslandObservers.remove(observer);
+     public void removeIslandNumberObserver(IslandNumberObserver observer){
+         islandNumberObservers.remove(observer);
       }
 
     /**
-     * This method notify all the attached observers a change involving the unification of islands.
+     * This method notify all the attached observers a change on the number of islands.
+     * @param actualNumOfIslands the actual number of island on the game table
      */
-      public void notifyUnificationIslandObservers(){
-        for(IslandUnificationObserver observer : unificationIslandObservers)
-            observer.islandUnificationObserverUpdate();
+      public void notifyIslandNumberObservers(int actualNumOfIslands){
+        for(IslandNumberObserver observer : islandNumberObservers)
+            observer.islandNumberObserverUpdate(actualNumOfIslands);
       }
 
     // MANAGEMENT OF OBSERVERS ON MOTHER NATURE POSITION

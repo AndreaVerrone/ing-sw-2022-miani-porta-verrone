@@ -127,7 +127,7 @@ public class Island {
         students.add(island.students);
         size += island.size;
         ban += island.ban;
-
+        notifyUnificationIslandObservers(island.ID);
     }
 
     // MANAGEMENT OF OBSERVERS ON BAN ON ISLAND
@@ -189,5 +189,36 @@ public class Island {
     public void notifyStudentsOnIslandObservers(){
         for(StudentsOnIslandObserver observer : studentsOnIslandObservers)
             observer.studentsOnIslandObserverUpdate();
+    }
+
+    // MANAGEMENT OF OBSERVERS ON UNIFICATION OF ISLANDS
+    /**
+     * List of the observer on unification of island
+     */
+    private final List<IslandUnificationObserver> unificationIslandObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the unification of islands.
+     * @param observer the observer to be added
+     */
+    public void addUnificationIslandObserver(IslandUnificationObserver observer){
+        unificationIslandObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the unification of islands.
+     * @param observer the observer to be removed
+     */
+    public void removeUnificationIslandObserver(IslandUnificationObserver observer){
+        unificationIslandObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers a change involving the unification of islands.
+     * @param islandRemovedID ID of the island that has been removed
+     */
+    public void notifyUnificationIslandObservers(int islandRemovedID){
+        for(IslandUnificationObserver observer : unificationIslandObservers)
+            observer.islandUnificationObserverUpdate(islandRemovedID);
     }
 }
