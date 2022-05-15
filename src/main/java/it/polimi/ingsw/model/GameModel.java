@@ -182,7 +182,7 @@ public class GameModel {
     public void nextPlayerTurn(){
         int currentPlayerPos = players.indexOf(currentPlayer);
         currentPlayer = players.get(currentPlayerPos + 1);
-        notifyChangeCurrentPlayerObservers();
+        notifyChangeCurrentPlayerObservers(currentPlayer.getNickname());
     }
 
     /**
@@ -304,8 +304,9 @@ public class GameModel {
 
     /**
      * This method notify all the attached observers that a change has been happened on current player.
+     * @param actualCurrentPlayerNickname the actual current player's nickname
      */
-    public void notifyChangeCurrentPlayerObservers(){
+    public void notifyChangeCurrentPlayerObservers(String actualCurrentPlayerNickname){
         for(ChangeCurrentPlayerObserver observer : changeCurrentPlayerObservers)
             observer.changeCurrentPlayerObserverUpdate();
     }
