@@ -159,7 +159,7 @@ class SchoolBoard {
         boolean needCoin = diningRoom.addStudentOf(type);
         if (needCoin) {
             takeCoin();
-            notifyChangeCoinNumberObservers();
+            notifyChangeCoinNumberObservers(getCoins());
         }
     }
 
@@ -195,7 +195,7 @@ class SchoolBoard {
             // the other should be put on the card used
             coinsBag.addCoins(cost-1);
         }
-        notifyChangeCoinNumberObservers();
+        notifyChangeCoinNumberObservers(getCoins());
     }
 
     /**
@@ -236,8 +236,9 @@ class SchoolBoard {
 
     /**
      * This method notify all the attached observers that a change has been happened on the coin number.
+     * @param actualNumOfCoins the actual num of coins in the school board
      */
-    public void notifyChangeCoinNumberObservers(){
+    public void notifyChangeCoinNumberObservers(int actualNumOfCoins){
         for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
             observer.changeCoinNumberObserverUpdate();
     }
