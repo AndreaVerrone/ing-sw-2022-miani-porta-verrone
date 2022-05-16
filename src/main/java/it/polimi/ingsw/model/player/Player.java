@@ -243,7 +243,7 @@ public class Player {
      */
     public void changeTowerNumber(int delta) {
         schoolBoard.changeTowerNumber(delta);
-        notifyChangeTowerNumberObservers(getTowerNumbers());
+        notifyChangeTowerNumberObservers(this.nickName,getTowerNumbers());
     }
 
     /**
@@ -331,11 +331,12 @@ public class Player {
 
     /**
      * This method notify all the attached observers that a change has been happened on the tower number.
+     * @param nickName the nickname of the player that has the school board on which the changes have been happened.
      * @param numOfActualTowers the actual number of towers
      */
-    public void notifyChangeTowerNumberObservers(int numOfActualTowers){
+    public void notifyChangeTowerNumberObservers(String nickName, int numOfActualTowers){
         for(ChangeTowerNumberObserver observer : changeTowerNumberObservers)
-            observer.changeTowerNumberUpdate(numOfActualTowers);
+            observer.changeTowerNumberUpdate(nickName, numOfActualTowers);
     }
 
     // MANAGEMENT OF OBSERVERS ON STUDENTS ON ENTRANCE
