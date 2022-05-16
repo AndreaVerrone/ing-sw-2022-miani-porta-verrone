@@ -31,6 +31,10 @@ public class SizedBox extends Widget{
      */
     private int spaceTop;
     /**
+     * The amount of space to put below the child, accordingly to the alignment
+     */
+    private int spaceBottom;
+    /**
      * The amount of space to put before the child, accordingly to the alignment
      */
     private int spaceBefore;
@@ -82,6 +86,9 @@ public class SizedBox extends Widget{
         }
         child.setStartingPoint(getStartingPoint()+spaceBefore);
         child.show();
+        for (int i = 0; i < spaceBottom; i++) {
+            System.out.print("\n");
+        }
     }
 
     private void calculateDimensions(){
@@ -95,42 +102,58 @@ public class SizedBox extends Widget{
         int verticalGap = getHeight() - child.getHeight();
         switch (alignment){
             case CENTER -> {
-                spaceTop = verticalGap/2;
+                divideEqually(verticalGap);
                 spaceBefore = horizontalGap/2;
             }
             case TOP -> {
                 spaceTop = 0;
+                spaceBottom = verticalGap;
                 spaceBefore = horizontalGap/2;
             }
             case BOTTOM -> {
                 spaceTop = verticalGap;
+                spaceBottom = 0;
                 spaceBefore = horizontalGap/2;
             }
             case START -> {
-                spaceTop = verticalGap/2;
+                divideEqually(verticalGap);
                 spaceBefore = 0;
             }
             case END -> {
-                spaceTop = verticalGap/2;
+                divideEqually(verticalGap);
                 spaceBefore = horizontalGap;
             }
             case TOP_START -> {
                 spaceTop = 0;
+                spaceBottom = verticalGap;
                 spaceBefore = 0;
             }
             case TOP_END -> {
                 spaceTop = 0;
+                spaceBottom = verticalGap;
                 spaceBefore = horizontalGap;
             }
             case BOTTOM_START -> {
                 spaceTop = verticalGap;
+                spaceBottom = 0;
                 spaceBefore = 0;
             }
             case BOTTOM_END -> {
                 spaceTop = verticalGap;
+                spaceBottom = 0;
                 spaceBefore = horizontalGap;
             }
         }
+    }
+
+    private void divideEqually(int verticalSpace){
+        if (verticalSpace%2 == 0){
+            spaceTop = spaceBottom = verticalSpace/2;
+            return;
+        }
+        verticalSpace -= 1;
+        spaceTop = verticalSpace/2;
+        spaceBottom = verticalSpace/2 + 1;
     }
 
 }
