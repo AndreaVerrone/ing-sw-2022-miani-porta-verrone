@@ -53,13 +53,6 @@ public class Game implements IGame{
      */
     private Collection<Player> winners = null;
 
-    /**
-     * It is true, if the current player can use the character card.
-     * <p>
-     * Note that a player can use only one time a character card during its turn in the action phase
-     */
-    private boolean canUseCharacterCard=true;
-
     public Game(Collection<PlayerLoginInfo> players){
         //TODO: create all states and add documentation
         model = new GameModel(players);
@@ -72,13 +65,6 @@ public class Game implements IGame{
         state = playAssistantState;
     }
 
-    public boolean getCanUseCharacterCard() {
-        return canUseCharacterCard;
-    }
-
-    public void setCanUseCharacterCard(boolean canUseCharacterCard) {
-        this.canUseCharacterCard = canUseCharacterCard;
-    }
 
     /**
      * Changes the current state of the game
@@ -147,32 +133,6 @@ public class Game implements IGame{
         state.takeFromCloud(cloudID);
     }
 
-    /**
-     * This method allow to use the character card passed as a parameter.
-     * @param characterCard the character card to use
-     * @throws NotValidOperationException if the character card cannot be used because the player cannot pay
-     * for the usage, the state of the game do not allow the usage or the player has already used a character card
-     * during its turn.
-     * @throws NotValidArgumentException if the character card does not exist
-     */
-    public void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException, NotValidArgumentException {
-
-        // current player
-        Player currentPlayer = getModel().getCurrentPlayer();
-
-        // check that the player can use it since it is the first time that he use a
-        // character card during its turn
-        if(!canUseCharacterCard){
-            throw new NotValidOperationException("you have already used a character card during this turn");
-        }
-
-        // check that the player can use it since it has enough money
-        if(currentPlayer.getCoins()<characterCard.getCost()){
-            throw new NotValidOperationException("you have not enough coin");
-        }
-
-        state.useCharacterCard(characterCard);
-    }
 
     /**
      * This method allows to select a student (of the PawnType specified in the parameter) that comes from the position
@@ -197,26 +157,20 @@ public class Game implements IGame{
     }
 
     /**
-     * This method allow to conclude the usage of a character card by saving the fact taht
-     * the current player has used a character card during his turn and by making it pay for the usage.
-     * @param card the card that has been used
+     * This method allow to use the character card of the type passed as a parameter.
+     * @param cardType type of card chosen
+     * @throws NotValidOperationException if a player tries to use a card in basic mode
      */
-    public void effectEpilogue(CharacterCard card){
+    public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
+        throw new NotValidOperationException("Cannot use cards in basic mode!");
+    }
 
-        // 1. set that the current player has used a character card
-        setCanUseCharacterCard(false);
 
-        // 2. take the cost of the card from the player
-        boolean putInBagAllCoins = card.isUsed();
-        int cost = card.getCost();
-        try {
-            getModel().getCurrentPlayer().removeCoins(cost,putInBagAllCoins);
-        } catch (NotEnoughCoinsException e) {
-            // todo: how to manage?
-            // it is impossible
-            // I have checked before
-        }
-
+    /**
+     * Does the reset operations at the end of every turn
+     */
+    public void endOfTurn(){
+        //Nothing to do in basic mode
     }
 
     protected GameModel getModel() {
