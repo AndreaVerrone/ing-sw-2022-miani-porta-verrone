@@ -90,9 +90,9 @@ public class GridView extends Widget{
             Row row = new Row();
             for (; j < (i+1)*3; j++) {
                 Widget element = widgetMap.get(Position.values()[j]);
-                Widget cell = new Border(new SizedBox(
+                Widget cell = new SizedBox(
                         Objects.requireNonNullElseGet(element, () -> new Text(" ")),
-                        cellWidth, cellHeight, alignment));
+                        cellWidth, cellHeight, alignment);
                 row.addChild(cell);
             }
             column.addChild(row);
@@ -106,7 +106,7 @@ public class GridView extends Widget{
         cellHeight = highestChild.map(Widget::getHeight).orElse(0);
 
         var widestChild = widgetMap.values().stream().max(Comparator.comparingInt(Widget::getWidth));
-        cellWidth = widestChild.map(Widget::getWidth).orElse(0);
+        cellWidth = widestChild.map(widget -> widget.getWidth()+2).orElse(0);
 
         setWidth(cellWidth*3);
         setHeight(cellHeight*3);
