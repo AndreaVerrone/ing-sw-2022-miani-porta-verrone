@@ -17,7 +17,7 @@ public class UseCharacterCard4State extends UseCharacterCardState implements Sta
      * @param originState the state from which the character card has been used
      * @param characterCard4 the character card that uses this state
      */
-    public UseCharacterCard4State(Game game, State originState, CharacterCard4 characterCard4) {
+    public UseCharacterCard4State(ExpertGame game, State originState, CharacterCard4 characterCard4) {
         super(game,originState,characterCard4);
         gameModel=game.getModel();
     }

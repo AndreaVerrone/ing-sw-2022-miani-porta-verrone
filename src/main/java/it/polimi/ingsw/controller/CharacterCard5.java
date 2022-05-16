@@ -4,9 +4,9 @@ public class CharacterCard5 extends CharacterCard{
 
     /**
      * This is the Game class
-     * @see Game
+     * @see ExpertGame
      */
-    private final Game game;
+    private final ExpertGame game;
 
     /**
      * the number of ban cards that are present on the island.
@@ -16,8 +16,8 @@ public class CharacterCard5 extends CharacterCard{
      * Creates a new character card.
      * @param game the Game class
      */
-    CharacterCard5(Game game) {
-        super(2, "allow to choose an island on which put the ban");
+    CharacterCard5(ExpertGame game) {
+        super(CharacterCardsType.CARD5.getCost(), CharacterCardsType.CARD5.getDescription());
         this.game=game;
         numOfBans=4;
     }

@@ -81,17 +81,12 @@ public class ChooseCloudState implements State{
         }
         else{
             //End of the current player turn
-
-            // RESET ALL THE STANDARD STRATEGY
-            game.getModel().resetStrategy();
-
-            // RESET THE POSSIBILITY TO USE A CHARACTER CARD
-            game.setCanUseCharacterCard(true);
-
-            //Change current player
             model.nextPlayerTurn();
+
+            //Change state
             game.setState(game.getMoveStudentState());
         }
+        game.endOfTurn();
     }
 
 }

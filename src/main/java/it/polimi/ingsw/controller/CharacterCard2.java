@@ -6,20 +6,16 @@ public class CharacterCard2 extends CharacterCard{
 
     /**
      * This is the Game class
-     * @see Game
+     * @see ExpertGame
      */
-    Game game;
+    ExpertGame game;
 
     /**
      * Creates a new character card
      * @param game the Game class
      */
-    CharacterCard2(Game game) {
-        super(
-                2,
-                "allow a player to control a professor even if he has the same number " +
-                                "of student of the player that controls it in that moment."
-        );
+    CharacterCard2(ExpertGame game) {
+        super(CharacterCardsType.CARD2.getCost(), CharacterCardsType.CARD2.getDescription());
         this.game=game;
     }
 

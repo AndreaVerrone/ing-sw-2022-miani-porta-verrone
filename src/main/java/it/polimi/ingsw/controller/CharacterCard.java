@@ -1,16 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.NotEnoughCoinsException;
-
 /**
  * A class representing character cards
  */
 abstract public class CharacterCard {
-
-    /**
-     * the Game class
-     */
-    Game game;
 
     /**
      * A textual description of the effect of this card

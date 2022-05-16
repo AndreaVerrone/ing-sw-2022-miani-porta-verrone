@@ -40,7 +40,7 @@ public class UseCharacterCard9State extends UseCharacterCardState implements Sta
      * @param game game class of the game
      * @param card card used in the state
      */
-    public UseCharacterCard9State(Game game, State originState, CharacterCard9 card){
+    public UseCharacterCard9State(ExpertGame game, State originState, CharacterCard9 card){
         super(game, originState, card);
         this.model = game.getModel();
         this.card = card;
