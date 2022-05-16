@@ -10,7 +10,7 @@ public interface IslandUnificationObserver {
      * It is called by the subject in order to notify a change to all its attached observers.
      *
      * @param islandRemovedID ID of the island that has been removed
-     * @param finalNumOfBan   the num of ban after the unification
+     * @param finalSize the size of the island after unification
      */
-    public void islandUnificationObserverUpdate(int islandRemovedID, int finalNumOfBan);
+    public void islandUnificationObserverUpdate(int islandRemovedID, int finalSize);
 }
