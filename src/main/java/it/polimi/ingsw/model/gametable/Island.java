@@ -78,6 +78,7 @@ public class Island {
     public void setTower(TowerType tower){
         assert tower != null;
         this.tower = tower;
+        notifyTowerOnIslandObservers(this.ID,this.tower);
     }
 
     /**
@@ -226,5 +227,37 @@ public class Island {
     public void notifyUnificationIslandObservers(int islandRemovedID, int finalNumOfBan, int finalSize, StudentList finalStudentList){
         for(IslandUnificationObserver observer : unificationIslandObservers)
             observer.islandUnificationObserverUpdate(islandRemovedID,finalNumOfBan,finalSize,finalStudentList);
+    }
+
+    // MANAGEMENT OF OBSERVERS ON TOWER ON ISLAND
+    /**
+     * List of the observer on tower on island
+     */
+    private final List<TowerOnIslandObserver> towerOnIslandObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on tower on island.
+     * @param observer the observer to be added
+     */
+    public void addTowerOnIslandObserver(TowerOnIslandObserver observer){
+        towerOnIslandObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on tower on island.
+     * @param observer the observer to be removed
+     */
+    public void removeTowerOnIslandObserver(TowerOnIslandObserver observer){
+        towerOnIslandObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on tower on island.
+     * @param islandIDWithChange the island on which a tower has been put or removed
+     * @param actualTower the actual tower on the island
+     */
+    public void notifyTowerOnIslandObservers(int islandIDWithChange, TowerType actualTower){
+        for(TowerOnIslandObserver observer : towerOnIslandObservers)
+            observer.towerOnIslandObserverUpdate(islandIDWithChange, actualTower);
     }
 }
