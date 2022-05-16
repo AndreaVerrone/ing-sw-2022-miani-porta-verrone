@@ -85,7 +85,7 @@ public class Island {
      */
     public void addBan(){
         ban = ban + 1;
-        notifyBanOnIslandObservers(this.ID);
+        notifyBanOnIslandObservers(this.ID, ban);
     }
 
     /**
@@ -94,7 +94,7 @@ public class Island {
     public void removeBan(){
         if(ban>0){
             ban = ban - 1;
-            notifyBanOnIslandObservers(this.ID);
+            notifyBanOnIslandObservers(this.ID, ban);
         }
     }
 
@@ -155,10 +155,11 @@ public class Island {
     /**
      * This method notify all the attached observers that a change has been happened on ban on island.
      * @param islandIDWithBan the island on which a ban has been put or removed
+     * @param actualNumOfBans the actual num of bans on the island
      */
-    public void notifyBanOnIslandObservers(int islandIDWithBan){
+    public void notifyBanOnIslandObservers(int islandIDWithBan, int actualNumOfBans){
         for(BanOnIslandObserver observer : banOnIslandObservers)
-            observer.banOnIslandObserverUpdate(islandIDWithBan);
+            observer.banOnIslandObserverUpdate(islandIDWithBan, actualNumOfBans);
     }
 
     // MANAGEMENT OF OBSERVERS ON STUDENTS ON ISLAND
