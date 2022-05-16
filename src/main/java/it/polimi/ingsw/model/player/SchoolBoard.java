@@ -23,7 +23,7 @@ class SchoolBoard {
      * The dining room of this school board.
      * @see DiningRoom
      */
-    private final DiningRoom diningRoom = new DiningRoom();
+    private final DiningRoom diningRoom = new DiningRoom(nickNameOfPlayer);
     private final Set<PawnType> professorTable = new HashSet<>();
 
     /**
