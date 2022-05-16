@@ -1,7 +1,13 @@
 package it.polimi.ingsw.view.cli.fancy_cli;
 
 import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
+import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.TextStyle;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Widget used to show formatted text on the screen
@@ -11,7 +17,12 @@ public class Text extends Widget {
     /**
      * The text to display
      */
-    private String text;
+    private Collection<String> text;
+
+    /**
+     * The maximum number of characters per line
+     */
+    private final int maxCharsPerLine;
 
     /**
      * The foreground color of the text
@@ -29,30 +40,85 @@ public class Text extends Widget {
     private String style = "";
 
     /**
-     * Creates a Text widget with the provided content using the default colors of the terminal.
+     * Creates a Text widget with the provided content that occupies at most the width specified
+     * and uses the foreground and background colors chosen
      * @param text the content to display
+     * @param foregroundColor the foreground color to use
+     * @param backgroundColor the background color to use
+     * @param maxWidth the maximum width that this text should occupy
      */
-    public Text(String text) {
-        this(text, Color.DEFAULT, Color.DEFAULT);
+    public Text(String text, Color foregroundColor, Color backgroundColor, int maxWidth){
+        this.maxCharsPerLine = ConsoleCli.convertFromGeneralWidthToCharNumber(maxWidth);
+        this.text = wrapText(text);
+        this.foregroundColor = foregroundColor.foreground;
+        this.backgroundColor = backgroundColor.background;
+        calculateSize();
     }
 
     /**
-     * Creates a Text widget with the provided content using the foreground and background colors chosen
+     * Creates a Text widget with the provided content using the default colors of the terminal.
+     * This Text will be as wide as needed
+     * @param text the content to display
+     */
+    public Text(String text) {
+        this(text, Color.DEFAULT, Color.DEFAULT, -1);
+    }
+
+    /**
+     * Creates a Text widget with the provided content that occupies at most the width specified
+     * and uses the default colors of the terminal.
+     * @param text the content to display
+     * @param maxWidth the maximum width that this text should occupy
+     */
+    public Text(String text, int maxWidth){
+        this(text, Color.DEFAULT, Color.DEFAULT, maxWidth);
+    }
+
+    /**
+     * Creates a Text widget with the provided content using the foreground and background colors chosen.
+     * This Text will be as wide as needed.
      * @param text the content to display
      * @param foregroundColor the foreground color to use
      * @param backgroundColor the background color to use
      */
     public Text(String text, Color foregroundColor, Color backgroundColor){
-        this.text = text;
-        this.foregroundColor = foregroundColor.foreground;
-        this.backgroundColor = backgroundColor.background;
-        setWidth(text.length());
-        setHeight(1);
+        this(text, foregroundColor, backgroundColor, -1);
     }
 
+    private Collection<String> wrapText(String text){
+        String[] lines = text.split("\n");
+        if (maxCharsPerLine<1)
+            return List.of(lines);
+        Collection<String> wrappedLines = new ArrayList<>();
+        for (String line:lines){
+            String[] words = line.split(" ");
+            StringBuilder wrapLine = new StringBuilder();
+            for (String word : words){
+                if (wrapLine.isEmpty()){
+                    wrapLine.append(word);
+                    continue;
+                }
+                if (wrapLine.length()+1+word.length() <= maxCharsPerLine){
+                    wrapLine.append(" ").append(word);
+                    continue;
+                }
+                wrappedLines.add(wrapLine.toString());
+                wrapLine.delete(0, wrapLine.length());
+                wrapLine.append(word);
+            }
+            wrappedLines.add(wrapLine.toString());
+        }
+        return wrappedLines;
+    }
+
+    private void calculateSize(){
+        int width = this.text.stream().max(Comparator.comparingInt(String::length)).map(String::length).orElse(0);
+        setWidth(width);
+        setHeight(this.text.size());
+    }
     public void setText(String text){
-        this.text = text;
-        setWidth(text.length());
+        this.text = wrapText(text);
+        calculateSize();
     }
 
     public Text setForegroundColor(Color foregroundColor){
@@ -76,6 +142,13 @@ public class Text extends Widget {
 
     @Override
     protected void display() {
-        System.out.print(backgroundColor+foregroundColor+style+text);
+
+        for (String line : text) {
+            System.out.print(backgroundColor + foregroundColor + style + line);
+            ConsoleCli.resetStyle();
+            System.out.print("\n");
+            ConsoleCli.moveToColumn(getStartingPoint());
+        }
+        ConsoleCli.moveCursorUp(1);
     }
 }
