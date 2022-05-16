@@ -78,12 +78,17 @@ public class UseCharacterCard9State extends UseCharacterCardState implements Sta
      * Swaps the students chosen from the card and from the entrance of the current player
      */
     private void swapStudent(){
-        card.addStudentToCard(studentFromEntrance);
         try {
+            //Remove students from card and entrance
+            card.takeStudentFromCard(studentFromCard);
+            model.getCurrentPlayer().removeStudentFromEntrance(studentFromEntrance);
+            //Swap the students and add them to card and entrance
+            card.addStudentToCard(studentFromEntrance);
             model.getCurrentPlayer().addStudentToEntrance(studentFromCard);
-        } catch (ReachedMaxStudentException e) {
-            e.printStackTrace();//Not possible
+        } catch (ReachedMaxStudentException | NotEnoughStudentException e) {
+            e.printStackTrace();//Not possible, already controlled
         }
+
         numberOfStudentsSwapped ++;
         studentFromCard = null;
         studentFromEntrance = null;
@@ -97,29 +102,25 @@ public class UseCharacterCard9State extends UseCharacterCardState implements Sta
     }
 
     /**
-     * Method to take a student from the card
+     * Controls the student chosen is on the card and saves it
      * @param color color of the student to be taken
      * @throws NotValidArgumentException If the student is not present on the card
      */
     private void takeFromCard(PawnType color) throws NotValidArgumentException {
-        try {
-            card.takeStudentFromCard(color);
-        } catch (NotEnoughStudentException e) {
+        if(card.getStudents().getNumOf(color) <= 0){
             throw new NotValidArgumentException("The student is not in the entrance");
         }
         studentFromCard = color;
     }
 
     /**
-     * Method to take a student from the entrance
+     * Controls the student chosen is in the entrance and saves it
      * @param color color of the student to be taken
      * @throws NotValidArgumentException If the student is not present in the entrance
      */
     private void takeFromEntrance(PawnType color) throws NotValidArgumentException {
-        try {
-            model.getCurrentPlayer().removeStudentFromEntrance(color);
-        } catch (NotEnoughStudentException e) {
-            throw new NotValidArgumentException("The student is not in the entrance");
+        if (model.getCurrentPlayer().getStudentsInEntrance().getNumOf(color) <= 0) {
+            throw new NotValidArgumentException("Student not in the entrance!");
         }
         studentFromEntrance = color;
     }

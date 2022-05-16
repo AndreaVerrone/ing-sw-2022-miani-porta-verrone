@@ -69,14 +69,17 @@ public class UseCharacterCard10State extends UseCharacterCardState implements St
 
     /**
      * Swaps the students chosen from the dining room and from the entrance of the current player
-     * @throws NotValidArgumentException if the dining room is full for the chosen color
      */
-    private void swapStudent() throws NotValidArgumentException {
+    private void swapStudent() {
         try {
+            //Remove students from dining room and entrance
+            model.getCurrentPlayer().removeStudentFromEntrance(studentFromEntrance);
+            model.getCurrentPlayer().removeStudentFromDiningRoom(studentFromDiningRoom);
+            //Swap students and add them to dining room and entrance
             model.getCurrentPlayer().addStudentToDiningRoom(studentFromEntrance);
             model.getCurrentPlayer().addStudentToEntrance(studentFromDiningRoom);
-        } catch (ReachedMaxStudentException e) {
-            throw new NotValidArgumentException("Dining room full! Choose another color!");
+        } catch (NotEnoughStudentException | ReachedMaxStudentException e) {
+            e.printStackTrace();// Should not happen as it is controlled before
         }
 
         numberOfStudentsSwapped ++;
@@ -91,28 +94,29 @@ public class UseCharacterCard10State extends UseCharacterCardState implements St
     }
 
     /**
-     * Method to take a student from the entrance
+     * Controls the student chosen is in the entrance and that the table of that color in the dining room is not full
+     * and saves the student
      * @param color color of the student to be taken
-     * @throws NotValidArgumentException If the student is not present in the entrance
+     * @throws NotValidArgumentException If the student is not present in the entrance or if the table in the dining room
+     * of the chosen color is full already
      */
     private void takeFromEntrance(PawnType color) throws NotValidArgumentException {
-        try {
-            model.getCurrentPlayer().removeStudentFromEntrance(color);
-        } catch (NotEnoughStudentException e) {
+        if (model.getCurrentPlayer().getStudentsInEntrance().getNumOf(color) <= 0) {
             throw new NotValidArgumentException("Student not in the entrance!");
+        }
+        if (model.getCurrentPlayer().getNumStudentOf(color) == 10){
+            throw new NotValidArgumentException("The table of this student color is already full");
         }
         studentFromEntrance = color;
     }
 
     /**
-     * Method to take a student from the dining room
+     * Controls the student chosen is in the dining room and saves it
      * @param color student taken
      * @throws NotValidArgumentException if the student is not present in the dining room
      */
     private void takeFromDiningRoom(PawnType color) throws NotValidArgumentException{
-        try {
-            model.getCurrentPlayer().removeStudentFromDiningRoom(color);
-        } catch (NotEnoughStudentException e) {
+        if(model.getCurrentPlayer().getNumStudentOf(color) <= 0) {
             throw new NotValidArgumentException("Student not in the dining room!");
         }
         studentFromDiningRoom = color;

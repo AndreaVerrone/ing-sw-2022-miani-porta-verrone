@@ -63,5 +63,13 @@ public class CharacterCard9 extends CharacterCard{
         }
     }
 
+    /**
+     * Gives back a copy of the students on the card
+     * @return a copy of the student on the card
+     */
+    public StudentList getStudents(){
+        return studentsOnCard.clone();
+    }
+
 
 }
