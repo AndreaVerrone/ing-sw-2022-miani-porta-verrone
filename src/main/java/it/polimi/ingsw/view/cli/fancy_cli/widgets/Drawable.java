@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.fancy_cli;
+package it.polimi.ingsw.view.cli.fancy_cli.widgets;
 
 /**
  * An interface representing the ability to be drawn on a cli

@@ -1,7 +1,6 @@
-package it.polimi.ingsw.view.cli.fancy_cli;
+package it.polimi.ingsw.view.cli.fancy_cli.widgets;
 
 import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.Icons;
 
 /**
