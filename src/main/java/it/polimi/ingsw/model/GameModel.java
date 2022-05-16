@@ -319,4 +319,5 @@ public class GameModel {
         for(ChangeCurrentPlayerObserver observer : changeCurrentPlayerObservers)
             observer.changeCurrentPlayerObserverUpdate(actualCurrentPlayerNickname);
     }
+
 }
