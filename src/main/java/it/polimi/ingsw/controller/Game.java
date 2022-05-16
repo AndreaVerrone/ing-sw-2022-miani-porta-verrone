@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.NotEnoughCoinsException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -51,6 +53,13 @@ public class Game implements IGame{
      */
     private Collection<Player> winners = null;
 
+    /**
+     * It is true, if the current player can use the character card.
+     * <p>
+     * Note that a player can use only one time a character card during its turn in the action phase
+     */
+    private boolean canUseCharacterCard=true;
+
     public Game(Collection<PlayerLoginInfo> players){
         //TODO: create all states and add documentation
         model = new GameModel(players);
@@ -61,6 +70,14 @@ public class Game implements IGame{
         chooseCloudState = new ChooseCloudState(this);
 
         state = playAssistantState;
+    }
+
+    public boolean getCanUseCharacterCard() {
+        return canUseCharacterCard;
+    }
+
+    public void setCanUseCharacterCard(boolean canUseCharacterCard) {
+        this.canUseCharacterCard = canUseCharacterCard;
     }
 
     /**
@@ -128,6 +145,78 @@ public class Game implements IGame{
     @Override
     public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {
         state.takeFromCloud(cloudID);
+    }
+
+    /**
+     * This method allow to use the character card passed as a parameter.
+     * @param characterCard the character card to use
+     * @throws NotValidOperationException if the character card cannot be used because the player cannot pay
+     * for the usage, the state of the game do not allow the usage or the player has already used a character card
+     * during its turn.
+     * @throws NotValidArgumentException if the character card does not exist
+     */
+    public void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException, NotValidArgumentException {
+
+        // current player
+        Player currentPlayer = getModel().getCurrentPlayer();
+
+        // check that the player can use it since it is the first time that he use a
+        // character card during its turn
+        if(!canUseCharacterCard){
+            throw new NotValidOperationException("you have already used a character card during this turn");
+        }
+
+        // check that the player can use it since it has enough money
+        if(currentPlayer.getCoins()<characterCard.getCost()){
+            throw new NotValidOperationException("you have not enough coin");
+        }
+
+        state.useCharacterCard(characterCard);
+    }
+
+    /**
+     * This method allows to select a student (of the PawnType specified in the parameter) that comes from the position
+     * (also specified in the parameters).
+     * @param color the {@code PawnType} of the student
+     * @param originPosition the {@code Position} from where take the student
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the student is not present in the specified location
+     */
+    public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
+        state.choseStudentFromLocation(color,originPosition);
+    }
+
+    /**
+     * This method allows to choose a destination on which operate based on the state.
+     * @param destination the Position
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the
+     */
+    public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
+        state.chooseDestination(destination);
+    }
+
+    /**
+     * This method allow to conclude the usage of a character card by saving the fact taht
+     * the current player has used a character card during his turn and by making it pay for the usage.
+     * @param card the card that has been used
+     */
+    public void effectEpilogue(CharacterCard card){
+
+        // 1. set that the current player has used a character card
+        setCanUseCharacterCard(false);
+
+        // 2. take the cost of the card from the player
+        boolean putInBagAllCoins = card.isUsed();
+        int cost = card.getCost();
+        try {
+            getModel().getCurrentPlayer().removeCoins(cost,putInBagAllCoins);
+        } catch (NotEnoughCoinsException e) {
+            // todo: how to manage?
+            // it is impossible
+            // I have checked before
+        }
+
     }
 
     protected GameModel getModel() {

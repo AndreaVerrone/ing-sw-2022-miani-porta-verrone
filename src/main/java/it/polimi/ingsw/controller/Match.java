@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Wizard;
 
+import java.util.Optional;
+
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
@@ -20,7 +22,7 @@ public class Match implements IMatchMaking, IGame {
     /**
      * The game of this match. Before the game starts, this is null.
      */
-    private Game game;
+    private IGame game;
 
     /**
      * Creates a new Match for the number of player specified using the expert rules if {@code wantExpert}
@@ -100,13 +102,20 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
+     * Moves the match making to the next state.
      * @throws NotValidOperationException if the game has started or {@inheritDoc}
+     * @return {@link Optional#empty()}
      */
     @Override
-    public void next() throws NotValidOperationException {
+    public Optional<IGame> next() throws NotValidOperationException {
         if (matchMaking == null)
             throw new NotValidOperationException();
-        matchMaking.next();
+        Optional<IGame> possibleGame = matchMaking.next();
+        if (possibleGame.isPresent()){
+            matchMaking = null;
+            game = possibleGame.get();
+        }
+        return Optional.empty();
     }
 
     /**

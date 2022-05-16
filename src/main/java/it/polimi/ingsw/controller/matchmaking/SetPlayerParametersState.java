@@ -1,10 +1,11 @@
 package it.polimi.ingsw.controller.matchmaking;
 
-import it.polimi.ingsw.controller.NotValidArgumentException;
-import it.polimi.ingsw.controller.NotValidOperationException;
-import it.polimi.ingsw.controller.PlayerLoginInfo;
+import it.polimi.ingsw.controller.*;
+import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Wizard;
+
+import java.util.Optional;
 
 /**
  * In this state all the players has joined the lobby,
@@ -60,14 +61,17 @@ class SetPlayerParametersState implements MatchMakingState{
      * @throws NotValidOperationException if the current player hasn't chosen yet the tower or wizard
      */
     @Override
-    public void next() throws NotValidOperationException {
+    public Optional<IGame> next() throws NotValidOperationException {
         PlayerLoginInfo currentPlayer = matchMaking.getCurrentPlayer();
         if (currentPlayer.getTowerType() == null || currentPlayer.getWizard() == null)
             throw new NotValidOperationException();
-        if (playerServing == matchMaking.getNumPlayers())
-            // begin the game
-            return;
+        if (playerServing == matchMaking.getNumPlayers()) {
+            if (matchMaking.isHardMode())
+                return Optional.of(new ExpertGame(matchMaking.getPlayers()));
+            return Optional.of(new Game(matchMaking.getPlayers()));
+        }
         matchMaking.nextPlayer();
         matchMaking.setState(new SetPlayerParametersState(matchMaking, playerServing+1));
+        return Optional.empty();
     }
 }

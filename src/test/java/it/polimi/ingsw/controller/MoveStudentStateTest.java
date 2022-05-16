@@ -51,9 +51,18 @@ class MoveStudentStateTest {
             }
         }
 
+        // set island
+        Position island1 = new Position(Location.ISLAND);
+        island1.setField(1);
+
         // use the method to test
         try {
-            game.getMoveStudentState().moveStudentToIsland(PawnType.BLUE_UNICORNS,1);
+            game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+        } catch (NotValidOperationException | NotValidArgumentException e) {
+            fail();
+        }
+        try {
+            game.getMoveStudentState().chooseDestination(island1);
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }
@@ -81,12 +90,21 @@ class MoveStudentStateTest {
             }
         }
 
+        // set island
+        Position island100 = new Position(Location.ISLAND);
+        island100.setField(100);
+
         // use the method to test
+        try {
+            game.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+        } catch (NotValidOperationException | NotValidArgumentException e) {
+            fail();
+        }
         // CHECKS
         // 1. NotValidArgumentException has been thrown
         assertThrows(
                 NotValidArgumentException.class,
-                ()->game.getMoveStudentState().moveStudentToIsland(PawnType.BLUE_UNICORNS,100)
+                ()->game.getMoveStudentState().chooseDestination(island100)
         );
         // 2. there are still 3 BLUE UNICORN in the entrance of the current player
         assertEquals(3,game.getModel().getCurrentPlayer().getStudentsInEntrance().getNumOf(PawnType.BLUE_UNICORNS));
@@ -96,10 +114,10 @@ class MoveStudentStateTest {
     public void moveStudentToIsland_BLUEUNICORN_NotPresentStudent_ShouldThrowAndDoNothing(){
 
         // CHECKS
-        // 1. NotValidArgumentException has been thrown
+        // 1. NotValidOperationException has been thrown
         assertThrows(
                 NotValidArgumentException.class,
-                ()->game.getMoveStudentState().moveStudentToIsland(PawnType.BLUE_UNICORNS,1)
+                ()->game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE))
         );
         // 2. there are no BLUE UNICORN on island 1
         try {
@@ -107,20 +125,6 @@ class MoveStudentStateTest {
         } catch (IslandNotFoundException e) {
             fail();
         }
-
-    }
-
-    @Test
-    public void moveStudentToDiningRoom_BLUEUNICORN_IsNotPresent_ShouldThrow(){
-
-        // CHECK
-        // 1. assertion has been thrown
-        assertThrows(
-                NotValidArgumentException.class,
-                ()->game.getMoveStudentState().moveStudentToDiningRoom(PawnType.BLUE_UNICORNS)
-        );
-        // there aren't any BLUE UNICORN in dining room
-        assertEquals(0,game.getModel().getCurrentPlayer().getNumStudentOf(PawnType.BLUE_UNICORNS));
 
     }
 
@@ -144,11 +148,15 @@ class MoveStudentStateTest {
         }
 
         // apply the method
+        try {
+            game.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+        } catch (NotValidOperationException | NotValidArgumentException e) {
+            fail();
+        }
         assertThrows(
                 NotValidArgumentException.class,
-                ()->game.getMoveStudentState().moveStudentToDiningRoom(PawnType.BLUE_UNICORNS)
+                ()->game.getMoveStudentState().chooseDestination(new Position(Location.DINING_ROOM))
         );
-
     }
 
     @Test
@@ -163,7 +171,12 @@ class MoveStudentStateTest {
 
         // apply the method to test
         try {
-            game.getMoveStudentState().moveStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+            game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+        } catch (NotValidOperationException | NotValidArgumentException e) {
+            fail();
+        }
+        try {
+            game.getMoveStudentState().chooseDestination(new Position(Location.DINING_ROOM));
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }
@@ -187,10 +200,15 @@ class MoveStudentStateTest {
             }
         }
 
+        // set island
+        Position island1 = new Position(Location.ISLAND);
+        island1.setField(1);
+
         // move 4 student on island
         for (int i=0;i<4;i++) {
             try {
-                game.getMoveStudentState().moveStudentToIsland(PawnType.BLUE_UNICORNS, 1);
+                game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+                game.getMoveStudentState().chooseDestination(island1);
             } catch (NotValidOperationException | NotValidArgumentException e) {
                 fail();
             }
@@ -212,12 +230,17 @@ class MoveStudentStateTest {
             }
         }
 
+        // set island
+        Position island1 = new Position(Location.ISLAND);
+        island1.setField(1);
+
         // move 1 student to island
-            try {
-                game.getMoveStudentState().moveStudentToIsland(PawnType.BLUE_UNICORNS, 1);
-            } catch (NotValidOperationException | NotValidArgumentException e) {
-                fail();
-            }
+        try {
+            game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+            game.getMoveStudentState().chooseDestination(island1);
+        } catch (NotValidOperationException | NotValidArgumentException e) {
+            fail();
+        }
 
         // check that the state has not been changed
         assertEquals(game.getMoveStudentState(),game.getState());
@@ -238,7 +261,8 @@ class MoveStudentStateTest {
         // move 4 student to dining room
         for (int i=0;i<4;i++) {
             try {
-                game.getMoveStudentState().moveStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+                game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+                game.getMoveStudentState().chooseDestination(new Position(Location.DINING_ROOM));
             } catch (NotValidOperationException | NotValidArgumentException e) {
                 fail();
             }
@@ -262,7 +286,8 @@ class MoveStudentStateTest {
 
         // move 1 student to dining room
         try {
-            game.getMoveStudentState().moveStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+            game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+            game.getMoveStudentState().chooseDestination(new Position(Location.DINING_ROOM));
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }
@@ -275,6 +300,10 @@ class MoveStudentStateTest {
     @Test
     public void Move4SomeToIslandAndSomeOtherInDiningRoom_ShouldChangeState() {
 
+        // set island
+        Position island1 = new Position(Location.ISLAND);
+        island1.setField(1);
+
         // add 3 BLUE UNICORN on entrance of current player
         for (int i = 0; i < 4; i++) {
             try {
@@ -286,28 +315,32 @@ class MoveStudentStateTest {
 
         // move 1 student to dining room
         try {
-            game.getMoveStudentState().moveStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+            game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+            game.getMoveStudentState().chooseDestination(new Position(Location.DINING_ROOM));
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }
 
         // move 1 student to island
         try {
-            game.getMoveStudentState().moveStudentToIsland(PawnType.BLUE_UNICORNS, 1);
+            game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+            game.getMoveStudentState().chooseDestination(island1);
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }
 
         // move 1 student to dining room
         try {
-            game.getMoveStudentState().moveStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+            game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+            game.getMoveStudentState().chooseDestination(new Position(Location.DINING_ROOM));
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }
 
         // move 1 student to dining room
         try {
-            game.getMoveStudentState().moveStudentToDiningRoom(PawnType.BLUE_UNICORNS);
+            game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+            game.getMoveStudentState().chooseDestination(new Position(Location.DINING_ROOM));
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }
