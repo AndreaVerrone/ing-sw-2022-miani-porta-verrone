@@ -23,7 +23,7 @@ class SchoolBoard {
      * The dining room of this school board.
      * @see DiningRoom
      */
-    private final DiningRoom diningRoom = new DiningRoom(nickNameOfPlayer);
+    private final DiningRoom diningRoom;
     private final Set<PawnType> professorTable = new HashSet<>();
 
     /**
@@ -54,6 +54,8 @@ class SchoolBoard {
     protected SchoolBoard(boolean isThreePlayerGame, CoinsBag coinsBag, String nickNameOfPlayer){
 
         this.nickNameOfPlayer=nickNameOfPlayer;
+
+        diningRoom = new DiningRoom(nickNameOfPlayer);
 
         if (isThreePlayerGame) {
             maxNumStudentsInEntrance = 9;
