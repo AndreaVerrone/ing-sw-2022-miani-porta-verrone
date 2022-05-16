@@ -39,47 +39,31 @@ public class SizedBox extends Widget{
      */
     private int spaceBefore;
 
+
     /**
      * Creates a box big no less than the dimension specified,
      * aligning the child inside it as chosen. A value less than 1 for width or height indicates
      * to use the corresponding size of the child.
      * @param child the content of this widget
-     * @param width the minimum width of this widget
-     * @param height the minimum height of this widget
+     * @param width the minimum width of this widget, in characters number
+     * @param height the minimum height of this widget, in blank lines number
      * @param alignment the alignment of the child in this widget
-     * @param convertWidth {@code true} if the width must be converted, {@code false} otherwise
      */
-    protected SizedBox(Widget child, int width, int height, Alignment alignment, boolean convertWidth) {
+    public SizedBox(Widget child, int width, int height, Alignment alignment) {
         this.child = child;
         this.alignment = alignment;
-        if (convertWidth)
-            minWidth = ConsoleCli.convertFromGeneralWidthToCharNumber(width);
-        else
-            minWidth = width;
+        minWidth = width;
         minHeight = height;
         calculateDimensions();
         child.onSizeChange(this::calculateDimensions);
     }
 
     /**
-     * Creates a box big no less than the dimension specified,
-     * aligning the child inside it as chosen. A value less than 1 for width or height indicates
-     * to use the corresponding size of the child.
-     * @param child the content of this widget
-     * @param width the minimum width of this widget
-     * @param height the minimum height of this widget
-     * @param alignment the alignment of the child in this widget
-     */
-    public SizedBox(Widget child, int width, int height, Alignment alignment) {
-        this(child, width, height, alignment, true);
-    }
-
-    /**
      * Creates a box big no less than the dimension specified, centering the child inside it.
      * A value less than 1 for width or height indicates to use the corresponding size of the child.
      * @param child the content of this widget
-     * @param width the minimum width of this widget
-     * @param height the minimum height of this widget
+     * @param width the minimum width of this widget, in characters number
+     * @param height the minimum height of this widget, in blank lines number
      */
     public SizedBox(Widget child, int width, int height) {
         this(child, width, height, Alignment.CENTER);
@@ -88,13 +72,48 @@ public class SizedBox extends Widget{
     /**
      * Creates an empty box big as the dimension specified.
      * A value less than 1 for width or height is converted to 1.
-     * @param width the minimum width of this widget
-     * @param height the minimum height of this widget
+     * @param width the minimum width of this widget, in characters number
+     * @param height the minimum height of this widget, in blank lines number
      */
     public SizedBox(int width, int height) {
         this(new Text(" "), width, height, Alignment.BOTTOM);
     }
 
+    /**
+     * Creates a box big no less than the dimension specified,
+     * aligning the child inside it as chosen. A value less than 1 for width or height indicates
+     * to use the corresponding size of the child.
+     * @param child the content of this widget
+     * @param width the minimum width of this widget, in points number
+     * @param height the minimum height of this widget, in points number
+     * @param alignment the alignment of the child in this widget
+     */
+    public SizedBox(Widget child, float width, float height, Alignment alignment) {
+        this(child,
+                ConsoleCli.convertFromGeneralWidthToCharNumber(width),
+                Math.round(height), alignment);
+    }
+
+    /**
+     * Creates a box big no less than the dimension specified, centering the child inside it.
+     * A value less than 1 for width or height indicates to use the corresponding size of the child.
+     * @param child the content of this widget
+     * @param width the minimum width of this widget, in points number
+     * @param height the minimum height of this widget, in points number
+     */
+    public SizedBox(Widget child, float width, float height) {
+        this(child, width, height, Alignment.CENTER);
+    }
+
+    /**
+     * Creates an empty box big as the dimension specified.
+     * A value less than 1 for width or height is converted to 1.
+     * @param width the minimum width of this widget, in points number
+     * @param height the minimum height of this widget, in points number
+     */
+    public SizedBox(float width, float height) {
+        this(new Text(" "), width, height, Alignment.BOTTOM);
+    }
 
     @Override
     protected void display() {

@@ -45,14 +45,26 @@ public class Text extends Widget {
      * @param text the content to display
      * @param foregroundColor the foreground color to use
      * @param backgroundColor the background color to use
-     * @param maxWidth the maximum width that this text should occupy
+     * @param maxWidth the maximum width that this text should occupy, in characters number
      */
     public Text(String text, Color foregroundColor, Color backgroundColor, int maxWidth){
-        this.maxCharsPerLine = ConsoleCli.convertFromGeneralWidthToCharNumber(maxWidth);
+        this.maxCharsPerLine = maxWidth;
         this.text = wrapText(text);
         this.foregroundColor = foregroundColor.foreground;
         this.backgroundColor = backgroundColor.background;
         calculateSize();
+    }
+
+    /**
+     * Creates a Text widget with the provided content that occupies at most the width specified
+     * and uses the foreground and background colors chosen
+     * @param text the content to display
+     * @param foregroundColor the foreground color to use
+     * @param backgroundColor the background color to use
+     * @param maxWidth the maximum width that this text should occupy, in points number
+     */
+    public Text(String text, Color foregroundColor, Color backgroundColor, float maxWidth){
+        this(text, foregroundColor, backgroundColor, ConsoleCli.convertFromGeneralWidthToCharNumber(maxWidth));
     }
 
     /**
@@ -70,7 +82,7 @@ public class Text extends Widget {
      * @param text the content to display
      * @param maxWidth the maximum width that this text should occupy
      */
-    public Text(String text, int maxWidth){
+    public Text(String text, float maxWidth){
         this(text, Color.DEFAULT, Color.DEFAULT, maxWidth);
     }
 

@@ -92,7 +92,7 @@ public class GridView extends Widget{
                 Widget element = widgetMap.get(Position.values()[j]);
                 Widget cell = new Border(new SizedBox(
                         Objects.requireNonNullElseGet(element, () -> new Text(" ")),
-                        cellWidth, cellHeight, alignment, false));
+                        cellWidth, cellHeight, alignment));
                 row.addChild(cell);
             }
             column.addChild(row);
