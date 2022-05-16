@@ -36,6 +36,10 @@ public class Border extends Widget{
         this.color = color.foreground;
         setHeight(child.getHeight()+2);
         setWidth(child.getWidth()+2);
+        child.onSizeChange(() -> {
+            setHeight(child.getHeight()+2);
+            setWidth(child.getWidth()+2);
+        });
     }
 
     /**

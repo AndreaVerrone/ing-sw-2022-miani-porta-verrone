@@ -22,12 +22,19 @@ public abstract class Widget implements Drawable {
      */
     private int startingPoint = 1;
 
+    /**
+     * The callback to be run when the size of this widget changes
+     */
+    private Runnable onSizeChange;
+
     protected int getWidth() {
         return width;
     }
 
     protected void setWidth(int width) {
         this.width = width;
+        if (onSizeChange != null)
+            onSizeChange.run();
     }
 
     protected int getHeight() {
@@ -36,6 +43,8 @@ public abstract class Widget implements Drawable {
 
     protected void setHeight(int height) {
         this.height = height;
+        if (onSizeChange != null)
+            onSizeChange.run();
     }
 
     protected int getStartingPoint() {
@@ -58,4 +67,12 @@ public abstract class Widget implements Drawable {
      * A method to describe in which way this widget should be displayed on the console
      */
     abstract protected void display();
+
+    /**
+     * Adds a callback to be run when the size of this widget changes
+     * @param callback the callback to run
+     */
+    protected void onSizeChange(Runnable callback){
+        onSizeChange = callback;
+    }
 }

@@ -27,6 +27,13 @@ public class Column extends Widget{
      */
     public Column(Collection<Widget> children){
         this.children.addAll(children);
+        calculateDimensions();
+        for (Widget child : children){
+            child.onSizeChange(this::calculateDimensions);
+        }
+    }
+
+    private void calculateDimensions(){
         int width = children.stream().max(Comparator.comparingInt(Widget::getWidth))
                 .map(Widget::getWidth).orElse(0);
         int height = children.stream().reduce(0, (integer, widget) -> integer+widget.getHeight(), Integer::sum);
@@ -41,9 +48,8 @@ public class Column extends Widget{
      */
     public Column addChild(Widget child){
         children.add(child);
-        if (child.getWidth()>getWidth())
-            setWidth(child.getWidth());
-        setHeight(getHeight()+child.getHeight());
+        calculateDimensions();
+        child.onSizeChange(this::calculateDimensions);
         return this;
     }
 
@@ -55,6 +61,5 @@ public class Column extends Widget{
             System.out.print("\n");
         }
         ConsoleCli.moveCursorUp(1);
-//        ConsoleCli.moveToColumn(getStartingPoint()+getWidth());
     }
 }

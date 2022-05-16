@@ -18,6 +18,15 @@ public class SizedBox extends Widget{
     private final Alignment alignment;
 
     /**
+     * The minimum width that this widget should occupy
+     */
+    private final int minWidth;
+    /**
+     * The minimum height that this widget should occupy
+     */
+    private final int minHeight;
+
+    /**
      * The amount of space to put above the child, accordingly to the alignment
      */
     private int spaceTop;
@@ -38,9 +47,10 @@ public class SizedBox extends Widget{
     public SizedBox(Widget child, int width, int height, Alignment alignment) {
         this.child = child;
         this.alignment = alignment;
-        setWidth(Math.max(child.getWidth(), ConsoleCli.convertFromGeneralWidthToCharNumber(width)));
-        setHeight(Math.max(child.getHeight(), height));
-        calculateSpacing();
+        minWidth = ConsoleCli.convertFromGeneralWidthToCharNumber(width);
+        minHeight = height;
+        calculateDimensions();
+        child.onSizeChange(this::calculateDimensions);
     }
 
     /**
@@ -72,6 +82,12 @@ public class SizedBox extends Widget{
         }
         child.setStartingPoint(getStartingPoint()+spaceBefore);
         child.show();
+    }
+
+    private void calculateDimensions(){
+        setWidth(Math.max(child.getWidth(), minWidth));
+        setHeight(Math.max(child.getHeight(), minHeight));
+        calculateSpacing();
     }
 
     private void calculateSpacing(){

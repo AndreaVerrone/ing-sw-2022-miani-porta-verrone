@@ -41,6 +41,11 @@ public class Padding extends Widget {
 
         setWidth(child.getWidth()+this.horizontalPadding*2);
         setHeight(child.getHeight()+this.verticalPadding*2);
+
+        child.onSizeChange(() ->{
+            setWidth(child.getWidth()+this.horizontalPadding*2);
+            setHeight(child.getHeight()+this.verticalPadding*2);
+        });
     }
 
     /**

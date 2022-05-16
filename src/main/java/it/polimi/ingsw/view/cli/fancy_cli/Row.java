@@ -27,6 +27,13 @@ public class Row extends Widget{
      */
     public Row(Collection<Widget> children){
         this.children.addAll(children);
+        calculateDimensions();
+        for (Widget child : children){
+            child.onSizeChange(this::calculateDimensions);
+        }
+    }
+
+    private void calculateDimensions(){
         int width = children.stream().reduce(0, (integer, widget) -> integer+widget.getWidth(), Integer::sum);
         int height = children.stream().max(Comparator.comparingInt(Widget::getHeight))
                 .map(Widget::getHeight).orElse(0);
@@ -41,9 +48,8 @@ public class Row extends Widget{
      */
     public Row addChild(Widget child){
         children.add(child);
-        if (child.getHeight()>getHeight())
-            setHeight(child.getHeight());
-        setWidth(getWidth()+child.getWidth());
+        calculateDimensions();
+        child.onSizeChange(this::calculateDimensions);
         return this;
     }
 
