@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.cli.fancy_cli;
 
 import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.TextStyle;
 
 /**
@@ -12,7 +11,7 @@ public class Text extends Widget {
     /**
      * The text to display
      */
-    private final String text;
+    private String text;
 
     /**
      * The foreground color of the text
@@ -49,6 +48,11 @@ public class Text extends Widget {
         this.backgroundColor = backgroundColor.background;
         setWidth(text.length());
         setHeight(1);
+    }
+
+    public void setText(String text){
+        this.text = text;
+        setWidth(text.length());
     }
 
     public Text setForegroundColor(Color foregroundColor){
