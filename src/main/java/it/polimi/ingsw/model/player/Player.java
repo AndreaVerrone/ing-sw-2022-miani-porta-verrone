@@ -429,4 +429,40 @@ public class Player {
         for(LastAssistantUsedObserver observer : lastAssistantUsedObservers)
             observer.lastAssistantUsedObserverUpdate(nickName,actualLastAssistant);
     }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON COINS
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the coin number.
+     * @param observer the observer to be added
+     */
+    public void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+        schoolBoard.addChangeCoinNumberObserver(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the coin number.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+        schoolBoard.removeChangeCoinNumberObserver(observer);
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS IN DINING ROOM
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students in dining room.
+     * @param observer the observer to be added
+     */
+    public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        schoolBoard.addStudentsInDiningRoomObserver(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students dining room.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        schoolBoard.removeStudentsInDiningRoomObserver(observer);
+    }
 }

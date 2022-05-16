@@ -250,4 +250,23 @@ class SchoolBoard {
         for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
             observer.changeCoinNumberObserverUpdate(nickNameOfPlayer,actualNumOfCoins);
     }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS IN DINING ROOM
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students in dining room.
+     * @param observer the observer to be added
+     */
+    public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        diningRoom.addStudentsInDiningRoomObserver(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students dining room.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        diningRoom.removeStudentsInDiningRoomObserver(observer);
+    }
+
 }
