@@ -5,7 +5,7 @@ import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 /**
  * A class representing a generic component of the cli
  */
-public abstract class Widget implements Drawable {
+public abstract class Widget {
 
     /**
      * The width, in character width number, of this widget
@@ -55,8 +55,12 @@ public abstract class Widget implements Drawable {
         this.startingPoint = startingPoint;
     }
 
-    @Override
-    public void show() {
+
+    /**
+     * A method used to display this widget. This should not be overrider, as it could lead to unwanted
+     * behaviours. To specify how the widget should be displayed, use {@link #display()}.
+     */
+    protected void show() {
         ConsoleCli.moveToColumn(startingPoint);
         display();
         ConsoleCli.resetStyle();
