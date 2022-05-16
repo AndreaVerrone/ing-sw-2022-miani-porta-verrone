@@ -127,7 +127,7 @@ public class Island {
         students.add(island.students);
         size += island.size;
         ban += island.ban;
-        notifyUnificationIslandObservers(island.ID);
+        notifyUnificationIslandObservers(island.ID, this.ban, this.size, this.students);
     }
 
     // MANAGEMENT OF OBSERVERS ON BAN ON ISLAND
@@ -219,9 +219,12 @@ public class Island {
     /**
      * This method notify all the attached observers a change involving the unification of islands.
      * @param islandRemovedID ID of the island that has been removed
+     * @param finalNumOfBan the num of ban after the unification
+     * @param finalSize the size of the island after unification
+     * @param finalStudentList the students on island after unification
      */
-    public void notifyUnificationIslandObservers(int islandRemovedID){
+    public void notifyUnificationIslandObservers(int islandRemovedID, int finalNumOfBan, int finalSize, StudentList finalStudentList){
         for(IslandUnificationObserver observer : unificationIslandObservers)
-            observer.islandUnificationObserverUpdate(islandRemovedID);
+            observer.islandUnificationObserverUpdate(islandRemovedID,finalNumOfBan,finalSize,finalStudentList);
     }
 }
