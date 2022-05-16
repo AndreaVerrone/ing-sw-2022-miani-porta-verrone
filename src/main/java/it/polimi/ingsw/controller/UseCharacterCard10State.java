@@ -69,13 +69,14 @@ public class UseCharacterCard10State extends UseCharacterCardState implements St
 
     /**
      * Swaps the students chosen from the dining room and from the entrance of the current player
+     * @throws NotValidArgumentException if the dining room is full for the chosen color
      */
-    private void swapStudent(){
+    private void swapStudent() throws NotValidArgumentException {
         try {
             model.getCurrentPlayer().addStudentToDiningRoom(studentFromEntrance);
             model.getCurrentPlayer().addStudentToEntrance(studentFromDiningRoom);
         } catch (ReachedMaxStudentException e) {
-            e.printStackTrace();//Not possible
+            throw new NotValidArgumentException("Dining room full! Choose another color!");
         }
 
         numberOfStudentsSwapped ++;
