@@ -73,6 +73,14 @@ public abstract class Widget implements Drawable {
      * @param callback the callback to run
      */
     protected void onSizeChange(Runnable callback){
-        onSizeChange = callback;
+        if (onSizeChange == null)
+            onSizeChange = callback;
+    }
+
+    /**
+     * Removes the listener of the changes of the size of this widget
+     */
+    protected void detachListener(){
+        onSizeChange = null;
     }
 }
