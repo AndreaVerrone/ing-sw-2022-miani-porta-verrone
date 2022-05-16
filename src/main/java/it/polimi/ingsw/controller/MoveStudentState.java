@@ -23,13 +23,17 @@ public class MoveStudentState implements State{
     /**
      * This is the number of students that that player has moved.
      */
-    int numberOfStudentsMoved;
+    private int numberOfStudentsMoved;
 
     /**
-     * This is the number od students that the player has to move
+     * This is the number of students that the player has to move
      */
-    int numOfStudentsToMove;
+    private final int numOfStudentsToMove;
 
+    /**
+     * The student that has to be moved from entrance to destination
+     */
+    private PawnType studentToMove;
 
     public MoveStudentState(Game game) {
         this.game = game;
@@ -38,8 +42,6 @@ public class MoveStudentState implements State{
         int numOfPlayers=game.getModel().getPlayerList().size();
         this.numOfStudentsToMove=(numOfPlayers==2||numOfPlayers==4)?3:4;
     }
-
-    PawnType studentToMove;
 
     @Override
     public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
