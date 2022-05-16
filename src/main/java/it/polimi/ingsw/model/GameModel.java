@@ -165,7 +165,7 @@ public class GameModel {
      */
     public void calculateActionPhaseOrder(){
         players.sort(Comparator.comparingInt(o -> o.getLastAssistant().getValue()));
-        currentPlayer = players.get(0);
+        setCurrentPlayer(players.get(0));
     }
 
     /**
@@ -181,7 +181,15 @@ public class GameModel {
      */
     public void nextPlayerTurn(){
         int currentPlayerPos = players.indexOf(currentPlayer);
-        currentPlayer = players.get(currentPlayerPos + 1);
+        setCurrentPlayer(players.get(currentPlayerPos + 1));
+    }
+
+    /**
+     * This method will set the player, passed as a parameter, as the current player.
+     * @param newCurrentPlayer the player that will be the current player after the invocation of this method
+     */
+    private void setCurrentPlayer(Player newCurrentPlayer){
+        currentPlayer=newCurrentPlayer;
         notifyChangeCurrentPlayerObservers(currentPlayer.getNickname());
     }
 
@@ -281,6 +289,7 @@ public class GameModel {
         return true;
     }
 
+    // MANAGEMENT OF OBSERVERS ON CURRENT PLAYER
     /**
      * List of the observer on the current player
      */
