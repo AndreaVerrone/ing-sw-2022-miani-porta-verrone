@@ -108,7 +108,7 @@ public class UseCharacterCard9State extends UseCharacterCardState implements Sta
      */
     private void takeFromCard(PawnType color) throws NotValidArgumentException {
         if(card.getStudents().getNumOf(color) <= 0){
-            throw new NotValidArgumentException("The student is not in the entrance");
+            throw new NotValidArgumentException("The student is not on the card");
         }
         studentFromCard = color;
     }
