@@ -13,6 +13,15 @@ public class ConsoleCli {
     }
 
     /**
+     * Deletes all the content of the console and moves the cursor to the upper left corner
+     */
+    static public void deleteConsole(){
+        System.out.print("\u001b[2J");
+        moveToColumn(0);
+        moveCursorUp(500);
+    }
+
+    /**
      * Converts the width given into character number so that
      * one point of the provided width have the same size as one line height.
      * @param width the width in general points
