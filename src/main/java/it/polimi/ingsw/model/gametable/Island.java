@@ -109,7 +109,7 @@ public class Island {
         } catch (NotEnoughStudentException e) {
             e.printStackTrace();
         }
-        notifyStudentsOnIslandObservers(this.ID,type);
+        notifyStudentsOnIslandObservers(this.ID,students.clone());
     }
 
     /**
@@ -128,7 +128,12 @@ public class Island {
         students.add(island.students);
         size += island.size;
         ban += island.ban;
-        notifyUnificationIslandObservers(island.ID, this.ban, this.size, this.students);
+
+        // notify the changes
+        notifyUnificationIslandObservers(island.ID, this.size);
+        notifyBanOnIslandObservers(island.ID,this.ban);
+        notifyStudentsOnIslandObservers(island.ID,this.students.clone());
+
     }
 
     // MANAGEMENT OF OBSERVERS ON BAN ON ISLAND
@@ -188,11 +193,11 @@ public class Island {
     /**
      * This method notify all the attached observers that a change has been happened on the students on island.
      * @param islandID the islandID of the island on which the student has been added
-     * @param studentChanged the pawn type of the student that has been added on island
+     * @param actualStudents the actual student list on island
      */
-    public void notifyStudentsOnIslandObservers(int islandID, PawnType studentChanged){
+    public void notifyStudentsOnIslandObservers(int islandID, StudentList actualStudents){
         for(StudentsOnIslandObserver observer : studentsOnIslandObservers)
-            observer.studentsOnIslandObserverUpdate(islandID, studentChanged);
+            observer.studentsOnIslandObserverUpdate(islandID, actualStudents);
     }
 
     // MANAGEMENT OF OBSERVERS ON UNIFICATION OF ISLANDS
@@ -220,13 +225,11 @@ public class Island {
     /**
      * This method notify all the attached observers a change involving the unification of islands.
      * @param islandRemovedID ID of the island that has been removed
-     * @param finalNumOfBan the num of ban after the unification
      * @param finalSize the size of the island after unification
-     * @param finalStudentList the students on island after unification
      */
-    public void notifyUnificationIslandObservers(int islandRemovedID, int finalNumOfBan, int finalSize, StudentList finalStudentList){
+    public void notifyUnificationIslandObservers(int islandRemovedID, int finalSize){
         for(IslandUnificationObserver observer : unificationIslandObservers)
-            observer.islandUnificationObserverUpdate(islandRemovedID,finalNumOfBan,finalSize,finalStudentList);
+            observer.islandUnificationObserverUpdate(islandRemovedID,finalSize);
     }
 
     // MANAGEMENT OF OBSERVERS ON TOWER ON ISLAND
