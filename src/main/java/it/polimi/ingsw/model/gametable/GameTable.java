@@ -249,5 +249,114 @@ public class GameTable {
             observer.motherNaturePositionObserverUpdate(actualMotherNaturePosition);
     }
 
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS ON CLOUD OBSERVERS
+    /**
+     * This method allows to add the observer, passed as a parameter, on students on cloud.
+     * @param observer the observer to be added
+     */
+    public void addStudentsOnCloudObserver(StudentsOnCloudObserver observer){
+        for (Cloud cloud : clouds) {
+            cloud.addStudentsOnCloudObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on students on cloud.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsOnCloudObserver(StudentsOnCloudObserver observer){
+        for (Cloud cloud : clouds) {
+            cloud.removeStudentsOnCloudObserver(observer);
+        }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON BAN ON ISLAND
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on ban on island.
+     * @param observer the observer to be added
+     */
+    public void addBanOnIslandObserver(BanOnIslandObserver observer){
+        for (Island island : islands) {
+            island.addBanOnIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on ban on island.
+     * @param observer the observer to be removed
+     */
+    public void removeBanOnIslandObserver(BanOnIslandObserver observer){
+        for (Island island : islands) {
+            island.removeBanOnIslandObserver(observer);
+        }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS ON ISLAND
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students on island.
+     * @param observer the observer to be added
+     */
+    public void addStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+        for (Island island : islands) {
+            island.addStudentsOnIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students on island.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+        for (Island island : islands) {
+            island.removeStudentsOnIslandObserver(observer);
+        }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON UNIFICATION OF ISLANDS
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the unification of islands.
+     * @param observer the observer to be added
+     */
+    public void addUnificationIslandObserver(IslandUnificationObserver observer){
+        for (Island island : islands) {
+            island.addUnificationIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the unification of islands.
+     * @param observer the observer to be removed
+     */
+    public void removeUnificationIslandObserver(IslandUnificationObserver observer){
+        for (Island island : islands) {
+            island.removeUnificationIslandObserver(observer);
+        }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON TOWER ON ISLAND
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on tower on island.
+     * @param observer the observer to be added
+     */
+    public void addTowerOnIslandObserver(TowerOnIslandObserver observer){
+        for (Island island : islands) {
+            island.addTowerOnIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on tower on island.
+     * @param observer the observer to be removed
+     */
+    public void removeTowerOnIslandObserver(TowerOnIslandObserver observer){
+        for (Island island : islands) {
+            island.removeTowerOnIslandObserver(observer);
+        }
+    }
+
 }
 
