@@ -57,7 +57,7 @@ public class Player {
         this.nickName=playerLoginInfo.getNickname();
         this.towerType=playerLoginInfo.getTowerType();
         this.assistantDeck = new AssistantDeck(playerLoginInfo.getWizard());
-        this.schoolBoard = new SchoolBoard(isThreePlayerGame, coinsBag);
+        this.schoolBoard = new SchoolBoard(isThreePlayerGame, coinsBag, playerLoginInfo.getNickname());
     }
 
     /**

@@ -39,12 +39,22 @@ class SchoolBoard {
     private final CoinsBag coinsBag;
 
     /**
+     * This is the nickname of the player to which this school board is associated to.
+     */
+    private final String nickNameOfPlayer;
+
+    /**
      * The constructor for the school board of a player. Based on the number of players, the initial
      * number of towers and the maximum number of student in the entrance changes.
      * @param isThreePlayerGame if the game played is a match between three players or not. According to this,
      *                          the number of towers and student in entrance changes.
+     * @param coinsBag the coins bag
+     * @param nickNameOfPlayer the nickname of the player to which this school board is associated to
      */
-    protected SchoolBoard(boolean isThreePlayerGame, CoinsBag coinsBag){
+    protected SchoolBoard(boolean isThreePlayerGame, CoinsBag coinsBag, String nickNameOfPlayer){
+
+        this.nickNameOfPlayer=nickNameOfPlayer;
+
         if (isThreePlayerGame) {
             maxNumStudentsInEntrance = 9;
             maxNumTowers = towers = 6;
@@ -155,7 +165,7 @@ class SchoolBoard {
         boolean needCoin = diningRoom.addStudentOf(type);
         if (needCoin) {
             takeCoin();
-            notifyChangeCoinNumberObservers(getCoins());
+            notifyChangeCoinNumberObservers(nickNameOfPlayer,getCoins());
         }
     }
 
@@ -191,7 +201,7 @@ class SchoolBoard {
             // the other should be put on the card used
             coinsBag.addCoins(cost-1);
         }
-        notifyChangeCoinNumberObservers(getCoins());
+        notifyChangeCoinNumberObservers(nickNameOfPlayer,getCoins());
     }
 
     /**
@@ -231,11 +241,11 @@ class SchoolBoard {
 
     /**
      * This method notify all the attached observers that a change has been happened on the coin number.
+     * @param nickNameOfPlayer the nickname of the player associated to this school board
      * @param actualNumOfCoins the actual num of coins in the school board
      */
-    public void notifyChangeCoinNumberObservers(int actualNumOfCoins){
+    public void notifyChangeCoinNumberObservers(String nickNameOfPlayer,int actualNumOfCoins){
         for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
-            observer.changeCoinNumberObserverUpdate(actualNumOfCoins);
+            observer.changeCoinNumberObserverUpdate(nickNameOfPlayer,actualNumOfCoins);
     }
-
 }
