@@ -47,14 +47,31 @@ public class SizedBox extends Widget{
      * @param width the minimum width of this widget
      * @param height the minimum height of this widget
      * @param alignment the alignment of the child in this widget
+     * @param convertWidth {@code true} if the width must be converted, {@code false} otherwise
      */
-    public SizedBox(Widget child, int width, int height, Alignment alignment) {
+    protected SizedBox(Widget child, int width, int height, Alignment alignment, boolean convertWidth) {
         this.child = child;
         this.alignment = alignment;
-        minWidth = ConsoleCli.convertFromGeneralWidthToCharNumber(width);
+        if (convertWidth)
+            minWidth = ConsoleCli.convertFromGeneralWidthToCharNumber(width);
+        else
+            minWidth = width;
         minHeight = height;
         calculateDimensions();
         child.onSizeChange(this::calculateDimensions);
+    }
+
+    /**
+     * Creates a box big no less than the dimension specified,
+     * aligning the child inside it as chosen. A value less than 1 for width or height indicates
+     * to use the corresponding size of the child.
+     * @param child the content of this widget
+     * @param width the minimum width of this widget
+     * @param height the minimum height of this widget
+     * @param alignment the alignment of the child in this widget
+     */
+    public SizedBox(Widget child, int width, int height, Alignment alignment) {
+        this(child, width, height, alignment, true);
     }
 
     /**
