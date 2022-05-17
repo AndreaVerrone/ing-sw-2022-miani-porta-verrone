@@ -101,7 +101,8 @@ This class is used to read inputs from the console. It has a method `readInput` 
 
 The `InputReader` can be used in addition to `Validator`s and `Completer`.
 The former are used to do a preliminary check on the input based on the rules provided, the latter to suggest the user a set of command he can choose from and autocomplete if `Tab` is pressed.
-If the validation process fails, the `InputReader` will show an erro message to the user and ask again for an input.
+If the validation process fails, the `InputReader` will show an error message to the user and ask again for an input.
+A more detailed list of each `Completer` can be found [here](https://github.com/jline/jline3/wiki/Completion).
 
 It is perfectly fine, and suggested, to have multiple instances of this class to better handle the single cases in which an input from the user is needed.
 However, reading from multiple `InputReader` at the same time could lead to issue.
