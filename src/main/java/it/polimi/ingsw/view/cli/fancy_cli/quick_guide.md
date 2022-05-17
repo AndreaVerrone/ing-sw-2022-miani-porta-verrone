@@ -22,6 +22,8 @@ Widgets can be divided in three categories: basics, decorators and layouts.
 2) The decorators usually wraps another widget to add some property or functionality to it. These are useful when you need to add some specific visual effects to a widget (i.e. a border around a text).
 3) Layout widgets are used to combine multiple widgets into one, arranging them in a specific order.
 
+> More widgets can be created as needed by simply extending the `Widget` class. Remember however to set the starting point of each child/ren (if present) before displaying, to set the canvas accordingly, to call the `update` method each time something relevant in you widget changes and to end the drawing of you widget with the cursor on the last line occupied by it.
+> 
 Let's see now some widgets in details. 
 
 ### 1.1.1 Text
