@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
 import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CharacterCard11 extends CharacterCard{
 
     /**
@@ -62,6 +65,7 @@ public class CharacterCard11 extends CharacterCard{
             // it is impossible that is thrown since the delta is positive.
             e.printStackTrace();
         }
+        notifyStudentsOnCardObservers(CharacterCardsType.CARD11,studentList.clone());
     }
 
     /**
@@ -71,5 +75,38 @@ public class CharacterCard11 extends CharacterCard{
      */
     public void removeStudentFromCard(PawnType pawnType) throws NotEnoughStudentException {
         studentList.changeNumOf(pawnType, -1);
+        notifyStudentsOnCardObservers(CharacterCardsType.CARD11,studentList.clone());
+    }
+
+    // MANAGEMENT OF OBSERVERS ON STUDENTS ON CHARACTER CARD
+    /**
+     * List of the observer on the students on character card.
+     */
+    private final List<StudentsOnCardObserver> studentsOnCardObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students on character card.
+     * @param observer the observer to be added
+     */
+    public void addStudentsOnCardObserver(StudentsOnCardObserver observer){
+        studentsOnCardObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students on character card.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){
+        studentsOnCardObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the students on character card.
+     * @param characterCardsType the character card type on which the student has been changed
+     * @param actualStudents the actual student list on island
+     */
+    public void notifyStudentsOnCardObservers(CharacterCardsType characterCardsType, StudentList actualStudents){
+        for(StudentsOnCardObserver observer : studentsOnCardObservers)
+            observer.studentsOnIslandObserverUpdate(characterCardsType, actualStudents);
     }
 }
