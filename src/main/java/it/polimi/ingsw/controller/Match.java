@@ -6,6 +6,11 @@ import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Wizard;
+import it.polimi.ingsw.network.VirtualView;
+import it.polimi.ingsw.server.Server;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 import java.util.Optional;
 
@@ -25,6 +30,12 @@ public class Match implements IMatchMaking, IGame {
     private IGame game;
 
     /**
+     * The views of the player in this match. All of this should be notified
+     * when something in the match changes
+     */
+    private final Collection<VirtualView> playersView = new ArrayList<>();
+
+    /**
      * Creates a new Match for the number of player specified using the expert rules if {@code wantExpert}
      * is {@code true}, or using the normal rules otherwise.
      *
@@ -35,6 +46,39 @@ public class Match implements IMatchMaking, IGame {
         matchMaking = new MatchMaking(numOfPlayers, wantExpert);
     }
 
+    /**
+     * Subscribe the view of a client to be notified of changes in the game.
+     * If the client already was subscribed to this, the method actually do nothing.
+     * @param client the view of the client to add
+     */
+    public void addClient(VirtualView client){
+        synchronized (playersView) {
+            if (playersView.contains(client))
+                return;
+            playersView.add(client);
+        }
+    }
+
+    /**
+     * Unsubscribe the view of a client to not receive any more update from this game.
+     * @param client the view of the client to remove
+     */
+    public void removeClient(VirtualView client){
+        synchronized (playersView) {
+            playersView.remove(client);
+        }
+    }
+
+
+    /**
+     * Gets the nickname of the player that need to play now.
+     * @return the nickname of the current player
+     */
+    public String getCurrentPlayerNickname(){
+        if (matchMaking != null)
+            return matchMaking.getCurrentPlayer().getNickname();
+        return game.getModel().getCurrentPlayer().getNickname();
+    }
 
     /**
      * @throws NotValidOperationException {@inheritDoc}
@@ -65,7 +109,9 @@ public class Match implements IMatchMaking, IGame {
     public void addPlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
-        matchMaking.addPlayer(nickname);
+        synchronized (this) {
+            matchMaking.addPlayer(nickname);
+        }
     }
 
     /**
@@ -76,7 +122,11 @@ public class Match implements IMatchMaking, IGame {
     public void removePlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
-        matchMaking.removePlayer(nickname);
+        synchronized (this) {
+            matchMaking.removePlayer(nickname);
+            if (matchMaking.getPlayers().isEmpty())
+                Server.getInstance().deleteGame(this);
+        }
     }
 
     /**
