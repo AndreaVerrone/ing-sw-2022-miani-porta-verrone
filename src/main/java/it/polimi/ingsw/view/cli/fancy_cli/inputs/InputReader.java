@@ -20,11 +20,20 @@ import java.util.regex.PatternSyntaxException;
  */
 public class InputReader {
 
-    private static final Predicate<String> identityValidator = s -> false;
+    private static final Predicate<String> identityORValidator = s -> false;
     /**
-     * The validator that checks if the input matches a provided pattern.
+     * The validator that checks if the input matches all the provided pattern.
      */
-    private Predicate<String> validator = identityValidator;
+    private Predicate<String> strictValidator = s -> true;
+    /**
+     * The validator to check if the input matches at least one provided pattern
+     */
+    private Predicate<String> validator = identityORValidator;
+
+    /**
+     * The validator to check if the number of arguments are correct.
+     */
+    private Predicate<Integer> numOfArgsValidator = i -> true;
 
     /**
      * A generic message shown when the input is not correct
@@ -78,14 +87,21 @@ public class InputReader {
     }
 
     private boolean isValid(String input){
-            if (validator == identityValidator)
-                return true;
-            return validator.test(input);
+        Predicate<String> checker = strictValidator;
+        if (validator != identityORValidator)
+            checker = checker.and(validator);
+
+        if(!checker.test(input))
+            return false;
+        int size = input.split(" ").length -1;
+        return numOfArgsValidator.test(size);
     }
 
     /**
-     * Adds a validator to this InputReader. This validator is logically-ORed with the one previously there,
+     * Adds a validator to this InputReader. This validator is logically-ORed with the other not strict ones,
      * so failing this validator does not guarantee to not accept the input.
+     * For a more strict validator see
+     * {@link #addStrictCommandValidator(Validator)}, {@link #addStrictCommandValidator(String)}.
      * @param regex the regex representing the validation to apply
      */
     public void addCommandValidator(String regex){
@@ -96,6 +112,54 @@ public class InputReader {
         }
         Predicate<String> predicate = s -> s.matches(regex);
         validator = validator.or(predicate);
+    }
+
+    /**
+     * Adds a validator to this InputReader. This validator is logically-ORed with the other not strict ones,
+     * so failing this validator does not guarantee to not accept the input.
+     * For a more strict validator see
+     * {@link #addStrictCommandValidator(Validator)}, {@link #addStrictCommandValidator(String)}.
+     * @param validator a validator representing the validation to apply
+     */
+    public void addCommandValidator(Validator<String> validator){
+        this.validator = this.validator.or(validator.getPredicate());
+    }
+
+    /**
+     * Adds a validator to this InputReader. This validator is logically-ANDed with the one previously there,
+     * so failing this validator will reject the input.
+     * For a less strict validator see {@link #addCommandValidator(Validator)}, {@link #addCommandValidator(String)}.
+     * @param regex the regex representing the validation to apply
+     */
+    public void addStrictCommandValidator(String regex){
+        try {
+            Pattern.compile(regex);
+        } catch (PatternSyntaxException e){
+            return;
+        }
+        Predicate<String> predicate = s -> s.matches(regex);
+       strictValidator = strictValidator.and(predicate);
+    }
+
+    /**
+     * Adds a validator to this InputReader. This validator is logically-ANDed with the one previously there,
+     * so failing this validator will reject the input.
+     * For a less strict validator see {@link #addCommandValidator(Validator)}, {@link #addCommandValidator(String)}.
+     * @param validator a validator representing the validation to apply
+     */
+    public void addStrictCommandValidator(Validator<String> validator){
+        this.strictValidator = this.strictValidator.or(validator.getPredicate());
+    }
+
+    /**
+     * Sets the validator to check if the number of arguments are correct.
+     * Because this checks only the arguments number, the command itself should be
+     * excluded from the count.
+     * @param numOfArgsValidator the validator to check if the number of arguments of
+     *                           a command are correct
+     */
+    public void setNumOfArgsValidator(Validator<Integer> numOfArgsValidator) {
+        this.numOfArgsValidator = numOfArgsValidator.getPredicate();
     }
 
     /**

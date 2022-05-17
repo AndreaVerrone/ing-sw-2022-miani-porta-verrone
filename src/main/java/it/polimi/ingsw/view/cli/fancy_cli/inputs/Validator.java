@@ -42,6 +42,27 @@ public class Validator<T> {
     }
 
     /**
+     * Returns a composed validator that represents a short-circuiting logical AND of this validator and another.
+     * When evaluating the composed validator, if this validator fails, then the other validator is not evaluated.
+     * @param other a validator that will be logically-ANDed with this
+     * @return composed validator that represents the short-circuiting logical AND of this validator and the other
+     */
+    public Validator<T> and(Validator<T> other){
+       return new Validator<>(predicate.and(other.predicate));
+    }
+
+    /**
+     * Returns a composed validator that represents a short-circuiting logical OR of this validator and another.
+     * When evaluating the composed validator, if this validator succeeded,
+     * then the other validator is not evaluated.
+     * @param other a validator that will be logically-ORed with this
+     * @return composed validator that represents the short-circuiting logical OR of this validator and the other
+     */
+    public Validator<T> or(Validator<T> other){
+        return new Validator<>(predicate.or(other.predicate));
+    }
+
+    /**
      * Creates a new validator to check if the input begins with the provided match
      * @param match the pattern to check if the input begins with
      * @return a Validator for doing this check
