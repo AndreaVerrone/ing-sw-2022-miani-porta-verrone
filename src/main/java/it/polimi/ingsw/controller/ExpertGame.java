@@ -94,7 +94,7 @@ public class ExpertGame extends Game{
 
         // check that the player can use it since it is the first time that he use a
         // character card during its turn
-        if(!getCanUseCharacterCard()){
+        if(!canUseCharacterCard){
             throw new NotValidOperationException("you have already used a character card during this turn");
         }
 
