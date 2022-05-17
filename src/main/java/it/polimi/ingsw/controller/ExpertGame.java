@@ -48,14 +48,6 @@ public class ExpertGame extends Game{
         }
     }
 
-    public boolean getCanUseCharacterCard() {
-        return canUseCharacterCard;
-    }
-
-    public void setCanUseCharacterCard(boolean canUseCharacterCard) {
-        this.canUseCharacterCard = canUseCharacterCard;
-    }
-
     /**
      * This method allow to conclude the usage of a character card by saving the fact taht
      * the current player has used a character card during his turn and by making it pay for the usage.
