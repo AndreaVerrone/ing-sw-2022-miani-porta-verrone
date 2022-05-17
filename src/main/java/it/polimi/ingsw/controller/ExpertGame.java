@@ -64,7 +64,7 @@ public class ExpertGame extends Game{
     public void effectEpilogue(CharacterCard card){
 
         // 1. set that the current player has used a character card
-        setCanUseCharacterCard(false);
+        canUseCharacterCard = false;
 
         // 2. take the cost of the card from the player
         boolean putInBagAllCoins = card.isUsed();
