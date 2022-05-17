@@ -37,4 +37,8 @@ public enum Color {
         background = s;
     }
 
+    @Override
+    public String toString() {
+        return foreground;
+    }
 }
