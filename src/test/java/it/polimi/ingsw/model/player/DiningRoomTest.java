@@ -14,7 +14,7 @@ class DiningRoomTest {
 
     @BeforeEach
     public void setUp() {
-        diningRoom = new DiningRoom();
+        diningRoom = new DiningRoom("nickNameOfPlayer");
     }
 
     @AfterEach

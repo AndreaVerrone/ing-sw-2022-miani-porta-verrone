@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.NotEnoughCoinsException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -63,6 +65,7 @@ public class Game implements IGame{
         state = playAssistantState;
     }
 
+
     /**
      * Changes the current state of the game
      * @param newState new state of the game
@@ -94,23 +97,6 @@ public class Game implements IGame{
         state.useAssistant(assistant);
     }
 
-    /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
-     */
-    @Override
-    public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
-        state.moveStudentToIsland(student, islandID);
-    }
-
-    /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
-     */
-    @Override
-    public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
-        state.moveStudentToDiningRoom(student);
-    }
 
     /**
      * @throws NotValidOperationException {@inheritDoc}
@@ -128,6 +114,42 @@ public class Game implements IGame{
     @Override
     public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {
         state.takeFromCloud(cloudID);
+    }
+
+
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
+    @Override
+    public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
+        state.choseStudentFromLocation(color,originPosition);
+    }
+
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
+    @Override
+    public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
+        state.chooseDestination(destination);
+    }
+
+    /**
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
+    @Override
+    public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
+        throw new NotValidOperationException("Cannot use cards in basic mode!");
+    }
+
+
+    /**
+     * Does the reset operations at the end of every turn
+     */
+    public void endOfTurn(){
+        //Nothing to do in basic mode
     }
 
     protected GameModel getModel() {

@@ -23,13 +23,17 @@ public class MoveStudentState implements State{
     /**
      * This is the number of students that that player has moved.
      */
-    int numberOfStudentsMoved;
+    private int numberOfStudentsMoved;
 
     /**
-     * This is the number od students that the player has to move
+     * This is the number of students that the player has to move
      */
-    int numOfStudentsToMove;
+    private final int numOfStudentsToMove;
 
+    /**
+     * The student that has to be moved from entrance to destination
+     */
+    private PawnType studentToMove;
 
     public MoveStudentState(Game game) {
         this.game = game;
@@ -40,38 +44,39 @@ public class MoveStudentState implements State{
     }
 
     @Override
-    public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
-        // remove student from entrance
-        try {
-            gameModel.getCurrentPlayer().removeStudentFromEntrance(student);
-        }catch (NotEnoughStudentException e){
-            throw new NotValidArgumentException("this student is not present at entrance");
-        }
+    public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
 
-        // add student to island
-        try {
-            gameModel.getGameTable().addToIsland(student,islandID);
-        } catch (IslandNotFoundException e) {
-            try {
-                gameModel.getCurrentPlayer().addStudentToEntrance(student);
-            } catch (ReachedMaxStudentException ex) {
-                ex.printStackTrace();
-            }
-            throw new NotValidArgumentException("this island does not exist");
+        // 1. check that the student comes from the entrance
+        if(!originPosition.isLocation(Location.ENTRANCE)){
+            throw new NotValidOperationException("you have to take the student from the entrance");
         }
-
-        numberOfStudentsMoved ++;
-
-        if(numberOfStudentsMoved==numOfStudentsToMove){
-            goToMoveMotherNatureState();
-        }
+        // 2. check that the student of that color is present at the entrance
+        if (gameModel.getCurrentPlayer().getStudentsInEntrance().getNumOf(color) < 1)
+            throw new NotValidArgumentException("There are no students of that color at the entrance");
+        studentToMove = color;
     }
 
     @Override
-    public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
+    public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
 
+        if (studentToMove == null)
+            throw new NotValidOperationException("you have to chose the student before");
+        if (destination.isLocation(Location.DINING_ROOM)) {
+            moveToDiningRoom();
+            updateState();
+            return;
+        }
+        if (destination.isLocation(Location.ISLAND)) {
+            moveToIsland(destination.getField());
+            updateState();
+            return;
+        }
+        throw new NotValidArgumentException();
+    }
+
+    private void moveToDiningRoom() throws NotValidArgumentException {
         try {
-            gameModel.getCurrentPlayer().moveFromEntranceToDiningRoom(student);
+            gameModel.getCurrentPlayer().moveFromEntranceToDiningRoom(studentToMove);
         }catch (NotEnoughStudentException e){
             throw new NotValidArgumentException("you are trying to remove from entrance a student " +
                     "that it is not present");
@@ -79,9 +84,23 @@ public class MoveStudentState implements State{
             throw new NotValidArgumentException("you cannot add this student on the dining room " +
                     "since its table is full!");
         }
+        gameModel.checkProfessor(studentToMove);
+    }
 
+    private void moveToIsland(int islandID) throws NotValidArgumentException {
+        try {
+            gameModel.getGameTable().addToIsland(studentToMove,islandID);
+            gameModel.getCurrentPlayer().removeStudentFromEntrance(studentToMove);
+        } catch (IslandNotFoundException e) {
+            throw new NotValidArgumentException("this island does not exist");
+        } catch (NotEnoughStudentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateState(){
+        studentToMove = null;
         numberOfStudentsMoved ++;
-        gameModel.checkProfessor(student);
 
         if(numberOfStudentsMoved==numOfStudentsToMove){
             goToMoveMotherNatureState();

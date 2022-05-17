@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.ChangeAssistantDeckObserver;
+
 import java.util.*;
 
 /**
@@ -55,4 +57,5 @@ public class AssistantDeck {
         // return a copy of the arraylist passed as a parameter
         return new HashSet<>(deck);
     }
+
 }

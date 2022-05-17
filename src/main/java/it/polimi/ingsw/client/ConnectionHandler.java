@@ -30,6 +30,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
      * The socket connected to the server
      */
     private Socket server;
+
     /**
      * A collection of all the request messages sent to the client that not received a response yet
      */
@@ -93,7 +94,6 @@ public class ConnectionHandler implements Runnable, NetworkSender {
         server = new Socket(serverIP, serverPort);
         server.setSoTimeout(SOKET_TIME_OUT * 1000);
     }
-
 
     @Override
     public void run() {

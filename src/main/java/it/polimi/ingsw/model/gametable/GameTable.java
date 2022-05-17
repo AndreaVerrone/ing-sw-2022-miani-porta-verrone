@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.gametable;
 
-import it.polimi.ingsw.model.PawnType;
-import it.polimi.ingsw.model.StudentList;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.gametable.exceptions.CloudNotFoundException;
 import it.polimi.ingsw.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.model.gametable.exceptions.IslandNotFoundException;
@@ -31,7 +30,6 @@ public class GameTable {
      * Bag with the students inside
      */
     private final StudentsBag studentsBag;
-    // TODO add private List<TableObserver> observers = new ArrayList<TableObserver>
 
     /**
      * Constructor of the class. Creates a list of clouds and a list of islands. The number of clouds is given and must not be greater than four, while the number of islands starts
@@ -71,6 +69,15 @@ public class GameTable {
 
     public int getMotherNaturePosition(){
         return motherNaturePosition;
+    }
+
+    /**
+     * This method allow to take one student from the student bag and removing it.
+     * @return the PawnType of the student extracted
+     * @throws EmptyBagException if the bag is empty
+     */
+    public PawnType getStudentFromBag() throws EmptyBagException {
+        return studentsBag.draw();
     }
 
     /**
@@ -114,6 +121,7 @@ public class GameTable {
     public void moveMotherNature(int numberOfIslands){
         assert (numberOfIslands>=0): "Movements cannot be negative!";
         motherNaturePosition = (numberOfIslands + motherNaturePosition) % getNumberOfIslands();
+        notifyMotherNaturePositionObservers(motherNaturePosition);
     }
 
     /**
@@ -166,6 +174,7 @@ public class GameTable {
         Island islandAfter = islands.get(indexAfter);
         unify(island, islandBefore);
         unify(island, islandAfter);
+
     }
 
     private void unify(Island island, Island islandAdjacent){
@@ -175,6 +184,7 @@ public class GameTable {
         if (island.getTower() == islandAdjacent.getTower()){
             island.unifyWith(islandAdjacent);
             islands.remove(islandAdjacent);
+            notifyIslandNumberObservers(getNumberOfIslands());
         }
     }
 
@@ -186,19 +196,176 @@ public class GameTable {
         studentsBag.fillWith(students);
     }
 
-    // TODO: add these three classes
-    /*
-    public void addObserver(TableObserver observer){
-        observers.add(observer);
+    // MANAGEMENT OF OBSERVERS ON NUMBER OF ISLANDS
+    /**
+     * List of the observer on the number of islands.
+     */
+    private final List<IslandNumberObserver> islandNumberObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the number of islands.
+     * @param observer the observer to be added
+     */
+    public void addIslandNumberObserver(IslandNumberObserver observer){
+        islandNumberObservers.add(observer);
      }
 
-     public void removeObserver(TableObserver observer){
-        observers.remove(observer);
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the number of islands.
+     * @param observer the observer to be removed
+     */
+     public void removeIslandNumberObserver(IslandNumberObserver observer){
+         islandNumberObservers.remove(observer);
       }
 
-      public void notifyObservers(){
-        for(TableObserver observer : observers) observer.update();ìì
+    /**
+     * This method notify all the attached observers a change on the number of islands.
+     * @param actualNumOfIslands the actual number of island on the game table
+     */
+      public void notifyIslandNumberObservers(int actualNumOfIslands){
+        for(IslandNumberObserver observer : islandNumberObservers)
+            observer.islandNumberObserverUpdate(actualNumOfIslands);
       }
-      */
+
+    // MANAGEMENT OF OBSERVERS ON MOTHER NATURE POSITION
+    /**
+     * List of the observer on mother nature position
+     */
+    private final List<MotherNaturePositionObserver> motherNaturePositionObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on mother nature position.
+     * @param observer the observer to be added
+     */
+    public void addMotherNaturePositionObserver(MotherNaturePositionObserver observer){
+        motherNaturePositionObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on mother nature position.
+     * @param observer the observer to be removed
+     */
+    public void removeMotherNaturePositionObserver(MotherNaturePositionObserver observer){
+        motherNaturePositionObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on mother nature position.
+     * @param actualMotherNaturePosition the actual islandID on which mother nature is
+     */
+    public void notifyMotherNaturePositionObservers(int actualMotherNaturePosition){
+        for(MotherNaturePositionObserver observer : motherNaturePositionObservers)
+            observer.motherNaturePositionObserverUpdate(actualMotherNaturePosition);
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS ON CLOUD OBSERVERS
+    /**
+     * This method allows to add the observer, passed as a parameter, on students on cloud.
+     * @param observer the observer to be added
+     */
+    public void addStudentsOnCloudObserver(StudentsOnCloudObserver observer){
+        for (Cloud cloud : clouds) {
+            cloud.addStudentsOnCloudObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on students on cloud.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsOnCloudObserver(StudentsOnCloudObserver observer){
+        for (Cloud cloud : clouds) {
+            cloud.removeStudentsOnCloudObserver(observer);
+        }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON BAN ON ISLAND
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on ban on island.
+     * @param observer the observer to be added
+     */
+    public void addBanOnIslandObserver(BanOnIslandObserver observer){
+        for (Island island : islands) {
+            island.addBanOnIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on ban on island.
+     * @param observer the observer to be removed
+     */
+    public void removeBanOnIslandObserver(BanOnIslandObserver observer){
+        for (Island island : islands) {
+            island.removeBanOnIslandObserver(observer);
+        }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS ON ISLAND
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students on island.
+     * @param observer the observer to be added
+     */
+    public void addStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+        for (Island island : islands) {
+            island.addStudentsOnIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students on island.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+        for (Island island : islands) {
+            island.removeStudentsOnIslandObserver(observer);
+        }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON UNIFICATION OF ISLANDS
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the unification of islands.
+     * @param observer the observer to be added
+     */
+    public void addUnificationIslandObserver(IslandUnificationObserver observer){
+        for (Island island : islands) {
+            island.addUnificationIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the unification of islands.
+     * @param observer the observer to be removed
+     */
+    public void removeUnificationIslandObserver(IslandUnificationObserver observer){
+        for (Island island : islands) {
+            island.removeUnificationIslandObserver(observer);
+        }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON TOWER ON ISLAND
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on tower on island.
+     * @param observer the observer to be added
+     */
+    public void addTowerOnIslandObserver(TowerOnIslandObserver observer){
+        for (Island island : islands) {
+            island.addTowerOnIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on tower on island.
+     * @param observer the observer to be removed
+     */
+    public void removeTowerOnIslandObserver(TowerOnIslandObserver observer){
+        for (Island island : islands) {
+            island.removeTowerOnIslandObserver(observer);
+        }
+    }
+
 }
 

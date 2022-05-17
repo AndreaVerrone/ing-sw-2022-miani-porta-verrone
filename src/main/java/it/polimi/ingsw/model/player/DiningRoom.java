@@ -3,6 +3,10 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.NotEnoughStudentException;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.StudentList;
+import it.polimi.ingsw.model.StudentsInDiningRoomObserver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class representing the dining room of a school board. Here the students are placed in tables accordingly
@@ -13,6 +17,15 @@ class DiningRoom {
     @SuppressWarnings("FieldCanBeLocal")
     private final int MAX_STUDENTS_PER_TABLE = 10;
     private final StudentList tables = new StudentList();
+
+    /**
+     * This is the nickname of the player to which this dining room is associated to.
+     */
+    private final String nickNameOfPlayer;
+
+    DiningRoom(String nickNameOfPlayer) {
+        this.nickNameOfPlayer = nickNameOfPlayer;
+    }
 
     /**
      * Adds a student of the corresponding type in the correct table. It also checks if the added student is on
@@ -30,6 +43,7 @@ class DiningRoom {
             e.printStackTrace();
         }
         numStudents += 1;
+        notifyStudentsInDiningRoomObservers(this.nickNameOfPlayer,tables.clone());
         return numStudents == 3 || numStudents == 6 || numStudents == 9;
     }
 
@@ -40,6 +54,7 @@ class DiningRoom {
      */
     protected void removeStudentOf(PawnType type) throws NotEnoughStudentException {
         tables.changeNumOf(type, -1);
+        notifyStudentsInDiningRoomObservers(this.nickNameOfPlayer,tables.clone());
     }
 
     /**
@@ -49,5 +64,37 @@ class DiningRoom {
      */
     protected int getNumStudentsOf(PawnType type){
         return tables.getNumOf(type);
+    }
+
+    // MANAGEMENT OF OBSERVERS ON STUDENTS IN DINING ROOM
+    /**
+     * List of the observer on the students dining room.
+     */
+    private final List<StudentsInDiningRoomObserver> studentsInDiningRoomObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students in dining room.
+     * @param observer the observer to be added
+     */
+    public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        studentsInDiningRoomObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students dining room.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        studentsInDiningRoomObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the students dining room.
+     * @param nickName the nickname of the player that has the school board on which the changes have been happened
+     * @param actualStudents the actual student list in dining room
+     */
+    public void notifyStudentsInDiningRoomObservers(String nickName, StudentList actualStudents){
+        for(StudentsInDiningRoomObserver observer : studentsInDiningRoomObservers)
+            observer.studentsInDiningRoomObserverUpdate(nickName,actualStudents);
     }
 }

@@ -1,8 +1,11 @@
 package it.polimi.ingsw.controller.matchmaking;
 
+import it.polimi.ingsw.controller.IGame;
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.controller.PlayerLoginInfo;
+
+import java.util.Optional;
 
 /**
  * The initial state of {@link MatchMaking}. Here, players can enter or exit the lobby
@@ -73,11 +76,12 @@ class ChangePlayersState implements MatchMakingState {
      * @throws NotValidOperationException if not all the expected players has joined the lobby
      */
     @Override
-    public void next() throws NotValidOperationException {
+    public Optional<IGame> next() throws NotValidOperationException {
         if (matchMaking.getNumPlayers() != matchMaking.getPlayers().size())
             throw new NotValidOperationException("There aren't enough players in the lobby to start the game!");
         matchMaking.chooseFirstPlayer();
         matchMaking.setState(new SetPlayerParametersState(matchMaking, 1));
+        return Optional.empty();
     }
 
     private boolean isNicknameOfAPlayer(String nickname) {

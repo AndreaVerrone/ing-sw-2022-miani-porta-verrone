@@ -12,6 +12,8 @@ import it.polimi.ingsw.server.Server;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import java.util.Optional;
+
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
@@ -25,7 +27,13 @@ public class Match implements IMatchMaking, IGame {
     /**
      * The game of this match. Before the game starts, this is null.
      */
-    private Game game;
+    private IGame game;
+
+    /**
+     * The views of the player in this match. All of this should be notified
+     * when something in the match changes
+     */
+    private final Collection<VirtualView> playersView = new ArrayList<>();
 
     /**
      * The views of the player in this match. All of this should be notified
@@ -150,13 +158,20 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
+     * Moves the match making to the next state.
      * @throws NotValidOperationException if the game has started or {@inheritDoc}
+     * @return {@link Optional#empty()}
      */
     @Override
-    public void next() throws NotValidOperationException {
+    public Optional<IGame> next() throws NotValidOperationException {
         if (matchMaking == null)
             throw new NotValidOperationException();
-        matchMaking.next();
+        Optional<IGame> possibleGame = matchMaking.next();
+        if (possibleGame.isPresent()){
+            matchMaking = null;
+            game = possibleGame.get();
+        }
+        return Optional.empty();
     }
 
     /**
@@ -175,10 +190,10 @@ public class Match implements IMatchMaking, IGame {
      * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
-    public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
+    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
-        game.moveStudentToIsland(student, islandID);
+        game.choseStudentFromLocation(color, originPosition);
     }
 
     /**
@@ -186,10 +201,10 @@ public class Match implements IMatchMaking, IGame {
      * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
-    public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
+    public void chooseDestination(Position destination) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
-        game.moveStudentToDiningRoom(student);
+        game.chooseDestination(destination);
     }
 
     /**
@@ -212,5 +227,16 @@ public class Match implements IMatchMaking, IGame {
         if (game == null)
             throw new NotValidOperationException();
         game.takeFromCloud(cloudID);
+    }
+
+    /**
+     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
+    @Override
+    public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
+        if (game == null)
+            throw new NotValidOperationException();
+        game.useCharacterCard(cardType);
     }
 }
