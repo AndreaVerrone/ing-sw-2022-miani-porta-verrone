@@ -27,6 +27,34 @@ public abstract class Widget {
      */
     private Runnable onSizeChange;
 
+    /**
+     * The canvas that will draw this widget
+     */
+    private Canvas canvas;
+
+    /**
+     * If this widget is currently on the screen
+     */
+    private boolean onScreen = false;
+
+    protected void setCanvas(Canvas canvas){
+        this.canvas = canvas;
+    }
+
+    protected Canvas getCanvas(){
+        return canvas;
+    }
+
+    /**
+     * A method to call everytime the content of the widget changes.
+     */
+    public void update(){
+        if (canvas == null)
+            return;
+        if (onScreen && canvas.shouldUpdate())
+            canvas.show();
+    }
+
     protected int getWidth() {
         return width;
     }
@@ -61,6 +89,7 @@ public abstract class Widget {
      * behaviours. To specify how the widget should be displayed, use {@link #display()}.
      */
     protected void show() {
+        onScreen = true;
         ConsoleCli.moveToColumn(startingPoint);
         display();
         ConsoleCli.resetStyle();

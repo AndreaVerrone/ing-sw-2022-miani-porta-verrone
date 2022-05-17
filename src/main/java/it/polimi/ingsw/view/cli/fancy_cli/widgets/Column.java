@@ -41,6 +41,13 @@ public class Column extends Widget{
         setHeight(height);
     }
 
+    @Override
+    protected void setCanvas(Canvas canvas) {
+        super.setCanvas(canvas);
+        for (Widget child : children)
+            child.setCanvas(canvas);
+    }
+
     /**
      * Adds a widget to this column
      * @param child the widget to add
@@ -50,6 +57,8 @@ public class Column extends Widget{
         children.add(child);
         calculateDimensions();
         child.onSizeChange(this::calculateDimensions);
+        child.setCanvas(getCanvas());
+        update();
         return this;
     }
 

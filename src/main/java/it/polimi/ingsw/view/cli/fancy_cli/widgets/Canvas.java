@@ -35,21 +35,44 @@ public class Canvas implements Drawable {
     private final boolean eraseOnUpdate;
 
     /**
-     * Creates a canvas used to draw content on the terminal. It can have a title, subtitle and a content.
-     * It also deletes all the text in the terminal before drawing new content if {@code eraseOnUpdate} is {@code true}.
-     * @param eraseOnUpdate if this canvas should delete all the text in the terminal before drawing new content
+     * {@code true} if the canvas should redraw itself when it's content changes
      */
-    public Canvas(boolean eraseOnUpdate) {
+    private final boolean autoUpdate;
+
+    /**
+     * Creates a canvas used to draw content on the terminal. It can have a title, subtitle and a content.
+     * It also deletes all the text in the terminal before drawing new content if {@code eraseOnUpdate} is {@code true},
+     * and redraws itself upon changing if {@code autoUpdate} is {@code true}.
+     * @param eraseOnUpdate if this canvas should delete all the text in the terminal before drawing new content
+     * @param autoUpdate if this canvas should redraw itself upon changing
+     */
+    public Canvas(boolean eraseOnUpdate, boolean autoUpdate) {
         this.eraseOnUpdate = eraseOnUpdate;
+        this.autoUpdate = autoUpdate;
     }
 
     /**
      * Creates a canvas used to draw content on the terminal. It can have a title, subtitle and a content.
-     * It will draw the content below other text in the terminal.
+     * If the content changes, this canvas will redraw itself.
+     * It also deletes all the text in the terminal before drawing new content if {@code eraseOnUpdate} is {@code true}.
+     * @param eraseOnUpdate if this canvas should delete all the text in the terminal before drawing new content
+     */
+    public Canvas(boolean eraseOnUpdate) {
+        this(eraseOnUpdate, true);
+    }
+
+    /**
+     * Creates a canvas used to draw content on the terminal. It can have a title, subtitle and a content.
+     * If the content changes, this canvas will redraw itself.
+     * It also deletes all the text in the terminal before drawing new content
      * This is equivalent of calling {@code  Canvas(true)}.
      */
     public Canvas(){
-        this(false);
+        this(true, true);
+    }
+
+    protected boolean shouldUpdate(){
+        return autoUpdate;
     }
 
     public void setTitle(String title) {
@@ -65,7 +88,10 @@ public class Canvas implements Drawable {
     }
 
     public void setContent(Widget content) {
+        if (this.content != null)
+            this.content.setCanvas(null);
         this.content = content;
+        this.content.setCanvas(this);
     }
 
     @Override

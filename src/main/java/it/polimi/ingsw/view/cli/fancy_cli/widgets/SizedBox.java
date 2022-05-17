@@ -116,6 +116,12 @@ public class SizedBox extends Widget{
     }
 
     @Override
+    protected void setCanvas(Canvas canvas) {
+        super.setCanvas(canvas);
+        child.setCanvas(canvas);
+    }
+
+    @Override
     protected void display() {
         for (int i = 0; i < spaceTop; i++) {
             System.out.print("\n");

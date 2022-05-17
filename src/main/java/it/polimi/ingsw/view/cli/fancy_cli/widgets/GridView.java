@@ -63,6 +63,13 @@ public class GridView extends Widget{
         this(Alignment.CENTER);
     }
 
+    @Override
+    protected void setCanvas(Canvas canvas) {
+        super.setCanvas(canvas);
+        for (Widget child : widgetMap.values())
+            child.setCanvas(canvas);
+    }
+
     /**
      * Adds a widget in the specified position of this grid. If a widget was already
      * in that position, this will be replaced with the one provided.
@@ -72,11 +79,15 @@ public class GridView extends Widget{
      */
     public GridView addChild(Widget child, Position position){
         Widget previous = widgetMap.get(position);
-        if (previous != null)
+        if (previous != null) {
             previous.detachListener();
+            previous.setCanvas(null);
+        }
         widgetMap.put(position, child);
         calculateCellDimension();
         child.onSizeChange(this::calculateCellDimension);
+        child.setCanvas(getCanvas());
+        update();
         return this;
     }
 

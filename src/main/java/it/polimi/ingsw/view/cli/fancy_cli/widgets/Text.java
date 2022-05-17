@@ -131,6 +131,7 @@ public class Text extends Widget {
     public void setText(String text){
         this.text = wrapText(text);
         calculateSize();
+        update();
     }
 
     public Text setForegroundColor(Color foregroundColor){

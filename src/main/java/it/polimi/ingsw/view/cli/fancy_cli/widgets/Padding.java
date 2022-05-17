@@ -65,6 +65,12 @@ public class Padding extends Widget {
     }
 
     @Override
+    protected void setCanvas(Canvas canvas) {
+        super.setCanvas(canvas);
+        child.setCanvas(canvas);
+    }
+
+    @Override
     protected void display() {
         showVerticalPadding();
         child.setStartingPoint(getStartingPoint()+horizontalPadding);

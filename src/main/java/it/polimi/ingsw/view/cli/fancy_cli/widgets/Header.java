@@ -44,6 +44,13 @@ public class Header extends Widget{
         this(null, null);
     }
 
+    @Override
+    protected void setCanvas(Canvas canvas) {
+        super.setCanvas(canvas);
+        title.setCanvas(canvas);
+        subtitle.setCanvas(canvas);
+    }
+
     private void calculateSize(){
         int width = 0;
         int height = 0;
@@ -65,17 +72,25 @@ public class Header extends Widget{
     }
 
     public void setTitle(Text title) {
-        if (this.title != null)
+        if (this.title != null){
             this.title.detachListener();
+            this.title.setCanvas(null);
+        }
         this.title = title;
         attachTo(title);
+        this.title.setCanvas(getCanvas());
+        update();
     }
 
     public void setSubtitle(Text subtitle) {
-        if (this.subtitle != null)
+        if (this.subtitle != null){
             this.subtitle.detachListener();
+            this.subtitle.setCanvas(null);
+        }
         this.subtitle = subtitle;
         attachTo(subtitle);
+        this.subtitle.setCanvas(getCanvas());
+        update();
     }
 
     @Override
