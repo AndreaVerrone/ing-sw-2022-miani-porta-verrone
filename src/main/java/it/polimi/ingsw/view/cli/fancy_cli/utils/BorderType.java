@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.view.cli.fancy_cli.utils;
 
 import it.polimi.ingsw.view.cli.fancy_cli.utils.Icons;
 
