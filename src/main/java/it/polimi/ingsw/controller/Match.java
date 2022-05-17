@@ -134,10 +134,10 @@ public class Match implements IMatchMaking, IGame {
      * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
-    public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
+    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
-        game.moveStudentToIsland(student, islandID);
+        game.choseStudentFromLocation(color, originPosition);
     }
 
     /**
@@ -145,10 +145,10 @@ public class Match implements IMatchMaking, IGame {
      * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
-    public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
+    public void chooseDestination(Position destination) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
-        game.moveStudentToDiningRoom(student);
+        game.chooseDestination(destination);
     }
 
     /**
@@ -171,5 +171,16 @@ public class Match implements IMatchMaking, IGame {
         if (game == null)
             throw new NotValidOperationException();
         game.takeFromCloud(cloudID);
+    }
+
+    /**
+     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
+     */
+    @Override
+    public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
+        if (game == null)
+            throw new NotValidOperationException();
+        game.useCharacterCard(cardType);
     }
 }

@@ -97,23 +97,6 @@ public class Game implements IGame{
         state.useAssistant(assistant);
     }
 
-    /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
-     */
-    @Override
-    public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
-        state.moveStudentToIsland(student, islandID);
-    }
-
-    /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
-     */
-    @Override
-    public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
-        state.moveStudentToDiningRoom(student);
-    }
 
     /**
      * @throws NotValidOperationException {@inheritDoc}
@@ -135,32 +118,28 @@ public class Game implements IGame{
 
 
     /**
-     * This method allows to select a student (of the PawnType specified in the parameter) that comes from the position
-     * (also specified in the parameters).
-     * @param color the {@code PawnType} of the student
-     * @param originPosition the {@code Position} from where take the student
-     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
-     * @throws NotValidArgumentException if the student is not present in the specified location
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
+    @Override
     public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
         state.choseStudentFromLocation(color,originPosition);
     }
 
     /**
-     * This method allows to choose a destination on which operate based on the state.
-     * @param destination the Position
-     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
-     * @throws NotValidArgumentException if the
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
+    @Override
     public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
         state.chooseDestination(destination);
     }
 
     /**
-     * This method allow to use the character card of the type passed as a parameter.
-     * @param cardType type of card chosen
-     * @throws NotValidOperationException if a player tries to use a card in basic mode
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
+    @Override
     public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
         throw new NotValidOperationException("Cannot use cards in basic mode!");
     }

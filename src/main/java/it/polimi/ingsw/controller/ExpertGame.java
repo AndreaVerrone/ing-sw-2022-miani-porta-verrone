@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.NotEnoughCoinsException;
-import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.Collection;
@@ -80,10 +79,8 @@ public class ExpertGame extends Game{
     }
 
     /**
-     * @throws NotValidOperationException if the character card cannot be used because the player cannot pay
-     * for the usage, the state of the game do not allow the usage or the player has already used a character card
-     * during its turn.
-     * @throws NotValidArgumentException if the character card does not exist
+     * @throws NotValidOperationException {@inheritDoc}
+     * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
     public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
@@ -97,7 +94,7 @@ public class ExpertGame extends Game{
 
         // check that the player can use it since it is the first time that he use a
         // character card during its turn
-        if(!canUseCharacterCard){
+        if(!getCanUseCharacterCard()){
             throw new NotValidOperationException("you have already used a character card during this turn");
         }
 
