@@ -17,7 +17,7 @@ public class ExpertGame extends Game{
     /**
      * Map that contains the three card of the game in expert mode, reachable through their type
      */
-    private final Map<CharacterCardsType, CharacterCard> cards  = new HashMap<>();
+    private final Map<CharacterCardsType, CharacterCard> cards  = new HashMap<>(3, 1);
 
     /**
      * It is true, if the current player can use the character card.
