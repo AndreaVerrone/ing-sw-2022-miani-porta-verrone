@@ -1,5 +1,10 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.ChangeCurrentPlayerObserver;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A class representing character cards
  */
@@ -58,5 +63,37 @@ abstract public class CharacterCard {
      * The actual implementation of the effect of this card
      */
     public abstract void effect();
+
+    // MANAGEMENT OF OBSERVERS ON COIN ON CHARACTER CARD
+    /**
+     * List of the observer on the coin on character card
+     */
+    private final List<CoinOnCardObserver> coinOnCardObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on character card .
+     * @param observer the observer to be added
+     */
+    public void addCoinOnCardObserver(CoinOnCardObserver observer){
+        coinOnCardObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on character card .
+     * @param observer the observer to be removed
+     */
+    public void removeCoinOnCardObserver(CoinOnCardObserver observer){
+        coinOnCardObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on character card .
+     * @param characterCard the card on which the change has been happened
+     * @param coinOnCard the actual value (true, if the coin is present, false otherwise)
+     */
+    public void notifyCoinOnCardObservers(CharacterCard characterCard,boolean coinOnCard){
+        for(CoinOnCardObserver observer : coinOnCardObservers)
+            observer.coinOnCardObserverUpdate(this,this.used);
+    }
 
 }
