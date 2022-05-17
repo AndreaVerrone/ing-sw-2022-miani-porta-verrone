@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli.fancy_cli.widgets;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.view.cli.fancy_cli.utils.TextStyle;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.List;
 
@@ -23,6 +24,10 @@ public class Canvas implements Drawable {
      * The content of this canvas
      */
     private Widget content;
+    /**
+     * The color of the title
+     */
+    private Color titleColor = Color.DEFAULT;
     /**
      * {@code true} if the canvas should erase all the text on the screen before drawing new content
      */
@@ -50,6 +55,10 @@ public class Canvas implements Drawable {
         this.title = title;
     }
 
+    public void setTitleColor(Color color){
+        titleColor = color;
+    }
+
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
     }
@@ -60,13 +69,14 @@ public class Canvas implements Drawable {
 
     @Override
     public void show() {
+        AnsiConsole.systemInstall();
+
         if (eraseOnUpdate)
             ConsoleCli.deleteConsole();
         System.out.print("\n");
         Text title = null;
         if (this.title != null)
-            title = new Text(this.title, Color.YELLOW, Color.DEFAULT)
-                .addTextStyle(TextStyle.BOLD).addTextStyle(TextStyle.UNDERLINE);
+            title = new Text(this.title, titleColor, Color.DEFAULT).addTextStyle(TextStyle.BOLD);
         Text subtitle = null;
         if (this.subtitle != null)
             subtitle = new Text(this.subtitle, Color.DEFAULT, Color.DEFAULT).addTextStyle(TextStyle.ITALIC);
@@ -79,5 +89,6 @@ public class Canvas implements Drawable {
         ));
         column.show();
         System.out.print("\n\n");
+        AnsiConsole.systemUninstall();
     }
 }
