@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.player.Player;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * A class to handle the game when the user requested to use the expert rules.
@@ -15,9 +14,14 @@ import java.util.Random;
 public class ExpertGame extends Game{
 
     /**
+     * Max number of character cards allowed by the rules
+     */
+    private final int NUMBER_OF_CHARACTER_CARDS = 3;
+    
+    /**
      * Map that contains the three card of the game in expert mode, reachable through their type
      */
-    private final Map<CharacterCardsType, CharacterCard> cards  = new HashMap<>(3, 1);
+    private final Map<CharacterCardsType, CharacterCard> cards;
 
     /**
      * It is true, if the current player can use the character card.
@@ -33,19 +37,7 @@ public class ExpertGame extends Game{
     public ExpertGame(Collection<PlayerLoginInfo> players) {
         super(players);
 
-        createThreeRandomCards();
-    }
-
-    /**
-     * Create the three initial cards of the game
-     */
-    private void createThreeRandomCards(){
-        CharacterCardsFactory cardsFactory = new CharacterCardsFactory(this);
-        while (cards.size() < 3){
-            int random = new Random().nextInt(CharacterCardsType.values().length);
-            CharacterCardsType cardType = CharacterCardsType.values()[random];
-            cards.putIfAbsent(cardType, cardsFactory.chooseCard(cardType));
-        }
+        cards = CharacterCardsFactory.createRandomCards(NUMBER_OF_CHARACTER_CARDS, this);
     }
 
     /**

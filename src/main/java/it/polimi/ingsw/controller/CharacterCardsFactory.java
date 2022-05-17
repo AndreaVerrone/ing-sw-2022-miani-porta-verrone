@@ -1,28 +1,20 @@
 package it.polimi.ingsw.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 /**
  * Class to implement factory pattern to create new character cards
  */
 public class CharacterCardsFactory {
 
     /**
-     * @see ExpertGame
-     */
-    private final ExpertGame game;
-
-    /**
-     * Constructor of the class
-     */
-    public CharacterCardsFactory(ExpertGame game) {
-        this.game = game;
-    }
-
-    /**
      * Returns an instance of the card asked
      * @param card card typed asked
      * @return new instance of the card asked
      */
-    public CharacterCard chooseCard(CharacterCardsType card) {
+    private static CharacterCard chooseCard(CharacterCardsType card, ExpertGame game) {
         return switch (card) {
             case CARD1 -> new CharacterCard1(game);
             case CARD2 -> new CharacterCard2(game);
@@ -37,5 +29,20 @@ public class CharacterCardsFactory {
             case CARD11 -> new CharacterCard11(game);
             case CARD12 -> new CharacterCard12(game);
         };
+    }
+
+    /**
+     * Create a map of character cards of the specified number
+     * @param numberOfRandomCards number of cards of the set
+     * @param game expert game
+     */
+    public static Map<CharacterCardsType, CharacterCard> createRandomCards(int numberOfRandomCards, ExpertGame game){
+        Map<CharacterCardsType, CharacterCard> cards = new HashMap<>(numberOfRandomCards,1);
+        while (cards.size() < numberOfRandomCards){
+            int random = new Random().nextInt(CharacterCardsType.values().length);
+            CharacterCardsType cardType = CharacterCardsType.values()[random];
+            cards.putIfAbsent(cardType, chooseCard(cardType, game));
+        }
+        return cards;
     }
 }
