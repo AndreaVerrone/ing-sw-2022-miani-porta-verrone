@@ -1,11 +1,11 @@
 package it.polimi.ingsw.view.cli.fancy_cli.widgets;
 
-import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.Drawable;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.TextStyle;
+import it.polimi.ingsw.view.cli.fancy_cli.utils.*;
 import org.fusesource.jansi.AnsiConsole;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -96,7 +96,14 @@ public class Canvas implements Drawable {
 
     @Override
     public void show() {
+        int width = 0;
+        try(Terminal terminal = TerminalBuilder.terminal()){
+            width = terminal.getWidth();
+        }catch (IOException e){
+
+        }
         AnsiConsole.systemInstall();
+
 
         if (eraseOnUpdate)
             ConsoleCli.deleteConsole();
@@ -109,12 +116,12 @@ public class Canvas implements Drawable {
             subtitle = new Text(this.subtitle, Color.DEFAULT, Color.DEFAULT).addTextStyle(TextStyle.ITALIC);
         Widget header = new SizedBox(new Header(title, subtitle), content.getWidth(), 0);
         SizedBox sizedBox = new SizedBox(1f,1f);
-        Column column = new Column(List.of(
+        Widget finalContent = new SizedBox(new Column(List.of(
                 header,
                 sizedBox,
                 content
-        ));
-        column.show();
+        )), width, 0, Alignment.TOP);
+        finalContent.show();
         System.out.print("\n\n");
         AnsiConsole.systemUninstall();
     }
