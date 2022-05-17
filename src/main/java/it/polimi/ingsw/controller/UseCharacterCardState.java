@@ -6,7 +6,7 @@ public abstract class UseCharacterCardState {
      * This is the Game class
      * @see Game
      */
-    private final Game game;
+    private final ExpertGame game;
 
     /**
      * This is the state from which the character card has been used and
@@ -25,7 +25,7 @@ public abstract class UseCharacterCardState {
      * @param originState the state from which the character card has been used
      * @param characterCard the character card that uses this state
      */
-    protected UseCharacterCardState(Game game, State originState, CharacterCard characterCard) {
+    protected UseCharacterCardState(ExpertGame game, State originState, CharacterCard characterCard) {
         this.game = game;
         this.originState = originState;
         this.characterCard = characterCard;

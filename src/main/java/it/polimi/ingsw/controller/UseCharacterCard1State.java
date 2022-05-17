@@ -30,7 +30,7 @@ public class UseCharacterCard1State extends UseCharacterCardState implements Sta
      * @param originState the state from which the character card has been used
      * @param characterCard1 the character card that uses this state
      */
-    public UseCharacterCard1State(Game game, State originState, CharacterCard1 characterCard1) {
+    public UseCharacterCard1State(ExpertGame game, State originState, CharacterCard1 characterCard1) {
         super(game,originState,characterCard1);
         this.gameModel=game.getModel();
         this.characterCard1=characterCard1;

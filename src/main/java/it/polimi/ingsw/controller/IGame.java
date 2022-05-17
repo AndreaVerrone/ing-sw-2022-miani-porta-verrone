@@ -20,29 +20,22 @@ public interface IGame {
     void useAssistant(Assistant assistant) throws NotValidOperationException, NotValidArgumentException;
 
     /**
-     * Method to move a student from the entrance to an island
-     *
-     * @param student  student color to move
-     * @param islandID island ID to where move the student
-     * @throws NotValidOperationException if this method has been invoked in a state in which
-     *                                    this operation is not supported
-     * @throws NotValidArgumentException  if the student to move is not present in entrance
-     *                                    or the island doesn't exist
+     * This method allows to select a student (of the PawnType specified in the parameter) that comes from the position
+     * (also specified in the parameters).
+     * @param color the {@code PawnType} of the student
+     * @param originPosition the {@code Position} from where take the student
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the student is not present in the specified location
      */
-    void moveStudentToIsland(PawnType student, int islandID)
-            throws NotValidOperationException, NotValidArgumentException;
+    void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException;
 
     /**
-     * Method to move a student from the entrance to the dining room
-     *
-     * @param student student color to move
-     * @throws NotValidOperationException if this method has been invoked in a state in which
-     *                                    this operation is not supported
-     * @throws NotValidArgumentException  if the student is not present in entrance or it is present,
-     *                                    but the table for the students of that color is full
+     * This method allows to choose a destination on which operate based on the state.
+     * @param destination the Position
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the
      */
-    void moveStudentToDiningRoom(PawnType student)
-            throws NotValidOperationException, NotValidArgumentException;
+    void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException;
 
     /**
      * Method to move mother nature of a certain number of islands
@@ -64,4 +57,13 @@ public interface IGame {
      * @throws NotValidArgumentException  if the cloud passed as a parameter is empty
      */
     void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException;
+
+    /**
+     * Method to use a character card of the specified type
+     * @param cardType type of the character card to use
+     * @throws NotValidOperationException if the card is used in basic mode or the players hasn't
+     *                                    enough money to use it or the current player has already used a card
+     * @throws NotValidArgumentException if the card doesn't exist
+     */
+    void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException;
 }

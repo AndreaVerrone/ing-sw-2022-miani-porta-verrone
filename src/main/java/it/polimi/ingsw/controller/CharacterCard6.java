@@ -10,14 +10,14 @@ public class CharacterCard6 extends CharacterCard{
     /**
      * Game class of the game
      */
-    private final Game game;
+    private final ExpertGame game;
 
     /**
      * Creates a new character card with the specified initial cost and the description passed as a parameter.
      * @param game Game class of the game
      */
-    CharacterCard6(Game game) {
-        super(3, "Allows to  calculate the influence without counting the towers on the island");
+    CharacterCard6(ExpertGame game) {
+        super(CharacterCardsType.CARD6.getCost(), CharacterCardsType.CARD6.getDescription());
         this.game = game;
     }
 

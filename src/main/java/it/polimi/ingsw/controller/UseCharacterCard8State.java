@@ -20,7 +20,7 @@ public class UseCharacterCard8State extends UseCharacterCardState implements Sta
      * @param game game class of the game
      * @param card card used in the state
      */
-    public UseCharacterCard8State(Game game, State originState, CharacterCard8 card){
+    public UseCharacterCard8State(ExpertGame game, State originState, CharacterCard8 card){
         super(game, originState, card);
         this.model = game.getModel();
     }

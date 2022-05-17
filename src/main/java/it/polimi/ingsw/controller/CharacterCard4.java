@@ -4,16 +4,16 @@ public class CharacterCard4 extends CharacterCard{
 
     /**
      * This is the Game class
-     * @see Game
+     * @see ExpertGame
      */
-    private final Game game;
+    private final ExpertGame game;
 
     /**
      * Creates a new character card.
      * @param game the Game class
      */
-    CharacterCard4(Game game) {
-        super(3, "allow to choose an island on which compute influence");
+    CharacterCard4(ExpertGame game) {
+        super(CharacterCardsType.CARD4.getCost(), CharacterCardsType.CARD4.getDescription());
         this.game=game;
     }
 

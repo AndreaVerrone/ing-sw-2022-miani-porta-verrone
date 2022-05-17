@@ -4,16 +4,16 @@ public class CharacterCard12 extends CharacterCard{
 
     /**
      * This is the Game class
-     * @see Game
+     * @see ExpertGame
      */
-    private final Game game;
+    private final ExpertGame game;
 
     /**
      * Creates a new character card.
      * @param game the Game class
      */
-    CharacterCard12(Game game) {
-        super(3, "allow to remove 3 student of one color from the dining room of all players");
+    CharacterCard12(ExpertGame game) {
+        super(CharacterCardsType.CARD12.getCost(), CharacterCardsType.CARD12.getDescription());
         this.game=game;
     }
 

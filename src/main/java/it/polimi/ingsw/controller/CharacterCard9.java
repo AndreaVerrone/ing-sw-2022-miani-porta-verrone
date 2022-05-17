@@ -13,7 +13,7 @@ public class CharacterCard9 extends CharacterCard{
     /**
      * Game class
      */
-    private final Game game;
+    private final ExpertGame game;
 
     /**
      * Students on the card
@@ -23,8 +23,8 @@ public class CharacterCard9 extends CharacterCard{
      * Creates a new character card with the specified initial cost and the description passed as a parameter.
      * @param game Game class of the game
      */
-    CharacterCard9(Game game) {
-        super(1, "Allows to swap up to three chosen students from this card with the entrance of the player");
+    CharacterCard9(ExpertGame game) {
+        super(CharacterCardsType.CARD9.getCost(), CharacterCardsType.CARD9.getDescription());
         this.game = game;
         this.studentsOnCard = new StudentList();
 

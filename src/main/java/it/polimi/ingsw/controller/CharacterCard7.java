@@ -10,14 +10,14 @@ public class CharacterCard7 extends CharacterCard{
     /**
      * Game class pf the game
      */
-    private final Game game;
+    private final ExpertGame game;
 
     /**
      * Creates a new character card with the specified initial cost and the description passed as a parameter.
      * @param game Game class of the game
      */
-    CharacterCard7(Game game) {
-        super(2, "Allows to to calculate the influence with to additional points to the current player");
+    CharacterCard7(ExpertGame game) {
+        super(CharacterCardsType.CARD7.getCost(), CharacterCardsType.CARD7.getDescription());
         this.game = game;
     }
 

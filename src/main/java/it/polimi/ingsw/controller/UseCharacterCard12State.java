@@ -14,7 +14,7 @@ public class UseCharacterCard12State extends UseCharacterCardState implements St
      */
     private final GameModel gameModel;
 
-    public UseCharacterCard12State(Game game, State originState, CharacterCard12 characterCard12) {
+    public UseCharacterCard12State(ExpertGame game, State originState, CharacterCard12 characterCard12) {
         super(game,originState,characterCard12);
         this.gameModel = game.getModel();
     }
