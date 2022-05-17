@@ -48,7 +48,7 @@ public abstract class Widget {
     /**
      * A method to call everytime the content of the widget changes.
      */
-    public void update(){
+    protected void update(){
         if (canvas == null)
             return;
         if (onScreen && canvas.shouldUpdate())
