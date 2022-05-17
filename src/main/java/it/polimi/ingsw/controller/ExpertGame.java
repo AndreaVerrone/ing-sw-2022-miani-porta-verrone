@@ -45,9 +45,7 @@ public class ExpertGame extends Game{
         while (cards.size() < 3){
             int random = new Random().nextInt(CharacterCardsType.values().length);
             CharacterCardsType cardType = CharacterCardsType.values()[random];
-            if (!cards.containsKey(cardType)) {
-                cards.put(cardType, cardsFactory.chooseCard(cardType));
-            }
+            cards.putIfAbsent(cardType, cardsFactory.chooseCard(cardType));
         }
     }
 
