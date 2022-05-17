@@ -175,7 +175,7 @@ public class GameModel {
      */
     public void calculateActionPhaseOrder(){
         players.sort(Comparator.comparingInt(o -> o.getLastAssistant().getValue()));
-        currentPlayer = players.get(0);
+        setCurrentPlayer(players.get(0));
     }
 
     /**
@@ -191,7 +191,16 @@ public class GameModel {
      */
     public void nextPlayerTurn(){
         int currentPlayerPos = players.indexOf(currentPlayer);
-        currentPlayer = players.get(currentPlayerPos + 1);
+        setCurrentPlayer(players.get(currentPlayerPos + 1));
+    }
+
+    /**
+     * This method will set the player, passed as a parameter, as the current player.
+     * @param newCurrentPlayer the player that will be the current player after the invocation of this method
+     */
+    private void setCurrentPlayer(Player newCurrentPlayer){
+        currentPlayer=newCurrentPlayer;
+        notifyChangeCurrentPlayerObservers(currentPlayer.getNickname());
     }
 
     /**
@@ -298,4 +307,36 @@ public class GameModel {
         this.computeInfluenceStrategy = new ComputeInfluenceStandard();
         this.motherNatureLimitStrategy = new MotherNatureLimitStandard();
     }
+  
+      // MANAGEMENT OF OBSERVERS ON CURRENT PLAYER
+    /**
+     * List of the observer on the current player
+     */
+    private final List<ChangeCurrentPlayerObserver> changeCurrentPlayerObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on current player.
+     * @param observer the observer to be added
+     */
+    public void addChangeCurrentPlayerObserver(ChangeCurrentPlayerObserver observer){
+        changeCurrentPlayerObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on current player.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeCurrentPlayerObserver(ChangeCurrentPlayerObserver observer){
+        changeCurrentPlayerObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on current player.
+     * @param actualCurrentPlayerNickname the actual current player's nickname
+     */
+    public void notifyChangeCurrentPlayerObservers(String actualCurrentPlayerNickname){
+        for(ChangeCurrentPlayerObserver observer : changeCurrentPlayerObservers)
+            observer.changeCurrentPlayerObserverUpdate(actualCurrentPlayerNickname);
+    }
+  
 }

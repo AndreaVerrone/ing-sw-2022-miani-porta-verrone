@@ -2,9 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.*;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A class representing the school board of a player.
@@ -25,7 +23,7 @@ class SchoolBoard {
      * The dining room of this school board.
      * @see DiningRoom
      */
-    private final DiningRoom diningRoom = new DiningRoom();
+    private final DiningRoom diningRoom;
     private final Set<PawnType> professorTable = new HashSet<>();
 
     /**
@@ -41,12 +39,24 @@ class SchoolBoard {
     private final CoinsBag coinsBag;
 
     /**
+     * This is the nickname of the player to which this school board is associated to.
+     */
+    private final String nickNameOfPlayer;
+
+    /**
      * The constructor for the school board of a player. Based on the number of players, the initial
      * number of towers and the maximum number of student in the entrance changes.
      * @param isThreePlayerGame if the game played is a match between three players or not. According to this,
      *                          the number of towers and student in entrance changes.
+     * @param coinsBag the coins bag
+     * @param nickNameOfPlayer the nickname of the player to which this school board is associated to
      */
-    protected SchoolBoard(boolean isThreePlayerGame, CoinsBag coinsBag){
+    protected SchoolBoard(boolean isThreePlayerGame, CoinsBag coinsBag, String nickNameOfPlayer){
+
+        this.nickNameOfPlayer=nickNameOfPlayer;
+
+        diningRoom = new DiningRoom(nickNameOfPlayer);
+
         if (isThreePlayerGame) {
             maxNumStudentsInEntrance = 9;
             maxNumTowers = towers = 6;
@@ -157,6 +167,7 @@ class SchoolBoard {
         boolean needCoin = diningRoom.addStudentOf(type);
         if (needCoin) {
             takeCoin();
+            notifyChangeCoinNumberObservers(nickNameOfPlayer,getCoins());
         }
     }
 
@@ -192,6 +203,7 @@ class SchoolBoard {
             // the other should be put on the card used
             coinsBag.addCoins(cost-1);
         }
+        notifyChangeCoinNumberObservers(nickNameOfPlayer,getCoins());
     }
 
     /**
@@ -205,6 +217,56 @@ class SchoolBoard {
     protected void changeTowerNumber(int delta){
         assert towers + delta <= maxNumTowers : "The towers added are too much";
         towers += delta;
+    }
+
+    // MANAGEMENT OF OBSERVERS ON COINS
+    /**
+     * List of the observer on the coin number.
+     */
+    private final List<ChangeCoinNumberObserver> changeCoinNumberObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the coin number.
+     * @param observer the observer to be added
+     */
+    public void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+        changeCoinNumberObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the coin number.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+        changeCoinNumberObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the coin number.
+     * @param nickNameOfPlayer the nickname of the player associated to this school board
+     * @param actualNumOfCoins the actual num of coins in the school board
+     */
+    public void notifyChangeCoinNumberObservers(String nickNameOfPlayer,int actualNumOfCoins){
+        for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
+            observer.changeCoinNumberObserverUpdate(nickNameOfPlayer,actualNumOfCoins);
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS IN DINING ROOM
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the students in dining room.
+     * @param observer the observer to be added
+     */
+    public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        diningRoom.addStudentsInDiningRoomObserver(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the students dining room.
+     * @param observer the observer to be removed
+     */
+    public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+        diningRoom.removeStudentsInDiningRoomObserver(observer);
     }
 
 }

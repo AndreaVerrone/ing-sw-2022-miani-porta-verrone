@@ -16,7 +16,7 @@ class SchoolBoardTest {
 
     @BeforeEach
     public void setUp() {
-        schoolBoard = new SchoolBoard(false, new CoinsBag());
+        schoolBoard = new SchoolBoard(false, new CoinsBag(), "player");
     }
 
     @AfterEach
