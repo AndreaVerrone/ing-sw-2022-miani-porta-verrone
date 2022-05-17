@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * A widget to show other widgets one next to each other
@@ -14,7 +15,7 @@ public class Row extends Widget{
     /**
      * The widgets in this row
      */
-    private final Collection<Widget> children = new ArrayList<>();
+    private final List<Widget> children = new ArrayList<>();
 
     /**
      * Creates an empty row
@@ -59,6 +60,17 @@ public class Row extends Widget{
         child.onSizeChange(this::calculateDimensions);
         child.setCanvas(getCanvas());
         update();
+        return this;
+    }
+
+    /**
+     * Removes the last widget in this row
+     * @return the row itself
+     */
+    public Row removeLast(){
+        Widget toRemove = children.remove(children.size()-1);
+        toRemove.setCanvas(null);
+        toRemove.detachListener();
         return this;
     }
 
