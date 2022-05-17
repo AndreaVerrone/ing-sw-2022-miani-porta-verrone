@@ -374,5 +374,23 @@ public class GameModel {
             observer.conquerIslandObserverUpdate();
         }
     }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON EMPTY STUDENT BAG
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on empty student bag.
+     * @param observer the observer to be added
+     */
+    public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+        gameTable.addEmptyStudentBagObserver(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on empty student bag.
+     * @param observer the observer to be removed
+     */
+    public void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+        gameTable.removeEmptyStudentBagObserver(observer);
+    }
   
 }

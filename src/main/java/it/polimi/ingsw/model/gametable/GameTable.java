@@ -367,5 +367,23 @@ public class GameTable {
         }
     }
 
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON EMPTY STUDENT BAG
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on tower on empty student bag.
+     * @param observer the observer to be added
+     */
+    public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+        studentsBag.addEmptyStudentBagObserver(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on tower on empty student bag.
+     * @param observer the observer to be removed
+     */
+    public void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+        studentsBag.removeEmptyStudentBagObserver(observer);
+    }
+
 }
 
