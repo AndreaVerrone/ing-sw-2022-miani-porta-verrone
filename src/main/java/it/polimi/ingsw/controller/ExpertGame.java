@@ -112,6 +112,6 @@ public class ExpertGame extends Game{
         getModel().resetStrategy();
 
         // RESET THE POSSIBILITY TO USE A CHARACTER CARD
-        setCanUseCharacterCard(true);
+        canUseCharacterCard = true;
     }
 }
