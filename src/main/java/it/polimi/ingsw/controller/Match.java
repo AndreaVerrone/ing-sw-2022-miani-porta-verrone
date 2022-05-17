@@ -36,12 +36,6 @@ public class Match implements IMatchMaking, IGame {
     private final Collection<VirtualView> playersView = new ArrayList<>();
 
     /**
-     * The views of the player in this match. All of this should be notified
-     * when something in the match changes
-     */
-    private final Collection<VirtualView> playersView = new ArrayList<>();
-
-    /**
      * Creates a new Match for the number of player specified using the expert rules if {@code wantExpert}
      * is {@code true}, or using the normal rules otherwise.
      *
@@ -75,15 +69,11 @@ public class Match implements IMatchMaking, IGame {
         }
     }
 
-
-    /**
-     * Gets the nickname of the player that need to play now.
-     * @return the nickname of the current player
-     */
+    @Override
     public String getCurrentPlayerNickname(){
         if (matchMaking != null)
             return matchMaking.getCurrentPlayer().getNickname();
-        return game.getModel().getCurrentPlayer().getNickname();
+        return game.getCurrentPlayerNickname();
     }
 
     /**

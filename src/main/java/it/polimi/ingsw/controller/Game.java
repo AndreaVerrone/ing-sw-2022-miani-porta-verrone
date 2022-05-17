@@ -65,6 +65,10 @@ public class Game implements IGame{
         state = playAssistantState;
     }
 
+    @Override
+    public String getCurrentPlayerNickname() {
+        return model.getCurrentPlayer().getNickname();
+    }
 
     /**
      * Changes the current state of the game

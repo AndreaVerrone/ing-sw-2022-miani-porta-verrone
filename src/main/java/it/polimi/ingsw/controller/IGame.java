@@ -9,6 +9,12 @@ import it.polimi.ingsw.model.player.Assistant;
 public interface IGame {
 
     /**
+     * Gets the nickname of the player that need to play now.
+     * @return the nickname of the current player
+     */
+    String getCurrentPlayerNickname();
+
+    /**
      * Method to use an assistant card
      *
      * @param assistant is the assistant card to be played
