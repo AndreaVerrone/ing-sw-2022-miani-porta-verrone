@@ -11,7 +11,7 @@ public class Icon extends Widget {
     /**
      * The icon to display
      */
-    private final Icons icon;
+    private Icons icon;
 
     /**
      * The color of the icon
@@ -53,6 +53,11 @@ public class Icon extends Widget {
      */
     public Icon(Icons icon){
         this(icon, Color.DEFAULT, Color.DEFAULT);
+    }
+
+    public void setIcon(Icons icon){
+        this.icon = icon;
+        update();
     }
 
     public Icon setColor(Color color){
