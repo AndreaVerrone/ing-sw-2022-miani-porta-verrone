@@ -42,10 +42,12 @@ public class ExpertGame extends Game{
      */
     private void createThreeRandomCards(){
         CharacterCardsFactory cardsFactory = new CharacterCardsFactory(this);
-        for (int i = 0; i < 3; i++){
+        while (cards.size() < 3){
             int random = new Random().nextInt(CharacterCardsType.values().length);
             CharacterCardsType cardType = CharacterCardsType.values()[random];
-            cards.put(cardType, cardsFactory.chooseCard(cardType));
+            if (!cards.containsKey(cardType)) {
+                cards.put(cardType, cardsFactory.chooseCard(cardType));
+            }
         }
     }
 
