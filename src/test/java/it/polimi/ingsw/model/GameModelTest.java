@@ -16,12 +16,6 @@ class GameModelTest {
 
     GameModel gameModel;
 
-    PlayerLoginInfo playerLoginInfo1;
-
-    PlayerLoginInfo playerLoginInfo2;
-
-    PlayerLoginInfo playerLoginInfo3;
-
     Player player1;
     Player player2;
     Player player3;
@@ -29,15 +23,15 @@ class GameModelTest {
     @BeforeEach
     void setUp() {
 
-        playerLoginInfo1=new PlayerLoginInfo("player 1");
+        PlayerLoginInfo playerLoginInfo1=new PlayerLoginInfo("player 1");
         playerLoginInfo1.setWizard(Wizard.W1);
         playerLoginInfo1.setTowerType(TowerType.BLACK);
 
-        playerLoginInfo2 = new PlayerLoginInfo("player 2");
+        PlayerLoginInfo playerLoginInfo2 = new PlayerLoginInfo("player 2");
         playerLoginInfo2.setWizard(Wizard.W2);
         playerLoginInfo2.setTowerType(TowerType.WHITE);
 
-        playerLoginInfo3 = new PlayerLoginInfo("player 3");
+        PlayerLoginInfo playerLoginInfo3 = new PlayerLoginInfo("player 3");
         playerLoginInfo3.setWizard(Wizard.W3);
         playerLoginInfo3.setTowerType(TowerType.GREY);
 
@@ -53,11 +47,8 @@ class GameModelTest {
     @AfterEach
     void tearDown() {
         player1 = null;
-        playerLoginInfo1 = null;
         player2 = null;
-        playerLoginInfo2 = null;
         player3 = null;
-        playerLoginInfo3 = null;
         gameModel = null;
     }
 
