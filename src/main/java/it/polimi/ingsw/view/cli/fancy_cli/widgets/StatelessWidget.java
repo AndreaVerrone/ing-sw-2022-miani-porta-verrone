@@ -28,6 +28,8 @@ public abstract class StatelessWidget extends Widget{
      * @return a StatelessWidget that shows the passed widget
      */
     public static Widget from(Widget widget){
+        if (widget instanceof StatelessWidget)
+            return widget;
         return new StatelessWidget() {
             @Override
             protected Widget build() {
