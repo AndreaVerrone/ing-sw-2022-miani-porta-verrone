@@ -73,13 +73,15 @@ class GameModelTest {
         player3.useAssistant(Assistant.CARD_3);
         gameModel.calculateActionPhaseOrder();
 
-        // compute panning phase order
+        // compute planning phase order
         // the order should be: player2, player3, player1
         // and assert that it is
         gameModel.calculatePlanningPhaseOrder();
-        assertEquals(player2,gameModel.getPlayerList().get(0));
-        assertEquals(player3,gameModel.getPlayerList().get(1));
-        assertEquals(player1,gameModel.getPlayerList().get(2));
+        assertEquals(player2,gameModel.getCurrentPlayer());
+        gameModel.nextPlayerTurn();
+        assertEquals(player3,gameModel.getCurrentPlayer());
+        gameModel.nextPlayerTurn();
+        assertEquals(player1,gameModel.getCurrentPlayer());
     }
 
     @Test
@@ -98,9 +100,11 @@ class GameModelTest {
         // the order should be: player3, player1, player2
         // and assert that it is
         gameModel.calculatePlanningPhaseOrder();
-        assertEquals(player3,gameModel.getPlayerList().get(0));
-        assertEquals(player1,gameModel.getPlayerList().get(1));
-        assertEquals(player2,gameModel.getPlayerList().get(2));
+        assertEquals(player3,gameModel.getCurrentPlayer());
+        gameModel.nextPlayerTurn();
+        assertEquals(player1,gameModel.getCurrentPlayer());
+        gameModel.nextPlayerTurn();
+        assertEquals(player2,gameModel.getCurrentPlayer());
     }
 
     @Test
@@ -108,9 +112,11 @@ class GameModelTest {
         // initial order --> 1 2 3
         // compute panning phase order --> order 1 2 3
         gameModel.calculatePlanningPhaseOrder();
-        assertEquals(player1,gameModel.getPlayerList().get(0));
-        assertEquals(player2,gameModel.getPlayerList().get(1));
-        assertEquals(player3,gameModel.getPlayerList().get(2));
+        assertEquals(player1,gameModel.getCurrentPlayer());
+        gameModel.nextPlayerTurn();
+        assertEquals(player2,gameModel.getCurrentPlayer());
+        gameModel.nextPlayerTurn();
+        assertEquals(player3,gameModel.getCurrentPlayer());
     }
 
     @Test
@@ -121,17 +127,17 @@ class GameModelTest {
 
         gameModel.calculateActionPhaseOrder();
 
-        assertEquals("player 3", gameModel.getCurrentPlayer().getNickname());
+        assertEquals(player3, gameModel.getCurrentPlayer());
     }
 
     @Test
     public void nextPlayerTurn_WithPlayerOrder123_ShouldSetCurrentPlayerAs2() {
         gameModel.nextPlayerTurn();
-        assertEquals("player 2", gameModel.getCurrentPlayer().getNickname());
+        assertEquals(player2, gameModel.getCurrentPlayer());
     }
 
     @Test
-    public void getMotherNatureMovementsLimit_StandardStrategy(){
+    public void getMotherNatureMovementsLimit_StandardStrategy_ShouldReturnLimitOfCard(){
         //Use assistant
         gameModel.getCurrentPlayer().useAssistant(Assistant.CARD_9);
         //Use standard strategy
@@ -139,7 +145,7 @@ class GameModelTest {
     }
 
     @Test
-    public void getMotherNatureMovementsLimit_PlusTwoMovementsStrategy(){
+    public void getMotherNatureMovementsLimit_PlusTwoMovementsStrategy_ShouldReturnLimitOfCardIncremented(){
         //Use assistant
         gameModel.getCurrentPlayer().useAssistant(Assistant.CARD_9);
         //Change strategy

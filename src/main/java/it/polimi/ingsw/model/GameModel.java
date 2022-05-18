@@ -158,6 +158,7 @@ public class GameModel {
             players.set(i,nextPlayerInInitialList(index+numOfIteration));
             numOfIteration ++;
         }
+        setCurrentPlayer(players.get(0));
     }
 
     /**
