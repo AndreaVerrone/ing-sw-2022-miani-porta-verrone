@@ -65,8 +65,9 @@ abstract public class CharacterCard {
     public void setAsUsed(){
         if (!used){
             used = true;
-            notifyCoinOnCardObservers(getCardType(),used);
+            notifyCoinOnCardObservers(getCardType(),this.used);
             cost++;
+            notifyCostOfCharacterCardObservers(getCardType(),this.cost);
         }
     }
 
@@ -137,6 +138,38 @@ abstract public class CharacterCard {
     public void notifyStudentsOnCardObservers(CharacterCardsType characterCardsType, StudentList actualStudents){
         for(StudentsOnCardObserver observer : studentsOnCardObservers)
             observer.studentsOnCardObserverUpdate(characterCardsType, actualStudents);
+    }
+
+    // MANAGEMENT OF OBSERVERS ON COST OF CHARACTER CARD
+    /**
+     * List of the observer on the students on the cost of character card.
+     */
+    private final List<CostOfCharacterCardObserver> costOfCharacterCardObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the cost of character card.
+     * @param observer the observer to be added
+     */
+    public void addCostOfCharacterCardObserver(CostOfCharacterCardObserver observer){
+        costOfCharacterCardObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the cost of character card.
+     * @param observer the observer to be removed
+     */
+    public void removeCostOfCharacterCardObserver(CostOfCharacterCardObserver observer){
+        costOfCharacterCardObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the cost of character card.
+     * @param characterCardsType the character card type on which the student has been changed
+     * @param actualCost the actual value of the cost for the usage of the card
+     */
+    public void notifyCostOfCharacterCardObservers(CharacterCardsType characterCardsType, int actualCost){
+        for(CostOfCharacterCardObserver observer : costOfCharacterCardObservers)
+            observer.costOfCharacterCardObserverUpdate(characterCardsType,actualCost);
     }
 
 }
