@@ -50,7 +50,7 @@ public abstract class Widget implements Cloneable{
     /**
      * A method to call everytime the content of the widget changes.
      */
-    final void update(){
+    void update(){
         if (canvas == null)
             return;
         if (onScreen && canvas.shouldUpdate())
@@ -107,7 +107,7 @@ public abstract class Widget implements Cloneable{
      * Adds a callback to be run when the size of this widget changes
      * @param callback the callback to run
      */
-    final void onSizeChange(Runnable callback){
+    void onSizeChange(Runnable callback){
         if (onSizeChange == null)
             onSizeChange = callback;
     }
@@ -119,6 +119,10 @@ public abstract class Widget implements Cloneable{
         onSizeChange = null;
     }
 
+    /**
+     * Creates a deep copy of this widget and removes any size listener and canvas from it.
+     * @return a deep copy of this widget
+     */
     @Override
     protected Widget clone() {
         try {
