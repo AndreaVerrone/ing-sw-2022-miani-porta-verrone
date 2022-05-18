@@ -15,7 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CheckProfessorCharacterTest {
 
-    Collection<PlayerLoginInfo> playerLoginInfo = new ArrayList<>();
+    Player currentPlayer;
+    Player player2;
+    Player player3;
 
     GameModel gameModel;
     CheckProfessorCharacter checkProfessorCharacter;
@@ -23,7 +25,7 @@ class CheckProfessorCharacterTest {
     @BeforeEach
     void setUp() {
 
-        playerLoginInfo.addAll(
+        Collection<PlayerLoginInfo> playerLoginInfo = new ArrayList<>(
                 List.of(
                         new PlayerLoginInfo("Player1"),
                         new PlayerLoginInfo("Player2"),
@@ -37,11 +39,18 @@ class CheckProfessorCharacterTest {
 
         gameModel.setCheckProfessorStrategy(checkProfessorCharacter);
 
+        player3 = gameModel.getCurrentPlayer();
+        gameModel.nextPlayerTurn();
+        player2 = gameModel.getCurrentPlayer();
+        gameModel.nextPlayerTurn();
+        currentPlayer = gameModel.getCurrentPlayer();
     }
 
     @AfterEach
     void tearDown() {
-        playerLoginInfo=null;
+        currentPlayer = null;
+        player2 = null;
+        player3 = null;
         gameModel=null;
         checkProfessorCharacter=null;
     }
@@ -52,12 +61,6 @@ class CheckProfessorCharacterTest {
         // the current player has 1 BLUE UNICORN student in the dining room, while
         // all the other players has not any student and so the current player has the BLUE UNICORN professor.
         // Another player, the player2 has the RED DRAGON professor and a student of that color
-
-        // this is the current player
-        Player currentPlayer = gameModel.getPlayerList().get(0);
-
-        // this is the player 2
-        Player player2 = gameModel.getPlayerList().get(1);
 
         // SET UP
         // 1. add one BLUE UNICORN student to the dining room of the current player
@@ -81,15 +84,15 @@ class CheckProfessorCharacterTest {
         player2.addProfessor(PawnType.RED_DRAGONS);
 
         // call the method to test
-        checkProfessorCharacter.checkProfessor((PawnType.BLUE_UNICORNS));
+        checkProfessorCharacter.checkProfessor(PawnType.BLUE_UNICORNS);
 
         // CHECKS
         // 1. assert that the current player still has the professor
         assertTrue(currentPlayer.getProfessors().contains(PawnType.BLUE_UNICORNS));
 
         // 2. assert that the other players has no the BLUE UNICORN PROFESSOR
-        assertFalse(gameModel.getPlayerList().get(1).getProfessors().contains((PawnType.BLUE_UNICORNS)));
-        assertFalse(gameModel.getPlayerList().get(2).getProfessors().contains((PawnType.BLUE_UNICORNS)));
+        assertFalse(player2.getProfessors().contains(PawnType.BLUE_UNICORNS));
+        assertFalse(player3.getProfessors().contains(PawnType.BLUE_UNICORNS));
 
         // 3. assert that player 2 still has the RED dragon professor
         assertTrue(player2.getProfessors().contains(PawnType.RED_DRAGONS));
@@ -102,12 +105,6 @@ class CheckProfessorCharacterTest {
         // No one has BLUE UNICORN professors and so any BLUE UNICORN students.
         // Player2 has one RED DRAGON student and professor.
         // Then a BLUE UNICORN student will be added to the dining room of the current player.
-
-        // this is the current player
-        Player currentPlayer = gameModel.getPlayerList().get(0);
-
-        // this is the player 2
-        Player player2 = gameModel.getPlayerList().get(1);
 
         // SET UP
         // 1. add one BLUE UNICORN student to the dining room of the current player
@@ -128,15 +125,15 @@ class CheckProfessorCharacterTest {
         player2.addProfessor(PawnType.RED_DRAGONS);
 
         // call the method to test
-        checkProfessorCharacter.checkProfessor((PawnType.BLUE_UNICORNS));
+        checkProfessorCharacter.checkProfessor(PawnType.BLUE_UNICORNS);
 
         // CHECKS
         // 1. assert that the current player has the BLUE UNICORN professor
         assertTrue(currentPlayer.getProfessors().contains(PawnType.BLUE_UNICORNS));
 
         // 2. assert that the other players has no the BLUE UNICORN PROFESSOR
-        assertFalse(gameModel.getPlayerList().get(1).getProfessors().contains((PawnType.BLUE_UNICORNS)));
-        assertFalse(gameModel.getPlayerList().get(2).getProfessors().contains((PawnType.BLUE_UNICORNS)));
+        assertFalse(player2.getProfessors().contains(PawnType.BLUE_UNICORNS));
+        assertFalse(player3.getProfessors().contains(PawnType.BLUE_UNICORNS));
 
         // 3. assert that player 2 still has the RED dragon professor
         assertTrue(player2.getProfessors().contains(PawnType.RED_DRAGONS));
@@ -151,12 +148,6 @@ class CheckProfessorCharacterTest {
         // corresponding professor.
         // Player 2 has also a RED DRAGON student and professor.
         // Then a BLUE unicorn student will be added to the current player
-
-        // this is the current player
-        Player currentPlayer = gameModel.getPlayerList().get(0);
-
-        // this is another player
-        Player player2 = gameModel.getPlayerList().get(1);
 
         // SET UP
         // 1. add one BLUE UNICORN student to the dining room of the player2
@@ -188,7 +179,7 @@ class CheckProfessorCharacterTest {
         }
 
         // calling of the method:
-        checkProfessorCharacter.checkProfessor((PawnType.BLUE_UNICORNS));
+        checkProfessorCharacter.checkProfessor(PawnType.BLUE_UNICORNS);
 
         // CHECKS
         // 1. assert that the professor belong to current player
@@ -196,7 +187,7 @@ class CheckProfessorCharacterTest {
 
         // 2. assert that any other player has not the BLUE UNICORN
         assertFalse(player2.getProfessors().contains(PawnType.BLUE_UNICORNS));
-        assertFalse(gameModel.getPlayerList().get(2).getProfessors().contains(PawnType.BLUE_UNICORNS));
+        assertFalse(player3.getProfessors().contains(PawnType.BLUE_UNICORNS));
 
         // 3. assert that player 2 still has the RED dragon professor
         assertTrue(player2.getProfessors().contains(PawnType.RED_DRAGONS));
@@ -210,12 +201,6 @@ class CheckProfessorCharacterTest {
         // corresponding professor.
         // Then one student will be added to the dining room of the current player
         // and the method to test will be called.
-
-        // this is the current player
-        Player currentPlayer = gameModel.getPlayerList().get(0);
-
-        // this is another player
-        Player player2 = gameModel.getPlayerList().get(1);
 
         // SET UP
         // 1. add one BLUE UNICORN student to the dining room of the current player
@@ -263,7 +248,7 @@ class CheckProfessorCharacterTest {
 
         // 2. assert that any other player has not the BLUE UNICORN
         assertFalse(player2.getProfessors().contains(PawnType.BLUE_UNICORNS));
-        assertFalse(gameModel.getPlayerList().get(2).getProfessors().contains(PawnType.BLUE_UNICORNS));
+        assertFalse(player3.getProfessors().contains(PawnType.BLUE_UNICORNS));
 
         // 3. assert that player 2 still has the RED dragon professor
         assertTrue(player2.getProfessors().contains(PawnType.RED_DRAGONS));
@@ -276,12 +261,6 @@ class CheckProfessorCharacterTest {
         // while another player has 1 blue student in the dining room and therefore it has also the
         // corresponding professor.
         // Player 2 has also a RED DRAGON student and professor.
-
-        // this is the current player
-        Player currentPlayer = gameModel.getPlayerList().get(0);
-
-        // this is another player
-        Player player2 = gameModel.getPlayerList().get(1);
 
         // SET UP
         // 1. add one BLUE UNICORN student to the dining room of the player2
@@ -313,7 +292,7 @@ class CheckProfessorCharacterTest {
 
         // 2. assert that any other player has not the BLUE UNICORN
         assertFalse(currentPlayer.getProfessors().contains(PawnType.BLUE_UNICORNS));
-        assertFalse(gameModel.getPlayerList().get(2).getProfessors().contains(PawnType.BLUE_UNICORNS));
+        assertFalse(player3.getProfessors().contains(PawnType.BLUE_UNICORNS));
 
         // 3. assert that player 2 still has the RED dragon professor
         assertTrue(player2.getProfessors().contains(PawnType.RED_DRAGONS));
