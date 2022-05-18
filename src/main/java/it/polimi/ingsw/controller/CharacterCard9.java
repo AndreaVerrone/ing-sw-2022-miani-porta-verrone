@@ -105,6 +105,6 @@ public class CharacterCard9 extends CharacterCard{
      */
     public void notifyStudentsOnCardObservers(CharacterCardsType characterCardsType, StudentList actualStudents){
         for(StudentsOnCardObserver observer : studentsOnCardObservers)
-            observer.studentsOnIslandObserverUpdate(characterCardsType, actualStudents);
+            observer.studentsOnCardObserverUpdate(characterCardsType, actualStudents);
     }
 }

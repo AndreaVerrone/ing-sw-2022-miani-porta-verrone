@@ -13,6 +13,6 @@ public interface StudentsOnCardObserver {
      * @param characterCardType the character card type on which the student has been changed
      * @param actualStudents the actual student list on island
      */
-    public void studentsOnIslandObserverUpdate(CharacterCardsType characterCardType, StudentList actualStudents);
+    public void studentsOnCardObserverUpdate(CharacterCardsType characterCardType, StudentList actualStudents);
 
 }
