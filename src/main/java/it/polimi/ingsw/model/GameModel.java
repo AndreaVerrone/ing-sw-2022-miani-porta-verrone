@@ -346,12 +346,13 @@ public class GameModel {
 
     // MANAGEMENT OF THE OBSERVERS ON CONQUER ISLAND
     /**
-     * List of the observers on conquer island.
+     * List of the observers on conquer island invocation when there is a ban on the island.
      */
     private final List<ConquerIslandObserver> conquerIslandObservers = new ArrayList<>();
 
     /**
-     * This method allows to add the observer, passed as a parameter, on conquer island.
+     * This method allows to add the observer, passed as a parameter, on conquer island
+     * invocation when there is a ban on the island.
      * @param observer the observer to be added
      */
     public void addConquerIslandObserver(ConquerIslandObserver observer){
@@ -359,7 +360,8 @@ public class GameModel {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on conquer island.
+     * This method allows to remove the observer, passed as a parameter, on conquer island
+     * invocation when there is a ban on the island.
      * @param observer the observer to be removed
      */
     public void removeConquerIslandObserver(ConquerIslandObserver observer){
@@ -367,7 +369,8 @@ public class GameModel {
     }
 
     /**
-     * This method notify all the attached observers that conquer island method has been invoked.
+     * This method notify all the attached observers that conquer island method has been invoked when there is
+     * a ban on the island.
      */
     public void notifyConquerIslandObserver(){
         for(ConquerIslandObserver observer: conquerIslandObservers){
