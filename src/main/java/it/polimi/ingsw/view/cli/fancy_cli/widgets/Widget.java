@@ -39,49 +39,49 @@ public abstract class Widget implements Cloneable{
 
     Widget(){}
 
-    protected void setCanvas(Canvas canvas){
+    void setCanvas(Canvas canvas){
         this.canvas = canvas;
     }
 
-    protected final Canvas getCanvas(){
+    final Canvas getCanvas(){
         return canvas;
     }
 
     /**
      * A method to call everytime the content of the widget changes.
      */
-    protected final void update(){
+    final void update(){
         if (canvas == null)
             return;
         if (onScreen && canvas.shouldUpdate())
             canvas.show();
     }
 
-    protected final int getWidth() {
+    final int getWidth() {
         return width;
     }
 
-    protected final void setWidth(int width) {
+    final void setWidth(int width) {
         this.width = width;
         if (onSizeChange != null)
             onSizeChange.run();
     }
 
-    protected final int getHeight() {
+    final int getHeight() {
         return height;
     }
 
-    protected final void setHeight(int height) {
+    final void setHeight(int height) {
         this.height = height;
         if (onSizeChange != null)
             onSizeChange.run();
     }
 
-    protected final int getStartingPoint() {
+    final int getStartingPoint() {
         return startingPoint;
     }
 
-    protected final void setStartingPoint(int startingPoint) {
+    final void setStartingPoint(int startingPoint) {
         this.startingPoint = startingPoint;
     }
 
@@ -90,7 +90,7 @@ public abstract class Widget implements Cloneable{
      * A method used to display this widget. This should not be overrider, as it could lead to unwanted
      * behaviours. To specify how the widget should be displayed, use {@link #display()}.
      */
-    protected final void show() {
+    final void show() {
         onScreen = true;
         ConsoleCli.moveToColumn(startingPoint);
         display();
@@ -101,13 +101,13 @@ public abstract class Widget implements Cloneable{
     /**
      * A method to describe in which way this widget should be displayed on the console
      */
-    abstract protected void display();
+    abstract void display();
 
     /**
      * Adds a callback to be run when the size of this widget changes
      * @param callback the callback to run
      */
-    protected final void onSizeChange(Runnable callback){
+    final void onSizeChange(Runnable callback){
         if (onSizeChange == null)
             onSizeChange = callback;
     }
@@ -115,14 +115,17 @@ public abstract class Widget implements Cloneable{
     /**
      * Removes the listener of the changes of the size of this widget
      */
-    protected final void detachListener(){
+    final void detachListener(){
         onSizeChange = null;
     }
 
     @Override
     protected Widget clone() {
         try {
-            return (Widget) super.clone();
+            Widget widget = (Widget) super.clone();
+            widget.canvas = null;
+            widget.onSizeChange = null;
+            return widget;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
