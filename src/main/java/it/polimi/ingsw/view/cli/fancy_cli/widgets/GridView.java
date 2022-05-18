@@ -31,7 +31,7 @@ public class GridView extends Widget{
     /**
      * The children of this grid
      */
-    private final Map<Position, Widget> widgetMap = new HashMap<>(9);
+    private final Map<Position, Widget> widgetMap = new HashMap<>(9, 1);
 
     /**
      * The alignment of a child in the cell
