@@ -37,11 +37,12 @@ class GameModelTest {
 
         gameModel = new GameModel(List.of(playerLoginInfo1,playerLoginInfo2,playerLoginInfo3));
 
-        List<Player> players = gameModel.getPlayerList();
-        player1 = players.get(0);
-        player2 = players.get(1);
-        player3 = players.get(2);
-
+        player1 = gameModel.getCurrentPlayer();
+        gameModel.nextPlayerTurn();
+        player2 = gameModel.getCurrentPlayer();
+        gameModel.nextPlayerTurn();
+        player3 = gameModel.getCurrentPlayer();
+        gameModel.calculatePlanningPhaseOrder();
     }
 
     @AfterEach

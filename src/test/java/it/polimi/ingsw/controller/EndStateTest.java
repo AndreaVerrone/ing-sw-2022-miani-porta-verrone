@@ -29,11 +29,13 @@ class EndStateTest {
         //Create Game
         game = new Game(players);
         //Get Player1
-        player1 = game.getModel().getPlayerList().get(0);
+        player1 = game.getModel().getCurrentPlayer();
         //Get Player2
-        player2 = game.getModel().getPlayerList().get(1);
+        game.getModel().nextPlayerTurn();
+        player2 = game.getModel().getCurrentPlayer();
         //Get Player3
-        player3 = game.getModel().getPlayerList().get(2);
+        game.getModel().nextPlayerTurn();
+        player3 = game.getModel().getCurrentPlayer();
     }
 
     @AfterEach
