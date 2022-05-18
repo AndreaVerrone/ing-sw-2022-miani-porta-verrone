@@ -27,7 +27,7 @@ public class CharacterCard9 extends CharacterCard{
      * @param game Game class of the game
      */
     CharacterCard9(ExpertGame game) {
-        super(CharacterCardsType.CARD9.getCost(), CharacterCardsType.CARD9.getDescription());
+        super(CharacterCardsType.CARD9);
         this.game = game;
         this.studentsOnCard = new StudentList();
 
@@ -65,7 +65,7 @@ public class CharacterCard9 extends CharacterCard{
         } catch (NotEnoughStudentException e) {
             e.printStackTrace();//Never happens
         }
-        notifyStudentsOnCardObservers(CharacterCardsType.CARD9,studentsOnCard.clone());
+        notifyStudentsOnCardObservers(this.getCardType(),studentsOnCard.clone());
     }
 
     /**

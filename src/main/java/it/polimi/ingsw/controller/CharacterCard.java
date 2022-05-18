@@ -28,13 +28,18 @@ abstract public class CharacterCard {
     private boolean used = false;
 
     /**
-     * Creates a new character card with the specified initial cost and the description passed as a parameter.
-     * @param cost the initial cost of the card
-     * @param effectDescription the description of the effect of this card
+     * the type of the card
+     * @see CharacterCardsType
      */
-    CharacterCard(int cost, String effectDescription){
-        this.effectDescription = effectDescription;
-        this.cost = cost;
+    private final CharacterCardsType cardType;
+
+    /**
+     * Creates a new character card with the specified initial cost and the description passed as a parameter.
+     */
+    CharacterCard(CharacterCardsType characterCardsType){
+        this.cardType = characterCardsType;
+        this.effectDescription = cardType.getDescription();
+        this.cost = cardType.getCost();
     }
 
     public String getEffectDescription(){
@@ -43,6 +48,10 @@ abstract public class CharacterCard {
 
     public int getCost(){
         return cost;
+    }
+
+    public CharacterCardsType getCardType() {
+        return cardType;
     }
 
     public boolean isUsed(){
@@ -56,6 +65,7 @@ abstract public class CharacterCard {
     public void setAsUsed(){
         if (!used){
             used = true;
+            notifyCoinOnCardObservers(getCardType(),used);
             cost++;
         }
     }
@@ -89,12 +99,12 @@ abstract public class CharacterCard {
 
     /**
      * This method notify all the attached observers that a change has been happened on character card .
-     * @param characterCard the card on which the change has been happened
+     * @param characterCardsType the card type on which the change has been happened
      * @param coinOnCard the actual value (true, if the coin is present, false otherwise)
      */
-    public void notifyCoinOnCardObservers(CharacterCard characterCard,boolean coinOnCard){
+    public void notifyCoinOnCardObservers(CharacterCardsType characterCardsType,boolean coinOnCard){
         for(CoinOnCardObserver observer : coinOnCardObservers)
-            observer.coinOnCardObserverUpdate(this,this.used);
+            observer.coinOnCardObserverUpdate(this.cardType,this.used);
     }
 
     // MANAGEMENT OF OBSERVERS ON STUDENTS ON CHARACTER CARD

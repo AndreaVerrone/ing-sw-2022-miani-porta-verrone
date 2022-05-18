@@ -19,7 +19,7 @@ public class CharacterCard5 extends CharacterCard implements ConquerIslandObserv
      * @param game the Game class
      */
     CharacterCard5(ExpertGame game) {
-        super(CharacterCardsType.CARD5.getCost(), CharacterCardsType.CARD5.getDescription());
+        super(CharacterCardsType.CARD5);
         this.game=game;
         numOfBans=4;
 

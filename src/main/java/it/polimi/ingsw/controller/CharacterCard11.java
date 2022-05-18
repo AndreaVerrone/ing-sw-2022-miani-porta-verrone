@@ -27,7 +27,7 @@ public class CharacterCard11 extends CharacterCard{
      */
     CharacterCard11(ExpertGame game) {
 
-        super(CharacterCardsType.CARD11.getCost(), CharacterCardsType.CARD11.getDescription());
+        super(CharacterCardsType.CARD11);
 
         this.game=game;
 
@@ -75,7 +75,7 @@ public class CharacterCard11 extends CharacterCard{
      */
     public void removeStudentFromCard(PawnType pawnType) throws NotEnoughStudentException {
         studentList.changeNumOf(pawnType, -1);
-        notifyStudentsOnCardObservers(CharacterCardsType.CARD11,studentList.clone());
+        notifyStudentsOnCardObservers(this.getCardType(),studentList.clone());
     }
 
 }

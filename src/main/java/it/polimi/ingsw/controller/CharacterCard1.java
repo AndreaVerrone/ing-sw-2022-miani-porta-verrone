@@ -28,7 +28,7 @@ public class CharacterCard1 extends CharacterCard{
      */
     CharacterCard1(ExpertGame game) {
 
-        super(CharacterCardsType.CARD1.getCost(), CharacterCardsType.CARD1.getDescription());
+        super(CharacterCardsType.CARD1);
 
         this.game=game;
 
@@ -63,7 +63,7 @@ public class CharacterCard1 extends CharacterCard{
             // it is impossible that is thrown since the delta is positive.
             e.printStackTrace();
         }
-        notifyStudentsOnCardObservers(CharacterCardsType.CARD1,studentList.clone());
+        notifyStudentsOnCardObservers(this.getCardType(),studentList.clone());
     }
 
     /**
