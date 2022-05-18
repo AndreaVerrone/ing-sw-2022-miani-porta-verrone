@@ -5,7 +5,7 @@ import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
 /**
  * A class representing a generic component of the cli
  */
-public abstract class Widget {
+public abstract class Widget implements Cloneable{
 
     /**
      * The width, in character width number, of this widget
@@ -37,49 +37,51 @@ public abstract class Widget {
      */
     private boolean onScreen = false;
 
+    Widget(){}
+
     protected void setCanvas(Canvas canvas){
         this.canvas = canvas;
     }
 
-    protected Canvas getCanvas(){
+    protected final Canvas getCanvas(){
         return canvas;
     }
 
     /**
      * A method to call everytime the content of the widget changes.
      */
-    protected void update(){
+    protected final void update(){
         if (canvas == null)
             return;
         if (onScreen && canvas.shouldUpdate())
             canvas.show();
     }
 
-    protected int getWidth() {
+    protected final int getWidth() {
         return width;
     }
 
-    protected void setWidth(int width) {
+    protected final void setWidth(int width) {
         this.width = width;
         if (onSizeChange != null)
             onSizeChange.run();
     }
 
-    protected int getHeight() {
+    protected final int getHeight() {
         return height;
     }
 
-    protected void setHeight(int height) {
+    protected final void setHeight(int height) {
         this.height = height;
         if (onSizeChange != null)
             onSizeChange.run();
     }
 
-    protected int getStartingPoint() {
+    protected final int getStartingPoint() {
         return startingPoint;
     }
 
-    protected void setStartingPoint(int startingPoint) {
+    protected final void setStartingPoint(int startingPoint) {
         this.startingPoint = startingPoint;
     }
 
@@ -88,7 +90,7 @@ public abstract class Widget {
      * A method used to display this widget. This should not be overrider, as it could lead to unwanted
      * behaviours. To specify how the widget should be displayed, use {@link #display()}.
      */
-    protected void show() {
+    protected final void show() {
         onScreen = true;
         ConsoleCli.moveToColumn(startingPoint);
         display();
@@ -105,7 +107,7 @@ public abstract class Widget {
      * Adds a callback to be run when the size of this widget changes
      * @param callback the callback to run
      */
-    protected void onSizeChange(Runnable callback){
+    protected final void onSizeChange(Runnable callback){
         if (onSizeChange == null)
             onSizeChange = callback;
     }
@@ -113,7 +115,16 @@ public abstract class Widget {
     /**
      * Removes the listener of the changes of the size of this widget
      */
-    protected void detachListener(){
+    protected final void detachListener(){
         onSizeChange = null;
+    }
+
+    @Override
+    protected Widget clone() {
+        try {
+            return (Widget) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
