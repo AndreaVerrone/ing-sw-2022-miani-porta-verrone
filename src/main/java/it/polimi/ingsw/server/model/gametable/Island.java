@@ -199,7 +199,7 @@ public class Island {
 
     /**
      * This method notify all the attached observers that a change has been happened on the students on island.
-     * @param islandID the islandID of the island on which the students has been changed
+     * @param islandID the islandID of the island on which the students have been changed
      * @param actualStudents the actual student list on island
      */
     private void notifyStudentsOnIslandObservers(int islandID, StudentList actualStudents){

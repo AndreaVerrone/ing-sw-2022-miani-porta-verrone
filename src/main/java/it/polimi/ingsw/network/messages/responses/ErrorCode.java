@@ -45,7 +45,7 @@ public enum ErrorCode{
      */
     ASSISTANT_NOT_USABLE,
     /**
-     * The student selected is not in the location choosen
+     * The student selected is not in the location chosen
      */
     STUDENT_NOT_PRESENT,
     /**

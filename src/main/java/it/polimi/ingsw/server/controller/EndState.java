@@ -65,7 +65,7 @@ public class EndState implements State {
         //List of winners, there is more than one in case of draw
         Collection<Player> winners;
         winners = model.getPlayerList().stream()
-                        //If a player has same number of towers and professors is considered a draw
+                        //If a player has the same number of towers and professors is considered a draw
                         .filter(player -> (player.getTowerNumbers() == winnerNumberOfTowers && player.getProfessors().size() == winnerNumberOfProfessors))
                         .collect(Collectors.toList());
         game.setWinner(winners);

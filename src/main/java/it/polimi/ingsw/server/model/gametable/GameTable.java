@@ -21,11 +21,11 @@ public class GameTable {
      */
     private int motherNaturePosition  = 0;
     /**
-     * Islands on the gametable
+     * Islands on the game table
      */
     private final List<Island> islands;
     /**
-     * Clouds on the gametable
+     * Clouds on the game table
      */
     private final List<Cloud> clouds;
     /**

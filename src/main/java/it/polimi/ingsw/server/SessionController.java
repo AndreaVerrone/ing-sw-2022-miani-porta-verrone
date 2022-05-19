@@ -354,7 +354,7 @@ public class SessionController {
     }
 
     /**
-     * Moves the passed student from the choosen location.
+     * Moves the passed student from the chosen location.
      *
      * @param student  the student to move
      * @param originPosition location from where the student has been taken

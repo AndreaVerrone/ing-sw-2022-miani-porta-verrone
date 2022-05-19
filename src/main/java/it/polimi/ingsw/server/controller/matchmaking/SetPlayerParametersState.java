@@ -24,7 +24,7 @@ class SetPlayerParametersState implements MatchMakingState{
     private final int playerServing;
 
     /**
-     * Creates a new state in which the current player need to choose the wizard and the tower he want
+     * Creates a new state in which the current player need to choose the wizard and the tower he wants
      * to use during the game.
      * @param matchMaking the matchmaking associated with this state
      * @param playerServing the number representing the player that is being served (i.e. 1 for the first

@@ -21,7 +21,7 @@ public class AssistantDeck {
 
     /**
      * This is the constructor of the class.
-     * It will associate the {@code wizard} passed as parameter and it will set all the cards in {@code Assistant}
+     * It will associate the {@code wizard} passed as parameter, and it will set all the cards in {@code Assistant}
      * @see Assistant
      * @param wizard is the wizard that will be associated to the deck
      */

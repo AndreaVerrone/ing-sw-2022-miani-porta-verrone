@@ -147,7 +147,7 @@ class CheckProfessorStandardTest {
 
         // DESCRIPTION OF THE INITIAL SITUATION
         // the current player has no professor and no student in the dining room,
-        // while another player has 1 blue student in the dining room and therefore it has also the
+        // while another player has 1 blue student in the dining room, and therefore it has also the
         // corresponding professor.
         // Player 2 has also a RED DRAGON student and professor.
         // Then a BLUE unicorn student will be added to the current player
@@ -200,7 +200,7 @@ class CheckProfessorStandardTest {
 
         // DESCRIPTION OF THE INITIAL SITUATION
         // the current player has no professor and 1 student in the dining room,
-        // while another player has 1 blue student in the dining room and therefore it has also the
+        // while another player has 1 blue student in the dining room, and therefore it has also the
         // corresponding professor.
         // Then one student will be added to the dining room of the current player
         // and the method to test will be called.
@@ -261,7 +261,7 @@ class CheckProfessorStandardTest {
 
         // DESCRIPTION OF THE INITIAL SITUATION
         // the current player has no professor and no student in the dining room,
-        // while another player has 1 blue student in the dining room and therefore it has also the
+        // while another player has 1 blue student in the dining room, and therefore it has also the
         // corresponding professor.
         // Player 2 has also a RED DRAGON student and professor.
 

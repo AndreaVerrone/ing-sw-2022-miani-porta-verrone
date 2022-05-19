@@ -40,7 +40,7 @@ public class ExpertGame extends Game{
     }
 
     /**
-     * This method allow to conclude the usage of a character card by saving the fact taht
+     * This method allow to conclude the usage of a character card by saving the fact that
      * the current player has used a character card during his turn and by making it pay for the usage.
      * @param card the card that has been used
      */
