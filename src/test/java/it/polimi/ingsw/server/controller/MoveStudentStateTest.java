@@ -19,14 +19,11 @@ class MoveStudentStateTest {
     @BeforeEach
     void setUp() {
 
-        Collection<PlayerLoginInfo> playerLoginInfo = new ArrayList<>();
-        playerLoginInfo.addAll(
-                List.of(
-                        new PlayerLoginInfo("Player1"),
-                        new PlayerLoginInfo("Player2"),
-                        new PlayerLoginInfo("Player3")
-                )
-        );
+        Collection<PlayerLoginInfo> playerLoginInfo = new ArrayList<>(List.of(
+                new PlayerLoginInfo("Player1"),
+                new PlayerLoginInfo("Player2"),
+                new PlayerLoginInfo("Player3")
+        ));
 
         game = new Game(playerLoginInfo);
 

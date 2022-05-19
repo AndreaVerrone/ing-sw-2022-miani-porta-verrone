@@ -30,10 +30,6 @@ public class Game implements IGame{
      */
     private final State chooseCloudState;
     /**
-     * State for the end of the game
-     */
-    private State endState;
-    /**
      * Current state of the game
      */
     private State state;

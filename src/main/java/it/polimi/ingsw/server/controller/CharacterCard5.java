@@ -66,6 +66,6 @@ public class CharacterCard5 extends CharacterCard implements ConquerIslandObserv
     public void conquerIslandObserverUpdate() {
         // if the method conquerIsland has been invoked when there was a ban on the island
         // the ban should be removed by the island and added to the card
-        numOfBans++;
+        addBan();
     }
 }
