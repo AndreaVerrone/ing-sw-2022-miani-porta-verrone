@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.Match;
-import it.polimi.ingsw.controller.NotValidArgumentException;
-import it.polimi.ingsw.controller.NotValidOperationException;
-import it.polimi.ingsw.controller.Position;
+import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
@@ -393,7 +390,8 @@ public class SessionController {
      * @throws NotValidOperationException if there is no game associated to this client,
      *                                    if it's not the turn of this client to choose a destination or
      *                                    if the players can't move a student now
-     * @throws NotValidArgumentException  if the destination doesn't exist or if the destination is already full of students
+     * @throws NotValidArgumentException  if the destination doesn't exist or
+     *                                    if the destination is already full of students
      * @apiNote Possible error codes:
      * <ul>
      *     <li>
@@ -409,7 +407,7 @@ public class SessionController {
      *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to move a student
      *      </li>
      *      <li>
-     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the players can't move a student now
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the players choose a location now
      *      </li>
      *  </ul>
      */
@@ -479,5 +477,41 @@ public class SessionController {
     public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
         match.takeFromCloud(cloudID);
+    }
+
+    /**
+     * Uses a chosen character card
+     *
+     * @param card character card to be used
+     * @throws NotValidOperationException if there is no game associated to this client,
+     *                                    if it's not the turn of this client to use a card or
+     *                                    if the player has already used a card in this turn or
+     *                                    if the players hasn't enough coins to use the chosen card
+     * @throws NotValidArgumentException  if the card is not available or doesn't exist at all
+     * @apiNote Possible error codes:
+     * <ul>
+     *     <li>
+     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#CHARACTER_CARD_EXPENSIVE}: if the selected character card doesn't exist or is not available
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#CHARACTER_CARD_EXPENSIVE}: if the player hasn't enough money to use the selected character card
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#CHARACTER_CARD_ALREADY_USED}: if the player has already used a character card in his turn
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to take students from a cloud
+     *      </li>
+     *      <li>
+     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the players can't use a card now
+     *      </li>
+     *  </ul>
+     */
+    public void useCharacterCard(CharacterCardsType card) throws NotValidOperationException, NotValidArgumentException{
+        checkIfCanDo();
+        match.useCharacterCard(card);
     }
 }

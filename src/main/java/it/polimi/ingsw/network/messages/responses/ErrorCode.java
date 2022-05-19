@@ -45,7 +45,7 @@ public enum ErrorCode{
      */
     ASSISTANT_NOT_USABLE,
     /**
-     * The student selected is not in the entrance
+     * The student selected is not in the location choosen
      */
     STUDENT_NOT_PRESENT,
     /**
@@ -63,5 +63,18 @@ public enum ErrorCode{
     /**
      * The cloud chosen does not exist
      */
-    CLOUD_NOT_EXIST
+    CLOUD_NOT_EXIST,
+    /**
+     * The character card selected doesn't exist or is not available
+     */
+    CHARACTER_CARD_NOT_EXIST,
+    /**
+     * The player hasn't enough money to use the selected character card
+     */
+    CHARACTER_CARD_EXPENSIVE,
+    /**
+     * The player has already used a character card in his turn
+     */
+    CHARACTER_CARD_ALREADY_USED
+
 }
