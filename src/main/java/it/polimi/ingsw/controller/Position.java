@@ -1,9 +1,11 @@
 package it.polimi.ingsw.controller;
 
+import java.io.Serializable;
+
 /**
  * This class represent a position of the game.
  */
-public class Position {
+public class Position implements Serializable {
 
     /**
      * the location of the position
