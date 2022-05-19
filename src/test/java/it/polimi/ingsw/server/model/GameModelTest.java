@@ -6,6 +6,10 @@ import it.polimi.ingsw.server.model.gametable.exceptions.IslandNotFoundException
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceWithNoTowers;
+import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceWithTwoAdditional;
+import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceWithoutStudentColor;
+import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitPlusTwo;
 import org.junit.jupiter.api.*;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.ComputeInfluenceWithTwoAdditional;
+import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceWithTwoAdditional;
 
 /**
  * Class to implement the card 7 to calculate the influence with to additional points to the current player

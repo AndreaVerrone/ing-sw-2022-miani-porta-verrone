@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.messages.servertoclient;
 
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.network.messages.NetworkMessage;
-import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 
 /**
  * A command message sent from the server to the client

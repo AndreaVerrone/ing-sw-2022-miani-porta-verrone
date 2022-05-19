@@ -1,4 +1,6 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.strategies.influence;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.gametable.Island;
 import it.polimi.ingsw.server.model.player.Player;
 

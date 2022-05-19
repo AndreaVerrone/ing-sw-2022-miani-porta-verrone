@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.strategies.influence;
 
 import it.polimi.ingsw.server.model.gametable.Island;
 import it.polimi.ingsw.server.model.player.Player;

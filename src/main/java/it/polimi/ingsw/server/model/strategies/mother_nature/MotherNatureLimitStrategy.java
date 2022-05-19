@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.strategies.mother_nature;
 
 import it.polimi.ingsw.server.model.player.Player;
 

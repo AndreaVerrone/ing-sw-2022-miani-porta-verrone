@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.ComputeInfluenceWithNoTowers;
+import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceWithNoTowers;
 
 /**
  * Class to implement card 6 to calculate the influence without counting the towers

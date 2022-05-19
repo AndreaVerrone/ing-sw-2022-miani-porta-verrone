@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.fancy_cli.inputs;
+package it.polimi.ingsw.client.view.cli.fancy_cli.inputs;
 
 /**
  * An exception indicating that the user requested to exit the program

@@ -1,13 +1,15 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.strategies.check_professor;
 
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.Collection;
 
 /**
- * This class implements the {@code checkProfessor(studentColor)} method for the basic version of the game.
+ * This class implements the {@code checkProfessor(studentColor)} method for the expert version of the game.
  */
-public class CheckProfessorStandard implements CheckProfessorStrategy{
+public class CheckProfessorCharacter implements CheckProfessorStrategy{
 
     /**
      * the GameModel class
@@ -20,14 +22,13 @@ public class CheckProfessorStandard implements CheckProfessorStrategy{
      * {@code checkProfessor(studentColor)} method.
      * @param gameModel the GameModel to be used for the computation
      */
-    public CheckProfessorStandard(GameModel gameModel){
+    public CheckProfessorCharacter(GameModel gameModel){
         this.gameModel=gameModel;
     }
 
     @Override
     public void checkProfessor(PawnType studentColor) {
-
-        // current player of the game
+// current player of the game
         Player currentPlayer = gameModel.getCurrentPlayer();
 
         // 3 different situations are possible:
@@ -41,7 +42,7 @@ public class CheckProfessorStandard implements CheckProfessorStrategy{
 
         /* 2. The professor belongs to an adversary
          * - find who has it
-         * - if I have more students than him, then I take the professor after having removed
+         * - if I have more or equal students than him, then I take the professor after having removed
          *   the professor by him
          */
         Collection<Player> playerList = gameModel.getPlayerList();
@@ -49,7 +50,7 @@ public class CheckProfessorStandard implements CheckProfessorStrategy{
 
         for(Player player:playerList){
             if(player.getProfessors().contains(studentColor)){
-                if(numOfStudents > player.getNumStudentOf(studentColor)){
+                if(numOfStudents >= player.getNumStudentOf(studentColor)){
                     player.removeProfessor(studentColor);
                     currentPlayer.addProfessor(studentColor);
                 }
@@ -61,6 +62,6 @@ public class CheckProfessorStandard implements CheckProfessorStrategy{
          * If I have added one student, necessarily I have to take the professor
          */
         currentPlayer.addProfessor(studentColor);
+
     }
 }
-

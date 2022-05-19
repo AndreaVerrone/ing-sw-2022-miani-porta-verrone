@@ -6,6 +6,12 @@ import it.polimi.ingsw.server.model.gametable.Island;
 import it.polimi.ingsw.server.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.gametable.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.strategies.check_professor.CheckProfessorStandard;
+import it.polimi.ingsw.server.model.strategies.check_professor.CheckProfessorStrategy;
+import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceStandard;
+import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceStrategy;
+import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitStandard;
+import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitStrategy;
 
 import java.util.*;
 

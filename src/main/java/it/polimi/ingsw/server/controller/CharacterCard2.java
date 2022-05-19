@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.CheckProfessorCharacter;
+import it.polimi.ingsw.server.model.strategies.check_professor.CheckProfessorCharacter;
 
 public class CharacterCard2 extends CharacterCard{
 

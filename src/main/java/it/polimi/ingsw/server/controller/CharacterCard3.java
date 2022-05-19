@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.MotherNatureLimitPlusTwo;
+import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitPlusTwo;
 
 /**
  * Class to implement card 3 to add two additional movements to mother nature

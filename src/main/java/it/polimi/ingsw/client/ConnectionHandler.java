@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.network.NetworkSender;
+import it.polimi.ingsw.network.User;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
@@ -7,8 +9,6 @@ import it.polimi.ingsw.network.messages.clienttoserver.launcher.SendUserIdentifi
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.PingMessage;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
-import it.polimi.ingsw.network.NetworkSender;
-import it.polimi.ingsw.network.User;
 
 import java.io.*;
 import java.net.Socket;
