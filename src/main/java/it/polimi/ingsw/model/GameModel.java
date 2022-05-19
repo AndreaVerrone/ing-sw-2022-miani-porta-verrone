@@ -89,7 +89,7 @@ public class GameModel {
      * This method will return an unmodifiable view of the list of player.
      * @return the list of players
      */
-    public List<Player> getPlayerList(){
+    public Collection<Player> getPlayerList(){
         return Collections.unmodifiableList(players);
     }
 
@@ -158,6 +158,7 @@ public class GameModel {
             players.set(i,nextPlayerInInitialList(index+numOfIteration));
             numOfIteration ++;
         }
+        setCurrentPlayer(players.get(0));
     }
 
     /**

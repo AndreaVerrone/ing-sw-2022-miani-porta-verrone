@@ -21,14 +21,11 @@ class PlayAssistantStateTest {
     @BeforeEach
     void setUp() {
 
-        Collection<PlayerLoginInfo> playerLoginInfo = new ArrayList<>();
-        playerLoginInfo.addAll(
-                List.of(
-                        new PlayerLoginInfo("Player1"),
-                        new PlayerLoginInfo("Player2"),
-                        new PlayerLoginInfo("Player3")
-                )
-        );
+        Collection<PlayerLoginInfo> playerLoginInfo = new ArrayList<>(List.of(
+                new PlayerLoginInfo("Player1"),
+                new PlayerLoginInfo("Player2"),
+                new PlayerLoginInfo("Player3")
+        ));
 
         game = new Game(playerLoginInfo);
 
@@ -84,19 +81,21 @@ class PlayAssistantStateTest {
 
     @Test public void useAssistant_CARD1_CardInDeckAndAlreadyUsedButCanBeUsed_ShouldUse(){
 
-        // remove all the assistants from the player2's deck except for the CARD_1
-        Player player2 = game.getModel().getPlayerList().get(1);
-
-        for(int i = 1; i<Assistant.values().length ; i++){
-            player2.useAssistant(Assistant.values()[i]);
-        }
-
         // Player1 plays CARD_1
         try {
             playAssistantState.useAssistant(Assistant.CARD_1);
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }
+
+        // remove all the assistants from the player2's deck except for the CARD_1
+        Player player2 = game.getModel().getCurrentPlayer();
+
+        for(int i = 1; i<Assistant.values().length ; i++){
+            player2.useAssistant(Assistant.values()[i]);
+        }
+
+
 
         // check that the player2 can use the CARD_1 even if CARD_1 has already been played
         // by player1 since it has only that card to play
@@ -136,6 +135,8 @@ class PlayAssistantStateTest {
 
     @Test public void useAssistant_CARD1_CanBeUsed_ContinuePlanningPhase(){
 
+        Player currentPlayer = game.getModel().getCurrentPlayer();
+
         // use the card
         try {
             playAssistantState.useAssistant(Assistant.CARD_1);
@@ -143,14 +144,12 @@ class PlayAssistantStateTest {
             fail();
         }
 
-        //
-        Player nextPlayer = game.getModel().getPlayerList().get(1);
 
         // CHECKS
         // 1. the state after the calling of the method is PlayAssistantState
         assertEquals(game.getPlayAssistantState(),game.getState());
         // 2. the next player is correctly set
-        assertEquals(nextPlayer,game.getModel().getCurrentPlayer());
+        assertNotEquals(currentPlayer,game.getModel().getCurrentPlayer());
 
     }
 
