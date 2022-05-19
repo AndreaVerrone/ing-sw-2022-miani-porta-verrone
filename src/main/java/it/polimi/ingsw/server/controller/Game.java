@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 import java.util.Collection;
 import java.util.Collections;

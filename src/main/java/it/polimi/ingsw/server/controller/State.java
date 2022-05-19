@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 /**
  * This interface collects all the action that can be made by the current player during its turn

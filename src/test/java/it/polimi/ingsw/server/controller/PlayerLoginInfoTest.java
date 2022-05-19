@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.TowerType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.player.Wizard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

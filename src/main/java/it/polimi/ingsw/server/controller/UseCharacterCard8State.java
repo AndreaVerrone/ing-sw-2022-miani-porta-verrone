@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceWithoutStudentColor;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 /**
  * Class to implement the state where the current player can use the card 8

@@ -2,8 +2,9 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.player.ReachedMaxStudentException;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 import it.polimi.ingsw.server.model.strategies.check_professor.CheckProfessorStandard;
+import it.polimi.ingsw.server.model.utils.PawnType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

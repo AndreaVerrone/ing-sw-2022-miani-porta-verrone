@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 /**
  * The interface of the Game class

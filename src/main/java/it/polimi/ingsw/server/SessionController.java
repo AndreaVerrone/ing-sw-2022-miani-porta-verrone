@@ -5,10 +5,10 @@ import it.polimi.ingsw.network.User;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.*;
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.TowerType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.Collection;
 

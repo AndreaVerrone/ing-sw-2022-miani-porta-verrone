@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.gametable.exceptions.IslandNotFoundException;
-import it.polimi.ingsw.server.model.player.ReachedMaxStudentException;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

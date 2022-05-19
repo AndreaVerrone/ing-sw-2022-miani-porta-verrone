@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.strategies.check_professor;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 import java.util.Collection;
 

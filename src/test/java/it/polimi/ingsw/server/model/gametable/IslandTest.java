@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.gametable;
 
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.TowerType;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

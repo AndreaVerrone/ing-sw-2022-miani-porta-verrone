@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.NotEnoughCoinsException;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
 
 import java.util.Collection;
 import java.util.Map;

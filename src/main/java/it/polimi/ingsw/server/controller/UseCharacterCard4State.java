@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.gametable.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 
 public class UseCharacterCard4State extends UseCharacterCardState implements State{
 

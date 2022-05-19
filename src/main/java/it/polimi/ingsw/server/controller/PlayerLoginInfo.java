@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.TowerType;
 import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 /**
  * This class is used to store information about the player of a game before the creation of the game.

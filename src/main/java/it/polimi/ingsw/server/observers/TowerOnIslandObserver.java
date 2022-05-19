@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.observers;
 
-import it.polimi.ingsw.server.model.TowerType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 /**
  * Interface to implement the observer pattern.

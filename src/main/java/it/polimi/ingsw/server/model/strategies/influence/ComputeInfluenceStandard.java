@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.strategies.influence;
 
-import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.gametable.Island;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 /**
  * Implementation of the strategy for the standard computation of the influence on a given island

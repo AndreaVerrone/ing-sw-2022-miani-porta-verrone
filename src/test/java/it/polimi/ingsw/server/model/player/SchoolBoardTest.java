@@ -1,9 +1,10 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.model.CoinsBag;
-import it.polimi.ingsw.server.model.NotEnoughCoinsException;
-import it.polimi.ingsw.server.model.NotEnoughStudentException;
-import it.polimi.ingsw.server.model.PawnType;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

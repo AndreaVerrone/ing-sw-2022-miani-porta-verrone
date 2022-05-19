@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.gametable.exceptions;
+package it.polimi.ingsw.server.model.utils.exceptions;
 
 /**
  * Thrown if the cloud asked doesn't exist

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.PawnType;
+import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.player.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

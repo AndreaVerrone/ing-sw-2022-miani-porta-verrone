@@ -4,10 +4,10 @@ import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.matchmaking.IMatchMaking;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.TowerType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.ArrayList;
 import java.util.Collection;

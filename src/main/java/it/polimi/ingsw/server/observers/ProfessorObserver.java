@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.observers;
 
-import it.polimi.ingsw.server.model.PawnType;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 import java.util.Collection;
 

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.NotEnoughStudentException;
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.player.ReachedMaxStudentException;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 
 /**
  * Class that implements the state where the current player can use the card 9

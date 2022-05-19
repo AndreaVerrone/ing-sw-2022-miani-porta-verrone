@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server.model.strategies.influence;
+
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.gametable.Island;
 import it.polimi.ingsw.server.model.player.Player;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 /**
  * Implementation of the strategy where are added two more points to the influence of the current player

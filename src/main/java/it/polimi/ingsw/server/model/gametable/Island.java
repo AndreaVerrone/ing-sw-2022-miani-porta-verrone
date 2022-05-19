@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.gametable;
 
-import it.polimi.ingsw.server.model.NotEnoughStudentException;
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.StudentList;
-import it.polimi.ingsw.server.model.TowerType;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
+import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.observers.BanOnIslandObserver;
 import it.polimi.ingsw.server.observers.IslandUnificationObserver;
 import it.polimi.ingsw.server.observers.StudentsOnIslandObserver;

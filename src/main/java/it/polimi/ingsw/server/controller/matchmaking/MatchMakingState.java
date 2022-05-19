@@ -3,8 +3,8 @@ package it.polimi.ingsw.server.controller.matchmaking;
 import it.polimi.ingsw.server.controller.IGame;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
-import it.polimi.ingsw.server.model.TowerType;
 import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.Optional;
 

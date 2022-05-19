@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server.model.gametable;
 
-import it.polimi.ingsw.server.model.NotEnoughStudentException;
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.StudentList;
-import it.polimi.ingsw.server.model.TowerType;
-import it.polimi.ingsw.server.model.gametable.exceptions.CloudNotFoundException;
-import it.polimi.ingsw.server.model.gametable.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
+import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.model.utils.exceptions.CloudNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

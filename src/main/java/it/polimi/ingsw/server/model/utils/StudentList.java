@@ -1,4 +1,6 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.utils;
+
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 
 import java.util.Objects;
 

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.StudentList;
-import it.polimi.ingsw.server.model.gametable.exceptions.CloudNotFoundException;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.player.ReachedMaxStudentException;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
+import it.polimi.ingsw.server.model.utils.exceptions.CloudNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 
 /**
  * A class to handle the state of the game in which the player can choose a cloud and take all the students from it

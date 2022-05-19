@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.Position;
-import it.polimi.ingsw.server.model.PawnType;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 /**
  * message sent from client to server to choose a student to move

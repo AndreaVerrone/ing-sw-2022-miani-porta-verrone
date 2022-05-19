@@ -1,6 +1,11 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.CoinsBag;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 import it.polimi.ingsw.server.observers.ChangeCoinNumberObserver;
 import it.polimi.ingsw.server.observers.StudentsInDiningRoomObserver;
 

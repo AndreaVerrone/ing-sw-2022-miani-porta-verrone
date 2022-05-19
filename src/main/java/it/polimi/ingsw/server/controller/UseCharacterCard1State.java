@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.NotEnoughStudentException;
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.gametable.exceptions.EmptyBagException;
-import it.polimi.ingsw.server.model.gametable.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
+import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 
 public class UseCharacterCard1State extends UseCharacterCardState implements State {
 

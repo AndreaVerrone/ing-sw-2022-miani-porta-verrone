@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
-import it.polimi.ingsw.server.model.TowerType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 /**
  * A message sent from the client to the server to communicate the chosen tower.

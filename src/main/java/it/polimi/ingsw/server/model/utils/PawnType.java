@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.utils;
 
 /**
  * A class representing the types of students and professors

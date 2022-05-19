@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.gametable.GameTable;
-import it.polimi.ingsw.server.model.gametable.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 
 /**
  * A class to handle the state of the game in which the player can move mother nature

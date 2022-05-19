@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.strategies.check_professor;
 
-import it.polimi.ingsw.server.model.PawnType;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 /**
  * This is the interface that allow to implement the strategy pattern for

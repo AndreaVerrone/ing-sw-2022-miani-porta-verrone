@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.server.model.NotEnoughStudentException;
-import it.polimi.ingsw.server.model.PawnType;
-import it.polimi.ingsw.server.model.StudentList;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 import it.polimi.ingsw.server.observers.StudentsInDiningRoomObserver;
 
 import java.util.ArrayList;
