@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.Match;
 import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.controller.NotValidOperationException;
+import it.polimi.ingsw.controller.Position;
 import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.model.TowerType;
 import it.polimi.ingsw.model.player.Assistant;
@@ -356,25 +357,21 @@ public class SessionController {
     }
 
     /**
-     * Moves the passed student from the entrance of the player to the specified island.
+     * Moves the passed student from the choosen location.
      *
      * @param student  the student to move
-     * @param islandID the ID of the island in which put the student
+     * @param originPosition location from where the student has been taken
      * @throws NotValidOperationException if there is no game associated to this client,
      *                                    if it's not the turn of this client to move a student or
      *                                    if the players can't move a student now
-     * @throws NotValidArgumentException  if the student to move is not present in the entrance or
-     *                                    if there is no island with the specified ID
+     * @throws NotValidArgumentException  if the student to move is not present in the location
      * @apiNote Possible error codes:
      * <ul>
      *     <li>
      *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
      *      </li>
      *      <li>
-     *          {@link ErrorCode#STUDENT_NOT_PRESENT}: if the selected student is not in the player's entrance
-     *      </li>
-     *      <li>
-     *          {@link ErrorCode#ISLAND_NOT_EXIST}: if the selected island doesn't exist
+     *          {@link ErrorCode#STUDENT_NOT_PRESENT}: if the selected student is not in location choosen
      *      </li>
      *      <li>
      *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to move a student
@@ -384,31 +381,29 @@ public class SessionController {
      *      </li>
      *  </ul>
      */
-    public void moveStudentToIsland(PawnType student, int islandID) throws NotValidOperationException, NotValidArgumentException {
+    public void chooseStudentFromLocation(PawnType student, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
-        match.moveStudentToIsland(student, islandID);
+        match.choseStudentFromLocation(student, originPosition);
     }
 
     /**
-     * Moves the passed student from the entrance of the player to his dining room.
+     * Choose a location on which operate
      *
-     * @param student the student to move
+     * @param destination location
      * @throws NotValidOperationException if there is no game associated to this client,
-     *                                    if it's not the turn of this client to move a student or
+     *                                    if it's not the turn of this client to choose a destination or
      *                                    if the players can't move a student now
-     * @throws NotValidArgumentException  if the student to move is not present in the entrance or
-     *                                    if no more student of that type can be added to the dining room
+     * @throws NotValidArgumentException  if the destination doesn't exist or if the destination is already full of students
      * @apiNote Possible error codes:
      * <ul>
      *     <li>
      *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
      *      </li>
      *      <li>
-     *          {@link ErrorCode#STUDENT_NOT_PRESENT}: if the selected student is not in the player's entrance
+     *          {@link ErrorCode#DININGROOM_FULL}: if the location is a dining room full
      *      </li>
      *      <li>
-     *          {@link ErrorCode#DININGROOM_FULL}: if the dining room of the player can't accept
-     *          anymore students of that type
+     *          {@link ErrorCode#ISLAND_NOT_EXIST}: if the location is not existing island
      *      </li>
      *      <li>
      *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to move a student
@@ -418,9 +413,9 @@ public class SessionController {
      *      </li>
      *  </ul>
      */
-    public void moveStudentToDiningRoom(PawnType student) throws NotValidOperationException, NotValidArgumentException {
+    public void chooseDestination(Position destination) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
-        match.moveStudentToDiningRoom(student);
+        match.chooseDestination(destination);
     }
 
     /**
