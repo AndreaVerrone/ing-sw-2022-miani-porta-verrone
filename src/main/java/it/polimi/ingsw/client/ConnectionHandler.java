@@ -29,7 +29,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     /**
      * The socket connected to the server
      */
-    private Socket server;
+    private final Socket server;
 
     /**
      * A collection of all the request messages sent to the client that not received a response yet
@@ -64,36 +64,16 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     private boolean wantToClose = false;
 
     /**
-     * Instance of the ConnectionHandler needed to implement Singleton pattern
-     */
-    private static ConnectionHandler instance = null;
-
-    /**
-     * Constructor of the class
-     */
-    private ConnectionHandler(){}
-
-    /**
-     * Gets the only instance created of the connection handler
-     * @return the instance of connection handler
-     */
-    protected static ConnectionHandler getInstance(){
-        if(instance == null){
-            instance = new ConnectionHandler();
-        }
-        return instance;
-    }
-
-    /**
      * Creates a new connection with the server using the IP and port specified.
      * @param serverIP   the IP of the server
      * @param serverPort the port to use to connect on the server
      * @throws IOException if an I/O error occurs when creating the connection
      */
-    protected void SetIpAndPort(String serverIP, int serverPort) throws IOException {
+    public ConnectionHandler(String serverIP, int serverPort) throws IOException{
         server = new Socket(serverIP, serverPort);
         server.setSoTimeout(SOKET_TIME_OUT * 1000);
     }
+
 
     @Override
     public void run() {
