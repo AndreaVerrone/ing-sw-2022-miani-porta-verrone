@@ -215,8 +215,13 @@ public class GameModel {
      */
     public void conquerIsland(int islandID) throws IslandNotFoundException {
         Island island = gameTable.getIsland(islandID);
+
         if (island.getBan()>0){
             island.removeBan();
+            // notify the observers that the method has been invoked
+            // when there was a ban on the island
+            notifyConquerIslandObserver();
+
             return;
         }
         Player maxInfluencePlayer = computeMaxPlayerInfluence(island);
@@ -335,9 +340,61 @@ public class GameModel {
      * This method notify all the attached observers that a change has been happened on current player.
      * @param actualCurrentPlayerNickname the actual current player's nickname
      */
-    public void notifyChangeCurrentPlayerObservers(String actualCurrentPlayerNickname){
+    private void notifyChangeCurrentPlayerObservers(String actualCurrentPlayerNickname){
         for(ChangeCurrentPlayerObserver observer : changeCurrentPlayerObservers)
             observer.changeCurrentPlayerObserverUpdate(actualCurrentPlayerNickname);
+    }
+
+    // MANAGEMENT OF THE OBSERVERS ON CONQUER ISLAND
+    /**
+     * List of the observers on conquer island invocation when there is a ban on the island.
+     */
+    private final List<ConquerIslandObserver> conquerIslandObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on conquer island
+     * invocation when there is a ban on the island.
+     * @param observer the observer to be added
+     */
+    public void addConquerIslandObserver(ConquerIslandObserver observer){
+        conquerIslandObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on conquer island
+     * invocation when there is a ban on the island.
+     * @param observer the observer to be removed
+     */
+    public void removeConquerIslandObserver(ConquerIslandObserver observer){
+        conquerIslandObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that conquer island method has been invoked when there is
+     * a ban on the island.
+     */
+    private void notifyConquerIslandObserver(){
+        for(ConquerIslandObserver observer: conquerIslandObservers){
+            observer.conquerIslandObserverUpdate();
+        }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON EMPTY STUDENT BAG
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on empty student bag.
+     * @param observer the observer to be added
+     */
+    public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+        gameTable.addEmptyStudentBagObserver(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on empty student bag.
+     * @param observer the observer to be removed
+     */
+    public void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+        gameTable.removeEmptyStudentBagObserver(observer);
     }
   
 }

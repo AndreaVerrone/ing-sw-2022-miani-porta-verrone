@@ -93,7 +93,7 @@ class DiningRoom {
      * @param nickName the nickname of the player that has the school board on which the changes have been happened
      * @param actualStudents the actual student list in dining room
      */
-    public void notifyStudentsInDiningRoomObservers(String nickName, StudentList actualStudents){
+    private void notifyStudentsInDiningRoomObservers(String nickName, StudentList actualStudents){
         for(StudentsInDiningRoomObserver observer : studentsInDiningRoomObservers)
             observer.studentsInDiningRoomObserverUpdate(nickName,actualStudents);
     }

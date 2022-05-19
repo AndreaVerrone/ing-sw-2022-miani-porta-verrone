@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
-public class CharacterCard5 extends CharacterCard{
+import it.polimi.ingsw.model.ConquerIslandObserver;
+
+public class CharacterCard5 extends CharacterCard implements ConquerIslandObserver {
 
     /**
      * This is the Game class
@@ -17,9 +19,12 @@ public class CharacterCard5 extends CharacterCard{
      * @param game the Game class
      */
     CharacterCard5(ExpertGame game) {
-        super(CharacterCardsType.CARD5.getCost(), CharacterCardsType.CARD5.getDescription());
+        super(CharacterCardsType.CARD5);
         this.game=game;
         numOfBans=4;
+
+        // attach the character card 5 to the list of the observers of invocation of conquerIsland method of GameModel
+        game.getModel().addConquerIslandObserver(this);
     }
 
     @Override
@@ -53,4 +58,14 @@ public class CharacterCard5 extends CharacterCard{
         }
     }
 
+    /**
+     * This method is the {@code update()} method of the observer pattern.
+     * It is called by the subject in order to notify a change to all its attached observers.
+     */
+    @Override
+    public void conquerIslandObserverUpdate() {
+        // if the method conquerIsland has been invoked when there was a ban on the island
+        // the ban should be removed by the island and added to the card
+        numOfBans++;
+    }
 }

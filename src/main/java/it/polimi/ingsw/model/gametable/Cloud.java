@@ -86,7 +86,7 @@ class Cloud {
      * @param cloudID the ID of the cloud on which the students have been changed
      * @param actualStudentList the actual student list on the cloud
      */
-    public void notifyStudentsOnCloudObservers(int cloudID, StudentList actualStudentList){
+    private void notifyStudentsOnCloudObservers(int cloudID, StudentList actualStudentList){
         for(StudentsOnCloudObserver observer : studentsOnCloudObservers)
             observer.studentsOnCloudObserverUpdate(cloudID,actualStudentList);
     }

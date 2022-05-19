@@ -14,7 +14,7 @@ public class CharacterCard8 extends  CharacterCard{
      * @param game Game class of the game
      */
     CharacterCard8(ExpertGame game) {
-        super(CharacterCardsType.CARD8.getCost(), CharacterCardsType.CARD8.getDescription());
+        super(CharacterCardsType.CARD8);
         this.game = game;
     }
 

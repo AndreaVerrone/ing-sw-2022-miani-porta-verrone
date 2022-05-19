@@ -222,7 +222,7 @@ public class GameTable {
      * This method notify all the attached observers a change on the number of islands.
      * @param actualNumOfIslands the actual number of island on the game table
      */
-      public void notifyIslandNumberObservers(int actualNumOfIslands){
+      private void notifyIslandNumberObservers(int actualNumOfIslands){
         for(IslandNumberObserver observer : islandNumberObservers)
             observer.islandNumberObserverUpdate(actualNumOfIslands);
       }
@@ -253,7 +253,7 @@ public class GameTable {
      * This method notify all the attached observers that a change has been happened on mother nature position.
      * @param actualMotherNaturePosition the actual islandID on which mother nature is
      */
-    public void notifyMotherNaturePositionObservers(int actualMotherNaturePosition){
+    private void notifyMotherNaturePositionObservers(int actualMotherNaturePosition){
         for(MotherNaturePositionObserver observer : motherNaturePositionObservers)
             observer.motherNaturePositionObserverUpdate(actualMotherNaturePosition);
     }
@@ -365,6 +365,24 @@ public class GameTable {
         for (Island island : islands) {
             island.removeTowerOnIslandObserver(observer);
         }
+    }
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON EMPTY STUDENT BAG
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on tower on empty student bag.
+     * @param observer the observer to be added
+     */
+    public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+        studentsBag.addEmptyStudentBagObserver(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on tower on empty student bag.
+     * @param observer the observer to be removed
+     */
+    public void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+        studentsBag.removeEmptyStudentBagObserver(observer);
     }
 
 }

@@ -74,7 +74,7 @@ public class CoinsBag {
      * This method notify all the attached observers that a change has been happened on the coin number in coins bag.
      * @param actualNumOfCoins the actual number of coins in the bag
      */
-    public void notifyChangeCoinNumberInBagObservers(int actualNumOfCoins){
+    private void notifyChangeCoinNumberInBagObservers(int actualNumOfCoins){
         for(ChangeCoinNumberInBagObserver observer : changeCoinNumberInBagObservers)
             observer.changeCoinNumberInBagObserverUpdate(actualNumOfCoins);
     }

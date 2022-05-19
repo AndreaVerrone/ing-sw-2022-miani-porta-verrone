@@ -246,7 +246,7 @@ class SchoolBoard {
      * @param nickNameOfPlayer the nickname of the player associated to this school board
      * @param actualNumOfCoins the actual num of coins in the school board
      */
-    public void notifyChangeCoinNumberObservers(String nickNameOfPlayer,int actualNumOfCoins){
+    private void notifyChangeCoinNumberObservers(String nickNameOfPlayer,int actualNumOfCoins){
         for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
             observer.changeCoinNumberObserverUpdate(nickNameOfPlayer,actualNumOfCoins);
     }
