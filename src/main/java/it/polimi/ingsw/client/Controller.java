@@ -60,7 +60,7 @@ public class Controller {
      */
     public void createGame(int numberOfPlayers, Boolean wantExpert){
         //Control is a valid number of players
-        if(numberOfPlayers < 2 || numberOfPlayers > 4){
+        if(numberOfPlayers < 2 || numberOfPlayers > 3){
             //TODO: wrong input
             return;
         }
@@ -99,7 +99,7 @@ public class Controller {
     public void ChangeNumPlayers(int newNumberPlayers){
         if(wrongPlayerTurn()) return;
         //Control it is a valid number of players
-        if(newNumberPlayers < 2 || newNumberPlayers > 4){
+        if(newNumberPlayers < 2 || newNumberPlayers > 3){
             //TODO: wrong input
             return;
         }
