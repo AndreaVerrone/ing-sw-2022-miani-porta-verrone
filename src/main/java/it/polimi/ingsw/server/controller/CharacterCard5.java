@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.ConquerIslandObserver;
+import it.polimi.ingsw.server.observers.ConquerIslandObserver;
 
 public class CharacterCard5 extends CharacterCard implements ConquerIslandObserver {
 

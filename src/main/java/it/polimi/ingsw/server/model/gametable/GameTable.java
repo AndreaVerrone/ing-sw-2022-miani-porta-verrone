@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server.model.gametable;
 
-import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.PawnType;
+import it.polimi.ingsw.server.model.StudentList;
 import it.polimi.ingsw.server.model.gametable.exceptions.CloudNotFoundException;
 import it.polimi.ingsw.server.model.gametable.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.gametable.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.observers.*;
 
 import java.util.ArrayList;
 import java.util.List;

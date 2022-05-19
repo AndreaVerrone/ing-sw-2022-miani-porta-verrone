@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.observers.ChangeCoinNumberInBagObserver;
+
 import java.util.ArrayList;
 import java.util.List;
 

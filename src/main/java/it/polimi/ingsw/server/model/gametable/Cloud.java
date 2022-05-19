@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.gametable;
 import it.polimi.ingsw.server.model.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.StudentList;
-import it.polimi.ingsw.server.model.StudentsOnCloudObserver;
+import it.polimi.ingsw.server.observers.StudentsOnCloudObserver;
 
 import java.util.ArrayList;
 import java.util.List;

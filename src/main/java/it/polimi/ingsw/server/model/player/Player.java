@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.observers.*;
 
 import java.util.ArrayList;
 import java.util.Collection;

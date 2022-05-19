@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model.player;
 
 import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.observers.ChangeCoinNumberObserver;
+import it.polimi.ingsw.server.observers.StudentsInDiningRoomObserver;
 
 import java.util.*;
 

@@ -12,6 +12,9 @@ import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceStandar
 import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceStrategy;
 import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitStandard;
 import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitStrategy;
+import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
+import it.polimi.ingsw.server.observers.ConquerIslandObserver;
+import it.polimi.ingsw.server.observers.EmptyStudentBagObserver;
 
 import java.util.*;
 

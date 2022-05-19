@@ -1,6 +1,13 @@
 package it.polimi.ingsw.server.model.gametable;
 
-import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.NotEnoughStudentException;
+import it.polimi.ingsw.server.model.PawnType;
+import it.polimi.ingsw.server.model.StudentList;
+import it.polimi.ingsw.server.model.TowerType;
+import it.polimi.ingsw.server.observers.BanOnIslandObserver;
+import it.polimi.ingsw.server.observers.IslandUnificationObserver;
+import it.polimi.ingsw.server.observers.StudentsOnIslandObserver;
+import it.polimi.ingsw.server.observers.TowerOnIslandObserver;
 
 import java.util.ArrayList;
 import java.util.List;

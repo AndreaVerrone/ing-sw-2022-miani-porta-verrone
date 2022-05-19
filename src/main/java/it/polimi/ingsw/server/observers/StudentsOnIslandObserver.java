@@ -1,4 +1,6 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.observers;
+
+import it.polimi.ingsw.server.model.StudentList;
 
 /**
  * Interface to implement the observer pattern.

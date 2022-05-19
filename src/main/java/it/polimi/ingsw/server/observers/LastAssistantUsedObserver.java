@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.observers;
 
 import it.polimi.ingsw.server.model.player.Assistant;
 

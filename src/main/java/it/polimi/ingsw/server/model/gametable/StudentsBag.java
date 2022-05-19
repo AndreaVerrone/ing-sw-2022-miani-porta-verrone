@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.model.gametable;
 
-import it.polimi.ingsw.server.model.EmptyStudentBagObserver;
 import it.polimi.ingsw.server.model.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.PawnType;
 import it.polimi.ingsw.server.model.StudentList;
 import it.polimi.ingsw.server.model.gametable.exceptions.EmptyBagException;
+import it.polimi.ingsw.server.observers.EmptyStudentBagObserver;
 
 import java.util.ArrayList;
 import java.util.List;

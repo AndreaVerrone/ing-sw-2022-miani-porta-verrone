@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.observers;
 
 /**
  * Interface to implement the observer pattern.
