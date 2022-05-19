@@ -52,7 +52,7 @@ public class CharacterCard9 extends CharacterCard{
      */
     public void takeStudentFromCard(PawnType pawnType) throws NotEnoughStudentException {
         studentsOnCard.changeNumOf(pawnType, -1);
-        notifyStudentsOnCardObservers(CharacterCardsType.CARD9,studentsOnCard.clone());
+        notifyStudentsOnCardObservers(studentsOnCard.clone());
     }
 
     /**
@@ -65,7 +65,7 @@ public class CharacterCard9 extends CharacterCard{
         } catch (NotEnoughStudentException e) {
             e.printStackTrace();//Never happens
         }
-        notifyStudentsOnCardObservers(this.getCardType(),studentsOnCard.clone());
+        notifyStudentsOnCardObservers(studentsOnCard.clone());
     }
 
     /**
@@ -102,12 +102,11 @@ public class CharacterCard9 extends CharacterCard{
 
     /**
      * This method notify all the attached observers that a change has been happened on the students on character card.
-     * @param characterCardsType the character card type on which the student has been changed
-     * @param actualStudents the actual student list on island
+     * @param actualStudents the actual student list on card
      */
-    private void notifyStudentsOnCardObservers(CharacterCardsType characterCardsType, StudentList actualStudents){
+    private void notifyStudentsOnCardObservers(StudentList actualStudents){
         for(StudentsOnCardObserver observer : studentsOnCardObservers)
-            observer.studentsOnCardObserverUpdate(characterCardsType, actualStudents);
+            observer.studentsOnCardObserverUpdate(this.getCardType(), actualStudents);
     }
 
 }

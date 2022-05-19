@@ -65,7 +65,7 @@ public class CharacterCard11 extends CharacterCard{
             // it is impossible that is thrown since the delta is positive.
             e.printStackTrace();
         }
-        notifyStudentsOnCardObservers(CharacterCardsType.CARD11,studentList.clone());
+        notifyStudentsOnCardObservers(studentList.clone());
     }
 
     /**
@@ -75,7 +75,7 @@ public class CharacterCard11 extends CharacterCard{
      */
     public void removeStudentFromCard(PawnType pawnType) throws NotEnoughStudentException {
         studentList.changeNumOf(pawnType, -1);
-        notifyStudentsOnCardObservers(this.getCardType(),studentList.clone());
+        notifyStudentsOnCardObservers(studentList.clone());
     }
 
     // MANAGEMENT OF OBSERVERS ON STUDENTS ON CHARACTER CARD
@@ -104,12 +104,11 @@ public class CharacterCard11 extends CharacterCard{
 
     /**
      * This method notify all the attached observers that a change has been happened on the students on character card.
-     * @param characterCardsType the character card type on which the student has been changed
-     * @param actualStudents the actual student list on island
+     * @param actualStudents the actual student list on card
      */
-    private void notifyStudentsOnCardObservers(CharacterCardsType characterCardsType, StudentList actualStudents){
+    private void notifyStudentsOnCardObservers(StudentList actualStudents){
         for(StudentsOnCardObserver observer : studentsOnCardObservers)
-            observer.studentsOnCardObserverUpdate(characterCardsType, actualStudents);
+            observer.studentsOnCardObserverUpdate(this.getCardType(), actualStudents);
     }
 
 }
