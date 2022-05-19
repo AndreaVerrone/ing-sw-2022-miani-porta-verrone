@@ -111,12 +111,12 @@ abstract public class CharacterCard {
      * This method allows to add the observer, passed as a parameter, on the students on character card.
      * @param observer the observer to be added
      */
-    public abstract void addStudentsOnCardObserver(StudentsOnCardObserver observer);
+    public void addStudentsOnCardObserver(StudentsOnCardObserver observer){}
 
     /**
      * This method allows to remove the observer, passed as a parameter, on the students on character card.
      * @param observer the observer to be removed
      */
-    public abstract void removeStudentsOnCardObserver(StudentsOnCardObserver observer);
+    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){}
 
 }
