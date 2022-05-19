@@ -29,8 +29,8 @@ public class Controller {
     /**
      * Constructor of the class
      */
-    public Controller(){
-        this.match = ConnectionHandler.getInstance();
+    public Controller(ConnectionHandler connectionHandler){
+        this.match = connectionHandler;
     }
 
     /**
@@ -55,36 +55,14 @@ public class Controller {
 
     /**
      * Sends a message to the server to create a new game and controls the input given is right
-     * @param numberOfPlayersString number of players given in input as a string
-     * @param wantExpertString input from the client to tell the server if the game created is in expert mode or not
+     * @param numberOfPlayers number of players given in input
+     * @param wantExpert input from the client to tell the server if the game created is in expert mode or not
      */
-    public void createGame(String numberOfPlayersString, String wantExpertString){
-        int numberOfPlayers;
-        boolean wantExpert;
-        //Control it's an integer
-        try {
-            numberOfPlayers = Integer.parseInt(numberOfPlayersString);
-        }
-        catch(NumberFormatException e){
-            //TODO: wrong input
-            return;
-        }
+    public void createGame(int numberOfPlayers, Boolean wantExpert){
         //Control is a valid number of players
         if(numberOfPlayers < 2 || numberOfPlayers > 4){
             //TODO: wrong input
             return;
-        }
-        //Control if it is a yes or a no
-        if(wantExpertString.length() > 0 && wantExpertString.charAt(0) == 'Y'){
-            wantExpert = true;
-        }
-        else {
-            if (wantExpertString.length() > 0 && wantExpertString.charAt(0) == 'N') {
-                wantExpert = false;
-            } else {
-                //TODO: wrong input
-                return;
-            }
         }
         match.sendMessage(new CreateNewGame(numberOfPlayers, wantExpert));
     }
@@ -116,19 +94,10 @@ public class Controller {
 
     /**
      * Sends a message to the server to change the number of players and controls the input given is right
-     * @param newNumberPlayersString new number of players in the game
+     * @param newNumberPlayers new number of players in the game
      */
-    public void ChangeNumPlayers(String newNumberPlayersString){
+    public void ChangeNumPlayers(int newNumberPlayers){
         if(wrongPlayerTurn()) return;
-        int newNumberPlayers;
-        //Control it is an integer
-        try {
-            newNumberPlayers = Integer.parseInt(newNumberPlayersString);
-        }
-        catch(NumberFormatException e){
-            //TODO: wrong input
-            return;
-        }
         //Control it is a valid number of players
         if(newNumberPlayers < 2 || newNumberPlayers > 4){
             //TODO: wrong input
@@ -156,53 +125,26 @@ public class Controller {
      * Sends a message to the server to set the towerType of the client and controls the input given is right
      * @param tower tower color chosen by the client
      */
-    public void setTower(String tower){
+    public void setTower(TowerType tower){
         if(wrongPlayerTurn()) return;
-        TowerType towerType;
-        //Control the tower given is valid
-        try {
-            towerType = TowerType.valueOf(tower);
-        }
-        catch(IllegalArgumentException e){
-            //TODO: wrong input
-            return;
-        }
-        match.sendMessage(new SetTower(towerType));
+        match.sendMessage(new SetTower(tower));
     }
 
     /**
      * Sends a message to the server to set the wizard of the client and controls the input give is right
      * @param wizard wizard type chosen by the client
      */
-    public void setWizard(String wizard){
+    public void setWizard(Wizard wizard){
         if(wrongPlayerTurn()) return;
-        Wizard wizardType;
-        //Control the wizard given is valid
-        try {
-            wizardType = Wizard.valueOf(wizard);
-        }
-        catch(IllegalArgumentException e){
-            //TODO: wrong input
-            return;
-        }
-        match.sendMessage(new SetWizard(wizardType));
+        match.sendMessage(new SetWizard(wizard));
     }
 
     /**
      * Sends a message to the server to move mother nature of a given number of movements and controls the input given is right
-     * @param movementsString movements of mother nature given as a String
+     * @param movements movements of mother nature given
      */
-    public void moveMotherNature(String movementsString){
+    public void moveMotherNature(int movements){
         if(wrongPlayerTurn()) return;
-        int movements;
-        //Control the input given is an integer
-        try {
-            movements = Integer.parseInt(movementsString);
-        }
-        catch(NumberFormatException e){
-            //TODO: wrong input
-            return;
-        }
         //Control the number of movements given is positive
         if(movements<=0){
             //TODO: wrong input
@@ -220,19 +162,10 @@ public class Controller {
 
     /**
      * Sends a message to the server to take all the student from the cloud given and controls the input is right
-     * @param cloudIdString ID of the cloud from where the client wants to take all the students
+     * @param cloudId ID of the cloud from where the client wants to take all the students
      */
-    public void takeStudentFromCloud(String cloudIdString){
+    public void takeStudentFromCloud(int cloudId){
         if(wrongPlayerTurn()) return;
-        int cloudId;
-        //Control the input given is an integer
-        try {
-            cloudId = Integer.parseInt(cloudIdString);
-        }
-        catch(NumberFormatException e){
-            //TODO: wrong input
-            return;
-        }
         //Control it is a valid ID for a cloud
         if(cloudId<0 || cloudId>3){
             //TODO: wrongInput
@@ -243,19 +176,10 @@ public class Controller {
 
     /**
      * Sends a message to the server to use the assistant card given by the client and controls the input is right
-     * @param assistantString assistant card chosen by the client given as a String
+     * @param assistant assistant card chosen by the client given
      */
-    public void useAssistant(String assistantString){
+    public void useAssistant(Assistant assistant){
         if(wrongPlayerTurn()) return;
-        Assistant assistant;
-        //Control the assistant given is valid
-        try {
-            assistant = Assistant.valueOf(assistantString);
-        }
-        catch(IllegalArgumentException e){
-            //TODO: wrong input
-            return;
-        }
         match.sendMessage(new UseAssistant(assistant));
     }
 }
