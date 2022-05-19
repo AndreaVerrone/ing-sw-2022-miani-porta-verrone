@@ -106,35 +106,17 @@ abstract public class CharacterCard {
     }
 
     // MANAGEMENT OF OBSERVERS ON STUDENTS ON CHARACTER CARD
-    /**
-     * List of the observer on the students on character card.
-     */
-    private final List<StudentsOnCardObserver> studentsOnCardObservers = new ArrayList<>();
 
     /**
      * This method allows to add the observer, passed as a parameter, on the students on character card.
      * @param observer the observer to be added
      */
-    public void addStudentsOnCardObserver(StudentsOnCardObserver observer){
-        studentsOnCardObservers.add(observer);
-    }
+    public abstract void addStudentsOnCardObserver(StudentsOnCardObserver observer);
 
     /**
      * This method allows to remove the observer, passed as a parameter, on the students on character card.
      * @param observer the observer to be removed
      */
-    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){
-        studentsOnCardObservers.remove(observer);
-    }
-
-    /**
-     * This method notify all the attached observers that a change has been happened on the students on character card.
-     * @param characterCardsType the character card type on which the student has been changed
-     * @param actualStudents the actual student list on island
-     */
-    public void notifyStudentsOnCardObservers(CharacterCardsType characterCardsType, StudentList actualStudents){
-        for(StudentsOnCardObserver observer : studentsOnCardObservers)
-            observer.studentsOnCardObserverUpdate(characterCardsType, actualStudents);
-    }
+    public abstract void removeStudentsOnCardObserver(StudentsOnCardObserver observer);
 
 }
