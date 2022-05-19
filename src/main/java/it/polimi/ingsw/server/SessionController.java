@@ -1,14 +1,14 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.*;
-import it.polimi.ingsw.model.PawnType;
-import it.polimi.ingsw.model.TowerType;
-import it.polimi.ingsw.model.player.Assistant;
-import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.User;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
+import it.polimi.ingsw.server.controller.*;
+import it.polimi.ingsw.server.model.PawnType;
+import it.polimi.ingsw.server.model.TowerType;
+import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.Wizard;
 
 import java.util.Collection;
 

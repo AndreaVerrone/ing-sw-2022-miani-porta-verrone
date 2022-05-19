@@ -1,11 +1,11 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
-import it.polimi.ingsw.controller.CharacterCardsType;
-import it.polimi.ingsw.controller.NotValidArgumentException;
-import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.controller.CharacterCardsType;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.NotValidOperationException;
 
 /**
  * Message sent from the client to the server to use a character card

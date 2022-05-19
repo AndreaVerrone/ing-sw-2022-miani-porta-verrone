@@ -1,12 +1,12 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
-import it.polimi.ingsw.controller.NotValidArgumentException;
-import it.polimi.ingsw.controller.NotValidOperationException;
-import it.polimi.ingsw.controller.Position;
-import it.polimi.ingsw.model.PawnType;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.Position;
+import it.polimi.ingsw.server.model.PawnType;
 
 /**
  * message sent from client to server to choose a student to move

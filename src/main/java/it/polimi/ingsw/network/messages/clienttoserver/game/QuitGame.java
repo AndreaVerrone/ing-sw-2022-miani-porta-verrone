@@ -1,11 +1,11 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
-import it.polimi.ingsw.controller.NotValidArgumentException;
-import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.ExitFromGame;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.NotValidOperationException;
 
 /**
  * A message sent from client to server to exit a game regardless of the current state.

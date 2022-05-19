@@ -1,11 +1,11 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
-import it.polimi.ingsw.controller.NotValidArgumentException;
-import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
-import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.model.player.Assistant;
 
 /**
  * A message sent from the client to the server to indicate which assistant to use

@@ -1,12 +1,18 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.TowerType;
-import it.polimi.ingsw.model.player.Assistant;
-import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.NetworkSender;
-import it.polimi.ingsw.network.messages.clienttoserver.game.*;
-import it.polimi.ingsw.network.messages.clienttoserver.launcher.*;
+import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
+import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
+import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
+import it.polimi.ingsw.network.messages.clienttoserver.game.UseAssistant;
+import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
+import it.polimi.ingsw.network.messages.clienttoserver.launcher.EnterGame;
+import it.polimi.ingsw.network.messages.clienttoserver.launcher.GetGames;
+import it.polimi.ingsw.network.messages.clienttoserver.launcher.ResumeGame;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.*;
+import it.polimi.ingsw.server.model.TowerType;
+import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.Wizard;
 
 /**
  * Class to control the messages from client to server
