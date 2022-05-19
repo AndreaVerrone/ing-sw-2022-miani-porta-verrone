@@ -12,6 +12,6 @@ public interface CostOfCharacterCardObserver {
      * @param characterCardsType the card type on which the change has been happened
      * @param actualCost the actual value of the cost for the usage of the card
      */
-    public void costOfCharacterCardObserverUpdate(CharacterCardsType characterCardsType, int actualCost);
+    void costOfCharacterCardObserverUpdate(CharacterCardsType characterCardsType, int actualCost);
 
 }

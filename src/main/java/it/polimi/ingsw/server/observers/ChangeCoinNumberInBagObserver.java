@@ -7,6 +7,6 @@ public interface ChangeCoinNumberInBagObserver {
      * It is called by the subject in order to notify a change to all its attached observers.
      * @param actualNumOfCoins the actual number of coins in the bag
      */
-    public void changeCoinNumberInBagObserverUpdate(int actualNumOfCoins);
+    void changeCoinNumberInBagObserverUpdate(int actualNumOfCoins);
 }
 

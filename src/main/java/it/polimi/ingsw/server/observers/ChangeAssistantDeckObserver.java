@@ -16,5 +16,5 @@ public interface ChangeAssistantDeckObserver {
      * @param nickName the nickname of the player that has the school board on which the changes have been happened
      * @param actualDeck the actual deck
      */
-    public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck);
+    void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck);
 }

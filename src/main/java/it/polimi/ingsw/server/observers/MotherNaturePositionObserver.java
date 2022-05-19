@@ -10,5 +10,5 @@ public interface MotherNaturePositionObserver {
      * It is called by the subject in order to notify a change to all its attached observers.
      * @param actualMotherNaturePosition the actual islandID on which mother nature is
      */
-    public void motherNaturePositionObserverUpdate(int actualMotherNaturePosition);
+    void motherNaturePositionObserverUpdate(int actualMotherNaturePosition);
 }

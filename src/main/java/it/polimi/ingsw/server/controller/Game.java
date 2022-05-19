@@ -16,19 +16,19 @@ public class Game implements IGame{
     /**
      * State in which the player is playing an assistant card
      */
-    private State playAssistantState;
+    private final State playAssistantState;
     /**
      * State in which the player moves a student from his entrance to an island or his dining room
      */
-    private State moveStudentState;
+    private final State moveStudentState;
     /**
      * State in which the player is moving mother nature
      */
-    private State moveMotherNatureState;
+    private final State moveMotherNatureState;
     /**
      * State in which the player is choosing the island from where gets the students
      */
-    private State chooseCloudState;
+    private final State chooseCloudState;
     /**
      * State for the end of the game
      */

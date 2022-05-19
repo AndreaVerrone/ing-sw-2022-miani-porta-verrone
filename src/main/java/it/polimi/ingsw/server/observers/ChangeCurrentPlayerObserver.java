@@ -10,5 +10,5 @@ public interface ChangeCurrentPlayerObserver {
      * It is called by the subject in order to notify a change to all its attached observers.
      * @param actualCurrentPlayerNickname the actual current player's nickname
      */
-    public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname);
+    void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname);
 }

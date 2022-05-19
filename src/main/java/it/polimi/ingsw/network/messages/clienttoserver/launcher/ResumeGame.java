@@ -12,7 +12,7 @@ import it.polimi.ingsw.server.controller.NotValidOperationException;
 public class ResumeGame extends ClientCommandNetMsg {
 
     @Override
-    protected void normalProcess(ClientHandler clientInServer) throws NotValidArgumentException, NotValidOperationException {
+    protected void normalProcess(ClientHandler clientInServer) throws NotValidArgumentException {
         clientInServer.getSessionController().resumeGame();
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }

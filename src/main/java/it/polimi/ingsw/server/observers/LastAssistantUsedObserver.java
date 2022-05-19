@@ -13,5 +13,5 @@ public interface LastAssistantUsedObserver {
      * @param nickName the nickname of the player that has the deck that has been changed
      * @param actualLastAssistant the actual last assistant
      */
-    public void lastAssistantUsedObserverUpdate(String nickName, Assistant actualLastAssistant);
+    void lastAssistantUsedObserverUpdate(String nickName, Assistant actualLastAssistant);
 }

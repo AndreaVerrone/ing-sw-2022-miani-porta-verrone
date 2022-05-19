@@ -47,7 +47,7 @@ class PlayAssistantStateTest {
         // call the method
         try {
             playAssistantState.useAssistant(Assistant.CARD_1);
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -64,7 +64,7 @@ class PlayAssistantStateTest {
         Player player2 = game.getModel().getCurrentPlayer();
         try {
             playAssistantState.useAssistant(Assistant.CARD_2);
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
         assertEquals(Assistant.CARD_2,player2.getLastAssistant());
@@ -73,7 +73,7 @@ class PlayAssistantStateTest {
         Player player3 = game.getModel().getCurrentPlayer();
         try {
             playAssistantState.useAssistant(Assistant.CARD_3);
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
         assertEquals(Assistant.CARD_3,player3.getLastAssistant());
@@ -84,7 +84,7 @@ class PlayAssistantStateTest {
         // Player1 plays CARD_1
         try {
             playAssistantState.useAssistant(Assistant.CARD_1);
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -103,7 +103,7 @@ class PlayAssistantStateTest {
         // player 2 plays CARD_1
         try {
             playAssistantState.useAssistant(Assistant.CARD_1);
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
         assertEquals(Assistant.CARD_1,player2.getLastAssistant());
@@ -124,7 +124,7 @@ class PlayAssistantStateTest {
         // player1 uses the CARD_1
         try {
             playAssistantState.useAssistant(Assistant.CARD_1);
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -140,7 +140,7 @@ class PlayAssistantStateTest {
         // use the card
         try {
             playAssistantState.useAssistant(Assistant.CARD_1);
-        } catch (NotValidArgumentException | NotValidOperationException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -158,21 +158,21 @@ class PlayAssistantStateTest {
         // Player1 plays CARD_1
         try {
             playAssistantState.useAssistant(Assistant.CARD_1);
-        } catch (NotValidArgumentException | NotValidOperationException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
         // Player2 plays CARD_2
         try {
             playAssistantState.useAssistant(Assistant.CARD_2);
-        } catch (NotValidArgumentException | NotValidOperationException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
         // Player3 plays CARD_3
         try {
             playAssistantState.useAssistant(Assistant.CARD_3);
-        } catch (NotValidArgumentException | NotValidOperationException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 

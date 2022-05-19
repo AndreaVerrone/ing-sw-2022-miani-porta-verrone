@@ -15,5 +15,5 @@ public interface ProfessorObserver {
      * @param nickName that has the school board on which the change of professors have been happened
      * @param actualProfessors the actual professor list in dining room
      */
-    public void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors);
+    void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors);
 }

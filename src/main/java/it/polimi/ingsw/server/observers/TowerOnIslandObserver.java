@@ -14,5 +14,5 @@ public interface TowerOnIslandObserver {
      * @param islandIDWithChange the island on which a tower has been put or removed
      * @param actualTower the actual tower on the island
      */
-    public void towerOnIslandObserverUpdate(int islandIDWithChange, TowerType actualTower );
+    void towerOnIslandObserverUpdate(int islandIDWithChange, TowerType actualTower );
 }

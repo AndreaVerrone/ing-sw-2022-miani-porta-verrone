@@ -368,7 +368,7 @@ public class SessionController {
      *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
      *      </li>
      *      <li>
-     *          {@link ErrorCode#STUDENT_NOT_PRESENT}: if the selected student is not in location choosen
+     *          {@link ErrorCode#STUDENT_NOT_PRESENT}: if the selected student is not in location chosen
      *      </li>
      *      <li>
      *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to move a student

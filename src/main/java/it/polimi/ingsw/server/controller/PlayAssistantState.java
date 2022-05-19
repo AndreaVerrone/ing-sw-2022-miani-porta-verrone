@@ -53,7 +53,7 @@ public class PlayAssistantState implements State{
     }
 
     @Override
-    public void useAssistant(Assistant assistant) throws NotValidArgumentException, NotValidOperationException {
+    public void useAssistant(Assistant assistant) throws NotValidArgumentException {
 
         // this variable hold the current player of the game
         Player currentPlayer=gameModel.getCurrentPlayer();

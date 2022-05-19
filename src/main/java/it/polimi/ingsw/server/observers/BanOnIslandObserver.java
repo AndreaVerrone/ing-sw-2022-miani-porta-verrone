@@ -12,5 +12,5 @@ public interface BanOnIslandObserver {
      * @param islandIDWithBan the island on which a ban has been put or removed
      * * @param actualNumOfBans the actual num of bans on the island
      */
-    public void banOnIslandObserverUpdate(int islandIDWithBan, int actualNumOfBans);
+    void banOnIslandObserverUpdate(int islandIDWithBan, int actualNumOfBans);
 }

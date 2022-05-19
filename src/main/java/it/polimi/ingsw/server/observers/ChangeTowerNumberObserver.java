@@ -12,5 +12,5 @@ public interface ChangeTowerNumberObserver {
      * @param nickName the nickname of the player that has the school board on which the changes have been happened.
      * @param numOfActualTowers the actual number of towers
      */
-    public void changeTowerNumberUpdate(String nickName, int numOfActualTowers);
+    void changeTowerNumberUpdate(String nickName, int numOfActualTowers);
 }

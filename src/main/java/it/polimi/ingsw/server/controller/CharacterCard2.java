@@ -8,7 +8,7 @@ public class CharacterCard2 extends CharacterCard{
      * This is the Game class
      * @see ExpertGame
      */
-    ExpertGame game;
+    final ExpertGame game;
 
     /**
      * Creates a new character card

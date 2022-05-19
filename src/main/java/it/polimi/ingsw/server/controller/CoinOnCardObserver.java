@@ -12,5 +12,5 @@ public interface CoinOnCardObserver {
      * @param characterCardsType the card type on which the change has been happened
      * @param coinOnCard the actual value (true, if the coin is present, false otherwise)
      */
-    public void coinOnCardObserverUpdate(CharacterCardsType characterCardsType, boolean coinOnCard);
+    void coinOnCardObserverUpdate(CharacterCardsType characterCardsType, boolean coinOnCard);
 }

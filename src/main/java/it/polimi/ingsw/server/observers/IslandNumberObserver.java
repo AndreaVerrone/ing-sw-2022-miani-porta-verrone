@@ -10,6 +10,6 @@ public interface IslandNumberObserver {
      * It is called by the subject in order to notify a change to all its attached observers.
      * @param actualNumOfIslands the actual number of island on the game table
      */
-    public void islandNumberObserverUpdate(int actualNumOfIslands);
+    void islandNumberObserverUpdate(int actualNumOfIslands);
 
 }

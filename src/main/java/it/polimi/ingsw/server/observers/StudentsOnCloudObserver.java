@@ -13,5 +13,5 @@ public interface StudentsOnCloudObserver {
      * @param cloudID the ID of the cloud on which the students have been changed
      * @param actualStudentList the actual student list on the cloud
      */
-    public void studentsOnCloudObserverUpdate(int cloudID, StudentList actualStudentList);
+    void studentsOnCloudObserverUpdate(int cloudID, StudentList actualStudentList);
 }

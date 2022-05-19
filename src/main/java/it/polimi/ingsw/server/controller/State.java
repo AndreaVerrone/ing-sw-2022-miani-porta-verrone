@@ -75,9 +75,8 @@ public interface State {
      * @throws NotValidOperationException if the character card cannot be used because the player cannot pay
      * for the usage, the state of the game do not allow the usage or the player has already used a character card
      * during its turn.
-     * @throws NotValidArgumentException if the character card does not exist
      */
-    default void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException, NotValidArgumentException{
+    default void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException {
         characterCard.effect();
     }
 }

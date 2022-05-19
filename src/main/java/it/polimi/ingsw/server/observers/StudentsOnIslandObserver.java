@@ -13,5 +13,5 @@ public interface StudentsOnIslandObserver {
      * @param islandID the islandID of the island on which the student has been added
      * @param actualStudents the actual student list on island
      */
-    public void studentsOnIslandObserverUpdate(int islandID, StudentList actualStudents);
+    void studentsOnIslandObserverUpdate(int islandID, StudentList actualStudents);
 }

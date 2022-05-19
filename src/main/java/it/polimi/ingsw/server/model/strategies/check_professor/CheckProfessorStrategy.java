@@ -16,5 +16,5 @@ public interface CheckProfessorStrategy {
      *
      * @param studentColor the {@code PawnType} of the student that has been added in the dining room
      */
-    public void checkProfessor(PawnType studentColor);
+    void checkProfessor(PawnType studentColor);
 }

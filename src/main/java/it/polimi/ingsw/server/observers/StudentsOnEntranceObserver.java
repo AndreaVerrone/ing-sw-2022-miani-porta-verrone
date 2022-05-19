@@ -14,5 +14,5 @@ public interface StudentsOnEntranceObserver {
      * @param nickname the nickname of the player that has the school board on which the changes have been happened
      * @param actualStudents the actual student list in entrance
      */
-    public void studentsOnEntranceObserverUpdate(String nickname, StudentList actualStudents);
+    void studentsOnEntranceObserverUpdate(String nickname, StudentList actualStudents);
 }

@@ -99,8 +99,6 @@ public class ConnectionHandler implements Runnable, NetworkSender {
         } catch (IOException e) {
             System.out.println("server has died");
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error in protocol");
         } finally {
             executorService.shutdown();
             try {
@@ -111,7 +109,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
         }
     }
 
-    private void handleConnection() throws IOException, ClassNotFoundException {
+    private void handleConnection() throws IOException {
         try {
             while (!wantToClose) {
                 try {
