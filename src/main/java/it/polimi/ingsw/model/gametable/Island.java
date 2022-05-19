@@ -163,7 +163,7 @@ public class Island {
      * @param islandIDWithBan the island on which a ban has been put or removed
      * @param actualNumOfBans the actual num of bans on the island
      */
-    public void notifyBanOnIslandObservers(int islandIDWithBan, int actualNumOfBans){
+    private void notifyBanOnIslandObservers(int islandIDWithBan, int actualNumOfBans){
         for(BanOnIslandObserver observer : banOnIslandObservers)
             observer.banOnIslandObserverUpdate(islandIDWithBan, actualNumOfBans);
     }
@@ -195,7 +195,7 @@ public class Island {
      * @param islandID the islandID of the island on which the students has been changed
      * @param actualStudents the actual student list on island
      */
-    public void notifyStudentsOnIslandObservers(int islandID, StudentList actualStudents){
+    private void notifyStudentsOnIslandObservers(int islandID, StudentList actualStudents){
         for(StudentsOnIslandObserver observer : studentsOnIslandObservers)
             observer.studentsOnIslandObserverUpdate(islandID, actualStudents);
     }
@@ -227,7 +227,7 @@ public class Island {
      * @param islandRemovedID ID of the island that has been removed
      * @param finalSize the size of the island after unification
      */
-    public void notifyUnificationIslandObservers(int islandRemovedID, int finalSize){
+    private void notifyUnificationIslandObservers(int islandRemovedID, int finalSize){
         for(IslandUnificationObserver observer : unificationIslandObservers)
             observer.islandUnificationObserverUpdate(islandRemovedID,finalSize);
     }
@@ -259,7 +259,7 @@ public class Island {
      * @param islandIDWithChange the island on which a tower has been put or removed
      * @param actualTower the actual tower on the island
      */
-    public void notifyTowerOnIslandObservers(int islandIDWithChange, TowerType actualTower){
+    private void notifyTowerOnIslandObservers(int islandIDWithChange, TowerType actualTower){
         for(TowerOnIslandObserver observer : towerOnIslandObservers)
             observer.towerOnIslandObserverUpdate(islandIDWithChange, actualTower);
     }

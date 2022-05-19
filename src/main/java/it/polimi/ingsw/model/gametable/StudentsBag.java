@@ -91,7 +91,7 @@ class StudentsBag {
     /**
      * This method notify all the attached observers that the student bag is empty.
      */
-    public void notifyEmptyStudentBagObserver(){
+    private void notifyEmptyStudentBagObserver(){
         for(EmptyStudentBagObserver observer: emptyStudentBagObservers){
             observer.emptyStudentBagObserverUpdate();
         }

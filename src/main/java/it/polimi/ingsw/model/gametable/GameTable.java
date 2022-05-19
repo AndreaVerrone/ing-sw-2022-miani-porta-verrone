@@ -222,7 +222,7 @@ public class GameTable {
      * This method notify all the attached observers a change on the number of islands.
      * @param actualNumOfIslands the actual number of island on the game table
      */
-      public void notifyIslandNumberObservers(int actualNumOfIslands){
+      private void notifyIslandNumberObservers(int actualNumOfIslands){
         for(IslandNumberObserver observer : islandNumberObservers)
             observer.islandNumberObserverUpdate(actualNumOfIslands);
       }
@@ -253,7 +253,7 @@ public class GameTable {
      * This method notify all the attached observers that a change has been happened on mother nature position.
      * @param actualMotherNaturePosition the actual islandID on which mother nature is
      */
-    public void notifyMotherNaturePositionObservers(int actualMotherNaturePosition){
+    private void notifyMotherNaturePositionObservers(int actualMotherNaturePosition){
         for(MotherNaturePositionObserver observer : motherNaturePositionObservers)
             observer.motherNaturePositionObserverUpdate(actualMotherNaturePosition);
     }

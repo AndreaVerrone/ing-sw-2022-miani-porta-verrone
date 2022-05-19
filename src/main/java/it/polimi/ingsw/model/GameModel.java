@@ -339,7 +339,7 @@ public class GameModel {
      * This method notify all the attached observers that a change has been happened on current player.
      * @param actualCurrentPlayerNickname the actual current player's nickname
      */
-    public void notifyChangeCurrentPlayerObservers(String actualCurrentPlayerNickname){
+    private void notifyChangeCurrentPlayerObservers(String actualCurrentPlayerNickname){
         for(ChangeCurrentPlayerObserver observer : changeCurrentPlayerObservers)
             observer.changeCurrentPlayerObserverUpdate(actualCurrentPlayerNickname);
     }
@@ -372,7 +372,7 @@ public class GameModel {
      * This method notify all the attached observers that conquer island method has been invoked when there is
      * a ban on the island.
      */
-    public void notifyConquerIslandObserver(){
+    private void notifyConquerIslandObserver(){
         for(ConquerIslandObserver observer: conquerIslandObservers){
             observer.conquerIslandObserverUpdate();
         }

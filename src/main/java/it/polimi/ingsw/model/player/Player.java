@@ -297,7 +297,7 @@ public class Player {
      * @param nickName the nickname of the player that has the school board on which the changes have been happened.
      * @param numOfActualTowers the actual number of towers
      */
-    public void notifyChangeTowerNumberObservers(String nickName, int numOfActualTowers){
+    private void notifyChangeTowerNumberObservers(String nickName, int numOfActualTowers){
         for(ChangeTowerNumberObserver observer : changeTowerNumberObservers)
             observer.changeTowerNumberUpdate(nickName, numOfActualTowers);
     }
@@ -329,7 +329,7 @@ public class Player {
      * @param nickName the nickname of the player that has the school board on which the changes have been happened
      * @param actualStudents the actual student list in entrance
      */
-    public void notifyStudentsOnEntranceObservers(String nickName, StudentList actualStudents){
+    private void notifyStudentsOnEntranceObservers(String nickName, StudentList actualStudents){
         for(StudentsOnEntranceObserver observer : studentsOnEntranceObservers)
             observer.studentsOnEntranceObserverUpdate(nickName, actualStudents);
     }
@@ -361,7 +361,7 @@ public class Player {
      * @param nickName that has the school board on which the change of professors have been happened
      * @param actualProfessors the actual professor list in dining room
      */
-    public void notifyProfessorObservers(String nickName, Collection<PawnType> actualProfessors){
+    private void notifyProfessorObservers(String nickName, Collection<PawnType> actualProfessors){
         for(ProfessorObserver observer : professorObservers)
             observer.professorObserverUpdate(nickName,actualProfessors);
     }
@@ -393,7 +393,7 @@ public class Player {
      * @param nickName the nickname of the player that has the deck that has been changed
      * @param actualDeck the actual deck
      */
-    public void notifyChangeAssistantDeckObservers(String nickName, Collection<Assistant> actualDeck){
+    private void notifyChangeAssistantDeckObservers(String nickName, Collection<Assistant> actualDeck){
         for(ChangeAssistantDeckObserver observer : changeAssistantDeckObservers)
             observer.changeAssistantDeckObserverUpdate(nickName,actualDeck);
     }
@@ -425,7 +425,7 @@ public class Player {
      * @param nickName the nickname of the player that has the deck that has been changed
      * @param actualLastAssistant the actual last assistant
      */
-    public void notifyLastAssistantUsedObservers(String nickName, Assistant actualLastAssistant){
+    private void notifyLastAssistantUsedObservers(String nickName, Assistant actualLastAssistant){
         for(LastAssistantUsedObserver observer : lastAssistantUsedObservers)
             observer.lastAssistantUsedObserverUpdate(nickName,actualLastAssistant);
     }
