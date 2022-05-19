@@ -1,8 +1,8 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
-import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.TextStyle;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 
 import java.util.ArrayList;
 import java.util.Collection;

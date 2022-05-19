@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
-import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,25 +8,25 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * A widget to show other widgets one next to each other
+ * A widget to show other widgets one above each other
  */
-public class Row extends Widget{
+public class Column extends Widget{
 
     /**
-     * The widgets in this row
+     * The widgets in this column
      */
     private final List<Widget> children = new ArrayList<>();
 
     /**
-     * Creates an empty row
+     * Creates an empty column
      */
-    public Row(){}
+    public Column(){}
 
     /**
-     * Creates a row containing the passed widgets
-     * @param children the widgets to add to this row
+     * Creates a column containing the passed widgets
+     * @param children the widgets to add to this column
      */
-    public Row(Collection<Widget> children){
+    public Column(Collection<Widget> children){
         this.children.addAll(children);
         calculateDimensions();
         for (Widget child : children){
@@ -35,9 +35,9 @@ public class Row extends Widget{
     }
 
     private void calculateDimensions(){
-        int width = children.stream().reduce(0, (integer, widget) -> integer+widget.getWidth(), Integer::sum);
-        int height = children.stream().max(Comparator.comparingInt(Widget::getHeight))
-                .map(Widget::getHeight).orElse(0);
+        int width = children.stream().max(Comparator.comparingInt(Widget::getWidth))
+                .map(Widget::getWidth).orElse(0);
+        int height = children.stream().reduce(0, (integer, widget) -> integer+widget.getHeight(), Integer::sum);
         setWidth(width);
         setHeight(height);
     }
@@ -50,11 +50,11 @@ public class Row extends Widget{
     }
 
     /**
-     * Adds a widget to this row
+     * Adds a widget to this column
      * @param child the widget to add
-     * @return the row itself
+     * @return the column itself
      */
-    public Row addChild(Widget child){
+    public Column addChild(Widget child){
         children.add(child);
         calculateDimensions();
         child.onSizeChange(this::calculateDimensions);
@@ -64,10 +64,10 @@ public class Row extends Widget{
     }
 
     /**
-     * Removes the last widget in this row
-     * @return the row itself
+     * Removes the last widget in this column
+     * @return the column itself
      */
-    public Row removeLast(){
+    public Column removeLast(){
         Widget toRemove = children.remove(children.size()-1);
         toRemove.setCanvas(null);
         toRemove.detachListener();
@@ -76,13 +76,11 @@ public class Row extends Widget{
 
     @Override
     protected void display() {
-        int start = getStartingPoint();
         for (Widget child:children) {
-            child.setStartingPoint(start);
+            child.setStartingPoint(getStartingPoint());
             child.show();
-            start += child.getWidth();
-            ConsoleCli.moveCursorUp(child.getHeight()-1);
+            System.out.print("\n");
         }
-        ConsoleCli.moveCursorDown(getHeight()-1);
+        ConsoleCli.moveCursorUp(1);
     }
 }

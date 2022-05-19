@@ -1,7 +1,7 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
-import it.polimi.ingsw.view.cli.fancy_cli.utils.Alignment;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Alignment;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 
 /**
  * A widget for reserving a minimum amount of space on the screen

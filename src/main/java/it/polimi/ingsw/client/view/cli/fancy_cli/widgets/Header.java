@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
 /**
  * A widget used for displaying a title and/or a subtitle.

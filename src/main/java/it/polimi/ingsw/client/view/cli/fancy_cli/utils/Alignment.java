@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.fancy_cli.utils;
+package it.polimi.ingsw.client.view.cli.fancy_cli.utils;
 
 /**
  * An enumeration describing the alignment in a box

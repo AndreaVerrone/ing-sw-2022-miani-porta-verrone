@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
-import it.polimi.ingsw.view.cli.fancy_cli.utils.*;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.*;
 import org.fusesource.jansi.AnsiConsole;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;

@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
-import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 
 /**
  * A widget that make possible to add padding around a widget

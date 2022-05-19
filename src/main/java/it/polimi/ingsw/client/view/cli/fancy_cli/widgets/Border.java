@@ -1,9 +1,9 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
-import it.polimi.ingsw.view.cli.fancy_cli.utils.BorderType;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.Icons;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Icons;
 
 /**
  * A widget that make possible to add a border around another widget

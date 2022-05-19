@@ -1,6 +1,4 @@
-package it.polimi.ingsw.view.cli.fancy_cli.utils;
-
-import it.polimi.ingsw.view.cli.fancy_cli.utils.Icons;
+package it.polimi.ingsw.client.view.cli.fancy_cli.utils;
 
 /**
  * The style of the border

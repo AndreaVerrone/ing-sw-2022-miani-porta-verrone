@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
 /**
  * A class used to create new customized widgets that can't change over time.

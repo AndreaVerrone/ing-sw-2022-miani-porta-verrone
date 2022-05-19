@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli.fancy_cli.utils;
+package it.polimi.ingsw.client.view.cli.fancy_cli.utils;
 
 /**
  * The color that can be applied to be displayed

@@ -1,7 +1,7 @@
-package it.polimi.ingsw.view.cli.fancy_cli.inputs;
+package it.polimi.ingsw.client.view.cli.fancy_cli.inputs;
 
-import it.polimi.ingsw.view.cli.fancy_cli.utils.Color;
-import it.polimi.ingsw.view.cli.fancy_cli.utils.ConsoleCli;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import org.fusesource.jansi.AnsiConsole;
 import org.jline.reader.*;
 import org.jline.reader.impl.completer.NullCompleter;

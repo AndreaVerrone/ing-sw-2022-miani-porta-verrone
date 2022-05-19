@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.cli.fancy_cli.widgets;
+package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
-import it.polimi.ingsw.view.cli.fancy_cli.utils.Alignment;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Alignment;
 
 import java.util.Comparator;
 import java.util.HashMap;
