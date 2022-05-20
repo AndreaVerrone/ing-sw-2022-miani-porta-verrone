@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
-import it.polimi.ingsw.controller.NotValidArgumentException;
-import it.polimi.ingsw.controller.NotValidOperationException;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.ExitFromGame;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
@@ -13,7 +11,7 @@ import it.polimi.ingsw.server.ClientHandler;
  */
 public class QuitGame extends ClientCommandNetMsg {
     @Override
-    protected void normalProcess(ClientHandler clientInServer) throws NotValidArgumentException, NotValidOperationException {
+    protected void normalProcess(ClientHandler clientInServer) {
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
         clientInServer.getSessionController().quitGame();
     }

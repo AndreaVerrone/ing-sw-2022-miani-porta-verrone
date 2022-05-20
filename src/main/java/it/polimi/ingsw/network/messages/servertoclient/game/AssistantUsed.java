@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.messages.servertoclient.game;
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
-import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.Assistant;
 
 /**
  * A message sent from server to all client connected to a game to indicate that the current

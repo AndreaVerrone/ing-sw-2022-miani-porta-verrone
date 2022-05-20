@@ -1,9 +1,9 @@
 package it.polimi.ingsw.network.messages.clienttoserver.launcher;
 
+import it.polimi.ingsw.network.User;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
-import it.polimi.ingsw.network.User;
 
 /**
  * A message sent from client to server to send the unique identifier of a user.

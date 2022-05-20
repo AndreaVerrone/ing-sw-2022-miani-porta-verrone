@@ -1,9 +1,9 @@
 package it.polimi.ingsw.network.messages.servertoclient.matchmaking;
 
 import it.polimi.ingsw.client.ConnectionHandler;
-import it.polimi.ingsw.controller.PlayerLoginInfo;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
+import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;

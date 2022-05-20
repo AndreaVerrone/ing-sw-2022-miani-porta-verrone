@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.Match;
-import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.network.User;
+import it.polimi.ingsw.server.controller.Match;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -62,23 +62,20 @@ public class Server {
         int portNumber = Integer.parseInt(scanner.nextLine());
         //end of code used for initial debugging
 
-        ServerSocket serverSocket;
-        try {
-            serverSocket = new ServerSocket(portNumber);
+        ;
+        try (ServerSocket serverSocket = new ServerSocket(portNumber)){
+            while (true){
+                try {
+                    Socket socket = serverSocket.accept();
+                    socket.setSoTimeout(Server.SOKET_TIME_OUT * 1000);
+                    new Thread(new ClientHandler(socket)).start();
+                } catch (IOException e) {
+                    System.out.println("Connection dropped!");
+                }
+            }
         } catch (IOException e) {
             System.out.println("An error occurred when trying to open the server socket");
             System.exit(1);
-            return;
-        }
-
-        while (true){
-            try {
-                Socket socket = serverSocket.accept();
-                socket.setSoTimeout(Server.SOKET_TIME_OUT * 1000);
-                new Thread(new ClientHandler(socket)).start();
-            } catch (IOException e) {
-                System.out.println("Connection dropped!");
-            }
         }
 
     }

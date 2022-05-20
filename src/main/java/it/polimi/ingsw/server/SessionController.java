@@ -1,14 +1,18 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.*;
-import it.polimi.ingsw.model.PawnType;
-import it.polimi.ingsw.model.TowerType;
-import it.polimi.ingsw.model.player.Assistant;
-import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.User;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
+import it.polimi.ingsw.server.controller.Match;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.game.Position;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
+import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.Collection;
 
@@ -354,7 +358,7 @@ public class SessionController {
     }
 
     /**
-     * Moves the passed student from the choosen location.
+     * Moves the passed student from the chosen location.
      *
      * @param student  the student to move
      * @param originPosition location from where the student has been taken
@@ -368,7 +372,7 @@ public class SessionController {
      *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
      *      </li>
      *      <li>
-     *          {@link ErrorCode#STUDENT_NOT_PRESENT}: if the selected student is not in location choosen
+     *          {@link ErrorCode#STUDENT_NOT_PRESENT}: if the selected student is not in location chosen
      *      </li>
      *      <li>
      *          {@link ErrorCode#PLAYER_NOT_IN_TURN}: if it's not the turn of this client to move a student
@@ -380,7 +384,7 @@ public class SessionController {
      */
     public void chooseStudentFromLocation(PawnType student, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
-        match.choseStudentFromLocation(student, originPosition);
+        match.chooseStudentFromLocation(student, originPosition);
     }
 
     /**

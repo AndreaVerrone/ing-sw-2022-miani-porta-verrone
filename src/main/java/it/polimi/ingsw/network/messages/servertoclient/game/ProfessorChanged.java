@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.messages.servertoclient.game;
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
-import it.polimi.ingsw.model.PawnType;
+import it.polimi.ingsw.server.model.utils.PawnType;
 
 import java.util.Collection;
 import java.util.HashSet;

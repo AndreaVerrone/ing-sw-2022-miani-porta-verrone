@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.messages.servertoclient.game;
 import it.polimi.ingsw.client.ConnectionHandler;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
-import it.polimi.ingsw.model.TowerType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 /**
  * A message sent from the server to all clients connected to a game

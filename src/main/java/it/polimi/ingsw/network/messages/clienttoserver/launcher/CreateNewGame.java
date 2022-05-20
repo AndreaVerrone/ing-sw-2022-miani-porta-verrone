@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network.messages.clienttoserver.launcher;
 
-import it.polimi.ingsw.controller.NotValidArgumentException;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.launcher.GameCreated;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
 
 /**
  * Message sent from client to server to indicate that he wants to create a new game

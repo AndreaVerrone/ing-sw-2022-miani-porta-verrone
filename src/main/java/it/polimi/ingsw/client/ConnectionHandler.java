@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.network.NetworkSender;
+import it.polimi.ingsw.network.User;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
@@ -7,8 +9,6 @@ import it.polimi.ingsw.network.messages.clienttoserver.launcher.SendUserIdentifi
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.PingMessage;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
-import it.polimi.ingsw.network.NetworkSender;
-import it.polimi.ingsw.network.User;
 
 import java.io.*;
 import java.net.Socket;
@@ -99,8 +99,6 @@ public class ConnectionHandler implements Runnable, NetworkSender {
         } catch (IOException e) {
             System.out.println("server has died");
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error in protocol");
         } finally {
             executorService.shutdown();
             try {
@@ -111,7 +109,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
         }
     }
 
-    private void handleConnection() throws IOException, ClassNotFoundException {
+    private void handleConnection() throws IOException {
         try {
             while (!wantToClose) {
                 try {
@@ -227,7 +225,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     }
 
     /**
-     * Closes all the current tasks and terminates the applicaton, causing no more messages to be read or sent.
+     * Closes all the current tasks and terminates the application, causing no more messages to be read or sent.
      */
     public void closeApplication(){
         wantToClose = true;
