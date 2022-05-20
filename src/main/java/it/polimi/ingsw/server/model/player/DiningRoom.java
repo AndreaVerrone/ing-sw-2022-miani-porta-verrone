@@ -35,7 +35,7 @@ class DiningRoom {
      * @return {@code true} if the student lands on a coin symbol, {@code false} otherwise
      * @throws ReachedMaxStudentException if it tries to add a student on a full table
      */
-    protected boolean addStudentOf(PawnType type) throws ReachedMaxStudentException {
+    boolean addStudentOf(PawnType type) throws ReachedMaxStudentException {
         int numStudents = tables.getNumOf(type);
         if (numStudents == MAX_STUDENTS_PER_TABLE) throw new ReachedMaxStudentException();
         try {
@@ -53,7 +53,7 @@ class DiningRoom {
      * @param type the type of student to remove
      * @throws NotEnoughStudentException if there aren't students of that type
      */
-    protected void removeStudentOf(PawnType type) throws NotEnoughStudentException {
+    void removeStudentOf(PawnType type) throws NotEnoughStudentException {
         tables.changeNumOf(type, -1);
         notifyStudentsInDiningRoomObservers(this.nickNameOfPlayer,tables.clone());
     }
@@ -63,7 +63,7 @@ class DiningRoom {
      * @param type the type of student to get the number
      * @return the number of students of that type
      */
-    protected int getNumStudentsOf(PawnType type){
+    int getNumStudentsOf(PawnType type){
         return tables.getNumOf(type);
     }
 
@@ -77,7 +77,7 @@ class DiningRoom {
      * This method allows to add the observer, passed as a parameter, on the students in dining room.
      * @param observer the observer to be added
      */
-    public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+    void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
         studentsInDiningRoomObservers.add(observer);
     }
 
@@ -85,7 +85,7 @@ class DiningRoom {
      * This method allows to remove the observer, passed as a parameter, on the students dining room.
      * @param observer the observer to be removed
      */
-    public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+    void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
         studentsInDiningRoomObservers.remove(observer);
     }
 
