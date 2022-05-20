@@ -8,7 +8,7 @@ uses when running a program doesn't support some requested features.
 1) First must be created a new jar artifact. To do so in IntelliJ, follow the guide on
    this [link](https://stackoverflow.com/a/45303637/2640826)
 2) After that, and everytime the code must be run, you need to build the artifact. In IntelliJ, simply open `Build`
-   ->`Build artifacts...` and then `build`/`rebuild`. You should now see the artifact
+   ->`Build artifacts...` and then `build`/`rebuild`. By default, this will create the artifact
    under `out\artifacts\{project_name_jar}\{project-name.jar}`
 3) Now you can run the program from the terminal you like (i.e. the one of your operating system or the IDE) by going to
    the folder in which the jar is located and running the command `java -jar {name-of-the-jar}` (make sure that you
