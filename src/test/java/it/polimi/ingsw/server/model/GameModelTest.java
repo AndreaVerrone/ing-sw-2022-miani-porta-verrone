@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.model.gametable.Island;
-import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -12,6 +11,7 @@ import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceWithout
 import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitPlusTwo;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import org.junit.jupiter.api.*;
 
 import java.util.List;

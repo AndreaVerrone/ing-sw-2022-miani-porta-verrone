@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
-import it.polimi.ingsw.server.controller.Position;
+import it.polimi.ingsw.server.controller.game.Position;
 
 /**
  * message sent from the client to the server to choose a destination on which operate
