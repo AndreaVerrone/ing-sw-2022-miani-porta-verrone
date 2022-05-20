@@ -25,13 +25,13 @@ class Cloud {
      * Class constructor
      * @param ID cloud identification
      */
-    public Cloud(int ID){
+    Cloud(int ID){
         this.ID = ID;
         this.students = new StudentList();
     }
 
 
-    public int getID(){
+    int getID(){
         return ID;
     }
 
@@ -39,7 +39,7 @@ class Cloud {
      * Adds to the cloud a student of the given {@code PawnType}
      * @param type the type of the student to add
      */
-    public void addStudent(PawnType type) {
+    void addStudent(PawnType type) {
         try {
             students.changeNumOf(type, 1);
         } catch (NotEnoughStudentException e) {
@@ -52,7 +52,7 @@ class Cloud {
      * Returns and removes all the students on the cloud
      * @return students on the cloud
      */
-    public StudentList getAllStudents() {
+    StudentList getAllStudents() {
         StudentList studentsClone =  students.clone();
         students.empty();
         notifyStudentsOnCloudObservers(this.ID,students.clone());
@@ -69,7 +69,7 @@ class Cloud {
      * This method allows to add the observer, passed as a parameter, on students on cloud.
      * @param observer the observer to be added
      */
-    public void addStudentsOnCloudObserver(StudentsOnCloudObserver observer){
+    void addStudentsOnCloudObserver(StudentsOnCloudObserver observer){
         studentsOnCloudObservers.add(observer);
     }
 
@@ -77,7 +77,7 @@ class Cloud {
      * This method allows to remove the observer, passed as a parameter, on students on cloud.
      * @param observer the observer to be removed
      */
-    public void removeStudentsOnCloudObserver(StudentsOnCloudObserver observer){
+    void removeStudentsOnCloudObserver(StudentsOnCloudObserver observer){
         studentsOnCloudObservers.remove(observer);
     }
 
