@@ -53,7 +53,7 @@ public class Island {
     }
 
 
-    public int getID(){
+    int getID(){
         return ID;
     }
 
@@ -110,7 +110,7 @@ public class Island {
      * Add a student of the type passed as argument on this island
      * @param type the type of student to add
      */
-    protected void addStudentOf(PawnType type) {
+    void addStudentOf(PawnType type) {
         try {
             students.changeNumOf(type, 1);
         } catch (NotEnoughStudentException e) {
@@ -128,7 +128,7 @@ public class Island {
      * </p>
      * @param island the island that need to be unified with this one.
      */
-    protected void unifyWith(Island island){
+    void unifyWith(Island island){
         assert ID != island.ID : "You can't unify the same island";
         assert tower == island.tower : "You're trying to unify two islands that have different towers on them";
 
@@ -153,7 +153,7 @@ public class Island {
      * This method allows to add the observer, passed as a parameter, on ban on island.
      * @param observer the observer to be added
      */
-    public void addBanOnIslandObserver(BanOnIslandObserver observer){
+    void addBanOnIslandObserver(BanOnIslandObserver observer){
         banOnIslandObservers.add(observer);
     }
 
@@ -161,7 +161,7 @@ public class Island {
      * This method allows to remove the observer, passed as a parameter, on ban on island.
      * @param observer the observer to be removed
      */
-    public void removeBanOnIslandObserver(BanOnIslandObserver observer){
+    void removeBanOnIslandObserver(BanOnIslandObserver observer){
         banOnIslandObservers.remove(observer);
     }
 
@@ -185,7 +185,7 @@ public class Island {
      * This method allows to add the observer, passed as a parameter, on the students on island.
      * @param observer the observer to be added
      */
-    public void addStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+    void addStudentsOnIslandObserver(StudentsOnIslandObserver observer){
         studentsOnIslandObservers.add(observer);
     }
 
@@ -193,7 +193,7 @@ public class Island {
      * This method allows to remove the observer, passed as a parameter, on the students on island.
      * @param observer the observer to be removed
      */
-    public void removeStudentsOnIslandObserver(StudentsOnIslandObserver observer){
+    void removeStudentsOnIslandObserver(StudentsOnIslandObserver observer){
         studentsOnIslandObservers.remove(observer);
     }
 
@@ -217,7 +217,7 @@ public class Island {
      * This method allows to add the observer, passed as a parameter, on the unification of islands.
      * @param observer the observer to be added
      */
-    public void addUnificationIslandObserver(IslandUnificationObserver observer){
+    void addUnificationIslandObserver(IslandUnificationObserver observer){
         unificationIslandObservers.add(observer);
     }
 
@@ -225,7 +225,7 @@ public class Island {
      * This method allows to remove the observer, passed as a parameter, on the unification of islands.
      * @param observer the observer to be removed
      */
-    public void removeUnificationIslandObserver(IslandUnificationObserver observer){
+    void removeUnificationIslandObserver(IslandUnificationObserver observer){
         unificationIslandObservers.remove(observer);
     }
 
@@ -249,7 +249,7 @@ public class Island {
      * This method allows to add the observer, passed as a parameter, on tower on island.
      * @param observer the observer to be added
      */
-    public void addTowerOnIslandObserver(TowerOnIslandObserver observer){
+    void addTowerOnIslandObserver(TowerOnIslandObserver observer){
         towerOnIslandObservers.add(observer);
     }
 
@@ -257,7 +257,7 @@ public class Island {
      * This method allows to remove the observer, passed as a parameter, on tower on island.
      * @param observer the observer to be removed
      */
-    public void removeTowerOnIslandObserver(TowerOnIslandObserver observer){
+    void removeTowerOnIslandObserver(TowerOnIslandObserver observer){
         towerOnIslandObservers.remove(observer);
     }
 
