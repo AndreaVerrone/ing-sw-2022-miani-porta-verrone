@@ -114,13 +114,18 @@ public class Canvas implements Drawable {
         Text subtitle = null;
         if (this.subtitle != null)
             subtitle = new Text(this.subtitle, Color.DEFAULT, Color.DEFAULT).addTextStyle(TextStyle.ITALIC);
-        Widget header = new SizedBox(new Header(title, subtitle), content.getWidth(), 0);
-        SizedBox sizedBox = new SizedBox(1f,1f);
-        Widget finalContent = new SizedBox(new Column(List.of(
-                header,
-                sizedBox,
-                content
-        )), width, 0, Alignment.TOP);
+        Widget header = new Header(title, subtitle);
+        Widget actualContent = header;
+        if (content != null) {
+            Widget centeredHeader = new SizedBox(header, content.getWidth(), 0);
+            SizedBox sizedBox = new SizedBox(1f, 1f);
+            actualContent = new Column(List.of(
+                    header,
+                    sizedBox,
+                    new SizedBox(content, centeredHeader.getWidth(), 0)
+            ));
+        }
+        Widget finalContent = new SizedBox(actualContent, width, 0);
         finalContent.show();
         System.out.print("\n\n");
         AnsiConsole.systemUninstall();
