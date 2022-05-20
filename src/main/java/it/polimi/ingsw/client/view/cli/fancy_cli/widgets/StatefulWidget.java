@@ -15,7 +15,23 @@ public abstract class StatefulWidget extends Widget{
      * Creates a new widget with content that change over time
      */
     protected StatefulWidget(){
-        updateContent();
+        create();
+    }
+
+    /**
+     * A method that creates this widget, using the build method provided.
+     * This should be used at the end of the constructor if some attributes
+     * are added at the widget. Not doing that can cause the widget to not
+     * render properly.
+     */
+    protected final void create() {
+        if (content != null)
+            return;
+        try {
+            updateContent();
+        } catch (NullPointerException e) {
+            return;
+        }
         content.onSizeChange(this::updateContent);
     }
 
