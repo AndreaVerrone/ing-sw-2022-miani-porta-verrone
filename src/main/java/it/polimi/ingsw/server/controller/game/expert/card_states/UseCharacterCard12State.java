@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 
-public class UseCharacterCard12State extends UseCharacterCardState implements State {
+public class UseCharacterCard12State extends UseCharacterCardState {
 
     /**
      * This is the GameModel class

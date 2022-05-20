@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.controller.game.states.State;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 
-public class UseCharacterCard5State extends UseCharacterCardState implements State {
+public class UseCharacterCard5State extends UseCharacterCardState {
 
     /**
      * This is the model of the game

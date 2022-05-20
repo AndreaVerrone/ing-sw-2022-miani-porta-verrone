@@ -13,7 +13,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 
-public class UseCharacterCard11State extends UseCharacterCardState implements State {
+public class UseCharacterCard11State extends UseCharacterCardState {
 
     /**
      * This is the model of the game

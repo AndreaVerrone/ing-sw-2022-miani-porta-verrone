@@ -13,7 +13,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 /**
  * Class to implement the state where the current player can use the card 8
  */
-public class UseCharacterCard8State extends UseCharacterCardState implements State {
+public class UseCharacterCard8State extends UseCharacterCardState {
 
     /**
      * Model of the game

@@ -15,7 +15,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 /**
  * Class that implements the state where the current player can use the card 9
  */
-public class UseCharacterCard9State extends UseCharacterCardState implements State {
+public class UseCharacterCard9State extends UseCharacterCardState {
 
     /**
      * Model of the game
