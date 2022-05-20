@@ -29,6 +29,8 @@ own, but can be combined to create more complicated designs.
 To create new custom widget you can extend the `StatefulWidget` and `StatelessWidget` classes.
 These classes provide a `build` method used to define which inner widget/s is going to compose your custom widget.
 In this method, other interaction with the console should be avoided, as it can mess up with the drawing of the widgets.
+There is also a create method that need to be called in the constructor of widgets which have custom attributes after all these attributes are initialized.
+Not doing so will cause the widget to not render properly.
 
 * `StatefulWidgets` are used when the content of the widget can change dynamically.
   Changes in the content of a `StatefulWidget` are reflected on the screen, and it will be repainted.
