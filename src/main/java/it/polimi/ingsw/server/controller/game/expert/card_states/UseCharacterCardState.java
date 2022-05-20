@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.controller.game.states.State;
 
-public abstract class UseCharacterCardState {
+abstract class UseCharacterCardState implements State{
 
     /**
      * This is the Game class
@@ -39,7 +39,7 @@ public abstract class UseCharacterCardState {
     /**
      * This method allow to finalize the usage of the character card.
      */
-    public void finalizeCardUsed(){
+    protected void finalizeCardUsed(){
         game.effectEpilogue(characterCard);
         characterCard.setAsUsed();
     }
@@ -47,7 +47,7 @@ public abstract class UseCharacterCardState {
     /**
      * This method allows to go back to the state at which the character card has been used.
      */
-    public void returnBack(){
+    protected void returnBack(){
         game.setState(originState);
     }
 
