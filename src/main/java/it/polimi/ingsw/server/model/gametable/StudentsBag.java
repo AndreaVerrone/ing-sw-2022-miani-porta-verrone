@@ -21,7 +21,7 @@ class StudentsBag {
     /**
      * Class constructor
      */
-    public StudentsBag() {
+    StudentsBag() {
         students = new StudentList();
     }
 
@@ -29,7 +29,7 @@ class StudentsBag {
      * Gets the number of students contained in this bag
      * @return the number of students in this bag
      */
-    protected int studentsRemaining(){
+    int studentsRemaining(){
         return students.numAllStudents();
     }
 
@@ -38,7 +38,7 @@ class StudentsBag {
      * @return the type of the student randomly taken
      * @throws EmptyBagException if the bag is empty
      */
-    public PawnType draw() throws EmptyBagException {
+    PawnType draw() throws EmptyBagException {
         PawnType type;
         if(students.numAllStudents() == 0) throw new EmptyBagException();
         do {
@@ -65,7 +65,7 @@ class StudentsBag {
      * @param students a {@code StudentList} of students to add to the bag
      * @throws NullPointerException if the {@code StudentList} given is null
      */
-    public void fillWith(StudentList students) throws NullPointerException {
+    void fillWith(StudentList students) throws NullPointerException {
         if (students == null) throw new NullPointerException();
         this.students.add(students);
     }
@@ -80,7 +80,7 @@ class StudentsBag {
      * This method allows to add the observer, passed as a parameter, on empty student bag.
      * @param observer the observer to be added
      */
-    public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+    void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
         emptyStudentBagObservers.add(observer);
     }
 
@@ -88,7 +88,7 @@ class StudentsBag {
      * This method allows to remove the observer, passed as a parameter, on empty student bag.
      * @param observer the observer to be removed
      */
-    public void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+    void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
         emptyStudentBagObservers.remove(observer);
     }
 
