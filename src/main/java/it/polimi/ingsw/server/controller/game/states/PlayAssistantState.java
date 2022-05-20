@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  * This state allows the current player to use the assistant card.
  */
-public class PlayAssistantState implements State{
+public class PlayAssistantState implements GameState {
 
     /**
      * This is the Game class

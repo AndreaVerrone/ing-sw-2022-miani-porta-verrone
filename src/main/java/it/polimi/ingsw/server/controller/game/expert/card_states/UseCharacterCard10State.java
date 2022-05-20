@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.controller.game.expert.cards.CharacterCard10;
-import it.polimi.ingsw.server.controller.game.states.State;
+import it.polimi.ingsw.server.controller.game.states.GameState;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
@@ -42,7 +42,7 @@ public class UseCharacterCard10State extends UseCharacterCardState {
      * @param game game class of the game
      * @param card card used in the state
      */
-    public UseCharacterCard10State(ExpertGame game, State originState, CharacterCard10 card){
+    public UseCharacterCard10State(ExpertGame game, GameState originState, CharacterCard10 card){
         super(game, originState, card);
         this.model = game.getModel();
     }

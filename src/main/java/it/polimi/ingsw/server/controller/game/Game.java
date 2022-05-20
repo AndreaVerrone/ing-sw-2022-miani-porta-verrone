@@ -21,23 +21,23 @@ public class Game implements IGame {
     /**
      * State in which the player is playing an assistant card
      */
-    private final State playAssistantState;
+    private final GameState playAssistantState;
     /**
      * State in which the player moves a student from his entrance to an island or his dining room
      */
-    private final State moveStudentState;
+    private final GameState moveStudentState;
     /**
      * State in which the player is moving mother nature
      */
-    private final State moveMotherNatureState;
+    private final GameState moveMotherNatureState;
     /**
      * State in which the player is choosing the island from where gets the students
      */
-    private final State chooseCloudState;
+    private final GameState chooseCloudState;
     /**
      * Current state of the game
      */
-    private State state;
+    private GameState state;
     /**
      * Model of the game
      */
@@ -73,7 +73,7 @@ public class Game implements IGame {
      * Changes the current state of the game
      * @param newState new state of the game
      */
-    public void setState(State newState){
+    public void setState(GameState newState){
         state = newState;
     }
 
@@ -125,7 +125,7 @@ public class Game implements IGame {
      * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
-    public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
+    public void chooseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
         state.choseStudentFromLocation(color,originPosition);
     }
 
@@ -161,23 +161,23 @@ public class Game implements IGame {
 
     public boolean getLastRoundFlag(){ return lastRoundFlag;}
 
-    public State getState() {
+    public GameState getState() {
         return state;
     }
 
-    public State getPlayAssistantState() {
+    public GameState getPlayAssistantState() {
         return playAssistantState;
     }
 
-    public State getMoveStudentState() {
+    public GameState getMoveStudentState() {
         return moveStudentState;
     }
 
-    public State getMoveMotherNatureState() {
+    public GameState getMoveMotherNatureState() {
         return moveMotherNatureState;
     }
 
-    public State getChooseCloudState() {
+    public GameState getChooseCloudState() {
         return chooseCloudState;
     }
 

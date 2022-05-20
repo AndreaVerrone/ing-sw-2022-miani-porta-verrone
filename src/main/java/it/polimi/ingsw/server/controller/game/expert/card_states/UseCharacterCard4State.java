@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.controller.game.expert.cards.CharacterCard4;
-import it.polimi.ingsw.server.controller.game.states.State;
+import it.polimi.ingsw.server.controller.game.states.GameState;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 
@@ -24,7 +24,7 @@ public class UseCharacterCard4State extends UseCharacterCardState {
      * @param originState the state from which the character card has been used
      * @param characterCard4 the character card that uses this state
      */
-    public UseCharacterCard4State(ExpertGame game, State originState, CharacterCard4 characterCard4) {
+    public UseCharacterCard4State(ExpertGame game, GameState originState, CharacterCard4 characterCard4) {
         super(game,originState,characterCard4);
         gameModel=game.getModel();
     }

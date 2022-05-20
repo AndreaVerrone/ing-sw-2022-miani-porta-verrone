@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.controller.game.expert.cards.CharacterCard12;
-import it.polimi.ingsw.server.controller.game.states.State;
+import it.polimi.ingsw.server.controller.game.states.GameState;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -19,7 +19,7 @@ public class UseCharacterCard12State extends UseCharacterCardState {
      */
     private final GameModel gameModel;
 
-    public UseCharacterCard12State(ExpertGame game, State originState, CharacterCard12 characterCard12) {
+    public UseCharacterCard12State(ExpertGame game, GameState originState, CharacterCard12 characterCard12) {
         super(game,originState,characterCard12);
         this.gameModel = game.getModel();
     }

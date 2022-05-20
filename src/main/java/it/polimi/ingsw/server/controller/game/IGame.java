@@ -36,7 +36,7 @@ public interface IGame {
      * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
      * @throws NotValidArgumentException if the student is not present in the specified location
      */
-    void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException;
+    void chooseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException;
 
     /**
      * This method allows to choose a destination on which operate based on the state.

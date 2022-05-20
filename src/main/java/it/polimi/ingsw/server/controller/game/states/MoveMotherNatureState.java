@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 /**
  * A class to handle the state of the game in which the player can move mother nature
  */
-public class MoveMotherNatureState implements State {
+public class MoveMotherNatureState implements GameState {
 
     /**
      * Game class of the game

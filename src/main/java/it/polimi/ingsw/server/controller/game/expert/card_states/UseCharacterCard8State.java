@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.controller.game.expert.cards.CharacterCard8;
-import it.polimi.ingsw.server.controller.game.states.State;
+import it.polimi.ingsw.server.controller.game.states.GameState;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.strategies.influence.ComputeInfluenceWithoutStudentColor;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -26,7 +26,7 @@ public class UseCharacterCard8State extends UseCharacterCardState {
      * @param game game class of the game
      * @param card card used in the state
      */
-    public UseCharacterCard8State(ExpertGame game, State originState, CharacterCard8 card){
+    public UseCharacterCard8State(ExpertGame game, GameState originState, CharacterCard8 card){
         super(game, originState, card);
         this.model = game.getModel();
     }

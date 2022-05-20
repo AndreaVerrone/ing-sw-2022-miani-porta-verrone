@@ -384,7 +384,7 @@ public class SessionController {
      */
     public void chooseStudentFromLocation(PawnType student, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
         checkIfCanDo();
-        match.choseStudentFromLocation(student, originPosition);
+        match.chooseStudentFromLocation(student, originPosition);
     }
 
     /**

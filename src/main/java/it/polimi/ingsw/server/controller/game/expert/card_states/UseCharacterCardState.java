@@ -3,9 +3,9 @@ package it.polimi.ingsw.server.controller.game.expert.card_states;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
-import it.polimi.ingsw.server.controller.game.states.State;
+import it.polimi.ingsw.server.controller.game.states.GameState;
 
-abstract class UseCharacterCardState implements State{
+abstract class UseCharacterCardState implements GameState {
 
     /**
      * This is the Game class
@@ -17,7 +17,7 @@ abstract class UseCharacterCardState implements State{
      * This is the state from which the character card has been used and
      * this is the state in which the game have to return after the usage of the card.
      */
-    private final State originState;
+    private final GameState originState;
 
     /**
      * The character card that uses this state
@@ -30,7 +30,7 @@ abstract class UseCharacterCardState implements State{
      * @param originState the state from which the character card has been used
      * @param characterCard the character card that uses this state
      */
-    protected UseCharacterCardState(ExpertGame game, State originState, CharacterCard characterCard) {
+    protected UseCharacterCardState(ExpertGame game, GameState originState, CharacterCard characterCard) {
         this.game = game;
         this.originState = originState;
         this.characterCard = characterCard;

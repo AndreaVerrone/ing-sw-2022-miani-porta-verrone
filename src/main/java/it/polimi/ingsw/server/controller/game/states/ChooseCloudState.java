@@ -13,7 +13,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 /**
  * A class to handle the state of the game in which the player can choose a cloud and take all the students from it
  */
-public class ChooseCloudState implements State{
+public class ChooseCloudState implements GameState {
 
     private final Game game;
     /**

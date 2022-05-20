@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.controller.game.expert.cards.CharacterCard1;
-import it.polimi.ingsw.server.controller.game.states.State;
+import it.polimi.ingsw.server.controller.game.states.GameState;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
@@ -37,7 +37,7 @@ public class UseCharacterCard1State extends UseCharacterCardState {
      * @param originState the state from which the character card has been used
      * @param characterCard1 the character card that uses this state
      */
-    public UseCharacterCard1State(ExpertGame game, State originState, CharacterCard1 characterCard1) {
+    public UseCharacterCard1State(ExpertGame game, GameState originState, CharacterCard1 characterCard1) {
         super(game,originState,characterCard1);
         this.gameModel=game.getModel();
         this.characterCard1=characterCard1;

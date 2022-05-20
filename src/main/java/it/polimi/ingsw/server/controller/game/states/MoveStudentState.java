@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 
-public class MoveStudentState implements State{
+public class MoveStudentState implements GameState {
 
     /**
      * This is the Game class

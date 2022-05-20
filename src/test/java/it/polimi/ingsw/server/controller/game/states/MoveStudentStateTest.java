@@ -99,7 +99,7 @@ class MoveStudentStateTest {
 
         // use the method to test
         try {
-            game.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+            game.chooseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }
@@ -152,7 +152,7 @@ class MoveStudentStateTest {
 
         // apply the method
         try {
-            game.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
+            game.chooseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
         } catch (NotValidOperationException | NotValidArgumentException e) {
             fail();
         }

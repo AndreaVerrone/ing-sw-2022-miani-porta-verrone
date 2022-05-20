@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
  * This interface collects all the action that can be made by the current player during its turn
  * both in the planning and in the action phase.
  */
-public interface State {
+public interface GameState {
 
     /**
      * This method allows the current player to use the assistant card specified

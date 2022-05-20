@@ -182,10 +182,10 @@ public class Match implements IMatchMaking, IGame {
      * @throws NotValidArgumentException {@inheritDoc}
      */
     @Override
-    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
+    public void chooseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
-        game.choseStudentFromLocation(color, originPosition);
+        game.chooseStudentFromLocation(color, originPosition);
     }
 
     /**
