@@ -58,7 +58,7 @@ class SchoolBoard {
      * @param coinsBag the coins bag
      * @param nickNameOfPlayer the nickname of the player to which this school board is associated to
      */
-    protected SchoolBoard(boolean isThreePlayerGame, CoinsBag coinsBag, String nickNameOfPlayer){
+    SchoolBoard(boolean isThreePlayerGame, CoinsBag coinsBag, String nickNameOfPlayer){
 
         this.nickNameOfPlayer=nickNameOfPlayer;
 
@@ -91,7 +91,7 @@ class SchoolBoard {
      * @see #addStudentToEntrance(PawnType)
      * @see #removeStudentFromEntrance(PawnType)
      */
-    protected StudentList getStudentsInEntrance() {
+    StudentList getStudentsInEntrance() {
         return entrance.clone();
     }
 
@@ -104,11 +104,11 @@ class SchoolBoard {
      * @see #addProfessor(PawnType)
      * @see #removeProfessor(PawnType)
      */
-    protected Collection<PawnType> getProfessors(){
+    Collection<PawnType> getProfessors(){
         return new HashSet<>(professorTable);
     }
 
-    protected int getTowersNumber(){
+    int getTowersNumber(){
         return towers;
     }
 
@@ -117,11 +117,11 @@ class SchoolBoard {
      * @param type the type of student to check the number
      * @return the number of student of that type
      */
-    protected int getNumStudentsOf(PawnType type){
+    int getNumStudentsOf(PawnType type){
         return diningRoom.getNumStudentsOf(type);
     }
 
-    protected int getCoins(){
+    int getCoins(){
         return coins;
     }
 
@@ -130,7 +130,7 @@ class SchoolBoard {
      * @param type the type of student to add
      * @throws ReachedMaxStudentException if the entrance already has the maximum number of students
      */
-    protected void addStudentToEntrance(PawnType type) throws ReachedMaxStudentException {
+    void addStudentToEntrance(PawnType type) throws ReachedMaxStudentException {
         if (entrance.numAllStudents() == maxNumStudentsInEntrance) throw new ReachedMaxStudentException();
         try {
             entrance.changeNumOf(type, 1);
@@ -144,7 +144,7 @@ class SchoolBoard {
      * @param type the type of student to remove
      * @throws NotEnoughStudentException if there aren't student of the given type
      */
-    protected void removeStudentFromEntrance(PawnType type) throws NotEnoughStudentException {
+    void removeStudentFromEntrance(PawnType type) throws NotEnoughStudentException {
         entrance.changeNumOf(type, -1);
     }
 
@@ -152,7 +152,7 @@ class SchoolBoard {
      * Add a professor of a particular type in the professor table of this school board
      * @param type the type of professor to add
      */
-    protected void addProfessor(PawnType type){
+    void addProfessor(PawnType type){
         professorTable.add(type);
     }
 
@@ -160,7 +160,7 @@ class SchoolBoard {
      * Remove a professor of a particular type in the professor table of this school board
      * @param type the type of professor to remove
      */
-    protected void removeProfessor(PawnType type){
+    void removeProfessor(PawnType type){
         professorTable.remove(type);
     }
 
@@ -170,7 +170,7 @@ class SchoolBoard {
      * @param type the type of student to add
      * @throws ReachedMaxStudentException if the table of that type is full
      */
-    protected void addStudentToDiningRoom(PawnType type) throws ReachedMaxStudentException {
+    void addStudentToDiningRoom(PawnType type) throws ReachedMaxStudentException {
         boolean needCoin = diningRoom.addStudentOf(type);
         if (needCoin) {
             takeCoin();
@@ -183,7 +183,7 @@ class SchoolBoard {
      * @param type the type of student to remove
      * @throws NotEnoughStudentException if the table of the given type is empty
      */
-    protected void removeStudentFromDiningRoom(PawnType type) throws NotEnoughStudentException {
+    void removeStudentFromDiningRoom(PawnType type) throws NotEnoughStudentException {
         diningRoom.removeStudentOf(type);
     }
 
@@ -196,7 +196,7 @@ class SchoolBoard {
      *                 the cost of the character card should be increased
      * @throws NotEnoughCoinsException if there aren't enough coins to fulfill the request
      */
-    protected void removeCoin(int cost, boolean putInBag) throws NotEnoughCoinsException {
+    void removeCoin(int cost, boolean putInBag) throws NotEnoughCoinsException {
         assert cost > 0 : "The cost can't be negative";
         if (cost > coins) {
             throw new NotEnoughCoinsException();
@@ -221,7 +221,7 @@ class SchoolBoard {
      * The number of towers can't exceed the maximum supported.
      * @param delta the amount to change
      */
-    protected void changeTowerNumber(int delta){
+    void changeTowerNumber(int delta){
         assert towers + delta <= maxNumTowers : "The towers added are too much";
         towers += delta;
     }
@@ -236,7 +236,7 @@ class SchoolBoard {
      * This method allows to add the observer, passed as a parameter, on the coin number.
      * @param observer the observer to be added
      */
-    public void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+    void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
         changeCoinNumberObservers.add(observer);
     }
 
@@ -244,7 +244,7 @@ class SchoolBoard {
      * This method allows to remove the observer, passed as a parameter, on the coin number.
      * @param observer the observer to be removed
      */
-    public void removeChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+    void removeChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
         changeCoinNumberObservers.remove(observer);
     }
 
@@ -264,7 +264,7 @@ class SchoolBoard {
      * This method allows to add the observer, passed as a parameter, on the students in dining room.
      * @param observer the observer to be added
      */
-    public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+    void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
         diningRoom.addStudentsInDiningRoomObserver(observer);
     }
 
@@ -272,7 +272,7 @@ class SchoolBoard {
      * This method allows to remove the observer, passed as a parameter, on the students dining room.
      * @param observer the observer to be removed
      */
-    public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
+    void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
         diningRoom.removeStudentsInDiningRoomObserver(observer);
     }
 
