@@ -40,6 +40,7 @@ public class CharacterCardsFactory {
      * Create a map of character cards of the specified number
      * @param numberOfRandomCards number of cards of the set
      * @param game expert game
+     * @return a Map containing the specified number of unique random card associated with their type
      */
     public static Map<CharacterCardsType, CharacterCard> createRandomCards(int numberOfRandomCards, ExpertGame game){
         Map<CharacterCardsType, CharacterCard> cards = new HashMap<>(numberOfRandomCards,1);

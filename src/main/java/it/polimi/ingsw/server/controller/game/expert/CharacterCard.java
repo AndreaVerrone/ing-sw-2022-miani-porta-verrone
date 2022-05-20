@@ -43,19 +43,19 @@ abstract public class CharacterCard {
         this.cost = cardType.getCost();
     }
 
-    public String getEffectDescription(){
+    private String getEffectDescription(){
         return effectDescription;
     }
 
-    public int getCost(){
+    int getCost(){
         return cost;
     }
 
-    public CharacterCardsType getCardType() {
+    protected CharacterCardsType getCardType() {
         return cardType;
     }
 
-    public boolean isUsed(){
+    boolean isUsed(){
         return used;
     }
 
@@ -86,7 +86,7 @@ abstract public class CharacterCard {
      * This method allows to add the observer, passed as a parameter, on character card usage .
      * @param observer the observer to be added
      */
-    public void addCoinOnCardObserver(CoinOnCardObserver observer){
+    void addCoinOnCardObserver(CoinOnCardObserver observer){
         coinOnCardObservers.add(observer);
     }
 
@@ -94,7 +94,7 @@ abstract public class CharacterCard {
      * This method allows to remove the observer, passed as a parameter, on character card usage.
      * @param observer the observer to be removed
      */
-    public void removeCoinOnCardObserver(CoinOnCardObserver observer){
+    void removeCoinOnCardObserver(CoinOnCardObserver observer){
         coinOnCardObservers.remove(observer);
     }
 
@@ -112,12 +112,12 @@ abstract public class CharacterCard {
      * This method allows to add the observer, passed as a parameter, on the students on character card.
      * @param observer the observer to be added
      */
-    public void addStudentsOnCardObserver(StudentsOnCardObserver observer){}
+    protected void addStudentsOnCardObserver(StudentsOnCardObserver observer){}
 
     /**
      * This method allows to remove the observer, passed as a parameter, on the students on character card.
      * @param observer the observer to be removed
      */
-    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){}
+    protected void removeStudentsOnCardObserver(StudentsOnCardObserver observer){}
 
 }

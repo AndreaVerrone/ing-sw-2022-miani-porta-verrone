@@ -46,7 +46,7 @@ public class CharacterCard5 extends CharacterCard implements ConquerIslandObserv
      * Note:
      * The number of bans on this card cannot be more than 4
      */
-    public void addBan() {
+    private void addBan() {
         assert numOfBans<=4 : "bans are too much";
         this.numOfBans++;
     }
