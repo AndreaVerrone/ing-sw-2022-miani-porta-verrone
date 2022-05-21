@@ -10,7 +10,7 @@ public class Translator {
     /**
      * An enum representing the supported languages of the application
      */
-    enum Language{
+    public enum Language{
         ITALIANO(List.of("italiano", "it", "ita", "italian")),
         ENGLISH(List.of("english", "en", "eng", "inglese", "ing"));
 

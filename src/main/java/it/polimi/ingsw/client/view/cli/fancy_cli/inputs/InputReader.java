@@ -80,8 +80,13 @@ public class InputReader {
             } catch (UserInterruptException | EndOfFileException e){
                 throw new UserRequestExitException();
             }
-            if (isValid(line))
-                return line.split(" ");
+            line = line.trim().replaceAll("( )+", " ");
+            if (isValid(line)) {
+                String[] inputs = line.split(" ");
+                int args = inputs.length - 1;
+                if (numOfArgsValidator.test(args))
+                    return inputs;
+            }
             showErrorMessage();
         }
     }
@@ -90,11 +95,11 @@ public class InputReader {
         Predicate<String> checker = strictValidator;
         if (validator != identityORValidator)
             checker = checker.and(validator);
-
-        if(!checker.test(input))
-            return false;
-        int size = input.split(" ").length -1;
-        return numOfArgsValidator.test(size);
+        return checker.test(input);
+//        if(!checker.test(input))
+//            return false;
+//        int size = input.split("( )+").length -1;
+//        return numOfArgsValidator.test(size);
     }
 
     /**
