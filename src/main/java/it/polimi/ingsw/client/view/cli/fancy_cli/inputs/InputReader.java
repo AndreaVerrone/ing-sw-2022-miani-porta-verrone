@@ -96,10 +96,6 @@ public class InputReader {
         if (validator != identityORValidator)
             checker = checker.and(validator);
         return checker.test(input);
-//        if(!checker.test(input))
-//            return false;
-//        int size = input.split("( )+").length -1;
-//        return numOfArgsValidator.test(size);
     }
 
     /**
