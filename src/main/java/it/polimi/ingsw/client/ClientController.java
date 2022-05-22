@@ -56,7 +56,7 @@ public class ClientController {
      */
     public void connect(String ip, int port){
         try {
-            connectionHandler = new ConnectionHandler(ip, port);
+            connectionHandler = new ConnectionHandler(this, ip, port);
             System.out.println("Connected");
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ConnectionHandler;
-import it.polimi.ingsw.network.messages.responses.ResponseMessage;
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.utils.PawnType;
 
@@ -35,8 +34,7 @@ public class ProfessorChanged extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ConnectionHandler client) {
-        client.sendMessage(ResponseMessage.newSuccess(this));
+    public void processMessage(ClientController client) {
         // TODO: 11/05/2022 update view
     }
 
