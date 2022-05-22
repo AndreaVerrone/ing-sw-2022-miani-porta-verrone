@@ -12,6 +12,11 @@ public abstract class StatefulWidget extends Widget{
     private Widget content;
 
     /**
+     * If the content of this widget is changed from the previous build
+     */
+    private boolean dirty = true;
+
+    /**
      * Creates a new widget with content that change over time
      */
     protected StatefulWidget(){
@@ -35,17 +40,45 @@ public abstract class StatefulWidget extends Widget{
         content.onSizeChange(this::updateContent);
     }
 
+    @Override
+    void setCanvas(Canvas canvas) {
+        super.setCanvas(canvas);
+        if (content != null)
+            content.setCanvas(canvas);
+    }
+
     private void updateContent(){
-        content = build();
+        content = getContent();
         if (content == null)
             return;
         setHeight(content.getHeight());
         setWidth(content.getWidth());
     }
 
+    /**
+     * A method to be called every time the state of this stateful widget must change.
+     * This will also rebuild the widgets and show on the screen.
+     * @param runnable a function that describes how the state must change
+     */
+    protected final void setState(Runnable runnable){
+        runnable.run();
+        dirty = true;
+        updateContent();
+        update();
+    }
+
+    private Widget getContent(){
+        if (dirty){
+            Widget widget = build();
+            dirty = false;
+            return widget;
+        }
+        return content;
+    }
+
     @Override
-    void display() {
-        content = build();
+    final void display() {
+        content = getContent();
         if (content == null)
             return;
         content.setCanvas(getCanvas());
