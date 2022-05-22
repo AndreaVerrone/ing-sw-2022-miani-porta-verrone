@@ -107,7 +107,6 @@ public class Canvas implements Drawable {
 
         if (eraseOnUpdate)
             ConsoleCli.deleteConsole();
-        System.out.print("\n");
         Text title = null;
         if (this.title != null)
             title = new Text(this.title, titleColor, Color.DEFAULT).addTextStyle(TextStyle.BOLD);
@@ -125,9 +124,14 @@ public class Canvas implements Drawable {
                     new SizedBox(content, centeredHeader.getWidth(), 0)
             ));
         }
-        Widget finalContent = new SizedBox(actualContent, width, 0);
+        Widget finalContent = new ColoredBox(
+                new Padding(
+                        new SizedBox(actualContent, width, 0),
+                        2f,
+                        0),
+                Color.BLUE);
         finalContent.show();
-        System.out.print("\n\n");
+        System.out.print("\n");
         AnsiConsole.systemUninstall();
     }
 }

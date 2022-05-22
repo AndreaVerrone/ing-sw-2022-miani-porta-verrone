@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Alignment;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 
 /**
@@ -119,6 +120,12 @@ public class SizedBox extends Widget{
     protected void setCanvas(Canvas canvas) {
         super.setCanvas(canvas);
         child.setCanvas(canvas);
+    }
+
+    @Override
+    void setBgColor(Color backgroundColor) {
+        super.setBgColor(backgroundColor);
+        child.setBgColor(backgroundColor);
     }
 
     @Override

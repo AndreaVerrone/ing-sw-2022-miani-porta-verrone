@@ -106,6 +106,7 @@ public class Header extends Widget{
     private void showContent(Text content){
         SizedBox sizedBox = new SizedBox(content, getWidth(), 0);
         sizedBox.setStartingPoint(getStartingPoint());
+        sizedBox.setBgColor(getBgColor());
         sizedBox.show();
         System.out.print("\n");
     }

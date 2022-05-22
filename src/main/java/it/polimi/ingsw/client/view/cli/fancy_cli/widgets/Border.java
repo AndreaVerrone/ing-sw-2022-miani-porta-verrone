@@ -76,6 +76,12 @@ public class Border extends Widget{
     }
 
     @Override
+    void setBgColor(Color backgroundColor) {
+        super.setBgColor(backgroundColor);
+        child.setBgColor(backgroundColor);
+    }
+
+    @Override
     protected void display() {
 
         child.setStartingPoint(getStartingPoint()+1);

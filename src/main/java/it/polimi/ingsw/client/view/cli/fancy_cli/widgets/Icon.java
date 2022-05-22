@@ -72,6 +72,7 @@ public class Icon extends Widget {
 
     @Override
     protected void display() {
-        System.out.print(backgroundColor+color+icon);
+        String mainBgColor = getBgColor().background;
+        System.out.print(mainBgColor+backgroundColor+color+icon);
     }
 }
