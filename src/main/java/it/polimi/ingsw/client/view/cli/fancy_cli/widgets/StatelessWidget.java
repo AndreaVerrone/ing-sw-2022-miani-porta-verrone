@@ -9,13 +9,30 @@ public abstract class StatelessWidget extends Widget{
     /**
      * The content of this widget
      */
-    private final Widget content;
+    private Widget content;
 
     /**
      * Creates a new widget with content that can't change over time
      */
     protected StatelessWidget() {
-        Widget widget = build();
+        create();
+    }
+
+    /**
+     * A method that creates this widget, using the build method provided.
+     * This should be used at the end of the constructor if some attributes
+     * are added at the widget. Not doing that can cause the widget to not
+     * render properly.
+     */
+    protected final void create(){
+        if (content != null)
+            return;
+        Widget widget;
+        try {
+            widget = build();
+        } catch (NullPointerException e){
+            return;
+        }
         content = widget.clone();
         widget.setCanvas(null);
         setWidth(content.getWidth());

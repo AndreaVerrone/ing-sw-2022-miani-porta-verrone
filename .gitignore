@@ -14,6 +14,9 @@
 # Added at runtime by network communication
 secret.txt
 
+#Manifest of the jars
+src/main/resources/META-INF
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml

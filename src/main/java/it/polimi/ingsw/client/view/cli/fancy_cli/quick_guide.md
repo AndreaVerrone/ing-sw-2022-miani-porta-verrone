@@ -8,7 +8,7 @@ uses when running a program doesn't support some requested features.
 1) First must be created a new jar artifact. To do so in IntelliJ, follow the guide on
    this [link](https://stackoverflow.com/a/45303637/2640826)
 2) After that, and everytime the code must be run, you need to build the artifact. In IntelliJ, simply open `Build`
-   ->`Build artifacts...` and then `build`/`rebuild`. You should now see the artifact
+   ->`Build artifacts...` and then `build`/`rebuild`. By default, this will create the artifact
    under `out\artifacts\{project_name_jar}\{project-name.jar}`
 3) Now you can run the program from the terminal you like (i.e. the one of your operating system or the IDE) by going to
    the folder in which the jar is located and running the command `java -jar {name-of-the-jar}` (make sure that you
@@ -29,6 +29,8 @@ own, but can be combined to create more complicated designs.
 To create new custom widget you can extend the `StatefulWidget` and `StatelessWidget` classes.
 These classes provide a `build` method used to define which inner widget/s is going to compose your custom widget.
 In this method, other interaction with the console should be avoided, as it can mess up with the drawing of the widgets.
+There is also a `create` method that need to be called in the constructor of widgets which have custom attributes after all these attributes are initialized.
+Not doing so will cause the widget to not render properly.
 
 * `StatefulWidgets` are used when the content of the widget can change dynamically.
   Changes in the content of a `StatefulWidget` are reflected on the screen, and it will be repainted.
