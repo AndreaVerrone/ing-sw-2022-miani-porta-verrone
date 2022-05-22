@@ -155,9 +155,9 @@ public class Text extends Widget {
 
     @Override
     protected void display() {
-
+        String mainBgColor = getBgColor().background;
         for (String line : text) {
-            System.out.print(backgroundColor + foregroundColor + style + line);
+            System.out.print(mainBgColor+backgroundColor + foregroundColor + style + line);
             ConsoleCli.resetStyle();
             System.out.print("\n");
             ConsoleCli.moveToColumn(getStartingPoint());

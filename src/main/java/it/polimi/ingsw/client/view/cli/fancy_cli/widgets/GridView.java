@@ -109,6 +109,7 @@ public class GridView extends Widget{
             column.addChild(row);
         }
         column.setStartingPoint(getStartingPoint());
+        column.setBgColor(getBgColor());
         column.show();
     }
 

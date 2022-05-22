@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 
 import java.util.ArrayList;
@@ -49,6 +50,13 @@ public class Column extends Widget{
             child.setCanvas(canvas);
     }
 
+    @Override
+    void setBgColor(Color backgroundColor) {
+        super.setBgColor(backgroundColor);
+        for (Widget child : children)
+            child.setBgColor(backgroundColor);
+    }
+
     /**
      * Adds a widget to this column
      * @param child the widget to add
@@ -59,6 +67,7 @@ public class Column extends Widget{
         calculateDimensions();
         child.onSizeChange(this::calculateDimensions);
         child.setCanvas(getCanvas());
+        child.setBgColor(getBgColor());
         update();
         return this;
     }

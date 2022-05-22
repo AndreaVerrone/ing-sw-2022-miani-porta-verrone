@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 
 /**
@@ -21,6 +22,8 @@ public abstract class Widget implements Cloneable{
      * The column number from which this widget should be drawn
      */
     private int startingPoint = 1;
+
+    private Color backgroundColor = Color.DEFAULT;
 
     /**
      * The callback to be run when the size of this widget changes
@@ -85,6 +88,13 @@ public abstract class Widget implements Cloneable{
         this.startingPoint = startingPoint;
     }
 
+    void setBgColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    Color getBgColor(){
+        return backgroundColor;
+    }
 
     /**
      * A method used to display this widget. This should not be overrider, as it could lead to unwanted
