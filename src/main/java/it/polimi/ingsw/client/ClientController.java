@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CLI;
+import it.polimi.ingsw.client.view.cli.launcher.Launcher;
 import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
 import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
 import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
@@ -47,6 +48,7 @@ public class ClientController {
     public ClientController(CLI cli){
         this.cli = cli;
         cli.attachTo(this);
+        cli.setCurrentScreen(new Launcher(cli));
     }
 
     /**
@@ -63,6 +65,13 @@ public class ClientController {
         } catch (IOException e) {
             System.out.println("Can't connect to server");
         }
+    }
+
+    /**
+     * Closes all the current tasks and terminates the application
+     */
+    public void closeApplication(){
+        connectionHandler.closeApplication();
     }
 
     /**
