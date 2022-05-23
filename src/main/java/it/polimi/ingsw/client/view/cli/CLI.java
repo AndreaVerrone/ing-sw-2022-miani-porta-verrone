@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.UserRequestExitException;
@@ -12,10 +13,28 @@ import org.jline.reader.impl.completer.EnumCompleter;
 public class CLI implements VirtualView {
 
     /**
+     * The controller of the client of this view
+     */
+    private ClientController clientController;
+
+    /**
      * The current screen that must be shown to the client
      */
     private CliScreen currentScreen;
 
+
+    /**
+     * Attach this view to the specified controller, if not already attached to one.
+     * @param clientController the controller of the client
+     */
+    public void attachTo(ClientController clientController){
+        if (this.clientController == null)
+            this.clientController = clientController;
+    }
+
+    public ClientController getClientController(){
+        return clientController;
+    }
 
     public void setCurrentScreen(CliScreen screen){
         currentScreen = screen;

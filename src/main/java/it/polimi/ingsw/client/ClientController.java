@@ -46,20 +46,22 @@ public class ClientController {
      */
     public ClientController(CLI cli){
         this.cli = cli;
-
+        cli.attachTo(this);
     }
 
     /**
      * Tries to connect the client to the server using the specified IP and port number
-     * @param ip the IP address of the server
+     * @param ipAddress the IP address of the server
      * @param port the port of the server
      */
-    public void connect(String ip, int port){
+    public void createConnection(String ipAddress, int port){
+        if (connectionHandler != null)
+            return;
         try {
-            connectionHandler = new ConnectionHandler(this, ip, port);
-            System.out.println("Connected");
+            connectionHandler = new ConnectionHandler(this, ipAddress, port);
+            new Thread(connectionHandler).start();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Can't connect to server");
         }
     }
 

@@ -198,7 +198,6 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     private void sendIdentifier() {
         String identifier = readIdentifier();
 
-        System.out.println("The secret is:\t" + identifier);
         SendUserIdentifier userIdentifier = new SendUserIdentifier(identifier);
         sendMessage(userIdentifier);
     }
