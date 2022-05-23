@@ -11,7 +11,7 @@ import org.jline.reader.impl.completer.StringsCompleter;
 /**
  * The launcher of the game in the cli
  */
-public class LauncherScreen implements CliScreen {
+public class LauncherScreen extends CliScreen {
 
     /**
      * The IP address of the server

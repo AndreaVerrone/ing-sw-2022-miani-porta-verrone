@@ -17,7 +17,7 @@ import java.util.Locale;
 /**
  * A class to handle the client ui in the console
  */
-public class CLI implements VirtualView {
+public class CLI implements VirtualView, Runnable {
 
     /**
      * The controller of the client of this view
@@ -27,7 +27,12 @@ public class CLI implements VirtualView {
     /**
      * The current screen that must be shown to the client
      */
-    private CliScreen currentScreen;
+    private CliScreen currentScreen = new IdleScreen();
+
+    /**
+     * The next screen that must be shown to the client
+     */
+    private CliScreen nextScreen;
 
     /**
      * The title of the application
@@ -41,6 +46,20 @@ public class CLI implements VirtualView {
             ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚══════╝
             """;
 
+    private boolean shouldStop = false;
+
+    @Override
+    public void run() {
+        while (!shouldStop){
+            if (nextScreen == null){
+                currentScreen = new IdleScreen();
+            } else {
+                currentScreen = nextScreen;
+                nextScreen = null;
+            }
+            currentScreen.show();
+        }
+    }
 
     /**
      * Attach this view to the specified controller, if not already attached to one.
@@ -55,9 +74,11 @@ public class CLI implements VirtualView {
         return clientController;
     }
 
-    public void setCurrentScreen(CliScreen screen){
-        currentScreen = screen;
-        currentScreen.show();
+    public void setNextScreen(CliScreen screen){
+//        currentScreen = screen;
+//        currentScreen.show();
+        nextScreen = screen;
+        currentScreen.setStop();
     }
 
     public Canvas getBaseCanvas(){
@@ -94,11 +115,16 @@ public class CLI implements VirtualView {
         inputReader.setNumOfArgsValidator(Validator.isOfNum(0));
         try {
             String input = inputReader.readInput(Translator.getConfirmExit())[0];
-            if (parseBoolean(input))
+            if (parseBoolean(input)) {
+                shouldStop = true;
+                currentScreen.setStop();
                 clientController.closeApplication();
+            }
             else
-                currentScreen.show();
+                setNextScreen(currentScreen);
         } catch (UserRequestExitException e){
+            shouldStop = true;
+            currentScreen.setStop();
             clientController.closeApplication();
         }
     }

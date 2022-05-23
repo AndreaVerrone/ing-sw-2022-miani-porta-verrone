@@ -51,7 +51,8 @@ public class ClientController {
     public ClientController(CLI cli){
         this.cli = cli;
         cli.attachTo(this);
-        cli.setCurrentScreen(new LauncherScreen(cli));
+        cli.setNextScreen(new LauncherScreen(cli));
+        cli.run();
     }
 
     /**
@@ -65,7 +66,7 @@ public class ClientController {
         try {
             connectionHandler = new ConnectionHandler(this, ipAddress, port);
             new Thread(connectionHandler).start();
-            cli.setCurrentScreen(new HomeScreen(cli));
+            cli.setNextScreen(new HomeScreen(cli));
         } catch (IOException e) {
             System.out.println("Can't connect to server");
         }
@@ -134,7 +135,7 @@ public class ClientController {
      * @param gameIDs the listo of game ID to show
      */
     public void displayGames(Collection<String> gameIDs){
-        cli.setCurrentScreen(new GamesListScreen(cli, gameIDs));
+        cli.setNextScreen(new GamesListScreen(cli, gameIDs));
     }
 
     /**

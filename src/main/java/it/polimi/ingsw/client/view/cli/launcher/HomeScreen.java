@@ -18,12 +18,7 @@ import java.util.List;
 /**
  * The home screen of the game
  */
-public class HomeScreen implements CliScreen {
-
-    /**
-     * The canvas that show the content
-     */
-    private final Canvas canvas;
+public class HomeScreen extends CliScreen {
 
     /**
      * The cli of the user
@@ -36,6 +31,11 @@ public class HomeScreen implements CliScreen {
      */
     public HomeScreen(CLI cli) {
         this.cli = cli;
+    }
+
+    @Override
+    public void show() {
+
         Widget spacer = new SizedBox(0, 1);
         Widget content = new Column(List.of(
                 new Text(Translator.getCreateGame()),
@@ -46,12 +46,8 @@ public class HomeScreen implements CliScreen {
                 spacer,
                 new Text(Translator.getExit())
         ));
-        canvas = cli.getBaseCanvas();
+        Canvas canvas = cli.getBaseCanvas();
         canvas.setContent(content);
-    }
-
-    @Override
-    public void show() {
         canvas.show();
 
         askForAction();

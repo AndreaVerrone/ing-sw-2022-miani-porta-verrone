@@ -65,6 +65,9 @@ public class Translator {
         return isItalian ? "Scegli una lingua" : "Choose a language";
     }
 
+    public static String getWaitMessage(){
+        return isItalian ? "Per favore aspetta" : "Please wait";
+    }
     public static String getConfirmExit(){
         return isItalian ? "Sei sicuro di voler uscire dal gioco? [yes/no]"
                 : "Are you sure you want to exit the game? [yes/no]";
@@ -105,5 +108,16 @@ public class Translator {
         return isItalian ? "Scegli la difficoltà" : "Choose the difficulty";
     }
 
+    public static String getChooseGame(){
+        return isItalian ? "Scegli una partita"+tabHelpIT : "Choose a game"+tabHelpEn;
+    }
+
+    public static String getNoGamesToJoin(){
+        return isItalian ? "Non ci sono partite a cui ti puoi unire" : "There are no games you can join";
+    }
+
+    public static String getNickname(){
+        return isItalian ? "Per favore scegli un nickname" : "Please provide a nickname";
+    }
 }
 
