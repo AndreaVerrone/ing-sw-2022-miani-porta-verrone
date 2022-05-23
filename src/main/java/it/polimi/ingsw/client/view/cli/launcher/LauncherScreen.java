@@ -5,15 +5,13 @@ import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.UserRequestExitException;
-import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
-import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.SizedBox;
 import org.jline.reader.impl.completer.StringsCompleter;
 
 /**
  * The launcher of the game in the cli
  */
-public class Launcher implements CliScreen {
+public class LauncherScreen implements CliScreen {
 
     /**
      * The IP address of the server
@@ -24,32 +22,25 @@ public class Launcher implements CliScreen {
      */
     private int port;
 
+    /**
+     * The cli of the user
+     */
     private final CLI cli;
 
     /**
      * Creates a new screen for the launcher of the application
-     * @param cli the observer fo the IP and port of the server
+     * @param cli the cli of the user
      */
-    public Launcher(CLI cli) {
+    public LauncherScreen(CLI cli) {
         this.cli = cli;
     }
 
     @Override
     public void show(){
 
-        Canvas canvas = new Canvas();
+        Canvas canvas = cli.getBaseCanvas();
 
-        canvas.setTitle(CLI.APP_TITLE);
-        canvas.setTitleColor(Color.BRIGHT_CYAN);
-        canvas.setSubtitle(Translator.getGameSubtitle());
-        canvas.setContent(new SizedBox(0, 10));
         canvas.show();
-
-        try{
-            Thread.sleep(500);
-        }catch (InterruptedException e){
-
-        }
 
         cli.chooseLanguage();
 
@@ -59,7 +50,6 @@ public class Launcher implements CliScreen {
         chooseIP();
         choosePort();
         cli.getClientController().createConnection(ipAddress, port);
-
 
     }
 

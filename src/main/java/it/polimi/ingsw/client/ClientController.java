@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CLI;
-import it.polimi.ingsw.client.view.cli.launcher.Launcher;
+import it.polimi.ingsw.client.view.cli.launcher.GamesListScreen;
+import it.polimi.ingsw.client.view.cli.launcher.HomeScreen;
+import it.polimi.ingsw.client.view.cli.launcher.LauncherScreen;
 import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
 import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
 import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
@@ -16,6 +18,7 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Class to control the messages from client to server
@@ -48,7 +51,7 @@ public class ClientController {
     public ClientController(CLI cli){
         this.cli = cli;
         cli.attachTo(this);
-        cli.setCurrentScreen(new Launcher(cli));
+        cli.setCurrentScreen(new LauncherScreen(cli));
     }
 
     /**
@@ -62,6 +65,7 @@ public class ClientController {
         try {
             connectionHandler = new ConnectionHandler(this, ipAddress, port);
             new Thread(connectionHandler).start();
+            cli.setCurrentScreen(new HomeScreen(cli));
         } catch (IOException e) {
             System.out.println("Can't connect to server");
         }
@@ -123,6 +127,14 @@ public class ClientController {
      */
     public void getGames(){
         connectionHandler.sendMessage(new GetGames());
+    }
+
+    /**
+     * Shows the ID of the games passed as a parameter.
+     * @param gameIDs the listo of game ID to show
+     */
+    public void displayGames(Collection<String> gameIDs){
+        cli.setCurrentScreen(new GamesListScreen(cli, gameIDs));
     }
 
     /**
