@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.UserRequestExitException;
-import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.AggregateCompleter;
@@ -21,16 +20,11 @@ import java.util.List;
 public class HomeScreen extends CliScreen {
 
     /**
-     * The cli of the user
-     */
-    private final CLI cli;
-
-    /**
      * Creates a new home screen showing the user the base options.
      * @param cli the cli of the user
      */
     public HomeScreen(CLI cli) {
-        this.cli = cli;
+        super(cli);
     }
 
     @Override
@@ -46,7 +40,7 @@ public class HomeScreen extends CliScreen {
                 spacer,
                 new Text(Translator.getExit())
         ));
-        Canvas canvas = cli.getBaseCanvas();
+        Canvas canvas = getCli().getBaseCanvas();
         canvas.setContent(content);
         canvas.show();
 
@@ -62,24 +56,20 @@ public class HomeScreen extends CliScreen {
             completers.add(new StringsCompleter(command));
         }
         inputReader.addCompleter(new AggregateCompleter(completers));
-        try {
-            String command = inputReader.readInput(Translator.getChooseHomeAction())[0];
-            switch (command){
-                case "create" -> {
-                    int numPlayers = askNumOfPlayers();
-                    if (numPlayers == -1) {
-                        show();
-                        return;
-                    }
-                    boolean wantExpertMode = askDifficulty();
-                    cli.getClientController().createGame(numPlayers, wantExpertMode);
+        String command = inputReader.readInput(Translator.getChooseHomeAction())[0];
+        switch (command){
+            case "create" -> {
+                int numPlayers = askNumOfPlayers();
+                if (numPlayers == -1) {
+                    show();
+                    return;
                 }
-                case "join" -> cli.getClientController().getGames();
-                case "resume" -> cli.getClientController().resumeGame();
-                case "exit" -> cli.confirmExit();
+                boolean wantExpertMode = askDifficulty();
+                getCli().getClientController().createGame(numPlayers, wantExpertMode);
             }
-        } catch (UserRequestExitException e){
-            cli.confirmExit();
+            case "join" -> getCli().getClientController().getGames();
+            case "resume" -> getCli().getClientController().resumeGame();
+            case "exit" -> getCli().confirmExit();
         }
     }
 
@@ -87,12 +77,8 @@ public class HomeScreen extends CliScreen {
         InputReader inputReader = new InputReader();
         inputReader.addCompleter(new AggregateCompleter(new StringsCompleter("2"), new StringsCompleter("3")));
         inputReader.addCommandValidator("(2|3)");
-        try {
-            String input = inputReader.readInput(Translator.getChooseNumPlayers())[0];
-            return Integer.parseInt(input);
-        } catch (UserRequestExitException e){
-            return -1;
-        }
+        String input = inputReader.readInput(Translator.getChooseNumPlayers())[0];
+        return Integer.parseInt(input);
     }
 
     private boolean askDifficulty(){
@@ -102,11 +88,7 @@ public class HomeScreen extends CliScreen {
                 new StringsCompleter("expert")));
         inputReader.addCommandValidator("normal");
         inputReader.addCommandValidator("expert");
-        try {
-            String input = inputReader.readInput(Translator.getChooseDifficulty())[0];
-            return input.equals("expert");
-        } catch (UserRequestExitException e){
-            return false;
-        }
+        String input = inputReader.readInput(Translator.getChooseDifficulty())[0];
+        return input.equals("expert");
     }
 }

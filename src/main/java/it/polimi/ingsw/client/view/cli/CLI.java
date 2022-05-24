@@ -27,7 +27,7 @@ public class CLI implements VirtualView, Runnable {
     /**
      * The current screen that must be shown to the client
      */
-    private CliScreen currentScreen = new IdleScreen();
+    private CliScreen currentScreen = new IdleScreen(this);
 
     /**
      * The next screen that must be shown to the client
@@ -52,7 +52,7 @@ public class CLI implements VirtualView, Runnable {
     public void run() {
         while (!shouldStop){
             if (nextScreen == null){
-                currentScreen = new IdleScreen();
+                currentScreen = new IdleScreen(this);
             } else {
                 currentScreen = nextScreen;
                 nextScreen = null;
@@ -99,11 +99,8 @@ public class CLI implements VirtualView, Runnable {
                 inputReader.addCommandValidator(code);
         }
         inputReader.addCompleter(new EnumCompleter(Translator.Language.class));
-        try{
-            String language = inputReader.readInput(Translator.getChooseLanguage())[0];
-            Translator.setLanguage(Translator.Language.fromCode(language));
-        } catch (UserRequestExitException e){
-        }
+        String language = inputReader.readInput(Translator.getChooseLanguage())[0];
+        Translator.setLanguage(Translator.Language.fromCode(language));
     }
 
     /**
@@ -113,20 +110,14 @@ public class CLI implements VirtualView, Runnable {
         InputReader inputReader = new InputReader();
         inputReader.addCompleter(new AggregateCompleter(new StringsCompleter("yes"), new StringsCompleter("no")));
         inputReader.setNumOfArgsValidator(Validator.isOfNum(0));
-        try {
-            String input = inputReader.readInput(Translator.getConfirmExit())[0];
-            if (parseBoolean(input)) {
-                shouldStop = true;
-                currentScreen.setStop();
-                clientController.closeApplication();
-            }
-            else
-                setNextScreen(currentScreen);
-        } catch (UserRequestExitException e){
+        String input = inputReader.readInput(Translator.getConfirmExit())[0];
+        if (parseBoolean(input)) {
             shouldStop = true;
             currentScreen.setStop();
             clientController.closeApplication();
+            return;
         }
+        setNextScreen(currentScreen);
     }
 
     private boolean parseBoolean(String bool){

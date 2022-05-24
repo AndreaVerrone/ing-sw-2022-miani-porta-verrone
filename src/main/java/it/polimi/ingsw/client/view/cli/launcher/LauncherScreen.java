@@ -23,33 +23,28 @@ public class LauncherScreen extends CliScreen {
     private int port;
 
     /**
-     * The cli of the user
-     */
-    private final CLI cli;
-
-    /**
      * Creates a new screen for the launcher of the application
      * @param cli the cli of the user
      */
     public LauncherScreen(CLI cli) {
-        this.cli = cli;
+        super(cli);
     }
 
     @Override
     public void show(){
 
-        Canvas canvas = cli.getBaseCanvas();
+        Canvas canvas = getCli().getBaseCanvas();
 
         canvas.show();
 
-        cli.chooseLanguage();
+        getCli().chooseLanguage();
 
         canvas.setSubtitle(Translator.getGameSubtitle());
         canvas.show();
 
         chooseIP();
         choosePort();
-        cli.getClientController().createConnection(ipAddress, port);
+        getCli().getClientController().createConnection(ipAddress, port);
 
     }
 
@@ -58,11 +53,7 @@ public class LauncherScreen extends CliScreen {
         inputReader.addCommandValidator("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
         inputReader.addCommandValidator("localhost");
         inputReader.addCompleter(new StringsCompleter("localhost"));
-        try {
-            ipAddress = inputReader.readInput(Translator.getChooseIP())[0];
-        } catch (UserRequestExitException e){
-            // TODO: 22/05/2022 handle quit game
-        }
+        ipAddress = inputReader.readInput(Translator.getChooseIP())[0];
     }
 
     private void choosePort(){
@@ -72,8 +63,6 @@ public class LauncherScreen extends CliScreen {
             try {
                 String sPort = inputReader.readInput(Translator.getChoosePort())[0];
                 port = Integer.parseInt(sPort);
-            } catch (UserRequestExitException e) {
-                // TODO: 22/05/2022 handle quit game
             } catch (NumberFormatException e) {
                 inputReader.showErrorMessage("The port number is not supported!");
             }
