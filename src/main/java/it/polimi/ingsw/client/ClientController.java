@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CLI;
-import it.polimi.ingsw.client.view.cli.launcher.GamesListScreen;
-import it.polimi.ingsw.client.view.cli.launcher.HomeScreen;
-import it.polimi.ingsw.client.view.cli.launcher.LauncherScreen;
-import it.polimi.ingsw.client.view.cli.launcher.RequestNicknameScreen;
+import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
 import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
 import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
@@ -69,7 +66,8 @@ public class ClientController {
             new Thread(connectionHandler).start();
             cli.setNextScreen(new HomeScreen(cli));
         } catch (IOException e) {
-            System.out.println("Can't connect to server");
+            System.out.println("Can't connect to server. Try again\n");
+            cli.setNextScreen(new AskServerSpecificationScreen(cli));
         }
     }
 
