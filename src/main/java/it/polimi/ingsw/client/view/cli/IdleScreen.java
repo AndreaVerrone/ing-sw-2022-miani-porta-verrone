@@ -6,14 +6,22 @@ import org.fusesource.jansi.AnsiConsole;
 
 import java.util.List;
 
+/**
+ * A screen for displaying a generic waiting message
+ */
 public class IdleScreen extends CliScreen {
 
     private final List<String> progress = List.of(".  ", ".. ", "...");
 
+    public IdleScreen(CLI cli) {
+        super(cli);
+    }
+
     @Override
     protected void show() {
         AnsiConsole.systemInstall();
-        System.out.print(Translator.getWaitMessage());
+        String message = Translator.getWaitMessage();
+        System.out.print(message);
         int index = 0;
         while (!shouldStop()) {
             System.out.print(progress.get(index));
@@ -26,6 +34,8 @@ public class IdleScreen extends CliScreen {
             index = (index + 1) % progress.size();
 
         }
+        for (int i=0; i<message.length()+3;i++)
+            System.out.print("\010");
         AnsiConsole.systemUninstall();
     }
 }

@@ -7,7 +7,23 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class CliScreen {
 
+    /**
+     * The CLI of the client
+     */
+    private final CLI cli;
+
+    /**
+     * If this screen need to stop
+     */
     private final AtomicBoolean stop = new AtomicBoolean();
+
+    protected CliScreen(CLI cli) {
+        this.cli = cli;
+    }
+
+    public CLI getCli() {
+        return cli;
+    }
 
     /**
      * @return if this view should stop its execution
