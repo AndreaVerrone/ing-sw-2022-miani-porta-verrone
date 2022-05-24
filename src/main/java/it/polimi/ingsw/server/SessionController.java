@@ -61,7 +61,8 @@ public class SessionController {
      * Unsubscribe the view of the client to not receive any more update the game he was in.
      */
     protected void detachFromGame(){
-        match.removeClient(view);
+        if (match != null)
+            match.removeClient(view);
     }
 
     /**

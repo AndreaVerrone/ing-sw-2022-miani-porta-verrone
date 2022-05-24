@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.launcher;
 
-import it.polimi.ingsw.client.ConnectionHandler;
-import it.polimi.ingsw.network.messages.responses.ResponseMessage;
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 import java.util.Collection;
@@ -26,8 +25,7 @@ public class PossibleGames extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ConnectionHandler client) {
-        client.sendMessage(ResponseMessage.newSuccess(this));
+    public void processMessage(ClientController client) {
         // TODO: 09/05/2022 show in view the ids
     }
 

@@ -27,6 +27,10 @@ import java.util.concurrent.TimeUnit;
 public class ConnectionHandler implements Runnable, NetworkSender {
 
     /**
+     * The controller of the client
+     */
+    private final ClientController clientController;
+    /**
      * The socket connected to the server
      */
     private final Socket server;
@@ -65,11 +69,14 @@ public class ConnectionHandler implements Runnable, NetworkSender {
 
     /**
      * Creates a new connection with the server using the IP and port specified.
-     * @param serverIP   the IP of the server
-     * @param serverPort the port to use to connect on the server
+     *
+     * @param clientController The controller of the client
+     * @param serverIP         the IP of the server
+     * @param serverPort       the port to use to connect on the server
      * @throws IOException if an I/O error occurs when creating the connection
      */
-    public ConnectionHandler(String serverIP, int serverPort) throws IOException{
+    public ConnectionHandler(ClientController clientController, String serverIP, int serverPort) throws IOException{
+        this.clientController = clientController;
         server = new Socket(serverIP, serverPort);
         server.setSoTimeout(SOKET_TIME_OUT * 1000);
     }
@@ -144,7 +151,8 @@ public class ConnectionHandler implements Runnable, NetworkSender {
             return;
         }
         ServerCommandNetMsg request = (ServerCommandNetMsg) message;
-        request.processMessage(this);
+        sendMessage(ResponseMessage.newSuccess(request));
+        request.processMessage(clientController);
     }
 
     private void checkForExpired() {
@@ -190,7 +198,6 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     private void sendIdentifier() {
         String identifier = readIdentifier();
 
-        System.out.println("The secret is:\t" + identifier);
         SendUserIdentifier userIdentifier = new SendUserIdentifier(identifier);
         sendMessage(userIdentifier);
     }

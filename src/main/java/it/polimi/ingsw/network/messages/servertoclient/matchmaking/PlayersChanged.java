@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.matchmaking;
 
-import it.polimi.ingsw.client.ConnectionHandler;
-import it.polimi.ingsw.network.messages.responses.ResponseMessage;
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 
@@ -27,9 +26,8 @@ public class PlayersChanged extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ConnectionHandler client) {
-        client.sendMessage(ResponseMessage.newSuccess(this));
-        // TODO: 10/05/2022 update the list of players showed 
+    public void processMessage(ClientController client) {
+        // TODO: 10/05/2022 update the list of players showed
     }
 
 }

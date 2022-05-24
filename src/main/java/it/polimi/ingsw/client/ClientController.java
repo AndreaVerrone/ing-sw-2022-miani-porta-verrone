@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.network.NetworkSender;
+import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
 import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
 import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
@@ -14,10 +14,12 @@ import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
+import java.io.IOException;
+
 /**
  * Class to control the messages from client to server
  */
-public class Controller {
+public class ClientController {
     /**
      * Nickname of the client
      */
@@ -30,13 +32,37 @@ public class Controller {
     /**
      * Virtual match played by the client
      */
-    private final NetworkSender match;
+    private ConnectionHandler connectionHandler;
 
     /**
-     * Constructor of the class
+     * The cli of the client
      */
-    public Controller(ConnectionHandler connectionHandler){
-        this.match = connectionHandler;
+    private final CLI cli;
+
+    /**
+     * Creates a new controller that handles the connection between client and server and
+     * check if the inputs are correct.
+     * @param cli the cli of the client
+     */
+    public ClientController(CLI cli){
+        this.cli = cli;
+        cli.attachTo(this);
+    }
+
+    /**
+     * Tries to connect the client to the server using the specified IP and port number
+     * @param ipAddress the IP address of the server
+     * @param port the port of the server
+     */
+    public void createConnection(String ipAddress, int port){
+        if (connectionHandler != null)
+            return;
+        try {
+            connectionHandler = new ConnectionHandler(this, ipAddress, port);
+            new Thread(connectionHandler).start();
+        } catch (IOException e) {
+            System.out.println("Can't connect to server");
+        }
     }
 
     /**
@@ -70,7 +96,7 @@ public class Controller {
             //TODO: wrong input
             return;
         }
-        match.sendMessage(new CreateNewGame(numberOfPlayers, wantExpert));
+        connectionHandler.sendMessage(new CreateNewGame(numberOfPlayers, wantExpert));
     }
 
     /**
@@ -80,21 +106,21 @@ public class Controller {
      */
     public void enterGame(String nickName, String gameId){
         nickNameOwner = nickName;
-        match.sendMessage(new EnterGame(nickName, gameId));
+        connectionHandler.sendMessage(new EnterGame(nickName, gameId));
     }
 
     /**
      * Sends a message to the server to get all the available games
      */
     public void getGames(){
-        match.sendMessage(new GetGames());
+        connectionHandler.sendMessage(new GetGames());
     }
 
     /**
      * Sends a message to the server to resume the match
      */
     public void resumeGame(){
-        match.sendMessage(new ResumeGame());
+        connectionHandler.sendMessage(new ResumeGame());
     }
 
 
@@ -109,14 +135,14 @@ public class Controller {
             //TODO: wrong input
             return;
         }
-        match.sendMessage(new ChangeNumPlayers(newNumberPlayers));
+        connectionHandler.sendMessage(new ChangeNumPlayers(newNumberPlayers));
     }
 
     /**
      * Sends a message to the server to exit the game
      */
     public void exitFromGame(){
-        match.sendMessage(new ExitFromGame(nickNameOwner));
+        connectionHandler.sendMessage(new ExitFromGame(nickNameOwner));
     }
 
     /**
@@ -124,7 +150,7 @@ public class Controller {
      */
     public void nextPhase() {
         if(wrongPlayerTurn()) return;
-        match.sendMessage(new NextPhase());
+        connectionHandler.sendMessage(new NextPhase());
     }
 
     /**
@@ -133,7 +159,7 @@ public class Controller {
      */
     public void setTower(TowerType tower){
         if(wrongPlayerTurn()) return;
-        match.sendMessage(new SetTower(tower));
+        connectionHandler.sendMessage(new SetTower(tower));
     }
 
     /**
@@ -142,7 +168,7 @@ public class Controller {
      */
     public void setWizard(Wizard wizard){
         if(wrongPlayerTurn()) return;
-        match.sendMessage(new SetWizard(wizard));
+        connectionHandler.sendMessage(new SetWizard(wizard));
     }
 
     /**
@@ -156,14 +182,14 @@ public class Controller {
             //TODO: wrong input
             return;
         }
-        match.sendMessage(new MoveMotherNature(movements));
+        connectionHandler.sendMessage(new MoveMotherNature(movements));
     }
 
     /**
      * Sends a message to the server to quit the game during the creation of the match
      */
     public void quitGame(){
-        match.sendMessage(new QuitGame());
+        connectionHandler.sendMessage(new QuitGame());
     }
 
     /**
@@ -177,7 +203,7 @@ public class Controller {
             //TODO: wrongInput
             return;
         }
-        match.sendMessage(new TakeStudentsFromCloud(cloudId));
+        connectionHandler.sendMessage(new TakeStudentsFromCloud(cloudId));
     }
 
     /**
@@ -186,6 +212,6 @@ public class Controller {
      */
     public void useAssistant(Assistant assistant){
         if(wrongPlayerTurn()) return;
-        match.sendMessage(new UseAssistant(assistant));
+        connectionHandler.sendMessage(new UseAssistant(assistant));
     }
 }
