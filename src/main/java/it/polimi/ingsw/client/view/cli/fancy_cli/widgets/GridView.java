@@ -110,6 +110,7 @@ public class GridView extends Widget{
         }
         column.setStartingPoint(getStartingPoint());
         column.setBgColor(getBgColor());
+        column.setCanvas(getCanvas());
         column.show();
     }
 
