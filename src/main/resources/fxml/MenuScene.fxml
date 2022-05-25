@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minWidth="600.0" prefHeight="663.0" prefWidth="684.0" xmlns="http://javafx.com/javafx/18"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.MenuView">
+    <ImageView fitHeight="684.0" fitWidth="753.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../assets/logo/eriantys_banner.png"/>
+    </ImageView>
+    <Button fx:id="newGameButton" layoutX="91.0" layoutY="468.0" mnemonicParsing="false" onAction="#createNewGame"
+            prefHeight="46.0" prefWidth="83.0" text="NEW GAME">
+        <font>
+        <Font name="Jokerman" size="9.0"/>
+        </font>
+    </Button>
+    <Button fx:id="resumeGameButton" layoutX="526.0" layoutY="468.0" mnemonicParsing="false" onAction="#resumeGame"
+            prefHeight="46.0" prefWidth="76.0" text="RESUME"/>
+    <Button fx:id="joinButton" layoutX="304.0" layoutY="468.0" mnemonicParsing="false" onAction="#joinGame"
+            prefHeight="46.0" prefWidth="76.0" text="JOIN"/>
+    <ImageView fitHeight="243.0" fitWidth="600.0" layoutX="80.0" layoutY="38.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../assets/logo/eriantys_logo.png"/>
+    </ImageView>
+</AnchorPane>
