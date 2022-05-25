@@ -11,7 +11,7 @@ public class Client {
 
     public static void main(String[] args)
     {
-
+        /*
         // TODO: 09/05/2022 initialize view and ask for server parameters
 
         //code used for initial debugging
@@ -29,6 +29,9 @@ public class Client {
             return;
         }
         new Thread(connectionHandler).start();
+         */
+
+        ClientApplication.main(args);
     }
 
 
