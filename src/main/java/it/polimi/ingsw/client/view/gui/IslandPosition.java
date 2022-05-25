@@ -17,7 +17,7 @@ public enum IslandPosition {
 
     private final int column;
     private final int row;
-    
+
     IslandPosition(int column, int row) {
     this.column = column;
     this.row = row;
