@@ -97,7 +97,7 @@ public class PlayerLoginInfo {
      */
     private void notifyWizardSelectedObserver(){
         for(WizardSelectedObserver observer : wizardSelectedObservers)
-            observer.wizardSelectedObserverUpdate(this.wizard);
+            observer.wizardSelectedObserverUpdate(this.nickname, this.wizard);
     }
 
     // MANAGEMENT OF OBSERVERS FOR SELECTING TOWER
@@ -127,6 +127,6 @@ public class PlayerLoginInfo {
      */
     private void notifyTowerSelectedObserver(){
         for(TowerSelectedObserver observer : towerSelectedObservers)
-            observer.towerSelectedObserverUpdate(this.towerType);
+            observer.towerSelectedObserverUpdate(this.nickname, this.towerType);
     }
 }

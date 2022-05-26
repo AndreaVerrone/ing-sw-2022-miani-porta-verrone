@@ -5,8 +5,7 @@ import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.IGame;
 import it.polimi.ingsw.server.controller.matchmaking.observers.NumberOfPlayersObserver;
-import it.polimi.ingsw.server.controller.matchmaking.observers.PlayerAddedObserver;
-import it.polimi.ingsw.server.controller.matchmaking.observers.PlayerRemovedObserver;
+import it.polimi.ingsw.server.controller.matchmaking.observers.PlayersChangedObserver;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
@@ -192,7 +191,7 @@ public class MatchMaking implements IMatchMaking{
      */
     protected void addPlayer(PlayerLoginInfo playerLoginInfo){
         players.add(playerLoginInfo);
-        notifyPlayerAddedObserver(playerLoginInfo.getNickname());
+        notifyPlayersChangedObserver();
     }
 
     /**
@@ -204,7 +203,7 @@ public class MatchMaking implements IMatchMaking{
      */
     protected void removePlayer(PlayerLoginInfo playerLoginInfo){
         players.remove(playerLoginInfo);
-        notifyPlayerRemovedObserver(playerLoginInfo.getNickname());
+        notifyPlayersChangedObserver();
     }
 
     /**
@@ -253,66 +252,34 @@ public class MatchMaking implements IMatchMaking{
         wizardsAvailable.remove(wizard);
     }
 
-    // MANAGEMENT OF OBSERVERS FOR PLAYER ADDED
+    // MANAGEMENT OF OBSERVERS FOR PLAYERS OF THE MATCH
     /**
-     * List of the observer on the player added
+     * List of the observer on the players of the match
      */
-    private final List<PlayerAddedObserver> playerAddedObservers = new ArrayList<>();
+    private final List<PlayersChangedObserver> playersChangedObservers = new ArrayList<>();
 
     /**
-     * This method allows to add the observer, passed as a parameter, on player added.
+     * This method allows to add the observer, passed as a parameter, on the players.
      * @param observer the observer to be added
      */
-    void addPlayerAddedObserver(PlayerAddedObserver observer){
-        playerAddedObservers.add(observer);
+    void addPlayersChangedObserver(PlayersChangedObserver observer){
+        playersChangedObservers.add(observer);
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on player added.
+     * This method allows to remove the observer, passed as a parameter, on the players.
      * @param observer the observer to be removed
      */
-    void removePlayerAddedObserver(PlayerAddedObserver observer){
-        playerAddedObservers.remove(observer);
+    void removePlayersChangedObserver(PlayersChangedObserver observer){
+        playersChangedObservers.remove(observer);
     }
 
     /**
-     * This method notify all the attached observers that the player info has been added to the match.
-     * @param nickname nickname of the player added
+     * This method notify all the attached observers that the players of the match have changed.
      */
-    private void notifyPlayerAddedObserver(String nickname){
-        for(PlayerAddedObserver observer : playerAddedObservers)
-            observer.playerAddedObserverUpdate(nickname);
-    }
-
-    // MANAGEMENT OF OBSERVERS FOR PLAYER REMOVED
-    /**
-     * List of the observer on the player removed
-     */
-    private final List<PlayerRemovedObserver> playerRemovedObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on player removed.
-     * @param observer the observer to be added
-     */
-    void addPlayerRemovedObserver(PlayerRemovedObserver observer){
-        playerRemovedObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on player removed.
-     * @param observer the observer to be removed
-     */
-    void removePlayerRemovedObserver(PlayerRemovedObserver observer){
-        playerRemovedObservers.remove(observer);
-    }
-
-    /**
-     * This method notify all the attached observers that the player info has been removed from the match.
-     * @param nickname nickname of the player removed
-     */
-    private void notifyPlayerRemovedObserver(String nickname){
-        for(PlayerRemovedObserver observer : playerRemovedObservers)
-            observer.playerRemovedObserverUpdate(nickname);
+    private void notifyPlayersChangedObserver(){
+        for(PlayersChangedObserver observer : playersChangedObservers)
+            observer.playersChangedObserverUpdate(getPlayers());
     }
 
     // MANAGEMENT OF OBSERVERS ON CURRENT PLAYER
