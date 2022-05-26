@@ -117,7 +117,7 @@ public class Border extends Widget{
     }
 
     private void drawSegment(Icons segment){
-        System.out.print(color+segment);
+        System.out.print(getBgColor().background+color+segment);
         ConsoleCli.resetStyle();
     }
 }
