@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.cli;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
-import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.UserRequestExitException;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
@@ -38,12 +37,12 @@ public class CLI implements VirtualView, Runnable {
      * The title of the application
      */
     public static final String APP_TITLE = """
-            ███████╗██████╗ ██╗   ██╗ █████╗ ███╗   ██╗████████╗██╗███████╗
-            ██╔════╝██╔══██╗╚██╗ ██╔╝██╔══██╗████╗  ██║╚══██╔══╝██║██╔════╝
-            █████╗  ██████╔╝ ╚████╔╝ ███████║██╔██╗ ██║   ██║   ██║███████╗
-            ██╔══╝  ██╔══██╗  ╚██╔╝  ██╔══██║██║╚██╗██║   ██║   ██║╚════██║
-            ███████╗██║  ██║   ██║   ██║  ██║██║ ╚████║   ██║   ██║███████║
-            ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚══════╝
+            ███████╗██████╗ ██╗ █████╗ ███╗   ██╗████████╗██╗   ██╗███████╗
+            ██╔════╝██╔══██╗██║██╔══██╗████╗  ██║╚══██╔══╝╚██╗ ██╔╝██╔════╝
+            █████╗  ██████╔╝██║███████║██╔██╗ ██║   ██║    ╚████╔╝ ███████╗
+            ██╔══╝  ██╔══██╗██║██╔══██║██║╚██╗██║   ██║     ╚██╔╝  ╚════██║
+            ███████╗██║  ██║██║██║  ██║██║ ╚████║   ██║      ██║   ███████║
+            ╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝      ╚═╝   ╚══════╝
             """;
 
     private boolean shouldStop = false;
@@ -75,8 +74,6 @@ public class CLI implements VirtualView, Runnable {
     }
 
     public void setNextScreen(CliScreen screen){
-//        currentScreen = screen;
-//        currentScreen.show();
         nextScreen = screen;
         currentScreen.setStop();
     }
