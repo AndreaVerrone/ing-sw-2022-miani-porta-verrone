@@ -2,17 +2,16 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.launcher.*;
-import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
-import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
-import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
-import it.polimi.ingsw.network.messages.clienttoserver.game.UseAssistant;
+import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.EnterGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.GetGames;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.ResumeGame;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.*;
+import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.io.IOException;
@@ -69,6 +68,14 @@ public class ClientController {
             System.out.println("Can't connect to server. Try again\n");
             cli.setNextScreen(new AskServerSpecificationScreen(cli));
         }
+    }
+
+    public String getNickNameCurrentPlayer() {
+        return nickNameCurrentPlayer;
+    }
+
+    public String getNickNameOwner() {
+        return nickNameOwner;
     }
 
     /**
@@ -242,5 +249,28 @@ public class ClientController {
     public void useAssistant(Assistant assistant){
         if(wrongPlayerTurn()) return;
         connectionHandler.sendMessage(new UseAssistant(assistant));
+    }
+
+    /**
+     * Sends a message to the server to choose a student from a location and controls the input is right
+     * @param student the student from location
+     * @param originPosition the position of the student
+     */
+    public void chooseStudentFromLocation(PawnType student, Position originPosition){
+        if(wrongPlayerTurn()){
+            return;
+        }
+        connectionHandler.sendMessage(new ChooseStudentFromLocation(student,originPosition));
+    }
+
+    /**
+     * Sends a message to the server to choose a destination position and controls the input is right
+     * @param destination the position
+     */
+    public void chooseDestination(Position destination){
+        if(wrongPlayerTurn()){
+            return;
+        }
+        connectionHandler.sendMessage(new ChooseDestination(destination));
     }
 }
