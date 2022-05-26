@@ -12,6 +12,7 @@ public interface TowerSelectedObserver {
      * It is called by the subject in order to notify a change to all its attached observers.
      *
      * @param tower tower type selected by the player
+     * @param player nickname of player that selected the tower
      */
-    void towerSelectedObserverUpdate(TowerType tower);
+    void towerSelectedObserverUpdate(String player, TowerType tower);
 }

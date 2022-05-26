@@ -12,6 +12,7 @@ public interface WizardSelectedObserver {
      * It is called by the subject in order to notify a change to all its attached observers.
      *
      * @param wizard wizard selected by the player
+     * @param player nickname of the player that selected the wizard
      */
-    void wizardSelectedObserverUpdate(Wizard wizard);
+    void wizardSelectedObserverUpdate(String player, Wizard wizard);
 }
