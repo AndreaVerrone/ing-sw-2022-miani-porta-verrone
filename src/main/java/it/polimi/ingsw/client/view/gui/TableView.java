@@ -2,14 +2,17 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.view.VirtualView;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 
 import javafx.scene.image.ImageView;
@@ -30,6 +33,9 @@ public class TableView extends VirtualView implements Initializable {
 
     @FXML
     private GridPane gridDiningRoom;
+
+    @FXML
+    private GridPane gridTowers;
 
     @FXML
     private ScrollPane  scrollPane;
@@ -57,7 +63,7 @@ public class TableView extends VirtualView implements Initializable {
         table.toBack();
         scrollPane.toBack();
         //table.setGridLinesVisible(true);
-        SchoolBoard schoolBoard = new SchoolBoard(gridEntrance, gridDiningRoom, gridEntrance);
+        SchoolBoard schoolBoard = new SchoolBoard(gridEntrance, gridDiningRoom, gridTowers, TowerType.BLACK);
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
@@ -66,7 +72,43 @@ public class TableView extends VirtualView implements Initializable {
         schoolBoard.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
         schoolBoard.addStudentToEntrance(PawnType.RED_DRAGONS);
         schoolBoard.addStudentToEntrance(PawnType.PINK_FAIRIES);
+        schoolBoard.addStudentToEntrance(PawnType.BLUE_UNICORNS);
+        schoolBoard.addStudentToEntrance(PawnType.GREEN_FROGS);
         schoolBoard.addProfessor(PawnType.RED_DRAGONS);
+        schoolBoard.addProfessor(PawnType.BLUE_UNICORNS);
+        schoolBoard.addProfessor(PawnType.YELLOW_GNOMES);
+        schoolBoard.removeStudentFromDiningRoom(PawnType.GREEN_FROGS);
+        schoolBoard.removeStudentFromEntrance(PawnType.PINK_FAIRIES);
+        schoolBoard.removeStudentFromEntrance(PawnType.BLUE_UNICORNS);
+        schoolBoard.addStudentToEntrance(PawnType.YELLOW_GNOMES);
+        schoolBoard.addStudentToEntrance(PawnType.YELLOW_GNOMES);
+        schoolBoard.addStudentToEntrance(PawnType.YELLOW_GNOMES);
+        schoolBoard.removeProfessor(PawnType.BLUE_UNICORNS);
+        schoolBoard.removeTower();
+
+
+        Image cardImage= new Image("/assets/characterCards/CarteTOT_front.jpg", 300, 300, true, false);
+        ImageView card = new ImageView(cardImage);
+
+        FlowPane grid = new FlowPane(Orientation.HORIZONTAL, 300, 50);
+        grid.toFront();
+        table.add(grid, 2, 2);
+        grid.setTranslateX(300);
+        GridPane.setHalignment(grid, HPos.RIGHT);
+        grid.getChildren().add(card);
+        card = new ImageView(cardImage);
+        grid.getChildren().add(card);
+        card = new ImageView(cardImage);
+        grid.getChildren().add(card);
+
+
+
+
+
+
+
+
+
         //gridEntrance.toFront();
         //gridEntrance.setOnMouseClicked(e -> System.out.println("SCELTO"));
 
