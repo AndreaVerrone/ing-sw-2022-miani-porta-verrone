@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.scene.image.Image;
 
 public enum Towers {
@@ -14,6 +16,14 @@ public enum Towers {
     }
 
     public Image getImage(){
-        return new Image(path, 50, 50, true, false);
+        return new Image(path, 80, 80, true, false);
+    }
+
+    public static Towers typeConverter(TowerType type) {
+        return switch (type) {
+            case BLACK -> BLACK;
+            case WHITE -> WHITE;
+            case GREY -> GREY;
+        };
     }
 }
