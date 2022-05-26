@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
+
 /**
  * A class used to create new customized widgets that dynamically change over time.
  * When possible this should be replaced by {@link StatelessWidget}
@@ -45,6 +47,11 @@ public abstract class StatefulWidget extends Widget{
         super.setCanvas(canvas);
         if (content != null)
             content.setCanvas(canvas);
+    }
+
+    @Override
+    final void setBgColor(Color backgroundColor) {
+        content.setBgColor(backgroundColor);
     }
 
     private void updateContent(){

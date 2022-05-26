@@ -50,9 +50,8 @@ public class InputReader {
      * a correct command based on the possible validator of this reader
      * @param request the message to show to the user
      * @return an array containing the command and arguments that the user typed
-     * @throws UserRequestExitException if the user request to close the program (i.e. with CTRL+C)
      */
-    public String[] readInput(String request) throws UserRequestExitException {
+    public String[] readInput(String request) {
         try (Terminal terminal = TerminalBuilder.terminal()){
             LineReader lineReader = LineReaderBuilder.builder().terminal(terminal).completer(completer).build();
             return readInput(lineReader, request);
@@ -62,6 +61,7 @@ public class InputReader {
             while (true) {
                 System.out.println(request);
                 String line = scanner.nextLine();
+                line = line.trim().replaceAll("( )+", " ");
                 if (isValid(line)) {
                     scanner.close();
                     return line.split(" ");
@@ -71,14 +71,14 @@ public class InputReader {
         }
     }
 
-    private String[] readInput(LineReader lineReader, String request) throws UserRequestExitException {
+    private String[] readInput(LineReader lineReader, String request) {
         while (true) {
             System.out.println(request);
             String line;
             try {
                 line = lineReader.readLine();
             } catch (UserInterruptException | EndOfFileException e){
-                throw new UserRequestExitException();
+                continue;
             }
             line = line.trim().replaceAll("( )+", " ");
             if (isValid(line)) {

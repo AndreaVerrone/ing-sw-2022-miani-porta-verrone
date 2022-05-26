@@ -23,8 +23,7 @@ public class GameCreated extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 09/05/2022 ask for a nickname
-        // TODO: 09/05/2022 show game id
+        client.askNicknameToEnter(gameID);
     }
 
 }

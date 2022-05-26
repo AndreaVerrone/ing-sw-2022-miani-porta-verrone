@@ -50,6 +50,9 @@ public class Translator {
      */
     private static boolean isItalian = false;
 
+    private static final String tabHelpIT = "\nPremi TAB per avere dei suggerimenti";
+    private static final String tabHelpEn = "\nPress TAB to see some suggestions";
+
     public static void setLanguage(Language language){
         isItalian = language == Language.ITALIANO;
     }
@@ -62,6 +65,13 @@ public class Translator {
         return isItalian ? "Scegli una lingua" : "Choose a language";
     }
 
+    public static String getWaitMessage(){
+        return isItalian ? "Per favore aspetta" : "Please wait";
+    }
+    public static String getConfirmExit(){
+        return isItalian ? "Sei sicuro di voler uscire dal gioco? [yes/no]"
+                : "Are you sure you want to exit the game? [yes/no]";
+    }
     public static String getChooseIP(){
         return isItalian ? "Scegli l'indirizzo IP del server" : "Choose the IP address of the server";
     }
@@ -70,9 +80,44 @@ public class Translator {
         return isItalian ? "Scegli la porta del server" : "Choose the port of the server";
     }
 
+    public static String getExit(){
+        return isItalian ? "Esci" : "Exit";
+    }
 
+    public static String getChooseHomeAction(){
+        return isItalian ? "Cosa vuoi fare?" + tabHelpIT : "What do you want to do?" + tabHelpEn ;
+    }
 
+    public static String getCreateGame(){
+        return isItalian ? "Crea una nuova partita" : "Create new game";
+    }
 
+    public static String getJoinGame(){
+        return isItalian ? "Unisciti a una partita" : "Join a game";
+    }
 
+    public static String getResumeGame(){
+        return isItalian ? "Riprendi una partita" : "Resume a game";
+    }
+
+    public static String getChooseNumPlayers(){
+        return isItalian ? "Scegli il numero di giocatori" : "Choose the number of players";
+    }
+
+    public static String getChooseDifficulty(){
+        return isItalian ? "Scegli la difficoltà" : "Choose the difficulty";
+    }
+
+    public static String getChooseGame(){
+        return isItalian ? "Scegli una partita"+tabHelpIT : "Choose a game"+tabHelpEn;
+    }
+
+    public static String getNoGamesToJoin(){
+        return isItalian ? "Non ci sono partite a cui ti puoi unire" : "There are no games you can join";
+    }
+
+    public static String getNickname(){
+        return isItalian ? "Per favore scegli un nickname" : "Please provide a nickname";
+    }
 }
 
