@@ -1,13 +1,10 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.view.gui.TableView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
+
 import javafx.stage.Stage;
 
 import java.io.IOException;
