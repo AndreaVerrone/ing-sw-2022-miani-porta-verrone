@@ -119,5 +119,13 @@ public class Translator {
     public static String getNickname(){
         return isItalian ? "Per favore scegli un nickname" : "Please provide a nickname";
     }
+
+    public static String getNumOfPlayers(){
+        return isItalian ? "Numero di giocatori: " : "Number of players: ";
+    }
+    public static String getDisplayDifficulty(boolean isExpert){
+        return isItalian ? "Difficoltà: " + (isExpert ? "per esperti" : "normale") :
+                "Difficulty: " + (isExpert ? "expert mode" : "standard");
+    }
 }
 
