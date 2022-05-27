@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CLI;
+import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
 import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
 import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
@@ -15,6 +16,7 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Class to control the messages from client to server
@@ -47,6 +49,8 @@ public class ClientController {
     public ClientController(CLI cli){
         this.cli = cli;
         cli.attachTo(this);
+        cli.setNextScreen(new LauncherScreen(cli));
+        cli.run();
     }
 
     /**
@@ -60,9 +64,18 @@ public class ClientController {
         try {
             connectionHandler = new ConnectionHandler(this, ipAddress, port);
             new Thread(connectionHandler).start();
+            cli.setNextScreen(new HomeScreen(cli));
         } catch (IOException e) {
-            System.out.println("Can't connect to server");
+            System.out.println("Can't connect to server. Try again\n");
+            cli.setNextScreen(new AskServerSpecificationScreen(cli));
         }
+    }
+
+    /**
+     * Closes all the current tasks and terminates the application
+     */
+    public void closeApplication(){
+        connectionHandler.closeApplication();
     }
 
     /**
@@ -100,6 +113,14 @@ public class ClientController {
     }
 
     /**
+     * Prompt the user to provide a nickname in order to enter a specified game
+     * @param gameID the ID of the game he wants to enter
+     */
+    public void askNicknameToEnter(String gameID){
+        cli.setNextScreen(new RequestNicknameScreen(cli, gameID));
+    }
+
+    /**
      * Saves the nickname of the client and sends a message to the server to enter a game
      * @param nickName nickname of the client
      * @param gameId gameId of the match the client wants to enter
@@ -114,6 +135,14 @@ public class ClientController {
      */
     public void getGames(){
         connectionHandler.sendMessage(new GetGames());
+    }
+
+    /**
+     * Shows the ID of the games passed as a parameter.
+     * @param gameIDs the listo of game ID to show
+     */
+    public void displayGames(Collection<String> gameIDs){
+        cli.setNextScreen(new GamesListScreen(cli, gameIDs));
     }
 
     /**

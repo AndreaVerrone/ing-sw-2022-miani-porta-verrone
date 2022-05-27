@@ -26,7 +26,7 @@ public class PossibleGames extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 09/05/2022 show in view the ids
+        client.displayGames(games);
     }
 
 }
