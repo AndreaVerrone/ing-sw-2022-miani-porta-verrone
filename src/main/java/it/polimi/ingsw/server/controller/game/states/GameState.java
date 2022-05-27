@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.game.states;
 
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -83,4 +84,10 @@ public interface GameState {
     default void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException {
         characterCard.effect();
     }
+
+    /**
+     * Returns the type of the state
+     * @return the type of the state
+     */
+    StateType getType();
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.game.states;
 
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.model.GameModel;
@@ -109,5 +110,10 @@ public class PlayAssistantState implements GameState {
     @Override
     public void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException {
         throw new NotValidOperationException("you cannot use a character card during planning phase");
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.PLAY_ASSISTANT_STATE;
     }
 }

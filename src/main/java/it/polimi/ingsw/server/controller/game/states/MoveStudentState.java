@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.game.states;
 
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
@@ -126,6 +127,11 @@ public class MoveStudentState implements GameState {
      */
     private void resetState(){
         numberOfStudentsMoved = 0;
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.MOVE_STUDENT_STATE;
     }
 }
 
