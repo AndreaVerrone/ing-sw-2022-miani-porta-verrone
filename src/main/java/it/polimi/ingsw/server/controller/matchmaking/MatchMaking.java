@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.matchmaking;
 
+import it.polimi.ingsw.server.controller.ChangeCurrentStateObserver;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
@@ -59,7 +60,7 @@ public class MatchMaking implements IMatchMaking{
     public MatchMaking(int numPlayers, boolean isHardMode){
         this.numPlayers = numPlayers;
         this.isHardMode = isHardMode;
-        state = new ChangePlayersState(this);
+        setState(new ChangePlayersState(this));
     }
 
     public int getNumPlayers() {
@@ -113,6 +114,7 @@ public class MatchMaking implements IMatchMaking{
 
     protected void setState(MatchMakingState newState){
         state = newState;
+        notifyChangeCurrentStateObservers();
     }
 
     protected void setNumPlayers(int value){
@@ -242,5 +244,35 @@ public class MatchMaking implements IMatchMaking{
             wizardsAvailable.add(wizardOfPlayer);
         player.setWizard(wizard);
         wizardsAvailable.remove(wizard);
+    }
+
+    // MANAGEMENT OF OBSERVERS FOR STATE SWITCH
+    /**
+     * List of the observer on the current state
+     */
+    private final List<ChangeCurrentStateObserver> changeCurrentStateObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on current state.
+     * @param observer the observer to be added
+     */
+    public void addChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
+        changeCurrentStateObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on current state.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
+        changeCurrentStateObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on current state.
+     */
+    private void notifyChangeCurrentStateObservers(){
+        for(ChangeCurrentStateObserver observer : changeCurrentStateObservers)
+            observer.changeCurrentStateObserverUpdate(this.state.getType());
     }
 }
