@@ -6,12 +6,19 @@ import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.game.states.*;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.gametable.GameTable;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
+import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
+import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Random;
 
 
 /**
@@ -53,6 +60,7 @@ public class Game implements IGame {
     private Collection<Player> winners = null;
 
     public Game(Collection<PlayerLoginInfo> players){
+
         //TODO: create all states and add documentation
         model = new GameModel(players);
 
@@ -62,6 +70,71 @@ public class Game implements IGame {
         chooseCloudState = new ChooseCloudState(this);
 
         state = playAssistantState;
+
+        // INITIALIZATION OF THE GAME
+        GameTable gameTable=getModel().getGameTable();
+
+        // 1. set mother nature position in a random island
+        int numOfIslands = getModel().getGameTable().getNumberOfIslands();
+        Random random = new Random();
+        gameTable.moveMotherNature(random.nextInt(numOfIslands-1));
+
+        // 2. mettere 2 studenti di ogni colore nel sacchetto e piazzarne uno a caso su ogni isola
+        // partendo dalla destra di madre natura e procedendo in senso orario (non mettere lo studente
+        // sull’isola in posizione opposta a madre natura)
+        StudentList initialStudents = new StudentList();
+        for (int i=0;i<PawnType.values().length;i++) {
+            try {
+                initialStudents.changeNumOf(PawnType.values()[i], 2);
+            } catch (NotEnoughStudentException e) {
+                // not possible
+                e.printStackTrace();
+            }
+        }
+        gameTable.fillBag(initialStudents);
+
+        int idOppositeIsland = (numOfIslands + 6) % 12;
+
+        for(int i=numOfIslands; i<12; i=(i+1)%12){
+            if(i!=idOppositeIsland){
+                for(int j=0;j<2;j++){
+                    try {
+                        gameTable.addToIsland(gameTable.getStudentFromBag(),i);
+                    } catch (IslandNotFoundException | EmptyBagException e) {
+                        e.printStackTrace();
+                        // not possible
+                        // todo: how to manage
+                    }
+                }
+            }
+        }
+
+        // put the remaining students in the bag
+        // we have 26 student for each color, so the remaining are 24
+        StudentList remainingStudents = new StudentList();
+        for (int i=0;i<PawnType.values().length;i++) {
+            try {
+                initialStudents.changeNumOf(PawnType.values()[i], 24);
+            } catch (NotEnoughStudentException e) {
+                // not possible
+                e.printStackTrace();
+            }
+        }
+        gameTable.fillBag(remainingStudents);
+
+        // take 7 random students from the bag and put them at the entrance of each player
+        for(Player player : getModel().getPlayerList()){
+            for(int i=0;i<7;i++){
+                try {
+                    player.addStudentToEntrance(gameTable.getStudentFromBag());
+                } catch (ReachedMaxStudentException | EmptyBagException e) {
+                    // todo: how to manage ?
+                    // it is impossible
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     @Override
