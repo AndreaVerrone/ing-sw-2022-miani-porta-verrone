@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game;
 
+import it.polimi.ingsw.server.controller.ChangeCurrentStateObserver;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
@@ -10,8 +11,10 @@ import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.PawnType;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -61,7 +64,7 @@ public class Game implements IGame {
         moveMotherNatureState = new MoveMotherNatureState(this);
         chooseCloudState = new ChooseCloudState(this);
 
-        state = playAssistantState;
+        setState(playAssistantState);
     }
 
     @Override
@@ -75,6 +78,7 @@ public class Game implements IGame {
      */
     public void setState(GameState newState){
         state = newState;
+        notifyChangeCurrentStateObservers();
     }
 
     /**
@@ -182,5 +186,35 @@ public class Game implements IGame {
     }
 
     public Collection<Player> getWinner(){return Collections.unmodifiableCollection(winners);}
+
+    // MANAGEMENT OF OBSERVERS FOR STATE SWITCH
+    /**
+     * List of the observer on the current state
+     */
+    private final List<ChangeCurrentStateObserver> changeCurrentStateObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on current state.
+     * @param observer the observer to be added
+     */
+    public void addChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
+        changeCurrentStateObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on current state.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
+        changeCurrentStateObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on current state.
+     */
+    private void notifyChangeCurrentStateObservers(){
+        for(ChangeCurrentStateObserver observer : changeCurrentStateObservers)
+            observer.changeCurrentStateObserverUpdate(this.state.getType());
+    }
 
 }
