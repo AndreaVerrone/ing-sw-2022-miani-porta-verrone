@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.matchmaking;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.IGame;
 
 import java.util.Optional;
@@ -87,5 +88,10 @@ class ChangePlayersState implements MatchMakingState {
     private boolean isNicknameOfAPlayer(String nickname) {
         return matchMaking.getPlayers().stream().anyMatch(
                 playerLoginInfo -> playerLoginInfo.getNickname().equals(nickname));
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.CHANGE_PLAYER_STATE;
     }
 }

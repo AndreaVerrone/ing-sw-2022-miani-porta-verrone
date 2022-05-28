@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.states;
 
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.Player;
@@ -70,5 +71,10 @@ public class EndState implements GameState {
                         .filter(player -> (player.getTowerNumbers() == winnerNumberOfTowers && player.getProfessors().size() == winnerNumberOfProfessors))
                         .collect(Collectors.toList());
         game.setWinner(winners);
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.END_STATE;
     }
 }

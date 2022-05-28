@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.game.states;
 
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.Player;
@@ -89,4 +90,8 @@ public class ChooseCloudState implements GameState {
         game.endOfTurn();
     }
 
+    @Override
+    public StateType getType() {
+        return StateType.CHOOSE_CLOUD_STATE;
+    }
 }

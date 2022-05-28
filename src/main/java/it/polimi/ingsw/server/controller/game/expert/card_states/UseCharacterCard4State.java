@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.game.expert.card_states;
 
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
@@ -59,5 +60,10 @@ public class UseCharacterCard4State extends UseCharacterCardState {
         // EPILOGUE
         finalizeCardUsed();
         returnBack();
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.USE_CHARACTER_CARD4_STATE;
     }
 }
