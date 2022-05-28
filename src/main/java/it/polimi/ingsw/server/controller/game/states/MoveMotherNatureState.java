@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.game.states;
 
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.gametable.GameTable;
@@ -84,4 +85,8 @@ public class MoveMotherNatureState implements GameState {
         }
     }
 
+    @Override
+    public StateType getType() {
+        return StateType.MOVE_MOTHER_NATURE_STATE;
+    }
 }
