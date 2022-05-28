@@ -59,29 +59,52 @@ public class Game implements IGame {
      */
     private Collection<Player> winners = null;
 
+    /**
+     * This is the max number of students of each color
+     */
+    private final int MAX_NUM_OF_STUDENTS = 26;
+
+    /**
+     * The constructor of the class.
+     * It takes in input a collection of players and it will construct the class.
+     * @param players the player in the game
+     */
     public Game(Collection<PlayerLoginInfo> players){
 
-        //TODO: create all states and add documentation
+        // CREATION OF THE GAME MODEL CLASS OF THE MODEL
         model = new GameModel(players);
 
+        // SET UP THE FSA OF THE CONTROLLER
+
+        // create the states of the game regarding the planning pahse
+        // and the 3 step of the action phase
         playAssistantState = new PlayAssistantState(this);
         moveStudentState = new MoveStudentState(this);
         moveMotherNatureState = new MoveMotherNatureState(this);
         chooseCloudState = new ChooseCloudState(this);
 
+        // set the initial state of the game
         state = playAssistantState;
 
-        // INITIALIZATION OF THE GAME
-        GameTable gameTable=getModel().getGameTable();
+        // INITIALIZATION OF THE MODEL
 
-        // 1. set mother nature position in a random island
-        int numOfIslands = getModel().getGameTable().getNumberOfIslands();
+        // 0. save in a variable frequently used classes
+        // the game model
+        GameModel gameModel = getModel();
+        // the game table
+        GameTable gameTable=gameModel.getGameTable();
+
+        // *** 1. set mother nature position in a random island
+        int numOfIslands = gameTable.getNumberOfIslands();
         Random random = new Random();
-        gameTable.moveMotherNature(random.nextInt(numOfIslands-1));
+        // generate a random number between 0 (included) and numOfIsland (excluded)
+        gameTable.moveMotherNature(random.nextInt(numOfIslands));
 
-        // 2. mettere 2 studenti di ogni colore nel sacchetto e piazzarne uno a caso su ogni isola
-        // partendo dalla destra di madre natura e procedendo in senso orario (non mettere lo studente
-        // sull’isola in posizione opposta a madre natura)
+        // *** 2. put 2 students of each color in the bag and put one of them (randomly taken from the bag)
+        // on each island starting from the right of mother nature and proceeding clockwise
+        // (do not place the student on the island in the opposite position to mother nature)
+
+        //  put 2 students of each color in the bag
         StudentList initialStudents = new StudentList();
         for (int i=0;i<PawnType.values().length;i++) {
             try {
@@ -93,28 +116,30 @@ public class Game implements IGame {
         }
         gameTable.fillBag(initialStudents);
 
-        int idOppositeIsland = (numOfIslands + 6) % 12;
+        // put students on the islands.
+
+        int idOppositeIsland = (numOfIslands + 6) % 12; // island opposite with respect to mother nature
 
         for(int i=numOfIslands; i<12; i=(i+1)%12){
             if(i!=idOppositeIsland){
-                for(int j=0;j<2;j++){
-                    try {
-                        gameTable.addToIsland(gameTable.getStudentFromBag(),i);
-                    } catch (IslandNotFoundException | EmptyBagException e) {
-                        e.printStackTrace();
-                        // not possible
-                        // todo: how to manage
-                    }
+                try {
+                    gameTable.addToIsland(gameTable.getStudentFromBag(),i);
+                } catch (IslandNotFoundException | EmptyBagException e) {
+                    e.printStackTrace();
+                    // not possible
+                    // todo: how to manage
                 }
             }
         }
 
-        // put the remaining students in the bag
-        // we have 26 student for each color, so the remaining are 24
+        // *** 3.put the remaining students in the bag
+
+        int remainingStudentsOfEachColor = MAX_NUM_OF_STUDENTS - 2;
+
         StudentList remainingStudents = new StudentList();
         for (int i=0;i<PawnType.values().length;i++) {
             try {
-                initialStudents.changeNumOf(PawnType.values()[i], 24);
+                initialStudents.changeNumOf(PawnType.values()[i], remainingStudentsOfEachColor);
             } catch (NotEnoughStudentException e) {
                 // not possible
                 e.printStackTrace();
@@ -122,8 +147,9 @@ public class Game implements IGame {
         }
         gameTable.fillBag(remainingStudents);
 
-        // take 7 random students from the bag and put them at the entrance of each player
-        for(Player player : getModel().getPlayerList()){
+        // *** 4. take 7 random students from the bag and put them at the entrance of each player
+
+        for(Player player : gameModel.getPlayerList()){
             for(int i=0;i<7;i++){
                 try {
                     player.addStudentToEntrance(gameTable.getStudentFromBag());
