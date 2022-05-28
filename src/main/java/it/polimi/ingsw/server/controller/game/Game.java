@@ -16,9 +16,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 
 /**
@@ -64,6 +62,8 @@ public class Game implements IGame {
      */
     private final int MAX_NUM_OF_STUDENTS = 26;
 
+    private final int maxStudentAtEntrance;
+
     /**
      * The constructor of the class.
      * It takes in input a collection of players and it will construct the class.
@@ -88,11 +88,15 @@ public class Game implements IGame {
 
         // INITIALIZATION OF THE MODEL
 
-        // 0. save in a variable frequently used classes
+        // save in a variable frequently used classes
         // the game model
         GameModel gameModel = getModel();
         // the game table
         GameTable gameTable=gameModel.getGameTable();
+
+        // 0. set up the number of max students at entrance
+        int numOfPlayers = gameModel.getPlayerList().size();
+        maxStudentAtEntrance = numOfPlayers == 2 ? 7:9;
 
         // *** 1. set mother nature position in a random island
         int numOfIslands = gameTable.getNumberOfIslands();
@@ -117,11 +121,13 @@ public class Game implements IGame {
         gameTable.fillBag(initialStudents);
 
         // put students on the islands.
+        int motherNaturePosition = gameTable.getMotherNaturePosition();
+        int idOppositeIsland = (motherNaturePosition + 6) % 12; // island opposite with respect to mother nature
 
-        int idOppositeIsland = (numOfIslands + 6) % 12; // island opposite with respect to mother nature
-
-        for(int i=numOfIslands; i<12; i=(i+1)%12){
-            if(i!=idOppositeIsland){
+        int numOfIteration=0;
+        for(int i=motherNaturePosition; numOfIteration<12; i=(i+1)%12){
+            numOfIteration++;
+            if(i!=idOppositeIsland && i!=motherNaturePosition){
                 try {
                     gameTable.addToIsland(gameTable.getStudentFromBag(),i);
                 } catch (IslandNotFoundException | EmptyBagException e) {
@@ -139,7 +145,7 @@ public class Game implements IGame {
         StudentList remainingStudents = new StudentList();
         for (int i=0;i<PawnType.values().length;i++) {
             try {
-                initialStudents.changeNumOf(PawnType.values()[i], remainingStudentsOfEachColor);
+                remainingStudents.changeNumOf(PawnType.values()[i], remainingStudentsOfEachColor);
             } catch (NotEnoughStudentException e) {
                 // not possible
                 e.printStackTrace();
@@ -147,10 +153,10 @@ public class Game implements IGame {
         }
         gameTable.fillBag(remainingStudents);
 
-        // *** 4. take 7 random students from the bag and put them at the entrance of each player
+        // *** 4. take a number of "maxStudentAtEntrance" random students from the bag and put them at the entrance of each player
 
         for(Player player : gameModel.getPlayerList()){
-            for(int i=0;i<7;i++){
+            for(int i=0;i<maxStudentAtEntrance;i++){
                 try {
                     player.addStudentToEntrance(gameTable.getStudentFromBag());
                 } catch (ReachedMaxStudentException | EmptyBagException e) {
