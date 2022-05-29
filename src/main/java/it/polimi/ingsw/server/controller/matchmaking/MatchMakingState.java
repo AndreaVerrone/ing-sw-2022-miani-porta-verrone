@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.matchmaking;
 
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.IGame;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -73,4 +74,10 @@ public interface MatchMakingState {
      *      the game created
      */
     Optional<IGame> next() throws NotValidOperationException;
+
+    /**
+     * Returns the type of the state
+     * @return the type of the state
+     */
+     StateType getType();
 }

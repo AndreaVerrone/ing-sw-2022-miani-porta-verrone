@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.matchmaking;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.IGame;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
@@ -77,5 +78,10 @@ class SetPlayerParametersState implements MatchMakingState{
         matchMaking.nextPlayer();
         matchMaking.setState(new SetPlayerParametersState(matchMaking, playerServing+1));
         return Optional.empty();
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.SET_PLAYER_PARAMETER_STATE;
     }
 }
