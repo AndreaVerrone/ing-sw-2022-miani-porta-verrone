@@ -8,7 +8,6 @@ import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.PawnType;
-import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
@@ -41,7 +40,7 @@ class MoveStudentStateTest {
     }
 
     /**
-     * This method will remove all the students from entrance of the schoolboard of the player
+     * This method will remove all the students from entrance of the school board of the player
      * specified in parameter
      * @param currentPlayer the player from which remove students in entrance
      */
@@ -150,14 +149,15 @@ class MoveStudentStateTest {
     @Test
     public void moveStudentToIsland_BLUEUNICORN_NotPresentStudent_ShouldThrowAndDoNothing(){
 
-        // removeAllStudentsFromEntrance all BLUE UNICORN from entrance if present
-        int numOfBlue = game.getModel().getCurrentPlayer().getStudentsInEntrance().getNumOf(PawnType.BLUE_UNICORNS);
-        for(int i=0;i<numOfBlue;i++) {
-            try {
-                game.getModel().getCurrentPlayer().removeStudentFromEntrance(PawnType.BLUE_UNICORNS);
-            } catch (NotEnoughStudentException e) {
-                throw new RuntimeException(e);
-            }
+        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
+        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
+
+        // the num of BLUE UNICORN on island 1 before the calling of the method to test
+        int oldNumOfBlueUnicornOnIsland1 = 0;
+        try {
+            oldNumOfBlueUnicornOnIsland1 = game.getModel().getGameTable().getIsland(1).numStudentsOf(PawnType.BLUE_UNICORNS);
+        } catch (IslandNotFoundException e) {
+            fail();
         }
 
         // CHECKS
@@ -166,9 +166,9 @@ class MoveStudentStateTest {
                 NotValidArgumentException.class,
                 ()->game.getMoveStudentState().choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE))
         );
-        // 2. there are no BLUE UNICORN on island 1
+        // 2. there are the same number of BLUE UNICORN on island 1 that there were before the calling of the method
         try {
-            assertEquals(0,game.getModel().getGameTable().getIsland(1).numStudentsOf(PawnType.BLUE_UNICORNS));
+            assertEquals(oldNumOfBlueUnicornOnIsland1,game.getModel().getGameTable().getIsland(1).numStudentsOf(PawnType.BLUE_UNICORNS));
         } catch (IslandNotFoundException e) {
             fail();
         }
