@@ -68,22 +68,20 @@ public class PlanningPhaseScreen extends CliScreen {
         completers.add(new StringsCompleter("exit"));
         inputReader.addCompleter(new AggregateCompleter(completers));
 
-        while (true) {
-            //prompt the user to enter something and reads the input
-            String[] inputs = inputReader.readInput("enter \"play\" followed by assistant card name to use");
+        //prompt the user to enter something and reads the input
+        String[] inputs = inputReader.readInput("enter \"play\" followed by assistant card name to use");
 
-            if (inputs[0].equals("exit")) {
-                // System.out.println("exiting from game");
-                // change screen
-                getCli().confirmExit();
-            }else {
-                String assistantToPlay = inputs[1];
-                // System.out.println("sending to server: " + Assistant.valueOf(assistantToPlay));
-                // send message to server
-                getCli().getClientController().useAssistant(Assistant.valueOf(assistantToPlay));
-            }
-            return;
+        if (inputs[0].equals("exit")) {
+            // System.out.println("exiting from game");
+            // change screen
+            getCli().confirmExit();
+        } else {
+            String assistantToPlay = inputs[1];
+            // System.out.println("sending to server: " + Assistant.valueOf(assistantToPlay));
+            // send message to server
+            getCli().getClientController().useAssistant(Assistant.valueOf(assistantToPlay));
         }
+
     }
 }
 

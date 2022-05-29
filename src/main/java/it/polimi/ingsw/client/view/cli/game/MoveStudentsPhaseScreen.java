@@ -150,28 +150,26 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         }
         inputReader.addCompleter(new AggregateCompleter(completers));
 
-        while (true) {
-            //prompt the user to enter something and reads the input
-            String[] inputs = inputReader.readInput("enter 1 to move student to dining room, 2 to move to island");
 
-            if (inputs[0].equals("exit")) {
-                // System.out.println("exiting from game");
-                // change screen
-                getCli().confirmExit();
-            }else{
-                state=Integer.parseInt(inputs[0]);
-                switch(state) {
-                    case MOVE_STUDENT_TO_DININGROOM_STATE:
-                        askStudentToMoveFromEntrance();
-                        getCli().getClientController().chooseDestination(new Position(Location.DINING_ROOM));
-                        break;
-                    case MOVE_STUDENT_TO_ISLAND_STATE:
-                        askStudentToMoveFromEntrance();
-                        askStudentToMoveToIsland();
-                        break;
+        //prompt the user to enter something and reads the input
+        String[] inputs = inputReader.readInput("enter 1 to move student to dining room, 2 to move to island");
+
+        if (inputs[0].equals("exit")) {
+            // System.out.println("exiting from game");
+            // change screen
+            getCli().confirmExit();
+        }else{
+            state=Integer.parseInt(inputs[0]);
+            switch (state) {
+                case MOVE_STUDENT_TO_DININGROOM_STATE -> {
+                    askStudentToMoveFromEntrance();
+                    getCli().getClientController().chooseDestination(new Position(Location.DINING_ROOM));
+                }
+                case MOVE_STUDENT_TO_ISLAND_STATE -> {
+                    askStudentToMoveFromEntrance();
+                    askStudentToMoveToIsland();
                 }
             }
-            return;
         }
     }
 }
