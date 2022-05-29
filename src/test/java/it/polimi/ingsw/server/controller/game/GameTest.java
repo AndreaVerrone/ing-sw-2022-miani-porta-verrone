@@ -38,16 +38,18 @@ class GameTest {
     }
 
     /**
-     * this method will return the number of student on the islands specified in the parameter
+     * This method will return the number of student on the islands specified in the parameter
      * @param islandID island on which count student
-     * @param gameTable the table on which the island is present
-     * @throws IslandNotFoundException if the ID of the island passed as a parameter doe not exits
      * @return the number of students on the island.
      */
-    private int countStudentsOnIsland(int islandID, GameTable gameTable) throws IslandNotFoundException {
-        int numOfStudents=0;
+    private int countStudentsOnIsland(int islandID) {
+        int numOfStudents = 0;
         for(PawnType color : PawnType.values()){
-            numOfStudents = numOfStudents + gameTable.getIsland(islandID).numStudentsOf(color);
+            try {
+                numOfStudents += game.getModel().getGameTable().getIsland(islandID).numStudentsOf(color);
+            } catch (IslandNotFoundException e) {
+                fail("Island " + islandID + " not present");
+            }
         }
         return numOfStudents;
     }
