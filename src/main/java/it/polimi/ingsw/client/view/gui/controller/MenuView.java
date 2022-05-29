@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.gui;
+package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.ClientApplication;
 import it.polimi.ingsw.client.ConnectionHandler;

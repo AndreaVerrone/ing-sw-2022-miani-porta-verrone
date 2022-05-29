@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.gui;
+package it.polimi.ingsw.client.view.gui.listeners;
 
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;

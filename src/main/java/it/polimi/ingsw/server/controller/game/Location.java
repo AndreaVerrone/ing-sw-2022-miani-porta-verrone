@@ -5,7 +5,6 @@ package it.polimi.ingsw.server.controller.game;
  */
 public enum Location {
     ISLAND,
-    TOWER_HALL,
     CHARACTER_CARD_1,
     CHARACTER_CARD_9,
     CHARACTER_CARD_11,
