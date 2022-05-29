@@ -1,50 +1,99 @@
-package it.polimi.ingsw.client.view.gui;
+package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.view.gui.listeners.LocationListern;
+import it.polimi.ingsw.client.view.gui.listeners.StudentListener;
+import it.polimi.ingsw.client.view.gui.utils.image_getters.ProfessorImageType;
+import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
+import it.polimi.ingsw.client.view.gui.utils.image_getters.TowerImageType;
+import it.polimi.ingsw.client.view.gui.utils.position_getters.EntrancePosition;
+import it.polimi.ingsw.client.view.gui.utils.position_getters.TowerPosition;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import java.util.*;
-
+/**
+ * Class that represents a schoolboard on the table of the game
+ */
 public class SchoolBoard {
 
+    /**
+     * Nickname of the player that owns the schoolboard
+     */
+    private final String player;
+
+    /**
+     * Grid used tp place the students on the entrance of the schoolbard
+     */
     private final GridPane gridEntrance;
 
+    /**
+     * Grid used to place the students on the dining room of the schoolboard
+     */
     private final GridPane gridDiningRoom;
 
+    /**
+     * Grid used to place the towers on the tower hall
+     */
     private final GridPane gridTowers;
 
+    /**
+     * Color of the tower used by the player
+     */
+    private final TowerImageType towerType;
+
+    /**
+     * Map to match to every color of student all the pawns placed on the table of that color
+     */
     private final Map<PawnType, List<Pawn>> tables = new HashMap<>(4,1);
 
+    /**
+     * List of professors place on the schoolboard
+     */
     private final List<Pawn> professors = new ArrayList<>();
 
+    /**
+     * List of students place on the entrance
+     */
     private final List<Pawn> entrance = new ArrayList<>();
 
+    /**
+     * List of towers place on the tower hall
+     */
     private final List<ImageView> towers = new ArrayList<>();
 
-    private final Towers towerType;
-
-    public SchoolBoard(GridPane gridEntrance, GridPane gridDiningRoom, GridPane gridTowers, TowerType towerType){
-        this.towerType = Towers.typeConverter(towerType);
+    /**
+     * This class allows to add and remove students and towers on the schoolboard
+     * @param player Nickname of the player that owns the scoolboard
+     * @param gridEntrance Grid used tp place the students on the entrance of the schoolbard
+     * @param gridDiningRoom Grid used to place the students on the dining room of the schoolboard
+     * @param gridTowers Grid used to place the towers on the tower hall
+     * @param towerType Color of the tower used by the player
+     */
+    public SchoolBoard(String player, GridPane gridEntrance, GridPane gridDiningRoom, GridPane gridTowers, TowerType towerType){
+        this.player = player;
+        this.towerType = TowerImageType.typeConverter(towerType);
         this.gridEntrance = gridEntrance;
         this.gridEntrance.setOnMouseClicked(new LocationListern(Location.ENTRANCE));
         this.gridDiningRoom = gridDiningRoom;
         this.gridDiningRoom.setOnMouseClicked(new LocationListern(Location.DINING_ROOM));
         this.gridTowers = gridTowers;
-        this.gridTowers.setOnMouseClicked(new LocationListern(Location.TOWER_HALL));
         for(PawnType type : PawnType.values()) {
             tables.put(type, new ArrayList<>());
         }
         fillTowers(8);
     }
 
+    /**
+     * Allows to add a student of the given color to the dining room
+     * @param type color of the student added
+     */
     public void addStudentToDiningRoom(PawnType type){
-        Students studentType = Students.typeConverter(type);
+        if (tables.get(type).size() == 10) return; //If the dining room is full of student of the given color do nothing
+        StudentImageType studentType = StudentImageType.typeConverter(type);
         ImageView student = new ImageView(studentType.getImage());
         tables.get(type).add(new Pawn(student, type));
         student.setOnMouseClicked(new StudentListener(type, Location.DINING_ROOM));
@@ -52,10 +101,15 @@ public class SchoolBoard {
         gridDiningRoom.add(student, tables.get(type).size(), studentType.getTablePosition());
     }
 
+    /**
+     * Allows to add a student of the given color to the entrance
+     * @param type color of the student added
+     */
     public void addStudentToEntrance(PawnType type){
-        Students studentType = Students.typeConverter(type);
+        StudentImageType studentType = StudentImageType.typeConverter(type);
         ImageView student = new ImageView(studentType.getImage());
         int emptySpot = searchEmptySpotInEntrance();
+        if (emptySpot == EntrancePosition.values().length) return;//If the entrance is full do nothing
         if (emptySpot == entrance.size()){
             entrance.add(new Pawn(student, type));
         }
@@ -70,6 +124,10 @@ public class SchoolBoard {
         GridPane.setHalignment(student, HPos.RIGHT);
     }
 
+    /**
+     * Searches for an empty spot in the entrance where to place a student
+     * @return the index of {@code entrace} where there is an empty spot
+     */
     private int searchEmptySpotInEntrance(){
         for(Pawn studentEmpty: entrance){
             if(studentEmpty == null) return entrance.indexOf(studentEmpty);
@@ -77,8 +135,13 @@ public class SchoolBoard {
         return entrance.size();
     }
 
+    /**
+     * Allows to add a professor of the given color to the dining room.
+     * @param type color of the professor added
+     */
     public void addProfessor(PawnType type){
-        Professors professorType = Professors.typeConverter(type);
+        if(professors.size() == ProfessorImageType.values().length) return; //If the dining room is full of professors do nothing
+        ProfessorImageType professorType = ProfessorImageType.typeConverter(type);
         ImageView professor = new ImageView(professorType.getImage());
         professors.add(new Pawn(professor, type));
         professor.setOnMouseClicked(new StudentListener(type, Location.DINING_ROOM));
@@ -87,13 +150,21 @@ public class SchoolBoard {
         GridPane.setHalignment(professor, HPos.CENTER);
     }
 
+    /**
+     * Fills the tower hall with towers
+     * @param numberOfTowers total possible number of towers on the schoolboard. Depends on the number of players
+     */
     private void fillTowers(int numberOfTowers){
         for(int i=0; i<numberOfTowers; i++){
             addTower();
         }
     }
 
+    /**
+     * Allows to add a tower to the dining room.
+     */
     public void addTower(){
+        if (towers.size() == TowerPosition.values().length) return; //If the hall is full do nothing
         ImageView tower = new ImageView(this.towerType.getImage());
         towers.add(tower);
         int row = TowerPosition.values()[towers.size() - 1].getRow();
@@ -102,11 +173,20 @@ public class SchoolBoard {
         GridPane.setHalignment(tower, HPos.CENTER);
     }
 
+    /**
+     * Allows to remove a student from the dining room.
+     * @param type color of the student removed
+     */
     public void removeStudentFromDiningRoom(PawnType type){
+        if (tables.get(type).size() == 0) return;//If the dining room is empty do nothing
         ImageView studentRemoved = tables.get(type).remove(tables.get(type).size()-1).getImageView();
         gridDiningRoom.getChildren().remove(studentRemoved);
     }
 
+    /**
+     * Allows to remove a student from the entrance.
+     * @param type color of the student removed
+     */
     public void removeStudentFromEntrance(PawnType type){
         Pawn studentRemoved = null;
         for(Pawn student : entrance){
@@ -116,10 +196,15 @@ public class SchoolBoard {
                 break;
             }
         }
+        if (studentRemoved == null) return;//If the student  given is not present do nothing
         entrance.set(entrance.indexOf(studentRemoved), null);
         gridEntrance.getChildren().remove(studentRemoved.getImageView());
     }
 
+    /**
+     * Allows to remove a professor from the dining room
+     * @param type color of the professor removed
+     */
     public void removeProfessor(PawnType type){
         Pawn professorRemoved = null;
         for(Pawn professor: professors){
@@ -128,11 +213,16 @@ public class SchoolBoard {
                 break;
             }
         }
+        if(professorRemoved == null) return;//If the professor is not present do nothing
         professors.remove(professorRemoved);
         gridDiningRoom.getChildren().remove(professorRemoved.getImageView());
     }
 
+    /**
+     * Allows to remove a tower from the schoolboard
+     */
     public void removeTower(){
+        if (towers.size() == 0) return; //If there are no towers do nothing
         ImageView towerRemoved = towers.remove(towers.size()-1);
         gridTowers.getChildren().remove(towerRemoved);
     }
