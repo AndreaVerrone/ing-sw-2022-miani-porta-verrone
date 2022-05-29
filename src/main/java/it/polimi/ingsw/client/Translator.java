@@ -119,5 +119,9 @@ public class Translator {
     public static String getNickname(){
         return isItalian ? "Per favore scegli un nickname" : "Please provide a nickname";
     }
+
+    public static String getIslandName(){
+        return isItalian ? "Isola#" : "Island#";
+    }
 }
 
