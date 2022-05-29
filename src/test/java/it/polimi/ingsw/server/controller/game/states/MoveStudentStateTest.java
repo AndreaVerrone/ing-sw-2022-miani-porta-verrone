@@ -39,15 +39,15 @@ class MoveStudentStateTest {
         game.setState(game.getMoveStudentState());
 
         // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
+        removeAllStudentsFromEntrance();
     }
 
     /**
      * This method will remove all the students from entrance of the school board of the player
      * specified in parameter
-     * @param currentPlayer the player from which remove students in entrance
      */
-    private void removeAllStudentsFromEntrance(Player currentPlayer){
+    private void removeAllStudentsFromEntrance(){
+        Player currentPlayer = game.getModel().getCurrentPlayer();
         for(PawnType color : PawnType.values()){
             int numOfStudents;
             numOfStudents = currentPlayer.getStudentsInEntrance().getNumOf(color);
