@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.cli.game.custom_widgets.islands;
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
-import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Icons;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.TowerView;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -76,6 +75,13 @@ public class IslandView extends StatefulWidget {
         }
 
         content = row;
+    }
+
+    /**
+     * @return the size of this island
+     */
+    int getSize(){
+        return islandsBefore+1+islandsAfter;
     }
 
     /**
