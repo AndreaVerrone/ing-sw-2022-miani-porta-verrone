@@ -34,7 +34,7 @@ class GameTest {
 
     @AfterEach
     void tearDown() {
-        Game game = null;
+        game = null;
     }
 
     /**
