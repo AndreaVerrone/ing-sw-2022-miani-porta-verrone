@@ -25,17 +25,9 @@ class GameTest {
     @BeforeEach
     void setUp() {
 
-        PlayerLoginInfo playerLoginInfo1=new PlayerLoginInfo("player 1");
-        playerLoginInfo1.setWizard(Wizard.W1);
-        playerLoginInfo1.setTowerType(TowerType.BLACK);
-
+        PlayerLoginInfo playerLoginInfo1 = new PlayerLoginInfo("player 1");
         PlayerLoginInfo playerLoginInfo2 = new PlayerLoginInfo("player 2");
-        playerLoginInfo2.setWizard(Wizard.W2);
-        playerLoginInfo2.setTowerType(TowerType.WHITE);
-
         PlayerLoginInfo playerLoginInfo3 = new PlayerLoginInfo("player 3");
-        playerLoginInfo3.setWizard(Wizard.W3);
-        playerLoginInfo3.setTowerType(TowerType.GREY);
 
         game = new Game(List.of(playerLoginInfo1,playerLoginInfo2,playerLoginInfo3));
     }
