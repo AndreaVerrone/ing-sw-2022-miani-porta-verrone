@@ -97,7 +97,7 @@ public class IslandsSet extends StatefulWidget {
         for (int i = 0; i < 3; i++) {
             List<IslandView> subList = islandViewList.subList(startIndex, islandViewList.size());
             IslandView firstUnused = createRow(i, subList, rows);
-            if (firstUnused == null)
+            if (firstUnused == null) //if all the islands are placed
                 break;
             startIndex = islandViewList.indexOf(firstUnused);
             rows.add(new SizedBox(1f, 1f));
@@ -139,8 +139,8 @@ public class IslandsSet extends StatefulWidget {
         IslandView island2 = islandViews.get(1);
         IslandView lastIsland = island2;
         islandsInRow.add(island1);
-        if (island1.getSize() + island2.getSize() <= 6) {
-            int emptySpace = 7 * (4 - island1.getSize()) + 1;
+        if (island1.getSize() + island2.getSize() <= 6) { //if the second island can be added
+            int emptySpace = 7 * (4 - island1.getSize()) + 1; //the empty space to put in between
             islandsInRow.add(new SizedBox(emptySpace, 1f));
             islandsInRow.add(island2);
             lastIsland = islandViews.get(2);
