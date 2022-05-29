@@ -37,6 +37,9 @@ class MoveStudentStateTest {
 
         // set the current state of the game to moveStudentState
         game.setState(game.getMoveStudentState());
+
+        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
+        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
     }
 
     /**
@@ -65,9 +68,6 @@ class MoveStudentStateTest {
 
     @Test
     public void moveStudentToIsland_BLUEUNICORN_Island1_ShouldMove(){
-
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
 
         // add 1 BLUE UNICORN on entrance of current player
         try {
@@ -115,9 +115,6 @@ class MoveStudentStateTest {
     @Test
     public void moveStudentToIsland_BLUEUNICORN_NotExistingIsland_ShouldThrowAndDoNothing(){
 
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
-
         // add 1 BLUE UNICORN on entrance of current player
         try {
             game.getModel().getCurrentPlayer().addStudentToEntrance(PawnType.BLUE_UNICORNS);
@@ -148,9 +145,6 @@ class MoveStudentStateTest {
     @Test
     public void moveStudentToIsland_BLUEUNICORN_NotPresentStudent_ShouldThrowAndDoNothing(){
 
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
-
         // the num of BLUE UNICORN on island 1 before the calling of the method to test
         int oldNumOfBlueUnicornOnIsland1 = 0;
         try {
@@ -176,9 +170,6 @@ class MoveStudentStateTest {
 
     @Test
     public void moveStudentToDiningRoom_BLUEUNICORN_DiningRoomFull_ShouldThrow(){
-
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
 
         // add 1 BLUE UNICORN at the entrance
         try {
@@ -210,9 +201,6 @@ class MoveStudentStateTest {
 
     @Test
     public void moveStudentToDiningRoom_BLUEUNICORN_NoErrors_ShouldMove(){
-
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
 
         // add 1 student to entrance
         try {
@@ -246,9 +234,6 @@ class MoveStudentStateTest {
     @Test
     public void MoveStudentToIsland_called4Times_ShouldChangeState(){
 
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
-
         // add 4 BLUE UNICORN on entrance of current player
         for (int i=0;i<4;i++){
             try {
@@ -279,9 +264,6 @@ class MoveStudentStateTest {
     @Test
     public void MoveStudentToIsland_called1Time_ShouldNotChangeState(){
 
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
-
         // add 4 BLUE UNICORN on entrance of current player
         for (int i=0;i<4;i++){
             try {
@@ -310,9 +292,6 @@ class MoveStudentStateTest {
     @Test
     public void MoveStudentToDiningRoom_called4Times_ShouldChangeState(){
 
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
-
         // add 4 BLUE UNICORN on entrance of current player
         for (int i=0;i<4;i++){
             try {
@@ -339,8 +318,6 @@ class MoveStudentStateTest {
     @Test
     public void MoveStudentToDiningRoom_called1Time_ShouldNotChangeState(){
 
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
 
         // add 1 BLUE UNICORN on entrance of current player
 
@@ -366,9 +343,6 @@ class MoveStudentStateTest {
 
     @Test
     public void Move4SomeToIslandAndSomeOtherInDiningRoom_ShouldChangeState() {
-
-        // removeAllStudentsFromEntrance all students from entrance to start from a clean situation
-        removeAllStudentsFromEntrance(game.getModel().getCurrentPlayer());
 
         // set island
         Position island1 = new Position(Location.ISLAND);
