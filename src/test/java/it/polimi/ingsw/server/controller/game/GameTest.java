@@ -58,35 +58,11 @@ class GameTest {
         int motherNaturePos = game.getModel().getGameTable().getMotherNaturePosition();
         int oppositeMotherNaturePosition = (motherNaturePos+6)%12;
 
-        // 1. check that on the island on which there is mother nature and in the opposite one there are no students on 1
-
-        // islands on which there is mother nature and the opposite one
-        List<Integer> islandsWithNoStudents = new ArrayList<>(List.of(motherNaturePos,oppositeMotherNaturePosition));
-        for (Integer i : islandsWithNoStudents) {
-            try {
-                //assertEquals(0, game.getModel().getGameTable().getIsland(i).getStudentList().numAllStudents());
-                assertEquals(0, countStudentsOnIsland(i,game.getModel().getGameTable()));
-            } catch (IslandNotFoundException e) {
-                fail();
-            }
-        }
-
-        // 2. check that in all the other islands there is one student on it
-
-        // all the other islands
-        List<Integer> islandsWithStudents = new ArrayList<>();
-        for(int i=0;i<12;i++){
-            if(i!=motherNaturePos && i!=oppositeMotherNaturePosition){
-                islandsWithStudents.add(i);
-            }
-        }
-
-        for (Integer i : islandsWithStudents) {
-            try {
-                assertEquals(1, countStudentsOnIsland(i,game.getModel().getGameTable()));
-            } catch (IslandNotFoundException e) {
-                fail();
-            }
+        for(int i=0;i<12;i++) {
+            int expectedStudents = 1;
+            if (i == motherNaturePos || i == oppositeMotherNaturePosition)
+                expectedStudents = 0;
+            assertEquals(expectedStudents, countStudentsOnIsland(i));
         }
 
     }
