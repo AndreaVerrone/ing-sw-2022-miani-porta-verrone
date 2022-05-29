@@ -52,8 +52,7 @@ class MoveStudentStateTest {
                 try {
                     currentPlayer.removeStudentFromEntrance(color);
                 } catch (NotEnoughStudentException e) {
-                    // not possible
-                    e.printStackTrace();
+                    fail();
                 }
             }
         }
