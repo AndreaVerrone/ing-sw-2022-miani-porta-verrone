@@ -36,10 +36,9 @@ public abstract class StatefulWidget extends Widget{
             return;
         try {
             updateContent();
+            content.onSizeChange(this::updateContent);
         } catch (NullPointerException e) {
-            return;
         }
-        content.onSizeChange(this::updateContent);
     }
 
     @Override
@@ -77,7 +76,8 @@ public abstract class StatefulWidget extends Widget{
     private Widget getContent(){
         if (dirty){
             Widget widget = build();
-            dirty = false;
+            if (widget != null)
+                dirty = false;
             return widget;
         }
         return content;
