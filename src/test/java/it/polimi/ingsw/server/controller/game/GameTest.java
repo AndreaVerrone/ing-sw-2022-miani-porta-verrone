@@ -107,13 +107,8 @@ class GameTest {
 
         // heck that if there are 2 player, at the entrance there are 7 students
 
-        PlayerLoginInfo playerLoginInfo1=new PlayerLoginInfo("player 1");
-        playerLoginInfo1.setWizard(Wizard.W1);
-        playerLoginInfo1.setTowerType(TowerType.BLACK);
-
+        PlayerLoginInfo playerLoginInfo1 = new PlayerLoginInfo("player 1");
         PlayerLoginInfo playerLoginInfo2 = new PlayerLoginInfo("player 2");
-        playerLoginInfo2.setWizard(Wizard.W2);
-        playerLoginInfo2.setTowerType(TowerType.WHITE);
 
         game = new Game(List.of(playerLoginInfo1,playerLoginInfo2));
 
