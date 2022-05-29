@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  * A widget used to display an island of any size on the screen
  */
-public class IslandView extends StatefulWidget {
+class IslandView extends StatefulWidget {
 
     /**
      * The main island of this
@@ -41,7 +41,7 @@ public class IslandView extends StatefulWidget {
      * Creates a new island in the console based on the information passed as an argument
      * @param island the reduced version of an island
      */
-    public IslandView(ReducedIsland island) {
+    IslandView(ReducedIsland island) {
         mainIsland = new MainIslandView(island.ID(), island.studentList(), island.tower(), island.ban());
         int smallerIslands = island.size() - 1;
         islandsBefore = smallerIslands/2;
@@ -88,7 +88,7 @@ public class IslandView extends StatefulWidget {
      * Changes the students on this island with the new ones passed as parameter
      * @param newStudents the new list of students on this island
      */
-    public void studentsChanged(StudentList newStudents) {
+    void studentsChanged(StudentList newStudents) {
         mainIsland.studentsChanged(newStudents);
     }
 
@@ -96,7 +96,7 @@ public class IslandView extends StatefulWidget {
      * Changes the tower on this island with the new one passed as parameter
      * @param newTower the new tower on this island
      */
-    public void towerChanged(TowerType newTower) {
+    void towerChanged(TowerType newTower) {
         mainIsland.towerChanged(newTower);
         tower = newTower;
         setState(this::createContent);
@@ -106,7 +106,7 @@ public class IslandView extends StatefulWidget {
      * Changes the number of bans on this island with the new one passed as parameter
      * @param newBans the new number of bans on this island
      */
-    public void bansChanged(int newBans) {
+    void bansChanged(int newBans) {
         mainIsland.bansChanged(newBans);
     }
 
@@ -114,7 +114,7 @@ public class IslandView extends StatefulWidget {
      * Sets if this island currently has mother nature on or not.
      * @param motherNatureIsPresent {@code true} if mother nature is on this island, {@code false} otherwise
      */
-    public void hasMotherNature(boolean motherNatureIsPresent) {
+    void hasMotherNature(boolean motherNatureIsPresent) {
         mainIsland.hasMotherNature(motherNatureIsPresent);
     }
 
@@ -125,7 +125,7 @@ public class IslandView extends StatefulWidget {
      * @param number the number of smaller islands to add
      * @param position where the islands should be added
      */
-    public void addIslands(int number, int position){
+    void addIslands(int number, int position){
         if (position > 0) {
             islandsAfter += number;
         } else {

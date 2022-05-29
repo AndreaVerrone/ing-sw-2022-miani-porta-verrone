@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * A widget used to represent the main content of an island
  */
-public class MainIslandView extends StatefulWidget {
+class MainIslandView extends StatefulWidget {
 
     /**
      * The title of the island (the island number)
@@ -40,7 +40,7 @@ public class MainIslandView extends StatefulWidget {
      * @param towerType the tower on the island
      * @param ban the number of bans on the island
      */
-    public MainIslandView(int ID, StudentList students, TowerType towerType, int ban) {
+    MainIslandView(int ID, StudentList students, TowerType towerType, int ban) {
 
         islandHeader = new Text(Translator.getIslandName() + ID)
                         .addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
@@ -83,7 +83,7 @@ public class MainIslandView extends StatefulWidget {
      * Changes the students on this island with the new ones passed as parameter
      * @param newStudents the new list of students on this island
      */
-    public void studentsChanged(StudentList newStudents) {
+    void studentsChanged(StudentList newStudents) {
         setState(() -> setStudents(newStudents));
     }
 
@@ -91,7 +91,7 @@ public class MainIslandView extends StatefulWidget {
      * Changes the tower on this island with the new one passed as parameter
      * @param newTower the new tower on this island
      */
-    public void towerChanged(TowerType newTower) {
+    void towerChanged(TowerType newTower) {
         setState(() -> setTower(newTower));
     }
 
@@ -99,7 +99,7 @@ public class MainIslandView extends StatefulWidget {
      * Changes the number of bans on this island with the new one passed as parameter
      * @param newBans the new number of bans on this island
      */
-    public void bansChanged(int newBans) {
+    void bansChanged(int newBans) {
         setState(() -> setBan(newBans));
     }
 
@@ -107,7 +107,7 @@ public class MainIslandView extends StatefulWidget {
      * Sets if this island currently has mother nature on or not.
      * @param motherNatureIsPresent {@code true} if mother nature is on this island, {@code false} otherwise
      */
-    public void hasMotherNature(boolean motherNatureIsPresent) {
+    void hasMotherNature(boolean motherNatureIsPresent) {
         setState(() ->
                 islandContent.addChild(
                         motherNatureIsPresent ? new Icon(Icons.FLOWER_EMOJI) : new Text(""),
