@@ -143,5 +143,12 @@ public class Translator {
                 "insert the number of step to move mother nature";
     }
 
+    // ACTION PHASE: CHOOSE CLOUD
+    public static String getMessageChooseCloudPhase(){
+        return isItalian ?
+                "inserisci l'ID della nuvola da cui vuoi prendere gli studenti" :
+                "insert the ID of the cloud from which take the students";
+    }
+
 }
 

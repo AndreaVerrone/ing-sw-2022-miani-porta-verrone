@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
@@ -17,12 +18,12 @@ public class ChooseCloudScreen extends CliScreen {
     /**
      * the name of the phase
      */
-    private final String phase= "ACTION PHASE: Choose clouds";
+    private final String phase = "ACTION PHASE: Choose clouds";
 
     /**
      * the table of the game
      */
-    private Table table;
+    private final Table table;
 
     /**
      * The constructor od the class
@@ -56,37 +57,35 @@ public class ChooseCloudScreen extends CliScreen {
     private void askForAction() {
 
         InputReader inputReader = new InputReader();
-        inputReader.addCommandValidator("\\d\\d?|exit");
-        inputReader.addCompleter(new StringsCompleter("exit"));
 
+        // INPUT VALIDATOR AND INPUT COMPLETER
+        // allowed and suggested inputs:
+
+        // 1. the ID of the clouds that are on the table
         Collection<Completer> completers = new ArrayList<>();
         for (Integer i : table.getClouds().keySet()){
             completers.add(new StringsCompleter(String.valueOf(i)));
+            inputReader.addCommandValidator(String.valueOf(i));
         }
-        completers.add(new StringsCompleter("exit"));
+
+        // 2. the string to exit
+        inputReader.addCommandValidator(Translator.getMessageToExit());
+        completers.add(new StringsCompleter(Translator.getMessageToExit()));
         inputReader.addCompleter(new AggregateCompleter(completers));
 
-        while (true) {
-            //prompt the user to enter something and reads the input
-            String[] inputs = inputReader.readInput("insert the id of the cloud to choose");
+        //prompt the user to enter something and reads the input
+        String[] inputs = inputReader.readInput(Translator.getMessageChooseCloudPhase());
 
-            if (inputs[0].equals("exit")) {
-                // System.out.println("exiting from game");
-                // change screen
-                getCli().confirmExit();
-            }else {
-                int cloudID;
-                try {
-                    cloudID=Integer.parseInt(inputs[0]);
-                }catch (NumberFormatException e){
-                    continue;
-                }
-                // send message to server
-                // System.out.println("sending to server to move MN of: "+ numOfMovements);
-                getCli().getClientController().moveMotherNature(cloudID);
-            }
-            return;
+        if (inputs[0].equals(Translator.getMessageToExit())) {
+            System.out.println("exiting from game"); // todo: testing only
+            // change screen
+            // getCli().confirmExit(); // todo: actual code
+        }else {
+            int cloudID;
+             cloudID=Integer.parseInt(inputs[0]);
+            // send message to server
+            System.out.println("sending to server your choice to take student from cloud: "+ cloudID); // todo: testing only
+            // getCli().getClientController().takeStudentFromCloud(cloudID); // todo: actual code
         }
     }
-
 }
