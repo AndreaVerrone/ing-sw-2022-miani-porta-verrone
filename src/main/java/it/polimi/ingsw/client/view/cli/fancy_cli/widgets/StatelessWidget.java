@@ -35,6 +35,8 @@ public abstract class StatelessWidget extends Widget{
         } catch (NullPointerException e){
             return;
         }
+        if (widget == null)
+            return;
         content = widget.clone();
         widget.setCanvas(null);
         setWidth(content.getWidth());
