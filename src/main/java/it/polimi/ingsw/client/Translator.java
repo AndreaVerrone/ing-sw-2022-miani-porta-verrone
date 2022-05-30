@@ -130,6 +130,9 @@ public class Translator {
     }
 
     // PLANING PAHSE
+    public static String getPlanningPhaseName(){
+        return isItalian ? "FASE DI PIANIFICAZIONE": "PLANNING PHASE";
+    }
     public static String getMessagePlanningPhase(){
         return isItalian ?
                 "inserisci il numero della carta assistente che vuoi usare" :

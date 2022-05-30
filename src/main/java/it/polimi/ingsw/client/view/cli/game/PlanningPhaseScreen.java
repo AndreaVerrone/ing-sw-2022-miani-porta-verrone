@@ -20,7 +20,7 @@ public class PlanningPhaseScreen extends CliScreen {
     /**
      * the name of the phase
      */
-    private final String phase= "PLANNING PAHSE";
+    private final String phase= Translator.getPlanningPhaseName();
 
     /**
      * the table of the game
