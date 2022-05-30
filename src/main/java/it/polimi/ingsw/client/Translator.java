@@ -123,5 +123,18 @@ public class Translator {
     public static String getIslandName(){
         return isItalian ? "Isola#" : "Island#";
     }
+
+    // GENERAL
+    public static String getMessageToExit(){
+        return isItalian ? "esci" : "exit";
+    }
+
+    // PLANING PAHSE
+    public static String getMessagePlanningPhase(){
+        return isItalian ?
+                "inserisci il numero della carta assistente che vuoi usare" :
+                "enter the number of the assistant card to play";
+    }
+
 }
 
