@@ -64,13 +64,13 @@ public class ChooseCloudScreen extends CliScreen {
         // 1. the ID of the clouds that are on the table
         Collection<Completer> completers = new ArrayList<>();
         for (Integer i : table.getClouds().keySet()){
-            completers.add(new StringsCompleter(String.valueOf(i)));
-            inputReader.addCommandValidator(String.valueOf(i));
+            inputReader.addCommandValidator(String.valueOf(i)); // validator
+            completers.add(new StringsCompleter(String.valueOf(i))); // completer
         }
 
         // 2. the string to exit
-        inputReader.addCommandValidator(Translator.getMessageToExit());
-        completers.add(new StringsCompleter(Translator.getMessageToExit()));
+        inputReader.addCommandValidator(Translator.getMessageToExit()); // validator
+        completers.add(new StringsCompleter(Translator.getMessageToExit())); // completer
         inputReader.addCompleter(new AggregateCompleter(completers));
 
         //prompt the user to enter something and reads the input
