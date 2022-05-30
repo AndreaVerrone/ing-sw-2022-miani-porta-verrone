@@ -150,5 +150,10 @@ public class Translator {
                 "insert the ID of the cloud from which take the students";
     }
 
+    // END OF GAME
+    public static String getEndGamePhaseName(){
+        return isItalian ? "FINE DEL GIOCO" : "END OF THE GAME";
+    }
+
 }
 
