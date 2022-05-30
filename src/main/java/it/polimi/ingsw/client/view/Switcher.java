@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.view.gui.controller.TableView;
+import it.polimi.ingsw.server.model.player.Assistant;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +21,9 @@ public class Switcher {
 
     public void goToCreateNewGame(){
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/Table.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
+            Parent root = loader.load();
+            TableView controllerTable = (TableView) loader.getController();
             display(root);
         } catch (IOException e) {
             e.printStackTrace();

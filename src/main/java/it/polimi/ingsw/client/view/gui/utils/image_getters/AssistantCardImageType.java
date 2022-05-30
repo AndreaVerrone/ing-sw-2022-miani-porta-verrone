@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.gui.utils.image_getters;
 
+import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.AssistantDeck;
 import javafx.scene.image.Image;
 
 /**
@@ -36,5 +38,25 @@ public enum AssistantCardImageType {
      */
     public Image getImage(){
         return new Image(path, 320, 320, true, false);
+    }
+
+    /**
+     * Method to convert a {@code Assistant} to a {@code AssistantCardImageType}
+     * @param card {@code Assistant} type of the assistant card to convert
+     * @return the {@code AsssistantCardImageType} of the same card
+     */
+    public static AssistantCardImageType typeConverter(Assistant card) {
+        return switch (card) {
+            case CARD_1 -> CARD1;
+            case CARD_2 -> CARD2;
+            case CARD_3 -> CARD3;
+            case CARD_4 -> CARD4;
+            case CARD_5 -> CARD5;
+            case CARD_6 -> CARD6;
+            case CARD_7 -> CARD7;
+            case CARD_8 -> CARD8;
+            case CARD_9 -> CARD9;
+            case CARD_10 -> CARD10;
+        };
     }
 }

@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.gui.utils.position_getters.CloudPosition;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.IslandPosition;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
+import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -197,8 +198,8 @@ public class TableView extends VirtualView implements Initializable {
         islands.get(10).removeTower();
         islands.get(7).removeMotherNature();
 
-        //assistantCardPanePlayer3.setTranslateX(-50);
-        //assistantCardPanePlayer3.setTranslateY(80);
+        decks.get("B").useAssistantCard(Assistant.CARD_10);
+        decks.get("C").useAssistantCard(Assistant.CARD_5);
 
 
         addCards(new ArrayList<>((List.of(CharacterCardsType.CARD1,
@@ -225,9 +226,10 @@ public class TableView extends VirtualView implements Initializable {
      * @param players List of players playing
      */
     private void createSchoolBoard(List<PlayerLoginInfo> players){
-        Image schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF.png", 1500, 420, true, false);
+        Image schoolBoardImage;
         for(int i =0; i< players.size(); i++){
             if(schoolboards.size() == 0){
+                schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
                 SchoolBoard schoolBoardPlayer1 = new SchoolBoard(players.get(0).getNickname(), gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, players.get(0).getTowerType());
                 schoolboards.add(schoolBoardPlayer1);
@@ -237,6 +239,7 @@ public class TableView extends VirtualView implements Initializable {
                 continue;
             }
             if(schoolboards.size() == 1){
+                schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
                 SchoolBoard schoolBoardPlayer2 = new SchoolBoard(players.get(1).getNickname(), gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, players.get(1).getTowerType());
                 schoolboards.add(schoolBoardPlayer2);
@@ -245,6 +248,7 @@ public class TableView extends VirtualView implements Initializable {
                 GridPane.setValignment(schoolBoardPlayer, VPos.TOP);
                 continue;
             }
+            schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
             ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
             schoolBoardPlayer.setRotate(-90);
             SchoolBoard schoolBoardPlayer3 = new SchoolBoard(players.get(2).getNickname(), gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, players.get(2).getTowerType());
@@ -323,18 +327,16 @@ public class TableView extends VirtualView implements Initializable {
             Wizard wizardPlayer = players.get(numberOfPlayers).getWizard();
             AssistantCardDeck deck;
             if(numberOfPlayers == 0){
-                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer1, false);
+                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer1, 1);
             }
-            else if(numberOfPlayers == 2){
-                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer2, false);
+            else if(numberOfPlayers == 1){
+                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer2, 2);
             }
             else {
-                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer3, true);
+                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer3, 3);
             }
             decks.put(nicknamePlayer, deck);
         }
     }
-
-
 
 }

@@ -18,8 +18,7 @@ public class ClientApplication extends javafx.application.Application
   private static Switcher switcher;
   private static Controller controller;
 
-  // When using IntelliJ, don't run the application from here, use the main
-  // method in JavaFXMain
+  // When using IntelliJ, don't run the application from here, use the main method in Client
   public static void main(String[] args)
   {
     launch(args);
