@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
@@ -17,7 +18,7 @@ public class MoveMotherNatureScreen extends CliScreen {
     /**
      * the table of the game
      */
-    private Table table;
+    private final Table table;
 
     /**
      * The constructor od the class
@@ -51,29 +52,32 @@ public class MoveMotherNatureScreen extends CliScreen {
     private void askForAction() {
 
         InputReader inputReader = new InputReader();
-        inputReader.addCommandValidator("\\d\\d?|exit");
-        inputReader.addCompleter(new StringsCompleter("exit"));
 
-        while (true) {
-            //prompt the user to enter something and reads the input
-            String[] inputs = inputReader.readInput("insert the number of step to move mother nature");
+        // INPUT VALIDATOR
+        // allowed inputs:
+        // 1. the number of step of mother nature in the range [1-7]
+        inputReader.addCommandValidator("[1-7]");
+        // 2. the string to exit the game
+        inputReader.addCommandValidator(Translator.getMessageToExit());
 
-            if (inputs[0].equals("exit")) {
-                // System.out.println("exiting from game");
-                // change screen
-                getCli().confirmExit();
-            }else {
-                int numOfMovements;
-                try {
-                    numOfMovements=Integer.parseInt(inputs[0]);
-                }catch (NumberFormatException e){
-                    continue;
-                }
-                // send message to server
-                // System.out.println("sending to server to move MN of: "+ numOfMovements);
-                getCli().getClientController().moveMotherNature(numOfMovements);
-            }
-            return;
+        // INPUT COMPLETER
+        // 1. the string to exit
+        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit()));
+
+
+        //prompt the user to enter something and reads the input
+        String[] inputs = inputReader.readInput(Translator.getMessageMoveMotherNaturePhase());
+
+        if (inputs[0].equals(Translator.getMessageToExit())) {
+            System.out.println("exiting from game"); // todo: for testing only
+            // change screen
+            // getCli().confirmExit(); // todo: this is the actual code
+        }else {
+            int numOfMovements;
+            numOfMovements=Integer.parseInt(inputs[0]);
+            // send message to server
+            System.out.println("sending to server to move MN of: "+ numOfMovements); // todo: for testing only
+            // getCli().getClientController().moveMotherNature(numOfMovements); // todo: actual code
         }
     }
 }

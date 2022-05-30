@@ -136,5 +136,12 @@ public class Translator {
                 "enter the number of the assistant card to play";
     }
 
+    // ACTION PHASE: MOVE MOTHER NATURE
+    public static String getMessageMoveMotherNaturePhase(){
+        return isItalian ?
+                "inserisci il numero di passi che vuoi far fare a madre natura" :
+                "insert the number of step to move mother nature";
+    }
+
 }
 
