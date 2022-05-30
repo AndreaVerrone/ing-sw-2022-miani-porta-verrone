@@ -60,40 +60,36 @@ public class PlanningPhaseScreen extends CliScreen {
 
         InputReader inputReader = new InputReader();
 
-        // INPUT VALIDATOR
-        // allowed inputs:
-        // 1. the number of the card to play
-        inputReader.addCommandValidator("[1-9]|10"); // one number in [1-10]
-        // 2. the string ("exit" or "esci") to exit the game
-        inputReader.addCommandValidator(Translator.getMessageToExit());
-
-        // INPUT COMPLETER
+        // INPUT VALIDATOR AND COMPLETER
+        // allowed and suggested inputs:
         // 1. list of player's deck
         List<Assistant> assistants = table.getAssistantsList();
         Collection<Completer> completers = new ArrayList<>();
         for (Assistant assistant : assistants) {
-            completers.add(new StringsCompleter(String.valueOf(assistant.getValue())));
+            completers.add(new StringsCompleter(String.valueOf(assistant.getValue()))); // completer
+            inputReader.addCommandValidator(String.valueOf(assistant.getValue())); // validator
         }
         // 2. string to exit
         completers.add(new StringsCompleter(Translator.getMessageToExit()));
-        inputReader.addCompleter(new AggregateCompleter(completers));
+        inputReader.addCompleter(new AggregateCompleter(completers)); // completer
+        inputReader.addCommandValidator(Translator.getMessageToExit()); // validator
 
         // prompt the user to enter something and reads the input
         String[] inputs = inputReader.readInput(Translator.getMessagePlanningPhase());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            // todo: remove before merge
-            System.out.println("exiting from game ...");
+            System.out.println("exiting from game ..."); // todo: for testing only
             // change screen
-            //getCli().confirmExit();
+            //getCli().confirmExit(); // todo: actual code
         } else {
             String assistantValue = inputs[0];
-            // todo: remove before merge
             String assistantNamePrefix = "CARD_";
-            System.out.println("sending to server: " + Assistant.valueOf(assistantNamePrefix + assistantValue));
+            System.out.println("sending to server: " + Assistant.valueOf(assistantNamePrefix + assistantValue)); // todo: for testing only
             // send message to server
-            //getCli().getClientController().useAssistant(Assistant.valueOf(assistantNamePrefix + assistantValue));
+            //getCli().getClientController().useAssistant(Assistant.valueOf(assistantNamePrefix + assistantValue)); // todo: actual code
         }
+
+        getCli().setNextScreen(new MoveMotherNatureScreen(getCli(),table)); // todo: testing only
 
     }
 }
