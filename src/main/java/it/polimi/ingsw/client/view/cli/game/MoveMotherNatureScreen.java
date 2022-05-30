@@ -13,7 +13,7 @@ public class MoveMotherNatureScreen extends CliScreen {
     /**
      * the name of the phase
      */
-    private final String phase= "ACTION PHASE: Move mother nature";
+    private final String phase= Translator.getMoveMotherNaturePhaseName();
 
     /**
      * the table of the game
@@ -79,5 +79,6 @@ public class MoveMotherNatureScreen extends CliScreen {
             System.out.println("sending to server to move MN of: "+ numOfMovements); // todo: for testing only
             // getCli().getClientController().moveMotherNature(numOfMovements); // todo: actual code
         }
+        getCli().setNextScreen(new ChooseCloudScreen(getCli(),table)); // todo: for testing only
     }
 }

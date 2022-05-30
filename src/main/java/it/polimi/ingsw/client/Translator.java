@@ -137,6 +137,9 @@ public class Translator {
     }
 
     // ACTION PHASE: MOVE MOTHER NATURE
+    public static String getMoveMotherNaturePhaseName(){
+        return isItalian? "FASE D'AZIONE: Spostamento di madre natura": "ACTION PHASE: move mother nature";
+    }
     public static String getMessageMoveMotherNaturePhase(){
         return isItalian ?
                 "inserisci il numero di passi che vuoi far fare a madre natura" :
