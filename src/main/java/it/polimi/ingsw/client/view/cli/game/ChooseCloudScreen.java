@@ -87,5 +87,7 @@ public class ChooseCloudScreen extends CliScreen {
             System.out.println("sending to server your choice to take student from cloud: "+ cloudID); // todo: testing only
             // getCli().getClientController().takeStudentFromCloud(cloudID); // todo: actual code
         }
+
+        getCli().setNextScreen(new MoveStudentsPhaseChooseStudentScreen(getCli(),table)); // todo: testing only
     }
 }

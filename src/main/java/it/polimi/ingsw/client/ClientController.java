@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.CLI;
+import it.polimi.ingsw.client.view.cli.game.PlanningPhaseScreen;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
@@ -12,10 +15,12 @@ import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Class to control the messages from client to server
@@ -48,8 +53,84 @@ public class ClientController {
     public ClientController(CLI cli){
         this.cli = cli;
         cli.attachTo(this);
-        cli.setNextScreen(new LauncherScreen(cli));
+
+        // todo: ACTUAL CODE
+        /*
+        //cli.setNextScreen(new LauncherScreen(cli));
+        //cli.run();
+         */
+
+        // todo:testing code
+        //  <--- from here
+        StudentList stud = new StudentList();
+        try {
+            stud.changeNumOf(PawnType.BLUE_UNICORNS,3);
+            stud.changeNumOf(PawnType.GREEN_FROGS,2);
+            stud.changeNumOf(PawnType.PINK_FAIRIES,2);
+        } catch (NotEnoughStudentException e) {
+            throw new RuntimeException(e);
+        }
+
+        StudentList stud2 = new StudentList();
+        try {
+            stud2.changeNumOf(PawnType.BLUE_UNICORNS,1);
+            stud2.changeNumOf(PawnType.GREEN_FROGS,1);
+            stud2.changeNumOf(PawnType.RED_DRAGONS,1);
+            stud2.changeNumOf(PawnType.PINK_FAIRIES,1);
+        } catch (NotEnoughStudentException e) {
+            throw new RuntimeException(e);
+        }
+
+        Map<String,StudentList> map = new HashMap<>();
+        map.put("player 1",stud);
+        map.put("player 2",stud);
+        map.put("player 3",stud);
+
+        Map<String, Collection<PawnType>> map2 = new HashMap<>();
+        map2.put("player 1", List.of(PawnType.BLUE_UNICORNS));
+        map2.put("player 2", List.of(PawnType.GREEN_FROGS));
+        map2.put("player 3", List.of());
+
+        Map<String, TowerType> map3 = new HashMap<>();
+        map3.put("player 1", TowerType.BLACK);
+        map3.put("player 2", TowerType.WHITE);
+        map3.put("player 3", TowerType.GREY);
+
+        Map<String, Integer> map4 = new HashMap<>();
+        map4.put("player 1", 8);
+        map4.put("player 2", 7);
+        map4.put("player 3", 6);
+
+        Map<Integer,StudentList> map5 = new HashMap<>();
+        map5.put(1,stud);
+        map5.put(2,stud2);
+        map5.put(3,stud2);
+
+        ReducedIsland r1 = new ReducedIsland(1,stud,TowerType.BLACK,1,0);
+        ReducedIsland r2 = new ReducedIsland(2,stud2,TowerType.BLACK,1,2);
+        ReducedIsland r3 = new ReducedIsland(3,stud2,null,1,1);
+        ReducedIsland r4 = new ReducedIsland(4,stud,TowerType.GREY,1,1);
+        ReducedIsland r5 = new ReducedIsland(5,stud2,TowerType.WHITE,1,1);
+        ReducedIsland r6 = new ReducedIsland(5,stud2,TowerType.WHITE,1,1);
+        Collection<ReducedIsland> reducedIslands = new ArrayList<>(List.of(r1,r1,r2,r3,r4,r3,r5,r5,r4,r5,r1,r2));
+
+        Table t = new Table(
+                List.of(Assistant.CARD_1, Assistant.CARD_9),
+                List.of(Assistant.CARD_1, Assistant.CARD_9),
+                //List.of(Assistant.values()),
+                map5,
+                map,
+                map,
+                map2,
+                map3,
+                map4,
+                map4,
+                List.of("player 1", "player 2", "player 3"),
+                reducedIslands
+        );
+        cli.setNextScreen(new PlanningPhaseScreen(cli,t));
         cli.run();
+        //  <--- to here
     }
 
     /**
