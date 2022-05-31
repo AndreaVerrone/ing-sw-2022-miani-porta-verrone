@@ -199,6 +199,11 @@ public class Translator {
         return isItalian ? "INGRESSO":"ENTRANCE";
     }
 
+    // PROF TABLE
+    public static String getProfTableHeader(){
+        return isItalian ? "TAVOLO DEI PROFESSORI":"PROFESSOR TABLE";
+    }
+
     // TABLE
     public static String getHeaderOfTable(){
         return isItalian ? "TAVOLO DI GIOCO" : "GAME TABLE";

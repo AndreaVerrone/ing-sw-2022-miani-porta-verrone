@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
@@ -45,7 +46,7 @@ public class ProfTable extends StatefulWidget {
     @Override
     protected Widget build() {
 
-        String stringHeader = "PROFESSOR TABLE";
+        String stringHeader = Translator.getProfTableHeader();
         Text header = new Text(stringHeader).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         Text blueStudents = new Text("").setForegroundColor(Color.BLUE);
