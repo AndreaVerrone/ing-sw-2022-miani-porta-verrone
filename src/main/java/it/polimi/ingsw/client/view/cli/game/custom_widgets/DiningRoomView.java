@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
@@ -54,7 +55,7 @@ public class DiningRoomView extends StatefulWidget {
     protected Widget build() {
 
         // THE HEADER
-        Text header = new Text("DINING ROOM").addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
+        Text header = new Text(Translator.getDiningRoomViewHeader()).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // THE TABLE OF STUDENTS
         // the colum of the tables of students

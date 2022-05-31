@@ -189,6 +189,11 @@ public class Translator {
         return isItalian ? "MONETE":"COINS";
     }
 
+    // DINING ROOM
+    public static String getDiningRoomViewHeader(){
+        return isItalian ? "SALA":"DINING ROOM";
+    }
+
 
     // TABLE
     public static String getHeaderOfTable(){
