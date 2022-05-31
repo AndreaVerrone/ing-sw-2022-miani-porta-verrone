@@ -164,6 +164,16 @@ public class Translator {
     }
 
     // ****************** WIDGETS *************************
+    // ASSISTANT CARD
+    public static String getValueFieldAssistantCard(){
+        return isItalian ? "valore: ":"value :";
+    }
+
+    public static String getRangeOfMotionFieldAssistantcard(){
+        return isItalian ? "range di movimento: ":"range of motion: ";
+    }
+
+
     // TABLE
     public static String getHeaderOfTable(){
         return isItalian ? "TAVOLO DI GIOCO" : "GAME TABLE";

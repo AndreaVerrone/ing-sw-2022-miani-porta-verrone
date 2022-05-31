@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
@@ -41,10 +42,10 @@ public class AssistantCard extends StatefulWidget {
         Text name = new Text(assistantCard.name()).addTextStyle(TextStyle.BOLD).addTextStyle(TextStyle.ITALIC).setForegroundColor(Color.BRIGHT_GREY);
 
         // the value of the card
-        Text value = new Text("value: "+assistantCard.getValue());
+        Text value = new Text(Translator.getValueFieldAssistantCard() + assistantCard.getValue());
 
         // the range of motion of the card
-        Text rangeOfMotion = new Text("range of motion: "+assistantCard.getRangeOfMotion());
+        Text rangeOfMotion = new Text(Translator.getRangeOfMotionFieldAssistantcard()+ assistantCard.getRangeOfMotion());
 
         // the card
         return new Border(new Column(List.of(name,value,rangeOfMotion)),BorderType.SINGLE);
