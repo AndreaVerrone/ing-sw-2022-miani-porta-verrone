@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
@@ -67,7 +68,7 @@ public class PlayAssistantState implements GameState {
         // if the hand of the players does not contain the assistant he wants to use
         // trow NotValidArgumentException
         if(!currentPlayer.getHand().contains(assistant)){
-            throw new NotValidArgumentException("you do not have this assistant card");
+            throw new NotValidArgumentException(ErrorCode.ASSISTANT_NOT_EXIST);
         }
 
         // CHECK 2nd CONDITION OF NotValidArgumentException
@@ -79,7 +80,7 @@ public class PlayAssistantState implements GameState {
             numOfPlayersHavePlayed ++;
             assistantsPlayed.add(assistant);
         }else{
-            throw new NotValidArgumentException("this Assistant has been already played by another player");
+            throw new NotValidArgumentException(ErrorCode.ASSISTANT_NOT_USABLE);
         }
 
         // if players have used the assistant card

@@ -37,6 +37,14 @@ public enum ErrorCode{
      */
     PLAYER_NOT_IN_TURN,
     /**
+     * The selected tower is not available
+     */
+    TOWER_NOT_AVAILABLE,
+    /**
+     * The selected wizard is not available
+     */
+    WIZARD_NOT_AVAILABLE,
+    /**
      * The assistant chosen is not in the deck
      */
     ASSISTANT_NOT_EXIST,
@@ -56,6 +64,10 @@ public enum ErrorCode{
      * The table of the type is full
      */
     DININGROOM_FULL,
+    /**
+     * The movement of MN is out of bounds (i.e. negative or more than the maximum value)
+     */
+    MN_MOVEMENT_WRONG,
     /**
      * The cloud chosen is empty
      */

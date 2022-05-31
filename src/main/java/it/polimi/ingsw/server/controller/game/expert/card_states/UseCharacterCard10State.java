@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
@@ -110,10 +111,10 @@ public class UseCharacterCard10State extends UseCharacterCardState {
      */
     private void takeFromEntrance(PawnType color) throws NotValidArgumentException {
         if (model.getCurrentPlayer().getStudentsInEntrance().getNumOf(color) <= 0) {
-            throw new NotValidArgumentException("Student not in the entrance!");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
         if (model.getCurrentPlayer().getNumStudentOf(color) == 10){
-            throw new NotValidArgumentException("The table of this student color is already full");
+            throw new NotValidArgumentException(ErrorCode.DININGROOM_FULL);
         }
         studentFromEntrance = color;
     }
@@ -125,7 +126,7 @@ public class UseCharacterCard10State extends UseCharacterCardState {
      */
     private void takeFromDiningRoom(PawnType color) throws NotValidArgumentException{
         if(model.getCurrentPlayer().getNumStudentOf(color) <= 0) {
-            throw new NotValidArgumentException("Student not in the dining room!");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
         studentFromDiningRoom = color;
     }

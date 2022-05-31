@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
@@ -51,7 +52,7 @@ public class UseCharacterCard5State extends UseCharacterCardState {
         try {
             gameModel.getGameTable().getIsland(islandID).addBan();
         } catch (IslandNotFoundException e) {
-            throw new NotValidArgumentException("the island does not exist");
+            throw new NotValidArgumentException(ErrorCode.ISLAND_NOT_EXIST);
         }
     }
 

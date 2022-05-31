@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
@@ -116,7 +117,7 @@ public class UseCharacterCard9State extends UseCharacterCardState {
      */
     private void takeFromCard(PawnType color) throws NotValidArgumentException {
         if(card.getStudents().getNumOf(color) <= 0){
-            throw new NotValidArgumentException("The student is not on the card");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
         studentFromCard = color;
     }
@@ -128,7 +129,7 @@ public class UseCharacterCard9State extends UseCharacterCardState {
      */
     private void takeFromEntrance(PawnType color) throws NotValidArgumentException {
         if (model.getCurrentPlayer().getStudentsInEntrance().getNumOf(color) <= 0) {
-            throw new NotValidArgumentException("Student not in the entrance!");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
         studentFromEntrance = color;
     }

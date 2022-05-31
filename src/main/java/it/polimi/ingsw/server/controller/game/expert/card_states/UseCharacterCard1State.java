@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
@@ -61,7 +62,7 @@ public class UseCharacterCard1State extends UseCharacterCardState {
 
         // 2. the student to move is present on the card
         if(characterCard1.getStudentList().getNumOf(color)<=0) {
-            throw new NotValidArgumentException("is not present a student of that color");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
 
         // ACTIONS
@@ -98,7 +99,7 @@ public class UseCharacterCard1State extends UseCharacterCardState {
         try {
             gameModel.getGameTable().addToIsland(studentToMove,destination.getField());
         } catch (IslandNotFoundException e) {
-            throw new NotValidArgumentException("island does not exist");
+            throw new NotValidArgumentException(ErrorCode.ISLAND_NOT_EXIST);
         }
 
         // 2. remove student from card

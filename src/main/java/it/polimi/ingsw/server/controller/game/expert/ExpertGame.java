@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
@@ -72,7 +73,7 @@ public class ExpertGame extends Game {
      */
     @Override
     public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
-        if(!cards.containsKey(cardType)) throw  new NotValidArgumentException("Card not present!");
+        if(!cards.containsKey(cardType)) throw  new NotValidArgumentException(ErrorCode.CHARACTER_CARD_NOT_EXIST);
 
         //Get the card
         CharacterCard characterCard = cards.get(cardType);
