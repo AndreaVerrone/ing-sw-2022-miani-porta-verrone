@@ -124,6 +124,8 @@ public class Translator {
         return isItalian ? "Isola#" : "Island#";
     }
 
+    // ****************** CLI SCREENs *************************
+
     // GENERAL
     public static String getMessageToExit(){
         return isItalian ? "esci" : "exit";
@@ -159,6 +161,20 @@ public class Translator {
     // END OF GAME
     public static String getEndGamePhaseName(){
         return isItalian ? "FINE DEL GIOCO" : "END OF THE GAME";
+    }
+
+    // ****************** WIDGETS *************************
+    // TABLE
+    public static String getHeaderOfTable(){
+        return isItalian ? "TAVOLO DI GIOCO" : "GAME TABLE";
+    }
+
+    public static String getPlayerDeckName(){
+        return isItalian ? "MAZZO DI CARTE ASSISTENTE" : "DECK OF ASSISTANT CARDS";
+    }
+
+    public static String getCardUsedDeckName(){
+        return isItalian ? "CARTE ASSISTENTE GIOCATE" : "ASSISTANTS USED";
     }
 
 }

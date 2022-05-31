@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -26,39 +29,49 @@ public class Table extends StatefulWidget {
     Map<Integer, StudentList> clouds;
 
     /**
-     * map owner-entrance
+     * map owner-entrance.
      */
     private Map<String, StudentList> entranceList;
 
     /**
-     * map owner-dining Room
+     * map owner-dining Room.
      */
     private Map<String, StudentList> diningRoomList;
 
     /**
-     * map owner-professors
+     * map owner-professors.
      */
     private Map<String, Collection<PawnType>> profTableList;
 
     /**
-     * map owner-tower type
+     * map owner-tower type.
      */
     private Map<String, TowerType> towerColorList;
 
     /**
-     * map owner-tower number
+     * map owner-tower number.
      */
     private Map<String, Integer> towerNumberList;
 
     /**
-     * map owner-coin number
+     * map owner-coin number.
      */
     private Map<String, Integer> coinNumberList;
 
     /**
-     * The list of the nickname of the players
+     * The list of the nickname of the players.
      */
     private final List<String> players;
+
+    /**
+     * the list of reduced islands composing the island set
+     */
+    Collection<ReducedIsland> reducedIslands;
+
+    /**
+     * the island set that are on the table.
+     */
+    private IslandsSet islandsSet;
 
 
     // GETTER
@@ -104,18 +117,18 @@ public class Table extends StatefulWidget {
 
     /**
      * The constructor of the class
-     * @param assistantsList
-     * @param assistantsUsed
-     * @param clouds
-     * @param entranceList
-     * @param diningRoomList
-     * @param profTableList
-     * @param towerColorList
-     * @param towerNumberList
-     * @param coinNumberList
-     * @param players
+     * @param assistantsList the list of the assistant cards of the player that are in the deck
+     * @param assistantsUsed the list of the assistant cards that has been used
+     * @param clouds a map containing the IDs of the clouds and the corresponding student list.
+     * @param entranceList map owner-entrance
+     * @param diningRoomList map owner-dining Room
+     * @param profTableList map owner-professors
+     * @param towerColorList map owner-tower type
+     * @param towerNumberList map owner-tower number
+     * @param coinNumberList map owner-coin number
+     * @param players The list of the nickname of the players
      */
-    public Table(List<Assistant> assistantsList, List<Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players) {
+    public Table(List<Assistant> assistantsList, List<Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands) {
         this.assistantsList = assistantsList;
         this.assistantsUsed = assistantsUsed;
         this.clouds = clouds;
@@ -126,6 +139,7 @@ public class Table extends StatefulWidget {
         this.towerNumberList = towerNumberList;
         this.coinNumberList = coinNumberList;
         this.players = players;
+        this.reducedIslands=reducedIslands;
 
         create();
     }
@@ -187,6 +201,53 @@ public class Table extends StatefulWidget {
         setState(()->coinNumberList=newCoinNumberMap);
     }
 
+    /**
+     * this method will update the number of the ban on the island with the ID specified
+     * in the parameters.
+     * @param ID the island on which the change has been happened
+     * @param actualNumOfBan the actual number of bans on the specified island
+     */
+    public void updateBanOnIsland(int ID, int actualNumOfBan){
+        islandsSet.bansChanged(ID,actualNumOfBan);
+    }
+
+    /**
+     * this method will update the color of the tower on the island with the ID specified
+     * in the parameters.
+     * @param ID the island on which the change has been happened
+     * @param actualTowerColor the actual color of the tower of the island (null if the tower is not present)
+     */
+    public void updateTowerType(int ID, TowerType actualTowerColor){
+        islandsSet.towerChanged(ID, actualTowerColor);
+    }
+
+    /**
+     * This method will update the students that are on the island with the ID specified
+     * in the parameter.
+     * @param ID the island on which the change has been happened
+     * @param actualStudentsOnIsland the actual students on the island
+     */
+    public void updateStudents(int ID, StudentList actualStudentsOnIsland){
+        islandsSet.studentsChanged(ID, actualStudentsOnIsland);
+    }
+
+    /**
+     * this method will update the position of mother nature
+     * @param ID the ID of the island on which mother nature should be moved
+     */
+    public void updateMotherNaturePosition(int ID){
+        islandsSet.motherNatureMoved(ID);
+    }
+
+    public void islandUnification(){
+        // todo: the observer send the ID of the island removed and the size of the island that remains
+        //  while the unifyIsland method of the island sets requires
+        //  @param islandID          the ID of the island kept
+        //  @param removedIslandID   the ID of the island removed
+        //  @param removedIslandSize the size of the island remover
+        // islandsSet.unifyIslands();
+    }
+
 
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
@@ -199,13 +260,13 @@ public class Table extends StatefulWidget {
     protected Widget build() {
 
         // header
-        Text header = new Text("TABLE");
+        Text header = new Text(Translator.getHeaderOfTable());
 
         // 1. card used
-        Deck cardUsed = new Deck(assistantsUsed,"ASSISTANTS USED");
+        Deck cardUsed = new Deck(assistantsUsed,Translator.getCardUsedDeckName());
 
         // 2. deck
-        Deck deck = new Deck(assistantsList, "DECK");
+        Deck deck = new Deck(assistantsList, Translator.getPlayerDeckName());
 
         // 3. character card deck
 
@@ -221,6 +282,7 @@ public class Table extends StatefulWidget {
         );
 
         // 5. islands
+        islandsSet = new IslandsSet(reducedIslands);
 
         // 6. clouds
         CloudsSet cloudsOnTable = new CloudsSet(clouds);
@@ -230,6 +292,7 @@ public class Table extends StatefulWidget {
                 cardUsed,
                 deck,
                 schoolBoardList,
+                islandsSet,
                 cloudsOnTable)
         );
 
