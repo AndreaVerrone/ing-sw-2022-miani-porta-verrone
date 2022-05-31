@@ -227,5 +227,10 @@ public class Translator {
         return isItalian ? "CARTE ASSISTENTE GIOCATE" : "ASSISTANTS USED";
     }
 
+    // TOWER LOCATION
+    public static String getTowerLocationHeader(){
+        return isItalian ? "TORRI":"TOWERS";
+    }
+
 }
 
