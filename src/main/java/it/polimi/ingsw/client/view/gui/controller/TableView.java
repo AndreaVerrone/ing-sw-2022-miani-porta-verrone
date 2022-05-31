@@ -12,19 +12,24 @@ import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
+import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.*;
 
@@ -201,6 +206,12 @@ public class TableView extends VirtualView implements Initializable {
         decks.get("B").useAssistantCard(Assistant.CARD_10);
         decks.get("C").useAssistantCard(Assistant.CARD_5);
 
+        islands.get(3).addStudent(PawnType.YELLOW_GNOMES);
+        islands.get(3).addStudent(PawnType.GREEN_FROGS);
+        islands.get(3).addStudent(PawnType.YELLOW_GNOMES);
+        islands.get(7).addStudent(PawnType.RED_DRAGONS);
+        islands.get(9).addStudent(PawnType.PINK_FAIRIES);
+        islands.get(1).addStudent(PawnType.BLUE_UNICORNS);
 
         addCards(new ArrayList<>((List.of(CharacterCardsType.CARD1,
                 CharacterCardsType.CARD5,
@@ -208,6 +219,7 @@ public class TableView extends VirtualView implements Initializable {
         //gridEntrance.toFront();
         //gridEntrance.setOnMouseClicked(e -> System.out.println("SCELTO"));
 
+        table.setBackground(Background.fill(Color.LIGHTBLUE));
     }
 
     /**
@@ -297,6 +309,7 @@ public class TableView extends VirtualView implements Initializable {
             row = CloudPosition.values()[i].getRow();
             islandGrid.add(cloud, column, row);
             clouds.add(cloud);
+            cloud.toBack();
         }
 
     }
@@ -338,5 +351,22 @@ public class TableView extends VirtualView implements Initializable {
             decks.put(nicknamePlayer, deck);
         }
     }
+
+    /**
+     * Method to set a closed hand when the cursor is pressed
+     * @param event event triggered by the mouse when is pressed
+     */
+     public void setCursorOnMouseDragged(Event event){
+        scrollPane.setCursor(Cursor.CLOSED_HAND);
+     }
+
+    /**
+     * Method to set an open hand when the cursor is pressed
+     * @param event event triggered by the mouse when is released
+     */
+    public void setCursorOnMouseReleased(Event event){
+        scrollPane.setCursor(Cursor.OPEN_HAND);
+    }
+
 
 }

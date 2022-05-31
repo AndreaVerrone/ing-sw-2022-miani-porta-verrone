@@ -2,14 +2,33 @@ package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.view.gui.listeners.LocationListern;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.MotherNatureImageType;
+import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.TowerImageType;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.IslandPosition;
 import it.polimi.ingsw.server.controller.game.Location;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.TranslateTransition;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.util.Duration;
 
 /**
  * Class that represents an island on the table of the game
@@ -42,6 +61,11 @@ public class Island {
     private ImageView motherNatureView;
 
     /**
+     * All the students on the island
+     */
+    private final StudentOnIslandHandler studentOnIslandHandler;
+
+    /**
      * This class allows to handle the image of an island on the view of the table, allowing to add a tower, mother nature and students
      * @param gridIsland Grid of the view used to place islands
      * @param islandView {@code ImageView} of the island handled
@@ -51,7 +75,14 @@ public class Island {
         this.gridIsland = gridIsland;
         this.islandView = islandView;
         this.islandID = islandID;
+
+        int column = IslandPosition.values()[islandID].getColumn();
+        int row = IslandPosition.values()[islandID].getRow();
+
+        studentOnIslandHandler = new StudentOnIslandHandler(gridIsland, column, row);
         islandView.setOnMouseClicked(new LocationListern(Location.ISLAND));
+        islandView.setOnMouseEntered(studentOnIslandHandler);
+        islandView.setOnMouseExited(studentOnIslandHandler);
     }
 
     /**
@@ -62,6 +93,7 @@ public class Island {
         ImageView towerView = new ImageView(TowerImageType.typeConverter(towerType).getImage());
         int column= IslandPosition.values()[islandID].getColumn();
         int row=IslandPosition.values()[islandID].getRow();
+        towerView.setMouseTransparent(true);
         gridIsland.add(towerView, column, row);
         GridPane.setValignment(towerView, VPos.TOP);
         GridPane.setHalignment(towerView, HPos.CENTER);
@@ -78,6 +110,7 @@ public class Island {
         ImageView motherNatureView = new ImageView(MotherNatureImageType.MOTHER_NATURE.getImage());
         int column=IslandPosition.values()[islandID].getColumn();
         int row=IslandPosition.values()[islandID].getRow();
+        motherNatureView.setMouseTransparent(true);
         gridIsland.add(motherNatureView, column, row);
         GridPane.setValignment(motherNatureView, VPos.CENTER);
         GridPane.setHalignment(motherNatureView, HPos.CENTER);
@@ -101,6 +134,22 @@ public class Island {
         if(motherNatureView != null) {
             gridIsland.getChildren().remove(motherNatureView);
             motherNatureView = null;
+        }
+    }
+
+    public void addStudent(PawnType color){
+        try {
+            studentOnIslandHandler.getStudents().changeNumOf(color, 1);
+        } catch (NotEnoughStudentException e) {
+            e.printStackTrace(); //Not Possible
+        }
+    }
+
+    public void removeStudent(PawnType color){
+        try {
+            studentOnIslandHandler.getStudents().changeNumOf(color, -1);
+        } catch (NotEnoughStudentException e) {
+            //Simply do nothing
         }
     }
 }
