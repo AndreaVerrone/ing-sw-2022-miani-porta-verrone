@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
@@ -48,7 +49,7 @@ public class CloudView extends StatefulWidget {
     protected Widget build() {
 
         // the name of the cloud
-        Text CloudName = new Text("CLOUD "+this.ID).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
+        Text CloudName = new Text(Translator.getCloudNamePrefixCloudView() +this.ID).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // the students on the cloud
         Text blueStudents = new Text(" █ : "+ this.students.getNumOf(PawnType.BLUE_UNICORNS)).setForegroundColor(Color.BLUE);

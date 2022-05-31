@@ -178,6 +178,11 @@ public class Translator {
         return isItalian ? "NUVOLE":"CLOUDS";
     }
 
+    // CLOUD VIEW
+    public static String getCloudNamePrefixCloudView(){
+        return isItalian ? "NUVOLA ":"CLOUD ";
+    }
+
 
     // TABLE
     public static String getHeaderOfTable(){
