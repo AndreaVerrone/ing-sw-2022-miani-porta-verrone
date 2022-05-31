@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
@@ -58,7 +59,7 @@ public class CloudsSet extends StatefulWidget {
     protected Widget build() {
 
         // the header of the widget
-        Text header = new Text("CLOUDS").addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
+        Text header = new Text(Translator.getHeaderNameOfClouSet()).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // the row of clouds
         Row cloudRow = new Row();

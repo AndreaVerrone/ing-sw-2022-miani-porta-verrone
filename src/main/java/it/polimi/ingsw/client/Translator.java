@@ -173,6 +173,11 @@ public class Translator {
         return isItalian ? "range di movimento: ":"range of motion: ";
     }
 
+    // CLOUD SETS
+    public static String getHeaderNameOfClouSet(){
+        return isItalian ? "NUVOLE":"CLOUDS";
+    }
+
 
     // TABLE
     public static String getHeaderOfTable(){
