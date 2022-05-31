@@ -79,7 +79,7 @@ public class UseCharacterCard11State extends UseCharacterCardState {
     public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidArgumentException, NotValidOperationException {
 
         if(!originPosition.isLocation(Location.CHARACTER_CARD_11)){
-            throw new NotValidOperationException("take a student from the character card 11");
+            throw new NotValidArgumentException();
         }
 
         moveFromCardToDiningRoom(color);

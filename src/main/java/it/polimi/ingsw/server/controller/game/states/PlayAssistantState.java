@@ -110,7 +110,7 @@ public class PlayAssistantState implements GameState {
 
     @Override
     public void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException {
-        throw new NotValidOperationException("you cannot use a character card during planning phase");
+        throw new NotValidOperationException();
     }
 
     @Override

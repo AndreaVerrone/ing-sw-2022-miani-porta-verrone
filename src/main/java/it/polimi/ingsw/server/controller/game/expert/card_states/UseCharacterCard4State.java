@@ -53,7 +53,7 @@ public class UseCharacterCard4State extends UseCharacterCardState {
     public void chooseDestination(Position destination) throws NotValidArgumentException, NotValidOperationException {
 
         if(!destination.isLocation(Location.ISLAND)){
-            throw new NotValidOperationException("you have to chose an island");
+            throw new NotValidArgumentException();
         }
 
         computeInfluenceOn(destination.getField());

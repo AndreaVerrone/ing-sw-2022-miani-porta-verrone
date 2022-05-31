@@ -84,12 +84,12 @@ public class ExpertGame extends Game {
         // check that the player can use it since it is the first time that he use a
         // character card during its turn
         if(!canUseCharacterCard){
-            throw new NotValidOperationException("you have already used a character card during this turn");
+            throw new NotValidOperationException(ErrorCode.CHARACTER_CARD_ALREADY_USED);
         }
 
         // check that the player can use it since it has enough money
         if(currentPlayer.getCoins() < characterCard.getCost()){
-            throw new NotValidOperationException("you have not enough coin");
+            throw new NotValidOperationException(ErrorCode.CHARACTER_CARD_EXPENSIVE);
         }
 
         getState().useCharacterCard(characterCard);

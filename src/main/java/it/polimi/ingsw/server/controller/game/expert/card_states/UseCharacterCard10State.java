@@ -60,26 +60,24 @@ public class UseCharacterCard10State extends UseCharacterCardState {
         }
         if(originPosition.isLocation(Location.ENTRANCE)){
             takeFromEntrance(color);
-        }
-        else {
-            if(originPosition.isLocation(Location.DINING_ROOM)){
-                takeFromDiningRoom(color);
-            }
-            else{
-                throw new NotValidOperationException("Choose a student from the entrance or the dining room");
-            }
-        }
-
-        if(studentFromEntrance!=null && studentFromDiningRoom!=null){
-            //Both students have been chosen
             swapStudent();
+            return;
         }
+        if(originPosition.isLocation(Location.DINING_ROOM)){
+            takeFromDiningRoom(color);
+            swapStudent();
+            return;
+        }
+        throw new NotValidArgumentException();
+
     }
 
     /**
      * Swaps the students chosen from the dining room and from the entrance of the current player
      */
     private void swapStudent() {
+        if(studentFromEntrance==null || studentFromDiningRoom==null)
+            return;
         try {
             //Remove students from dining room and entrance
             model.getCurrentPlayer().removeStudentFromEntrance(studentFromEntrance);

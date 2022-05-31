@@ -56,7 +56,7 @@ public class UseCharacterCard9State extends UseCharacterCardState {
     }
 
     @Override
-    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
+    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidArgumentException {
         if(originPosition.isLocation(Location.NONE)){
             //Send position NONE to stop swapping
             // EPILOGUE
@@ -67,26 +67,24 @@ public class UseCharacterCard9State extends UseCharacterCardState {
         if(originPosition.isLocation(Location.CHARACTER_CARD_9)){
             //Take from card
             takeFromCard(color);
-        }
-        else{
-            if ((originPosition.isLocation(Location.ENTRANCE))){
-                //Take from entrance
-                takeFromEntrance(color);
-            }
-            else{
-                throw new NotValidOperationException("Wrong operation!");
-            }
-        }
-        if(studentFromEntrance!=null && studentFromCard!=null){
-            //Both students have been chosen
             swapStudent();
+            return;
         }
+        if ((originPosition.isLocation(Location.ENTRANCE))){
+            //Take from entrance
+            takeFromEntrance(color);
+            swapStudent();
+            return;
+        }
+        throw new NotValidArgumentException();
     }
 
     /**
      * Swaps the students chosen from the card and from the entrance of the current player
      */
     private void swapStudent(){
+        if (studentFromEntrance == null || studentFromCard == null)
+            return;
         try {
             //Remove students from card and entrance
             card.takeStudentFromCard(studentFromCard);

@@ -40,7 +40,7 @@ class ChangePlayersState implements MatchMakingState {
         if (isNicknameOfAPlayer(nickname))
             throw new NotValidArgumentException(ErrorCode.NICKNAME_TAKEN);
         if (matchMaking.getPlayers().size() == matchMaking.getNumPlayers())
-            throw new NotValidOperationException("The lobby is already full!");
+            throw new NotValidOperationException(ErrorCode.GAME_IS_FULL);
         matchMaking.addPlayer(new PlayerLoginInfo(nickname));
     }
 
@@ -80,7 +80,7 @@ class ChangePlayersState implements MatchMakingState {
     @Override
     public Optional<IGame> next() throws NotValidOperationException {
         if (matchMaking.getNumPlayers() != matchMaking.getPlayers().size())
-            throw new NotValidOperationException("There aren't enough players in the lobby to start the game!");
+            throw new NotValidOperationException();
         matchMaking.chooseFirstPlayer();
         matchMaking.setState(new SetPlayerParametersState(matchMaking, 1));
         return Optional.empty();

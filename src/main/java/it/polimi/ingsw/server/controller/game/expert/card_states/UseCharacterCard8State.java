@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
@@ -33,7 +34,7 @@ public class UseCharacterCard8State extends UseCharacterCardState {
     }
 
     @Override
-    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException {
+    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidArgumentException {
         if(originPosition.isLocation(Location.NONE)) {
             //Change strategy
             model.setComputeInfluenceStrategy(new ComputeInfluenceWithoutStudentColor(color));
@@ -43,7 +44,7 @@ public class UseCharacterCard8State extends UseCharacterCardState {
             returnBack();
         }
         else{
-            throw new NotValidOperationException("You can't get from a location now!");
+            throw new NotValidArgumentException();
         }
     }
 

@@ -55,7 +55,7 @@ public class MoveStudentState implements GameState {
 
         // 1. check that the student comes from the entrance
         if(!originPosition.isLocation(Location.ENTRANCE)){
-            throw new NotValidOperationException("you have to take the student from the entrance");
+            throw new NotValidArgumentException();
         }
         // 2. check that the student of that color is present at the entrance
         if (gameModel.getCurrentPlayer().getStudentsInEntrance().getNumOf(color) < 1)
@@ -67,7 +67,7 @@ public class MoveStudentState implements GameState {
     public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
 
         if (studentToMove == null)
-            throw new NotValidOperationException("you have to chose the student before");
+            throw new NotValidOperationException();
         if (destination.isLocation(Location.DINING_ROOM)) {
             moveToDiningRoom();
             updateState();

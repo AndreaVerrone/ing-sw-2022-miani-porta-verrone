@@ -57,7 +57,7 @@ public class UseCharacterCard1State extends UseCharacterCardState {
         // CHECKS
         // 1. check that the location is the one of character card 1
         if(!position.isLocation(Location.CHARACTER_CARD_1)){
-            throw new NotValidOperationException("you have to take a student from the character card 1");
+            throw new NotValidArgumentException();
         }
 
         // 2. the student to move is present on the card
@@ -82,14 +82,14 @@ public class UseCharacterCard1State extends UseCharacterCardState {
     public void chooseDestination(Position destination) throws NotValidArgumentException, NotValidOperationException {
 
         // CHECKS
-        // 1. check that the destination is an island
-        if(!destination.isLocation(Location.ISLAND)){
-            throw new NotValidOperationException("you have to chose an island");
+        // 1. check that the student to move has been set
+        if(studentToMove==null){
+            throw new NotValidOperationException();
         }
 
-        // 2. check that the student to move has been set
-        if(studentToMove==null){
-            throw new NotValidOperationException("you have to chose a student");
+        // 2. check that the destination is an island
+        if(!destination.isLocation(Location.ISLAND)){
+            throw new NotValidArgumentException();
         }
 
         // ACTIONS OF THE METHOD

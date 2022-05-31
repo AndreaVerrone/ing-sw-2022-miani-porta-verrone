@@ -87,6 +87,10 @@ public enum ErrorCode{
     /**
      * The player has already used a character card in his turn
      */
-    CHARACTER_CARD_ALREADY_USED
+    CHARACTER_CARD_ALREADY_USED,
+    /**
+     * If there are no bans on the corresponding card
+     */
+    NO_BANS_ON_CARD
 
 }

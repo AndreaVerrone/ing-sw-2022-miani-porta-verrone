@@ -46,7 +46,7 @@ public class UseCharacterCard5State extends UseCharacterCardState {
     private void setBanOnIsland(int islandID) throws NotValidArgumentException, NotValidOperationException {
 
         if(characterCard5.getNumOfBans()<=0){
-            throw new NotValidOperationException("this card cannot be used, there are no bans on it");
+            throw new NotValidOperationException(ErrorCode.NO_BANS_ON_CARD);
         }
 
         try {
@@ -66,7 +66,7 @@ public class UseCharacterCard5State extends UseCharacterCardState {
     public void chooseDestination(Position destination) throws NotValidArgumentException, NotValidOperationException {
 
         if(!destination.isLocation(Location.ISLAND)){
-            throw new NotValidOperationException("you have to chose an island");
+            throw new NotValidArgumentException();
         }
 
         setBanOnIsland(destination.getField());
