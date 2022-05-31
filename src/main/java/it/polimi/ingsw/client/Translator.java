@@ -204,6 +204,11 @@ public class Translator {
         return isItalian ? "TAVOLO DEI PROFESSORI":"PROFESSOR TABLE";
     }
 
+    // SCHOOLBOARD LIST
+    public static String getSchoolBoardListHeader(){
+        return isItalian ? "Scuole":"School boards";
+    }
+
     // TABLE
     public static String getHeaderOfTable(){
         return isItalian ? "TAVOLO DI GIOCO" : "GAME TABLE";

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -164,7 +165,7 @@ public class SchoolBoardList extends StatefulWidget {
     protected Widget build() {
 
         // header
-        Text header = new Text("School Boards");
+        Text header = new Text(Translator.getSchoolBoardListHeader());
 
         // column containing all the school boards
         Column schoolBoardColumn = new Column();
