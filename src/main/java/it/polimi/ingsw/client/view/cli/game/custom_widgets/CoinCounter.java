@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
@@ -40,7 +41,7 @@ public class CoinCounter extends StatefulWidget {
     protected Widget build() {
 
         // the header
-        Text header = new Text("COINS").addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
+        Text header = new Text(Translator.getCoinCounterHeader()).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // the number of coins
         Text numOfCoins = new Text(" ● : " + this.coinNumber + " ").setForegroundColor(Color.YELLOW);

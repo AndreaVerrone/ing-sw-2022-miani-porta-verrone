@@ -164,6 +164,7 @@ public class Translator {
     }
 
     // ****************** WIDGETS *************************
+
     // ASSISTANT CARD
     public static String getValueFieldAssistantCard(){
         return isItalian ? "valore: ":"value :";
@@ -181,6 +182,11 @@ public class Translator {
     // CLOUD VIEW
     public static String getCloudNamePrefixCloudView(){
         return isItalian ? "NUVOLA ":"CLOUD ";
+    }
+
+    // COIN COUNTER
+    public static String getCoinCounterHeader(){
+        return isItalian ? "MONETE":"COINS";
     }
 
 
