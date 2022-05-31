@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
@@ -21,12 +22,12 @@ public class MoveStudentsPhaseScreen extends CliScreen {
     /**
      * the name of the phase
      */
-    private final String phase= "ACTION PHASE: move students";
+    private final String phase= Translator.getMoveStudentsPhaseChooseStudentName();
 
     /**
      * the table of the game
      */
-    private Table table;
+    private final Table table;
 
     private int state = INITIAL_STATE;
 
@@ -141,9 +142,9 @@ public class MoveStudentsPhaseScreen extends CliScreen {
     private void askForAction() {
 
         InputReader inputReader = new InputReader();
-        inputReader.addCommandValidator("1|2|exit");
+        inputReader.addCommandValidator("1|2|"+Translator.getMessageToExit());
 
-        Collection<String> commands = List.of("1","2","exit");
+        Collection<String> commands = List.of("1","2",Translator.getMessageToExit());
         Collection<Completer> completers = new ArrayList<>();
         for (String command : commands){
             completers.add(new StringsCompleter(command));
@@ -154,19 +155,18 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         //prompt the user to enter something and reads the input
         String[] inputs = inputReader.readInput("enter 1 to move student to dining room, 2 to move to island");
 
-        if (inputs[0].equals("exit")) {
+        if (inputs[0].equals(Translator.getMessageToExit())) {
             // System.out.println("exiting from game");
             // change screen
             getCli().confirmExit();
         }else{
+            askStudentToMoveFromEntrance();
             state=Integer.parseInt(inputs[0]);
             switch (state) {
                 case MOVE_STUDENT_TO_DININGROOM_STATE -> {
-                    askStudentToMoveFromEntrance();
                     getCli().getClientController().chooseDestination(new Position(Location.DINING_ROOM));
                 }
                 case MOVE_STUDENT_TO_ISLAND_STATE -> {
-                    askStudentToMoveFromEntrance();
                     askStudentToMoveToIsland();
                 }
             }

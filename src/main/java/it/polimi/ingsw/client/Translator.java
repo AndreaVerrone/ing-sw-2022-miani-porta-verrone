@@ -141,6 +141,45 @@ public class Translator {
                 "enter the number of the assistant card to play";
     }
 
+    // ACTION PHASE: MOVE STUDENTS
+    // PART 1
+    public static String getMoveStudentsPhaseChooseStudentName(){
+        return isItalian ?
+                "FASE D'AZIONE: spostamento degli studenti, scegliere lo studente da muovere":
+                "ACTION PHASE: move students, choose the student to move";
+    }
+    public static String getMessageToAskToChooseAColor(){
+        return isItalian ? "scegli il colore dello studente che vuoi muovere":"choose the color of the student to move";
+    }
+    // PART 2
+    public static String getMoveStudentsPhaseChooseDestinationName(){
+        return isItalian ?
+                "FASE D'AZIONE: spostamento degli studenti, scegliere la destinazione":
+                "ACTION PHASE: move students, choose destination";
+    }
+    public static String getMessageToAskToChooseADestination(){
+        return isItalian ?
+                "inserisci \n" +
+                        "1 per spostare lo studente nella sala \n" +
+                        "2 per spostare lo studente su un'isola":
+
+                "insert \n" +
+                        "1 to move the student to the dining room \n" +
+                        "2 to move it on an island";
+    }
+
+    public static String getMessageToAskIslandID(){
+        return isItalian ?
+                "inserisci il numero dell'isola su cui vuoi mettere lo studente":
+                "insert the number of the island on which you want to put the student";
+    }
+
+    public static List<String> getColor(){
+        return isItalian ?
+                new ArrayList<>(List.of("blu", "verde", "giallo", "rosso", "rosa")) :
+                new ArrayList<>(List.of("blue", "green", "yellow", "red", "pink"));
+    }
+
     // ACTION PHASE: MOVE MOTHER NATURE
     public static String getMoveMotherNaturePhaseName(){
         return isItalian? "FASE D'AZIONE: Spostamento di madre natura": "ACTION PHASE: move mother nature";
