@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,8 @@ public class EndGameScreen extends CliScreen {
         Canvas canvas = new Canvas();
 
         Text text;
-        String ownerPlayer = getCli().getClientController().getNickNameOwner();
+        // String ownerPlayer = getCli().getClientController().getNickNameOwner(); // todo: actual code
+        String ownerPlayer = "player 1"; // todo: only for testing
 
         int numOfWinners = winners.size();
         int numOfPlayers = 3; // todo: how to get this info? maybe it can be sent by the observer ?
@@ -63,15 +65,13 @@ public class EndGameScreen extends CliScreen {
         }else{
             // the owner is one of the winner
             if(winners.contains(ownerPlayer)){
-                String otherWinner = winners
-                        .stream()
-                        .filter(nickname -> !winners.contains(nickname))
-                        .toList()
-                        .get(0);
+                List<String> winnerList = new ArrayList<>(winners);
+                winnerList.remove(ownerPlayer);
+                String otherWinner = winnerList.get(0);
                 text = new Text("you and " + otherWinner + "have won the game");
             }else{
                 // the owner is not one of the winners
-                text = new Text(winners.get(0) + " and " + winners.get(1) + "have won the game");
+                text = new Text(winners.get(0) + " and " + winners.get(1) + " have won the game");
             }
         }
 
