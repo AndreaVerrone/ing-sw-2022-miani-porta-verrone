@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
@@ -114,7 +115,7 @@ public class SchoolBoardView extends StatefulWidget {
     protected Widget build() {
 
         // the header
-        Text header = new Text("School Board").addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
+        Text header = new Text(Translator.getSchoolBoardViewHeader()).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // the name of the owner of the school board
         Text subHeader = new Text(owner);

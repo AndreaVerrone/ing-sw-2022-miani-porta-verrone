@@ -209,6 +209,11 @@ public class Translator {
         return isItalian ? "Scuole":"School boards";
     }
 
+    // SCHOOLBOARD VIEW
+    public static String getSchoolBoardViewHeader(){
+        return isItalian ? "Scuola":"School board";
+    }
+
     // TABLE
     public static String getHeaderOfTable(){
         return isItalian ? "TAVOLO DI GIOCO" : "GAME TABLE";
