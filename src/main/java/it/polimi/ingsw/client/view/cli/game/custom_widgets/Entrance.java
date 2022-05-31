@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
@@ -41,7 +42,7 @@ public class Entrance extends StatefulWidget {
     protected Widget build() {
 
         // the header
-        Text header = new Text("ENTRANCE").addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
+        Text header = new Text(Translator.getEntranceHeader()).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // the students
         Text blueStudents = new Text(" █ : "+ this.students.getNumOf(PawnType.BLUE_UNICORNS)).setForegroundColor(Color.BLUE);

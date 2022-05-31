@@ -194,6 +194,10 @@ public class Translator {
         return isItalian ? "SALA":"DINING ROOM";
     }
 
+    // ENTRANCE
+    public static String getEntranceHeader(){
+        return isItalian ? "INGRESSO":"ENTRANCE";
+    }
 
     // TABLE
     public static String getHeaderOfTable(){
