@@ -283,6 +283,7 @@ public class TableView extends VirtualView implements Initializable {
             int random = new Random().nextInt(IslandImageType.values().length);
             Image RandomIslandImage = IslandImageType.values()[random].getImage();
             ImageView islandView = new ImageView(RandomIslandImage);
+            islandView.setCursor(Cursor.HAND);
             Island island = new Island(islandGrid, islandView, islandID);
             column= IslandPosition.values()[islandID].getColumn();
             row=IslandPosition.values()[islandID].getRow();

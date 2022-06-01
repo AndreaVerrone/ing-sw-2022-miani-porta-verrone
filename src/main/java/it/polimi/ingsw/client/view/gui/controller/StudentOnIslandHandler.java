@@ -12,10 +12,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
@@ -74,6 +71,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
         studentsView.setMinHeight(140);
         studentsView.setBackground(Background.fill(Color.ANTIQUEWHITE));
         studentsView.setBorder(Border.stroke(Color.BLACK));
+        studentsView.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT)));
     }
 
     /**
@@ -85,7 +83,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
     }
 
     /**
-     * Method used to fill the pane with the stuents every time is showed
+     * Method used to fill the pane with the students every time is showed
      */
     private void fillPaneWithStudents(){
         studentsView.getChildren().clear();
@@ -144,7 +142,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
      * Animation to move the display down
      */
     private void addTranslateDownAnimation(){
-        translateTransition.setByY(120);
+        translateTransition.setByY(studentsView.getTranslateY() * -1);
         translateTransition.play();
     }
 
@@ -152,7 +150,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
      * Animation to fade the display out in order to hide it
      */
     private void addFadeOutAnimation(){
-        fadeTransition.setFromValue(1);
+        fadeTransition.setFromValue(fadeTransition.getToValue());
         fadeTransition.setToValue(0);
         fadeTransition.play();
     }
