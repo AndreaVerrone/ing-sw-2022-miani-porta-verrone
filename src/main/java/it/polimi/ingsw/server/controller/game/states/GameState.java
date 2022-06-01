@@ -90,4 +90,9 @@ public interface GameState {
      * @return the type of the state
      */
     StateType getType();
+
+    /**
+     * Skips the turn of the current player, doing random choices when necessary
+     */
+    void skipTurn();
 }
