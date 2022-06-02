@@ -15,6 +15,10 @@ public class PlayersChanged implements PlayersChangedObserver{
      */
     private final Match match;
 
+    /**
+     * Constructor of the class
+     * @param match Match of the game
+     */
     public PlayersChanged(Match match){
         this.match = match;
     }
