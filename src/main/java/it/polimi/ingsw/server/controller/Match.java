@@ -7,10 +7,15 @@ import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.matchmaking.IMatchMaking;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
+import it.polimi.ingsw.server.controller.matchmaking.observers.NumberOfPlayers;
+import it.polimi.ingsw.server.controller.matchmaking.observers.PlayersChanged;
+import it.polimi.ingsw.server.controller.matchmaking.observers.TowerSelected;
+import it.polimi.ingsw.server.controller.matchmaking.observers.WizardSelected;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.observers.ChangeCurrentPlayer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,6 +51,16 @@ public class Match implements IMatchMaking, IGame {
      */
     public Match(int numOfPlayers, boolean wantExpert) {
         matchMaking = new MatchMaking(numOfPlayers, wantExpert);
+
+        //ADD OBSERVERS
+        matchMaking.addChangeCurrentPlayerObserver(new ChangeCurrentPlayer(this));
+        matchMaking.addNumberOfPlayersObserver(new NumberOfPlayers(this));
+        matchMaking.addPlayersChangedObserver(new PlayersChanged(this));
+        matchMaking.addChangeCurrentStateObserver(new ChangeCurrentState(this));
+        for (PlayerLoginInfo player: matchMaking.getPlayers()){
+            player.addTowerSelectedObserver(new TowerSelected(this));
+            player.addWizardSelectedObserver(new WizardSelected(this));
+        }
     }
 
     /**
@@ -231,4 +246,56 @@ public class Match implements IMatchMaking, IGame {
             throw new NotValidOperationException();
         game.useCharacterCard(cardType);
     }
+
+    /**
+     * Method to notify the given player has selected a wizard
+     * @param player Player that selected the wizard
+     * @param wizard wizard selected by the player
+     */
+    public void notifyWizardSelected(String player, Wizard wizard){
+        //TODO: update view
+    }
+
+    /**
+     * Method to notify that the given player has selected a tower
+     * @param player Player that selected the tower
+     * @param tower tower selected by the player
+     */
+    public void notifyTowerSelected(String player, TowerType tower){
+        //TODO: update view
+    }
+
+    /**
+     * Method to notify that the players in a game have changed
+     * @param players current players of the game
+     */
+    public void notifyPlayersChanged(Collection<PlayerLoginInfo> players){
+        //TODO: update view
+    }
+
+    /**
+     * Method to notify that the number of players chosen
+     * @param numberOfPlayers number of players of the match
+     */
+    public void notifyNumberOfPlayers(int numberOfPlayers){
+        //TODO: notify view
+    }
+
+    /**
+     * Method to notify that the current player has changed
+     * @param newCurrentPlayer new current player
+     */
+    public void notifyChangeCurrentPlayer(String newCurrentPlayer){
+        //TODO: notify view
+
+    }
+    /**
+     * Method to notify that the current state of the game or matchmaking has changed
+     * @param newState new state of the game
+     */
+    public void notifyChangeCurrentState(StateType newState){
+        //TODO: notify view
+    }
+
 }
+

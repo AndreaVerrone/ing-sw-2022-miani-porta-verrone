@@ -294,7 +294,7 @@ public class MatchMaking implements IMatchMaking{
      * This method allows to add the observer, passed as a parameter, on the players.
      * @param observer the observer to be added
      */
-    void addPlayersChangedObserver(PlayersChangedObserver observer){
+    public void addPlayersChangedObserver(PlayersChangedObserver observer){
         playersChangedObservers.add(observer);
     }
 
@@ -354,7 +354,7 @@ public class MatchMaking implements IMatchMaking{
      * This method allows to add the observer, passed as a parameter, on the number of players.
      * @param observer the observer to be added
      */
-    void addNumberOfPlayersObserver(NumberOfPlayersObserver observer){
+    public void addNumberOfPlayersObserver(NumberOfPlayersObserver observer){
         numberOfPlayersObservers.add(observer);
     }
 
