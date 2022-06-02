@@ -141,7 +141,7 @@ public class TableView extends VirtualView implements Initializable {
     /**
      * List of cloud of the game
      */
-    private final Collection<ImageView> clouds = new ArrayList<>();
+    private final List<Cloud> clouds = new ArrayList<>();
 
     /**
      * list of character cards of the game
@@ -220,7 +220,12 @@ public class TableView extends VirtualView implements Initializable {
         //gridEntrance.setOnMouseClicked(e -> System.out.println("SCELTO"));
 
         table.setBackground(Background.fill(Color.LIGHTBLUE));
+
+        clouds.get(0).addStudent(PawnType.YELLOW_GNOMES);
+        clouds.get(0).addStudent(PawnType.RED_DRAGONS);
+        clouds.get(0).addStudent(PawnType.BLUE_UNICORNS);
     }
+
 
     /**
      * Allows to create the table
@@ -305,12 +310,13 @@ public class TableView extends VirtualView implements Initializable {
         int column;
         for(int i=0;i<numberOfPlayers; i++){
             Image cloudImage = CloudImageType.values()[i].getImage();
-            ImageView cloud = new ImageView(cloudImage);
+            ImageView cloudView = new ImageView(cloudImage);
             column = CloudPosition.values()[i].getColumn();
             row = CloudPosition.values()[i].getRow();
-            islandGrid.add(cloud, column, row);
+            islandGrid.add(cloudView, column, row);
+            Cloud cloud = new Cloud(cloudView, islandGrid, column, row);
             clouds.add(cloud);
-            cloud.toBack();
+            cloudView.toBack();
         }
 
     }
