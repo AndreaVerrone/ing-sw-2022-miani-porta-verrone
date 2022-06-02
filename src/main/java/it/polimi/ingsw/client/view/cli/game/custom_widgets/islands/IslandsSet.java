@@ -134,6 +134,10 @@ public class IslandsSet extends StatefulWidget {
     }
 
     private IslandView createSecondRow(List<IslandView> islandViews, Collection<Widget> rows) {
+        if (islandViews.size() == 1) {
+            rows.add(new Row(new ArrayList<>(islandViews)));
+            return null;
+        }
         Collection<Widget> islandsInRow = new ArrayList<>();
         IslandView island1 = islandViews.get(0);
         IslandView island2 = islandViews.get(1);
@@ -143,7 +147,10 @@ public class IslandsSet extends StatefulWidget {
             int emptySpace = 7 * (4 - island1.getSize()) + 1; //the empty space to put in between
             islandsInRow.add(new SizedBox(emptySpace, 1f));
             islandsInRow.add(island2);
-            lastIsland = islandViews.get(2);
+            if (islandViews.size() > 2)
+                lastIsland = islandViews.get(2);
+            else
+                lastIsland = null;
         }
         rows.add(new Row(islandsInRow));
         return lastIsland;
