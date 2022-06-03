@@ -51,4 +51,9 @@ abstract class UseCharacterCardState implements GameState {
         game.setState(originState);
     }
 
+    @Override
+    public void skipTurn() {
+        returnBack();
+        game.getState().skipTurn();
+    }
 }
