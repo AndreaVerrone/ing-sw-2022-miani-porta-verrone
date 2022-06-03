@@ -65,7 +65,7 @@ public class EndGameScreen extends CliScreen {
 
         } else {
         // *** 2. there is more than 1 winner --> parity situation
-            StringBuilder message = new StringBuilder(Translator.getMessagwForParity() +": \n");
+            StringBuilder message = new StringBuilder(Translator.getMessageForParity() +": \n");
 
             for (String winner : winners) {
                 message.append(winner).append("\n");

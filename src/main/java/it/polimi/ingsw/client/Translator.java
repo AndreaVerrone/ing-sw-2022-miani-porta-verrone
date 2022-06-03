@@ -142,8 +142,7 @@ public class Translator {
     }
 
     // ACTION PHASE: MOVE STUDENTS
-    // PART 1
-    public static String getMoveStudentsPhaseChooseStudentName(){
+    public static String getMoveStudentsPhaseName(){
         return isItalian ?
                 "FASE D'AZIONE: spostamento degli studenti, scegliere lo studente da muovere":
                 "ACTION PHASE: move students, choose the student to move";
@@ -151,12 +150,7 @@ public class Translator {
     public static String getMessageToAskToChooseAColor(){
         return isItalian ? "scegli il colore dello studente che vuoi muovere":"choose the color of the student to move";
     }
-    // PART 2
-    public static String getMoveStudentsPhaseChooseDestinationName(){
-        return isItalian ?
-                "FASE D'AZIONE: spostamento degli studenti, scegliere la destinazione":
-                "ACTION PHASE: move students, choose destination";
-    }
+
     public static String getMessageToAskToChooseADestination(){
         return isItalian ?
                 "inserisci \n" +
@@ -218,7 +212,7 @@ public class Translator {
         return isItalian ? "ha vinto la partita":"has won the game";
     }
 
-    public static String getMessagwForParity(){
+    public static String getMessageForParity(){
         return isItalian ?
                 "la partita è finita in parità, i vincitori sono":
                 "the game ended in a draw, the winners are";
@@ -231,7 +225,7 @@ public class Translator {
         return isItalian ? "valore: ":"value :";
     }
 
-    public static String getRangeOfMotionFieldAssistantcard(){
+    public static String getRangeOfMotionFieldAssistantCard(){
         return isItalian ? "range di movimento: ":"range of motion: ";
     }
 

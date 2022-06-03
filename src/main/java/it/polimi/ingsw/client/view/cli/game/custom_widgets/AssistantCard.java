@@ -45,7 +45,7 @@ public class AssistantCard extends StatefulWidget {
         Text value = new Text(Translator.getValueFieldAssistantCard() + assistantCard.getValue());
 
         // the range of motion of the card
-        Text rangeOfMotion = new Text(Translator.getRangeOfMotionFieldAssistantcard()+ assistantCard.getRangeOfMotion());
+        Text rangeOfMotion = new Text(Translator.getRangeOfMotionFieldAssistantCard()+ assistantCard.getRangeOfMotion());
 
         // the card
         return new Border(new Column(List.of(name,value,rangeOfMotion)),BorderType.SINGLE);

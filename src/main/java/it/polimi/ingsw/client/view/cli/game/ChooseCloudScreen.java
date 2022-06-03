@@ -88,6 +88,6 @@ public class ChooseCloudScreen extends CliScreen {
             // getCli().getClientController().takeStudentFromCloud(cloudID); // todo: actual code
         }
 
-        getCli().setNextScreen(new MoveStudentsPhaseChooseStudentScreen(getCli(),table)); // todo: testing only
+        getCli().setNextScreen(new MoveStudentsPhaseScreen(getCli(),table)); // todo: testing only
     }
 }
