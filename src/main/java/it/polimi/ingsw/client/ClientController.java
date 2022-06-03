@@ -111,8 +111,14 @@ public class ClientController {
         ReducedIsland r3 = new ReducedIsland(3,stud2,null,1,1);
         ReducedIsland r4 = new ReducedIsland(4,stud,TowerType.GREY,1,1);
         ReducedIsland r5 = new ReducedIsland(5,stud2,TowerType.WHITE,1,1);
-        ReducedIsland r6 = new ReducedIsland(5,stud2,TowerType.WHITE,1,1);
-        Collection<ReducedIsland> reducedIslands = new ArrayList<>(List.of(r1,r1,r2,r3,r4,r3,r5,r5,r4,r5,r1,r2));
+        ReducedIsland r6 = new ReducedIsland(6,stud2,TowerType.WHITE,1,1);
+        ReducedIsland r7 = new ReducedIsland(7,stud2,TowerType.WHITE,1,1);
+        ReducedIsland r8 = new ReducedIsland(8,stud2,TowerType.WHITE,1,1);
+        ReducedIsland r9 = new ReducedIsland(9,stud2,TowerType.WHITE,1,1);
+        ReducedIsland r10 = new ReducedIsland(10,stud2,TowerType.WHITE,1,1);
+        ReducedIsland r11 = new ReducedIsland(11,stud2,TowerType.WHITE,1,1);
+        ReducedIsland r12 = new ReducedIsland(12,stud2,TowerType.WHITE,1,1);
+        Collection<ReducedIsland> reducedIslands = new ArrayList<>(List.of(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12));
 
         Table t = new Table(
                 List.of(Assistant.CARD_1, Assistant.CARD_9),
