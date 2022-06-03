@@ -75,4 +75,16 @@ public class MoveMotherNatureState implements GameState {
     public StateType getType() {
         return StateType.MOVE_MOTHER_NATURE_STATE;
     }
+
+    @Override
+    public void skipTurn() {
+        if(game.getLastRoundFlag()){
+            game.endOfTurn();
+        }
+        else {
+            //Otherwise, go to the next state
+            game.setState(game.getChooseCloudState());
+            game.getState().skipTurn();
+        }
+    }
 }
