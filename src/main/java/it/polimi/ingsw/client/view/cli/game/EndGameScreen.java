@@ -3,10 +3,15 @@ package it.polimi.ingsw.client.view.cli.game;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
+import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Text;
+import org.jline.reader.Completer;
+import org.jline.reader.impl.completer.AggregateCompleter;
+import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,37 +47,33 @@ public class EndGameScreen extends CliScreen {
         Canvas canvas = new Canvas();
 
         Text text;
+
         // String ownerPlayer = getCli().getClientController().getNickNameOwner(); // todo: actual code
         String ownerPlayer = "player 1"; // todo: only for testing
 
         int numOfWinners = winners.size();
-        int numOfPlayers = 3; // todo: how to get this info? maybe it can be sent by the observer ?
 
-        // three different situations are possible:
-        // *** 1. if the number of players is equal to the number of winner --> parity
-        if(numOfPlayers==numOfWinners){
-            text = new Text("parity");
-        // *** 2. if the winner is 1 --> there is only one winner
-        }else if(numOfWinners==1){
+        // two different situations are possible:
+
+        // *** 1. there is only 1 winner
+        if (numOfWinners == 1) {
+
             // the winner is the owner
-            if(winners.contains(ownerPlayer)){
+            if (winners.contains(ownerPlayer)) {
                 text = new Text("congratulation you have won the game");
-            }else{
+            } else {
                 // the winner is not the owner
                 text = new Text(winners.get(0) + "has won the game");
             }
-        // *** 3. there are 3 players and the winners are 2
-        }else{
-            // the owner is one of the winner
-            if(winners.contains(ownerPlayer)){
-                List<String> winnerList = new ArrayList<>(winners);
-                winnerList.remove(ownerPlayer);
-                String otherWinner = winnerList.get(0);
-                text = new Text("you and " + otherWinner + "have won the game");
-            }else{
-                // the owner is not one of the winners
-                text = new Text(winners.get(0) + " and " + winners.get(1) + " have won the game");
+
+        } else {
+        // *** 2. there is more than 1 winner --> parity situation
+            StringBuilder message = new StringBuilder("the game ended in a draw, the winners are: \n");
+
+            for (String winner : winners) {
+                message.append(winner).append("\n");
             }
+            text = new Text(message.toString());
         }
 
         canvas.setContent(text);
@@ -80,7 +81,29 @@ public class EndGameScreen extends CliScreen {
 
         canvas.show();
 
-        //askForAction(); // todo: maybe ask to exit from the game ?
+        askForAction();
 
+    }
+
+    public void askForAction(){
+
+        InputReader inputReader = new InputReader();
+
+        // INPUT VALIDATOR
+        // the string to exit
+        inputReader.addCommandValidator(Translator.getMessageToExit());
+
+        // INPUT COMPLETER
+        // the string to exit
+        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit()));
+
+        //prompt the user to enter something and reads the input
+        String[] inputs = inputReader.readInput(Translator.getMessageChooseEndPhase());
+
+        if (inputs[0].equals(Translator.getMessageToExit())) {
+            System.out.println("exiting from game"); // todo: testing only
+            // change screen
+            // getCli().confirmExit(); // todo: actual code
+        }
     }
 }

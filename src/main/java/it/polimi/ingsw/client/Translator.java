@@ -202,6 +202,12 @@ public class Translator {
         return isItalian ? "FINE DEL GIOCO" : "END OF THE GAME";
     }
 
+    public static String getMessageChooseEndPhase(){
+        return isItalian ?
+                "inserisci \"esci\" per uscire dal gioco":
+                "insert \"exit\" to exit from the game";
+    }
+
     // ****************** WIDGETS *************************
 
     // ASSISTANT CARD
