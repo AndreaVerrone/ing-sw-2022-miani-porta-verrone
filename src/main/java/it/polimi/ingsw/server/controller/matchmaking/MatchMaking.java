@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.controller.ChangeCurrentStateObserver;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
-import it.polimi.ingsw.server.controller.game.IGame;
+import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.matchmaking.observers.NumberOfPlayersObserver;
 import it.polimi.ingsw.server.controller.matchmaking.observers.PlayersChangedObserver;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -192,7 +192,7 @@ public class MatchMaking{
      * @return {@link Optional#empty()} if no game was meant to be created, or an {@code Optional} containing
      * the game created
      */
-    public Optional<IGame> next() throws NotValidOperationException {
+    public Optional<Game> next() throws NotValidOperationException {
         return state.next();
     }
 
