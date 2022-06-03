@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.game.custom_widgets;
+package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class DiningRoomView extends StatefulWidget {
+class DiningRoomView extends StatefulWidget {
 
     /**
      * students in the dining room.
@@ -34,7 +34,7 @@ public class DiningRoomView extends StatefulWidget {
      * The constructor of the class
      * @param actualStudentList the student list in the dining room
      */
-    public DiningRoomView(StudentList actualStudentList) {
+    DiningRoomView(StudentList actualStudentList) {
         setState(()->this.actualStudentList = actualStudentList);
         create();
     }

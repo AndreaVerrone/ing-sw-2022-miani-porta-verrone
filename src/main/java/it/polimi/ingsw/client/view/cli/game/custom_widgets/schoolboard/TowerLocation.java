@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.game.custom_widgets;
+package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.List;
 
-public class TowerLocation extends StatefulWidget {
+class TowerLocation extends StatefulWidget {
 
     /**
      * The number of towers
@@ -21,11 +21,11 @@ public class TowerLocation extends StatefulWidget {
      */
     TowerType towerColor;
 
-    public void setTowerNumber(int towerNumber) {
+    void setTowerNumber(int towerNumber) {
         setState(()->this.towerNumber=towerNumber);
     }
 
-    public void setTowerColor(TowerType towerColor) {
+    void setTowerColor(TowerType towerColor) {
         // todo: maybe it is not needed
         setState(()->this.towerColor=towerColor);
     }
@@ -35,7 +35,7 @@ public class TowerLocation extends StatefulWidget {
      * @param towerNumber the number of towers
      * @param towerColor the color of the tower
      */
-    public TowerLocation(int towerNumber, TowerType towerColor) {
+    TowerLocation(int towerNumber, TowerType towerColor) {
         this.towerNumber = towerNumber;
         this.towerColor = towerColor;
 

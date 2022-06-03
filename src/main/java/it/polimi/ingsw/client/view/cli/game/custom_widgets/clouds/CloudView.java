@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.game.custom_widgets;
+package it.polimi.ingsw.client.view.cli.game.custom_widgets.clouds;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.List;
 
-public class CloudView extends StatefulWidget {
+class CloudView extends StatefulWidget {
 
     /**
      * ID of the cloud
@@ -23,7 +23,7 @@ public class CloudView extends StatefulWidget {
      */
     private StudentList students;
 
-    public CloudView(int ID,StudentList students) {
+    CloudView(int ID,StudentList students) {
         this.students = students;
         this.ID = ID;
         create();

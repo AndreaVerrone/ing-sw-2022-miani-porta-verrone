@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.game.custom_widgets;
+package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;

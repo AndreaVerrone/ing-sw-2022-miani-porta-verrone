@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.game.custom_widgets;
+package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * a class to visualize the professors table.
  */
-public class ProfTable extends StatefulWidget {
+class ProfTable extends StatefulWidget {
 
     /**
      * the list of professors.
@@ -27,12 +27,12 @@ public class ProfTable extends StatefulWidget {
      * The constructor of the class.
      * @param actualProfessors the professor list
      */
-    public ProfTable(Collection<PawnType> actualProfessors) {
+    ProfTable(Collection<PawnType> actualProfessors) {
         this.actualProfessors = actualProfessors;
         create();
     }
 
-    public void setActualProfessors(Collection<PawnType> actualProfessors) {
+    void setActualProfessors(Collection<PawnType> actualProfessors) {
         setState(()->this.actualProfessors=actualProfessors);
     }
 
