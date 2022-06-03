@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Table extends StatefulWidget {
 
@@ -113,6 +114,14 @@ public class Table extends StatefulWidget {
 
     public List<String> getPlayers() {
         return new ArrayList<>(this.players);
+    }
+
+    /**
+     * this method will return the collection of the ID of the islands that are on the table
+     * @return the collection of the ID of the islands that are on the table
+     */
+    public Collection<Integer> getReducedIslands() {
+        return reducedIslands.stream().map(ReducedIsland::ID).collect(Collectors.toList());
     }
 
     /**

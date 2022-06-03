@@ -118,9 +118,22 @@ public class MoveStudentsPhaseScreen extends CliScreen {
     private void askIsland(){
 
         InputReader inputReader = new InputReader();
-        inputReader.addCommandValidator("\\d\\d?|"+Translator.getMessageToExit());
-        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit()));
 
+        // INPUT VALIDATOR AND INPUT COMPLETER
+        // allowed and suggested inputs:
+
+        // 1. the ID of the islands that are on the table
+        Collection<Integer> islandsOnTable = table.getReducedIslands();
+        Collection<Completer> completers = new ArrayList<>();
+        for(Integer island : islandsOnTable){
+            inputReader.addCommandValidator(String.valueOf(island));
+            completers.add(new StringsCompleter(String.valueOf(island)));
+        }
+        completers.add(new StringsCompleter(Translator.getMessageToExit()));
+
+        // 2. the string to exit
+        inputReader.addCommandValidator(Translator.getMessageToExit());
+        inputReader.addCompleter(new AggregateCompleter(completers));
 
         //prompt the user to enter something and reads the input
         String[] inputs = inputReader.readInput(Translator.getMessageToAskIslandID());
@@ -144,9 +157,13 @@ public class MoveStudentsPhaseScreen extends CliScreen {
     public void askDestination() {
 
         InputReader inputReader = new InputReader();
-        inputReader.addCommandValidator("1|2|"+Translator.getMessageToExit());
-        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit()));
 
+        // INPUT VALIDATOR AND INPUT COMPLETER
+        // allowed and suggested inputs:
+        // 1. 1 or 2
+        inputReader.addCommandValidator("1|2|"+Translator.getMessageToExit());
+        // 2. the string to exit
+        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit()));
 
         //prompt the user to enter something and reads the input
         String[] inputs = inputReader.readInput(Translator.getMessageToAskToChooseADestination());
@@ -176,7 +193,9 @@ public class MoveStudentsPhaseScreen extends CliScreen {
     }
 
     private void askForAction() {
+        // ask the student to move
         askStudentToMove();
+        // ask the destination to move the selected student
         askDestination();
     }
 }
