@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.game.IGame;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
-import it.polimi.ingsw.server.controller.matchmaking.IMatchMaking;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -19,7 +18,7 @@ import java.util.Optional;
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
-public class Match implements IMatchMaking, IGame {
+public class Match implements  IGame {
 
     /**
      * The Matchmaking of this match. After the game has started this will be null.
@@ -79,9 +78,10 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException {@inheritDoc}
+     * Sets if the game it's been creating need to use expert rules.
+     * @param isHardMode {@code true} if expert rules are required, {@code false} otherwise
+     * @throws NotValidOperationException if the game has started
      */
-    @Override
     public void setHardMode(boolean isHardMode) throws NotValidOperationException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -89,10 +89,13 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Change the number of players needed in this game. This cannot be less than the player already
+     * present in this lobby.
+     * @param value the new number of players
+     * @throws NotValidArgumentException if the selected number of players is not valid (i.e. if it's not
+     * one of the value supported or less than the player already present in this lobby)
+     * @throws NotValidOperationException if the number of player can't be changed in the current state
      */
-    @Override
     public void changeNumOfPlayers(int value) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -100,10 +103,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Adds a player with the provided nickname to this lobby. The nickname must be unique.
+     * @param nickname the nickname chosen by the player
+     * @throws NotValidArgumentException if the nickname is already taken
+     * @throws NotValidOperationException if a new player can't be added in the current state
      */
-    @Override
     public void addPlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -113,10 +117,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Removes the player with the provided nickname from this lobby.
+     * @param nickname the nickname of the player to remove
+     * @throws NotValidArgumentException if there is no player with the provided nickname
+     * @throws NotValidOperationException if a player can't leave the game in the current state
      */
-    @Override
     public void removePlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -128,10 +133,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Sets the tower type of the current player in the queue.
+     * @param towerType the type of tower to assign
+     * @throws NotValidArgumentException if the tower selected is not available
+     * @throws NotValidOperationException if the tower of the player can't be changed in the current state
      */
-    @Override
     public void setTowerOfPlayer(TowerType towerType) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -139,10 +145,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Sets the wizard of the current player in the queue.
+     * @param wizard the wizard to assign
+     * @throws NotValidArgumentException if the wizard selected is not available
+     * @throws NotValidOperationException if the wizard of the player can't be changed in the current state
      */
-    @Override
     public void setWizardOfPlayer(Wizard wizard) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -150,12 +157,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * Moves the match making to the next state.
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @return {@link Optional#empty()}
+     * Moves the match making to the next state. It also returns the new game created, if any.
+     * @throws NotValidOperationException if the state can't be changed (i.e. not all the expected operations
+     * of the current state were done)
      */
-    @Override
-    public Optional<IGame> next() throws NotValidOperationException {
+    public void next() throws NotValidOperationException {
         if (matchMaking == null)
             throw new NotValidOperationException();
         Optional<IGame> possibleGame = matchMaking.next();
@@ -163,7 +169,6 @@ public class Match implements IMatchMaking, IGame {
             matchMaking = null;
             game = possibleGame.get();
         }
-        return Optional.empty();
     }
 
     /**
