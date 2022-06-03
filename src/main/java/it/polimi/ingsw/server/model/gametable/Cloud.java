@@ -36,6 +36,14 @@ class Cloud {
     }
 
     /**
+     * Gets the number of students on this cloud
+     * @return the number of students on this cloud
+     */
+    int numOfStudents(){
+        return students.numAllStudents();
+    }
+
+    /**
      * Adds to the cloud a student of the given {@code PawnType}
      * @param type the type of the student to add
      */

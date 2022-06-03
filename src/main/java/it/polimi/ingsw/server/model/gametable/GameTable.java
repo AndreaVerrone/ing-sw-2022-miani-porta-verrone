@@ -144,7 +144,7 @@ public class GameTable {
         PawnType student;
         if (studentsBag.studentsRemaining() == 0) return;
         for (Cloud cloud : clouds){
-            for (int i = 0; i < maxStudentPerCloud; i++){
+            while (cloud.numOfStudents() < maxStudentPerCloud){
                 try {
                     student = studentsBag.draw();
                     cloud.addStudent(student);
