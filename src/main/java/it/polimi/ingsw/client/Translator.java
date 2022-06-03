@@ -208,6 +208,22 @@ public class Translator {
                 "insert \"exit\" to exit from the game";
     }
 
+    public static String getMessageForTheWinner(){
+        return isItalian ?
+                "congratulazioni, hai vinto la partita!":
+                "congratulation, you have won the game!";
+    }
+
+    public static String getMessageForTheLosers(){
+        return isItalian ? "ha vinto la partita":"has won the game";
+    }
+
+    public static String getMessagwForParity(){
+        return isItalian ?
+                "la partita è finita in parità, i vincitori sono":
+                "the game ended in a draw, the winners are";
+    }
+
     // ****************** WIDGETS *************************
 
     // ASSISTANT CARD

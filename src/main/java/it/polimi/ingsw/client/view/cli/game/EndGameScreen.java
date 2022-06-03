@@ -6,16 +6,13 @@ import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Text;
-import org.jline.reader.Completer;
-import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
-
+/**
+ * this class represent the screen that must be displayed at the end of the game.
+ */
 public class EndGameScreen extends CliScreen {
 
     /**
@@ -60,15 +57,15 @@ public class EndGameScreen extends CliScreen {
 
             // the winner is the owner
             if (winners.contains(ownerPlayer)) {
-                text = new Text("congratulation you have won the game");
+                text = new Text(Translator.getMessageForTheWinner());
             } else {
                 // the winner is not the owner
-                text = new Text(winners.get(0) + "has won the game");
+                text = new Text(winners.get(0) + " " + Translator.getMessageForTheLosers());
             }
 
         } else {
         // *** 2. there is more than 1 winner --> parity situation
-            StringBuilder message = new StringBuilder("the game ended in a draw, the winners are: \n");
+            StringBuilder message = new StringBuilder(Translator.getMessagwForParity() +": \n");
 
             for (String winner : winners) {
                 message.append(winner).append("\n");
