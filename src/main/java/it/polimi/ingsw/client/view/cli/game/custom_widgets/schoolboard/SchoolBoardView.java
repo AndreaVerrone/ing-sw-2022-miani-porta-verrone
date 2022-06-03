@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.game.custom_widgets;
+package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
@@ -84,7 +84,7 @@ public class SchoolBoardView extends StatefulWidget {
      * @param numOfCoins the number of coins
      * @param owner the owner of the school board
      */
-    public SchoolBoardView(
+    SchoolBoardView(
             StudentList entranceStud,
             StudentList diningRoomStud,
             Collection<PawnType> actualProfessors,

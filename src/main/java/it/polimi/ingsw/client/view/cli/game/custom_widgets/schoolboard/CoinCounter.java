@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.game.custom_widgets;
+package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.List;
 
-public class CoinCounter extends StatefulWidget {
+class CoinCounter extends StatefulWidget {
 
     /**
      * The number of coins
@@ -20,7 +20,7 @@ public class CoinCounter extends StatefulWidget {
      * The constructor of the class
      * @param coinNumber the number of coins
      */
-    public CoinCounter(int coinNumber) {
+    CoinCounter(int coinNumber) {
         setState(()->this.coinNumber=coinNumber);
         create();
     }

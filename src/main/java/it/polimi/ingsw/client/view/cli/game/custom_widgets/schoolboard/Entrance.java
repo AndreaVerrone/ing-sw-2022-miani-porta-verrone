@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.game.custom_widgets;
+package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 
 import java.util.List;
 
-public class Entrance extends StatefulWidget {
+class Entrance extends StatefulWidget {
 
     /**
      * students that are at the entrance.
@@ -21,7 +21,7 @@ public class Entrance extends StatefulWidget {
      * The constructor of the class
      * @param students the students that are at the entrance
      */
-    public Entrance(StudentList students) {
+    Entrance(StudentList students) {
         setState(()->this.students = students);
         create();
     }
