@@ -35,7 +35,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
      * @param cli the cli of the user
      * @param table the table of the game
      */
-    protected MoveStudentsPhaseScreen(CLI cli, Table table) {
+    public MoveStudentsPhaseScreen(CLI cli, Table table) {
         super(cli);
         this.table=table;
     }

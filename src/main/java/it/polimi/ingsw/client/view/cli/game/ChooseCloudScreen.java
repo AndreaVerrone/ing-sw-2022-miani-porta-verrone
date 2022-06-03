@@ -30,7 +30,7 @@ public class ChooseCloudScreen extends CliScreen {
      * @param cli the cli of the user
      * @param table the table of the game
      */
-    protected ChooseCloudScreen(CLI cli, Table table) {
+    public ChooseCloudScreen(CLI cli, Table table) {
         super(cli);
         this.table=table;
     }

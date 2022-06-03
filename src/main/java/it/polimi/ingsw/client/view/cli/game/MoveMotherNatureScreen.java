@@ -25,7 +25,7 @@ public class MoveMotherNatureScreen extends CliScreen {
      * @param cli the cli of the user
      * @param table the table of the game
      */
-    protected MoveMotherNatureScreen(CLI cli, Table table) {
+    public MoveMotherNatureScreen(CLI cli, Table table) {
         super(cli);
         this.table=table;
     }

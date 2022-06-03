@@ -2,6 +2,8 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.CLI;
+import it.polimi.ingsw.client.view.cli.game.MoveMotherNatureScreen;
+import it.polimi.ingsw.client.view.cli.game.MoveStudentsPhaseScreen;
 import it.polimi.ingsw.client.view.cli.game.PlanningPhaseScreen;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCard;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCardUsed;
@@ -368,4 +370,45 @@ public class ClientController {
         }
         connectionHandler.sendMessage(new ChooseDestination(destination));
     }
+
+    /**
+     * this method will display the planning phase screen
+     * @param table the table to display
+     */
+    public void displayPlanningPhaseScreen(Table table){
+        cli.setNextScreen(new PlanningPhaseScreen(cli,table));
+    }
+
+    /**
+     * this method will display the move student phase screen
+     * @param table the table to display
+     */
+    public void displayMoveStudentsScreen(Table table){
+        cli.setNextScreen(new MoveStudentsPhaseScreen(cli,table));
+    }
+
+    /**
+     * this method will display the move mother nature phase screen
+     * @param table the table to display
+     */
+    public void displayMoveMotherNatureScreen(Table table){
+        cli.setNextScreen(new MoveMotherNatureScreen(cli,table));
+    }
+
+    /**
+     * this method will display the choose cloud phase screen
+     * @param table the table to display
+     */
+    public void displayChooseCloudScreen(Table table){
+        cli.setNextScreen(new MoveMotherNatureScreen(cli,table));
+    }
+
+    /**
+     * this method will display the end game screen
+     * @param table the table to display
+     */
+    public void displayEndGameScreen(Table table){
+        cli.setNextScreen(new MoveMotherNatureScreen(cli,table));
+    }
+
 }

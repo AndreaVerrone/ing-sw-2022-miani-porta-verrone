@@ -30,7 +30,7 @@ public class EndGameScreen extends CliScreen {
      * @param cli the cli of the user
      * @param winners the list of the winners of the game
      */
-    protected EndGameScreen(CLI cli, List<String> winners) {
+    public EndGameScreen(CLI cli, List<String> winners) {
         super(cli);
         this.winners = winners;
     }
