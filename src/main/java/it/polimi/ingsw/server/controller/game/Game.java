@@ -109,17 +109,6 @@ public class Game implements IGame {
         gameTable.fillBag(initialStudents);
 
         // 2.2 put students on the islands.
-        for(int i=0; i<12; i++){
-            if(i!=idOppositeIsland && i!=motherNaturePosition){
-                try {
-                    gameTable.addToIsland(gameTable.getStudentFromBag(),i);
-                } catch (IslandNotFoundException | EmptyBagException e) {
-                    e.printStackTrace();
-                    // not possible
-                }
-            }
-        }
-        /* Alternative to be more compliant with the rules of the game (it takes them literally)
         int numOfIteration=0;
         for(int i=motherNaturePosition; numOfIteration<12; i=(i+1)%12){
             numOfIteration++;
@@ -130,7 +119,7 @@ public class Game implements IGame {
                     e.printStackTrace(); // not possible
                 }
             }
-        }*/
+        }
 
         // *** 3.put the remaining students in the bag
         int MAX_NUM_OF_STUDENTS = 26;       // the max num of students in the game
