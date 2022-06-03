@@ -133,5 +133,16 @@ public class MoveStudentState implements GameState {
     public StateType getType() {
         return StateType.MOVE_STUDENT_STATE;
     }
+
+    @Override
+    public void skipTurn() {
+        if (numberOfStudentsMoved == 0){
+            game.endOfTurn();
+            return;
+        }
+        resetState();
+        game.setState(game.getChooseCloudState());
+        game.getState().skipTurn();
+    }
 }
 
