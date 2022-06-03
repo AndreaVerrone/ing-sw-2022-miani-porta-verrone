@@ -205,6 +205,11 @@ public class Game implements IGame {
 
     public Collection<Player> getWinner(){return Collections.unmodifiableCollection(winners);}
 
+    @Override
+    public void skipTurn() {
+        state.skipTurn();
+    }
+
     // MANAGEMENT OF OBSERVERS FOR STATE SWITCH
     /**
      * List of the observer on the current state

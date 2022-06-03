@@ -110,7 +110,7 @@ public class ClientHandler implements Runnable, NetworkSender {
                     Object message = input.readObject();
                     handleMessage(message);
                 } catch (SocketTimeoutException e) {
-                    // TODO: 11/05/2022 skip turn
+                    sessionController.skipPlayerTurn();
                 }
             }
         } catch (ClassNotFoundException | ClassCastException e) {
