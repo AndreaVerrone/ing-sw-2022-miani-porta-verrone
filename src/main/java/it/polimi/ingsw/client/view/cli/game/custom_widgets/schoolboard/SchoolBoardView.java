@@ -84,7 +84,7 @@ public class SchoolBoardView extends StatefulWidget {
      * @param numOfCoins the number of coins
      * @param owner the owner of the school board
      */
-    SchoolBoardView(
+    public SchoolBoardView(
             StudentList entranceStud,
             StudentList diningRoomStud,
             Collection<PawnType> actualProfessors,

@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.clouds.CloudsSet;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard.SchoolBoardList;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard.SchoolBoardView;
+import it.polimi.ingsw.network.messages.servertoclient.game.AssistantUsed;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -22,9 +24,9 @@ public class Table extends StatefulWidget {
     private List<Assistant> assistantsList;
 
     /**
-     * the list of the Assistant card that are in the deck.
+     * map owner - assistant used.
      */
-    private List<Assistant> assistantsUsed;
+    private Map<String, Assistant> assistantsUsed;
 
     /**
      * a map containing the IDs of the clouds and the corresponding student list.
@@ -82,9 +84,9 @@ public class Table extends StatefulWidget {
         return new ArrayList<>(this.assistantsList);
     }
 
-    public List<Assistant> getAssistantsUsed() {
-        return assistantsUsed;
-    }
+    //public List<Assistant> getAssistantsUsed() {
+        //return assistantsUsed;
+    //}
 
     public Map<Integer, StudentList> getClouds() {
         return new HashMap<>(this.clouds);
@@ -139,8 +141,9 @@ public class Table extends StatefulWidget {
      * @param coinNumberList map owner-coin number
      * @param players The list of the nickname of the players
      */
-    public Table(List<Assistant> assistantsList, List<Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands) {
+    public Table(List<Assistant> assistantsList, Map<String, Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands) {
         this.assistantsList = assistantsList;
+        //this.assistantsUsed = assistantsUsed;
         this.assistantsUsed = assistantsUsed;
         this.clouds = clouds;
         this.entranceList = entranceList;
@@ -160,6 +163,7 @@ public class Table extends StatefulWidget {
         setState(()->this.assistantsList = assistantsList);
     }
 
+    // todo: fixme
     public void setAssistantsUsed(Assistant assistantUsed) {
         List <Assistant> newAssistantList = getAssistantsList();
         newAssistantList.add(assistantUsed);
@@ -273,36 +277,47 @@ public class Table extends StatefulWidget {
         // header
         Text header = new Text(Translator.getHeaderOfTable());
 
-        // 1. card used
-        Deck cardUsed = new Deck(assistantsUsed,Translator.getCardUsedDeckName());
-
-        // 2. deck
+        // 1. deck
         Deck deck = new Deck(assistantsList, Translator.getPlayerDeckName());
 
-        // 3. character card deck
+        // 2. school boards and corresponding assistant card used
 
-        // 4. school board list
-        SchoolBoardList schoolBoardList = new SchoolBoardList(
-                entranceList,
-                diningRoomList,
-                profTableList,
-                towerColorList,
-                towerNumberList,
-                coinNumberList,
-                players
-        );
+        Column schoolBoardColumn = new Column();
 
-        // 5. islands
+        for (String nickname : players) {
+
+            SchoolBoardView schoolBoardView = new SchoolBoardView(
+                    entranceList.get(nickname),
+                    diningRoomList.get(nickname),
+                    profTableList.get(nickname),
+                    towerNumberList.get(nickname),
+                    towerColorList.get(nickname),
+                    coinNumberList.get(nickname),
+                    nickname
+            );
+
+            Widget assistantCardUsed;
+            if(assistantsUsed.containsKey(nickname)) {
+                assistantCardUsed = new AssistantCardUsed(assistantsUsed.get(nickname));
+            }else{
+                assistantCardUsed = new Text("");
+            }
+
+            Row row = new Row(List.of(schoolBoardView,assistantCardUsed));
+            schoolBoardColumn.addChild(row);
+
+        }
+
+        // 3. islands
         islandsSet = new IslandsSet(reducedIslands);
 
-        // 6. clouds
+        // 4. clouds
         CloudsSet cloudsOnTable = new CloudsSet(clouds);
 
         return new Column(List.of(
                 header,
-                cardUsed,
                 deck,
-                schoolBoardList,
+                schoolBoardColumn,
                 islandsSet,
                 cloudsOnTable)
         );

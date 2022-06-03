@@ -3,6 +3,8 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.game.PlanningPhaseScreen;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCard;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCardUsed;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
@@ -81,6 +83,11 @@ public class ClientController {
             throw new RuntimeException(e);
         }
 
+        Map<String, Assistant> map0 = new HashMap<>();
+        map0.put("player 1", Assistant.CARD_9);
+        map0.put("player 2", Assistant.CARD_1);
+        // map0.put("player 3", Assistant.CARD_3);
+
         Map<String,StudentList> map = new HashMap<>();
         map.put("player 1",stud);
         map.put("player 2",stud);
@@ -122,7 +129,8 @@ public class ClientController {
 
         Table t = new Table(
                 List.of(Assistant.CARD_1, Assistant.CARD_9),
-                List.of(Assistant.CARD_1, Assistant.CARD_9),
+                map0,
+                //List.of(Assistant.CARD_1, Assistant.CARD_9),
                 //List.of(Assistant.values()),
                 map5,
                 map,
