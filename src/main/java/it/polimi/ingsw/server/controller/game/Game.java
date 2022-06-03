@@ -7,15 +7,19 @@ import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.game.states.*;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.gametable.GameTable;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.PawnType;
-
+import it.polimi.ingsw.server.model.utils.StudentList;
+import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
+import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 
 /**
  *A class to handle the various states of the game.It can change the current state and can call operations on it.
@@ -55,16 +59,85 @@ public class Game implements IGame {
      */
     private Collection<Player> winners = null;
 
-    public Game(Collection<PlayerLoginInfo> players){
-        //TODO: create all states and add documentation
+    /**
+     * The constructor of the class.
+     * It takes in input a collection of players, and it will construct the class.
+     * @param players the player in the game
+     */
+    public Game(Collection<PlayerLoginInfo> players) {
+
+        // 1. CREATION OF THE GAME MODEL CLASS OF THE MODEL
         model = new GameModel(players);
 
+        // 2. SET UP THE FSA OF THE CONTROLLER
+
+        // 2.1 create the states of the game regarding the planning phase and the 3 step of the action phase
         playAssistantState = new PlayAssistantState(this);
         moveStudentState = new MoveStudentState(this);
         moveMotherNatureState = new MoveMotherNatureState(this);
         chooseCloudState = new ChooseCloudState(this);
 
+        // 2.2 set the initial state of the game
         setState(playAssistantState);
+
+        // 3. INITIALIZATION OF THE MODEL
+        initializeModel(players.size());
+
+    }
+
+    /**
+     * This method will set up the model before starting the game.
+     * @param numOfPlayers the number of players in the game
+     */
+    private void initializeModel(int numOfPlayers) {
+
+        // *** 0. save in a variable frequently used game table class
+        GameTable gameTable=model.getGameTable();
+
+        // *** 1. set mother nature position in a random island
+        int motherNaturePosition = new Random().nextInt(12);
+        int idOppositeIsland = (motherNaturePosition + 6) % 12; // island opposite with respect to mother nature
+        gameTable.moveMotherNature(motherNaturePosition);
+
+        // *** 2. put 2 students of each color in the bag and put one of them (randomly taken from the bag)
+        // on each island starting from the right of mother nature and proceeding clockwise
+        // (do not place the student on the island in the opposite position to mother nature)
+
+        // 2.1 put 2 students of each color in the bag
+        StudentList initialStudents = new StudentList();
+        initialStudents.setAllAs(2);
+        gameTable.fillBag(initialStudents);
+
+        // 2.2 put students on the islands.
+        int numOfIteration=0;
+        for(int i=motherNaturePosition; numOfIteration<12; i=(i+1)%12){
+            numOfIteration++;
+            if(i!=idOppositeIsland && i!=motherNaturePosition){
+                try {
+                    gameTable.addToIsland(gameTable.getStudentFromBag(),i);
+                } catch (IslandNotFoundException | EmptyBagException e) {
+                    e.printStackTrace(); // not possible
+                }
+            }
+        }
+
+        // *** 3.put the remaining students in the bag
+        int MAX_NUM_OF_STUDENTS = 26;       // the max num of students in the game
+        StudentList remainingStudents = new StudentList();
+        remainingStudents.setAllAs(MAX_NUM_OF_STUDENTS - 2);
+        gameTable.fillBag(remainingStudents);
+
+        // *** 4. take a number of "maxStudentAtEntrance" random students from the bag and put them at the entrance of each player
+        int maxStudentAtEntrance = numOfPlayers == 2 ? 7:9;
+        for(Player player : model.getPlayerList()){
+            for(int i=0;i<maxStudentAtEntrance;i++){
+                try {
+                    player.addStudentToEntrance(gameTable.getStudentFromBag());
+                } catch (ReachedMaxStudentException | EmptyBagException e) {
+                    e.printStackTrace(); // it is impossible
+                }
+            }
+        }
     }
 
     @Override
