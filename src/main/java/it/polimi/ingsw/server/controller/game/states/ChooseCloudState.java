@@ -9,7 +9,12 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.CloudNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * A class to handle the state of the game in which the player can choose a cloud and take all the students from it
@@ -93,5 +98,36 @@ public class ChooseCloudState implements GameState {
     @Override
     public StateType getType() {
         return StateType.CHOOSE_CLOUD_STATE;
+    }
+
+    @Override
+    public void skipTurn() {
+        StudentList students = null;
+        while (students == null){
+            int randomCloud = new Random().nextInt(model.getPlayerList().size());
+            try {
+                students = model.getGameTable().getFromCloud(randomCloud);
+                if (students.numAllStudents() == 0)
+                    students = null;
+            } catch (CloudNotFoundException e){}
+        }
+
+        List<PawnType> pawnTypeList = new ArrayList<>(List.of(PawnType.values()));
+        while (students.numAllStudents() != 0){
+            int randomStudentIndex = new Random().nextInt(pawnTypeList.size());
+            PawnType randomStudent = pawnTypeList.get(randomStudentIndex);
+            if (students.getNumOf(randomStudent) == 0) {
+                pawnTypeList.remove(randomStudentIndex);
+                continue;
+            }
+            try {
+                model.getCurrentPlayer().addStudentToEntrance(randomStudent);
+                students.changeNumOf(randomStudent, -1);
+            } catch (ReachedMaxStudentException e) {
+                break;
+            } catch (NotEnoughStudentException e) {}
+        }
+        model.getGameTable().fillBag(students);
+        changeState();
     }
 }
