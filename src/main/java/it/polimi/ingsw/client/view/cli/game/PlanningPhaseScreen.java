@@ -7,6 +7,10 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
+import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
@@ -88,7 +92,50 @@ public class PlanningPhaseScreen extends CliScreen {
             //getCli().getClientController().useAssistant(Assistant.valueOf(assistantNamePrefix + assistantValue)); // todo: actual code
         }
 
-        getCli().setNextScreen(new MoveMotherNatureScreen(getCli())); // todo: testing only
+        // todo: code for testining only
+        //  <-- from here
+        // getCli().getClientController().setAssistantsList(List.of(Assistant.CARD_9));
+
+        // getCli().getClientController().setAssistantsUsed("player 1", Assistant.CARD_7);
+
+        /*StudentList stud2 = new StudentList();
+        try {
+            stud2.changeNumOf(PawnType.BLUE_UNICORNS,1);
+            stud2.changeNumOf(PawnType.GREEN_FROGS,1);
+            stud2.changeNumOf(PawnType.RED_DRAGONS,1);
+            stud2.changeNumOf(PawnType.PINK_FAIRIES,1);
+        } catch (NotEnoughStudentException e) {
+            throw new RuntimeException(e);
+        }*/
+        //getCli().getClientController().setClouds(1,stud2);
+
+        // getCli().getClientController().setEntranceList("player 2", stud2);
+
+        // getCli().getClientController().setDiningRoomList("player 2", stud2);
+
+        // getCli().getClientController().setProfTableList("player 3", new ArrayList<>(List.of(PawnType.values())));
+
+        // getCli().getClientController().setTowerColorList("player 1", TowerType.WHITE);
+
+        // getCli().getClientController().setTowerNumberList("player 1", 30);
+
+        // getCli().getClientController().setCoinNumberList("player 2", 999);
+
+        // getCli().getClientController().updateBanOnIsland(1,2); // todo: there was a problem now fixed
+
+        // getCli().getClientController().updateTowerType(1, TowerType.WHITE);
+
+        // getCli().getClientController().updateStudents(1,stud2); // todo: there was a problem now fixed
+
+        // getCli().getClientController().updateMotherNaturePosition(1); // todo: there was a problem now fixed
+
+        // getCli().getClientController().islandUnification(1,2,1);
+
+        //getCli().setNextScreen(new MoveMotherNatureScreen(getCli()));
+
+        // getCli().displayMessage("yellow warning message");
+        // getCli().displayErrorMessage("RED warning message");
+        // <-- to here
 
     }
 }
