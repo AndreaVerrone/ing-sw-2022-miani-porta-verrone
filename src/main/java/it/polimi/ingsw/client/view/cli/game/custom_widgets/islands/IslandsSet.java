@@ -70,9 +70,11 @@ public class IslandsSet extends StatefulWidget {
      * @param islandID the ID of the island
      */
     public void motherNatureMoved(int islandID) {
-        islands.get(motherNaturePosition).hasMotherNature(false);
+        if(motherNaturePosition!=0){
+            islands.get(motherNaturePosition).hasMotherNature(false);
+        }
         islands.get(islandID).hasMotherNature(true);
-        motherNaturePosition = islandID;
+        setState(()->motherNaturePosition = islandID);
     }
 
     /**
