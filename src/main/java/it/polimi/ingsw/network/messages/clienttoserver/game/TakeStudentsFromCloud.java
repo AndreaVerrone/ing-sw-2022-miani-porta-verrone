@@ -34,7 +34,6 @@ public class TakeStudentsFromCloud extends ClientCommandNetMsg {
 
     @Override
     public void processResponse(ResponseMessage response, ClientController clientController) {
-        // TODO: 11/05/2022 handle responses in client
 
         if (response.isSuccess()) {
             //TODO: notify the view of the success

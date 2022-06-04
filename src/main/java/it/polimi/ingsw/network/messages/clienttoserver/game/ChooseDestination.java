@@ -34,7 +34,6 @@ public class ChooseDestination extends ClientCommandNetMsg {
 
     @Override
     public void processResponse(ResponseMessage response, ClientController clientController) {
-        //TODO: 19/05/2022 handle response in client
 
         if (response.isSuccess()) {
             //TODO: notify the view of the success
