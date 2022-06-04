@@ -59,6 +59,9 @@ public class GameModel {
      */
     private MotherNatureLimitStrategy motherNatureLimitStrategy;
 
+    /**
+     * Add bag for coins
+     */
     private final CoinsBag coinsBag;
 
     /**
