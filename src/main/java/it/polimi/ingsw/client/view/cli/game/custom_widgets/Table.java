@@ -31,7 +31,7 @@ public class Table extends StatefulWidget {
     /**
      * a map containing the IDs of the clouds and the corresponding student list.
      */
-    Map<Integer, StudentList> clouds;
+    private Map<Integer, StudentList> clouds;
 
     /**
      * map owner-entrance.
@@ -71,7 +71,7 @@ public class Table extends StatefulWidget {
     /**
      * the list of reduced islands composing the island set
      */
-    Collection<ReducedIsland> reducedIslands;
+    private Collection<ReducedIsland> reducedIslands;
 
     /**
      * the island set that are on the table.
