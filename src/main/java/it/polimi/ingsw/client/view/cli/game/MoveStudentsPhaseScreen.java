@@ -15,7 +15,6 @@ import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class MoveStudentsPhaseScreen extends CliScreen {
 

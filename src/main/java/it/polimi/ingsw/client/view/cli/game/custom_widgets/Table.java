@@ -5,9 +5,7 @@ import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.clouds.CloudsSet;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
-import it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard.SchoolBoardList;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard.SchoolBoardView;
-import it.polimi.ingsw.network.messages.servertoclient.game.AssistantUsed;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -71,7 +69,7 @@ public class Table extends StatefulWidget {
     /**
      * the list of reduced islands composing the island set
      */
-    private Collection<ReducedIsland> reducedIslands;
+    private final Collection<ReducedIsland> reducedIslands;
 
     /**
      * the island set that are on the table.

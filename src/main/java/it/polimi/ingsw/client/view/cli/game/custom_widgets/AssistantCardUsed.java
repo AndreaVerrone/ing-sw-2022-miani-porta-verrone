@@ -20,7 +20,7 @@ public class AssistantCardUsed extends StatefulWidget {
     private final Assistant assistantCard;
 
     /**
-     * the player that ha sused the card
+     * the player that has used the card
      */
     private String player;
 
