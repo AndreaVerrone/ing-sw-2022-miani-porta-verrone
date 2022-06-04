@@ -50,6 +50,7 @@ class ChooseCloudStateTest {
 
         @BeforeEach
         public void setUp(){
+// remove random students until in the entrance there are 5 students
             Player currentPlayer = game.getModel().getCurrentPlayer();
             // TODO: 03/06/2022 switch after merging of game initialization
             while (currentPlayer.getStudentsInEntrance().numAllStudents()<5) {

@@ -65,6 +65,7 @@ public class ChooseCloudState implements GameState {
 
     @Override
     public void skipTurn() {
+    // remove students from a random cloud
         StudentList students = null;
         while (students == null){
             int randomCloud = new Random().nextInt(model.getPlayerList().size());
@@ -75,6 +76,8 @@ public class ChooseCloudState implements GameState {
             } catch (CloudNotFoundException e){}
         }
 
+// fill the entrance with random students taken from the cloud until reaching the max number of students
+// and put the remaining (if any) in the bag
         List<PawnType> pawnTypeList = new ArrayList<>(List.of(PawnType.values()));
         while (students.numAllStudents() != 0){
             int randomStudentIndex = new Random().nextInt(pawnTypeList.size());
