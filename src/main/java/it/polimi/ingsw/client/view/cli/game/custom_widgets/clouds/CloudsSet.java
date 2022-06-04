@@ -11,14 +11,9 @@ import java.util.*;
 public class CloudsSet extends StatefulWidget {
 
     /**
-     * a map containing the IDs of the clouds and the corresponding cloud widget.
-     */
-    private Map<Integer, CloudView> mapIdCloudWidget= new HashMap<>();
-
-    /**
      * a collection containing the clouds widget
      */
-    private Collection<CloudView> cloudViews = new ArrayList<>();
+    private final Collection<CloudView> cloudViews = new ArrayList<>();
 
     /**
      * the constructor of the class
@@ -29,11 +24,8 @@ public class CloudsSet extends StatefulWidget {
         // create the list of cloud widget and fill the mapIdCloudWidget
         for(Map.Entry<Integer,StudentList> cloud : clouds.entrySet()){
             CloudView newCloudView = new CloudView(cloud.getKey(),cloud.getValue());
-
             cloudViews.add(newCloudView);
-            mapIdCloudWidget.put(cloud.getKey(),newCloudView);
         }
-
         create();
     }
 
@@ -42,7 +34,7 @@ public class CloudsSet extends StatefulWidget {
      * @param ID the ID of the cloud on which the student list must be changed
      * @param studentList the new student list to put on the island
      */
-    /* NOT NEEDED
+    /* NOT NEEDED // todo: remove
     public void updateStudentList(int ID, StudentList studentList) {
         mapIdCloudWidget.get(ID).setStudents(studentList);
     }
