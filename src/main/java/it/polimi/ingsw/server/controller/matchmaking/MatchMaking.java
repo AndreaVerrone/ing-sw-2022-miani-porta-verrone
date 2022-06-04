@@ -370,7 +370,7 @@ public class MatchMaking implements IMatchMaking{
      */
     private void notifyNumberOfPlayersObserver(){
         for(NumberOfPlayersObserver observer : numberOfPlayersObservers)
-            observer.numberOfPlayersUpdate(this.numPlayers);
+            observer.numberOfPlayersObserverUpdate(this.numPlayers);
     }
 
 }

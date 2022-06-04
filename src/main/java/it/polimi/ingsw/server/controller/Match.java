@@ -7,15 +7,11 @@ import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.matchmaking.IMatchMaking;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
-import it.polimi.ingsw.server.controller.matchmaking.observers.NumberOfPlayers;
-import it.polimi.ingsw.server.controller.matchmaking.observers.PlayersChanged;
-import it.polimi.ingsw.server.controller.matchmaking.observers.TowerSelected;
-import it.polimi.ingsw.server.controller.matchmaking.observers.WizardSelected;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import it.polimi.ingsw.server.observers.ChangeCurrentPlayer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +20,7 @@ import java.util.Optional;
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
-public class Match implements IMatchMaking, IGame {
+public class Match implements IMatchMaking, IGame, ObserversCommonInterface {
 
     /**
      * The Matchmaking of this match. After the game has started this will be null.
@@ -53,13 +49,13 @@ public class Match implements IMatchMaking, IGame {
         matchMaking = new MatchMaking(numOfPlayers, wantExpert);
 
         //ADD OBSERVERS
-        matchMaking.addChangeCurrentPlayerObserver(new ChangeCurrentPlayer(this));
-        matchMaking.addNumberOfPlayersObserver(new NumberOfPlayers(this));
-        matchMaking.addPlayersChangedObserver(new PlayersChanged(this));
-        matchMaking.addChangeCurrentStateObserver(new ChangeCurrentState(this));
+        matchMaking.addChangeCurrentPlayerObserver(this);
+        matchMaking.addNumberOfPlayersObserver(this);
+        matchMaking.addPlayersChangedObserver(this);
+        matchMaking.addChangeCurrentStateObserver(this);
         for (PlayerLoginInfo player: matchMaking.getPlayers()){
-            player.addTowerSelectedObserver(new TowerSelected(this));
-            player.addWizardSelectedObserver(new WizardSelected(this));
+            player.addTowerSelectedObserver(this);
+            player.addWizardSelectedObserver(this);
         }
     }
 
@@ -247,55 +243,129 @@ public class Match implements IMatchMaking, IGame {
         game.useCharacterCard(cardType);
     }
 
-    /**
-     * Method to notify the given player has selected a wizard
-     * @param player Player that selected the wizard
-     * @param wizard wizard selected by the player
-     */
-    public void notifyWizardSelected(String player, Wizard wizard){
-        //TODO: update view
-    }
-
-    /**
-     * Method to notify that the given player has selected a tower
-     * @param player Player that selected the tower
-     * @param tower tower selected by the player
-     */
-    public void notifyTowerSelected(String player, TowerType tower){
-        //TODO: update view
-    }
-
-    /**
-     * Method to notify that the players in a game have changed
-     * @param players current players of the game
-     */
-    public void notifyPlayersChanged(Collection<PlayerLoginInfo> players){
-        //TODO: update view
-    }
-
-    /**
-     * Method to notify that the number of players chosen
-     * @param numberOfPlayers number of players of the match
-     */
-    public void notifyNumberOfPlayers(int numberOfPlayers){
-        //TODO: notify view
-    }
-
-    /**
-     * Method to notify that the current player has changed
-     * @param newCurrentPlayer new current player
-     */
-    public void notifyChangeCurrentPlayer(String newCurrentPlayer){
-        //TODO: notify view
+    @Override
+    public void changeCurrentStateObserverUpdate(StateType stateType) {
 
     }
-    /**
-     * Method to notify that the current state of the game or matchmaking has changed
-     * @param newState new state of the game
-     */
-    public void notifyChangeCurrentState(StateType newState){
-        //TODO: notify view
+
+    @Override
+    public void coinOnCardObserverUpdate(CharacterCardsType characterCardsType, boolean coinOnCard) {
+
     }
 
+    @Override
+    public void studentsOnCardObserverUpdate(CharacterCardsType characterCardType, StudentList actualStudents) {
+
+    }
+
+    @Override
+    public void numberOfPlayersObserverUpdate(int numberOfPlayers) {
+
+    }
+
+    @Override
+    public void playersChangedObserverUpdate(Collection<PlayerLoginInfo> players) {
+
+    }
+
+    @Override
+    public void towerSelectedObserverUpdate(String player, TowerType tower) {
+
+    }
+
+    @Override
+    public void wizardSelectedObserverUpdate(String player, Wizard wizard) {
+
+    }
+
+    @Override
+    public void banOnIslandObserverUpdate(int islandIDWithBan, int actualNumOfBans) {
+
+    }
+
+    @Override
+    public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
+
+    }
+
+    @Override
+    public void changeCoinNumberInBagObserverUpdate(int actualNumOfCoins) {
+
+    }
+
+    @Override
+    public void changeCoinNumberObserverUpdate(String nickNameOfPlayer, int actualNumOfCoins) {
+
+    }
+
+    @Override
+    public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
+
+    }
+
+    @Override
+    public void changeTowerNumberUpdate(String nickName, int numOfActualTowers) {
+
+    }
+
+    @Override
+    public void conquerIslandObserverUpdate() {
+
+    }
+
+    @Override
+    public void emptyStudentBagObserverUpdate() {
+
+    }
+
+    @Override
+    public void islandNumberObserverUpdate(int actualNumOfIslands) {
+
+    }
+
+    @Override
+    public void islandUnificationObserverUpdate(int islandRemovedID, int finalSize) {
+
+    }
+
+    @Override
+    public void lastAssistantUsedObserverUpdate(String nickName, Assistant actualLastAssistant) {
+
+    }
+
+    @Override
+    public void motherNaturePositionObserverUpdate(int actualMotherNaturePosition) {
+
+    }
+
+    @Override
+    public void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors) {
+
+    }
+
+    @Override
+    public void studentsInDiningRoomObserverUpdate(String nickname, StudentList actualStudents) {
+
+    }
+
+    @Override
+    public void studentsOnCloudObserverUpdate(int cloudID, StudentList actualStudentList) {
+
+    }
+
+    @Override
+    public void studentsOnEntranceObserverUpdate(String nickname, StudentList actualStudents) {
+
+    }
+
+    @Override
+    public void studentsOnIslandObserverUpdate(int islandID, StudentList actualStudents) {
+
+    }
+
+    @Override
+    public void towerOnIslandObserverUpdate(int islandIDWithChange, TowerType actualTower) {
+
+    }
 }
 
