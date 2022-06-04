@@ -340,6 +340,87 @@ public class ClientController {
         cli.getTable().setCoinNumberList(player,newNumOfCoins);
     }
 
+    public void setAssistantsList(List<Assistant> assistantsList) {
+        cli.getTable().setAssistantsList(assistantsList);
+    }
 
+    public void setAssistantsUsed(String owner, Assistant assistantUsed) {
+        cli.getTable().setAssistantsUsed(owner, assistantUsed);
+    }
+
+    public void setClouds(int ID, StudentList studentList) {
+        cli.getTable().setClouds(ID,studentList);
+    }
+
+    public void setEntranceList(String owner, StudentList studentsInEntrance) {
+        cli.getTable().setEntranceList(owner, studentsInEntrance);
+    }
+
+    public void setDiningRoomList(String owner, StudentList studentsInDiningRoom) {
+        cli.getTable().setDiningRoomList(owner,studentsInDiningRoom);
+    }
+
+    public void setProfTableList(String owner, Collection<PawnType> professors) {
+        cli.getTable().setProfTableList(owner, professors);
+    }
+
+    public void setTowerColorList(String owner, TowerType towerType) {
+        cli.getTable().setTowerColorList(owner, towerType);
+    }
+
+    public void setTowerNumberList(String owner, int numOfTowers) {
+        cli.getTable().setTowerNumberList(owner, numOfTowers);
+    }
+
+    public void setCoinNumberList(String owner, int numOfCoins) {
+        cli.getTable().setCoinNumberList(owner, numOfCoins);
+    }
+
+    /**
+     * this method will update the number of the ban on the island with the ID specified
+     * in the parameters.
+     * @param ID the island on which the change has been happened
+     * @param actualNumOfBan the actual number of bans on the specified island
+     */
+    public void updateBanOnIsland(int ID, int actualNumOfBan){
+        cli.getTable().updateBanOnIsland(ID, actualNumOfBan);
+    }
+
+    /**
+     * this method will update the color of the tower on the island with the ID specified
+     * in the parameters.
+     * @param ID the island on which the change has been happened
+     * @param actualTowerColor the actual color of the tower of the island (null if the tower is not present)
+     */
+    public void updateTowerType(int ID, TowerType actualTowerColor){
+        cli.getTable().updateTowerType(ID,actualTowerColor);
+    }
+
+    /**
+     * This method will update the students that are on the island with the ID specified
+     * in the parameter.
+     * @param ID the island on which the change has been happened
+     * @param actualStudentsOnIsland the actual students on the island
+     */
+    public void updateStudents(int ID, StudentList actualStudentsOnIsland){
+        cli.getTable().updateStudents(ID, actualStudentsOnIsland);
+    }
+
+    /**
+     * this method will update the position of mother nature
+     * @param ID the ID of the island on which mother nature should be moved
+     */
+    public void updateMotherNaturePosition(int ID){
+        cli.getTable().updateMotherNaturePosition(ID);
+    }
+
+    public void islandUnification(){
+        // todo: the observer send the ID of the island removed and the size of the island that remains
+        //  while the unifyIsland method of the island sets requires
+        //  @param islandID          the ID of the island kept
+        //  @param removedIslandID   the ID of the island removed
+        //  @param removedIslandSize the size of the island remover
+        // islandsSet.unifyIslands();
+    }
 
 }
