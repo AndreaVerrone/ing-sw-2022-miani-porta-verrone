@@ -88,6 +88,10 @@ public class Table extends StatefulWidget {
         //return assistantsUsed;
     //}
 
+    public Map<String, Assistant> getAssistantsUsed() {
+        return new HashMap<>(this.assistantsUsed);
+    }
+
     public Map<Integer, StudentList> getClouds() {
         return new HashMap<>(this.clouds);
     }
@@ -163,12 +167,11 @@ public class Table extends StatefulWidget {
         setState(()->this.assistantsList = assistantsList);
     }
 
-    // todo: fixme
-    public void setAssistantsUsed(Assistant assistantUsed) {
-        List <Assistant> newAssistantList = getAssistantsList();
-        newAssistantList.add(assistantUsed);
+    public void setAssistantsUsed(String owner, Assistant assistantUsed) {
+        Map <String,Assistant> newAssistantUsedMap = getAssistantsUsed();
+        newAssistantUsedMap.put(owner,assistantUsed);
 
-        setState(()-> this.assistantsList = newAssistantList);
+        setState(()-> this.assistantsUsed = newAssistantUsedMap);
     }
 
     public void setClouds(int ID, StudentList studentList) {
