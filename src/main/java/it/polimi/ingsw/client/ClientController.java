@@ -3,10 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.game.*;
-import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCard;
-import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCardUsed;
-import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
-import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
 import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
@@ -20,7 +16,6 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 
 import java.io.IOException;
 import java.util.*;
