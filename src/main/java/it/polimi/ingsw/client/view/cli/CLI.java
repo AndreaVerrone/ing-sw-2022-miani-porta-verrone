@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import it.polimi.ingsw.network.VirtualView;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.EnumCompleter;
@@ -32,6 +33,19 @@ public class CLI implements VirtualView, Runnable {
      * The next screen that must be shown to the client
      */
     private CliScreen nextScreen;
+
+    /**
+     * the table of the game
+     */
+    Table table;
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
+    }
 
     /**
      * The title of the application
