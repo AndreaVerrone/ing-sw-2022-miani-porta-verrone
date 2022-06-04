@@ -221,7 +221,7 @@ public class Game implements IGame {
      */
     @Override
     public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
-        throw new NotValidOperationException("Cannot use cards in basic mode!");
+        throw new NotValidOperationException();
     }
 
 

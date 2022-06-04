@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
@@ -45,13 +46,13 @@ public class UseCharacterCard5State extends UseCharacterCardState {
     private void setBanOnIsland(int islandID) throws NotValidArgumentException, NotValidOperationException {
 
         if(characterCard5.getNumOfBans()<=0){
-            throw new NotValidOperationException("this card cannot be used, there are no bans on it");
+            throw new NotValidOperationException(ErrorCode.NO_BANS_ON_CARD);
         }
 
         try {
             gameModel.getGameTable().getIsland(islandID).addBan();
         } catch (IslandNotFoundException e) {
-            throw new NotValidArgumentException("the island does not exist");
+            throw new NotValidArgumentException(ErrorCode.ISLAND_NOT_EXIST);
         }
     }
 
@@ -65,7 +66,7 @@ public class UseCharacterCard5State extends UseCharacterCardState {
     public void chooseDestination(Position destination) throws NotValidArgumentException, NotValidOperationException {
 
         if(!destination.isLocation(Location.ISLAND)){
-            throw new NotValidOperationException("you have to chose an island");
+            throw new NotValidArgumentException();
         }
 
         setBanOnIsland(destination.getField());

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
@@ -44,14 +45,14 @@ public class ChooseCloudState implements GameState {
         try {
             //Get the students from the chosen cloud and fill with it the entrance of the current player
             StudentList students = model.getGameTable().getFromCloud(cloudID);
-            if (students.numAllStudents()==0) throw new NotValidArgumentException("The cloud is empty!");
+            if (students.numAllStudents()==0) throw new NotValidArgumentException(ErrorCode.CLOUD_EMPTY);
             for(PawnType p : PawnType.values()){
                 for (int i = students.getNumOf(p); i>0; i--){
                     player.addStudentToEntrance(p);
                 }
             }
         } catch (CloudNotFoundException e) {
-            throw new NotValidArgumentException("The cloud doesn't exist!");
+            throw new NotValidArgumentException(ErrorCode.CLOUD_NOT_EXIST);
         } catch (ReachedMaxStudentException e) {
             throw new NotValidOperationException();
         }

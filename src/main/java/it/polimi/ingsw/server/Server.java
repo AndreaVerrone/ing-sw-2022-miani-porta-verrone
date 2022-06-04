@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.network.User;
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.Match;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 
@@ -62,7 +63,6 @@ public class Server {
         int portNumber = Integer.parseInt(scanner.nextLine());
         //end of code used for initial debugging
 
-        ;
         try (ServerSocket serverSocket = new ServerSocket(portNumber)){
             while (true){
                 try {
@@ -154,7 +154,7 @@ public class Server {
             match = games.get(gameID);
         }
         if (match == null)
-            throw new NotValidArgumentException();
+            throw new NotValidArgumentException(ErrorCode.GAME_NOT_EXIST);
         return match;
     }
 
@@ -183,7 +183,7 @@ public class Server {
             match = players.get(user);
         }
         if (match == null)
-            throw new NotValidArgumentException();
+            throw new NotValidArgumentException(ErrorCode.GAME_NOT_EXIST);
         return match;
     }
 

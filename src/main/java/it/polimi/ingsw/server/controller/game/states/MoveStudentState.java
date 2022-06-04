@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
@@ -54,11 +55,11 @@ public class MoveStudentState implements GameState {
 
         // 1. check that the student comes from the entrance
         if(!originPosition.isLocation(Location.ENTRANCE)){
-            throw new NotValidOperationException("you have to take the student from the entrance");
+            throw new NotValidArgumentException();
         }
         // 2. check that the student of that color is present at the entrance
         if (gameModel.getCurrentPlayer().getStudentsInEntrance().getNumOf(color) < 1)
-            throw new NotValidArgumentException("There are no students of that color at the entrance");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         studentToMove = color;
     }
 
@@ -66,7 +67,7 @@ public class MoveStudentState implements GameState {
     public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
 
         if (studentToMove == null)
-            throw new NotValidOperationException("you have to chose the student before");
+            throw new NotValidOperationException();
         if (destination.isLocation(Location.DINING_ROOM)) {
             moveToDiningRoom();
             updateState();
@@ -84,11 +85,9 @@ public class MoveStudentState implements GameState {
         try {
             gameModel.getCurrentPlayer().moveFromEntranceToDiningRoom(studentToMove);
         }catch (NotEnoughStudentException e){
-            throw new NotValidArgumentException("you are trying to remove from entrance a student " +
-                    "that it is not present");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }catch (ReachedMaxStudentException e){
-            throw new NotValidArgumentException("you cannot add this student on the dining room " +
-                    "since its table is full!");
+            throw new NotValidArgumentException(ErrorCode.DININGROOM_FULL);
         }
         gameModel.checkProfessor(studentToMove);
     }
@@ -98,7 +97,7 @@ public class MoveStudentState implements GameState {
             gameModel.getGameTable().addToIsland(studentToMove,islandID);
             gameModel.getCurrentPlayer().removeStudentFromEntrance(studentToMove);
         } catch (IslandNotFoundException e) {
-            throw new NotValidArgumentException("this island does not exist");
+            throw new NotValidArgumentException(ErrorCode.ISLAND_NOT_EXIST);
         } catch (NotEnoughStudentException e) {
             e.printStackTrace();
         }

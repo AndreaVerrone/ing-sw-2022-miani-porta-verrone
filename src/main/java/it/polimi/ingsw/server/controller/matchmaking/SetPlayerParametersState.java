@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.matchmaking;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
@@ -48,7 +49,7 @@ class SetPlayerParametersState implements MatchMakingState{
     @Override
     public void setTowerOfPlayer(TowerType tower) throws NotValidArgumentException {
         if (!matchMaking.getTowersAvailable().contains(tower))
-            throw new NotValidArgumentException("Tower not available!");
+            throw new NotValidArgumentException(ErrorCode.TOWER_NOT_AVAILABLE);
         matchMaking.setTowerOfCurrentPlayer(tower);
     }
 
@@ -58,7 +59,7 @@ class SetPlayerParametersState implements MatchMakingState{
     @Override
     public void setWizardOfPlayer(Wizard wizard) throws NotValidArgumentException {
         if (!matchMaking.getWizardsAvailable().contains(wizard))
-            throw new NotValidArgumentException("Wizard not available!");
+            throw new NotValidArgumentException(ErrorCode.WIZARD_NOT_AVAILABLE);
         matchMaking.setWizardOfCurrentPlayer(wizard);
     }
 

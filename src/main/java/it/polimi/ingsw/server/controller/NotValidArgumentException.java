@@ -18,9 +18,6 @@ public class NotValidArgumentException extends Exception{
     public NotValidArgumentException(){
         super();
     }
-    public NotValidArgumentException(String message) {
-        super(message);
-    }
 
     /**
      * Constructs a new exception assigning the provided {@link ErrorCode}.

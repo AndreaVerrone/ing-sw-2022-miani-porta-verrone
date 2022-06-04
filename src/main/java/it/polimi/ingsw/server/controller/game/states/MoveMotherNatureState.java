@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
@@ -41,10 +42,10 @@ public class MoveMotherNatureState implements GameState {
 
     @Override
     public void moveMotherNature(int positions) throws NotValidArgumentException {
-        if (positions == 0) throw new NotValidArgumentException("Mother nature movements cannot be zero!");
+        if (positions == 0) throw new NotValidArgumentException(ErrorCode.MN_MOVEMENT_WRONG);
         //Get mother nature movements limit
         int movementsLimit = model.getMNMovementLimit();
-        if (positions > movementsLimit) throw new NotValidArgumentException("Mother nature movements over the limit!");
+        if (positions > movementsLimit) throw new NotValidArgumentException(ErrorCode.MN_MOVEMENT_WRONG);
         //Move mother nature
         gameTable.moveMotherNature(positions);
         //Try to conquer the island
