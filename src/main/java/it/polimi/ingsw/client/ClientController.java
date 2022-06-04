@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.CLI;
+import it.polimi.ingsw.client.view.cli.game.EndGameScreen;
 import it.polimi.ingsw.client.view.cli.game.MoveMotherNatureScreen;
 import it.polimi.ingsw.client.view.cli.game.MoveStudentsPhaseScreen;
 import it.polimi.ingsw.client.view.cli.game.PlanningPhaseScreen;
@@ -144,7 +145,7 @@ public class ClientController {
                 List.of("player 1", "player 2", "player 3"),
                 reducedIslands
         );
-        cli.setNextScreen(new PlanningPhaseScreen(cli,t));
+        cli.setNextScreen(new PlanningPhaseScreen(cli));
         cli.run();
         //  <--- to here
     }
@@ -373,42 +374,38 @@ public class ClientController {
 
     /**
      * this method will display the planning phase screen
-     * @param table the table to display
      */
-    public void displayPlanningPhaseScreen(Table table){
-        cli.setNextScreen(new PlanningPhaseScreen(cli,table));
+    public void displayPlanningPhaseScreen(){
+        cli.setNextScreen(new PlanningPhaseScreen(cli));
     }
 
     /**
      * this method will display the move student phase screen
-     * @param table the table to display
      */
-    public void displayMoveStudentsScreen(Table table){
-        cli.setNextScreen(new MoveStudentsPhaseScreen(cli,table));
+    public void displayMoveStudentsScreen(){
+        cli.setNextScreen(new MoveStudentsPhaseScreen(cli));
     }
 
     /**
      * this method will display the move mother nature phase screen
-     * @param table the table to display
      */
-    public void displayMoveMotherNatureScreen(Table table){
-        cli.setNextScreen(new MoveMotherNatureScreen(cli,table));
+    public void displayMoveMotherNatureScreen(){
+        cli.setNextScreen(new MoveMotherNatureScreen(cli));
     }
 
     /**
      * this method will display the choose cloud phase screen
-     * @param table the table to display
      */
-    public void displayChooseCloudScreen(Table table){
-        cli.setNextScreen(new MoveMotherNatureScreen(cli,table));
+    public void displayChooseCloudScreen(){
+        cli.setNextScreen(new MoveMotherNatureScreen(cli));
     }
 
     /**
      * this method will display the end game screen
-     * @param table the table to display
+     * @param winners the list of the winners of the game
      */
-    public void displayEndGameScreen(Table table){
-        cli.setNextScreen(new MoveMotherNatureScreen(cli,table));
+    public void displayEndGameScreen(List<String> winners){
+        cli.setNextScreen(new EndGameScreen(cli,winners));
     }
 
 }
