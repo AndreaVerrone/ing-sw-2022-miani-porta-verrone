@@ -231,11 +231,7 @@ public class CLI implements VirtualView, Runnable {
      * @param errorMessage string containing the error message to print
      */
     public void displayErrorMessage(String errorMessage){
-        AnsiConsole.systemInstall();
-        System.out.print(Color.RED+errorMessage);
-        ConsoleCli.resetStyle();
-        System.out.print("\n");
-        AnsiConsole.systemUninstall();
+        printColorMessage(Color.RED,errorMessage);
     }
 
     /**
@@ -243,8 +239,17 @@ public class CLI implements VirtualView, Runnable {
      * @param message string containing the message to print
      */
     public void displayMessage(String message){
+        printColorMessage(Color.BRIGHT_YELLOW,message);
+    }
+
+    /**
+     * This method allow to print a colored message
+     * @param color the color to use to print the message
+     * @param message the message to print
+     */
+    private void printColorMessage(Color color, String message){
         AnsiConsole.systemInstall();
-        System.out.print(Color.BRIGHT_YELLOW+message);
+        System.out.print(color + message);
         ConsoleCli.resetStyle();
         System.out.print("\n");
         AnsiConsole.systemUninstall();
