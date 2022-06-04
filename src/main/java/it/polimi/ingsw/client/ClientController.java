@@ -2,10 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.CLI;
-import it.polimi.ingsw.client.view.cli.game.EndGameScreen;
-import it.polimi.ingsw.client.view.cli.game.MoveMotherNatureScreen;
-import it.polimi.ingsw.client.view.cli.game.MoveStudentsPhaseScreen;
-import it.polimi.ingsw.client.view.cli.game.PlanningPhaseScreen;
+import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCard;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCardUsed;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
@@ -68,7 +65,7 @@ public class ClientController {
         // todo:testing code
         //  <--- from here
         cli.setTable(null);
-        cli.setNextScreen(new PlanningPhaseScreen(cli));
+        displayPlanningPhaseScreen();
         cli.run();
         //  <--- to here
     }
@@ -320,7 +317,7 @@ public class ClientController {
      * this method will display the choose cloud phase screen
      */
     public void displayChooseCloudScreen(){
-        cli.setNextScreen(new MoveMotherNatureScreen(cli));
+        cli.setNextScreen(new ChooseCloudScreen(cli));
     }
 
     /**
@@ -331,12 +328,18 @@ public class ClientController {
         cli.setNextScreen(new EndGameScreen(cli,winners));
     }
 
+    /**
+     * this method will print in red the message passed in the parameters
+     * @param errorMessage string containing the error message to print
+     */
+    public void displayErrorMessage(String errorMessage){
+        cli.displayErrorMessage(errorMessage);
+    }
+
     public void setCoinInDiningRoom(String player, int newNumOfCoins){
         cli.getTable().setCoinNumberList(player,newNumOfCoins);
     }
 
-    public void displayErrorMessage(String message){
-        cli.displayErrorMessage(message);
-    }
+
 
 }

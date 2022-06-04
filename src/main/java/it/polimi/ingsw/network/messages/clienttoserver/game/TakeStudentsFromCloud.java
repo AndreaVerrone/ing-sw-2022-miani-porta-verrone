@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
@@ -31,7 +32,7 @@ public class TakeStudentsFromCloud extends ClientCommandNetMsg {
     }
 
     @Override
-    public void processResponse(ResponseMessage response) {
+    public void processResponse(ResponseMessage response, ClientController clientController) {
         // TODO: 11/05/2022 handle responses in client
     }
 }

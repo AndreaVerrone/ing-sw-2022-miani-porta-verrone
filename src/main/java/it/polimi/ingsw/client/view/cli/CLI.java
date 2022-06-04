@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import it.polimi.ingsw.network.VirtualView;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import org.fusesource.jansi.AnsiConsole;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.EnumCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
@@ -224,7 +226,15 @@ public class CLI implements VirtualView, Runnable {
         };
     }
 
-    public void displayErrorMessage(String message){
-        System.out.println(message);
+    /**
+     * this method will print in red the message passed in the parameters
+     * @param errorMessage string containing the error message to print
+     */
+    public void displayErrorMessage(String errorMessage){
+        AnsiConsole.systemInstall();
+        System.out.print(Color.RED+errorMessage);
+        ConsoleCli.resetStyle();
+        System.out.print("\n");
+        AnsiConsole.systemUninstall();
     }
 }

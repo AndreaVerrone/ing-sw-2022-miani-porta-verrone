@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.responses.Result;
@@ -60,7 +61,8 @@ abstract public class ClientCommandNetMsg extends NetworkMessage {
      *
      * @param response the response of this request
      */
-    abstract public void processResponse(ResponseMessage response);
+    abstract public void processResponse(ResponseMessage response, ClientController clientController);
+    // todo: fix javadoc
 
     /**
      * Returns if this message was sent more than 4 seconds ago.
