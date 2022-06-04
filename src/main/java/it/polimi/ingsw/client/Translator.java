@@ -287,5 +287,10 @@ public class Translator {
         return isItalian ? "TORRI":"TOWERS";
     }
 
+    // MESSAGES
+    public static String getLastRoundMessage() {
+        return  isItalian ? "Questo è l'ultimo round":"This is the last round";
+    }
+
 }
 

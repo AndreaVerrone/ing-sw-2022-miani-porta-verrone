@@ -237,4 +237,16 @@ public class CLI implements VirtualView, Runnable {
         System.out.print("\n");
         AnsiConsole.systemUninstall();
     }
+
+    /**
+     * this method will print in yellow the message passed in the parameters
+     * @param message string containing the message to print
+     */
+    public void displayMessage(String message){
+        AnsiConsole.systemInstall();
+        System.out.print(Color.BRIGHT_YELLOW+message);
+        ConsoleCli.resetStyle();
+        System.out.print("\n");
+        AnsiConsole.systemUninstall();
+    }
 }

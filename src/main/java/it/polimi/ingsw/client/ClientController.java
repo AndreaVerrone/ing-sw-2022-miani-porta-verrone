@@ -336,6 +336,14 @@ public class ClientController {
         cli.displayErrorMessage(errorMessage);
     }
 
+    /**
+     * this method will print in yellow the message passed in the parameters
+     * @param message string containing the message to print
+     */
+    public void displayMessage(String message){
+        cli.displayMessage(message);
+    }
+
     public void setAssistantsList(List<Assistant> assistantsList) {
         cli.getTable().setAssistantsList(assistantsList);
     }
