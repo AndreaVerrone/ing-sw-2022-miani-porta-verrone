@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCard;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.AssistantCardUsed;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
 import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
@@ -64,7 +65,7 @@ public class ClientController {
 
         // todo:testing code
         //  <--- from here
-        cli.setTable(null);
+        // cli.setTable(null);
         displayPlanningPhaseScreen();
         cli.run();
         //  <--- to here
@@ -368,6 +369,7 @@ public class ClientController {
         cli.getTable().setProfTableList(owner, professors);
     }
 
+    // todo: remove , it is not needed
     public void setTowerColorList(String owner, TowerType towerType) {
         cli.getTable().setTowerColorList(owner, towerType);
     }
@@ -425,6 +427,22 @@ public class ClientController {
         //  @param removedIslandID   the ID of the island removed
         //  @param removedIslandSize the size of the island remover
         cli.getTable().islandUnification(ID, IDIslandRemoved, sizeIslandRemoved);
+    }
+
+    public void initializeTable(List<Assistant> assistantsList, Map<String, Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands){
+        cli.setTable(
+                assistantsList,
+                assistantsUsed,
+                clouds,
+                entranceList,
+                diningRoomList,
+                profTableList,
+                towerColorList,
+                towerNumberList,
+                coinNumberList,
+                players,
+                reducedIslands
+        );
     }
 
 }
