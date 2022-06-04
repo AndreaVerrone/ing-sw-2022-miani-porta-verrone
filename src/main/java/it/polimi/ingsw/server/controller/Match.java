@@ -2,12 +2,16 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.IGame;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.matchmaking.IMatchMaking;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.gametable.GameTable;
 import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -30,7 +34,7 @@ public class Match implements IMatchMaking, IGame, ObserversCommonInterface {
     /**
      * The game of this match. Before the game starts, this is null.
      */
-    private IGame game;
+    private Game game;
 
     /**
      * The views of the player in this match. All of this should be notified
@@ -166,15 +170,46 @@ public class Match implements IMatchMaking, IGame, ObserversCommonInterface {
      * @return {@link Optional#empty()}
      */
     @Override
-    public Optional<IGame> next() throws NotValidOperationException {
+    public Optional<Game> next() throws NotValidOperationException {
         if (matchMaking == null)
             throw new NotValidOperationException();
-        Optional<IGame> possibleGame = matchMaking.next();
+        Optional<Game> possibleGame = matchMaking.next();
         if (possibleGame.isPresent()){
             matchMaking = null;
             game = possibleGame.get();
+            addObserverToGame();
         }
         return Optional.empty();
+    }
+
+    private  void addObserverToGame(){
+        game.addChangeCurrentStateObserver(this);
+
+        GameModel model = game.getModel();
+        model.addChangeCurrentPlayerObserver(this);
+        model.addConquerIslandObserver(this);
+        model.addEmptyStudentBagObserver(this);
+        model.addChangeCoinNumberInBagObserver(this);
+
+        GameTable gameTable = model.getGameTable();
+        gameTable.addMotherNaturePositionObserver(this);
+        gameTable.addStudentsOnCloudObserver(this);
+        gameTable.addIslandNumberObserver(this);
+        gameTable.addStudentsOnIslandObserver(this);
+        gameTable.addTowerOnIslandObserver(this);
+        gameTable.addBanOnIslandObserver(this);
+        gameTable.addUnificationIslandObserver(this);
+
+        for(Player player: model.getPlayerList()){
+            player.addChangeAssistantDeckObserver(this);
+            player.addChangeCoinNumberObserver(this);
+            player.addProfessorObserver(this);
+            player.addChangeTowerNumberObserver(this);
+            player.addLastAssistantUsedObserver(this);
+            player.addStudentsInDiningRoomObserver(this);
+            player.addStudentsOnEntranceObserver(this);
+        }
+
     }
 
     /**

@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.StateType;
+import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.IGame;
 
 import java.util.Optional;
@@ -77,7 +78,7 @@ class ChangePlayersState implements MatchMakingState {
      * @throws NotValidOperationException if not all the expected players has joined the lobby
      */
     @Override
-    public Optional<IGame> next() throws NotValidOperationException {
+    public Optional<Game> next() throws NotValidOperationException {
         if (matchMaking.getNumPlayers() != matchMaking.getPlayers().size())
             throw new NotValidOperationException("There aren't enough players in the lobby to start the game!");
         matchMaking.chooseFirstPlayer();

@@ -20,7 +20,7 @@ import java.util.List;
 /**
  *A class to handle the various states of the game.It can change the current state and can call operations on it.
  */
-public class Game implements IGame {
+public class Game {
     /**
      * State in which the player is playing an assistant card
      */
@@ -67,7 +67,7 @@ public class Game implements IGame {
         setState(playAssistantState);
     }
 
-    @Override
+
     public String getCurrentPlayerNickname() {
         return model.getCurrentPlayer().getNickname();
     }
@@ -99,7 +99,6 @@ public class Game implements IGame {
      * @throws NotValidOperationException {@inheritDoc}
      * @throws NotValidArgumentException {@inheritDoc}
      */
-    @Override
     public void useAssistant(Assistant assistant) throws NotValidOperationException, NotValidArgumentException {
         state.useAssistant(assistant);
     }
@@ -109,7 +108,6 @@ public class Game implements IGame {
      * @throws NotValidOperationException {@inheritDoc}
      * @throws NotValidArgumentException {@inheritDoc}
      */
-    @Override
     public void moveMotherNature(int positions) throws NotValidOperationException, NotValidArgumentException {
         state.moveMotherNature(positions);
     }
@@ -118,7 +116,6 @@ public class Game implements IGame {
      * @throws NotValidOperationException {@inheritDoc}
      * @throws NotValidArgumentException {@inheritDoc}
      */
-    @Override
     public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {
         state.takeFromCloud(cloudID);
     }
@@ -128,7 +125,6 @@ public class Game implements IGame {
      * @throws NotValidOperationException {@inheritDoc}
      * @throws NotValidArgumentException {@inheritDoc}
      */
-    @Override
     public void chooseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
         state.choseStudentFromLocation(color,originPosition);
     }
@@ -137,7 +133,6 @@ public class Game implements IGame {
      * @throws NotValidOperationException {@inheritDoc}
      * @throws NotValidArgumentException {@inheritDoc}
      */
-    @Override
     public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
         state.chooseDestination(destination);
     }
@@ -146,7 +141,6 @@ public class Game implements IGame {
      * @throws NotValidOperationException {@inheritDoc}
      * @throws NotValidArgumentException {@inheritDoc}
      */
-    @Override
     public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
         throw new NotValidOperationException("Cannot use cards in basic mode!");
     }

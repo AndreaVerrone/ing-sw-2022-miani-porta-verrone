@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.controller.ChangeCurrentStateObserver;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.IGame;
 import it.polimi.ingsw.server.controller.matchmaking.observers.NumberOfPlayersObserver;
 import it.polimi.ingsw.server.controller.matchmaking.observers.PlayersChangedObserver;
@@ -179,7 +180,7 @@ public class MatchMaking implements IMatchMaking{
      * @throws NotValidOperationException {@inheritDoc}
      */
     @Override
-    public Optional<IGame> next() throws NotValidOperationException {
+    public Optional<Game> next() throws NotValidOperationException {
         return state.next();
     }
 

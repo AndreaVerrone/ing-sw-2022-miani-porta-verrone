@@ -66,7 +66,7 @@ class SetPlayerParametersState implements MatchMakingState{
      * @throws NotValidOperationException if the current player hasn't chosen yet the tower or wizard
      */
     @Override
-    public Optional<IGame> next() throws NotValidOperationException {
+    public Optional<Game> next() throws NotValidOperationException {
         PlayerLoginInfo currentPlayer = matchMaking.getCurrentPlayer();
         if (currentPlayer.getTowerType() == null || currentPlayer.getWizard() == null)
             throw new NotValidOperationException();
