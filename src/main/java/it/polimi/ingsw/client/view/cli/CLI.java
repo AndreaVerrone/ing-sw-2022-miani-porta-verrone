@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -51,8 +52,25 @@ public class CLI implements VirtualView, Runnable {
         return table;
     }
 
-    public void setTable(Table table) {
-        // this.table = table; // todo: actual code
+    public void setTable(List<Assistant> assistantsList, Map<String, Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands) {
+        // todo: actual code
+         this.table = new Table(
+                 assistantsList,
+                 assistantsUsed,
+                 clouds,
+                 entranceList,
+                 diningRoomList,
+                 profTableList,
+                 towerColorList,
+                 towerNumberList,
+                 coinNumberList,
+                 players,
+                 reducedIslands
+         );
+
+
+
+
         // todo: testing code
         //  <-- from here
         StudentList stud = new StudentList();
@@ -116,7 +134,7 @@ public class CLI implements VirtualView, Runnable {
         ReducedIsland r10 = new ReducedIsland(10,stud2,TowerType.WHITE,1,1);
         ReducedIsland r11 = new ReducedIsland(11,stud2,TowerType.WHITE,1,1);
         ReducedIsland r12 = new ReducedIsland(12,stud2,TowerType.WHITE,1,1);
-        Collection<ReducedIsland> reducedIslands = new ArrayList<>(List.of(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12));
+        Collection<ReducedIsland> reducedIslands1 = new ArrayList<>(List.of(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12));
 
         this.table = new Table(
                 List.of(Assistant.CARD_1, Assistant.CARD_9),
@@ -131,7 +149,7 @@ public class CLI implements VirtualView, Runnable {
                 map4,
                 map4,
                 List.of("player 1", "player 2", "player 3"),
-                reducedIslands
+                reducedIslands1
         );
     }
 
