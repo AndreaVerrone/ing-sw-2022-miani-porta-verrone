@@ -23,11 +23,10 @@ public class MoveMotherNatureScreen extends CliScreen {
     /**
      * The constructor od the class
      * @param cli the cli of the user
-     * @param table the table of the game
      */
-    public MoveMotherNatureScreen(CLI cli, Table table) {
+    public MoveMotherNatureScreen(CLI cli) {
         super(cli);
-        this.table=table;
+        this.table=cli.getTable();
     }
 
     /**
@@ -79,6 +78,6 @@ public class MoveMotherNatureScreen extends CliScreen {
             System.out.println("sending to server to move MN of: "+ numOfMovements); // todo: for testing only
             // getCli().getClientController().moveMotherNature(numOfMovements); // todo: actual code
         }
-        getCli().setNextScreen(new ChooseCloudScreen(getCli(),table)); // todo: for testing only
+        getCli().setNextScreen(new ChooseCloudScreen(getCli())); // todo: for testing only
     }
 }

@@ -30,11 +30,10 @@ public class PlanningPhaseScreen extends CliScreen {
     /**
      * The constructor od the class
      * @param cli the cli of the user
-     * @param table the table of the game
      */
-    public PlanningPhaseScreen(CLI cli, Table table) {
+    public PlanningPhaseScreen(CLI cli) {
         super(cli);
-        this.table=table;
+        this.table=cli.getTable();
     }
 
     /**
@@ -89,7 +88,7 @@ public class PlanningPhaseScreen extends CliScreen {
             //getCli().getClientController().useAssistant(Assistant.valueOf(assistantNamePrefix + assistantValue)); // todo: actual code
         }
 
-        getCli().setNextScreen(new MoveMotherNatureScreen(getCli(),table)); // todo: testing only
+        getCli().setNextScreen(new MoveMotherNatureScreen(getCli())); // todo: testing only
 
     }
 }

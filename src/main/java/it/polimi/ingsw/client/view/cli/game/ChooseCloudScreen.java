@@ -28,11 +28,10 @@ public class ChooseCloudScreen extends CliScreen {
     /**
      * The constructor od the class
      * @param cli the cli of the user
-     * @param table the table of the game
      */
-    public ChooseCloudScreen(CLI cli, Table table) {
+    public ChooseCloudScreen(CLI cli) {
         super(cli);
-        this.table=table;
+        this.table=cli.getTable();
     }
 
     /**
@@ -88,6 +87,6 @@ public class ChooseCloudScreen extends CliScreen {
             // getCli().getClientController().takeStudentFromCloud(cloudID); // todo: actual code
         }
 
-        getCli().setNextScreen(new MoveStudentsPhaseScreen(getCli(),table)); // todo: testing only
+        getCli().setNextScreen(new MoveStudentsPhaseScreen(getCli())); // todo: testing only
     }
 }
