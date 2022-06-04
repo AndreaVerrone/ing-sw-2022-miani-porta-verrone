@@ -4,29 +4,28 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
- * A message sent from the server to all the client connected to a game to indicate that mother nature
- * has moved from its previous position
+ * A message sent from the server to all the client connected to a game to indicate
+ * the island on which mother nature is
  */
 public class MotherNatureMoved extends ServerCommandNetMsg {
 
     /**
-     * The number of movement mother nature has done
+     * The island on which mother nature is.
      */
-    private final int movement;
+    private final int position;
 
     /**
      * Creates a new message to comunicate that mother nature has moved
      * @param movement the number of movement
      */
     public MotherNatureMoved(int movement) {
-        this.movement = movement;
+        this.position = movement;
     }
 
 
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 11/05/2022 update view
-        client.moveMotherNature(movement);
+        client.updateMotherNaturePosition(position);
     }
 
 }
