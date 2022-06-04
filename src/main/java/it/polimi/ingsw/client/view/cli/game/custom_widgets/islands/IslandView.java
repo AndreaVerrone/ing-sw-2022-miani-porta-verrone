@@ -107,7 +107,7 @@ class IslandView extends StatefulWidget {
      * @param newBans the new number of bans on this island
      */
     void bansChanged(int newBans) {
-        mainIsland.bansChanged(newBans);
+        setState(()->mainIsland.bansChanged(newBans));
     }
 
     /**
