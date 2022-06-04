@@ -38,5 +38,16 @@ public class UseAssistant extends ClientCommandNetMsg {
     @Override
     public void processResponse(ResponseMessage response, ClientController clientController) {
         // TODO: 11/05/2022 handle response in client
+
+        if (response.isSuccess()) {
+            //TODO: notify the view of the success
+            return;
+        }
+
+        ErrorCode errorCode = response.getErrorCode();
+        // clientController.displayErrorMessage(Translator.getErrorMessage(errorCode));
+        // todo: remove comment after merge
     }
 }
+
+

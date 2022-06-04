@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.messages.clienttoserver.game;
 
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
@@ -35,5 +36,15 @@ public class UseCharacterCard extends ClientCommandNetMsg {
     @Override
     public void processResponse(ResponseMessage response, ClientController clientController) {
         //TODO: 19/05/2022 handle response in client
+
+        if (response.isSuccess()) {
+            //TODO: notify the view of the success
+            return;
+        }
+
+        ErrorCode errorCode = response.getErrorCode();
+        // clientController.displayErrorMessage(Translator.getErrorMessage(errorCode));
+        // todo: remove comment after merge
+
     }
 }
