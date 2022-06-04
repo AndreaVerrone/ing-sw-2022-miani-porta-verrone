@@ -418,13 +418,13 @@ public class ClientController {
         cli.getTable().updateMotherNaturePosition(ID);
     }
 
-    public void islandUnification(){
+    public void islandUnification(int ID, int IDIslandRemoved,int sizeIslandRemoved){
         // todo: the observer send the ID of the island removed and the size of the island that remains
         //  while the unifyIsland method of the island sets requires
         //  @param islandID          the ID of the island kept
         //  @param removedIslandID   the ID of the island removed
         //  @param removedIslandSize the size of the island remover
-        // islandsSet.unifyIslands();
+        cli.getTable().islandUnification(ID, IDIslandRemoved, sizeIslandRemoved);
     }
 
 }
