@@ -89,7 +89,7 @@ class IslandView extends StatefulWidget {
      * @param newStudents the new list of students on this island
      */
     void studentsChanged(StudentList newStudents) {
-        mainIsland.studentsChanged(newStudents);
+        setState(()->mainIsland.studentsChanged(newStudents));
     }
 
     /**
