@@ -336,10 +336,6 @@ public class ClientController {
         cli.displayErrorMessage(errorMessage);
     }
 
-    public void setCoinInDiningRoom(String player, int newNumOfCoins){
-        cli.getTable().setCoinNumberList(player,newNumOfCoins);
-    }
-
     public void setAssistantsList(List<Assistant> assistantsList) {
         cli.getTable().setAssistantsList(assistantsList);
     }
