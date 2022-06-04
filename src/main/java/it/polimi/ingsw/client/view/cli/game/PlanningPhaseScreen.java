@@ -81,15 +81,15 @@ public class PlanningPhaseScreen extends CliScreen {
         String[] inputs = inputReader.readInput(Translator.getMessagePlanningPhase());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            System.out.println("exiting from game ..."); // todo: for testing only
+            // System.out.println("exiting from game ..."); // todo: for testing only
             // change screen
-            //getCli().confirmExit(); // todo: actual code
+            getCli().confirmExit(); // todo: actual code
         } else {
             String assistantValue = inputs[0];
             String assistantNamePrefix = "CARD_";
-            System.out.println("sending to server: " + Assistant.valueOf(assistantNamePrefix + assistantValue)); // todo: for testing only
+            // System.out.println("sending to server: " + Assistant.valueOf(assistantNamePrefix + assistantValue)); // todo: for testing only
             // send message to server
-            //getCli().getClientController().useAssistant(Assistant.valueOf(assistantNamePrefix + assistantValue)); // todo: actual code
+            getCli().getClientController().useAssistant(Assistant.valueOf(assistantNamePrefix + assistantValue)); // todo: actual code
         }
 
         // todo: code for testining only

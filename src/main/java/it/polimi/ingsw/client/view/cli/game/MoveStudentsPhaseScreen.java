@@ -6,6 +6,9 @@ import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
+import it.polimi.ingsw.server.controller.game.Location;
+import it.polimi.ingsw.server.controller.game.Position;
+import it.polimi.ingsw.server.model.utils.PawnType;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
@@ -83,33 +86,33 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         String[] inputs = inputReader.readInput(Translator.getMessageToAskToChooseAColor());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            System.out.println("exiting from game"); // todo: for testing only
+            // System.out.println("exiting from game"); // todo: for testing only
             // change screen
-            // getCli().confirmExit(); // todo: actual code
+            getCli().confirmExit(); // todo: actual code
         }else{
             if(inputs[0].equals(Translator.getColor().get(0))){
-                System.out.println("move blue"); // todo: testing only
-                // getCli().getClientController().chooseStudentFromLocation(PawnType.BLUE_UNICORNS, new Position(Location.ENTRANCE)); // todo: actual code
+                // System.out.println("move blue"); // todo: testing only
+                getCli().getClientController().chooseStudentFromLocation(PawnType.BLUE_UNICORNS, new Position(Location.ENTRANCE)); // todo: actual code
                 return;
             }
             if(inputs[0].equals(Translator.getColor().get(1))){
-                System.out.println("move green"); // todo: testing only
-                // getCli().getClientController().chooseStudentFromLocation(PawnType.GREEN_FROGS, new Position(Location.ENTRANCE)); // todo: actual code
+                // System.out.println("move green"); // todo: testing only
+                getCli().getClientController().chooseStudentFromLocation(PawnType.GREEN_FROGS, new Position(Location.ENTRANCE)); // todo: actual code
                 return;
             }
             if(inputs[0].equals(Translator.getColor().get(2))){
-                System.out.println("move yellow"); // todo: testing only
-                // getCli().getClientController().chooseStudentFromLocation(PawnType.YELLOW_GNOMES, new Position(Location.ENTRANCE)); // todo: actual code
+                // System.out.println("move yellow"); // todo: testing only
+                getCli().getClientController().chooseStudentFromLocation(PawnType.YELLOW_GNOMES, new Position(Location.ENTRANCE)); // todo: actual code
                 return;
             }
             if(inputs[0].equals(Translator.getColor().get(3))){
-                System.out.println("move red"); // todo: testing only
-                // getCli().getClientController().chooseStudentFromLocation(PawnType.RED_DRAGONS, new Position(Location.ENTRANCE)); // todo: actual code
+                // System.out.println("move red"); // todo: testing only
+                getCli().getClientController().chooseStudentFromLocation(PawnType.RED_DRAGONS, new Position(Location.ENTRANCE)); // todo: actual code
                 return;
             }
             if(inputs[0].equals(Translator.getColor().get(4))){
-                System.out.println("move pink"); // todo: testing only
-                // getCli().getClientController().chooseStudentFromLocation(PawnType.PINK_FAIRIES, new Position(Location.ENTRANCE)); // todo: actual code
+                // System.out.println("move pink"); // todo: testing only
+                getCli().getClientController().chooseStudentFromLocation(PawnType.PINK_FAIRIES, new Position(Location.ENTRANCE)); // todo: actual code
             }
         }
     }
@@ -138,17 +141,17 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         String[] inputs = inputReader.readInput(Translator.getMessageToAskIslandID());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            System.out.println("exiting from game"); // todo: testing only
+            // System.out.println("exiting from game"); // todo: testing only
             // change screen
-            // getCli().confirmExit(); // todo: actual code
+            getCli().confirmExit(); // todo: actual code
         }else {
             int islandID;
             islandID=Integer.parseInt(inputs[0]);
             // send message to server
             System.out.println("sending to server to move student to: "+ islandID);
-            // Position island = new Position(Location.ISLAND); // todo: actual code
-            // island.setField(islandID);
-            // getCli().getClientController().chooseDestination(island);
+            Position island = new Position(Location.ISLAND); // todo: actual code
+            island.setField(islandID);
+            getCli().getClientController().chooseDestination(island);
         }
 
     }
@@ -168,9 +171,9 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         String[] inputs = inputReader.readInput(Translator.getMessageToAskToChooseADestination());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            System.out.println("exiting from game"); // todo: testing only
+            // System.out.println("exiting from game"); // todo: testing only
             // change screen
-            // getCli().confirmExit(); // todo: actual code
+            getCli().confirmExit(); // todo: actual code
         }else {
 
             int choice;
@@ -178,8 +181,8 @@ public class MoveStudentsPhaseScreen extends CliScreen {
 
             if(choice==MOVE_STUDENT_TO_DININGROOM){
                 System.out.println("move to dining room");
-                getCli().setNextScreen(new EndGameScreen(getCli(), List.of("player 1", "player 2"))); // todo: testing only
-                // getCli().getClientController().chooseDestination(new Position(Location.DINING_ROOM)); // todo: actual code
+                // getCli().setNextScreen(new EndGameScreen(getCli(), List.of("player 1", "player 2"))); // todo: testing only
+                getCli().getClientController().chooseDestination(new Position(Location.DINING_ROOM)); // todo: actual code
                 return;
             }
 
@@ -188,7 +191,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
             }
         }
 
-        getCli().setNextScreen(new EndGameScreen(getCli(), List.of("player 1", "player 2"))); // todo: testing only
+        // getCli().setNextScreen(new EndGameScreen(getCli(), List.of("player 1", "player 2"))); // todo: testing only
     }
 
     private void askForAction() {

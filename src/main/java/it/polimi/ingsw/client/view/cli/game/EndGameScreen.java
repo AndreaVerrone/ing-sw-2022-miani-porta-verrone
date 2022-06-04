@@ -45,8 +45,8 @@ public class EndGameScreen extends CliScreen {
 
         Text text;
 
-        // String ownerPlayer = getCli().getClientController().getNickNameOwner(); // todo: actual code
-        String ownerPlayer = "player 1"; // todo: only for testing
+        String ownerPlayer = getCli().getClientController().getNickNameOwner(); // todo: actual code
+        // String ownerPlayer = "player 1"; // todo: only for testing
 
         int numOfWinners = winners.size();
 
@@ -98,9 +98,9 @@ public class EndGameScreen extends CliScreen {
         String[] inputs = inputReader.readInput(Translator.getMessageChooseEndPhase());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            System.out.println("exiting from game"); // todo: testing only
+            // System.out.println("exiting from game"); // todo: testing only
             // change screen
-            // getCli().confirmExit(); // todo: actual code
+            getCli().confirmExit(); // todo: actual code
         }
     }
 }

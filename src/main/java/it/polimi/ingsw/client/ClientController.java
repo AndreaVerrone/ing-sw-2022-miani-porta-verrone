@@ -57,17 +57,14 @@ public class ClientController {
         this.cli = cli;
         cli.attachTo(this);
 
-        // todo: ACTUAL CODE
-        /*
-        //cli.setNextScreen(new LauncherScreen(cli));
-        //cli.run();
-         */
+        cli.setNextScreen(new LauncherScreen(cli));
+        cli.run();
 
         // todo:testing code
         //  <--- from here
         // cli.setTable(null);
-        displayPlanningPhaseScreen();
-        cli.run();
+        // displayPlanningPhaseScreen();
+        // cli.run();
         //  <--- to here
     }
 

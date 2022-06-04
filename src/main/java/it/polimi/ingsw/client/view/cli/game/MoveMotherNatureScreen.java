@@ -68,16 +68,16 @@ public class MoveMotherNatureScreen extends CliScreen {
         String[] inputs = inputReader.readInput(Translator.getMessageMoveMotherNaturePhase());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            System.out.println("exiting from game"); // todo: for testing only
+            // System.out.println("exiting from game"); // todo: for testing only
             // change screen
-            // getCli().confirmExit(); // todo: this is the actual code
+            getCli().confirmExit(); // todo: this is the actual code
         }else {
             int numOfMovements;
             numOfMovements=Integer.parseInt(inputs[0]);
             // send message to server
-            System.out.println("sending to server to move MN of: "+ numOfMovements); // todo: for testing only
-            // getCli().getClientController().moveMotherNature(numOfMovements); // todo: actual code
+            // System.out.println("sending to server to move MN of: "+ numOfMovements); // todo: for testing only
+            getCli().getClientController().moveMotherNature(numOfMovements); // todo: actual code
         }
-        getCli().setNextScreen(new ChooseCloudScreen(getCli())); // todo: for testing only
+        // getCli().setNextScreen(new ChooseCloudScreen(getCli())); // todo: for testing only
     }
 }

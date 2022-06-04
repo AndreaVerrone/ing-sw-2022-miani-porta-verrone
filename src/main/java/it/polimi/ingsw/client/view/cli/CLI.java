@@ -9,13 +9,11 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
-import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import org.fusesource.jansi.AnsiConsole;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.EnumCompleter;
@@ -53,7 +51,6 @@ public class CLI implements VirtualView, Runnable {
     }
 
     public void setTable(List<Assistant> assistantsList, Map<String, Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands) {
-        // todo: actual code
          this.table = new Table(
                  assistantsList,
                  assistantsUsed,
@@ -68,12 +65,9 @@ public class CLI implements VirtualView, Runnable {
                  reducedIslands
          );
 
-
-
-
         // todo: testing code
         //  <-- from here
-        StudentList stud = new StudentList();
+        /*StudentList stud = new StudentList();
         try {
             stud.changeNumOf(PawnType.BLUE_UNICORNS,3);
             stud.changeNumOf(PawnType.GREEN_FROGS,2);
@@ -150,7 +144,7 @@ public class CLI implements VirtualView, Runnable {
                 map4,
                 List.of("player 1", "player 2", "player 3"),
                 reducedIslands1
-        );
+        );<-- to here */
     }
 
     /**
