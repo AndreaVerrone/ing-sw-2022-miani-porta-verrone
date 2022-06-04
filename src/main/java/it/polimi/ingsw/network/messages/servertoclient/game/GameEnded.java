@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.messages.servertoclient.game;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -30,6 +31,7 @@ public class GameEnded extends ServerCommandNetMsg {
     @Override
     public void processMessage(ClientController client) {
         // TODO: 11/05/2022 show in view
+        client.displayEndGameScreen(new ArrayList<>(winners));
     }
 
 }

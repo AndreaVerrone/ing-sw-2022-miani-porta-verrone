@@ -26,6 +26,7 @@ public class MotherNatureMoved extends ServerCommandNetMsg {
     @Override
     public void processMessage(ClientController client) {
         // TODO: 11/05/2022 update view
+        client.moveMotherNature(movement);
     }
 
 }

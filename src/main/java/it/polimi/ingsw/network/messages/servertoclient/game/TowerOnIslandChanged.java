@@ -18,7 +18,7 @@ public class TowerOnIslandChanged extends ServerCommandNetMsg {
     /**
      * The ID of the island
      */
-    private final int IslandID;
+    private final int islandID;
 
     /**
      * Creates a new message to indicate that the tower on an island changed
@@ -27,12 +27,13 @@ public class TowerOnIslandChanged extends ServerCommandNetMsg {
      */
     public TowerOnIslandChanged(TowerType newTower, int islandID) {
         this.newTower = newTower;
-        IslandID = islandID;
+        this.islandID = islandID;
     }
 
     @Override
     public void processMessage(ClientController client) {
         // TODO: 11/05/2022 update view
+        client.updateTowerType(islandID,newTower);
     }
 
 }
