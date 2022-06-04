@@ -21,14 +21,15 @@ class TowerLocation extends StatefulWidget {
      */
     TowerType towerColor;
 
-    void setTowerNumber(int towerNumber) {
+    // NOT NEEDED // todo: remove
+    /*void setTowerNumber(int towerNumber) {
         setState(()->this.towerNumber=towerNumber);
-    }
+    }*/
 
-    void setTowerColor(TowerType towerColor) {
-        // todo: maybe it is not needed
+    // NOT NEEDED // todo: remove
+    /*void setTowerColor(TowerType towerColor) {
         setState(()->this.towerColor=towerColor);
-    }
+    }*/
 
     /**
      * The constructor of the class.

@@ -6,12 +6,9 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.server.model.utils.PawnType;
-import it.polimi.ingsw.server.model.utils.StudentList;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
+
 
 /**
  * a class to visualize the professors table.
@@ -21,7 +18,7 @@ class ProfTable extends StatefulWidget {
     /**
      * the list of professors.
      */
-    private Collection<PawnType> actualProfessors;
+    private final Collection<PawnType> actualProfessors;
 
     /**
      * The constructor of the class.
@@ -32,9 +29,10 @@ class ProfTable extends StatefulWidget {
         create();
     }
 
-    void setActualProfessors(Collection<PawnType> actualProfessors) {
+    // todo: remove not needed
+    /*void setActualProfessors(Collection<PawnType> actualProfessors) {
         setState(()->this.actualProfessors=actualProfessors);
-    }
+    }*/
 
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
@@ -55,7 +53,6 @@ class ProfTable extends StatefulWidget {
         Text redStudents = new Text("").setForegroundColor(Color.RED);
         Text pinkStudents = new Text("").setForegroundColor(Color.MAGENTA);
 
-        // todo: use proper methods to do that
         int numOfSpace =  stringHeader.length()/2;
         StringBuilder padding = new StringBuilder();
         padding.append(" ".repeat(numOfSpace));

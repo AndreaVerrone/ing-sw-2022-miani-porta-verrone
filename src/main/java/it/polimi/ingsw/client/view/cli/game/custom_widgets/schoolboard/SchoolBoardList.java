@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.*;
 
+// todo: maybe the class can be removed since not used
 public class SchoolBoardList extends StatefulWidget {
 
     /**

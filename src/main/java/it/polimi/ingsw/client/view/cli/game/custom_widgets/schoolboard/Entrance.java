@@ -26,7 +26,7 @@ class Entrance extends StatefulWidget {
         create();
     }
 
-    /* NOT NEEDED
+    /* NOT NEEDED // todo: remove
     public void setStudents(StudentList students) {
         setState(()->this.students=students);
     }*/

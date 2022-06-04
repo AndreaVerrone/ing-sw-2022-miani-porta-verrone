@@ -16,39 +16,39 @@ public class SchoolBoardView extends StatefulWidget {
     /**
      * students at the entrance.
      */
-    private StudentList entranceStud;
+    private final StudentList entranceStud;
 
     /**
      * students in the dining room.
      */
-    private StudentList diningRoomStud;
+    private final StudentList diningRoomStud;
 
     /**
      * collection of professors.
      */
-    private Collection<PawnType> actualProfessors;
+    private final Collection<PawnType> actualProfessors;
 
     /**
      * the number of tower.
      */
-    private int towerNumber;
+    private final int towerNumber;
 
     /**
      * The color of towers.
      */
-    private TowerType towerColor;
+    private final TowerType towerColor;
 
     /**
      * The number of coins.
      */
-    private int numOfCoins;
+    private final int numOfCoins;
 
     /**
      * the owner of the school board.
      */
     private final String owner;
 
-/* SETTERS NOT NEEDED
+/* SETTERS NOT NEEDED // todo: remove
     public void setEntranceStud(StudentList entranceStud) {
         setState(()->this.entranceStud=entranceStud);
     }

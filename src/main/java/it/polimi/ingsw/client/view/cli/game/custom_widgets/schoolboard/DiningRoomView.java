@@ -7,10 +7,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 class DiningRoomView extends StatefulWidget {
@@ -95,10 +92,7 @@ class DiningRoomView extends StatefulWidget {
      * @return the string made of {@code numOfStud} █
      */
     private String createString(int numOfStud){
-        StringBuilder padding = new StringBuilder();
-        padding.append(" █ ".repeat(numOfStud));
-        String string = padding.toString();
-        return string;
+        return " █ ".repeat(numOfStud);
     }
 
     /**
