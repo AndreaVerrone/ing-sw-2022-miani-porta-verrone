@@ -26,11 +26,6 @@ class Entrance extends StatefulWidget {
         create();
     }
 
-    /* NOT NEEDED // todo: remove
-    public void setStudents(StudentList students) {
-        setState(()->this.students=students);
-    }*/
-
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
      * This method is run every time something in the content change or when it should be

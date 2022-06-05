@@ -20,12 +20,12 @@ class DiningRoomView extends StatefulWidget {
     /**
      * The max number of students in one table.
      */
-    private final int MAX_STUD = 10;
+    private static final int MAX_STUD = 10;
 
     /**
      * The number of tables in the dining room.
      */
-    private final int NUM_OF_TABLES = 5;
+    private static final int NUM_OF_TABLES = 5;
 
     /**
      * The constructor of the class
@@ -35,11 +35,6 @@ class DiningRoomView extends StatefulWidget {
         setState(()->this.actualStudentList = actualStudentList);
         create();
     }
-
-    /* NOT NEEDED
-    public void setActualStudentList(StudentList actualStudentList) {
-        setState(()->this.actualStudentList=actualStudentList);
-    }*/
 
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
@@ -121,53 +116,3 @@ class DiningRoomView extends StatefulWidget {
     }
 }
 
-
-
-
-
-
-
-
-/*
-        int numOfSpace = 10;
-        StringBuilder padding = new StringBuilder();
-        padding.append(" █ ".repeat(numOfSpace));
-        String string = padding.toString();
-
-        List<String> list = new ArrayList<>();
-        for (int i=0;i<6;i++){
-            string.concat(" █ ");
-        }
-
-
-        Text tw = new Text(" █ ").setForegroundColor(Color.WHITE);
-        Text tb = new Text(" █ ").setForegroundColor(Color.BLACK);
-        Row template = new Row(List.of(tw, tw, tb, tw, tw, tb, tw, tw, tb, tw ));
-
-        Text blueStudents = new Text(padding.toString()).setForegroundColor(Color.BLUE);
-        Text greenStudents = new Text(padding.toString()).setForegroundColor(Color.GREEN);
-        Text yellowStudents = new Text(padding.toString()).setForegroundColor(Color.BRIGHT_YELLOW);
-        Text redStudents = new Text(padding.toString()).setForegroundColor(Color.RED);
-        Text pinkStudents = new Text(padding.toString()).setForegroundColor(Color.MAGENTA);
-
-        Column studentColumn = new Column(List.of(blueStudents, greenStudents, yellowStudents, redStudents, pinkStudents));
-
-        Column column = new Column(List.of(
-                header,
-                //new Border(template,BorderType.SINGLE),
-                studentColumn
-                //new Border(studentColumn, BorderType.SINGLE)
-
-                //new Border(blueStudents,BorderType.SINGLE),
-                //new Border(greenStudents,BorderType.SINGLE),
-                //new Border(yellowStudents,BorderType.SINGLE),
-                //new Border(redStudents,BorderType.SINGLE),
-                //new Border(pinkStudents,BorderType.SINGLE)
-                ));
-        */
-
-    /*
-    public DiningRoomView(StudentList actualStudentList) {
-        this.actualStudentList = actualStudentList;
-        create();
-    }*/

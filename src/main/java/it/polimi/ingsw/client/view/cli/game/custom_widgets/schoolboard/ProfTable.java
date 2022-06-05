@@ -30,7 +30,7 @@ class ProfTable extends StatefulWidget {
     }
 
     // todo: remove not needed
-    /*void setActualProfessors(Collection<PawnType> actualProfessors) {
+    /* void setActualProfessors(Collection<PawnType> actualProfessors) {
         setState(()->this.actualProfessors=actualProfessors);
     }*/
 

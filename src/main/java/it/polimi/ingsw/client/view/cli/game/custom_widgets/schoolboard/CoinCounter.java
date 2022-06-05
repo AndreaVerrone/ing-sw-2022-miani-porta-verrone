@@ -24,11 +24,6 @@ class CoinCounter extends StatefulWidget {
         create();
     }
 
-    /* NOT NEEDED
-    public void setCoinNumber(int newCoinNumber) {
-        setState(() -> this.coinNumber=newCoinNumber);
-    }*/
-
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
      * This method is run every time something in the content change or when it should be

@@ -30,17 +30,6 @@ public class CloudsSet extends StatefulWidget {
     }
 
     /**
-     * This method will update the student list of the cloud with the ID specified in the parameter
-     * @param ID the ID of the cloud on which the student list must be changed
-     * @param studentList the new student list to put on the island
-     */
-    /* NOT NEEDED // todo: remove
-    public void updateStudentList(int ID, StudentList studentList) {
-        mapIdCloudWidget.get(ID).setStudents(studentList);
-    }
-    */
-
-    /**
      * A method used to define by which Widgets this StatefulWidget is composed.
      * This method is run every time something in the content change or when it should be
      * displayed, so no heavy processes should be done inside it.
