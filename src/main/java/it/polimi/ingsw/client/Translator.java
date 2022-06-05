@@ -131,7 +131,7 @@ public class Translator {
         return isItalian ? "esci" : "exit";
     }
 
-    // PLANING PAHSE
+    // PLANNING PAHSE
     public static String getPlanningPhaseName(){
         return isItalian ? "FASE DI PIANIFICAZIONE": "PLANNING PHASE";
     }

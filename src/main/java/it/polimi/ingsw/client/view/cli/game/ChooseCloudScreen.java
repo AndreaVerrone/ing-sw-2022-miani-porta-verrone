@@ -21,7 +21,7 @@ public class ChooseCloudScreen extends CliScreen {
     /**
      * the name of the phase
      */
-    private final String phase = "ACTION PHASE: Choose clouds";
+    private final String phase = Translator.getMessageChooseCloudPhase();
 
     /**
      * the table of the game
