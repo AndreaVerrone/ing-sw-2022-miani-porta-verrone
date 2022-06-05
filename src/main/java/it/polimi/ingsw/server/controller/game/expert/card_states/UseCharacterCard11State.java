@@ -71,10 +71,9 @@ public class UseCharacterCard11State extends UseCharacterCardState {
      * @param color the {@code PawnType} of the student
      * @param originPosition the {@code Position} from where take the student
      * @throws NotValidArgumentException if the dining room is full or if the student is not present on the card
-     * @throws NotValidOperationException if the location of the position is not the character card 11
      */
     @Override
-    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidArgumentException, NotValidOperationException {
+    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidArgumentException {
 
         if(!originPosition.isLocation(Location.CHARACTER_CARD_11)){
             throw new NotValidArgumentException();

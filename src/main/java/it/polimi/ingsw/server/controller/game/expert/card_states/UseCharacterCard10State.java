@@ -42,6 +42,7 @@ public class UseCharacterCard10State extends UseCharacterCardState {
     /**
      * Constructor of the class. Saves the game, the state before this one and the card used
      * @param game game class of the game
+     * @param originState the state from which this character card has been used
      * @param card card used in the state
      */
     public UseCharacterCard10State(ExpertGame game, GameState originState, CharacterCard10 card){
@@ -50,7 +51,7 @@ public class UseCharacterCard10State extends UseCharacterCardState {
     }
 
     @Override
-    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
+    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidArgumentException {
         if(originPosition.isLocation(Location.NONE)){
             //Send location NONE to stop swapping students
             // EPILOGUE

@@ -47,10 +47,9 @@ public class UseCharacterCard4State extends UseCharacterCardState {
      * This method allows to compute the influence on the island specified in the parameter.
      * @param destination the Position
      * @throws NotValidArgumentException if the island does not exist
-     * @throws NotValidOperationException if the location of the position is not an island
      */
     @Override
-    public void chooseDestination(Position destination) throws NotValidArgumentException, NotValidOperationException {
+    public void chooseDestination(Position destination) throws NotValidArgumentException {
 
         if(!destination.isLocation(Location.ISLAND)){
             throw new NotValidArgumentException();
