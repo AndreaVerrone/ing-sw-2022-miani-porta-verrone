@@ -6,7 +6,10 @@ import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.gametable.GameTable;
 import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -46,6 +49,16 @@ public class Match implements ObserversCommonInterface{
      */
     public Match(int numOfPlayers, boolean wantExpert) {
         matchMaking = new MatchMaking(numOfPlayers, wantExpert);
+
+        //ADD OBSERVER TO MATCHMAKING
+        matchMaking.addChangeCurrentPlayerObserver(this);
+        matchMaking.addNumberOfPlayersObserver(this);
+        matchMaking.addPlayersChangedObserver(this);
+        matchMaking.addChangeCurrentStateObserver(this);
+        for (PlayerLoginInfo player: matchMaking.getPlayers()){
+            player.addTowerSelectedObserver(this);
+            player.addWizardSelectedObserver(this);
+        }
     }
 
     /**
@@ -172,7 +185,43 @@ public class Match implements ObserversCommonInterface{
         if (possibleGame.isPresent()){
             matchMaking = null;
             game = possibleGame.get();
+            addObserverToGame();
         }
+    }
+
+    /**
+     * Method to add all the observers to game, both in basic and expert mode
+     */
+    private void addObserverToGame(){
+        game.addChangeCurrentStateObserver(this);
+        game.addStudentsOnCardObserver(this);
+        game.addCoinOnCardObserver(this);
+
+        GameModel model = game.getModel();
+        model.addChangeCurrentPlayerObserver(this);
+        model.addConquerIslandObserver(this);
+        model.addEmptyStudentBagObserver(this);
+        model.addChangeCoinNumberInBagObserver(this);
+
+        GameTable gameTable = model.getGameTable();
+        gameTable.addMotherNaturePositionObserver(this);
+        gameTable.addStudentsOnCloudObserver(this);
+        gameTable.addIslandNumberObserver(this);
+        gameTable.addStudentsOnIslandObserver(this);
+        gameTable.addTowerOnIslandObserver(this);
+        gameTable.addBanOnIslandObserver(this);
+        gameTable.addUnificationIslandObserver(this);
+
+        for(Player player: model.getPlayerList()){
+            player.addChangeAssistantDeckObserver(this);
+            player.addChangeCoinNumberObserver(this);
+            player.addProfessorObserver(this);
+            player.addChangeTowerNumberObserver(this);
+            player.addLastAssistantUsedObserver(this);
+            player.addStudentsInDiningRoomObserver(this);
+            player.addStudentsOnEntranceObserver(this);
+        }
+
     }
 
     /**

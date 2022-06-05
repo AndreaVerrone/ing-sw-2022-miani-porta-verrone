@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
+import it.polimi.ingsw.server.controller.game.expert.card_observers.CoinOnCardObserver;
+import it.polimi.ingsw.server.controller.game.expert.card_observers.StudentsOnCardObserver;
 import it.polimi.ingsw.server.controller.game.states.*;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.gametable.GameTable;
@@ -335,4 +337,29 @@ public class Game {
             observer.changeCurrentStateObserverUpdate(this.state.getType());
     }
 
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON CHARACTER CARDS IF ANY
+
+    /**
+     * Does nothing in basic mode since there are no character cards.
+     * @param observer the observer to be added if it's expert mode
+     */
+    public void addStudentsOnCardObserver(StudentsOnCardObserver observer){}
+
+    /**
+     * Does nothing in basic mode since there are no character cards.
+     * @param observer the observer to be added if it's expert mode
+     */
+    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){}
+
+    /**
+     * Does nothing in basic mode since there are no character cards.
+     * @param observer the observer to be added if it's expert mode
+     */
+    public void addCoinOnCardObserver(CoinOnCardObserver observer){}
+
+    /**
+     * Does nothing in basic mode since there are no character cards.
+     * @param observer the observer to be added if it's expert mode
+     */
+    public void removeCoinOnCardObserver(CoinOnCardObserver observer){}
 }

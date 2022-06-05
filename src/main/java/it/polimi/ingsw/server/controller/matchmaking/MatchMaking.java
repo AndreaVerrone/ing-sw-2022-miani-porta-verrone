@@ -307,7 +307,7 @@ public class MatchMaking{
      * This method allows to add the observer, passed as a parameter, on the players.
      * @param observer the observer to be added
      */
-    void addPlayersChangedObserver(PlayersChangedObserver observer){
+    public void addPlayersChangedObserver(PlayersChangedObserver observer){
         playersChangedObservers.add(observer);
     }
 
@@ -315,7 +315,7 @@ public class MatchMaking{
      * This method allows to remove the observer, passed as a parameter, on the players.
      * @param observer the observer to be removed
      */
-    void removePlayersChangedObserver(PlayersChangedObserver observer){
+    public void removePlayersChangedObserver(PlayersChangedObserver observer){
         playersChangedObservers.remove(observer);
     }
 
