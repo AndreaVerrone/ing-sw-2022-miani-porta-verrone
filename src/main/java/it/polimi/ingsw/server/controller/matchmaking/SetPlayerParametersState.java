@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
-import it.polimi.ingsw.server.controller.game.IGame;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -67,7 +66,7 @@ class SetPlayerParametersState implements MatchMakingState{
      * @throws NotValidOperationException if the current player hasn't chosen yet the tower or wizard
      */
     @Override
-    public Optional<IGame> next() throws NotValidOperationException {
+    public Optional<Game> next() throws NotValidOperationException {
         PlayerLoginInfo currentPlayer = matchMaking.getCurrentPlayer();
         if (currentPlayer.getTowerType() == null || currentPlayer.getWizard() == null)
             throw new NotValidOperationException();

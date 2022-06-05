@@ -2,10 +2,9 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.Server;
-import it.polimi.ingsw.server.controller.game.IGame;
+import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
-import it.polimi.ingsw.server.controller.matchmaking.IMatchMaking;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -19,7 +18,7 @@ import java.util.Optional;
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
-public class Match implements IMatchMaking, IGame {
+public class Match {
 
     /**
      * The Matchmaking of this match. After the game has started this will be null.
@@ -29,7 +28,7 @@ public class Match implements IMatchMaking, IGame {
     /**
      * The game of this match. Before the game starts, this is null.
      */
-    private IGame game;
+    private Game game;
 
     /**
      * The views of the player in this match. All of this should be notified
@@ -71,7 +70,10 @@ public class Match implements IMatchMaking, IGame {
         }
     }
 
-    @Override
+    /**
+     * Gets the nickname of the player that need to play now.
+     * @return the nickname of the current player
+     */
     public String getCurrentPlayerNickname(){
         if (matchMaking != null)
             return matchMaking.getCurrentPlayer().getNickname();
@@ -79,9 +81,10 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException {@inheritDoc}
+     * Sets if the game it's been creating need to use expert rules.
+     * @param isHardMode {@code true} if expert rules are required, {@code false} otherwise
+     * @throws NotValidOperationException if the game has started
      */
-    @Override
     public void setHardMode(boolean isHardMode) throws NotValidOperationException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -89,10 +92,13 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Change the number of players needed in this game. This cannot be less than the player already
+     * present in this lobby.
+     * @param value the new number of players
+     * @throws NotValidArgumentException if the selected number of players is not valid (i.e. if it's not
+     * one of the value supported or less than the player already present in this lobby)
+     * @throws NotValidOperationException if the number of player can't be changed in the current state
      */
-    @Override
     public void changeNumOfPlayers(int value) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -100,10 +106,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Adds a player with the provided nickname to this lobby. The nickname must be unique.
+     * @param nickname the nickname chosen by the player
+     * @throws NotValidArgumentException if the nickname is already taken
+     * @throws NotValidOperationException if a new player can't be added in the current state
      */
-    @Override
     public void addPlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -113,10 +120,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Removes the player with the provided nickname from this lobby.
+     * @param nickname the nickname of the player to remove
+     * @throws NotValidArgumentException if there is no player with the provided nickname
+     * @throws NotValidOperationException if a player can't leave the game in the current state
      */
-    @Override
     public void removePlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -128,10 +136,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Sets the tower type of the current player in the queue.
+     * @param towerType the type of tower to assign
+     * @throws NotValidArgumentException if the tower selected is not available
+     * @throws NotValidOperationException if the tower of the player can't be changed in the current state
      */
-    @Override
     public void setTowerOfPlayer(TowerType towerType) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -139,10 +148,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Sets the wizard of the current player in the queue.
+     * @param wizard the wizard to assign
+     * @throws NotValidArgumentException if the wizard selected is not available
+     * @throws NotValidOperationException if the wizard of the player can't be changed in the current state
      */
-    @Override
     public void setWizardOfPlayer(Wizard wizard) throws NotValidOperationException, NotValidArgumentException {
         if (matchMaking == null)
             throw new NotValidOperationException();
@@ -150,27 +160,29 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * Moves the match making to the next state.
-     * @throws NotValidOperationException if the game has started or {@inheritDoc}
-     * @return {@link Optional#empty()}
+     * Moves the match making to the next state. It also returns the new game created, if any.
+     * @throws NotValidOperationException if the state can't be changed (i.e. not all the expected operations
+     * of the current state were done)
      */
-    @Override
-    public Optional<IGame> next() throws NotValidOperationException {
+    public void next() throws NotValidOperationException {
         if (matchMaking == null)
             throw new NotValidOperationException();
-        Optional<IGame> possibleGame = matchMaking.next();
+        Optional<Game> possibleGame = matchMaking.next();
         if (possibleGame.isPresent()){
             matchMaking = null;
             game = possibleGame.get();
         }
-        return Optional.empty();
     }
 
     /**
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Method to use an assistant card
+     *
+     * @param assistant is the assistant card to be played
+     * @throws NotValidOperationException if this method has been invoked in a state in which
+     *                                    this operation is not supported
+     * @throws NotValidArgumentException  if has been passed an assistant card that cannot be used,
+     *                                    or it is not present in the player's deck
      */
-    @Override
     public void useAssistant(Assistant assistant) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
@@ -178,10 +190,13 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * This method allows to select a student (of the PawnType specified in the parameter) that comes from the position
+     * (also specified in the parameters).
+     * @param color the {@code PawnType} of the student
+     * @param originPosition the {@code Position} from where take the student
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the student is not present in the specified location
      */
-    @Override
     public void chooseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
@@ -189,10 +204,11 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * This method allows to choose a destination on which operate based on the state.
+     * @param destination the Position
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the
      */
-    @Override
     public void chooseDestination(Position destination) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
@@ -200,10 +216,14 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Method to move mother nature of a certain number of islands
+     *
+     * @param positions number of islands to move on mother nature
+     * @throws NotValidOperationException if this method has been invoked in a state in which
+     *                                    this operation is not supported
+     * @throws NotValidArgumentException  if the position is not positive, or it is not
+     *                                    compliant with the rules of the game
      */
-    @Override
     public void moveMotherNature(int positions) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
@@ -211,27 +231,34 @@ public class Match implements IMatchMaking, IGame {
     }
 
     /**
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Method to get all the students from a chosen cloud and put them in the entrance
+     *
+     * @param cloudID ID of the cloud from which get the students
+     * @throws NotValidOperationException if this method has been invoked in a state in which
+     *                                    this operation is not supported
+     * @throws NotValidArgumentException  if the cloud passed as a parameter is empty
      */
-    @Override
     public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
         game.takeFromCloud(cloudID);
     }
 
-    @Override
+    /**
+     * Skips the turn of the current player, doing random choices when necessary
+     */
     public void skipTurn() {
         if (game != null)
             game.skipTurn();
     }
 
     /**
-     * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Method to use a character card of the specified type
+     * @param cardType type of the character card to use
+     * @throws NotValidOperationException if the card is used in basic mode or the players hasn't
+     *                                    enough money to use it or the current player has already used a card
+     * @throws NotValidArgumentException if the card doesn't exist
      */
-    @Override
     public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
         if (game == null)
             throw new NotValidOperationException();
