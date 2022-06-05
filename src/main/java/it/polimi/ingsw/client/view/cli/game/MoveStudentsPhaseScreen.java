@@ -80,7 +80,6 @@ public class MoveStudentsPhaseScreen extends CliScreen {
             inputReader.addCommandValidator(command);
         }
 
-        completers.add(new StringsCompleter(Translator.getMessageToExit()));
         inputReader.addCompleter(new AggregateCompleter(completers));
 
 
