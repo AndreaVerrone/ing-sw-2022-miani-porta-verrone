@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.Optional;
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
-public class Match {
+public class Match implements ObserversCommonInterface{
 
     /**
      * The Matchmaking of this match. After the game has started this will be null.
@@ -263,5 +264,130 @@ public class Match {
         if (game == null)
             throw new NotValidOperationException();
         game.useCharacterCard(cardType);
+    }
+
+    @Override
+    public void changeCurrentStateObserverUpdate(StateType stateType) {
+
+    }
+
+    @Override
+    public void coinOnCardObserverUpdate(CharacterCardsType characterCardsType, boolean coinOnCard) {
+
+    }
+
+    @Override
+    public void studentsOnCardObserverUpdate(CharacterCardsType characterCardType, StudentList actualStudents) {
+
+    }
+
+    @Override
+    public void numberOfPlayersUpdate(int numberOfPlayers) {
+
+    }
+
+    @Override
+    public void playersChangedObserverUpdate(Collection<PlayerLoginInfo> players) {
+
+    }
+
+    @Override
+    public void towerSelectedObserverUpdate(String player, TowerType tower) {
+
+    }
+
+    @Override
+    public void wizardSelectedObserverUpdate(String player, Wizard wizard) {
+
+    }
+
+    @Override
+    public void banOnIslandObserverUpdate(int islandIDWithBan, int actualNumOfBans) {
+
+    }
+
+    @Override
+    public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
+
+    }
+
+    @Override
+    public void changeCoinNumberInBagObserverUpdate(int actualNumOfCoins) {
+
+    }
+
+    @Override
+    public void changeCoinNumberObserverUpdate(String nickNameOfPlayer, int actualNumOfCoins) {
+
+    }
+
+    @Override
+    public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
+
+    }
+
+    @Override
+    public void changeTowerNumberUpdate(String nickName, int numOfActualTowers) {
+
+    }
+
+    @Override
+    public void conquerIslandObserverUpdate() {
+
+    }
+
+    @Override
+    public void emptyStudentBagObserverUpdate() {
+
+    }
+
+    @Override
+    public void islandNumberObserverUpdate(int actualNumOfIslands) {
+
+    }
+
+    @Override
+    public void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int finalSize) {
+
+    }
+
+    @Override
+    public void lastAssistantUsedObserverUpdate(String nickName, Assistant actualLastAssistant) {
+
+    }
+
+    @Override
+    public void motherNaturePositionObserverUpdate(int actualMotherNaturePosition) {
+
+    }
+
+    @Override
+    public void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors) {
+
+    }
+
+    @Override
+    public void studentsInDiningRoomObserverUpdate(String nickname, StudentList actualStudents) {
+
+    }
+
+    @Override
+    public void studentsOnCloudObserverUpdate(int cloudID, StudentList actualStudentList) {
+
+    }
+
+    @Override
+    public void studentsOnEntranceObserverUpdate(String nickname, StudentList actualStudents) {
+
+    }
+
+    @Override
+    public void studentsOnIslandObserverUpdate(int islandID, StudentList actualStudents) {
+
+    }
+
+    @Override
+    public void towerOnIslandObserverUpdate(int islandIDWithChange, TowerType actualTower) {
+
     }
 }
