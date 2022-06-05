@@ -75,4 +75,9 @@ public interface IGame {
      * @throws NotValidArgumentException if the card doesn't exist
      */
     void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException;
+
+    /**
+     * Skips the turn of the current player, doing random choices when necessary
+     */
+    void skipTurn();
 }

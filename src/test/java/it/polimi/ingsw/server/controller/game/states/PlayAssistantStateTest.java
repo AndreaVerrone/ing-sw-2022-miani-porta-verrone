@@ -187,4 +187,32 @@ class PlayAssistantStateTest {
         // since all the player of the game have completed the planning phase
         assertEquals(game.getMoveStudentState(),game.getState());
     }
+
+    @Test
+    public void skipTurn_ShouldUseARandomAssistant(){
+        Player currentPlayer = game.getModel().getCurrentPlayer();
+        assertNull(currentPlayer.getLastAssistant());
+        playAssistantState.skipTurn();
+        assertNotNull(currentPlayer.getLastAssistant());
+    }
+
+    @Test
+    public void skipTurn_ShouldUseAnAssistantPresentInHand(){
+        Player currentPlayer = game.getModel().getCurrentPlayer();
+        Collection<Assistant> playerHand = currentPlayer.getHand();
+        playAssistantState.skipTurn();
+        assertTrue(playerHand.contains(currentPlayer.getLastAssistant()));
+    }
+
+    @Test
+    public void skipTurn_ShouldNotUseAnAlreadyUsedAssistant(){
+        try {
+            playAssistantState.useAssistant(Assistant.CARD_1);
+        } catch (NotValidArgumentException e){
+            fail();
+        }
+        Player currentPlayer = game.getModel().getCurrentPlayer();
+        playAssistantState.skipTurn();
+        assertNotEquals(Assistant.CARD_1, currentPlayer.getLastAssistant());
+    }
 }

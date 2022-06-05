@@ -77,4 +77,7 @@ public class EndState implements GameState {
     public StateType getType() {
         return StateType.END_STATE;
     }
+
+    @Override
+    public void skipTurn() {}
 }

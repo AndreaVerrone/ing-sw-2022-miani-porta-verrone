@@ -10,7 +10,12 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.CloudNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * A class to handle the state of the game in which the player can choose a cloud and take all the students from it
@@ -22,10 +27,6 @@ public class ChooseCloudState implements GameState {
      * Model of the game
      */
     private final GameModel model;
-    /**
-     * Number of players that have chosen already a cloud
-     */
-    private int numberOfPlayers;
 
     /**
      * Constructor of the class. Saves the game and the model of the game and sets the number of players that have
@@ -35,7 +36,6 @@ public class ChooseCloudState implements GameState {
     public ChooseCloudState(Game game){
         this.game = game;
         this.model = game.getModel();
-        numberOfPlayers = 0;
     }
 
     @Override
@@ -56,43 +56,45 @@ public class ChooseCloudState implements GameState {
         } catch (ReachedMaxStudentException e) {
             throw new NotValidOperationException();
         }
-        numberOfPlayers++;
-        changeState();
-    }
-
-    /**
-     * Method to handle the change of the state.<p>
-     *     If all players have played it's the end of the round and the game returns to the state where players can use an assistant card
-     * </p>
-     * <p>
-     *     If there are still players that haven't played yet the game returns to the state where the next player can
-     *     move a student
-     * </p>
-     */
-    private void changeState(){
-
-        if (numberOfPlayers == model.getPlayerList().size()){
-            //End of the round
-            //Reset number of players that have played
-            numberOfPlayers = 0;
-            //Fill the clouds
-            model.getGameTable().fillClouds();
-            //Calculate new players order
-            model.calculatePlanningPhaseOrder();
-            game.setState(game.getPlayAssistantState());
-        }
-        else{
-            //End of the current player turn
-            model.nextPlayerTurn();
-
-            //Change state
-            game.setState(game.getMoveStudentState());
-        }
         game.endOfTurn();
     }
 
     @Override
     public StateType getType() {
         return StateType.CHOOSE_CLOUD_STATE;
+    }
+
+    @Override
+    public void skipTurn() {
+    // remove students from a random cloud
+        StudentList students = null;
+        while (students == null){
+            int randomCloud = new Random().nextInt(model.getPlayerList().size());
+            try {
+                students = model.getGameTable().getFromCloud(randomCloud);
+                if (students.numAllStudents() == 0)
+                    students = null;
+            } catch (CloudNotFoundException e){}
+        }
+
+// fill the entrance with random students taken from the cloud until reaching the max number of students
+// and put the remaining (if any) in the bag
+        List<PawnType> pawnTypeList = new ArrayList<>(List.of(PawnType.values()));
+        while (students.numAllStudents() != 0){
+            int randomStudentIndex = new Random().nextInt(pawnTypeList.size());
+            PawnType randomStudent = pawnTypeList.get(randomStudentIndex);
+            if (students.getNumOf(randomStudent) == 0) {
+                pawnTypeList.remove(randomStudentIndex);
+                continue;
+            }
+            try {
+                model.getCurrentPlayer().addStudentToEntrance(randomStudent);
+                students.changeNumOf(randomStudent, -1);
+            } catch (ReachedMaxStudentException e) {
+                break;
+            } catch (NotEnoughStudentException e) {}
+        }
+        model.getGameTable().fillBag(students);
+        game.endOfTurn();
     }
 }

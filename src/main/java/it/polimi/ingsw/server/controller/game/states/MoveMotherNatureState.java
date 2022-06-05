@@ -25,10 +25,6 @@ public class MoveMotherNatureState implements GameState {
      * Game table of the game
      */
     private final GameTable gameTable;
-    /**
-     * Number of players that are playing the last round
-     */
-    private int numberOfPlayersLastRound = 0;
 
     /**
      * Constructor of the class. Saves the game, the model and the game table
@@ -68,17 +64,7 @@ public class MoveMotherNatureState implements GameState {
      */
     private void changeState(){
         if(game.getLastRoundFlag()){
-            numberOfPlayersLastRound++;
-            //If this is the last round
-            if (numberOfPlayersLastRound == model.getPlayerList().size()){
-                //If all players have played their turn go at the end of the game
-                game.setState(new EndState(game));
-            }
-            else{
-                //More players have to play their last turn, update the current player and go to the next state
-                model.nextPlayerTurn();
-                game.setState(game.getMoveStudentState());
-            }
+            game.endOfTurn();
         }
         else {
             //Otherwise, go to the next state
@@ -89,5 +75,17 @@ public class MoveMotherNatureState implements GameState {
     @Override
     public StateType getType() {
         return StateType.MOVE_MOTHER_NATURE_STATE;
+    }
+
+    @Override
+    public void skipTurn() {
+        if(game.getLastRoundFlag()){
+            game.endOfTurn();
+        }
+        else {
+            //Otherwise, go to the next state
+            game.setState(game.getChooseCloudState());
+            game.getState().skipTurn();
+        }
     }
 }

@@ -102,5 +102,6 @@ public class ExpertGame extends Game {
 
         // RESET THE POSSIBILITY TO USE A CHARACTER CARD
         canUseCharacterCard = true;
+        super.endOfTurn();
     }
 }

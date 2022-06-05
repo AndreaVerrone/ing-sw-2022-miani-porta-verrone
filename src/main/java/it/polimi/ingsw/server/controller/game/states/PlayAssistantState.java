@@ -12,6 +12,8 @@ import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This state allows the current player to use the assistant card.
@@ -116,5 +118,19 @@ public class PlayAssistantState implements GameState {
     @Override
     public StateType getType() {
         return StateType.PLAY_ASSISTANT_STATE;
+    }
+
+    @Override
+    public void skipTurn() {
+        List<Assistant> currentPlayerHand = new ArrayList<>(gameModel.getCurrentPlayer().getHand());
+        boolean cardUsed = false;
+        while (!cardUsed){
+            int randomCard = new Random().nextInt(currentPlayerHand.size());
+            try {
+                useAssistant(currentPlayerHand.get(randomCard));
+                cardUsed = true;
+            } catch (NotValidArgumentException e){
+            }
+        }
     }
 }

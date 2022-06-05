@@ -53,6 +53,11 @@ public class Game implements IGame {
      * If this flag is true the game is in its last round
      */
     private boolean lastRoundFlag = false;
+
+    /**
+     * The number of turns that have been played in the current round
+     */
+    private int turnsPlayed = 0;
  
     /**
      * List of winners of the game.If the list has more than one player it is considered a draw
@@ -229,7 +234,20 @@ public class Game implements IGame {
      * Does the reset operations at the end of every turn
      */
     public void endOfTurn(){
-        //Nothing to do in basic mode
+        turnsPlayed++;
+        if (turnsPlayed == model.getPlayerList().size()){ // end of round
+            if (lastRoundFlag){
+                setState(new EndState(this));
+                return;
+            }
+            turnsPlayed = 0;
+            model.getGameTable().fillClouds();
+            model.calculatePlanningPhaseOrder();
+            setState(playAssistantState);
+            return;
+        }
+        model.nextPlayerTurn();
+        setState(moveStudentState);
     }
 
     public GameModel getModel() {
@@ -259,6 +277,11 @@ public class Game implements IGame {
     }
 
     public Collection<Player> getWinner(){return Collections.unmodifiableCollection(winners);}
+
+    @Override
+    public void skipTurn() {
+        state.skipTurn();
+    }
 
     // MANAGEMENT OF OBSERVERS FOR STATE SWITCH
     /**

@@ -221,6 +221,12 @@ public class Match implements IMatchMaking, IGame {
         game.takeFromCloud(cloudID);
     }
 
+    @Override
+    public void skipTurn() {
+        if (game != null)
+            game.skipTurn();
+    }
+
     /**
      * @throws NotValidOperationException if the game has not started yet or {@inheritDoc}
      * @throws NotValidArgumentException {@inheritDoc}
