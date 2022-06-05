@@ -143,6 +143,7 @@ public class Game {
                 }
             }
         }
+        gameTable.fillClouds();
     }
 
     /**
