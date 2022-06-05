@@ -14,6 +14,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.observers.ChangeCoinNumberInBagObserver;
 import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
 import it.polimi.ingsw.server.observers.ConquerIslandObserver;
 import it.polimi.ingsw.server.observers.EmptyStudentBagObserver;
@@ -53,7 +54,16 @@ public class GameModel {
      */
     private CheckProfessorStrategy checkProfessorStrategy;
 
+    /**
+     * Strategy to move mother nature
+     */
     private MotherNatureLimitStrategy motherNatureLimitStrategy;
+
+    /**
+     * Add bag for coins
+     */
+    private final CoinsBag coinsBag;
+
     /**
      * Constructs a new game model with the {@code players} passed as a parameter.
      * The game is supported for 2, 3, 4 players.
@@ -63,7 +73,7 @@ public class GameModel {
 
         assert playersLoginInfo.size() >= 2 && playersLoginInfo.size() <= 4 : "Number of players not supported";
 
-        CoinsBag coinsBag = new CoinsBag();
+        coinsBag = new CoinsBag();
 
         int numPlayers = playersLoginInfo.size();
 
@@ -407,5 +417,22 @@ public class GameModel {
     public void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
         gameTable.removeEmptyStudentBagObserver(observer);
     }
-  
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON COINS BAG
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on coins bag.
+     * @param observer the observer to be added
+     */
+    public void addChangeCoinNumberInBagObserver(ChangeCoinNumberInBagObserver observer){
+        coinsBag.addChangeCoinNumberInBagObserver(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on coins bag.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeCoinNumberInBagObserver(ChangeCoinNumberInBagObserver observer){
+        coinsBag.removeChangeCoinNumberInBagObserver(observer);
+    }
 }

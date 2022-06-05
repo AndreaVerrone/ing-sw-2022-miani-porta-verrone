@@ -11,5 +11,5 @@ public interface NumberOfPlayersObserver {
      *
      * @param numberOfPlayers number of players of the match
      */
-    void numberOfPlayersUpdate(int numberOfPlayers);
+    void numberOfPlayersObserverUpdate(int numberOfPlayers);
 }

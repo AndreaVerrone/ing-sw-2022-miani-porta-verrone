@@ -367,7 +367,7 @@ public class MatchMaking{
      * This method allows to add the observer, passed as a parameter, on the number of players.
      * @param observer the observer to be added
      */
-    void addNumberOfPlayersObserver(NumberOfPlayersObserver observer){
+    public void addNumberOfPlayersObserver(NumberOfPlayersObserver observer){
         numberOfPlayersObservers.add(observer);
     }
 
@@ -375,7 +375,7 @@ public class MatchMaking{
      * This method allows to remove the observer, passed as a parameter, on the number of players.
      * @param observer the observer to be removed
      */
-    void removeNumberOfPlayersObserver(NumberOfPlayersObserver observer){numberOfPlayersObservers.remove(observer);
+    public void removeNumberOfPlayersObserver(NumberOfPlayersObserver observer){numberOfPlayersObservers.remove(observer);
     }
 
     /**
@@ -383,7 +383,7 @@ public class MatchMaking{
      */
     private void notifyNumberOfPlayersObserver(){
         for(NumberOfPlayersObserver observer : numberOfPlayersObservers)
-            observer.numberOfPlayersUpdate(this.numPlayers);
+            observer.numberOfPlayersObserverUpdate(this.numPlayers);
     }
 
 }

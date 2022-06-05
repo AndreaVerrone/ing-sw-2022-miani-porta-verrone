@@ -282,7 +282,7 @@ public class Match implements ObserversCommonInterface{
     }
 
     @Override
-    public void numberOfPlayersUpdate(int numberOfPlayers) {
+    public void numberOfPlayersObserverUpdate(int numberOfPlayers) {
 
     }
 
