@@ -5,7 +5,9 @@ import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.IGame;
 import it.polimi.ingsw.server.controller.game.Position;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
+import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.controller.matchmaking.IMatchMaking;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
 import it.polimi.ingsw.server.model.GameModel;
@@ -184,6 +186,8 @@ public class Match implements IMatchMaking, IGame, ObserversCommonInterface {
 
     private  void addObserverToGame(){
         game.addChangeCurrentStateObserver(this);
+        game.addStudentsOnCardObserver(this);
+        game.addCoinOnCardObserver(this);
 
         GameModel model = game.getModel();
         model.addChangeCurrentPlayerObserver(this);
@@ -359,7 +363,7 @@ public class Match implements IMatchMaking, IGame, ObserversCommonInterface {
     }
 
     @Override
-    public void islandUnificationObserverUpdate(int islandRemovedID, int finalSize) {
+    public void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int finalSize) {
 
     }
 
