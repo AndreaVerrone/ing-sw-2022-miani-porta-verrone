@@ -16,7 +16,6 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -170,7 +169,6 @@ public class ClientController {
         connectionHandler.sendMessage(new ResumeGame());
     }
 
-
     /**
      * Sends a message to the server to change the number of players and controls the input given is right
      * @param newNumberPlayers new number of players in the game
@@ -219,39 +217,13 @@ public class ClientController {
     }
 
     /**
-     * Sends a message to the server to move mother nature of a given number of movements and controls the input given is right
-     * @param movements movements of mother nature given
-     */
-    public void moveMotherNature(int movements){
-        if(wrongPlayerTurn()) return;
-        //Control the number of movements given is positive
-        if(movements<=0){
-            //TODO: wrong input
-            return;
-        }
-        connectionHandler.sendMessage(new MoveMotherNature(movements));
-    }
-
-    /**
      * Sends a message to the server to quit the game during the creation of the match
      */
     public void quitGame(){
         connectionHandler.sendMessage(new QuitGame());
     }
 
-    /**
-     * Sends a message to the server to take all the student from the cloud given and controls the input is right
-     * @param cloudId ID of the cloud from where the client wants to take all the students
-     */
-    public void takeStudentFromCloud(int cloudId){
-        if(wrongPlayerTurn()) return;
-        //Control it is a valid ID for a cloud
-        if(cloudId<0 || cloudId>3){
-            //TODO: wrongInput
-            return;
-        }
-        connectionHandler.sendMessage(new TakeStudentsFromCloud(cloudId));
-    }
+    // METHODS TO SENDS MESSAGES TO THE SERVER REGARDING THE PHASES OF THE GAME
 
     /**
      * Sends a message to the server to use the assistant card given by the client and controls the input is right
@@ -286,6 +258,36 @@ public class ClientController {
     }
 
     /**
+     * Sends a message to the server to move mother nature of a given number of movements and controls the input given is right
+     * @param movements movements of mother nature given
+     */
+    public void moveMotherNature(int movements){
+        if(wrongPlayerTurn()) return;
+        //Control the number of movements given is positive
+        if(movements<=0){
+            //TODO: wrong input
+            return;
+        }
+        connectionHandler.sendMessage(new MoveMotherNature(movements));
+    }
+
+    /**
+     * Sends a message to the server to take all the student from the cloud given and controls the input is right
+     * @param cloudId ID of the cloud from where the client wants to take all the students
+     */
+    public void takeStudentFromCloud(int cloudId){
+        if(wrongPlayerTurn()) return;
+        //Control it is a valid ID for a cloud
+        if(cloudId<0 || cloudId>3){
+            //TODO: wrongInput
+            return;
+        }
+        connectionHandler.sendMessage(new TakeStudentsFromCloud(cloudId));
+    }
+
+    // METHODS TO DISPLAY SCREENS OF THE GAME
+
+    /**
      * this method will display the planning phase screen
      */
     public void displayPlanningPhaseScreen(){
@@ -307,7 +309,7 @@ public class ClientController {
     }
 
     /**
-     * this method will display the choose cloud phase screen
+     * this method will display the "choose cloud" phase screen
      */
     public void displayChooseCloudScreen(){
         cli.setNextScreen(new ChooseCloudScreen(cli));
@@ -320,6 +322,8 @@ public class ClientController {
     public void displayEndGameScreen(List<String> winners){
         cli.setNextScreen(new EndGameScreen(cli,winners));
     }
+
+    // METHODS TO DISPLAY MESSAGES
 
     /**
      * this method will print in red the message passed in the parameters
@@ -337,39 +341,79 @@ public class ClientController {
         cli.displayMessage(message);
     }
 
+    // METHODS TO MODIFY COMPONENTS OF THE TABLE OF THE GAME
+
+    /**
+     * this method allow to update the assistant deck of the player.
+     * @param assistantsList actual deck of the player
+     */
     public void setAssistantsList(List<Assistant> assistantsList) {
         cli.getTable().setAssistantsList(assistantsList);
     }
 
+    /**
+     * this method allow to update the last assistant used of the player specified in the parameters
+     * @param owner the player
+     * @param assistantUsed the actual last assistant used
+     */
     public void setAssistantsUsed(String owner, Assistant assistantUsed) {
         cli.getTable().setAssistantsUsed(owner, assistantUsed);
     }
 
+    /**
+     * this method allow to update the students on the cloud specified in parameters
+     * @param ID the id of the cloud
+     * @param studentList the actual student list on cloud
+     */
     public void setClouds(int ID, StudentList studentList) {
         cli.getTable().setClouds(ID,studentList);
     }
 
+    /**
+     * this method allow to update the student on entrance of the school board of the player specified in parameters
+     * @param owner the player
+     * @param studentsInEntrance the actual students on entrance
+     */
     public void setEntranceList(String owner, StudentList studentsInEntrance) {
         cli.getTable().setEntranceList(owner, studentsInEntrance);
     }
 
+    /**
+     * this method allow to update the students in the dining room of the school board of the player
+     * specified in the parameters.
+     * @param owner the player
+     * @param studentsInDiningRoom the actual students in dining room
+     */
     public void setDiningRoomList(String owner, StudentList studentsInDiningRoom) {
         cli.getTable().setDiningRoomList(owner,studentsInDiningRoom);
     }
 
+    /**
+     * this method allow to update the professors in the school board of the player specified in the
+     * parameters
+     * @param owner the player
+     * @param professors the actual collection of professors
+     */
     public void setProfTableList(String owner, Collection<PawnType> professors) {
         cli.getTable().setProfTableList(owner, professors);
     }
 
-    // todo: remove , it is not needed
-    public void setTowerColorList(String owner, TowerType towerType) {
-        cli.getTable().setTowerColorList(owner, towerType);
-    }
-
+    /**
+     * this method allow to update the number of the towers in the school board of the
+     * player specified in the parameters
+     * @param owner the player
+     * @param numOfTowers the actual number of towers
+     */
     public void setTowerNumberList(String owner, int numOfTowers) {
         cli.getTable().setTowerNumberList(owner, numOfTowers);
     }
 
+    /**
+     * this method will allow to update the number of the coins in the school board
+     * of the player specified in the parameters.
+     * @param owner the player
+     * @param numOfCoins the actual number of coins
+     */
     public void setCoinNumberList(String owner, int numOfCoins) {
         cli.getTable().setCoinNumberList(owner, numOfCoins);
     }
@@ -412,6 +456,12 @@ public class ClientController {
         cli.getTable().updateMotherNaturePosition(ID);
     }
 
+    /**
+     * this method will update the screen with unified islands.
+     * @param ID the ID of the island kept
+     * @param IDIslandRemoved the ID of the island removed
+     * @param sizeIslandRemoved the size of the island removed
+     */
     public void islandUnification(int ID, int IDIslandRemoved,int sizeIslandRemoved){
         // todo: the observer send the ID of the island removed and the size of the island that remains
         //  while the unifyIsland method of the island sets requires
@@ -421,6 +471,19 @@ public class ClientController {
         cli.getTable().islandUnification(ID, IDIslandRemoved, sizeIslandRemoved);
     }
 
+    /**
+     * this method will allow to initialize the table of the game.
+     * @param assistantsList the list of the assistant cards of the player that are in the deck
+     * @param assistantsUsed the list of the assistant cards that has been used
+     * @param clouds a map containing the IDs of the clouds and the corresponding student list.
+     * @param entranceList map owner-entrance
+     * @param diningRoomList map owner-dining Room
+     * @param profTableList map owner-professors
+     * @param towerColorList map owner-tower type
+     * @param towerNumberList map owner-tower number
+     * @param coinNumberList map owner-coin number
+     * @param players The list of the nickname of the players
+     */
     public void initializeTable(List<Assistant> assistantsList, Map<String, Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands){
         cli.setTable(
                 assistantsList,
