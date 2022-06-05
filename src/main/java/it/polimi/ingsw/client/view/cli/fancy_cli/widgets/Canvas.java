@@ -99,7 +99,7 @@ public class Canvas implements Drawable {
         int width = 0;
         try(Terminal terminal = TerminalBuilder.terminal()){
             width = terminal.getWidth();
-        }catch (IOException e){
+        }catch (IOException ignored){
 
         }
         AnsiConsole.systemInstall();

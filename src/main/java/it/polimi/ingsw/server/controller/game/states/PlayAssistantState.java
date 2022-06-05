@@ -129,8 +129,7 @@ public class PlayAssistantState implements GameState {
             try {
                 useAssistant(currentPlayerHand.get(randomCard));
                 cardUsed = true;
-            } catch (NotValidArgumentException e){
-            }
+            } catch (NotValidArgumentException ignored){}
         }
     }
 }
