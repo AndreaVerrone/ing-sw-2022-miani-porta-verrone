@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
 import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
@@ -41,8 +42,8 @@ public class TakeStudentsFromCloud extends ClientCommandNetMsg {
         }
 
         ErrorCode errorCode = response.getErrorCode();
-        // clientController.displayErrorMessage(Translator.getErrorMessage(errorCode));
-        // todo: remove comment after merge
+        clientController.displayErrorMessage(Translator.getErrorMessage(errorCode));
+
     }
 }
 

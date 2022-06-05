@@ -44,8 +44,8 @@ public class UseAssistant extends ClientCommandNetMsg {
         }
 
         ErrorCode errorCode = response.getErrorCode();
-        // clientController.displayErrorMessage(Translator.getErrorMessage(errorCode));
-        // todo: remove comment after merge
+        clientController.displayErrorMessage(Translator.getErrorMessage(errorCode));
+
     }
 }
 

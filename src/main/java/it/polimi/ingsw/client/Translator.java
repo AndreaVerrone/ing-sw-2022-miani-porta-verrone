@@ -302,6 +302,8 @@ public class Translator {
                 "Difficulty: " + (isExpert ? "expert mode" : "standard");
     }
 
+    // ****************** MANAGEMENT OF ERROR MESSAGES *************************
+
     /**
      * Gets a description of the error occurred passed as a parameter
      * @param errorCode the code of the error
