@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
-import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.UserRequestExitException;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.AggregateCompleter;
