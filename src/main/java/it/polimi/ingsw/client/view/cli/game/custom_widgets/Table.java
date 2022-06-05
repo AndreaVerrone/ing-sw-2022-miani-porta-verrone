@@ -347,6 +347,7 @@ public class Table extends StatefulWidget {
 
         for (String nickname : players) {
 
+            // create the school board
             SchoolBoardView schoolBoardView = new SchoolBoardView(
                     entranceList.get(nickname),
                     diningRoomList.get(nickname),
@@ -357,6 +358,7 @@ public class Table extends StatefulWidget {
                     nickname
             );
 
+            // create the card used (if present)
             Widget assistantCardUsed;
             if(assistantsUsed.containsKey(nickname)) {
                 assistantCardUsed = new AssistantCard(assistantsUsed.get(nickname));
@@ -364,8 +366,10 @@ public class Table extends StatefulWidget {
                 assistantCardUsed = new Text("");
             }
 
-            Row row = new Row(List.of(schoolBoardView,assistantCardUsed));
-            schoolBoardColumn.addChild(row);
+            // create the row with school board and the card used
+            Row rowSchoolBoardCardUsed = new Row(List.of(schoolBoardView,assistantCardUsed));
+            // add the row to the column
+            schoolBoardColumn.addChild(rowSchoolBoardCardUsed);
 
         }
 
