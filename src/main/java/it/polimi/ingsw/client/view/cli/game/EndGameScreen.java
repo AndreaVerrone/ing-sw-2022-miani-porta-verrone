@@ -82,6 +82,9 @@ public class EndGameScreen extends CliScreen {
 
     }
 
+    /**
+     * this method allow the player to close the game when he asks to do that.
+     */
     public void askForAction(){
 
         InputReader inputReader = new InputReader();

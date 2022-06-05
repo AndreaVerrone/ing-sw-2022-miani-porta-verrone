@@ -16,6 +16,9 @@ import org.jline.reader.impl.completer.StringsCompleter;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * this screen needs to be displayed during the "move student" stage of the action phase.
+ */
 public class MoveStudentsPhaseScreen extends CliScreen {
 
     /**
@@ -116,6 +119,9 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         }
     }
 
+    /**
+     * this method will ask the player to choose the island to which move a student.
+     */
     private void askIsland(){
 
         InputReader inputReader = new InputReader();
@@ -155,6 +161,9 @@ public class MoveStudentsPhaseScreen extends CliScreen {
 
     }
 
+    /**
+     * this method will ask the player to choose where to put the student (on island or in dining room)
+     */
     public void askDestination() {
 
         InputReader inputReader = new InputReader();
@@ -193,6 +202,9 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         // getCli().setNextScreen(new EndGameScreen(getCli(), List.of("player 1", "player 2"))); // todo: testing only
     }
 
+    /**
+     * this method will ask the player to move a student
+     */
     private void askForAction() {
         // ask the student to move
         askStudentToMove();

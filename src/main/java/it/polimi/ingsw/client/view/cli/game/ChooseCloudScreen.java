@@ -13,6 +13,9 @@ import org.jline.reader.impl.completer.StringsCompleter;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * this screen needs to be displayed during the "choose cloud" stage of the action phase.
+ */
 public class ChooseCloudScreen extends CliScreen {
 
     /**
@@ -53,6 +56,9 @@ public class ChooseCloudScreen extends CliScreen {
 
     }
 
+    /**
+     * this method will ask the player to choose a cloud.
+     */
     private void askForAction() {
 
         InputReader inputReader = new InputReader();

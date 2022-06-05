@@ -8,6 +8,9 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import org.jline.reader.impl.completer.StringsCompleter;
 
+/**
+ * this screen needs to be displayed during the "move mother nature" stage of the action phase.
+ */
 public class MoveMotherNatureScreen extends CliScreen {
 
     /**
@@ -48,6 +51,9 @@ public class MoveMotherNatureScreen extends CliScreen {
 
     }
 
+    /**
+     * this method will ask the player to move mother nature.
+     */
     private void askForAction() {
 
         InputReader inputReader = new InputReader();

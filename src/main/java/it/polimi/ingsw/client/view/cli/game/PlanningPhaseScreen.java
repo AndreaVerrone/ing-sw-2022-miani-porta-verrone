@@ -10,11 +10,13 @@ import it.polimi.ingsw.server.model.player.Assistant;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * this is the screen that needs to be displayed during the planning phase of the game
+ */
 public class PlanningPhaseScreen extends CliScreen {
 
     /**
@@ -55,6 +57,9 @@ public class PlanningPhaseScreen extends CliScreen {
 
     }
 
+    /**
+     * this method will ask the player to use an assistant card.
+     */
     private void askForAction() {
 
         InputReader inputReader = new InputReader();
@@ -88,7 +93,7 @@ public class PlanningPhaseScreen extends CliScreen {
             getCli().getClientController().useAssistant(Assistant.valueOf(assistantNamePrefix + assistantValue)); // todo: actual code
         }
 
-        // todo: code for testining only
+        // todo: code for testing only
         //  <-- from here
         // getCli().getClientController().setAssistantsList(List.of(Assistant.CARD_9));
 
