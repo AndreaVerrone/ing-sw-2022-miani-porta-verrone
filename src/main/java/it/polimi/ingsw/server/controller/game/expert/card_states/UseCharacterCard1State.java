@@ -114,9 +114,7 @@ public class UseCharacterCard1State extends UseCharacterCardState {
         try {
             characterCard1.addStudentToCard(gameModel.getStudentFromBag());
         } catch (EmptyBagException e) {
-            // Todo: how to manage?
-            // simply do nothing as said in in the documentation
-            // e.printStackTrace();
+            e.printStackTrace();
         }
 
         // EPILOGUE
