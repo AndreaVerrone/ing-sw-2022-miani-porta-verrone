@@ -18,9 +18,6 @@ public class NotValidOperationException extends Exception{
     public NotValidOperationException() {
         super();
     }
-    public NotValidOperationException(String message) {
-        super(message);
-    }
 
     /**
      * Constructs a new exception assigning the provided {@link ErrorCode}.

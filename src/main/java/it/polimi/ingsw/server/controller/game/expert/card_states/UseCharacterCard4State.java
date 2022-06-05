@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
@@ -37,7 +39,7 @@ public class UseCharacterCard4State extends UseCharacterCardState {
         try {
             gameModel.conquerIsland(islandID);
         } catch (IslandNotFoundException e) {
-            throw new NotValidArgumentException("the island does not exist");
+            throw new NotValidArgumentException(ErrorCode.ISLAND_NOT_EXIST);
         }
     }
 
@@ -51,7 +53,7 @@ public class UseCharacterCard4State extends UseCharacterCardState {
     public void chooseDestination(Position destination) throws NotValidArgumentException, NotValidOperationException {
 
         if(!destination.isLocation(Location.ISLAND)){
-            throw new NotValidOperationException("you have to chose an island");
+            throw new NotValidArgumentException();
         }
 
         computeInfluenceOn(destination.getField());
@@ -59,5 +61,10 @@ public class UseCharacterCard4State extends UseCharacterCardState {
         // EPILOGUE
         finalizeCardUsed();
         returnBack();
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.USE_CHARACTER_CARD4_STATE;
     }
 }

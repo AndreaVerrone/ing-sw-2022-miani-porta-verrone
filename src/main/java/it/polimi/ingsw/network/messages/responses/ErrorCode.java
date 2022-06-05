@@ -37,6 +37,14 @@ public enum ErrorCode{
      */
     PLAYER_NOT_IN_TURN,
     /**
+     * The selected tower is not available
+     */
+    TOWER_NOT_AVAILABLE,
+    /**
+     * The selected wizard is not available
+     */
+    WIZARD_NOT_AVAILABLE,
+    /**
      * The assistant chosen is not in the deck
      */
     ASSISTANT_NOT_EXIST,
@@ -57,6 +65,10 @@ public enum ErrorCode{
      */
     DININGROOM_FULL,
     /**
+     * The movement of MN is out of bounds (i.e. negative or more than the maximum value)
+     */
+    MN_MOVEMENT_WRONG,
+    /**
      * The cloud chosen is empty
      */
     CLOUD_EMPTY,
@@ -75,6 +87,10 @@ public enum ErrorCode{
     /**
      * The player has already used a character card in his turn
      */
-    CHARACTER_CARD_ALREADY_USED
+    CHARACTER_CARD_ALREADY_USED,
+    /**
+     * If there are no bans on the corresponding card
+     */
+    NO_BANS_ON_CARD
 
 }

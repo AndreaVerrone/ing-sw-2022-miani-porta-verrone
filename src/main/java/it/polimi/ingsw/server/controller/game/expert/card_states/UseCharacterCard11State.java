@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
@@ -45,7 +47,7 @@ public class UseCharacterCard11State extends UseCharacterCardState {
         try {
             characterCard11.removeStudentFromCard(pawnType);
         } catch (NotEnoughStudentException e) {
-            throw new NotValidArgumentException("is not present a student of that color");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
 
         // add student removed from the card to the dining room
@@ -53,7 +55,7 @@ public class UseCharacterCard11State extends UseCharacterCardState {
             gameModel.getCurrentPlayer().addStudentToDiningRoom(pawnType);
         } catch (ReachedMaxStudentException e) {
             characterCard11.addStudentToCard(pawnType);
-            throw new NotValidArgumentException("the dining room is full");
+            throw new NotValidArgumentException(ErrorCode.DININGROOM_FULL);
         }
 
         // take a student from the bag and put on the card
@@ -77,7 +79,7 @@ public class UseCharacterCard11State extends UseCharacterCardState {
     public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidArgumentException, NotValidOperationException {
 
         if(!originPosition.isLocation(Location.CHARACTER_CARD_11)){
-            throw new NotValidOperationException("take a student from the character card 11");
+            throw new NotValidArgumentException();
         }
 
         moveFromCardToDiningRoom(color);
@@ -85,6 +87,11 @@ public class UseCharacterCard11State extends UseCharacterCardState {
         // EPILOGUE
         finalizeCardUsed();
         returnBack();
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.USE_CHARACTER_CARD11_STATE;
     }
 }
 

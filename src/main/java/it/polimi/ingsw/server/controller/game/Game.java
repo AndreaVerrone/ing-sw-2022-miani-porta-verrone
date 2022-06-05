@@ -1,23 +1,30 @@
 package it.polimi.ingsw.server.controller.game;
 
+import it.polimi.ingsw.server.controller.ChangeCurrentStateObserver;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.game.states.*;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.gametable.GameTable;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.PawnType;
-
+import it.polimi.ingsw.server.model.utils.StudentList;
+import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
+import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
+import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
+import java.util.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-
+import java.util.List;
 
 /**
  *A class to handle the various states of the game.It can change the current state and can call operations on it.
  */
-public class Game implements IGame {
+public class Game {
     /**
      * State in which the player is playing an assistant card
      */
@@ -46,25 +53,102 @@ public class Game implements IGame {
      * If this flag is true the game is in its last round
      */
     private boolean lastRoundFlag = false;
+
+    /**
+     * The number of turns that have been played in the current round
+     */
+    private int turnsPlayed = 0;
  
     /**
      * List of winners of the game.If the list has more than one player it is considered a draw
      */
     private Collection<Player> winners = null;
 
-    public Game(Collection<PlayerLoginInfo> players){
-        //TODO: create all states and add documentation
+    /**
+     * The constructor of the class.
+     * It takes in input a collection of players, and it will construct the class.
+     * @param players the player in the game
+     */
+    public Game(Collection<PlayerLoginInfo> players) {
+
+        // 1. CREATION OF THE GAME MODEL CLASS OF THE MODEL
         model = new GameModel(players);
 
+        // 2. SET UP THE FSA OF THE CONTROLLER
+
+        // 2.1 create the states of the game regarding the planning phase and the 3 step of the action phase
         playAssistantState = new PlayAssistantState(this);
         moveStudentState = new MoveStudentState(this);
         moveMotherNatureState = new MoveMotherNatureState(this);
         chooseCloudState = new ChooseCloudState(this);
 
-        state = playAssistantState;
+        // 2.2 set the initial state of the game
+        setState(playAssistantState);
+
+        // 3. INITIALIZATION OF THE MODEL
+        initializeModel(players.size());
+
     }
 
-    @Override
+    /**
+     * This method will set up the model before starting the game.
+     * @param numOfPlayers the number of players in the game
+     */
+    private void initializeModel(int numOfPlayers) {
+
+        // *** 0. save in a variable frequently used game table class
+        GameTable gameTable=model.getGameTable();
+
+        // *** 1. set mother nature position in a random island
+        int motherNaturePosition = new Random().nextInt(12);
+        int idOppositeIsland = (motherNaturePosition + 6) % 12; // island opposite with respect to mother nature
+        gameTable.moveMotherNature(motherNaturePosition);
+
+        // *** 2. put 2 students of each color in the bag and put one of them (randomly taken from the bag)
+        // on each island starting from the right of mother nature and proceeding clockwise
+        // (do not place the student on the island in the opposite position to mother nature)
+
+        // 2.1 put 2 students of each color in the bag
+        StudentList initialStudents = new StudentList();
+        initialStudents.setAllAs(2);
+        gameTable.fillBag(initialStudents);
+
+        // 2.2 put students on the islands.
+        int numOfIteration=0;
+        for(int i=motherNaturePosition; numOfIteration<12; i=(i+1)%12){
+            numOfIteration++;
+            if(i!=idOppositeIsland && i!=motherNaturePosition){
+                try {
+                    gameTable.addToIsland(gameTable.getStudentFromBag(),i);
+                } catch (IslandNotFoundException | EmptyBagException e) {
+                    e.printStackTrace(); // not possible
+                }
+            }
+        }
+
+        // *** 3.put the remaining students in the bag
+        int MAX_NUM_OF_STUDENTS = 26;       // the max num of students in the game
+        StudentList remainingStudents = new StudentList();
+        remainingStudents.setAllAs(MAX_NUM_OF_STUDENTS - 2);
+        gameTable.fillBag(remainingStudents);
+
+        // *** 4. take a number of "maxStudentAtEntrance" random students from the bag and put them at the entrance of each player
+        int maxStudentAtEntrance = numOfPlayers == 2 ? 7:9;
+        for(Player player : model.getPlayerList()){
+            for(int i=0;i<maxStudentAtEntrance;i++){
+                try {
+                    player.addStudentToEntrance(gameTable.getStudentFromBag());
+                } catch (ReachedMaxStudentException | EmptyBagException e) {
+                    e.printStackTrace(); // it is impossible
+                }
+            }
+        }
+    }
+
+    /**
+     * Gets the nickname of the player that need to play now.
+     * @return the nickname of the current player
+     */
     public String getCurrentPlayerNickname() {
         return model.getCurrentPlayer().getNickname();
     }
@@ -75,6 +159,7 @@ public class Game implements IGame {
      */
     public void setState(GameState newState){
         state = newState;
+        notifyChangeCurrentStateObservers();
     }
 
     /**
@@ -92,59 +177,76 @@ public class Game implements IGame {
     }
 
     /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Method to use an assistant card
+     *
+     * @param assistant is the assistant card to be played
+     * @throws NotValidOperationException if this method has been invoked in a state in which
+     *                                    this operation is not supported
+     * @throws NotValidArgumentException  if has been passed an assistant card that cannot be used,
+     *                                    or it is not present in the player's deck
      */
-    @Override
     public void useAssistant(Assistant assistant) throws NotValidOperationException, NotValidArgumentException {
         state.useAssistant(assistant);
     }
 
 
     /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Method to move mother nature of a certain number of islands
+     *
+     * @param positions number of islands to move on mother nature
+     * @throws NotValidOperationException if this method has been invoked in a state in which
+     *                                    this operation is not supported
+     * @throws NotValidArgumentException  if the position is not positive, or it is not
+     *                                    compliant with the rules of the game
      */
-    @Override
     public void moveMotherNature(int positions) throws NotValidOperationException, NotValidArgumentException {
         state.moveMotherNature(positions);
     }
 
     /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Method to get all the students from a chosen cloud and put them in the entrance
+     *
+     * @param cloudID ID of the cloud from which get the students
+     * @throws NotValidOperationException if this method has been invoked in a state in which
+     *                                    this operation is not supported
+     * @throws NotValidArgumentException  if the cloud passed as a parameter is empty
      */
-    @Override
     public void takeFromCloud(int cloudID) throws NotValidOperationException, NotValidArgumentException {
         state.takeFromCloud(cloudID);
     }
 
 
     /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * This method allows to select a student (of the PawnType specified in the parameter) that comes from the position
+     * (also specified in the parameters).
+     * @param color the {@code PawnType} of the student
+     * @param originPosition the {@code Position} from where take the student
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the student is not present in the specified location
      */
-    @Override
     public void chooseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException{
         state.choseStudentFromLocation(color,originPosition);
     }
 
     /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * This method allows to choose a destination on which operate based on the state.
+     * @param destination the Position
+     * @throws NotValidOperationException if the position is not the one that was supposed to be in the considered state
+     * @throws NotValidArgumentException if the
      */
-    @Override
     public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
         state.chooseDestination(destination);
     }
 
     /**
-     * @throws NotValidOperationException {@inheritDoc}
-     * @throws NotValidArgumentException {@inheritDoc}
+     * Method to use a character card of the specified type
+     * @param cardType type of the character card to use
+     * @throws NotValidOperationException if the card is used in basic mode or the players hasn't
+     *                                    enough money to use it or the current player has already used a card
+     * @throws NotValidArgumentException if the card doesn't exist
      */
-    @Override
     public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
-        throw new NotValidOperationException("Cannot use cards in basic mode!");
+        throw new NotValidOperationException();
     }
 
 
@@ -152,7 +254,20 @@ public class Game implements IGame {
      * Does the reset operations at the end of every turn
      */
     public void endOfTurn(){
-        //Nothing to do in basic mode
+        turnsPlayed++;
+        if (turnsPlayed == model.getPlayerList().size()){ // end of round
+            if (lastRoundFlag){
+                setState(new EndState(this));
+                return;
+            }
+            turnsPlayed = 0;
+            model.getGameTable().fillClouds();
+            model.calculatePlanningPhaseOrder();
+            setState(playAssistantState);
+            return;
+        }
+        model.nextPlayerTurn();
+        setState(moveStudentState);
     }
 
     public GameModel getModel() {
@@ -182,5 +297,42 @@ public class Game implements IGame {
     }
 
     public Collection<Player> getWinner(){return Collections.unmodifiableCollection(winners);}
+
+    /**
+     * Skips the turn of the current player, doing random choices when necessary
+     */
+    public void skipTurn() {
+        state.skipTurn();
+    }
+
+    // MANAGEMENT OF OBSERVERS FOR STATE SWITCH
+    /**
+     * List of the observer on the current state
+     */
+    private final List<ChangeCurrentStateObserver> changeCurrentStateObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on current state.
+     * @param observer the observer to be added
+     */
+    public void addChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
+        changeCurrentStateObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on current state.
+     * @param observer the observer to be removed
+     */
+    public void removeChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
+        changeCurrentStateObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on current state.
+     */
+    private void notifyChangeCurrentStateObservers(){
+        for(ChangeCurrentStateObserver observer : changeCurrentStateObservers)
+            observer.changeCurrentStateObserverUpdate(this.state.getType());
+    }
 
 }

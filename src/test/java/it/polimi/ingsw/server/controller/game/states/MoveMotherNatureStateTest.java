@@ -42,11 +42,16 @@ class MoveMotherNatureStateTest {
 
     @Test
     void moveMotherNature_allowedNumberOfPositions_ShouldMove() {
-        //Mother nature starts from position zero
+        // initial position of mother nature
+        int motherNaturePosition = game.getModel().getGameTable().getMotherNaturePosition();
+
+        // the number of islands
+        int numOfIslands =game.getModel().getGameTable().getNumberOfIslands();
+
         try {
             game.moveMotherNature(4);
             //Now it should be on position four
-            assertEquals(4, game.getModel().getGameTable().getMotherNaturePosition());
+            assertEquals((motherNaturePosition+4)%numOfIslands, game.getModel().getGameTable().getMotherNaturePosition());
         } catch (NotValidArgumentException | NotValidOperationException e) {
             fail();
         }

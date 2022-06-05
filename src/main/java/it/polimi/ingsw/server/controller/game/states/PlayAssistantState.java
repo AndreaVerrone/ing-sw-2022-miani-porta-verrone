@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server.controller.game.states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.model.GameModel;
@@ -10,6 +12,8 @@ import it.polimi.ingsw.server.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This state allows the current player to use the assistant card.
@@ -66,7 +70,7 @@ public class PlayAssistantState implements GameState {
         // if the hand of the players does not contain the assistant he wants to use
         // trow NotValidArgumentException
         if(!currentPlayer.getHand().contains(assistant)){
-            throw new NotValidArgumentException("you do not have this assistant card");
+            throw new NotValidArgumentException(ErrorCode.ASSISTANT_NOT_EXIST);
         }
 
         // CHECK 2nd CONDITION OF NotValidArgumentException
@@ -78,7 +82,7 @@ public class PlayAssistantState implements GameState {
             numOfPlayersHavePlayed ++;
             assistantsPlayed.add(assistant);
         }else{
-            throw new NotValidArgumentException("this Assistant has been already played by another player");
+            throw new NotValidArgumentException(ErrorCode.ASSISTANT_NOT_USABLE);
         }
 
         // if players have used the assistant card
@@ -108,6 +112,25 @@ public class PlayAssistantState implements GameState {
 
     @Override
     public void useCharacterCard(CharacterCard characterCard) throws NotValidOperationException {
-        throw new NotValidOperationException("you cannot use a character card during planning phase");
+        throw new NotValidOperationException();
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.PLAY_ASSISTANT_STATE;
+    }
+
+    @Override
+    public void skipTurn() {
+        List<Assistant> currentPlayerHand = new ArrayList<>(gameModel.getCurrentPlayer().getHand());
+        boolean cardUsed = false;
+        while (!cardUsed){
+            int randomCard = new Random().nextInt(currentPlayerHand.size());
+            try {
+                useAssistant(currentPlayerHand.get(randomCard));
+                cardUsed = true;
+            } catch (NotValidArgumentException e){
+            }
+        }
     }
 }

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
@@ -54,7 +56,7 @@ public class UseCharacterCard9State extends UseCharacterCardState {
     }
 
     @Override
-    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException, NotValidArgumentException {
+    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidArgumentException {
         if(originPosition.isLocation(Location.NONE)){
             //Send position NONE to stop swapping
             // EPILOGUE
@@ -65,26 +67,24 @@ public class UseCharacterCard9State extends UseCharacterCardState {
         if(originPosition.isLocation(Location.CHARACTER_CARD_9)){
             //Take from card
             takeFromCard(color);
-        }
-        else{
-            if ((originPosition.isLocation(Location.ENTRANCE))){
-                //Take from entrance
-                takeFromEntrance(color);
-            }
-            else{
-                throw new NotValidOperationException("Wrong operation!");
-            }
-        }
-        if(studentFromEntrance!=null && studentFromCard!=null){
-            //Both students have been chosen
             swapStudent();
+            return;
         }
+        if ((originPosition.isLocation(Location.ENTRANCE))){
+            //Take from entrance
+            takeFromEntrance(color);
+            swapStudent();
+            return;
+        }
+        throw new NotValidArgumentException();
     }
 
     /**
      * Swaps the students chosen from the card and from the entrance of the current player
      */
     private void swapStudent(){
+        if (studentFromEntrance == null || studentFromCard == null)
+            return;
         try {
             //Remove students from card and entrance
             card.takeStudentFromCard(studentFromCard);
@@ -115,7 +115,7 @@ public class UseCharacterCard9State extends UseCharacterCardState {
      */
     private void takeFromCard(PawnType color) throws NotValidArgumentException {
         if(card.getStudents().getNumOf(color) <= 0){
-            throw new NotValidArgumentException("The student is not on the card");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
         studentFromCard = color;
     }
@@ -127,9 +127,13 @@ public class UseCharacterCard9State extends UseCharacterCardState {
      */
     private void takeFromEntrance(PawnType color) throws NotValidArgumentException {
         if (model.getCurrentPlayer().getStudentsInEntrance().getNumOf(color) <= 0) {
-            throw new NotValidArgumentException("Student not in the entrance!");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
         studentFromEntrance = color;
     }
 
+    @Override
+    public StateType getType() {
+        return StateType.USE_CHARACTER_CARD9_STATE;
+    }
 }

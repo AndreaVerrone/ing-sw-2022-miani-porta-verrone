@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
@@ -58,26 +60,24 @@ public class UseCharacterCard10State extends UseCharacterCardState {
         }
         if(originPosition.isLocation(Location.ENTRANCE)){
             takeFromEntrance(color);
-        }
-        else {
-            if(originPosition.isLocation(Location.DINING_ROOM)){
-                takeFromDiningRoom(color);
-            }
-            else{
-                throw new NotValidOperationException("Choose a student from the entrance or the dining room");
-            }
-        }
-
-        if(studentFromEntrance!=null && studentFromDiningRoom!=null){
-            //Both students have been chosen
             swapStudent();
+            return;
         }
+        if(originPosition.isLocation(Location.DINING_ROOM)){
+            takeFromDiningRoom(color);
+            swapStudent();
+            return;
+        }
+        throw new NotValidArgumentException();
+
     }
 
     /**
      * Swaps the students chosen from the dining room and from the entrance of the current player
      */
     private void swapStudent() {
+        if(studentFromEntrance==null || studentFromDiningRoom==null)
+            return;
         try {
             //Remove students from dining room and entrance
             model.getCurrentPlayer().removeStudentFromEntrance(studentFromEntrance);
@@ -109,10 +109,10 @@ public class UseCharacterCard10State extends UseCharacterCardState {
      */
     private void takeFromEntrance(PawnType color) throws NotValidArgumentException {
         if (model.getCurrentPlayer().getStudentsInEntrance().getNumOf(color) <= 0) {
-            throw new NotValidArgumentException("Student not in the entrance!");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
         if (model.getCurrentPlayer().getNumStudentOf(color) == 10){
-            throw new NotValidArgumentException("The table of this student color is already full");
+            throw new NotValidArgumentException(ErrorCode.DININGROOM_FULL);
         }
         studentFromEntrance = color;
     }
@@ -124,8 +124,13 @@ public class UseCharacterCard10State extends UseCharacterCardState {
      */
     private void takeFromDiningRoom(PawnType color) throws NotValidArgumentException{
         if(model.getCurrentPlayer().getNumStudentOf(color) <= 0) {
-            throw new NotValidArgumentException("Student not in the dining room!");
+            throw new NotValidArgumentException(ErrorCode.STUDENT_NOT_PRESENT);
         }
         studentFromDiningRoom = color;
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.USE_CHARACTER_CARD10_STATE;
     }
 }

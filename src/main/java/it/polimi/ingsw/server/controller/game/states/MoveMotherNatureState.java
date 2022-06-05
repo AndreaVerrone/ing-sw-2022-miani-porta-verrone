@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.controller.game.states;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.gametable.GameTable;
@@ -23,10 +25,6 @@ public class MoveMotherNatureState implements GameState {
      * Game table of the game
      */
     private final GameTable gameTable;
-    /**
-     * Number of players that are playing the last round
-     */
-    private int numberOfPlayersLastRound = 0;
 
     /**
      * Constructor of the class. Saves the game, the model and the game table
@@ -40,10 +38,10 @@ public class MoveMotherNatureState implements GameState {
 
     @Override
     public void moveMotherNature(int positions) throws NotValidArgumentException {
-        if (positions == 0) throw new NotValidArgumentException("Mother nature movements cannot be zero!");
+        if (positions == 0) throw new NotValidArgumentException(ErrorCode.MN_MOVEMENT_WRONG);
         //Get mother nature movements limit
         int movementsLimit = model.getMNMovementLimit();
-        if (positions > movementsLimit) throw new NotValidArgumentException("Mother nature movements over the limit!");
+        if (positions > movementsLimit) throw new NotValidArgumentException(ErrorCode.MN_MOVEMENT_WRONG);
         //Move mother nature
         gameTable.moveMotherNature(positions);
         //Try to conquer the island
@@ -66,17 +64,7 @@ public class MoveMotherNatureState implements GameState {
      */
     private void changeState(){
         if(game.getLastRoundFlag()){
-            numberOfPlayersLastRound++;
-            //If this is the last round
-            if (numberOfPlayersLastRound == model.getPlayerList().size()){
-                //If all players have played their turn go at the end of the game
-                game.setState(new EndState(game));
-            }
-            else{
-                //More players have to play their last turn, update the current player and go to the next state
-                model.nextPlayerTurn();
-                game.setState(game.getMoveStudentState());
-            }
+            game.endOfTurn();
         }
         else {
             //Otherwise, go to the next state
@@ -84,4 +72,20 @@ public class MoveMotherNatureState implements GameState {
         }
     }
 
+    @Override
+    public StateType getType() {
+        return StateType.MOVE_MOTHER_NATURE_STATE;
+    }
+
+    @Override
+    public void skipTurn() {
+        if(game.getLastRoundFlag()){
+            game.endOfTurn();
+        }
+        else {
+            //Otherwise, go to the next state
+            game.setState(game.getChooseCloudState());
+            game.getState().skipTurn();
+        }
+    }
 }

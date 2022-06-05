@@ -1,10 +1,11 @@
 package it.polimi.ingsw.server.controller.matchmaking;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
-import it.polimi.ingsw.server.controller.game.IGame;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -47,7 +48,7 @@ class SetPlayerParametersState implements MatchMakingState{
     @Override
     public void setTowerOfPlayer(TowerType tower) throws NotValidArgumentException {
         if (!matchMaking.getTowersAvailable().contains(tower))
-            throw new NotValidArgumentException("Tower not available!");
+            throw new NotValidArgumentException(ErrorCode.TOWER_NOT_AVAILABLE);
         matchMaking.setTowerOfCurrentPlayer(tower);
     }
 
@@ -57,7 +58,7 @@ class SetPlayerParametersState implements MatchMakingState{
     @Override
     public void setWizardOfPlayer(Wizard wizard) throws NotValidArgumentException {
         if (!matchMaking.getWizardsAvailable().contains(wizard))
-            throw new NotValidArgumentException("Wizard not available!");
+            throw new NotValidArgumentException(ErrorCode.WIZARD_NOT_AVAILABLE);
         matchMaking.setWizardOfCurrentPlayer(wizard);
     }
 
@@ -65,7 +66,7 @@ class SetPlayerParametersState implements MatchMakingState{
      * @throws NotValidOperationException if the current player hasn't chosen yet the tower or wizard
      */
     @Override
-    public Optional<IGame> next() throws NotValidOperationException {
+    public Optional<Game> next() throws NotValidOperationException {
         PlayerLoginInfo currentPlayer = matchMaking.getCurrentPlayer();
         if (currentPlayer.getTowerType() == null || currentPlayer.getWizard() == null)
             throw new NotValidOperationException();
@@ -77,5 +78,10 @@ class SetPlayerParametersState implements MatchMakingState{
         matchMaking.nextPlayer();
         matchMaking.setState(new SetPlayerParametersState(matchMaking, playerServing+1));
         return Optional.empty();
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.SET_PLAYER_PARAMETER_STATE;
     }
 }

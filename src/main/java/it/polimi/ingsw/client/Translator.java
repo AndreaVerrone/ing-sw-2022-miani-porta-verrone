@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
+
 import java.util.*;
 
 /**
@@ -292,5 +294,85 @@ public class Translator {
         return  isItalian ? "Questo è l'ultimo round":"This is the last round";
     }
 
+    public static String getNumOfPlayers(){
+        return isItalian ? "Numero di giocatori: " : "Number of players: ";
+    }
+    public static String getDisplayDifficulty(boolean isExpert){
+        return isItalian ? "Difficoltà: " + (isExpert ? "per esperti" : "normale") :
+                "Difficulty: " + (isExpert ? "expert mode" : "standard");
+    }
+
+    /**
+     * Gets a description of the error occurred passed as a parameter
+     * @param errorCode the code of the error
+     * @return a string describing the error
+     */
+    public static String getErrorMessage(ErrorCode errorCode){
+        return isItalian ? getErrorMessageIT(errorCode) : getErrorMessageEN(errorCode);
+    }
+
+    private static String getErrorMessageIT(ErrorCode errorCode){
+        return switch (errorCode) {
+            case NONE -> "";
+            case GENERIC_INVALID_ARGUMENT -> "C'è stato un problema nell'eseguire la richiesta.\n" +
+                    "Controlla i parametri e riprova.";
+            case GENERIC_INVALID_OPERATION -> "Non lo puoi fare ora!";
+            case GAME_NOT_EXIST -> "La partita richiesta non esiste! Per favore riprova.";
+            case GAME_IS_FULL -> "La partita selezionata ha già raggiunto il numero massimo di giocatori!";
+            case NICKNAME_TAKEN -> "Il nickname scelto è già usato!";
+            case NUMBER_PLAYERS_NOT_SUPPORTED ->
+                    "Il numero di giocatori scelto non è supportato!\nSono consentiti 2 o 3 giocatori.";
+            case PLAYER_NOT_IN_TURN -> "Non è il tuo turno!";
+            case TOWER_NOT_AVAILABLE -> "La torre scelta non è disponibile!";
+            case WIZARD_NOT_AVAILABLE -> "Il mago scelto non è disponibile!";
+            case ASSISTANT_NOT_EXIST -> "Non hai la carta assistente scelta nel tuo mazzo!";
+            case ASSISTANT_NOT_USABLE -> "La carta assistente scelta è già in uso da un altro giocatore, " +
+                    "quindi non la puoi usare anche tu!";
+            case STUDENT_NOT_PRESENT -> "Lo studente scelto non è presente nella posizione indicata!";
+            case ISLAND_NOT_EXIST -> "L'isola scelta non esiste!";
+            case DININGROOM_FULL -> "Non è possibile aggiungere un altro studente del tipo scelto alla sala da pranzo "
+                    + "perché il tavolo corrispondente è già pieno!";
+            case MN_MOVEMENT_WRONG -> "Il movimento specificato per Madre Natura non è corretto!\n"+
+                    "Assicurati che il valore inserito sia compreso tra zero e il numero riportato sulla tua carta assistente";
+            case CLOUD_EMPTY -> "La nuvola scelta è vuota!";
+            case CLOUD_NOT_EXIST -> "La nuvola scelta non esiste!";
+            case CHARACTER_CARD_NOT_EXIST -> "La carta scelta non esiste!";
+            case CHARACTER_CARD_EXPENSIVE -> "Non hai abbastanza monete per usare la carta scelta!";
+            case CHARACTER_CARD_ALREADY_USED -> "Puoi usare una sola carta personaggio per turno!";
+            case NO_BANS_ON_CARD -> "Non puoi usare questa carta, non ci sono divieti sopra!";
+        };
+    }
+
+    private static String getErrorMessageEN(ErrorCode errorCode){
+        return switch (errorCode) {
+            case NONE -> "";
+            case GENERIC_INVALID_ARGUMENT -> "An error occurred while processing the request.\n" +
+                    "Check all the parameters and try again.";
+            case GENERIC_INVALID_OPERATION -> "You can't do this right now!";
+            case GAME_NOT_EXIST -> "The selected game doesn't exist. Please try again.";
+            case GAME_IS_FULL -> "The selected game already reached the maximum amount of players!";
+            case NICKNAME_TAKEN -> "The chosen nickname is already taken!";
+            case NUMBER_PLAYERS_NOT_SUPPORTED ->
+                    "The new number of players is not supported!\nPossible values are 2 or 3.";
+            case PLAYER_NOT_IN_TURN -> "It's not your turn!";
+            case TOWER_NOT_AVAILABLE -> "The selected tower is not available!";
+            case WIZARD_NOT_AVAILABLE -> "The selected wizard is not available!";
+            case ASSISTANT_NOT_EXIST -> "You don't have the specified assistant card in your deck!";
+            case ASSISTANT_NOT_USABLE -> "The selected assistant is already chosen by another player, therefore " +
+                    "you cannot use it!";
+            case STUDENT_NOT_PRESENT -> "The student chosen is not present in the selected location!";
+            case ISLAND_NOT_EXIST -> "The specified island doesn't exist!";
+            case DININGROOM_FULL -> "A student of the selected type can't be added to the dining room since " +
+                    "the corresponding table is already full!";
+            case MN_MOVEMENT_WRONG -> "The specified movement for Mother Nature is not correct!\n" +
+                    "Check that the value is between zero and the number on your assistant card.";
+            case CLOUD_EMPTY -> "The selected cloud is empty!";
+            case CLOUD_NOT_EXIST -> "The selected cloud doesn't exist!";
+            case CHARACTER_CARD_NOT_EXIST -> "The card selected doesn't exist!";
+            case CHARACTER_CARD_EXPENSIVE -> "You don't have enough coins to use the selected card!";
+            case CHARACTER_CARD_ALREADY_USED -> "You can use only one character card per turn!";
+            case NO_BANS_ON_CARD -> "This card cannot be used, there are no bans on it!";
+        };
+    }
 }
 

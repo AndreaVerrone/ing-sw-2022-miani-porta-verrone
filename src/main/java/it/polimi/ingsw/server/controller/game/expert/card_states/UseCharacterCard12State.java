@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.controller.game.expert.card_states;
 
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
@@ -47,13 +49,13 @@ public class UseCharacterCard12State extends UseCharacterCardState {
      * If there are less than 3 players, it will be removed all the students of that color that is possible to remove.
      * @param color the {@code PawnType} of the student
      * @param originPosition the {@code Position} from where take the student
-     * @throws NotValidOperationException if the student are taken from a location
+     * @throws NotValidArgumentException if the student are taken from a location
      */
     @Override
-    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidOperationException {
+    public void choseStudentFromLocation(PawnType color, Position originPosition) throws NotValidArgumentException {
 
         if(!originPosition.isLocation(Location.NONE)){
-            throw new NotValidOperationException("you cannot take student from the table");
+            throw new NotValidArgumentException();
         }
 
         removeStudentFromDiningRoom(color);
@@ -61,5 +63,10 @@ public class UseCharacterCard12State extends UseCharacterCardState {
         // EPILOGUE
         finalizeCardUsed();
         returnBack();
+    }
+
+    @Override
+    public StateType getType() {
+        return StateType.USE_CHARACTER_CARD12_STATE;
     }
 }

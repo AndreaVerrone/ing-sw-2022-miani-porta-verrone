@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert;
 
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
@@ -72,7 +73,7 @@ public class ExpertGame extends Game {
      */
     @Override
     public void useCharacterCard(CharacterCardsType cardType) throws NotValidOperationException, NotValidArgumentException {
-        if(!cards.containsKey(cardType)) throw  new NotValidArgumentException("Card not present!");
+        if(!cards.containsKey(cardType)) throw  new NotValidArgumentException(ErrorCode.CHARACTER_CARD_NOT_EXIST);
 
         //Get the card
         CharacterCard characterCard = cards.get(cardType);
@@ -83,12 +84,12 @@ public class ExpertGame extends Game {
         // check that the player can use it since it is the first time that he use a
         // character card during its turn
         if(!canUseCharacterCard){
-            throw new NotValidOperationException("you have already used a character card during this turn");
+            throw new NotValidOperationException(ErrorCode.CHARACTER_CARD_ALREADY_USED);
         }
 
         // check that the player can use it since it has enough money
         if(currentPlayer.getCoins() < characterCard.getCost()){
-            throw new NotValidOperationException("you have not enough coin");
+            throw new NotValidOperationException(ErrorCode.CHARACTER_CARD_EXPENSIVE);
         }
 
         getState().useCharacterCard(characterCard);
@@ -101,5 +102,6 @@ public class ExpertGame extends Game {
 
         // RESET THE POSSIBILITY TO USE A CHARACTER CARD
         canUseCharacterCard = true;
+        super.endOfTurn();
     }
 }
