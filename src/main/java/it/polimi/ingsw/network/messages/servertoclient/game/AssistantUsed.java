@@ -13,7 +13,7 @@ public class AssistantUsed extends ServerCommandNetMsg {
     /**
      * Nickname of the player that used the assistant card
      */
-    String nickname;
+    private final String nickname;
 
     /**
      * The assistant used.
