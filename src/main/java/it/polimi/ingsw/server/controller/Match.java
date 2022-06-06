@@ -55,10 +55,6 @@ public class Match implements ObserversCommonInterface{
         matchMaking.addNumberOfPlayersObserver(this);
         matchMaking.addPlayersChangedObserver(this);
         matchMaking.addChangeCurrentStateObserver(this);
-        for (PlayerLoginInfo player: matchMaking.getPlayers()){
-            player.addTowerSelectedObserver(this);
-            player.addWizardSelectedObserver(this);
-        }
     }
 
     /**
@@ -130,6 +126,7 @@ public class Match implements ObserversCommonInterface{
             throw new NotValidOperationException();
         synchronized (this) {
             matchMaking.addPlayer(nickname);
+            addObserversToPlayer(nickname);
         }
     }
 
@@ -144,8 +141,35 @@ public class Match implements ObserversCommonInterface{
             throw new NotValidOperationException();
         synchronized (this) {
             matchMaking.removePlayer(nickname);
+            removeObserversFromPlayer(nickname);
             if (matchMaking.getPlayers().isEmpty())
                 Server.getInstance().deleteGame(this);
+        }
+    }
+
+    /**
+     * Method to add observers to a player just added
+     * @param playerNickname nickname of the player just added
+     */
+    private void addObserversToPlayer(String playerNickname){
+        for(PlayerLoginInfo player: matchMaking.getPlayers()){
+            if(player.getNickname().equals(playerNickname)){
+                player.addTowerSelectedObserver(this);
+                player.addWizardSelectedObserver(this);
+            }
+        }
+    }
+
+    /**
+     * Method to remove the observers from a player removed from the game
+     * @param playerNickname nickname of the player removed
+     */
+    private void removeObserversFromPlayer(String playerNickname){
+        for(PlayerLoginInfo player: matchMaking.getPlayers()){
+            if(player.getNickname().equals(playerNickname)){
+                player.removeTowerSelectedObserver(this);
+                player.removeWizardSelectedObserver(this);
+            }
         }
     }
 
