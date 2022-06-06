@@ -128,7 +128,7 @@ public class ExpertGame extends Game {
     @Override
     public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){
         for(CharacterCard card: cards.values()){
-            removeStudentsOnCardObserver(observer);
+            card.removeStudentsOnCardObserver(observer);
         }
     }
 
