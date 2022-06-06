@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
  * A message sent from server to all client connected to a game to indicate
  * the unification of the islands
  */
-public class islandUnified extends ServerCommandNetMsg {
+public class IslandUnified extends ServerCommandNetMsg {
 
     /**
      * the ID of the island to keep.
@@ -30,7 +30,7 @@ public class islandUnified extends ServerCommandNetMsg {
      * @param idIslandRemoved the ID of the island to remove
      * @param sizeIslandRemoved the size of the island to remove
      */
-    public islandUnified(int idIslandToKeep, int idIslandRemoved, int sizeIslandRemoved) {
+    public IslandUnified(int idIslandToKeep, int idIslandRemoved, int sizeIslandRemoved) {
         IDIslandToKeep = idIslandToKeep;
         IDIslandRemoved = idIslandRemoved;
         this.sizeIslandRemoved = sizeIslandRemoved;
