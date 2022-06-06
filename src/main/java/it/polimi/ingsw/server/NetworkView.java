@@ -93,7 +93,7 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void changeCoinNumber(String nickNameOfPlayer, int actualNumOfCoins) {
-        sender.sendMessage(new CoinNumberOfPlayerChanged(nickNameOfPlayer, actualNumOfCoins));
+        //TODO: send message
     }
 
     @Override
