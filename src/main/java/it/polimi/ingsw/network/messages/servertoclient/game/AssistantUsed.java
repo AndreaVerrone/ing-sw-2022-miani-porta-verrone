@@ -11,6 +11,11 @@ import it.polimi.ingsw.server.model.player.Assistant;
 public class AssistantUsed extends ServerCommandNetMsg {
 
     /**
+     * Nickname of the player that used the assistant card
+     */
+    String nickname;
+
+    /**
      * The assistant used.
      */
     private final Assistant assistant;
@@ -19,7 +24,8 @@ public class AssistantUsed extends ServerCommandNetMsg {
      * Creates a new message to indicate the usage of a particular assistant from the current player.
      * @param assistant the assistant used
      */
-    public AssistantUsed(Assistant assistant) {
+    public AssistantUsed(String nickname, Assistant assistant) {
+        this.nickname = nickname;
         this.assistant = assistant;
     }
 
