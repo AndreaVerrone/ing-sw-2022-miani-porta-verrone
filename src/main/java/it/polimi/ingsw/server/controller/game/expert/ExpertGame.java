@@ -117,7 +117,7 @@ public class ExpertGame extends Game {
     @Override
     public void addStudentsOnCardObserver(StudentsOnCardObserver observer){
         for(CharacterCard card: cards.values()){
-            addStudentsOnCardObserver(observer);
+            card.addStudentsOnCardObserver(observer);
         }
     }
 
@@ -128,7 +128,7 @@ public class ExpertGame extends Game {
     @Override
     public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){
         for(CharacterCard card: cards.values()){
-            removeStudentsOnCardObserver(observer);
+            card.removeStudentsOnCardObserver(observer);
         }
     }
 
@@ -139,7 +139,7 @@ public class ExpertGame extends Game {
     @Override
     public void addCoinOnCardObserver(CoinOnCardObserver observer){
         for(CharacterCard card: cards.values()){
-            addCoinOnCardObserver(observer);
+            card.addCoinOnCardObserver(observer);
         }
     }
 
@@ -150,7 +150,7 @@ public class ExpertGame extends Game {
     @Override
     public void removeCoinOnCardObserver(CoinOnCardObserver observer){
         for(CharacterCard card: cards.values()){
-            removeCoinOnCardObserver(observer);
+            card.removeCoinOnCardObserver(observer);
         }
     }
 }
