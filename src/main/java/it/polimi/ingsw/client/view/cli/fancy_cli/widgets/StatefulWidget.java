@@ -32,8 +32,7 @@ public abstract class StatefulWidget extends Widget{
      * render properly.
      */
     protected final void create() {
-        if (content != null)
-            return;
+        dirty = true;
         try {
             updateContent();
             content.onSizeChange(this::updateContent);
@@ -90,7 +89,7 @@ public abstract class StatefulWidget extends Widget{
             return;
         content.setCanvas(getCanvas());
         content.setStartingPoint(getStartingPoint());
-        content.display();
+        content.show();
     }
 
     /**
