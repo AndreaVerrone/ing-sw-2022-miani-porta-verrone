@@ -47,11 +47,12 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void addCoinOnCard(CharacterCardsType characterCardsType, boolean coinOnCard) {
+        sender.sendMessage(new CoinOnCardAdded(characterCardsType, coinOnCard));
     }
 
     @Override
     public void addStudentsOnCard(CharacterCardsType characterCardType, StudentList actualStudents) {
-
+        sender.sendMessage(new StudentsOnCardAdded(characterCardType, actualStudents));
     }
 
     @Override
