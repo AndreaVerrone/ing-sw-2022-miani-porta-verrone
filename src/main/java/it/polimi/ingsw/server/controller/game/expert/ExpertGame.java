@@ -150,7 +150,7 @@ public class ExpertGame extends Game {
     @Override
     public void removeCoinOnCardObserver(CoinOnCardObserver observer){
         for(CharacterCard card: cards.values()){
-            removeCoinOnCardObserver(observer);
+            card.removeCoinOnCardObserver(observer);
         }
     }
 }
