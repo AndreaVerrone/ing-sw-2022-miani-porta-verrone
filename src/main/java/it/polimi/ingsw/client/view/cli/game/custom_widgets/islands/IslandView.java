@@ -89,7 +89,7 @@ class IslandView extends StatefulWidget {
      * @param newStudents the new list of students on this island
      */
     void studentsChanged(StudentList newStudents) {
-        setState(()->mainIsland.studentsChanged(newStudents));
+        mainIsland.studentsChanged(newStudents);
     }
 
     /**
@@ -107,7 +107,7 @@ class IslandView extends StatefulWidget {
      * @param newBans the new number of bans on this island
      */
     void bansChanged(int newBans) {
-        setState(()->mainIsland.bansChanged(newBans));
+        mainIsland.bansChanged(newBans);
     }
 
     /**
