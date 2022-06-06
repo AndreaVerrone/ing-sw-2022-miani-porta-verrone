@@ -63,9 +63,7 @@ public class ExpertGame extends Game {
         try {
             getModel().getCurrentPlayer().removeCoins(cost,putInBagAllCoins);
         } catch (NotEnoughCoinsException e) {
-            // todo: how to manage?
-            // it is impossible
-            // I have checked before
+            e.printStackTrace();
         }
     }
 

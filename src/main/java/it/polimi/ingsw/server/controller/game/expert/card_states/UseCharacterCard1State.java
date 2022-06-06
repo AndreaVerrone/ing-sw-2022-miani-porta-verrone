@@ -48,11 +48,10 @@ public class UseCharacterCard1State extends UseCharacterCardState {
     /**
      * @param color the {@code PawnType} of the student
      * @param position the {@code Position} from where take the student
-     * @throws NotValidOperationException if the location of the position is not the character card 1
      * @throws NotValidArgumentException if the student is not present on the character card 1
      */
     @Override
-    public void choseStudentFromLocation(PawnType color, Position position) throws NotValidArgumentException, NotValidOperationException {
+    public void choseStudentFromLocation(PawnType color, Position position) throws NotValidArgumentException {
 
         // CHECKS
         // 1. check that the location is the one of character card 1
@@ -114,9 +113,7 @@ public class UseCharacterCard1State extends UseCharacterCardState {
         try {
             characterCard1.addStudentToCard(gameModel.getStudentFromBag());
         } catch (EmptyBagException e) {
-            // Todo: how to manage?
-            // simply do nothing as said in in the documentation
-            // e.printStackTrace();
+            e.printStackTrace();
         }
 
         // EPILOGUE

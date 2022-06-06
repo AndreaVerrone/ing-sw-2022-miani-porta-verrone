@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client.view.cli.fancy_cli.widgets;
 
-import it.polimi.ingsw.client.view.cli.fancy_cli.utils.*;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Drawable;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import org.fusesource.jansi.AnsiConsole;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
@@ -99,7 +102,7 @@ public class Canvas implements Drawable {
         int width = 0;
         try(Terminal terminal = TerminalBuilder.terminal()){
             width = terminal.getWidth();
-        }catch (IOException e){
+        }catch (IOException ignored){
 
         }
         AnsiConsole.systemInstall();

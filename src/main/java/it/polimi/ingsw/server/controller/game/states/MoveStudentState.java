@@ -51,7 +51,7 @@ public class MoveStudentState implements GameState {
     }
 
     @Override
-    public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidOperationException, NotValidArgumentException {
+    public void choseStudentFromLocation(PawnType color, Position originPosition)throws NotValidArgumentException {
 
         // 1. check that the student comes from the entrance
         if(!originPosition.isLocation(Location.ENTRANCE)){

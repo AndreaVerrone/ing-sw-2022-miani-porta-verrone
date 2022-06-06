@@ -148,10 +148,8 @@ public class GameTable {
                 try {
                     student = studentsBag.draw();
                     cloud.addStudent(student);
-                    if (studentsBag.studentsRemaining() == 0) {
-                        //TODO: notify observer to end the game
+                    if (studentsBag.studentsRemaining() == 0)
                         return;
-                    }
                 } catch (EmptyBagException e) {
                     e.printStackTrace();
                 }
