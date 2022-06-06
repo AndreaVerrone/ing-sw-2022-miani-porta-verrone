@@ -139,7 +139,7 @@ public class ExpertGame extends Game {
     @Override
     public void addCoinOnCardObserver(CoinOnCardObserver observer){
         for(CharacterCard card: cards.values()){
-            addCoinOnCardObserver(observer);
+            card.addCoinOnCardObserver(observer);
         }
     }
 
