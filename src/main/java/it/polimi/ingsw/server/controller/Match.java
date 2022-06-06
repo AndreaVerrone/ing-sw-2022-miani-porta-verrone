@@ -341,126 +341,184 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void changeCurrentStateObserverUpdate(StateType stateType) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeCurrentState(stateType);
+        }
     }
 
     @Override
     public void coinOnCardObserverUpdate(CharacterCardsType characterCardsType, boolean coinOnCard) {
-
+        for(VirtualView playerView: playersView){
+            playerView.addCoinOnCard(characterCardsType, coinOnCard);
+        }
     }
 
     @Override
     public void studentsOnCardObserverUpdate(CharacterCardsType characterCardType, StudentList actualStudents) {
-
+        for(VirtualView playerView: playersView){
+            playerView.addStudentsOnCard(characterCardType, actualStudents);
+        }
     }
 
     @Override
     public void numberOfPlayersObserverUpdate(int numberOfPlayers) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeNumberOfPlayers(numberOfPlayers);
+        }
     }
 
     @Override
     public void playersChangedObserverUpdate(Collection<PlayerLoginInfo> players) {
-
+        for(VirtualView playerView: playersView){
+            playerView.playersChanged(players);
+        }
     }
 
     @Override
     public void towerSelectedObserverUpdate(String player, TowerType tower) {
-
+        for(VirtualView playerView: playersView){
+            playerView.towerSelected(player, tower);
+        }
     }
 
     @Override
     public void wizardSelectedObserverUpdate(String player, Wizard wizard) {
-
+        for(VirtualView playerView: playersView){
+            playerView.wizardSelected(player, wizard);
+        }
     }
 
     @Override
     public void banOnIslandObserverUpdate(int islandIDWithBan, int actualNumOfBans) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeNumberOfBansOnIsland(islandIDWithBan, actualNumOfBans);
+        }
     }
 
     @Override
     public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
+        for(VirtualView playerView: playersView){
+            playerView.changeAssistantDeck(nickName, actualDeck);
+        }
 
     }
 
     @Override
     public void changeCoinNumberInBagObserverUpdate(int actualNumOfCoins) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeCoinNumberInBag(actualNumOfCoins);
+        }
     }
 
     @Override
     public void changeCoinNumberObserverUpdate(String nickNameOfPlayer, int actualNumOfCoins) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeCoinNumber(nickNameOfPlayer, actualNumOfCoins);
+        }
     }
 
     @Override
     public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeCurrentPlayer(actualCurrentPlayerNickname);
+        }
     }
 
     @Override
     public void changeTowerNumberUpdate(String nickName, int numOfActualTowers) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeTowerNumber(nickName, numOfActualTowers);
+        }
     }
 
     @Override
     public void conquerIslandObserverUpdate() {
-
+        for(VirtualView playerView: playersView){
+            playerView.conquerIslandObserver();
+        }
     }
 
     @Override
     public void emptyStudentBagObserverUpdate() {
-
+        for(VirtualView playerView: playersView){
+            playerView.emptyStudentBag();
+        }
     }
 
     @Override
     public void islandNumberObserverUpdate(int actualNumOfIslands) {
-
+        for(VirtualView playerView: playersView){
+            playerView.islandNumberChanged(actualNumOfIslands);
+        }
     }
 
     @Override
     public void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int finalSize) {
-
+        for(VirtualView playerView: playersView){
+            playerView.islandUnification(islandID, islandRemovedID, finalSize);
+        }
     }
 
     @Override
     public void lastAssistantUsedObserverUpdate(String nickName, Assistant actualLastAssistant) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeLastAssistantUsed(nickName, actualLastAssistant);
+        }
     }
 
     @Override
     public void motherNaturePositionObserverUpdate(int actualMotherNaturePosition) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeMotherNaturePosition(actualMotherNaturePosition);
+        }
     }
 
     @Override
     public void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeProfessor(nickName, actualProfessors);
+        }
     }
 
     @Override
     public void studentsInDiningRoomObserverUpdate(String nickname, StudentList actualStudents) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeStudentsInDiningRoom(nickname, actualStudents);
+        }
     }
 
     @Override
     public void studentsOnCloudObserverUpdate(int cloudID, StudentList actualStudentList) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeStudentsOnCloud(cloudID, actualStudentList);
+        }
     }
 
     @Override
     public void studentsOnEntranceObserverUpdate(String nickname, StudentList actualStudents) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeStudentsOnEntrance(nickname, actualStudents);
+        }
     }
 
     @Override
     public void studentsOnIslandObserverUpdate(int islandID, StudentList actualStudents) {
-
+        for(VirtualView playerView: playersView){
+            playerView.changeStudentsOnIsland(islandID, actualStudents);
+        }
     }
 
     @Override
     public void towerOnIslandObserverUpdate(int islandIDWithChange, TowerType actualTower) {
+        for(VirtualView playerView: playersView){
+            playerView.changeTowerOnIsland(islandIDWithChange, actualTower);
+        }
+    }
 
+    @Override
+    public void endOfGameObserverUpdate(Collection<String> winners){
+        for(VirtualView playerView: playersView){
+            playerView.endGame(winners);
+        }
     }
 }

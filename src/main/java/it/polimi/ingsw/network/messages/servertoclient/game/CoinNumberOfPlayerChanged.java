@@ -3,6 +3,9 @@ package it.polimi.ingsw.network.messages.servertoclient.game;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
+/**
+ * A message sent from server to all client connected to a game to indicate that the number of coins of a player has changed.
+ */
 public class CoinNumberOfPlayerChanged extends ServerCommandNetMsg {
 
     /**

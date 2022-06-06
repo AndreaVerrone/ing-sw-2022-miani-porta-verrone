@@ -76,11 +76,12 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void changeNumberOfBansOnIsland(int islandIDWithBan, int actualNumOfBans) {
-
+        //TODO: send message
     }
 
     @Override
     public void changeAssistantDeck(String nickName, Collection<Assistant> actualDeck) {
+        //TODO: send message
 
     }
 
@@ -101,11 +102,13 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void changeTowerNumber(String nickName, int numOfActualTowers) {
+        //TODO: send message
 
     }
 
     @Override
     public void conquerIslandObserver() {
+        //TODO: send message
 
     }
 
@@ -116,11 +119,13 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void islandNumberChanged(int actualNumOfIslands) {
+        //TODO: send message
 
     }
 
     @Override
     public void islandUnification(int islandID, int islandRemovedID, int finalSize) {
+        //TODO: send message
 
     }
 
@@ -130,7 +135,7 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void ChangeMotherNaturePosition(int actualMotherNaturePosition) {
+    public void changeMotherNaturePosition(int actualMotherNaturePosition) {
         sender.sendMessage(new MotherNatureMoved(actualMotherNaturePosition));
     }
 
@@ -141,26 +146,35 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void changeStudentsInDiningRoom(String nickname, StudentList actualStudents) {
+        //TODO: send message
 
     }
 
     @Override
     public void changeStudentsOnCloud(int cloudID, StudentList actualStudentList) {
+        //TODO: send message
 
     }
 
     @Override
     public void changeStudentsOnEntrance(String nickname, StudentList actualStudents) {
+        //TODO: send message
 
     }
 
     @Override
     public void changeStudentsOnIsland(int islandID, StudentList actualStudents) {
+        //TODO: send message
 
     }
 
     @Override
     public void changeTowerOnIsland(int islandIDWithChange, TowerType actualTower) {
         sender.sendMessage(new TowerOnIslandChanged(actualTower, islandIDWithChange));
+    }
+
+    @Override
+    public void endGame(Collection<String> winners) {
+        sender.sendMessage(new GameEnded(winners));
     }
 }

@@ -52,7 +52,7 @@ public interface VirtualView {
 
     void changeLastAssistantUsed(String nickName, Assistant actualLastAssistant);
 
-    void ChangeMotherNaturePosition(int actualMotherNaturePosition);
+    void changeMotherNaturePosition(int actualMotherNaturePosition);
 
     void changeProfessor(String nickName, Collection<PawnType> actualProfessors);
 
@@ -65,4 +65,6 @@ public interface VirtualView {
     void changeStudentsOnIsland(int islandID, StudentList actualStudents);
 
     void changeTowerOnIsland(int islandIDWithChange, TowerType actualTower);
+
+    void endGame(Collection<String> winners);
 }
