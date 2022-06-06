@@ -32,7 +32,6 @@ public class TowerOnIslandChanged extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 11/05/2022 update view
         client.updateTowerType(islandID,newTower);
     }
 

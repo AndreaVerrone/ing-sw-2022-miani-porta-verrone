@@ -35,7 +35,6 @@ public class ProfessorChanged extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 11/05/2022 update view
         client.setProfTableList(playerNickname,professors);
     }
 

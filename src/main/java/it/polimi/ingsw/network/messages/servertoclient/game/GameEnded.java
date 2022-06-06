@@ -30,7 +30,6 @@ public class GameEnded extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 11/05/2022 show in view
         client.displayEndGameScreen(new ArrayList<>(winners));
     }
 
