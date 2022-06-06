@@ -42,16 +42,4 @@ public class ChooseStudentFromLocation extends ClientCommandNetMsg {
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
 
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-
-        if (response.isSuccess()) {
-            //TODO: notify the view of the success
-            return;
-        }
-
-        ErrorCode errorCode = response.getErrorCode();
-        clientController.displayErrorMessage(Translator.getErrorMessage(errorCode));
-
-    }
 }
