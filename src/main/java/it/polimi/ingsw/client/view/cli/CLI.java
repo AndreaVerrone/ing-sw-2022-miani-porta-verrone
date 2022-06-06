@@ -239,11 +239,15 @@ public class CLI implements VirtualView, Runnable {
     }
 
     /**
-     * this method will print in red the message passed in the parameters
+     * this method will print in red the message passed in the parameters,
+     * and it will emit a sound
      * @param errorMessage string containing the error message to print
      */
     public void displayErrorMessage(String errorMessage){
+        // print the message in red
         printColorMessage(Color.RED,errorMessage);
+        // emit a sound
+        System.out.print("\u0007");
     }
 
     /**
