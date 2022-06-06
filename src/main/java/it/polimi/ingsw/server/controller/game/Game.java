@@ -140,6 +140,7 @@ public class Game {
                 }
             }
         }
+        // *** 5. fill clouds 
         gameTable.fillClouds();
     }
 
