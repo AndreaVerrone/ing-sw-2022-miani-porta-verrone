@@ -138,8 +138,8 @@ public class Island {
 
         // notify the changes
         notifyUnificationIslandObservers(ID, island.ID, this.size);
-        notifyBanOnIslandObservers(island.ID,this.ban);
-        notifyStudentsOnIslandObservers(island.ID,this.students.clone());
+        notifyBanOnIslandObservers(ID,this.ban);
+        notifyStudentsOnIslandObservers(ID,this.students.clone());
 
     }
 
