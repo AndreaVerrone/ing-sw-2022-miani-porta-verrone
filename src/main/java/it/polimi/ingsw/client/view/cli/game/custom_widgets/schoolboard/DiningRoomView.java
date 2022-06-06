@@ -15,7 +15,7 @@ class DiningRoomView extends StatefulWidget {
     /**
      * students in the dining room.
      */
-    private StudentList actualStudentList;
+    private final StudentList actualStudentList;
 
     /**
      * The max number of students in one table.
@@ -32,7 +32,7 @@ class DiningRoomView extends StatefulWidget {
      * @param actualStudentList the student list in the dining room
      */
     DiningRoomView(StudentList actualStudentList) {
-        setState(()->this.actualStudentList = actualStudentList);
+        this.actualStudentList = actualStudentList;
         create();
     }
 

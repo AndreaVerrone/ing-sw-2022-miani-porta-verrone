@@ -13,14 +13,14 @@ class CoinCounter extends StatefulWidget {
     /**
      * The number of coins
      */
-    private int coinNumber;
+    private final int coinNumber;
 
     /**
      * The constructor of the class
      * @param coinNumber the number of coins
      */
     CoinCounter(int coinNumber) {
-        setState(()->this.coinNumber=coinNumber);
+        this.coinNumber=coinNumber;
         create();
     }
 

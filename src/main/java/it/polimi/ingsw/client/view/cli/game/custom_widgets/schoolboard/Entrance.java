@@ -15,14 +15,14 @@ class Entrance extends StatefulWidget {
     /**
      * students that are at the entrance.
      */
-    private StudentList students;
+    private final StudentList students;
 
     /**
      * The constructor of the class
      * @param students the students that are at the entrance
      */
     Entrance(StudentList students) {
-        setState(()->this.students = students);
+        this.students = students;
         create();
     }
 
