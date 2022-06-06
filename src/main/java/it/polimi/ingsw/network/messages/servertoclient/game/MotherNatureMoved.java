@@ -16,10 +16,10 @@ public class MotherNatureMoved extends ServerCommandNetMsg {
 
     /**
      * Creates a new message to comunicate that mother nature has moved
-     * @param movement the number of movement
+     * @param newPosition the new position of mother nature
      */
-    public MotherNatureMoved(int movement) {
-        this.position = movement;
+    public MotherNatureMoved(int newPosition) {
+        this.position = newPosition;
     }
 
 
