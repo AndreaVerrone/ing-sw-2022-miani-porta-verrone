@@ -6,9 +6,13 @@ import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.gametable.GameTable;
 import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ import java.util.Optional;
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
-public class Match {
+public class Match implements ObserversCommonInterface{
 
     /**
      * The Matchmaking of this match. After the game has started this will be null.
@@ -45,6 +49,12 @@ public class Match {
      */
     public Match(int numOfPlayers, boolean wantExpert) {
         matchMaking = new MatchMaking(numOfPlayers, wantExpert);
+
+        //ADD OBSERVER TO MATCHMAKING
+        matchMaking.addChangeCurrentPlayerObserver(this);
+        matchMaking.addNumberOfPlayersObserver(this);
+        matchMaking.addPlayersChangedObserver(this);
+        matchMaking.addChangeCurrentStateObserver(this);
     }
 
     /**
@@ -116,6 +126,7 @@ public class Match {
             throw new NotValidOperationException();
         synchronized (this) {
             matchMaking.addPlayer(nickname);
+            addObserversToPlayer(nickname);
         }
     }
 
@@ -130,8 +141,35 @@ public class Match {
             throw new NotValidOperationException();
         synchronized (this) {
             matchMaking.removePlayer(nickname);
+            removeObserversFromPlayer(nickname);
             if (matchMaking.getPlayers().isEmpty())
                 Server.getInstance().deleteGame(this);
+        }
+    }
+
+    /**
+     * Method to add observers to a player just added
+     * @param playerNickname nickname of the player just added
+     */
+    private void addObserversToPlayer(String playerNickname){
+        for(PlayerLoginInfo player: matchMaking.getPlayers()){
+            if(player.getNickname().equals(playerNickname)){
+                player.addTowerSelectedObserver(this);
+                player.addWizardSelectedObserver(this);
+            }
+        }
+    }
+
+    /**
+     * Method to remove the observers from a player removed from the game
+     * @param playerNickname nickname of the player removed
+     */
+    private void removeObserversFromPlayer(String playerNickname){
+        for(PlayerLoginInfo player: matchMaking.getPlayers()){
+            if(player.getNickname().equals(playerNickname)){
+                player.removeTowerSelectedObserver(this);
+                player.removeWizardSelectedObserver(this);
+            }
         }
     }
 
@@ -171,7 +209,43 @@ public class Match {
         if (possibleGame.isPresent()){
             matchMaking = null;
             game = possibleGame.get();
+            addObserverToGame();
         }
+    }
+
+    /**
+     * Method to add all the observers to game, both in basic and expert mode
+     */
+    private void addObserverToGame(){
+        game.addChangeCurrentStateObserver(this);
+        game.addStudentsOnCardObserver(this);
+        game.addCoinOnCardObserver(this);
+
+        GameModel model = game.getModel();
+        model.addChangeCurrentPlayerObserver(this);
+        model.addConquerIslandObserver(this);
+        model.addEmptyStudentBagObserver(this);
+        model.addChangeCoinNumberInBagObserver(this);
+
+        GameTable gameTable = model.getGameTable();
+        gameTable.addMotherNaturePositionObserver(this);
+        gameTable.addStudentsOnCloudObserver(this);
+        gameTable.addIslandNumberObserver(this);
+        gameTable.addStudentsOnIslandObserver(this);
+        gameTable.addTowerOnIslandObserver(this);
+        gameTable.addBanOnIslandObserver(this);
+        gameTable.addUnificationIslandObserver(this);
+
+        for(Player player: model.getPlayerList()){
+            player.addChangeAssistantDeckObserver(this);
+            player.addChangeCoinNumberObserver(this);
+            player.addProfessorObserver(this);
+            player.addChangeTowerNumberObserver(this);
+            player.addLastAssistantUsedObserver(this);
+            player.addStudentsInDiningRoomObserver(this);
+            player.addStudentsOnEntranceObserver(this);
+        }
+
     }
 
     /**
@@ -263,5 +337,188 @@ public class Match {
         if (game == null)
             throw new NotValidOperationException();
         game.useCharacterCard(cardType);
+    }
+
+    @Override
+    public void changeCurrentStateObserverUpdate(StateType stateType) {
+        for(VirtualView playerView: playersView){
+            playerView.changeCurrentState(stateType);
+        }
+    }
+
+    @Override
+    public void coinOnCardObserverUpdate(CharacterCardsType characterCardsType, boolean coinOnCard) {
+        for(VirtualView playerView: playersView){
+            playerView.addCoinOnCard(characterCardsType, coinOnCard);
+        }
+    }
+
+    @Override
+    public void studentsOnCardObserverUpdate(CharacterCardsType characterCardType, StudentList actualStudents) {
+        for(VirtualView playerView: playersView){
+            playerView.addStudentsOnCard(characterCardType, actualStudents);
+        }
+    }
+
+    @Override
+    public void numberOfPlayersObserverUpdate(int numberOfPlayers) {
+        for(VirtualView playerView: playersView){
+            playerView.changeNumberOfPlayers(numberOfPlayers);
+        }
+    }
+
+    @Override
+    public void playersChangedObserverUpdate(Collection<PlayerLoginInfo> players) {
+        for(VirtualView playerView: playersView){
+            playerView.playersChanged(players);
+        }
+    }
+
+    @Override
+    public void towerSelectedObserverUpdate(String player, TowerType tower) {
+        for(VirtualView playerView: playersView){
+            playerView.towerSelected(player, tower);
+        }
+    }
+
+    @Override
+    public void wizardSelectedObserverUpdate(String player, Wizard wizard) {
+        for(VirtualView playerView: playersView){
+            playerView.wizardSelected(player, wizard);
+        }
+    }
+
+    @Override
+    public void banOnIslandObserverUpdate(int islandIDWithBan, int actualNumOfBans) {
+        for(VirtualView playerView: playersView){
+            playerView.changeNumberOfBansOnIsland(islandIDWithBan, actualNumOfBans);
+        }
+    }
+
+    @Override
+    public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
+        for(VirtualView playerView: playersView){
+            playerView.changeAssistantDeck(nickName, actualDeck);
+        }
+
+    }
+
+    @Override
+    public void changeCoinNumberInBagObserverUpdate(int actualNumOfCoins) {
+        for(VirtualView playerView: playersView){
+            playerView.changeCoinNumberInBag(actualNumOfCoins);
+        }
+    }
+
+    @Override
+    public void changeCoinNumberObserverUpdate(String nickNameOfPlayer, int actualNumOfCoins) {
+        for(VirtualView playerView: playersView){
+            playerView.changeCoinNumber(nickNameOfPlayer, actualNumOfCoins);
+        }
+    }
+
+    @Override
+    public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
+        for(VirtualView playerView: playersView){
+            playerView.changeCurrentPlayer(actualCurrentPlayerNickname);
+        }
+    }
+
+    @Override
+    public void changeTowerNumberUpdate(String nickName, int numOfActualTowers) {
+        for(VirtualView playerView: playersView){
+            playerView.changeTowerNumber(nickName, numOfActualTowers);
+        }
+    }
+
+    @Override
+    public void conquerIslandObserverUpdate() {
+        for(VirtualView playerView: playersView){
+            playerView.conquerIslandObserver();
+        }
+    }
+
+    @Override
+    public void emptyStudentBagObserverUpdate() {
+        for(VirtualView playerView: playersView){
+            playerView.emptyStudentBag();
+        }
+    }
+
+    @Override
+    public void islandNumberObserverUpdate(int actualNumOfIslands) {
+        for(VirtualView playerView: playersView){
+            playerView.islandNumberChanged(actualNumOfIslands);
+        }
+    }
+
+    @Override
+    public void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int finalSize) {
+        for(VirtualView playerView: playersView){
+            playerView.islandUnification(islandID, islandRemovedID, finalSize);
+        }
+    }
+
+    @Override
+    public void lastAssistantUsedObserverUpdate(String nickName, Assistant actualLastAssistant) {
+        for(VirtualView playerView: playersView){
+            playerView.changeLastAssistantUsed(nickName, actualLastAssistant);
+        }
+    }
+
+    @Override
+    public void motherNaturePositionObserverUpdate(int actualMotherNaturePosition) {
+        for(VirtualView playerView: playersView){
+            playerView.changeMotherNaturePosition(actualMotherNaturePosition);
+        }
+    }
+
+    @Override
+    public void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors) {
+        for(VirtualView playerView: playersView){
+            playerView.changeProfessor(nickName, actualProfessors);
+        }
+    }
+
+    @Override
+    public void studentsInDiningRoomObserverUpdate(String nickname, StudentList actualStudents) {
+        for(VirtualView playerView: playersView){
+            playerView.changeStudentsInDiningRoom(nickname, actualStudents);
+        }
+    }
+
+    @Override
+    public void studentsOnCloudObserverUpdate(int cloudID, StudentList actualStudentList) {
+        for(VirtualView playerView: playersView){
+            playerView.changeStudentsOnCloud(cloudID, actualStudentList);
+        }
+    }
+
+    @Override
+    public void studentsOnEntranceObserverUpdate(String nickname, StudentList actualStudents) {
+        for(VirtualView playerView: playersView){
+            playerView.changeStudentsOnEntrance(nickname, actualStudents);
+        }
+    }
+
+    @Override
+    public void studentsOnIslandObserverUpdate(int islandID, StudentList actualStudents) {
+        for(VirtualView playerView: playersView){
+            playerView.changeStudentsOnIsland(islandID, actualStudents);
+        }
+    }
+
+    @Override
+    public void towerOnIslandObserverUpdate(int islandIDWithChange, TowerType actualTower) {
+        for(VirtualView playerView: playersView){
+            playerView.changeTowerOnIsland(islandIDWithChange, actualTower);
+        }
+    }
+
+    @Override
+    public void endOfGameObserverUpdate(Collection<String> winners){
+        for(VirtualView playerView: playersView){
+            playerView.endGame(winners);
+        }
     }
 }

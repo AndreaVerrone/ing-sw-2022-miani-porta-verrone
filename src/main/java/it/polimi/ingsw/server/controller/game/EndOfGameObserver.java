@@ -1,15 +1,18 @@
-package it.polimi.ingsw.server.controller.matchmaking.observers;
+package it.polimi.ingsw.server.controller.game;
+
+import it.polimi.ingsw.server.model.player.Player;
+
+import java.util.Collection;
 
 /**
  * Interface to implement the observer pattern.
  */
-public interface NumberOfPlayersObserver {
+public interface EndOfGameObserver {
 
     /**
      * this method is the {@code update()} method of the observer pattern.
      * It is called by the subject in order to notify a change to all its attached observers.
      *
-     * @param numberOfPlayers number of players of the match
      */
-    void numberOfPlayersObserverUpdate(int numberOfPlayers);
+    void endOfGameObserverUpdate(Collection<String> winners);
 }

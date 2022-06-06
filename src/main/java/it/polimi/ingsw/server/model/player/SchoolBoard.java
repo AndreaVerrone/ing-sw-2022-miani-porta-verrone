@@ -31,6 +31,10 @@ class SchoolBoard {
      * @see DiningRoom
      */
     private final DiningRoom diningRoom;
+
+    /**
+     * Table with the professors in the dining room
+     */
     private final Set<PawnType> professorTable = new HashSet<>();
 
     /**
@@ -43,6 +47,9 @@ class SchoolBoard {
      */
     private int coins = 0;
 
+    /**
+     * Bag with all the coins
+     */
     private final CoinsBag coinsBag;
 
     /**
