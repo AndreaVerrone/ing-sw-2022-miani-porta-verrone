@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client.view.cli.matchmaking;
 
+import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
-import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
@@ -39,7 +39,7 @@ public class MatchmakingView extends StatefulWidget {
      * @param numPlayers the maximum number of players
      * @param expert {@code true} if the expert rules are selected, {@code false} otherwise
      */
-    public MatchmakingView(Collection<PlayerLoginInfo> playersInfo, int numPlayers, boolean expert){
+    public MatchmakingView(Collection<ReducedPlayerLoginInfo> playersInfo, int numPlayers, boolean expert){
         setContent(playersInfo);
         header = new Row(List.of(
                 new Text(Translator.getNumOfPlayers()),
@@ -51,10 +51,10 @@ public class MatchmakingView extends StatefulWidget {
         create();
     }
 
-    private void setContent(Collection<PlayerLoginInfo> playersInfo){
+    private void setContent(Collection<ReducedPlayerLoginInfo> playersInfo){
         players.clear();
-        for (PlayerLoginInfo info : playersInfo){
-            players.put(info.getNickname(), new PlayerView(info));
+        for (ReducedPlayerLoginInfo info : playersInfo){
+            players.put(info.nickname(), new PlayerView(info));
         }
         String numPlayers = String.valueOf(playersInfo.size());
         actualPlayers = new Text(numPlayers);
@@ -72,7 +72,7 @@ public class MatchmakingView extends StatefulWidget {
      * Update this widget showing the infos passed as a parameter
      * @param playerLoginInfos the new player list of this lobby
      */
-    public void update(Collection<PlayerLoginInfo> playerLoginInfos){
+    public void update(Collection<ReducedPlayerLoginInfo> playerLoginInfos){
         setState(() -> setContent(playerLoginInfos));
     }
 
@@ -82,9 +82,7 @@ public class MatchmakingView extends StatefulWidget {
      * @param tower the tower to assign
      */
     public void modify(String nickname, TowerType tower){
-        PlayerLoginInfo playerLoginInfo = new PlayerLoginInfo(nickname);
-        playerLoginInfo.setTowerType(tower);
-        add(playerLoginInfo);
+        players.get(nickname).setTower(tower);
     }
 
     /**
@@ -93,15 +91,9 @@ public class MatchmakingView extends StatefulWidget {
      * @param wizard the wizard to assign
      */
     public void modify(String nickname, Wizard wizard){
-        PlayerLoginInfo playerLoginInfo = new PlayerLoginInfo(nickname);
-        playerLoginInfo.setWizard(wizard);
-        add(playerLoginInfo);
+        players.get(nickname).setWizard(wizard);
     }
 
-
-    private void add(PlayerLoginInfo info){
-        setState(() -> players.put(info.getNickname(), new PlayerView(info)));
-    }
 
     @Override
     protected Widget build() {
