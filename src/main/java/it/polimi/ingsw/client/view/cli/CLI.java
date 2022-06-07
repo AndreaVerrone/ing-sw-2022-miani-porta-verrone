@@ -7,6 +7,8 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
+import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
+import it.polimi.ingsw.client.view.cli.matchmaking.MatchmakingView;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -55,6 +57,11 @@ public class CLI implements VirtualView, Runnable {
             """;
 
     private boolean shouldStop = false;
+
+    /**
+     * A widget representing the matchmaking content
+     */
+    private MatchmakingView matchmakingView;
 
     @Override
     public void run() {
@@ -131,6 +138,16 @@ public class CLI implements VirtualView, Runnable {
             case "y", "yes", "s", "si" -> true;
             default -> false;
         };
+    }
+
+    public MatchmakingView getMatchmakingView(){
+        return matchmakingView;
+    }
+
+    @Override
+    public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert) {
+        matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert);
+        setNextScreen(new LobbyScreen(this));
     }
 
     @Override

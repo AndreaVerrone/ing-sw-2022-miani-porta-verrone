@@ -65,6 +65,7 @@ public class GamesListScreen extends CliScreen {
         String input = inputReader.readInput(Translator.getChooseGame())[0];
         if (input.equals("back")){
             getCli().setNextScreen(new HomeScreen(getCli()));
+            return;
         }
         getCli().getClientController().askNicknameToEnter(input);
     }

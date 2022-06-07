@@ -130,6 +130,10 @@ public class Translator {
                 "Difficulty: " + (isExpert ? "expert mode" : "standard");
     }
 
+    public static String getLabelGameID(){
+        return isItalian ? "Identificatore della partita: " : "Identifier of this game: ";
+    }
+
     /**
      * Gets a description of the error occurred passed as a parameter
      * @param errorCode the code of the error

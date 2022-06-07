@@ -16,6 +16,14 @@ import java.util.Collection;
  */
 public interface VirtualView {
 
+    /**
+     * Creates the initial view of the game (the matchmaking) using the parameter passed
+     * @param playerLoginInfos the list of players currently in the lobby
+     * @param numPlayers the number of players requested in the game
+     * @param isExpert if the game uses expert rules
+     */
+    void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert);
+
     void changeCurrentState(StateType stateType);
 
     void addCoinOnCard(CharacterCardsType characterCardsType, boolean coinOnCard);

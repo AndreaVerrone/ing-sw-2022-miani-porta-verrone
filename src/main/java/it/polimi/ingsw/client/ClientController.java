@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.launcher.*;
+import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
 import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
 import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
 import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
@@ -32,6 +33,12 @@ public class ClientController {
     private String nickNameCurrentPlayer;
 
     /**
+     * The identifier of the game the player is currently in.
+     * Used for display purposes
+     */
+    private String gameID;
+
+    /**
      * Virtual match played by the client
      */
     private ConnectionHandler connectionHandler;
@@ -51,6 +58,10 @@ public class ClientController {
         cli.attachTo(this);
         cli.setNextScreen(new LauncherScreen(cli));
         cli.run();
+    }
+
+    public String getGameID() {
+        return gameID;
     }
 
     /**
@@ -128,6 +139,7 @@ public class ClientController {
     public void enterGame(String nickName, String gameId){
         nickNameOwner = nickName;
         connectionHandler.sendMessage(new EnterGame(nickName, gameId));
+        this.gameID = gameId;
     }
 
     /**
@@ -152,12 +164,15 @@ public class ClientController {
         connectionHandler.sendMessage(new ResumeGame());
     }
 
+    public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert) {
+        cli.createGameView(playerLoginInfos, numPlayers, isExpert);
+    }
 
     /**
      * Sends a message to the server to change the number of players and controls the input given is right
      * @param newNumberPlayers new number of players in the game
      */
-    public void ChangeNumPlayers(int newNumberPlayers){
+    public void changeNumPlayers(int newNumberPlayers){
         if(wrongPlayerTurn()) return;
         //Control it is a valid number of players
         if(newNumberPlayers < 2 || newNumberPlayers > 3){
