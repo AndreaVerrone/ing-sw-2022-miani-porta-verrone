@@ -1,16 +1,12 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.VirtualView;
-import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
 import it.polimi.ingsw.network.messages.servertoclient.CurrentPlayerChanged;
 import it.polimi.ingsw.network.messages.servertoclient.CurrentStateChanged;
 import it.polimi.ingsw.network.messages.servertoclient.game.*;
-import it.polimi.ingsw.network.messages.servertoclient.matchmaking.NumPlayersChanged;
-import it.polimi.ingsw.network.messages.servertoclient.matchmaking.PlayersChanged;
-import it.polimi.ingsw.network.messages.servertoclient.matchmaking.TowerSelected;
-import it.polimi.ingsw.network.messages.servertoclient.matchmaking.WizardSelected;
-import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.network.messages.servertoclient.matchmaking.*;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -61,7 +57,7 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void playersChanged(Collection<PlayerLoginInfo> players) {
+    public void playersChanged(Collection<ReducedPlayerLoginInfo> players) {
         sender.sendMessage(new PlayersChanged(players));
     }
 

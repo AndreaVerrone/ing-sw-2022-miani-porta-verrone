@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -24,7 +24,7 @@ public interface VirtualView {
 
     void changeNumberOfPlayers(int numberOfPlayers);
 
-    void playersChanged(Collection<PlayerLoginInfo> players);
+    void playersChanged(Collection<ReducedPlayerLoginInfo> players);
 
     void towerSelected(String player, TowerType tower);
 

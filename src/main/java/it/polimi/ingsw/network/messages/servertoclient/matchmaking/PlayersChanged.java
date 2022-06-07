@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.messages.servertoclient.matchmaking;
 
 import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
-import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,13 +15,13 @@ public class PlayersChanged extends ServerCommandNetMsg {
     /**
      * The players currently in the game
      */
-    private final ArrayList<PlayerLoginInfo> players;
+    private final Collection<ReducedPlayerLoginInfo> players;
 
     /**
      * Creates a new message to inform all the players in a game that something in the players list changed.
      * @param players the players currently in the game
      */
-    public PlayersChanged(Collection<PlayerLoginInfo> players) {
+    public PlayersChanged(Collection<ReducedPlayerLoginInfo> players) {
         this.players = new ArrayList<>(players);
     }
 

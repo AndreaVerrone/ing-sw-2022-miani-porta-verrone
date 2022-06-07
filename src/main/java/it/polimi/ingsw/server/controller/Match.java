@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.game.Game;
@@ -369,8 +370,10 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void playersChangedObserverUpdate(Collection<PlayerLoginInfo> players) {
+        Collection<ReducedPlayerLoginInfo> reducedPlayers = players.stream()
+                .map(PlayerLoginInfo::reduce).toList();
         for(VirtualView playerView: playersView){
-            playerView.playersChanged(players);
+            playerView.playersChanged(reducedPlayers);
         }
     }
 

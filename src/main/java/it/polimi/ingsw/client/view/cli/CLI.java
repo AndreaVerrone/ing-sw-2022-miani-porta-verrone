@@ -1,13 +1,13 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.network.VirtualView;
-import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -154,7 +154,7 @@ public class CLI implements VirtualView, Runnable {
     }
 
     @Override
-    public void playersChanged(Collection<PlayerLoginInfo> players) {
+    public void playersChanged(Collection<ReducedPlayerLoginInfo> players) {
 
     }
 
