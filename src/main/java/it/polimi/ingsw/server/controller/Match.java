@@ -92,6 +92,23 @@ public class Match implements ObserversCommonInterface{
     }
 
     /**
+     * Notifies the requested client that he entered this match
+     * @param view the view associated to the client to notify
+     */
+    public void notifyGameEntered(VirtualView view) {
+        Collection<ReducedPlayerLoginInfo> players;
+        int numPlayers;
+        boolean isExpert;
+        synchronized (this) {
+            players = matchMaking.getPlayers().stream()
+                    .map(PlayerLoginInfo::reduce).toList();
+            numPlayers = matchMaking.getNumPlayers();
+            isExpert = matchMaking.isHardMode();
+        }
+        view.createGameView(players, numPlayers, isExpert);
+    }
+
+    /**
      * Sets if the game it's been creating need to use expert rules.
      * @param isHardMode {@code true} if expert rules are required, {@code false} otherwise
      * @throws NotValidOperationException if the game has started

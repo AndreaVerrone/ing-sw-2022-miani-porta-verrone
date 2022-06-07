@@ -101,6 +101,7 @@ public class SessionController {
 
         this.match = match;
         this.nickname = nickname;
+        match.notifyGameEntered(view);
 
         Server.getInstance().addPlayer(user, match);
     }
