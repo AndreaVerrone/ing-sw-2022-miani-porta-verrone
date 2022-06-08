@@ -172,7 +172,8 @@ public class CLI implements VirtualView, Runnable {
 
     @Override
     public void playersChanged(Collection<ReducedPlayerLoginInfo> players) {
-
+        matchmakingView.update(players);
+        setNextScreen(currentScreen);
     }
 
     @Override

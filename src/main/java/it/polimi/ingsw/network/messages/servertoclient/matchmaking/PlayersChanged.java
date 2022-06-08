@@ -27,7 +27,7 @@ public class PlayersChanged extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 10/05/2022 update the list of players showed
+        client.playersMatchmakingChanged(players);
     }
 
 }

@@ -164,10 +164,23 @@ public class ClientController {
         connectionHandler.sendMessage(new ResumeGame());
     }
 
+    /**
+     * Creates the initial view of the game (the matchmaking) using the parameter passed
+     * @param playerLoginInfos the list of players currently in the lobby
+     * @param numPlayers the number of players requested in the game
+     * @param isExpert if the game uses expert rules
+     */
     public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert) {
         cli.createGameView(playerLoginInfos, numPlayers, isExpert);
     }
 
+    /**
+     * Updates the view of the client showing the new players that are currently in the same lobby he is
+     * @param newPlayers the new list of players in the lobby
+     */
+    public void playersMatchmakingChanged(Collection<ReducedPlayerLoginInfo> newPlayers){
+        cli.playersChanged(newPlayers);
+    }
     /**
      * Sends a message to the server to change the number of players and controls the input given is right
      * @param newNumberPlayers new number of players in the game

@@ -21,16 +21,16 @@ public class IdleScreen extends CliScreen {
     protected void show() {
         AnsiConsole.systemInstall();
         String message = Translator.getWaitMessage();
-        System.out.print(message);
         int index = 0;
         while (!shouldStop()) {
+            System.out.print(message);
             System.out.print(progress.get(index));
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ignored) {
             }
 
-            ConsoleCli.moveCursorLeft(3);
+            ConsoleCli.moveToColumn(0);
             index = (index + 1) % progress.size();
 
         }
