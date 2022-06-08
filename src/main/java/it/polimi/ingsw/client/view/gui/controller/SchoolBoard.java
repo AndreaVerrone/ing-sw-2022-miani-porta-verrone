@@ -21,9 +21,9 @@ import java.util.*;
 public class SchoolBoard {
 
     /**
-     * Nickname of the player that owns the schoolboard
+     * True if this is the schoolboard of the client
      */
-    private final String player;
+    boolean isFirstPlayer;
 
     /**
      * Grid used tp place the students on the entrance of the schoolbard
@@ -67,19 +67,19 @@ public class SchoolBoard {
 
     /**
      * This class allows to add and remove students and towers on the schoolboard
-     * @param player Nickname of the player that owns the scoolboard
+     * @param isFirstPlayer true if this is the schoolboard of the client
      * @param gridEntrance Grid used tp place the students on the entrance of the schoolbard
      * @param gridDiningRoom Grid used to place the students on the dining room of the schoolboard
      * @param gridTowers Grid used to place the towers on the tower hall
      * @param towerType Color of the tower used by the player
      */
-    public SchoolBoard(String player, GridPane gridEntrance, GridPane gridDiningRoom, GridPane gridTowers, TowerType towerType){
-        this.player = player;
+    public SchoolBoard(boolean isFirstPlayer, GridPane gridEntrance, GridPane gridDiningRoom, GridPane gridTowers, TowerType towerType){
+        this.isFirstPlayer = isFirstPlayer;
         this.towerType = TowerImageType.typeConverter(towerType);
         this.gridEntrance = gridEntrance;
-        this.gridEntrance.setOnMouseClicked(new LocationListern(Location.ENTRANCE));
+        addListenerToLocation(this.gridEntrance, Location.ENTRANCE);
         this.gridDiningRoom = gridDiningRoom;
-        this.gridDiningRoom.setOnMouseClicked(new LocationListern(Location.DINING_ROOM));
+        addListenerToLocation(gridDiningRoom, Location.DINING_ROOM);
         this.gridTowers = gridTowers;
         for(PawnType type : PawnType.values()) {
             tables.put(type, new ArrayList<>());
@@ -96,7 +96,7 @@ public class SchoolBoard {
         StudentImageType studentType = StudentImageType.typeConverter(type);
         ImageView student = new ImageView(studentType.getImage());
         tables.get(type).add(new Pawn(student, type));
-        student.setOnMouseClicked(new StudentListener(type, Location.DINING_ROOM));
+        addListenerToPawn(student, type, Location.DINING_ROOM);
         student.toFront();
         gridDiningRoom.add(student, tables.get(type).size(), studentType.getTablePosition());
     }
@@ -116,7 +116,7 @@ public class SchoolBoard {
         else{
             entrance.set(emptySpot, new Pawn(student, type));
         }
-        student.setOnMouseClicked(new StudentListener(type, Location.ENTRANCE));
+        addListenerToPawn(student, type, Location.ENTRANCE);
         student.toFront();
         int row = EntrancePosition.values()[emptySpot].getRow();
         int column = EntrancePosition.values()[emptySpot].getColumn();
@@ -144,7 +144,7 @@ public class SchoolBoard {
         ProfessorImageType professorType = ProfessorImageType.typeConverter(type);
         ImageView professor = new ImageView(professorType.getImage());
         professors.add(new Pawn(professor, type));
-        professor.setOnMouseClicked(new StudentListener(type, Location.DINING_ROOM));
+        //addListenerToPawn(professor, type, Location.DINING_ROOM); NO NEED TO ADD LISTENER TO PROFESSORS
         professor.toFront();
         gridDiningRoom.add(professor, 12, professorType.getTablePosition());
         GridPane.setHalignment(professor, HPos.CENTER);
@@ -226,4 +226,29 @@ public class SchoolBoard {
         ImageView towerRemoved = towers.remove(towers.size()-1);
         gridTowers.getChildren().remove(towerRemoved);
     }
+
+    /**
+     * method to add a listener to a pawn
+     * @param pawn {@code Imageview} of the pawn where to add the listener
+     * @param type {@code PawnType} of the pawn
+     * @param location {@code Location} where the pawn is placed
+     */
+    private void addListenerToPawn(ImageView pawn, PawnType type, Location location){
+        if(isFirstPlayer){
+            pawn.setOnMouseClicked(new StudentListener(type, location));
+        }
+    }
+
+    /**
+     * Method to add a listener to a location  on the schoolboard
+     * @param locationView view where to add the listener
+     * @param locationType type of location where to add the listener
+     */
+    private void addListenerToLocation(GridPane locationView,Location locationType){
+        if(isFirstPlayer){
+            LocationListern listener = new LocationListern(locationType) ;
+            locationView.setOnMouseClicked(listener);
+        }
+    }
+
 }

@@ -42,6 +42,13 @@ public enum CharacterCardImageType {
     }
 
     /**
+     * Method to get a bigger {@code Image} of a card from its path in the project
+     * @return {@code Image} of the card bigger
+     */
+    public Image getImageBigger(){
+        return new Image(path, 500, 500, true, false);
+    }
+    /**
      * Method to convert a {@code CharacterCardsType} to a {@code CharacterCardImageType}
      * @param type {@code CharacterCardsType} type of the character card to convert
      * @return the {@code CharacterCardImageType} of the same card

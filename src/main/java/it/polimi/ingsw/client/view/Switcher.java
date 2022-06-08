@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.view.gui.controller.CharacterCard;
+import it.polimi.ingsw.client.view.gui.controller.CharacterCardView;
 import it.polimi.ingsw.client.view.gui.controller.TableView;
-import it.polimi.ingsw.server.model.player.Assistant;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 public class Switcher {
 
+    private TableView controllerTable;
+
     private final Stage stage;
 
     public Switcher(Stage stage){
@@ -23,7 +26,19 @@ public class Switcher {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
             Parent root = loader.load();
-            TableView controllerTable = (TableView) loader.getController();
+            controllerTable = (TableView) loader.getController();
+            display(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToCharacterCardView(CharacterCard card){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CharacterCard.fxml"));
+            Parent root = loader.load();
+            CharacterCardView controllerCard = (CharacterCardView) loader.getController();
+            controllerCard.fillView(card);
             display(root);
         } catch (IOException e) {
             e.printStackTrace();

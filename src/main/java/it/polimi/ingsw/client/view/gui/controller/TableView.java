@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.view.VirtualView;
+import com.sun.javafx.scene.layout.region.CornerRadiiConverter;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CharacterCardImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CloudImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandImageType;
@@ -16,27 +16,30 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
 import javafx.scene.Cursor;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 /**
  * Class to handle the view of the table of the game
  */
-public class TableView extends VirtualView implements Initializable {
+public class TableView implements Initializable {
 
     /**
      * Pane of the view used to scroll
@@ -128,6 +131,18 @@ public class TableView extends VirtualView implements Initializable {
     @FXML
     private Pane assistantCardPanePlayer3;
 
+    @FXML
+    private Label nickNameLabelPlayer1;
+
+    @FXML
+    private Label nickNameLabelPlayer2;
+
+    @FXML
+    private Label nickNameLabelPlayer3;
+
+    @FXML
+    private ImageView coinPlayer3;
+
     /**
      * List of schoolboards of the game
      */
@@ -146,7 +161,7 @@ public class TableView extends VirtualView implements Initializable {
     /**
      * list of character cards of the game
      */
-    private final Collection<ImageView> characterCards = new ArrayList<>();
+    private final Collection<CharacterCard> characterCards = new ArrayList<>();
 
     /**
      * Map of the deck associated to the player
@@ -158,13 +173,13 @@ public class TableView extends VirtualView implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        PlayerLoginInfo player1 = new PlayerLoginInfo("A");
+        PlayerLoginInfo player1 = new PlayerLoginInfo("Giorgio");
         player1.setTowerType(TowerType.BLACK);
         player1.setWizard(Wizard.W1);
-        PlayerLoginInfo player2 = new PlayerLoginInfo("B");
+        PlayerLoginInfo player2 = new PlayerLoginInfo("Andrea");
         player2.setTowerType(TowerType.WHITE);
         player2.setWizard(Wizard.W2);
-        PlayerLoginInfo player3 = new PlayerLoginInfo("C");
+        PlayerLoginInfo player3 = new PlayerLoginInfo("Alessia");
         player3.setTowerType(TowerType.GREY);
         player3.setWizard(Wizard.W3);
         createTable(new ArrayList<>(List.of(player1,
@@ -173,7 +188,7 @@ public class TableView extends VirtualView implements Initializable {
         table.toBack();
         scrollPane.toBack();
         //table.setGridLinesVisible(true);
-        SchoolBoard schoolBoard = schoolboards.get(2);
+        SchoolBoard schoolBoard = schoolboards.get(0);
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
@@ -203,8 +218,8 @@ public class TableView extends VirtualView implements Initializable {
         islands.get(10).removeTower();
         islands.get(7).removeMotherNature();
 
-        decks.get("B").useAssistantCard(Assistant.CARD_10);
-        decks.get("C").useAssistantCard(Assistant.CARD_5);
+        decks.get("Andrea").useAssistantCard(Assistant.CARD_10);
+        decks.get("Alessia").useAssistantCard(Assistant.CARD_5);
 
         islands.get(3).addStudent(PawnType.YELLOW_GNOMES);
         islands.get(3).addStudent(PawnType.GREEN_FROGS);
@@ -236,6 +251,32 @@ public class TableView extends VirtualView implements Initializable {
         createIslands();
         createClouds(players.size());
         createAssistantDeck(players);
+        setNicknames(players);
+    }
+
+    private void setNicknames(List<PlayerLoginInfo> players){
+        for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
+            if(playerNumber == 0){
+                nickNameLabelPlayer1.setText(players.get(playerNumber).getNickname());
+                setNicknameLabelProperties(nickNameLabelPlayer1);
+            }
+            if(playerNumber == 1){
+                nickNameLabelPlayer2.setText(players.get(playerNumber).getNickname());
+                setNicknameLabelProperties(nickNameLabelPlayer2);
+            }
+            if(playerNumber == 2){
+                nickNameLabelPlayer3.setText(players.get(playerNumber).getNickname());
+                setNicknameLabelProperties(nickNameLabelPlayer3);
+            }
+        }
+    }
+
+    private void setNicknameLabelProperties(Label label) {
+        label.setTextAlignment(TextAlignment.RIGHT);
+        label.setPadding(new Insets(5));
+        label.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        label.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.MEDIUM)));
+        label.setBackground(Background.fill(Color.WHITE));
     }
 
     /**
@@ -248,7 +289,7 @@ public class TableView extends VirtualView implements Initializable {
             if(schoolboards.size() == 0){
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(players.get(0).getNickname(), gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, players.get(0).getTowerType());
+                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, players.get(0).getTowerType());
                 schoolboards.add(schoolBoardPlayer1);
                 table.add(schoolBoardPlayer, 1,4);
                 schoolBoardPlayer.toBack();
@@ -258,7 +299,7 @@ public class TableView extends VirtualView implements Initializable {
             if(schoolboards.size() == 1){
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(players.get(1).getNickname(), gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, players.get(1).getTowerType());
+                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, players.get(1).getTowerType());
                 schoolboards.add(schoolBoardPlayer2);
                 table.add(schoolBoardPlayer, 1, 0);
                 schoolBoardPlayer.toBack();
@@ -268,7 +309,7 @@ public class TableView extends VirtualView implements Initializable {
             schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
             ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
             schoolBoardPlayer.setRotate(-90);
-            SchoolBoard schoolBoardPlayer3 = new SchoolBoard(players.get(2).getNickname(), gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, players.get(2).getTowerType());
+            SchoolBoard schoolBoardPlayer3 = new SchoolBoard(false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, players.get(2).getTowerType());
             schoolboards.add(schoolBoardPlayer3);
             table.add(schoolBoardPlayer, 0,2);
             schoolBoardPlayer.toBack();
@@ -331,7 +372,8 @@ public class TableView extends VirtualView implements Initializable {
         grid.setTranslateX(300);
         for(CharacterCardsType card : cards){
             ImageView cardView = new ImageView(CharacterCardImageType.typeConverter(card).getImage());
-            this.characterCards.add(cardView);
+            CharacterCard newCard = new CharacterCard(card, cardView);
+            this.characterCards.add(newCard);
             grid.getChildren().add(cardView);
         }
 

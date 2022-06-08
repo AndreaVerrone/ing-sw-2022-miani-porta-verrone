@@ -3,8 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -185,13 +185,6 @@
                         <RowConstraints maxHeight="63.79999389648435" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
-                     <children>
-                        <ImageView fitHeight="151.0" fitWidth="961.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.rowIndex="3">
-                           <image>
-                              <Image url="@../assets/schoolboard/Plancia_DEF3.png" />
-                           </image>
-                        </ImageView>
-                     </children>
                   </GridPane>
                </children>
             </GridPane>
@@ -267,13 +260,6 @@
                         <RowConstraints maxHeight="63.79999389648435" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
-                     <children>
-                        <ImageView fitHeight="151.0" fitWidth="961.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.rowIndex="3">
-                           <image>
-                              <Image url="@../assets/schoolboard/Plancia_DEF3.png" />
-                           </image>
-                        </ImageView>
-                     </children>
                      <rotationAxis>
                         <Point3D x="1.0" />
                      </rotationAxis>
@@ -283,9 +269,13 @@
             <Pane fx:id="assistantCardPanePlayer2" prefHeight="419.0" prefWidth="265.0" rotate="180.0" translateX="-400.0" translateY="-40.0" GridPane.columnIndex="2" />
             <Pane fx:id="assistantCardPanePlayer1" prefHeight="200.0" prefWidth="200.0" translateX="-50.0" translateY="80.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <Pane fx:id="assistantCardPanePlayer3" maxWidth="300.0" prefHeight="419.0" prefWidth="271.0" rotate="90.0" translateX="275.0" translateY="-40.0" />
+            <Label fx:id="nickNameLabelPlayer3" prefHeight="74.0" prefWidth="198.0" rotate="90.0" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+            <ImageView fx:id="coinPlayer3" fitHeight="103.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" translateX="20.0" translateY="70.0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+            <Label fx:id="nickNameLabelPlayer2" prefHeight="74.0" prefWidth="198.0" rotate="180.0" translateX="-7.0" translateY="-50.0" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM" />
+            <Label fx:id="nickNameLabelPlayer1" maxHeight="80.0" minHeight="74.0" prefHeight="74.0" prefWidth="650.0" translateX="-7.0" translateY="20.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP" />
          </children>
          <padding>
-            <Insets top="30.0" />
+            <Insets bottom="100.0" top="30.0" />
          </padding>
       </GridPane>
    </content>
