@@ -137,6 +137,7 @@ public class Translator {
     public static String getPlanningPhaseName(){
         return isItalian ? "FASE DI PIANIFICAZIONE": "PLANNING PHASE";
     }
+
     public static String getMessagePlanningPhase(){
         return isItalian ?
                 "inserisci il numero della carta assistente che vuoi usare" :
@@ -149,25 +150,21 @@ public class Translator {
                 "FASE D'AZIONE: spostamento degli studenti, scegliere lo studente da muovere":
                 "ACTION PHASE: move students, choose the student to move";
     }
-    public static String getMessageToAskToChooseAColor(){
-        return isItalian ? "scegli il colore dello studente che vuoi muovere":"choose the color of the student to move";
+    public static String getMessageMoveStudentsPhase(){
+        return isItalian ?
+                "inserisci il colore dello studente da muovere seguito dalla destinazione \n" +
+                "Esempio:\n" +
+                "se vuoi muovere uno studente blu sull'isola 1 scrivi: \"blu Isola#1\"\n" +
+                "oppure se vuoi muovere uno studente verde nella sala scrivi \" verde Sala\"" :
+
+                "insert the color of the student to move followed by the destination \n" +
+                "Example:\n" +
+                "if you want to move the blue student on the island 1 insert: \"blue Island#1\"\n" +
+                "or if you want to move the green student to the dining room insert: \"green Dining_Room\"";
     }
 
-    public static String getMessageToAskToChooseADestination(){
-        return isItalian ?
-                "inserisci \n" +
-                        "1 per spostare lo studente nella sala \n" +
-                        "2 per spostare lo studente su un'isola":
-
-                "insert \n" +
-                        "1 to move the student to the dining room \n" +
-                        "2 to move it on an island";
-    }
-
-    public static String getMessageToAskIslandID(){
-        return isItalian ?
-                "inserisci il numero dell'isola su cui vuoi mettere lo studente":
-                "insert the number of the island on which you want to put the student";
+    public static String getDiningRoomLocationName(){
+        return isItalian ? "Sala":"Dining_Room";
     }
 
     public static List<String> getColor(){
