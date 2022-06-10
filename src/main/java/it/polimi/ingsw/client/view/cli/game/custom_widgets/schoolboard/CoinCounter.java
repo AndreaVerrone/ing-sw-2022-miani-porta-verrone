@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Icons;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 
@@ -38,7 +39,7 @@ class CoinCounter extends StatefulWidget {
         Text header = new Text(Translator.getCoinCounterHeader()).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // the number of coins
-        Text numOfCoins = new Text(" ● : " + this.coinNumber + " ").setForegroundColor(Color.YELLOW);
+        Text numOfCoins = new Text(" " + Icons.COIN + " : " + this.coinNumber + " ").setForegroundColor(Color.YELLOW);
 
         return new Border(new Column(List.of(header,numOfCoins)),BorderType.SINGLE);
 
