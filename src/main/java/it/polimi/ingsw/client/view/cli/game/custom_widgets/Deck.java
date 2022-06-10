@@ -1,11 +1,13 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.server.model.player.Assistant;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,49 +18,29 @@ public class Deck extends StatefulWidget {
     /**
      * the list of the Assistant card that are in the deck.
      */
-    private List<Assistant> assistantsList;
+    private final Collection<Assistant> assistantsList;
 
-    public List<Assistant> getAssistantsList() {
+    public Collection<Assistant> getAssistantsList() {
         return new ArrayList<>(this.assistantsList);
     }
 
     /**
      * The name of the deck.
      */
-    private final String deckName;
+    private final String deckName = Translator.getPlayerDeckName();
 
     /**
      * the max length of the row of the deck.
      */
-    private final int MAX_ROW_LENGHT = 5;
+    private static final int MAX_ROW_LENGHT = 5;
 
     /**
      * The constructor of the class
      * @param assistantsList the list of assistant card that compose the deck
-     * @param deckName the name of the deck of card
      */
-    public Deck(List<Assistant> assistantsList, String deckName) {
-
+    public Deck(List<Assistant> assistantsList) {
         this.assistantsList = assistantsList;
-        this.deckName=deckName;
-
         create();
-    }
-
-    /* NOT NEEDED
-    public void setAssistantsList(List<Assistant> newAssistantsList) {
-        setState(()->this.assistantsList=newAssistantsList);
-    }*/
-
-    /**
-     * This method will add the assistant card passed as a parameter to the assistant
-     * @param assistant the assistant card to be added
-     */
-    public void addAssistant(Assistant assistant){
-        List <Assistant> newAssistantList = getAssistantsList();
-        newAssistantList.add(assistant);
-
-        setState(()-> this.assistantsList = newAssistantList);
     }
 
     /**
@@ -71,33 +53,28 @@ public class Deck extends StatefulWidget {
     @Override
     protected Widget build() {
 
-        // TODO: find a better way to implement it
+        // collection containing the content of the widget
+        Collection<Widget> content = new ArrayList<>();
 
-        // fill the grid with the assistant cards
-        Row row1 = new Row();
-        Row row2 = new Row();
+        // add the name of the deck to the content
+        content.add(new Text(deckName).addTextStyle(TextStyle.BOLD));
 
-        int numOfRow=0; // num of rows needed
-
-        for(int i=0;i<assistantsList.size();i++){
-            if(i<MAX_ROW_LENGHT){
-                row1.addChild(new AssistantCard(assistantsList.get(i)));
-                numOfRow=1; // 1 row needed
-            }else{
-                row2.addChild(new AssistantCard(assistantsList.get(i)));
-                numOfRow=2; // 2 rows needed
+        // collection containing the assistant cards
+        Collection<Widget> assistantsInRow = new ArrayList<>();
+        for (Assistant assistant : assistantsList) {
+            if (assistantsInRow.size() == MAX_ROW_LENGHT) {
+                // if the first row is full, add to the content of the widget the first row
+                content.add(new Row(assistantsInRow));
+                // then empty the row in order to have a clean list
+                // in which add the cards of the second row
+                assistantsInRow.clear();
             }
+            assistantsInRow.add(new AssistantCard(assistant));
         }
+        if (!assistantsInRow.isEmpty())
+            content.add(new Row(assistantsInRow));
 
-        Text deckHeader =  new Text(deckName).addTextStyle(TextStyle.BOLD);
+        return new Border(new Column(content), BorderType.DOUBLE);
 
-        Column deck = switch (numOfRow) {
-            case 0 -> new Column(List.of(deckHeader));
-            case 1 -> new Column(List.of(deckHeader, row1));
-            case 2 -> new Column(List.of(deckHeader, row1, row2));
-            default -> new Column();
-        };
-
-        return new Border(deck,BorderType.DOUBLE);
     }
 }
