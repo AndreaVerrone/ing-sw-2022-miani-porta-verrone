@@ -80,30 +80,30 @@ public class MoveStudentsPhaseScreen extends CliScreen {
 
         // COMMANDS
 
-        // commands part 1
-        Collection<String> commands1 = new ArrayList<>();
+        // commands for the first string of the input
+        Collection<String> commandsFirstInputString = new ArrayList<>();
         // 1. the colors of the students to move
-        commands1.add((Translator.getMessageToExit()));
+        commandsFirstInputString.add((Translator.getMessageToExit()));
         // 2. the message to exit
         // OSS: the player can decide also to exit, so the input can be only 1 word if it is the
         // string to exit the game
-        commands1.addAll(Translator.getColor());
+        commandsFirstInputString.addAll(Translator.getColor());
 
-        // commands part 2
-        Collection<String> commands2 = new ArrayList<>();
+        // commands for the second string of the input
+        Collection<String> commandsSecondInputString = new ArrayList<>();
         // 1. destination: islands
         Collection<Integer> islandsOnTable = table.getReducedIslands();
         for(Integer island : islandsOnTable){
-            commands2.add(Translator.getIslandName() + island);
+            commandsSecondInputString.add(Translator.getIslandName() + island);
         }
         // 2. destination: dining room
-        commands2.add(Translator.getDiningRoomLocationName());
+        commandsSecondInputString.add(Translator.getDiningRoomLocationName());
 
         // THE COMPLETER
         // add the commands to create the argument completer
         Completer completer = new ArgumentCompleter(
-                new StringsCompleter(commands1),
-                new StringsCompleter(commands2)
+                new StringsCompleter(commandsFirstInputString),
+                new StringsCompleter(commandsSecondInputString)
         );
         // add the completer to the input reader
         inputReader.addCompleter(completer);
@@ -111,8 +111,8 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         // THE COMMAND VALIDATOR
 
         // create the regex string to validate the 2 inputs
-        String regexInput1 = regexBuilder(Translator.getColor()); // string to exit or color
-        String regexInput2 = regexBuilder(commands2); // destination (island or dining room)
+        String regexFirstInputString = regexBuilder(Translator.getColor()); // string to exit or color
+        String regexSecondInputString = regexBuilder(commandsSecondInputString); // destination (island or dining room)
 
         // create the regex to validate the input
         /*
@@ -122,7 +122,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
          * the regex string is:
          * "(<string to exit>|((<one color>) (<one destination>)))"
          */
-        inputReader.addCommandValidator(Translator.getMessageToExit() + "|" +"((" + regexInput1 + ")" +  " " + "(" + regexInput2 + "))");
+        inputReader.addCommandValidator(Translator.getMessageToExit() + "|" +"((" + regexFirstInputString + ")" +  " " + "(" + regexSecondInputString + "))");
 
         // ASK INPUT TO PLAYER
         // prompt the user to enter something and reads the input
