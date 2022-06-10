@@ -169,7 +169,22 @@ public enum Icons {
     /**
      * An icon for displaying a ban emoji
      */
-    BAN_EMOJI("\uD83D\uDEAB")
+    BAN_EMOJI("\uD83D\uDEAB"),
+
+    /**
+     * An icon representing a pawn (it can be either a student or a professor)
+     */
+    PAWN("█"),
+
+    /**
+     * An icon representing a coin.
+     */
+    COIN("●"),
+
+    /**
+     * an icon representing the tower
+     */
+    TOWER("█"),
     ;
 
     private final String code;
