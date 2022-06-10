@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.ListOfStudents;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 
@@ -40,14 +41,10 @@ class Entrance extends StatefulWidget {
         Text header = new Text(Translator.getEntranceHeader()).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // the students
-        Text blueStudents = new Text(" █ : "+ this.students.getNumOf(PawnType.BLUE_UNICORNS)).setForegroundColor(Color.BLUE);
-        Text greenStudents = new Text(" █ : "+ this.students.getNumOf(PawnType.GREEN_FROGS)).setForegroundColor(Color.GREEN);
-        Text yellowStudents = new Text(" █ : "+ this.students.getNumOf(PawnType.YELLOW_GNOMES)).setForegroundColor(Color.BRIGHT_YELLOW);
-        Text redStudents = new Text(" █ : "+ this.students.getNumOf(PawnType.RED_DRAGONS)).setForegroundColor(Color.RED);
-        Text pinkStudents = new Text(" █ : "+ this.students.getNumOf(PawnType.PINK_FAIRIES)).setForegroundColor(Color.MAGENTA);
+        ListOfStudents listOfStudents = new ListOfStudents(students);
 
-        return new Border (
-                new Column(List.of(header,blueStudents,greenStudents,yellowStudents,redStudents,pinkStudents)),
+        return new Border(
+                new Column(List.of(header,listOfStudents)),
                 BorderType.SINGLE
         );
 
