@@ -126,6 +126,11 @@ public class Translator {
         return isItalian ? "Isola#" : "Island#";
     }
 
+    // ****************** INPUT READER *************************
+    public static String getWrongInputErrorMessage(){
+        return isItalian ? "Il comando inserito non è corretto.":"The command is not correct.";
+    }
+
     // ****************** CLI SCREENs *************************
 
     // GENERAL
