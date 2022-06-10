@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
+import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Icons;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -47,7 +48,7 @@ class TowerLocation extends StatefulWidget {
         Text header = new Text(Translator.getTowerLocationHeader()).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // the content of the widget
-        Text content = new Text(" █ : "+towerNumber + " ");
+        Text content = new Text(" "+ Icons.TOWER+ " : "+ towerNumber + " ");
         switch (towerColor){
             case WHITE -> content.setForegroundColor(Color.WHITE);
             case GREY -> content.setForegroundColor(Color.GREY);
