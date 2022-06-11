@@ -151,6 +151,10 @@ public class Translator {
         return isItalian ? "esci" : "exit";
     }
 
+    public static String getMessageCurrentPlayer(){
+        return isItalian ? "giocatore corrente":"current player";
+    }
+
     // PLANNING PAHSE
     public static String getPlanningPhaseName(){
         return isItalian ? "FASE DI PIANIFICAZIONE": "PLANNING PHASE";

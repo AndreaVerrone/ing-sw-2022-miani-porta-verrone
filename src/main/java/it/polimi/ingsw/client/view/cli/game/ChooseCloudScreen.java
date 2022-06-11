@@ -49,7 +49,7 @@ public class ChooseCloudScreen extends CliScreen {
 
         String currentPlayerNickname = getCli().getClientController().getNickNameCurrentPlayer();
 
-        canvas.setSubtitle(currentPlayerNickname);
+        canvas.setSubtitle(Translator.getMessageCurrentPlayer()+": "+currentPlayerNickname);
         canvas.show();
 
         askForAction();
