@@ -32,11 +32,6 @@ class ProfTable extends StatefulWidget {
         create();
     }
 
-    // todo: remove not needed
-    /* void setActualProfessors(Collection<PawnType> actualProfessors) {
-        setState(()->this.actualProfessors=actualProfessors);
-    }*/
-
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
      * This method is run every time something in the content change or when it should be
