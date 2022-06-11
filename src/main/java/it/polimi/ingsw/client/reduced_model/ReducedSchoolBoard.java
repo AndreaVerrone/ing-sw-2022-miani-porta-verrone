@@ -67,7 +67,7 @@ public class ReducedSchoolBoard{
             int coinNumber) {
         this.owner = owner;
         this.studentsInEntrance = studentsInEntrance;
-        this.professors = professors;
+        this.professors = new ArrayList<>(professors);
         this.studentsInDiningRoom = studentsInDiningRoom;
         this.towerType = towerType;
         this.towerNumber = towerNumber;
