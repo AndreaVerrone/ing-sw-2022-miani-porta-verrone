@@ -132,7 +132,7 @@ public class Translator {
     }
 
     public static String getWrongMotherNatureMovementMessage(){
-        return isItalian ? "l'input non può essere negativo" :"input cannot be negative";
+        return isItalian ? "Il valore non può essere negativo!" : "The value cannot be negative!";
     }
 
     public static String getInputOutOfRangeMessage(){
