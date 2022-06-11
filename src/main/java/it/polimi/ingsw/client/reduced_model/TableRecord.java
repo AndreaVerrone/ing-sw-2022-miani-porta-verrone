@@ -18,5 +18,5 @@ public record TableRecord(
         List<ReducedCloud> clouds,
 
         List<ReducedSchoolBoard> schoolBoardList,
-        Collection<ReducedIsland> reducedIslands){
+        Collection<ReducedIsland> reducedIslands) implements Serializable {
 }
