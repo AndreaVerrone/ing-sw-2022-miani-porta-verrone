@@ -155,7 +155,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
             // take the number of the island from the island name
             // which is for example Island#1 or Isola#1, so the number of the island is the
             // last character of the string
-            islandID = Integer.parseInt(String.valueOf(secondStringOfInput.charAt(secondStringOfInput.length() - 1)));
+            islandID = Integer.parseInt(secondStringOfInput.substring(secondStringOfInput.length() - 1));
             // System.out.println("sending to server to move student to island: " + islandID); // todo: testing only
             Position island = new Position(Location.ISLAND); // todo: actual code
             island.setField(islandID);
