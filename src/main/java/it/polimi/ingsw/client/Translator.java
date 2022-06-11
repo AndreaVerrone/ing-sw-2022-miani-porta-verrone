@@ -128,7 +128,7 @@ public class Translator {
 
     // ****************** CLIENT CONTROLLER  *************************
     public static String getItIsNotYourTurnMessage(){
-        return isItalian ? "Non è il tuo turno":"It is not your turn";
+        return isItalian ? "Non è il tuo turno!" : "It is not your turn!";
     }
 
     public static String getWrongMotherNatureMovementMessage(){
