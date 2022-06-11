@@ -126,6 +126,19 @@ public class Translator {
         return isItalian ? "Isola#" : "Island#";
     }
 
+    // ****************** CLIENT CONTROLLER  *************************
+    public static String getItIsNotYourTurnMessage(){
+        return isItalian ? "Non è il tuo turno":"It is not your turn";
+    }
+
+    public static String getWrongMotherNatureMovementMessage(){
+        return isItalian ? "l'input non può essere negativo" :"input cannot be negative";
+    }
+
+    public static String getInputOutOfRangeMessage(){
+        return isItalian ? "l'input è fuori range" :"input out of range";
+    }
+
     // ****************** INPUT READER *************************
     public static String getWrongInputErrorMessage(){
         return isItalian ? "Il comando inserito non è corretto.":"The command is not correct.";
