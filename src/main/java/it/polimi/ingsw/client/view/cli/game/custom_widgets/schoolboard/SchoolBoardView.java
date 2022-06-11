@@ -59,13 +59,13 @@ public class SchoolBoardView extends StatefulWidget {
      * @param reducedSchoolBoard the reduced school board
      */
     public SchoolBoardView(ReducedSchoolBoard reducedSchoolBoard) {
-        this.entranceStud = reducedSchoolBoard.studentsInEntrance();
-        this.diningRoomStud = reducedSchoolBoard.studentsInDiningRoom();
-        this.actualProfessors = reducedSchoolBoard.professors();
-        this.towerNumber = reducedSchoolBoard.towerNumber();
-        this.towerColor = reducedSchoolBoard.towerType();
-        this.numOfCoins = reducedSchoolBoard.coinNumber();
-        this.owner = reducedSchoolBoard.owner();
+        this.entranceStud = reducedSchoolBoard.getStudentsInEntrance();
+        this.diningRoomStud = reducedSchoolBoard.getStudentsInDiningRoom();
+        this.actualProfessors = reducedSchoolBoard.getProfessors();
+        this.towerNumber = reducedSchoolBoard.getTowerNumber();
+        this.towerColor = reducedSchoolBoard.getTowerType();
+        this.numOfCoins = reducedSchoolBoard.getCoinNumber();
+        this.owner = reducedSchoolBoard.getOwner();
 
         create();
     }
