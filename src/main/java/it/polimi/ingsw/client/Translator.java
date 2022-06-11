@@ -282,10 +282,6 @@ public class Translator {
         return isItalian ? "MAZZO DI CARTE ASSISTENTE" : "DECK OF ASSISTANT CARDS";
     }
 
-    public static String getCardUsedDeckName(){
-        return isItalian ? "CARTE ASSISTENTE GIOCATE" : "ASSISTANTS USED";
-    }
-
     // TOWER LOCATION
     public static String getTowerLocationHeader(){
         return isItalian ? "TORRI":"TOWERS";
