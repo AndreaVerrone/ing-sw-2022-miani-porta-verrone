@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
@@ -11,6 +12,9 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * this class is used to represent a school board.
+ */
 public class SchoolBoardView extends StatefulWidget {
 
     /**
@@ -48,61 +52,23 @@ public class SchoolBoardView extends StatefulWidget {
      */
     private final String owner;
 
-/* SETTERS NOT NEEDED // todo: remove
-    public void setEntranceStud(StudentList entranceStud) {
-        setState(()->this.entranceStud=entranceStud);
-    }
-
-    public void setDiningRoomStud(StudentList diningRoomStud) {
-        setState(()->this.diningRoomStud = diningRoomStud);
-    }
-
-    public void setActualProfessors(Collection<PawnType> actualProfessors) {
-        setState(()->this.actualProfessors = actualProfessors);
-    }
-
-    public void setTowerNumber(int towerNumber) {
-        setState(()->this.towerNumber = towerNumber);
-    }
-
-    public void setTowerColor(TowerType towerColor) {
-        setState(()->this.towerColor = towerColor);
-    }
-
-    public void setNumOfCoins(int newNumOfCoins) {
-        setState(()->this.numOfCoins = newNumOfCoins);
-    }
- */
-
     /**
      * The constructor of the class.
-     * @param entranceStud the student in entrance
-     * @param diningRoomStud the students in the dining room
-     * @param actualProfessors the professors
-     * @param towerNumber the number of tower
-     * @param towerColor the color of towers
-     * @param numOfCoins the number of coins
-     * @param owner the owner of the school board
+     * It takes in input a reduced version of the school board, and it will
+     * create its graphical representation.
+     * @param reducedSchoolBoard the reduced school board
      */
-    public SchoolBoardView(
-            StudentList entranceStud,
-            StudentList diningRoomStud,
-            Collection<PawnType> actualProfessors,
-            int towerNumber,
-            TowerType towerColor,
-            int numOfCoins,
-            String owner) {
-        this.entranceStud = entranceStud;
-        this.diningRoomStud = diningRoomStud;
-        this.actualProfessors = actualProfessors;
-        this.towerNumber = towerNumber;
-        this.towerColor = towerColor;
-        this.numOfCoins = numOfCoins;
-        this.owner = owner;
+    public SchoolBoardView(ReducedSchoolBoard reducedSchoolBoard) {
+        this.entranceStud = reducedSchoolBoard.studentsInEntrance();
+        this.diningRoomStud = reducedSchoolBoard.studentsInDiningRoom();
+        this.actualProfessors = reducedSchoolBoard.professors();
+        this.towerNumber = reducedSchoolBoard.towerNumber();
+        this.towerColor = reducedSchoolBoard.towerType();
+        this.numOfCoins = reducedSchoolBoard.coinNumber();
+        this.owner = reducedSchoolBoard.owner();
 
         create();
     }
-
 
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
