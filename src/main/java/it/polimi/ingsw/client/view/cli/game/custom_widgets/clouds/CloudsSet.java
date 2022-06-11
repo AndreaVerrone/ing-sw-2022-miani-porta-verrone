@@ -1,31 +1,32 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets.clouds;
 
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
-import it.polimi.ingsw.server.model.utils.StudentList;
 
 import java.util.*;
 
+/**
+ * this class is a widget used to represent a set of clouds.
+ */
 public class CloudsSet extends StatefulWidget {
 
     /**
-     * a collection containing the clouds widget
+     * a collection containing the reduced clouds
      */
-    private final Collection<CloudView> cloudViews = new ArrayList<>();
+    private final Collection<ReducedCloud> clouds = new ArrayList<>();
 
     /**
-     * the constructor of the class
+     * the constructor of the class.
+     * It will create a widget to represent a set of clouds
      * @param clouds the map containing the < ID, student list > pair of the clouds
      */
-    public CloudsSet(Map<Integer, StudentList> clouds) {
+    public CloudsSet(Collection<ReducedCloud> clouds) {
 
-        // create the list of cloud widget and fill the mapIdCloudWidget
-        for(Map.Entry<Integer,StudentList> cloud : clouds.entrySet()){
-            CloudView newCloudView = new CloudView(cloud.getKey(),cloud.getValue());
-            cloudViews.add(newCloudView);
-        }
+        // create the list of reduced cloud
+        this.clouds.addAll(clouds);
         create();
     }
 
@@ -44,8 +45,8 @@ public class CloudsSet extends StatefulWidget {
 
         // the row of clouds
         Row cloudRow = new Row();
-        for(CloudView cloudView : cloudViews){
-            cloudRow.addChild(cloudView);
+        for(ReducedCloud cloud : clouds){
+            cloudRow.addChild(new CloudView(cloud));
         }
 
         return new Border(new Column(List.of(header,cloudRow)), BorderType.SINGLE);
