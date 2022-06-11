@@ -1,15 +1,18 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets.clouds;
 
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
-import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.ListOfStudents;
-import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import java.util.List;
 
+/**
+ * this class is used to represent a cloud.
+ * It is characterized by the name and the student that are in it.
+ */
 class CloudView extends StatefulWidget {
 
     /**
@@ -22,9 +25,14 @@ class CloudView extends StatefulWidget {
      */
     private final StudentList students;
 
-    CloudView(int ID,StudentList students) {
-        this.students = students;
-        this.ID = ID;
+    /**
+     * the constructor of the class.
+     * It will create a representation of a cloud taking in input a reduced cloud.
+     * @param reducedCloud the reduced cloud to represent
+     */
+    CloudView(ReducedCloud reducedCloud) {
+        this.students = reducedCloud.students();
+        this.ID = reducedCloud.ID();
         create();
     }
 
