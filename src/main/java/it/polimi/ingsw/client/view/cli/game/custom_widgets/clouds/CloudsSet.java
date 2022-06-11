@@ -9,7 +9,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import java.util.*;
 
 /**
- * this class is a widget used to represent a set of clouds.
+ * this class is used to give a graphical representation of a set of clouds.
  */
 public class CloudsSet extends StatefulWidget {
 

@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import java.util.List;
 
 /**
- * this class is used to represent a cloud.
+ * this class is used to give a graphical representation of a cloud.
  * It is characterized by the name and the student that are in it.
  */
 class CloudView extends StatefulWidget {

@@ -10,6 +10,9 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.List;
 
+/**
+ * A class used to give a graphical representation of the towers in a school board.
+ */
 class TowerLocation extends StatefulWidget {
 
     /**
@@ -24,6 +27,8 @@ class TowerLocation extends StatefulWidget {
 
     /**
      * The constructor of the class.
+     * It will create the class taking in input
+     * the color and the number of the towers that are present in the school board.
      * @param towerNumber the number of towers
      * @param towerColor the color of the tower
      */

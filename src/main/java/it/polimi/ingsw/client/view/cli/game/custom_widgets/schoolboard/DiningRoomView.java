@@ -10,6 +10,9 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class used to give a graphical representation of the dining room.
+ */
 class DiningRoomView extends StatefulWidget {
 
     /**
@@ -28,7 +31,9 @@ class DiningRoomView extends StatefulWidget {
     private static final int NUM_OF_TABLES = 5;
 
     /**
-     * The constructor of the class
+     * The constructor of the class.
+     * It will create the class taking in inputs the list of the students
+     * that are present in the dining room
      * @param actualStudentList the student list in the dining room
      */
     DiningRoomView(StudentList actualStudentList) {

@@ -12,7 +12,7 @@ import java.util.List;
 
 
 /**
- * a class to visualize the professors table.
+ * a class to give a graphical representation of the professors table.
  */
 class ProfTable extends StatefulWidget {
 
@@ -23,6 +23,8 @@ class ProfTable extends StatefulWidget {
 
     /**
      * The constructor of the class.
+     * It will create the class taking in input the
+     * list of the professor that are present in the school board.
      * @param actualProfessors the professor list
      */
     ProfTable(Collection<PawnType> actualProfessors) {

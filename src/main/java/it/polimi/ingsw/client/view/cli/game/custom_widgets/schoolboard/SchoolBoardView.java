@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * this class is used to represent a school board.
+ * this class is used to give a graphical representation of a school board.
  */
 public class SchoolBoardView extends StatefulWidget {
 

@@ -11,6 +11,9 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 
 import java.util.List;
 
+/**
+ * A class used to give a graphical representation of the students in entrance.
+ */
 class Entrance extends StatefulWidget {
 
     /**
@@ -19,7 +22,9 @@ class Entrance extends StatefulWidget {
     private final StudentList students;
 
     /**
-     * The constructor of the class
+     * The constructor of the class.
+     * It will create the class taking in input the students that are present
+     * in the entrance.
      * @param students the students that are at the entrance
      */
     Entrance(StudentList students) {

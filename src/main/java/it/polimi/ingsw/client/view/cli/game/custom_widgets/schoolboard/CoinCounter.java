@@ -9,6 +9,9 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 
 import java.util.List;
 
+/**
+ * A class used to give a graphical representation of the number of coins
+ */
 class CoinCounter extends StatefulWidget {
 
     /**
@@ -17,7 +20,8 @@ class CoinCounter extends StatefulWidget {
     private final int coinNumber;
 
     /**
-     * The constructor of the class
+     * The constructor of the class.
+     * It will create the class taking in input the nuber of coins.
      * @param coinNumber the number of coins
      */
     CoinCounter(int coinNumber) {
