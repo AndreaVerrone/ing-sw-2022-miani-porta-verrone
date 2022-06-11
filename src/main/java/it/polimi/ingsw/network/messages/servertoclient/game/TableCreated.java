@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.messages.servertoclient.game;
 
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
+import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -18,88 +19,15 @@ import java.util.Map;
  */
 public class TableCreated extends ServerCommandNetMsg {
 
-    /**
-     * the list of the Assistant card that are in the deck.
-     */
-    private final List<Assistant> assistantsList;
+    private final TableRecord table;
 
     /**
-     * map owner - assistant used.
+     * the constructor of the class, it will take as an
+     * input the table record.
+     * @param tableRecord the table record
      */
-    private final Map<String, Assistant> assistantsUsed;
-
-    /**
-     * a map containing the IDs of the clouds and the corresponding student list.
-     */
-    private final Map<Integer, StudentList> clouds;
-
-    /**
-     * map owner-entrance.
-     */
-    private final Map<String, StudentList> entranceList;
-
-    /**
-     * map owner-dining Room.
-     */
-    private final Map<String, StudentList> diningRoomList;
-
-    /**
-     * map owner-professors.
-     */
-    private final Map<String, Collection<PawnType>> profTableList;
-
-    /**
-     * map owner-tower type.
-     */
-    private final Map<String, TowerType> towerColorList;
-
-    /**
-     * map owner-tower number.
-     */
-    private final Map<String, Integer> towerNumberList;
-
-    /**
-     * map owner-coin number.
-     */
-    private final Map<String, Integer> coinNumberList;
-
-    /**
-     * The list of the nickname of the players.
-     */
-    private final List<String> players;
-
-    /**
-     * the list of reduced islands composing the island set
-     */
-    private final Collection<ReducedIsland> reducedIslands;
-
-
-    /**
-     * the constructor of the class
-     * @param assistantsList the list of the Assistant card that are in the deck
-     * @param assistantsUsed map owner - assistant used
-     * @param clouds a map containing the IDs of the clouds and the corresponding student list.
-     * @param entranceList map owner-entrance.
-     * @param diningRoomList map owner-dining Room.
-     * @param profTableList map owner-professors.
-     * @param towerColorList map owner-tower type.
-     * @param towerNumberList map owner-tower number.
-     * @param coinNumberList map owner-coin number.
-     * @param players The list of the nickname of the players.
-     * @param reducedIslands the list of reduced islands composing the island set
-     */
-    public TableCreated(List<Assistant> assistantsList, Map<String, Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands) {
-        this.assistantsList = assistantsList;
-        this.assistantsUsed = assistantsUsed;
-        this.clouds = clouds;
-        this.entranceList = entranceList;
-        this.diningRoomList = diningRoomList;
-        this.profTableList = profTableList;
-        this.towerColorList = towerColorList;
-        this.towerNumberList = towerNumberList;
-        this.coinNumberList = coinNumberList;
-        this.players = players;
-        this.reducedIslands = reducedIslands;
+    public TableCreated(TableRecord tableRecord) {
+        table = tableRecord;
     }
 
     /**
@@ -111,18 +39,6 @@ public class TableCreated extends ServerCommandNetMsg {
      */
     @Override
     public void processMessage(ClientController client) {
-        client.initializeTable(
-                assistantsList,
-                assistantsUsed,
-                clouds,
-                entranceList,
-                diningRoomList,
-                profTableList,
-                towerColorList,
-                towerNumberList,
-                coinNumberList,
-                players,
-                reducedIslands
-        );
+        client.initializeTable(table);
     }
 }
