@@ -2,7 +2,10 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
+import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
+import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
@@ -14,6 +17,7 @@ import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import org.fusesource.jansi.AnsiConsole;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.EnumCompleter;
@@ -50,24 +54,13 @@ public class CLI implements VirtualView, Runnable {
         return table;
     }
 
-    public void setTable(List<Assistant> assistantsList, Map<String, Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands) {
-         this.table = new Table(
-                 assistantsList,
-                 assistantsUsed,
-                 clouds,
-                 entranceList,
-                 diningRoomList,
-                 profTableList,
-                 towerColorList,
-                 towerNumberList,
-                 coinNumberList,
-                 players,
-                 reducedIslands
-         );
+    public void setTable(TableRecord tableRecord) {
+         this.table = new Table(tableRecord);
 
         // todo: testing code
         //  <-- from here
-        /*StudentList stud = new StudentList();
+        /*
+        StudentList stud = new StudentList();
         try {
             stud.changeNumOf(PawnType.BLUE_UNICORNS,3);
             stud.changeNumOf(PawnType.GREEN_FROGS,2);
@@ -97,7 +90,7 @@ public class CLI implements VirtualView, Runnable {
         map.put("player 3",stud);
 
         Map<String, Collection<PawnType>> map2 = new HashMap<>();
-        map2.put("player 1", List.of(PawnType.BLUE_UNICORNS));
+        map2.put("player 1", List.of(PawnType.BLUE_UNICORNS,PawnType.GREEN_FROGS));
         map2.put("player 2", List.of(PawnType.GREEN_FROGS));
         map2.put("player 3", List.of());
 
@@ -127,9 +120,10 @@ public class CLI implements VirtualView, Runnable {
         ReducedIsland r9 = new ReducedIsland(9,stud2,TowerType.WHITE,1,1);
         ReducedIsland r10 = new ReducedIsland(10,stud2,TowerType.WHITE,1,1);
         ReducedIsland r11 = new ReducedIsland(11,stud2,TowerType.WHITE,1,1);
-        ReducedIsland r12 = new ReducedIsland(12,stud2,TowerType.WHITE,1,1);
+        ReducedIsland r12 = new ReducedIsland(0,stud2,TowerType.WHITE,1,1);
         Collection<ReducedIsland> reducedIslands1 = new ArrayList<>(List.of(r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12));
 
+        /* WITHOUT RECORD
         this.table = new Table(
                 List.of(Assistant.CARD_1, Assistant.CARD_9),
                 map0,
@@ -144,7 +138,39 @@ public class CLI implements VirtualView, Runnable {
                 map4,
                 List.of("player 1", "player 2", "player 3"),
                 reducedIslands1
-        );<-- to here */
+        );//<-- to here */
+
+        /*this.table=new Table(
+                new TableRecord(
+                    List.of(Assistant.CARD_1, Assistant.CARD_9),
+                    map0,
+                    List.of(new ReducedCloud(1,stud),new ReducedCloud(2,stud),new ReducedCloud(3,stud)),
+                    List.of(
+                            new ReducedSchoolBoard(
+                                    "player 1",
+                                    stud,
+                                    List.of(PawnType.BLUE_UNICORNS,PawnType.GREEN_FROGS),
+                                    stud,
+                                    TowerType.BLACK,0,8
+                            ),
+                            new ReducedSchoolBoard(
+                                    "player 2",
+                                    stud,
+                                    List.of(PawnType.BLUE_UNICORNS),
+                                    stud,
+                                    TowerType.GREY,2,0
+                            ),
+                            new ReducedSchoolBoard(
+                                    "player 3",
+                                    stud,
+                                    List.of(),
+                                    stud,
+                                    TowerType.WHITE,1,8
+                            )
+                    ),
+                reducedIslands1
+                )
+        );*/
     }
 
     /**
