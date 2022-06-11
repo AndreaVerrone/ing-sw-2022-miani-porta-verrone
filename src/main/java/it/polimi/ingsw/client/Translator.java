@@ -136,7 +136,7 @@ public class Translator {
     }
 
     public static String getInputOutOfRangeMessage(){
-        return isItalian ? "l'input è fuori range" :"input out of range";
+        return isItalian ? "Il valore non è ammesso" : "The value is out of range";
     }
 
     // ****************** INPUT READER *************************
