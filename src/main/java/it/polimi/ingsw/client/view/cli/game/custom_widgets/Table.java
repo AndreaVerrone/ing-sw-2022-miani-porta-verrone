@@ -1,7 +1,10 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
+import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
+import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.clouds.CloudsSet;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
@@ -11,8 +14,10 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import java.util.*;
-import java.util.stream.Collectors;
 
+/**
+ * A class used to give a graphical representation the table of the game.
+ */
 public class Table extends StatefulWidget {
 
     /**
@@ -23,47 +28,47 @@ public class Table extends StatefulWidget {
     /**
      * map owner - assistant used.
      */
-    private Map<String, Assistant> assistantsUsed;
+    private final Map<String, Assistant> assistantsUsed;
 
     /**
      * a map containing the IDs of the clouds and the corresponding student list.
      */
-    private Map<Integer, StudentList> clouds;
+    private final Map<Integer, StudentList> clouds = new HashMap<>();
 
     /**
      * map owner-entrance.
      */
-    private Map<String, StudentList> entranceList;
+    private final Map<String, StudentList> entranceList = new HashMap<>();
 
     /**
      * map owner-dining Room.
      */
-    private Map<String, StudentList> diningRoomList;
+    private final Map<String, StudentList> diningRoomList = new HashMap<>();
 
     /**
      * map owner-professors.
      */
-    private Map<String, Collection<PawnType>> profTableList;
+    private final Map<String, Collection<PawnType>> profTableList = new HashMap<>();
 
     /**
      * map owner-tower type.
      */
-    private final Map<String, TowerType> towerColorList;
+    private final Map<String, TowerType> towerColorList = new HashMap<>();
 
     /**
      * map owner-tower number.
      */
-    private Map<String, Integer> towerNumberList;
+    private final Map<String, Integer> towerNumberList = new HashMap<>();
 
     /**
      * map owner-coin number.
      */
-    private Map<String, Integer> coinNumberList;
+    private final Map<String, Integer> coinNumberList = new HashMap<>();
 
     /**
      * The list of the nickname of the players.
      */
-    private final List<String> players;
+    private final List<String> players = new ArrayList<>();
 
     /**
      * the list of reduced islands composing the island set
@@ -75,9 +80,38 @@ public class Table extends StatefulWidget {
      */
     private IslandsSet islandsSet;
 
+    /**
+     * the constructor of the class
+     * @param tableRecord the recordTable class
+     */
+    public Table(TableRecord tableRecord) {
+
+        this.assistantsList = tableRecord.assistantsList();
+
+        this.assistantsUsed = tableRecord.assistantsUsed();
+
+        // create the map ID of clouds - student list
+        for (ReducedCloud cloud : tableRecord.clouds()) {
+            clouds.put(cloud.ID(), cloud.students());
+        }
+
+        // create the map between the owner and all the single elements of the school board
+        for(ReducedSchoolBoard schoolBoard : tableRecord.schoolBoardList()){
+            players.add(schoolBoard.owner());
+            entranceList.put(schoolBoard.owner(),schoolBoard.studentsInEntrance());
+            diningRoomList.put(schoolBoard.owner(),schoolBoard.studentsInDiningRoom());
+            profTableList.put(schoolBoard.owner(),schoolBoard.professors());
+            towerColorList.put(schoolBoard.owner(),schoolBoard.towerType());
+            towerNumberList.put(schoolBoard.owner(),schoolBoard.towerNumber());
+            coinNumberList.put(schoolBoard.owner(),schoolBoard.coinNumber());
+        }
+
+        this.reducedIslands = tableRecord.reducedIslands();
+
+        create();
+    }
 
     // GETTER
-
     /**
      * this method will return a copy of the list of the Assistant card that are in the deck.
      * @return the list of the Assistant card that are in the deck
@@ -99,7 +133,7 @@ public class Table extends StatefulWidget {
      * @return a map containing the IDs of the clouds and the corresponding student list
      */
     public Map<Integer, StudentList> getClouds() {
-        return new HashMap<>(this.clouds);
+      return new HashMap<>(this.clouds);
     }
 
     /**
@@ -155,37 +189,10 @@ public class Table extends StatefulWidget {
      * @return the collection of the ID of the islands that are on the table
      */
     public Collection<Integer> getReducedIslands() {
-        return reducedIslands.stream().map(ReducedIsland::ID).collect(Collectors.toList());
+        return reducedIslands.stream().map(ReducedIsland::ID).toList();
     }
 
-    /**
-     * The constructor of the class
-     * @param assistantsList the list of the assistant cards of the player that are in the deck
-     * @param assistantsUsed the list of the assistant cards that has been used
-     * @param clouds a map containing the IDs of the clouds and the corresponding student list.
-     * @param entranceList map owner-entrance
-     * @param diningRoomList map owner-dining Room
-     * @param profTableList map owner-professors
-     * @param towerColorList map owner-tower type
-     * @param towerNumberList map owner-tower number
-     * @param coinNumberList map owner-coin number
-     * @param players The list of the nickname of the players
-     */
-    public Table(List<Assistant> assistantsList, Map<String, Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands) {
-        this.assistantsList = assistantsList;
-        this.assistantsUsed = assistantsUsed;
-        this.clouds = clouds;
-        this.entranceList = entranceList;
-        this.diningRoomList = diningRoomList;
-        this.profTableList = profTableList;
-        this.towerColorList = towerColorList;
-        this.towerNumberList = towerNumberList;
-        this.coinNumberList = coinNumberList;
-        this.players = players;
-        this.reducedIslands=reducedIslands;
-
-        create();
-    }
+    // SETTERS
 
     /**
      * this method allow to update the assistant deck of the player.
@@ -201,10 +208,7 @@ public class Table extends StatefulWidget {
      * @param assistantUsed the actual last assistant used
      */
     public void setAssistantsUsed(String owner, Assistant assistantUsed) {
-        Map <String,Assistant> newAssistantUsedMap = getAssistantsUsed();
-        newAssistantUsedMap.put(owner,assistantUsed);
-
-        setState(()-> this.assistantsUsed = newAssistantUsedMap);
+        setState(()-> assistantsUsed.put(owner,assistantUsed));
     }
 
     /**
@@ -213,9 +217,7 @@ public class Table extends StatefulWidget {
      * @param studentList the actual student list on cloud
      */
     public void setClouds(int ID, StudentList studentList) {
-        Map<Integer, StudentList> newCloudStudentListMap = getClouds();
-        newCloudStudentListMap.put(ID,studentList);
-        setState(()->this.clouds = newCloudStudentListMap);
+        setState(()->clouds.put(ID,studentList));
     }
 
     /**
@@ -224,9 +226,7 @@ public class Table extends StatefulWidget {
      * @param studentsInEntrance the actual students on entrance
      */
     public void setEntranceList(String owner, StudentList studentsInEntrance) {
-        Map<String, StudentList> newEntranceMap = getEntranceList();
-        newEntranceMap.put(owner,studentsInEntrance);
-        setState(()-> this.entranceList = newEntranceMap);
+        setState(()-> entranceList.put(owner, studentsInEntrance));
 
     }
 
@@ -237,9 +237,7 @@ public class Table extends StatefulWidget {
      * @param studentsInDiningRoom the actual students in dining room
      */
     public void setDiningRoomList(String owner, StudentList studentsInDiningRoom) {
-        Map<String, StudentList> newDiningRoomMap = getDiningRoomList();
-        newDiningRoomMap.put(owner,studentsInDiningRoom);
-        setState(()-> this.diningRoomList=newDiningRoomMap);
+        setState(()-> diningRoomList.put(owner, studentsInDiningRoom));
     }
 
     /**
@@ -249,9 +247,7 @@ public class Table extends StatefulWidget {
      * @param professors the actual collection of professors
      */
     public void setProfTableList(String owner, Collection<PawnType> professors) {
-        Map<String, Collection<PawnType>> newProfTableMap = getProfTableList();
-        newProfTableMap.put(owner,professors);
-        setState(()-> this.profTableList=newProfTableMap);
+        setState(()-> profTableList.put(owner, professors));
     }
 
     /**
@@ -261,9 +257,7 @@ public class Table extends StatefulWidget {
      * @param numOfTowers the actual number of towers
      */
     public void setTowerNumberList(String owner, int numOfTowers) {
-        Map<String, Integer> newTowerNumberMap = getTowerNumberList();
-        newTowerNumberMap.put(owner,numOfTowers);
-        setState(()->towerNumberList=newTowerNumberMap);
+        setState(()->towerNumberList.put(owner,numOfTowers));
     }
 
     /**
@@ -273,9 +267,7 @@ public class Table extends StatefulWidget {
      * @param numOfCoins the actual number of coins
      */
     public void setCoinNumberList(String owner, int numOfCoins) {
-        Map<String, Integer> newCoinNumberMap = getCoinNumberList();
-        newCoinNumberMap.put(owner,numOfCoins);
-        setState(()->coinNumberList=newCoinNumberMap);
+        setState(()->coinNumberList.put(owner,numOfCoins));
     }
 
     /**
@@ -294,7 +286,7 @@ public class Table extends StatefulWidget {
      * @param ID the island on which the change has been happened
      * @param actualTowerColor the actual color of the tower of the island (null if the tower is not present)
      */
-    public void updateTowerType(int ID, TowerType actualTowerColor){
+    public void updateTowerTypeOnIsland(int ID, TowerType actualTowerColor){
         islandsSet.towerChanged(ID, actualTowerColor);
     }
 
@@ -304,7 +296,7 @@ public class Table extends StatefulWidget {
      * @param ID the island on which the change has been happened
      * @param actualStudentsOnIsland the actual students on the island
      */
-    public void updateStudents(int ID, StudentList actualStudentsOnIsland){
+    public void updateStudentsOnIsland(int ID, StudentList actualStudentsOnIsland){
         islandsSet.studentsChanged(ID, actualStudentsOnIsland);
     }
 
@@ -317,11 +309,6 @@ public class Table extends StatefulWidget {
     }
 
     public void islandUnification(int ID, int IDIslandRemoved, int removedIslandSize){
-        // todo: the observer send the ID of the island removed and the size of the island that remains
-        //  while the unifyIsland method of the island sets requires
-        //  @param islandID          the ID of the island kept
-        //  @param removedIslandID   the ID of the island removed
-        //  @param removedIslandSize the size of the island remover
         islandsSet.unifyIslands(ID,IDIslandRemoved,removedIslandSize);
     }
 
@@ -339,7 +326,7 @@ public class Table extends StatefulWidget {
         Text header = new Text(Translator.getHeaderOfTable());
 
         // 1. deck
-        Deck deck = new Deck(assistantsList, Translator.getPlayerDeckName());
+        Deck deck = new Deck(assistantsList);
 
         // 2. school boards and corresponding assistant card used
 
@@ -349,13 +336,15 @@ public class Table extends StatefulWidget {
 
             // create the school board
             SchoolBoardView schoolBoardView = new SchoolBoardView(
-                    entranceList.get(nickname),
-                    diningRoomList.get(nickname),
-                    profTableList.get(nickname),
-                    towerNumberList.get(nickname),
-                    towerColorList.get(nickname),
-                    coinNumberList.get(nickname),
-                    nickname
+                    new ReducedSchoolBoard(
+                            nickname,
+                            entranceList.get(nickname),
+                            profTableList.get(nickname),
+                            diningRoomList.get(nickname),
+                            towerColorList.get(nickname),
+                            towerNumberList.get(nickname),
+                            coinNumberList.get(nickname)
+                    )
             );
 
             // create the card used (if present)
@@ -377,15 +366,20 @@ public class Table extends StatefulWidget {
         islandsSet = new IslandsSet(reducedIslands);
 
         // 4. clouds
-        CloudsSet cloudsOnTable = new CloudsSet(clouds);
+        Collection<ReducedCloud> reducedClouds = new ArrayList<>();
+        for(Map.Entry<Integer,StudentList> cloud : clouds.entrySet()){
+            reducedClouds.add(new ReducedCloud(cloud.getKey(),cloud.getValue()));
+        }
+        CloudsSet cloudsOnTable = new CloudsSet(reducedClouds);
 
-        return new Column(List.of(
-                header,
-                deck,
-                schoolBoardColumn,
-                islandsSet,
-                cloudsOnTable)
+        return new Column(
+                List.of(
+                    header,
+                    deck,
+                    schoolBoardColumn,
+                    islandsSet,
+                    cloudsOnTable
+            )
         );
-
     }
 }
