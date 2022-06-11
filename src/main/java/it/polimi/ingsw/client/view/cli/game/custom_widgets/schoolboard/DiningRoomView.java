@@ -58,23 +58,9 @@ class DiningRoomView extends StatefulWidget {
         // the colum of the tables of students
         Column studentTable = new Column();
 
-        // this is a list containing all the Pawn Type
-        /* NOTE:
-         * it is needed to do that, instead of PawnType.values(), since I need
-         * the list of pawn type with this orde
-         */
-        List<PawnType> pawnTypeList = new ArrayList<>(
-                List.of(
-                    PawnType.BLUE_UNICORNS,
-                    PawnType.GREEN_FROGS,
-                    PawnType.YELLOW_GNOMES,
-                    PawnType.RED_DRAGONS,
-                    PawnType.PINK_FAIRIES)
-        );
-
         // fill the column with the tables of student row by row (i.e., table by table)
         for(int i=0;i<NUM_OF_TABLES;i++){
-            studentTable.addChild(fillTable(actualStudentList.getNumOf(pawnTypeList.get(i)),pawnTypeList.get(i)));
+            studentTable.addChild(fillTable(actualStudentList.getNumOf(PawnType.values()[i]),PawnType.values()[i]));
         }
 
         // return the widget
