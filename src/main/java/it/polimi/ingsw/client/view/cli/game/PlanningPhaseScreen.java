@@ -10,9 +10,8 @@ import it.polimi.ingsw.server.model.player.Assistant;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+import java.util.*;
 
 /**
  * this is the screen that needs to be displayed during the planning phase of the game
@@ -82,7 +81,7 @@ public class PlanningPhaseScreen extends CliScreen {
         String[] inputs = inputReader.readInput(Translator.getMessagePlanningPhase());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            // System.out.println("exiting from game ..."); // todo: for testing only
+            //System.out.println("exiting from game ..."); // todo: for testing only
             // change screen
             getCli().confirmExit(); // todo: actual code
         } else {
@@ -108,7 +107,8 @@ public class PlanningPhaseScreen extends CliScreen {
         } catch (NotEnoughStudentException e) {
             throw new RuntimeException(e);
         }*/
-        //getCli().getClientController().setClouds(1,stud2);
+
+        // getCli().getClientController().setClouds(1,stud2);
 
         // getCli().getClientController().setEntranceList("player 2", stud2);
 
@@ -122,21 +122,23 @@ public class PlanningPhaseScreen extends CliScreen {
 
         // getCli().getClientController().setCoinNumberList("player 2", 999);
 
-        // getCli().getClientController().updateBanOnIsland(1,2); // todo: there was a problem now fixed
+        // getCli().getClientController().updateBanOnIsland(0,4);
 
-        // getCli().getClientController().updateTowerType(1, TowerType.WHITE);
+        // getCli().getClientController().updateTowerType(1, TowerType.WHITE); // update in 2 steps
 
-        // getCli().getClientController().updateStudents(1,stud2); // todo: there was a problem now fixed
+        // getCli().getClientController().updateStudents(1,stud2);
 
-        // getCli().getClientController().updateMotherNaturePosition(1); // todo: there was a problem now fixed
+        // getCli().getClientController().updateMotherNaturePosition(1);
 
-        // getCli().getClientController().islandUnification(1,2,1);
+        // getCli().getClientController().islandUnification(1,2,1); // update in 2 steps
 
-        //getCli().setNextScreen(new MoveMotherNatureScreen(getCli()));
+        //getCli().setNextScreen(new MoveStudentsPhaseScreen(getCli()));
 
         // getCli().displayMessage("yellow warning message");
         // getCli().displayErrorMessage("RED warning message");
         // <-- to here
+
+        // System.out.print("\u0007");
 
     }
 }
