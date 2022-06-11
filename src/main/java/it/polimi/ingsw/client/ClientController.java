@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.reduced_model.ReducedIsland;
+import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.launcher.*;
@@ -56,7 +56,7 @@ public class ClientController {
 
         // todo:testing code
         //  <--- from here
-        // cli.setTable(null);
+        // cli.setTable(null,null,null,null, null, null,null,null,null,null, null);
         // displayPlanningPhaseScreen();
         // cli.run();
         //  <--- to here
@@ -435,7 +435,7 @@ public class ClientController {
      * @param actualTowerColor the actual color of the tower of the island (null if the tower is not present)
      */
     public void updateTowerType(int ID, TowerType actualTowerColor){
-        cli.getTable().updateTowerType(ID,actualTowerColor);
+        cli.getTable().updateTowerTypeOnIsland(ID,actualTowerColor);
     }
 
     /**
@@ -445,7 +445,7 @@ public class ClientController {
      * @param actualStudentsOnIsland the actual students on the island
      */
     public void updateStudents(int ID, StudentList actualStudentsOnIsland){
-        cli.getTable().updateStudents(ID, actualStudentsOnIsland);
+        cli.getTable().updateStudentsOnIsland(ID, actualStudentsOnIsland);
     }
 
     /**
@@ -463,41 +463,15 @@ public class ClientController {
      * @param sizeIslandRemoved the size of the island removed
      */
     public void islandUnification(int ID, int IDIslandRemoved,int sizeIslandRemoved){
-        // todo: the observer send the ID of the island removed and the size of the island that remains
-        //  while the unifyIsland method of the island sets requires
-        //  @param islandID          the ID of the island kept
-        //  @param removedIslandID   the ID of the island removed
-        //  @param removedIslandSize the size of the island remover
         cli.getTable().islandUnification(ID, IDIslandRemoved, sizeIslandRemoved);
     }
 
     /**
      * this method will allow to initialize the table of the game.
-     * @param assistantsList the list of the assistant cards of the player that are in the deck
-     * @param assistantsUsed the list of the assistant cards that has been used
-     * @param clouds a map containing the IDs of the clouds and the corresponding student list.
-     * @param entranceList map owner-entrance
-     * @param diningRoomList map owner-dining Room
-     * @param profTableList map owner-professors
-     * @param towerColorList map owner-tower type
-     * @param towerNumberList map owner-tower number
-     * @param coinNumberList map owner-coin number
-     * @param players The list of the nickname of the players
+     * @param tableRecord the table record used to initialize the table
      */
-    public void initializeTable(List<Assistant> assistantsList, Map<String, Assistant> assistantsUsed, Map<Integer, StudentList> clouds, Map<String, StudentList> entranceList, Map<String, StudentList> diningRoomList, Map<String, Collection<PawnType>> profTableList, Map<String, TowerType> towerColorList, Map<String, Integer> towerNumberList, Map<String, Integer> coinNumberList, List<String> players, Collection<ReducedIsland> reducedIslands){
-        cli.setTable(
-                assistantsList,
-                assistantsUsed,
-                clouds,
-                entranceList,
-                diningRoomList,
-                profTableList,
-                towerColorList,
-                towerNumberList,
-                coinNumberList,
-                players,
-                reducedIslands
-        );
+    public void initializeTable(TableRecord tableRecord){
+        cli.setTable(tableRecord);
     }
 
 }
