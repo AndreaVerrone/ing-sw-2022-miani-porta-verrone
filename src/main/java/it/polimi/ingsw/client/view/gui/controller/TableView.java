@@ -141,7 +141,13 @@ public class TableView implements Initializable {
     private Label nickNameLabelPlayer3;
 
     @FXML
-    private ImageView coinPlayer3;
+    private FlowPane coinsPlayer1;
+
+    @FXML
+    private FlowPane coinsPlayer2;
+
+    @FXML
+    private FlowPane coinsPlayer3;
 
     /**
      * List of schoolboards of the game
@@ -168,12 +174,20 @@ public class TableView implements Initializable {
      */
     private final HashMap<String, AssistantCardDeck> decks = new HashMap<>(3,1);
 
+    private final HashMap<String, Label> playersLabel = new HashMap<>(3,1);
+
+    private final HashMap<String, Label> playersCoinLabels = new HashMap<>(3 ,1);
+
+    private String currentPlayer;
+
+
     /**
      *Initialization of the table where schoolboards, islands, clouds and cards are created
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         PlayerLoginInfo player1 = new PlayerLoginInfo("Giorgio");
+        this.currentPlayer = "Giorgio";
         player1.setTowerType(TowerType.BLACK);
         player1.setWizard(Wizard.W1);
         PlayerLoginInfo player2 = new PlayerLoginInfo("Andrea");
@@ -239,6 +253,8 @@ public class TableView implements Initializable {
         clouds.get(0).addStudent(PawnType.YELLOW_GNOMES);
         clouds.get(0).addStudent(PawnType.RED_DRAGONS);
         clouds.get(0).addStudent(PawnType.BLUE_UNICORNS);
+
+        setCurrentPlayer("Giorgio");
     }
 
 
@@ -252,20 +268,32 @@ public class TableView implements Initializable {
         createClouds(players.size());
         createAssistantDeck(players);
         setNicknames(players);
+        setCoins(players);
+    }
+
+    public void setCurrentPlayer(String currentPlayer){
+        Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
+        labelOldCurrentPlayer.setBackground(Background.fill(Color.WHITESMOKE));
+        Label labelNewCurrentPlayer = playersLabel.get(currentPlayer);
+        labelNewCurrentPlayer.setBackground(Background.fill(Color.YELLOW));
+        this.currentPlayer = currentPlayer;
     }
 
     private void setNicknames(List<PlayerLoginInfo> players){
         for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
             if(playerNumber == 0){
                 nickNameLabelPlayer1.setText(players.get(playerNumber).getNickname());
+                playersLabel.put(nickNameLabelPlayer1.getText(), nickNameLabelPlayer1);
                 setNicknameLabelProperties(nickNameLabelPlayer1);
             }
             if(playerNumber == 1){
                 nickNameLabelPlayer2.setText(players.get(playerNumber).getNickname());
+                playersLabel.put(nickNameLabelPlayer2.getText(), nickNameLabelPlayer2);
                 setNicknameLabelProperties(nickNameLabelPlayer2);
             }
             if(playerNumber == 2){
                 nickNameLabelPlayer3.setText(players.get(playerNumber).getNickname());
+                playersLabel.put(nickNameLabelPlayer3.getText(), nickNameLabelPlayer3);
                 setNicknameLabelProperties(nickNameLabelPlayer3);
             }
         }
@@ -278,6 +306,39 @@ public class TableView implements Initializable {
         label.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.MEDIUM)));
         label.setBackground(Background.fill(Color.WHITE));
     }
+
+    public void setCoins(List<PlayerLoginInfo> players){
+        for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
+            if(playerNumber == 0){
+                ImageView coinViewPlayer1 = new ImageView(new Image("/assets/coin/Moneta_base.png", 100, 100, true, false));
+                Label numberOfCoinsPlayer1 = new Label();
+                numberOfCoinsPlayer1.setText("0");
+                numberOfCoinsPlayer1.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
+                coinsPlayer1.getChildren().add(numberOfCoinsPlayer1);
+                coinsPlayer1.getChildren().add(coinViewPlayer1);
+                playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer1);
+            }
+            if(playerNumber == 1){
+                ImageView coinViewPlayer2 = new ImageView(new Image("/assets/coin/Moneta_base.png", 100, 100, true, false));
+                Label numberOfCoinsPlayer2 = new Label();
+                numberOfCoinsPlayer2.setText("0");
+                numberOfCoinsPlayer2.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
+                coinsPlayer2.getChildren().add(numberOfCoinsPlayer2);
+                coinsPlayer2.getChildren().add(coinViewPlayer2);
+                playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer2);
+            }
+            if(playerNumber == 2){
+                ImageView coinViewPlayer3 = new ImageView(new Image("/assets/coin/Moneta_base.png", 100, 100, true, false));
+                Label numberOfCoinsPlayer3 = new Label();
+                numberOfCoinsPlayer3.setText("0");
+                numberOfCoinsPlayer3.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
+                coinsPlayer3.getChildren().add(numberOfCoinsPlayer3);
+                coinsPlayer3.getChildren().add(coinViewPlayer3);
+                playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer3);
+            }
+        }
+    }
+
 
     /**
      * ALlows to create and place the schoolboards on the table

@@ -35,7 +35,7 @@ public class CharacterCardView {
 
     public void fillView(CharacterCard card){
         this.card = card;
-        backgroundPane.setBackground(Background.fill(Color.NAVAJOWHITE));
+        backgroundPane.setBackground(Background.fill(Color.GOLDENROD));
         addCard();
         addDescription();
         addExtras();

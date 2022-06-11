@@ -23,6 +23,7 @@ public class Switcher {
     }
 
     public void goToCreateNewGame(){
+        stage.setFullScreen(true);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
             Parent root = loader.load();
