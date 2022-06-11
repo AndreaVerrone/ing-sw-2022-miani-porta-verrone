@@ -109,7 +109,7 @@ public class ClientController {
      */
     private boolean wrongPlayerTurn(){
         if(!nickNameOwner.equals(nickNameCurrentPlayer)){
-            //TODO: Update view, not your turn!
+            displayErrorMessage(Translator.getItIsNotYourTurnMessage());
             return true;
         }
         return false;
@@ -123,7 +123,7 @@ public class ClientController {
     public void createGame(int numberOfPlayers, Boolean wantExpert){
         //Control is a valid number of players
         if(numberOfPlayers < 2 || numberOfPlayers > 3){
-            //TODO: wrong input
+            displayErrorMessage(Translator.getInputOutOfRangeMessage());
             return;
         }
         connectionHandler.sendMessage(new CreateNewGame(numberOfPlayers, wantExpert));
@@ -177,7 +177,7 @@ public class ClientController {
         if(wrongPlayerTurn()) return;
         //Control it is a valid number of players
         if(newNumberPlayers < 2 || newNumberPlayers > 3){
-            //TODO: wrong input
+            displayErrorMessage(Translator.getInputOutOfRangeMessage());
             return;
         }
         connectionHandler.sendMessage(new ChangeNumPlayers(newNumberPlayers));
@@ -265,7 +265,7 @@ public class ClientController {
         if(wrongPlayerTurn()) return;
         //Control the number of movements given is positive
         if(movements<=0){
-            //TODO: wrong input
+            displayErrorMessage(Translator.getWrongMotherNatureMovementMessage());
             return;
         }
         connectionHandler.sendMessage(new MoveMotherNature(movements));
@@ -279,7 +279,7 @@ public class ClientController {
         if(wrongPlayerTurn()) return;
         //Control it is a valid ID for a cloud
         if(cloudId<0 || cloudId>3){
-            //TODO: wrongInput
+            displayErrorMessage(Translator.getInputOutOfRangeMessage());
             return;
         }
         connectionHandler.sendMessage(new TakeStudentsFromCloud(cloudId));
