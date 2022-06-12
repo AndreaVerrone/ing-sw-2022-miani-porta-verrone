@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
+import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import it.polimi.ingsw.network.VirtualView;
 import org.fusesource.jansi.AnsiConsole;
@@ -22,7 +23,7 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.EnumCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -298,127 +299,166 @@ public class CLI implements VirtualView, Runnable {
         AnsiConsole.systemUninstall();
     }
 
-    @Override
-    public void changeCurrentState(StateType stateType) {
+    // METHODS TO DISPLAY THE SCREENS OF THE GAME
+    /**
+     * this method will display the planning phase screen
+     */
+    public void displayPlanningPhaseScreen(){
+        setNextScreen(new PlanningPhaseScreen(this));
+    }
 
+    /**
+     * this method will display the move student phase screen
+     */
+    public void displayMoveStudentsScreen(){
+        setNextScreen(new MoveStudentsPhaseScreen(this));
+    }
+
+    /**
+     * this method will display the move mother nature phase screen
+     */
+    public void displayMoveMotherNatureScreen(){
+        setNextScreen(new MoveMotherNatureScreen(this));
+    }
+
+    /**
+     * this method will display the "choose cloud" phase screen
+     */
+    public void displayChooseCloudScreen(){
+        setNextScreen(new ChooseCloudScreen(this));
+    }
+
+    @Override
+    public void changeCurrentPlayerOrState(StateType currentState, String currentPlayer) {
+        // todo: current player it is not needed here, but required bu signaturw
+        // display right state
+        switch (currentState){
+            case PLAY_ASSISTANT_STATE -> displayPlanningPhaseScreen();
+            case MOVE_STUDENT_STATE -> displayMoveStudentsScreen();
+            case MOVE_MOTHER_NATURE_STATE -> displayMoveMotherNatureScreen();
+            case CHOOSE_CLOUD_STATE -> displayChooseCloudScreen();
+        }
     }
 
     @Override
     public void addCoinOnCard(CharacterCardsType characterCardsType, boolean coinOnCard) {
-
+        // todo: implement
     }
 
     @Override
     public void addStudentsOnCard(CharacterCardsType characterCardType, StudentList actualStudents) {
-
+        // todo: implement
     }
 
     @Override
     public void changeNumberOfPlayers(int numberOfPlayers) {
-
+        // todo: implement
     }
 
     @Override
     public void playersChanged(Collection<PlayerLoginInfo> players) {
-
+        // todo: implement
     }
 
     @Override
     public void towerSelected(String player, TowerType tower) {
-
+        // todo: implement
     }
 
     @Override
     public void wizardSelected(String player, Wizard wizard) {
-
+        // todo: implement
     }
 
     @Override
     public void changeNumberOfBansOnIsland(int islandIDWithBan, int actualNumOfBans) {
-
+        table.updateBanOnIsland(islandIDWithBan, actualNumOfBans);
     }
 
     @Override
-    public void changeAssistantDeck(String nickName, Collection<Assistant> actualDeck) {
-
+    public void changeAssistantDeck(String owner,Collection<Assistant> actualDeck) {
+        // todo: here owner it is useless, but it is needed
+        //  since the signature requires it
+        table.setAssistantsList(actualDeck);
     }
 
     @Override
     public void changeCoinNumberInBag(int actualNumOfCoins) {
-
+        // todo: it is not shown in cli
     }
 
     @Override
     public void changeCoinNumber(String nickNameOfPlayer, int actualNumOfCoins) {
-
-    }
-
-    @Override
-    public void changeCurrentPlayer(String actualCurrentPlayerNickname) {
-
+        table.setCoinNumberList(nickNameOfPlayer,actualNumOfCoins);
     }
 
     @Override
     public void changeTowerNumber(String nickName, int numOfActualTowers) {
-
+        table.setTowerNumberList(nickName, numOfActualTowers);
     }
 
     @Override
-    public void emptyStudentBag() {
-
+    public void notifyLastRound() {
+        displayMessage(Translator.getLastRoundMessage());
     }
 
     @Override
     public void islandNumberChanged(int actualNumOfIslands) {
-
+        // todo: it is not used for the cli
     }
 
     @Override
     public void islandUnification(int islandID, int islandRemovedID, int finalSize) {
-
+        table.islandUnification(islandID, islandRemovedID, finalSize);
     }
 
     @Override
     public void changeLastAssistantUsed(String nickName, Assistant actualLastAssistant) {
-
+        table.setAssistantsUsed(nickName, actualLastAssistant);
     }
 
     @Override
     public void changeMotherNaturePosition(int actualMotherNaturePosition) {
-
+        table.updateMotherNaturePosition(actualMotherNaturePosition);
     }
 
     @Override
     public void changeProfessor(String nickName, Collection<PawnType> actualProfessors) {
-
+        table.setProfTableList(nickName, actualProfessors);
     }
 
     @Override
     public void changeStudentsInDiningRoom(String nickname, StudentList actualStudents) {
-
+        table.setDiningRoomList(nickname, actualStudents);
     }
 
     @Override
     public void changeStudentsOnCloud(int cloudID, StudentList actualStudentList) {
-
+        table.setClouds(cloudID, actualStudentList);
     }
 
     @Override
     public void changeStudentsOnEntrance(String nickname, StudentList actualStudents) {
-
+        table.setEntranceList(nickname,actualStudents);
     }
 
     @Override
     public void changeStudentsOnIsland(int islandID, StudentList actualStudents) {
-
+        table.updateStudentsOnIsland(islandID, actualStudents);
     }
 
     @Override
     public void changeTowerOnIsland(int islandIDWithChange, TowerType actualTower) {
-
+        getClientController().updateTowerType(islandIDWithChange,actualTower);
     }
 
     @Override
     public void endGame(Collection<String> winners) {
+        setNextScreen(new EndGameScreen(this,new ArrayList<>(winners)));
+    }
+
+    @Override
+    public void gameCreated(TableRecord tableRecord) {
+        setTable(tableRecord);
     }
 }
