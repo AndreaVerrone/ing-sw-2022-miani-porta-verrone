@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.model.player.Assistant;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,10 +14,10 @@ import java.util.Map;
  * @param reducedIslands the islands on the table
  */
 public record TableRecord(
-        List<Assistant> assistantsList,
+        Collection<Assistant> assistantsList,
         Map<String, Assistant> assistantsUsed,
-        List<ReducedCloud> clouds,
+        Collection<ReducedCloud> clouds,
 
-        List<ReducedSchoolBoard> schoolBoardList,
+        Collection<ReducedSchoolBoard> schoolBoardList,
         Collection<ReducedIsland> reducedIslands) implements Serializable {
 }
