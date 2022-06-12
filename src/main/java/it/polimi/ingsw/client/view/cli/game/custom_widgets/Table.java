@@ -114,7 +114,7 @@ public class Table extends StatefulWidget {
      * this method allow to update the assistant deck of the player.
      * @param assistantsList actual deck of the player
      */
-    public void setAssistantsList(List<Assistant> assistantsList) {
+    public void setAssistantsList(Collection<Assistant> assistantsList) {
         setState(()->this.assistantsList = assistantsList);
     }
 
