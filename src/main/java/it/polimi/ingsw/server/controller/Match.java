@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
+import it.polimi.ingsw.server.controller.game.states.EndState;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.gametable.GameTable;
@@ -438,6 +439,11 @@ public class Match implements ObserversCommonInterface{
         for(VirtualView playerView: playersView){
             playerView.changeTowerNumber(nickName, numOfActualTowers);
         }
+
+        // check condition of end of the game
+        if(numOfActualTowers==0){
+            game.setState(new EndState(game));
+        }
     }
 
     @Override
@@ -451,7 +457,7 @@ public class Match implements ObserversCommonInterface{
     public void emptyStudentBagObserverUpdate() {
         // set the last round flag
         game.setLastRoundFlag();
-        
+
         for(VirtualView playerView: playersView){
             playerView.notifyLastRound();
         }
@@ -459,6 +465,13 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void islandNumberObserverUpdate(int actualNumOfIslands) {
+
+        // check condition of end of the game
+        if(actualNumOfIslands==3){
+            game.setState(new EndState(game));
+        }
+
+        // todo: maybe this is not needed
         for(VirtualView playerView: playersView){
             playerView.islandNumberChanged(actualNumOfIslands);
         }
