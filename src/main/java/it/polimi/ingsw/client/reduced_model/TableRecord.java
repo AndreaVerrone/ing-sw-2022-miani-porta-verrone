@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.reduced_model;
 
 import it.polimi.ingsw.server.model.player.Assistant;
+
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
