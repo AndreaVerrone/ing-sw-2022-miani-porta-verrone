@@ -38,7 +38,7 @@ public class Deck extends StatefulWidget {
      * The constructor of the class
      * @param assistantsList the list of assistant card that compose the deck
      */
-    public Deck(List<Assistant> assistantsList) {
+    public Deck(Collection<Assistant> assistantsList) {
         this.assistantsList = assistantsList;
         create();
     }
