@@ -397,10 +397,19 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
+
+        // todo: maybe send only to the right player ?
         for(VirtualView playerView: playersView){
             playerView.changeAssistantDeck(nickName, actualDeck);
         }
 
+        // check condition of last round : if the player finishes the card, then set last round flag
+        if(actualDeck.size()==0){
+            game.setLastRoundFlag();
+            for(VirtualView playerView: playersView){
+                playerView.notifyLastRound();
+            }
+        }
     }
 
     @Override
@@ -440,8 +449,11 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void emptyStudentBagObserverUpdate() {
+        // set the last round flag
+        game.setLastRoundFlag();
+        
         for(VirtualView playerView: playersView){
-            playerView.emptyStudentBag();
+            playerView.notifyLastRound();
         }
     }
 
