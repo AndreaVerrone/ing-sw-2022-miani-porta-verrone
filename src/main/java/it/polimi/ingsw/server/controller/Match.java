@@ -521,4 +521,17 @@ public class Match implements ObserversCommonInterface{
             playerView.endGame(winners);
         }
     }
+
+    /**
+     * this method is the {@code update()} method of the observer pattern.
+     * It is called by the subject in order to notify a change to all its attached observers.
+     *
+     * @param table the table of the game
+     */
+    @Override
+    public void gameCreatedObserverUpdate(TableRecord table) {
+        for(VirtualView playerView: playersView){
+            playerView.gameCreated(table);
+        }
+    }
 }
