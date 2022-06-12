@@ -40,14 +40,7 @@ public class PlayerOrStateChanged extends ServerCommandNetMsg{
      */
     @Override
     public void processMessage(ClientController client) {
-
         client.setNickNameCurrentPlayer(currentPlayerNickname);
-        switch (currentState){
-            case PLAY_ASSISTANT_STATE -> client.displayPlanningPhaseScreen();
-            case MOVE_STUDENT_STATE -> client.displayMoveStudentsScreen();
-            case MOVE_MOTHER_NATURE_STATE -> client.displayMoveMotherNatureScreen();
-            case CHOOSE_CLOUD_STATE -> client.displayChooseCloudScreen();
-        }
-
+        client.gameStateChanged(currentPlayerNickname,currentState);
     }
 }
