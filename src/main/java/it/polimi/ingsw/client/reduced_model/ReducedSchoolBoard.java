@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * A simplified version of a school board, used to store and use the information client side
  */
-public class ReducedSchoolBoard{
+public class ReducedSchoolBoard implements Serializable{
 
     /**
      * the owner of the school board.

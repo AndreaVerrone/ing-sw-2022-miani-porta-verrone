@@ -128,15 +128,15 @@ public class Translator {
 
     // ****************** CLIENT CONTROLLER  *************************
     public static String getItIsNotYourTurnMessage(){
-        return isItalian ? "Non è il tuo turno":"It is not your turn";
+        return isItalian ? "Non è il tuo turno!" : "It is not your turn!";
     }
 
     public static String getWrongMotherNatureMovementMessage(){
-        return isItalian ? "l'input non può essere negativo" :"input cannot be negative";
+        return isItalian ? "Il valore non può essere negativo!" : "The value cannot be negative!";
     }
 
     public static String getInputOutOfRangeMessage(){
-        return isItalian ? "l'input è fuori range" :"input out of range";
+        return isItalian ? "Il valore non è ammesso" : "The value is out of range";
     }
 
     // ****************** INPUT READER *************************

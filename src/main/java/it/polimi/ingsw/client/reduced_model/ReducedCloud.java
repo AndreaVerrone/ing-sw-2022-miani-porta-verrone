@@ -7,5 +7,5 @@ import it.polimi.ingsw.server.model.utils.StudentList;
  * @param ID the unique ID of the cloud
  * @param students the students on the cloud
  */
-public record ReducedCloud(int ID, StudentList students) {
+public record ReducedCloud(int ID, StudentList students) implements Serializable {
 }
