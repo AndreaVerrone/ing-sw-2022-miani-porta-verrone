@@ -53,7 +53,7 @@ class TowerLocation extends StatefulWidget {
         Text header = new Text(Translator.getTowerLocationHeader()).addTextStyle(TextStyle.ITALIC).addTextStyle(TextStyle.BOLD);
 
         // the content of the widget
-        Text content = new Text(" "+ Icons.TOWER+ " : "+ towerNumber + " ");
+        Text content = new Text(" "+ Icons.PAWN+ " : "+ towerNumber + " ");
         switch (towerColor){
             case WHITE -> content.setForegroundColor(Color.WHITE);
             case GREY -> content.setForegroundColor(Color.GREY);
