@@ -67,4 +67,6 @@ public interface VirtualView {
     void changeTowerOnIsland(int islandIDWithChange, TowerType actualTower);
 
     void endGame(Collection<String> winners);
+
+    void gameCreated(TableRecord tableRecord);
 }
