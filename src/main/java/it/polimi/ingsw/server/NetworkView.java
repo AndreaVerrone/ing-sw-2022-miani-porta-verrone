@@ -1,10 +1,9 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.VirtualView;
-import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
-import it.polimi.ingsw.network.messages.servertoclient.CurrentPlayerChanged;
-import it.polimi.ingsw.network.messages.servertoclient.CurrentStateChanged;
+import it.polimi.ingsw.network.messages.servertoclient.PlayerOrStateChanged;
 import it.polimi.ingsw.network.messages.servertoclient.game.*;
 import it.polimi.ingsw.network.messages.servertoclient.matchmaking.NumPlayersChanged;
 import it.polimi.ingsw.network.messages.servertoclient.matchmaking.PlayersChanged;
