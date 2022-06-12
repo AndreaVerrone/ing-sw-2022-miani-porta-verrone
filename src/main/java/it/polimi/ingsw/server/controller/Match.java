@@ -447,13 +447,6 @@ public class Match implements ObserversCommonInterface{
     }
 
     @Override
-    public void conquerIslandObserverUpdate() {
-        for(VirtualView playerView: playersView){
-            playerView.conquerIslandObserver();
-        }
-    }
-
-    @Override
     public void emptyStudentBagObserverUpdate() {
         // set the last round flag
         game.setLastRoundFlag();
