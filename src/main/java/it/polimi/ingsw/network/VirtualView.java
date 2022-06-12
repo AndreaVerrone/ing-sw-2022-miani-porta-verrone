@@ -41,9 +41,7 @@ public interface VirtualView {
 
     void changeTowerNumber(String nickName, int numOfActualTowers);
 
-    void conquerIslandObserver();
-
-    void emptyStudentBag();
+    void notifyLastRound();
 
     void islandNumberChanged(int actualNumOfIslands);
 
