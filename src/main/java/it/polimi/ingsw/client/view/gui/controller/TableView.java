@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui.controller;
 import com.sun.javafx.scene.layout.region.CornerRadiiConverter;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CharacterCardImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CloudImageType;
+import it.polimi.ingsw.client.view.gui.utils.image_getters.CoinImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandImageType;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.CloudPosition;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.IslandPosition;
@@ -131,21 +132,39 @@ public class TableView implements Initializable {
     @FXML
     private Pane assistantCardPanePlayer3;
 
+    /**
+     * Label containing the nickname of the client
+     */
     @FXML
     private Label nickNameLabelPlayer1;
 
+    /**
+     * Label containing the nickname of player in front of the client
+     */
     @FXML
     private Label nickNameLabelPlayer2;
 
+    /**
+     * Label containing the nickname of player on the left of the client
+     */
     @FXML
     private Label nickNameLabelPlayer3;
 
+    /**
+     * Pane containing the coins of the client
+     */
     @FXML
     private FlowPane coinsPlayer1;
 
+    /**
+     * Pane containing the coins of player in front of the client
+     */
     @FXML
     private FlowPane coinsPlayer2;
 
+    /**
+     * Pane containing the coins of player on the left of the client
+     */
     @FXML
     private FlowPane coinsPlayer3;
 
@@ -174,10 +193,19 @@ public class TableView implements Initializable {
      */
     private final HashMap<String, AssistantCardDeck> decks = new HashMap<>(3,1);
 
+    /**
+     * Map of the nicknames' labels associated to every player
+     */
     private final HashMap<String, Label> playersLabel = new HashMap<>(3,1);
 
+    /**
+     * Map of the abel containing the number of coins of a player associated to every player
+     */
     private final HashMap<String, Label> playersCoinLabels = new HashMap<>(3 ,1);
 
+    /**
+     * Nickname of the current player
+     */
     private String currentPlayer;
 
 
@@ -271,6 +299,10 @@ public class TableView implements Initializable {
         setCoins(players);
     }
 
+    /**
+     * Allows to save the nickname of the current player and sets the label of the current player as yellow
+     * @param currentPlayer nickname of the current player
+     */
     public void setCurrentPlayer(String currentPlayer){
         Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
         labelOldCurrentPlayer.setBackground(Background.fill(Color.WHITESMOKE));
@@ -279,6 +311,10 @@ public class TableView implements Initializable {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Allows to set the nicknames of the players when the game is created
+     * @param players list of players playing
+     */
     private void setNicknames(List<PlayerLoginInfo> players){
         for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
             if(playerNumber == 0){
@@ -299,6 +335,10 @@ public class TableView implements Initializable {
         }
     }
 
+    /**
+     * Allows to set the properties of the label used for the nicknames
+     * @param label label with the nickname
+     */
     private void setNicknameLabelProperties(Label label) {
         label.setTextAlignment(TextAlignment.RIGHT);
         label.setPadding(new Insets(5));
@@ -307,10 +347,15 @@ public class TableView implements Initializable {
         label.setBackground(Background.fill(Color.WHITE));
     }
 
+    /**
+     * Allows to set the coins on the view of the table
+     * @param players list of players playing
+     */
     public void setCoins(List<PlayerLoginInfo> players){
+        Image coinImage = CoinImageType.COIN.getImage();
         for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
             if(playerNumber == 0){
-                ImageView coinViewPlayer1 = new ImageView(new Image("/assets/coin/Moneta_base.png", 100, 100, true, false));
+                ImageView coinViewPlayer1 = new ImageView(coinImage);
                 Label numberOfCoinsPlayer1 = new Label();
                 numberOfCoinsPlayer1.setText("0");
                 numberOfCoinsPlayer1.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
@@ -319,7 +364,7 @@ public class TableView implements Initializable {
                 playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer1);
             }
             if(playerNumber == 1){
-                ImageView coinViewPlayer2 = new ImageView(new Image("/assets/coin/Moneta_base.png", 100, 100, true, false));
+                ImageView coinViewPlayer2 = new ImageView(coinImage);
                 Label numberOfCoinsPlayer2 = new Label();
                 numberOfCoinsPlayer2.setText("0");
                 numberOfCoinsPlayer2.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
@@ -328,7 +373,7 @@ public class TableView implements Initializable {
                 playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer2);
             }
             if(playerNumber == 2){
-                ImageView coinViewPlayer3 = new ImageView(new Image("/assets/coin/Moneta_base.png", 100, 100, true, false));
+                ImageView coinViewPlayer3 = new ImageView(coinImage);
                 Label numberOfCoinsPlayer3 = new Label();
                 numberOfCoinsPlayer3.setText("0");
                 numberOfCoinsPlayer3.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
@@ -478,5 +523,6 @@ public class TableView implements Initializable {
         scrollPane.setCursor(Cursor.OPEN_HAND);
     }
 
+    // METHODS TO MODIFY THE TABLE
 
 }

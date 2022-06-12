@@ -11,30 +11,53 @@ import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.input.MouseEvent;
+
+/**
+ * Class containing all the information of a character card on the view
+ */
 public class CharacterCard {
 
+    /**
+     * Type of the card
+     */
     private final CharacterCardsType cardType;
+
+    /**
+     * {@code ImageView} of the card
+     */
     private final ImageView characterCardView;
 
+    /**
+     * Students eventually present on the card
+     */
     private StudentList students;
 
+    /**
+     * Nummber of bans eventually present on the card
+     */
     private int numberOfBans = 0;
 
+    /**
+     * Cost of the card
+     */
     int cost;
 
+    /**
+     * True if there is a coin on the card
+     */
     boolean coinOnCard;
 
+    /**
+     * This lass represents a character card on the view with all its informations
+     * @param cardType type of the card on the view
+     * @param characterCardView {@code ImageView} of the card
+     */
     public CharacterCard(CharacterCardsType cardType, ImageView characterCardView){
         this.cardType = cardType;
         this.characterCardView = characterCardView;
         this.cost = cardType.getCost();
 
-        characterCardView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                ClientApplication.getSwitcher().goToCharacterCardView(CharacterCard.this);
-            }
-        });
+        characterCardView.setOnMouseClicked(mouseEvent -> ClientApplication.getSwitcher().goToCharacterCardView(CharacterCard.this));
 
         try {
             students = new StudentList();
@@ -74,10 +97,18 @@ public class CharacterCard {
         return coinOnCard;
     }
 
+    /**
+     * Sets the number of bans on the card
+     * @param numberOfBans number of bans on the card
+     */
     public void setNumberOfBans(int numberOfBans) {
         this.numberOfBans = numberOfBans;
     }
 
+    /**
+     * Puts a coin on the card
+     * @param coinOnCard true to put acoin on the card
+     */
     public void setCoinOnCard(boolean coinOnCard) {
         this.coinOnCard = coinOnCard;
     }
