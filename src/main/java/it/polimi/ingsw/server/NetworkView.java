@@ -102,12 +102,6 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void conquerIslandObserver() {
-        //TODO: send message
-
-    }
-
-    @Override
     public void emptyStudentBag() {
         sender.sendMessage(new LastRound());
     }
