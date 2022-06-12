@@ -23,7 +23,7 @@ public class Table extends StatefulWidget {
     /**
      * the list of the Assistant card that are in the deck.
      */
-    private List<Assistant> assistantsList;
+    private Collection<Assistant> assistantsList;
 
     /**
      * map owner - assistant used.
