@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.game.Game;
@@ -342,7 +343,7 @@ public class Match implements ObserversCommonInterface{
     @Override
     public void changeCurrentStateObserverUpdate(StateType stateType) {
         for(VirtualView playerView: playersView){
-            playerView.changeCurrentState(stateType);
+            playerView.changeCurrentPlayerOrState(stateType, game.getModel().getCurrentPlayer().getNickname());
         }
     }
 
@@ -420,7 +421,7 @@ public class Match implements ObserversCommonInterface{
     @Override
     public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
         for(VirtualView playerView: playersView){
-            playerView.changeCurrentPlayer(actualCurrentPlayerNickname);
+            playerView.changeCurrentPlayerOrState(game.getState().getType(),actualCurrentPlayerNickname);
         }
     }
 
