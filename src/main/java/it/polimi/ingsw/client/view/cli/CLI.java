@@ -364,11 +364,6 @@ public class CLI implements VirtualView, Runnable {
     }
 
     @Override
-    public void conquerIslandObserver() {
-
-    }
-
-    @Override
     public void emptyStudentBag() {
 
     }
