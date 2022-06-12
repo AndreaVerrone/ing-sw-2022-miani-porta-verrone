@@ -68,7 +68,7 @@ public class ChooseCloudScreen extends CliScreen {
 
         // 1. the ID of the clouds that are on the table
         Collection<Completer> completers = new ArrayList<>();
-        for (Integer i : table.getClouds().keySet()){
+        for (Integer i : table.getIdOfClouds()){
             inputReader.addCommandValidator(String.valueOf(i)); // validator
             completers.add(new StringsCompleter(String.valueOf(i))); // completer
         }
