@@ -91,7 +91,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         // commands for the second string of the input
         Collection<String> commandsSecondInputString = new ArrayList<>();
         // 1. destination: islands
-        Collection<Integer> islandsOnTable = table.getReducedIslands();
+        Collection<Integer> islandsOnTable = table.getIdOfReducedIslands();
         for(Integer island : islandsOnTable){
             commandsSecondInputString.add(Translator.getIslandName() + island);
         }
