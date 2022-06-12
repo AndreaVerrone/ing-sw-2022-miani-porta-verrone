@@ -474,4 +474,12 @@ public class ClientController {
         cli.setTable(tableRecord);
     }
 
+    // METHOD TO NOFIFY LAST ROUND
+    /**
+     * this method will notify the client that this is the last round
+     */
+    public void notifyLastRound(){
+        cli.notifyLastRound();
+    }
+
 }
