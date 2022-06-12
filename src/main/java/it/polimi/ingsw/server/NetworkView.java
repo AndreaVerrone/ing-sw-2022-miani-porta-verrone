@@ -178,4 +178,9 @@ public class NetworkView implements VirtualView {
     public void endGame(Collection<String> winners) {
         sender.sendMessage(new GameEnded(winners));
     }
+
+    @Override
+    public void gameCreated(TableRecord tableRecord) {
+        sender.sendMessage(new TableCreated(tableRecord));
+    }
 }
