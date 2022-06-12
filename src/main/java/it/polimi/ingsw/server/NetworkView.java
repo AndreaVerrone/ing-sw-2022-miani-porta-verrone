@@ -76,13 +76,12 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void changeNumberOfBansOnIsland(int islandIDWithBan, int actualNumOfBans) {
-        //TODO: send message
+        sender.sendMessage(new BanOnIslandChanged(islandIDWithBan,actualNumOfBans));
     }
 
     @Override
     public void changeAssistantDeck(String nickName, Collection<Assistant> actualDeck) {
-        //TODO: send message
-
+        sender.sendMessage(new DeckChanged(nickName,actualDeck));
     }
 
     @Override
@@ -92,30 +91,29 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void changeCoinNumber(String nickNameOfPlayer, int actualNumOfCoins) {
-        //TODO: send message
+        sender.sendMessage(new CoinInSchoolBoardChanged(nickNameOfPlayer,actualNumOfCoins));
     }
 
     @Override
     public void changeTowerNumber(String nickName, int numOfActualTowers) {
-        //TODO: send message
-
+        sender.sendMessage(new TowerNumberChanged(nickName,numOfActualTowers));
     }
 
     @Override
-    public void emptyStudentBag() {
+    public void notifyLastRound() {
         sender.sendMessage(new LastRound());
     }
 
     @Override
     public void islandNumberChanged(int actualNumOfIslands) {
-        //TODO: send message
-
+        // TODO: send message
+        //  there is not a message since this observer is used to check
+        //  the end of game, it maybe could be useful for the GUI ?
     }
 
     @Override
     public void islandUnification(int islandID, int islandRemovedID, int finalSize) {
-        //TODO: send message
-
+        sender.sendMessage(new IslandUnified(islandID,islandRemovedID,finalSize));
     }
 
     @Override
@@ -135,26 +133,22 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void changeStudentsInDiningRoom(String nickname, StudentList actualStudents) {
-        //TODO: send message
-
+        sender.sendMessage(new StudentsInDiningRoomChanged(nickname,actualStudents));
     }
 
     @Override
     public void changeStudentsOnCloud(int cloudID, StudentList actualStudentList) {
-        //TODO: send message
-
+        sender.sendMessage(new StudentsOnCloudChanged(cloudID,actualStudentList));
     }
 
     @Override
     public void changeStudentsOnEntrance(String nickname, StudentList actualStudents) {
-        //TODO: send message
-
+        sender.sendMessage(new StudentsOnEntranceChanged(nickname,actualStudents));
     }
 
     @Override
     public void changeStudentsOnIsland(int islandID, StudentList actualStudents) {
-        //TODO: send message
-
+        sender.sendMessage(new StudentsOnIslandChanged(islandID,actualStudents));
     }
 
     @Override
