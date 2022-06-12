@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.launcher.EnterGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.GetGames;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.ResumeGame;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.*;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -285,34 +286,9 @@ public class ClientController {
         connectionHandler.sendMessage(new TakeStudentsFromCloud(cloudId));
     }
 
-    // METHODS TO DISPLAY SCREENS OF THE GAME
-
-    /**
-     * this method will display the planning phase screen
-     */
-    public void displayPlanningPhaseScreen(){
-        cli.setNextScreen(new PlanningPhaseScreen(cli));
-    }
-
-    /**
-     * this method will display the move student phase screen
-     */
-    public void displayMoveStudentsScreen(){
-        cli.setNextScreen(new MoveStudentsPhaseScreen(cli));
-    }
-
-    /**
-     * this method will display the move mother nature phase screen
-     */
-    public void displayMoveMotherNatureScreen(){
-        cli.setNextScreen(new MoveMotherNatureScreen(cli));
-    }
-
-    /**
-     * this method will display the "choose cloud" phase screen
-     */
-    public void displayChooseCloudScreen(){
-        cli.setNextScreen(new ChooseCloudScreen(cli));
+    // METHODS TO UPDATE SCREENS OF THE GAME
+    public void gameStateChanged(String currentPlayerNickname, StateType currentState) {
+        cli.changeCurrentPlayerOrState(currentState, currentPlayerNickname);
     }
 
     /**
@@ -320,13 +296,13 @@ public class ClientController {
      * @param winners the list of the winners of the game
      */
     public void displayEndGameScreen(List<String> winners){
-        cli.setNextScreen(new EndGameScreen(cli,winners));
+        cli.endGame(winners);
     }
 
     // METHODS TO DISPLAY MESSAGES
 
     /**
-     * this method will print in red the message passed in the parameters
+     * this method is used to display an error message.
      * @param errorMessage string containing the error message to print
      */
     public void displayErrorMessage(String errorMessage){
@@ -334,7 +310,7 @@ public class ClientController {
     }
 
     /**
-     * this method will print in yellow the message passed in the parameters
+     * this method is used to print a generic message
      * @param message string containing the message to print
      */
     public void displayMessage(String message){
@@ -345,10 +321,15 @@ public class ClientController {
 
     /**
      * this method allow to update the assistant deck of the player.
+     *
      * @param assistantsList actual deck of the player
+     * @param owner the player that has the deck that has been chenged
      */
-    public void setAssistantsList(List<Assistant> assistantsList) {
-        cli.getTable().setAssistantsList(assistantsList);
+    public void setAssistantsList(Collection<Assistant> assistantsList, String owner) {
+        // update the view only if the deck involved it is the one of the player
+        if(owner.equals(nickNameOwner)){
+            cli.changeAssistantDeck(owner, assistantsList);
+        }
     }
 
     /**
@@ -357,7 +338,7 @@ public class ClientController {
      * @param assistantUsed the actual last assistant used
      */
     public void setAssistantsUsed(String owner, Assistant assistantUsed) {
-        cli.getTable().setAssistantsUsed(owner, assistantUsed);
+        cli.changeLastAssistantUsed(owner,assistantUsed);
     }
 
     /**
@@ -366,7 +347,7 @@ public class ClientController {
      * @param studentList the actual student list on cloud
      */
     public void setClouds(int ID, StudentList studentList) {
-        cli.getTable().setClouds(ID,studentList);
+        cli.changeStudentsOnCloud(ID, studentList);
     }
 
     /**
@@ -375,7 +356,7 @@ public class ClientController {
      * @param studentsInEntrance the actual students on entrance
      */
     public void setEntranceList(String owner, StudentList studentsInEntrance) {
-        cli.getTable().setEntranceList(owner, studentsInEntrance);
+        cli.changeStudentsOnEntrance(owner, studentsInEntrance);
     }
 
     /**
@@ -385,7 +366,7 @@ public class ClientController {
      * @param studentsInDiningRoom the actual students in dining room
      */
     public void setDiningRoomList(String owner, StudentList studentsInDiningRoom) {
-        cli.getTable().setDiningRoomList(owner,studentsInDiningRoom);
+        cli.changeStudentsInDiningRoom(owner,studentsInDiningRoom);
     }
 
     /**
@@ -395,7 +376,7 @@ public class ClientController {
      * @param professors the actual collection of professors
      */
     public void setProfTableList(String owner, Collection<PawnType> professors) {
-        cli.getTable().setProfTableList(owner, professors);
+        cli.changeProfessor(owner, professors);
     }
 
     /**
@@ -405,7 +386,7 @@ public class ClientController {
      * @param numOfTowers the actual number of towers
      */
     public void setTowerNumberList(String owner, int numOfTowers) {
-        cli.getTable().setTowerNumberList(owner, numOfTowers);
+        cli.changeTowerNumber(owner, numOfTowers);
     }
 
     /**
@@ -415,7 +396,7 @@ public class ClientController {
      * @param numOfCoins the actual number of coins
      */
     public void setCoinNumberList(String owner, int numOfCoins) {
-        cli.getTable().setCoinNumberList(owner, numOfCoins);
+        cli.changeCoinNumber(owner, numOfCoins);
     }
 
     /**
@@ -425,7 +406,7 @@ public class ClientController {
      * @param actualNumOfBan the actual number of bans on the specified island
      */
     public void updateBanOnIsland(int ID, int actualNumOfBan){
-        cli.getTable().updateBanOnIsland(ID, actualNumOfBan);
+        cli.changeNumberOfBansOnIsland(ID, actualNumOfBan);
     }
 
     /**
@@ -435,7 +416,7 @@ public class ClientController {
      * @param actualTowerColor the actual color of the tower of the island (null if the tower is not present)
      */
     public void updateTowerType(int ID, TowerType actualTowerColor){
-        cli.getTable().updateTowerTypeOnIsland(ID,actualTowerColor);
+        cli.changeTowerOnIsland(ID,actualTowerColor);
     }
 
     /**
@@ -445,7 +426,7 @@ public class ClientController {
      * @param actualStudentsOnIsland the actual students on the island
      */
     public void updateStudents(int ID, StudentList actualStudentsOnIsland){
-        cli.getTable().updateStudentsOnIsland(ID, actualStudentsOnIsland);
+        cli.changeStudentsOnIsland(ID, actualStudentsOnIsland);
     }
 
     /**
@@ -453,7 +434,7 @@ public class ClientController {
      * @param ID the ID of the island on which mother nature should be moved
      */
     public void updateMotherNaturePosition(int ID){
-        cli.getTable().updateMotherNaturePosition(ID);
+        cli.changeMotherNaturePosition(ID);
     }
 
     /**
@@ -463,7 +444,7 @@ public class ClientController {
      * @param sizeIslandRemoved the size of the island removed
      */
     public void islandUnification(int ID, int IDIslandRemoved,int sizeIslandRemoved){
-        cli.getTable().islandUnification(ID, IDIslandRemoved, sizeIslandRemoved);
+        cli.islandUnification(ID, IDIslandRemoved, sizeIslandRemoved);
     }
 
     /**
