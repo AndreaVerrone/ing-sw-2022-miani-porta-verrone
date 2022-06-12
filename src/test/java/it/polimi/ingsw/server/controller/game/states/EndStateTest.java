@@ -73,13 +73,13 @@ class EndStateTest {
         changeTowerAndProfessors(player2, 3, 3);
         changeTowerAndProfessors(player3, 3, 0);
         game.setState(new EndState(game));
-        Collection<Player> winners = game.getWinner();
+        Collection<String > winners = game.getWinner();
         //Player1 has fewer towers than everyone
-        assertTrue(winners.contains(player1));
+        assertTrue(winners.contains(player1.getNickname()));
         //Not contains player2
-        assertFalse(winners.contains(player2));
+        assertFalse(winners.contains(player2.getNickname()));
         //Not contains player3
-        assertFalse(winners.contains(player3));
+        assertFalse(winners.contains(player3.getNickname()));
         //Only one player wins
         assertEquals(1, winners.size());
     }
@@ -90,13 +90,13 @@ class EndStateTest {
         changeTowerAndProfessors(player2, 2, 3);
         changeTowerAndProfessors(player3, 3, 0);
         game.setState(new EndState(game));
-        Collection<Player> winners = game.getWinner();
+        Collection<String> winners = game.getWinner();
         //Player2 as same towers as player1, but has more professors
-        assertTrue(winners.contains(player2));
+        assertTrue(winners.contains(player2.getNickname()));
         //Not contains player1
-        assertFalse(winners.contains(player1));
+        assertFalse(winners.contains(player1.getNickname()));
         //Not contains player3
-        assertFalse(winners.contains(player3));
+        assertFalse(winners.contains(player3.getNickname()));
         //There should be one winner
         assertEquals(1, winners.size());
     }
@@ -107,12 +107,12 @@ class EndStateTest {
         changeTowerAndProfessors(player2, 2, 2);
         changeTowerAndProfessors(player3, 3, 0);
         game.setState(new EndState(game));
-        Collection<Player> winners = game.getWinner();
+        Collection<String> winners = game.getWinner();
         //Both player1 and player2 should be in the winner list
-        assertTrue(winners.contains(player1));
-        assertTrue(winners.contains(player2));
+        assertTrue(winners.contains(player1.getNickname()));
+        assertTrue(winners.contains(player2.getNickname()));
         //Not contains player3
-        assertFalse(winners.contains(player3));
+        assertFalse(winners.contains(player3.getNickname()));
         //There should be two winners
         assertEquals(2, winners.size());
     }
@@ -123,11 +123,11 @@ class EndStateTest {
         changeTowerAndProfessors(player2, 2, 1);
         changeTowerAndProfessors(player3, 2, 1);
         game.setState(new EndState(game));
-        Collection<Player> winners = game.getWinner();
+        Collection<String> winners = game.getWinner();
         //Both player1, player2 and player3 should be in the winner list
-        assertTrue(winners.contains(player1));
-        assertTrue(winners.contains(player2));
-        assertTrue(winners.contains(player3));
+        assertTrue(winners.contains(player1.getNickname()));
+        assertTrue(winners.contains(player2.getNickname()));
+        assertTrue(winners.contains(player3.getNickname()));
         //There should be three winners
         assertEquals(3, winners.size());
     }
@@ -138,13 +138,13 @@ class EndStateTest {
         changeTowerAndProfessors(player2, 2, 3);
         changeTowerAndProfessors(player3, 2, 0);
         game.setState(new EndState(game));
-        Collection<Player> winners = game.getWinner();
+        Collection<String> winners = game.getWinner();
         //Player2 has more professors
-        assertTrue(winners.contains(player2));
+        assertTrue(winners.contains(player2.getNickname()));
         //Not contains player1
-        assertFalse(winners.contains(player1));
+        assertFalse(winners.contains(player1.getNickname()));
         //Not contains player3
-        assertFalse(winners.contains(player3));
+        assertFalse(winners.contains(player3.getNickname()));
         //There should be one winner
         assertEquals(1, winners.size());
     }

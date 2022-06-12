@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.Game;
+import it.polimi.ingsw.server.controller.game.expert.card_observers.CoinOnCardObserver;
+import it.polimi.ingsw.server.controller.game.expert.card_observers.StudentsOnCardObserver;
 import it.polimi.ingsw.server.controller.game.expert.cards.CharacterCardsFactory;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
@@ -61,9 +63,7 @@ public class ExpertGame extends Game {
         try {
             getModel().getCurrentPlayer().removeCoins(cost,putInBagAllCoins);
         } catch (NotEnoughCoinsException e) {
-            // todo: how to manage?
-            // it is impossible
-            // I have checked before
+            e.printStackTrace();
         }
     }
 
@@ -103,5 +103,52 @@ public class ExpertGame extends Game {
         // RESET THE POSSIBILITY TO USE A CHARACTER CARD
         canUseCharacterCard = true;
         super.endOfTurn();
+    }
+
+
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON CHARACTER CARDS IF ANY
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the character cards in expert mode.
+     * @param observer the observer to be added
+     */
+    @Override
+    public void addStudentsOnCardObserver(StudentsOnCardObserver observer){
+        for(CharacterCard card: cards.values()){
+            card.addStudentsOnCardObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the character cards in expert mode.
+     * @param observer the observer to be removed
+     */
+    @Override
+    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){
+        for(CharacterCard card: cards.values()){
+            card.removeStudentsOnCardObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the character cards in expert mode.
+     * @param observer the observer to be added
+     */
+    @Override
+    public void addCoinOnCardObserver(CoinOnCardObserver observer){
+        for(CharacterCard card: cards.values()){
+            card.addCoinOnCardObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the character cards in expert mode.
+     * @param observer the observer to be removed
+     */
+    @Override
+    public void removeCoinOnCardObserver(CoinOnCardObserver observer){
+        for(CharacterCard card: cards.values()){
+            card.removeCoinOnCardObserver(observer);
+        }
     }
 }

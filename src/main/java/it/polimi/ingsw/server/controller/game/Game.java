@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
+import it.polimi.ingsw.server.controller.game.expert.card_observers.CoinOnCardObserver;
+import it.polimi.ingsw.server.controller.game.expert.card_observers.StudentsOnCardObserver;
 import it.polimi.ingsw.server.controller.game.states.*;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.gametable.GameTable;
@@ -15,11 +17,8 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
+
 import java.util.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  *A class to handle the various states of the game.It can change the current state and can call operations on it.
@@ -60,9 +59,9 @@ public class Game {
     private int turnsPlayed = 0;
  
     /**
-     * List of winners of the game.If the list has more than one player it is considered a draw
+     * List of winners of the game. If the list has more than one player it is considered a draw
      */
-    private Collection<Player> winners = null;
+    private Collection<String> winners = null;
 
     /**
      * The constructor of the class.
@@ -143,6 +142,8 @@ public class Game {
                 }
             }
         }
+        // *** 5. fill clouds 
+        gameTable.fillClouds();
     }
 
     /**
@@ -171,9 +172,9 @@ public class Game {
      * Set the winners of the game
      * @param winners players that have won. If more than one is considered a draw
      */
-    public void setWinner(Collection<Player> winners){
+    public void setWinner(Collection<String> winners){
         this.winners = winners;
-        //TODO: update observer
+        notifyEndOfGameObservers();
     }
 
     /**
@@ -296,13 +297,43 @@ public class Game {
         return chooseCloudState;
     }
 
-    public Collection<Player> getWinner(){return Collections.unmodifiableCollection(winners);}
+    public Collection<String> getWinner(){return Collections.unmodifiableCollection(winners);}
 
     /**
      * Skips the turn of the current player, doing random choices when necessary
      */
     public void skipTurn() {
         state.skipTurn();
+    }
+
+    // MANAGEMENT OF OBSERVERS FOR END OF THE GAME
+    /**
+     * List of the observer on the end of the game
+     */
+    private final List<EndOfGameObserver> endOfGameObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the end of the game.
+     * @param observer the observer to be added
+     */
+    public void addEndOfGameObserver(EndOfGameObserver observer){
+        endOfGameObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on the end of game.
+     * @param observer the observer to be removed
+     */
+    public void removeEndOfGameObserver(EndOfGameObserver observer){
+        endOfGameObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that the game has ended.
+     */
+    private void notifyEndOfGameObservers(){
+        for(EndOfGameObserver observer : endOfGameObservers)
+            observer.endOfGameObserverUpdate(getWinner());
     }
 
     // MANAGEMENT OF OBSERVERS FOR STATE SWITCH
@@ -335,4 +366,29 @@ public class Game {
             observer.changeCurrentStateObserverUpdate(this.state.getType());
     }
 
+    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON CHARACTER CARDS IF ANY
+
+    /**
+     * Does nothing in basic mode since there are no character cards.
+     * @param observer the observer to be added if it's expert mode
+     */
+    public void addStudentsOnCardObserver(StudentsOnCardObserver observer){}
+
+    /**
+     * Does nothing in basic mode since there are no character cards.
+     * @param observer the observer to be added if it's expert mode
+     */
+    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){}
+
+    /**
+     * Does nothing in basic mode since there are no character cards.
+     * @param observer the observer to be added if it's expert mode
+     */
+    public void addCoinOnCardObserver(CoinOnCardObserver observer){}
+
+    /**
+     * Does nothing in basic mode since there are no character cards.
+     * @param observer the observer to be added if it's expert mode
+     */
+    public void removeCoinOnCardObserver(CoinOnCardObserver observer){}
 }

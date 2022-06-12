@@ -74,11 +74,11 @@ public class ChooseCloudState implements GameState {
                 students = model.getGameTable().getFromCloud(randomCloud);
                 if (students.numAllStudents() == 0)
                     students = null;
-            } catch (CloudNotFoundException e){}
+            } catch (CloudNotFoundException ignored){}
         }
 
-// fill the entrance with random students taken from the cloud until reaching the max number of students
-// and put the remaining (if any) in the bag
+        // fill the entrance with random students taken from the cloud until reaching the max number of students
+        // and put the remaining (if any) in the bag
         List<PawnType> pawnTypeList = new ArrayList<>(List.of(PawnType.values()));
         while (students.numAllStudents() != 0){
             int randomStudentIndex = new Random().nextInt(pawnTypeList.size());
@@ -92,7 +92,7 @@ public class ChooseCloudState implements GameState {
                 students.changeNumOf(randomStudent, -1);
             } catch (ReachedMaxStudentException e) {
                 break;
-            } catch (NotEnoughStudentException e) {}
+            } catch (NotEnoughStudentException ignored) {}
         }
         model.getGameTable().fillBag(students);
         game.endOfTurn();

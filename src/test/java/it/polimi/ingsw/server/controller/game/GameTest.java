@@ -1,21 +1,14 @@
 package it.polimi.ingsw.server.controller.game;
 
-import it.polimi.ingsw.server.controller.NotValidArgumentException;
-import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
-import it.polimi.ingsw.server.model.gametable.GameTable;
 import it.polimi.ingsw.server.model.player.Player;
-import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
-import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 

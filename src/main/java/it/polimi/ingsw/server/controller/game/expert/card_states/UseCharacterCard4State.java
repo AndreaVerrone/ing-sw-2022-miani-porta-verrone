@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.controller.game.expert.card_states;
 
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
-import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
@@ -47,10 +46,9 @@ public class UseCharacterCard4State extends UseCharacterCardState {
      * This method allows to compute the influence on the island specified in the parameter.
      * @param destination the Position
      * @throws NotValidArgumentException if the island does not exist
-     * @throws NotValidOperationException if the location of the position is not an island
      */
     @Override
-    public void chooseDestination(Position destination) throws NotValidArgumentException, NotValidOperationException {
+    public void chooseDestination(Position destination) throws NotValidArgumentException {
 
         if(!destination.isLocation(Location.ISLAND)){
             throw new NotValidArgumentException();

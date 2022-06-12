@@ -27,7 +27,7 @@ public class IdleScreen extends CliScreen {
             System.out.print(progress.get(index));
             try {
                 Thread.sleep(500);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
 
             ConsoleCli.moveCursorLeft(3);
