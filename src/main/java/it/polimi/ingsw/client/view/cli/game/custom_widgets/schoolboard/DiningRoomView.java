@@ -26,11 +26,6 @@ class DiningRoomView extends StatefulWidget {
     private static final int MAX_STUD = 10;
 
     /**
-     * The number of tables in the dining room.
-     */
-    private static final int NUM_OF_TABLES = 5;
-
-    /**
      * The constructor of the class.
      * It will create the class taking in inputs the list of the students
      * that are present in the dining room
@@ -59,8 +54,8 @@ class DiningRoomView extends StatefulWidget {
         Column studentTable = new Column();
 
         // fill the column with the tables of student row by row (i.e., table by table)
-        for(int i=0;i<NUM_OF_TABLES;i++){
-            studentTable.addChild(fillTable(actualStudentList.getNumOf(PawnType.values()[i]),PawnType.values()[i]));
+        for(PawnType pawnType: PawnType.values()){
+            studentTable.addChild(fillTable(actualStudentList.getNumOf(pawnType),pawnType));
         }
 
         // return the widget
