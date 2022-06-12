@@ -41,8 +41,8 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void changeCurrentState(StateType stateType) {
-        sender.sendMessage(new CurrentStateChanged(stateType));
+    public void changeCurrentPlayerOrState(StateType stateType, String currentPlayer) {
+        sender.sendMessage(new PlayerOrStateChanged(currentPlayer, stateType));
     }
 
     @Override
@@ -94,11 +94,6 @@ public class NetworkView implements VirtualView {
     @Override
     public void changeCoinNumber(String nickNameOfPlayer, int actualNumOfCoins) {
         //TODO: send message
-    }
-
-    @Override
-    public void changeCurrentPlayer(String actualCurrentPlayerNickname) {
-        sender.sendMessage(new CurrentPlayerChanged(actualCurrentPlayerNickname));
     }
 
     @Override
