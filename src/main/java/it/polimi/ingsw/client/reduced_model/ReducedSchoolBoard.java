@@ -4,13 +4,14 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * A simplified version of a school board, used to store and use the information client side
  */
-public class ReducedSchoolBoard implements Serializable{
+public class ReducedSchoolBoard implements Serializable {
 
     /**
      * the owner of the school board.
