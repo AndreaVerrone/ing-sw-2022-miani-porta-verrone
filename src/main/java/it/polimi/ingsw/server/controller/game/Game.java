@@ -93,7 +93,7 @@ public class Game {
     }
 
     private void createReducedTable(){
-        List<Assistant> deck = new ArrayList<>(List.of(Assistant.values()));
+        Collection<Assistant> deck = List.of(Assistant.values());
         Map<String, Assistant> assistantsUsed = new HashMap<>();
         Collection<ReducedCloud> clouds = model.getGameTable().createReducedSetOfClouds();
         Collection<ReducedSchoolBoard> schoolBoards = model.createReducedSetOfSchoolBoards();
