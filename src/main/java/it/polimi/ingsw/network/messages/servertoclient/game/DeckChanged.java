@@ -30,7 +30,7 @@ public class DeckChanged extends ServerCommandNetMsg {
      */
     public DeckChanged(String player, Collection<Assistant> assistantsList) {
         this.player = player;
-        this.assistantsList = assistantsList;
+        this.assistantsList = new ArrayList<>(assistantsList);
     }
 
     /**
