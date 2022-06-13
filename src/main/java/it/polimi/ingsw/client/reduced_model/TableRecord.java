@@ -3,7 +3,9 @@ package it.polimi.ingsw.client.reduced_model;
 import it.polimi.ingsw.server.model.player.Assistant;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,13 +23,17 @@ public record TableRecord(
         Collection<ReducedSchoolBoard> schoolBoardList,
         Collection<ReducedIsland> reducedIslands) implements Serializable {
         
-        public TableRecord(Collection<Assistant> assistantsList, Map<String, Assistant> assistantsUsed,
-                       Collection<ReducedCloud> clouds, Collection<ReducedSchoolBoard> schoolBoardList,
-                       Collection<ReducedIsland> reducedIslands) {
-        this.assistantsList = new ArrayList<>(assistantsList);
-        this.assistantsUsed = new HashMap<>(assistantsUsed);
-        this.clouds = new ArrayList<>(clouds);
-        this.schoolBoardList = new ArrayList<>(schoolBoardList);
-        this.reducedIslands = new ArrayList<>(reducedIslands);
+        public TableRecord(
+                Collection<Assistant> assistantsList,
+                Map<String, Assistant> assistantsUsed,
+                Collection<ReducedCloud> clouds,
+                Collection<ReducedSchoolBoard> schoolBoardList,
+                Collection<ReducedIsland> reducedIslands
+        ) {
+            this.assistantsList = new ArrayList<>(assistantsList);
+            this.assistantsUsed = new HashMap<>(assistantsUsed);
+            this.clouds = new ArrayList<>(clouds);
+            this.schoolBoardList = new ArrayList<>(schoolBoardList);
+            this.reducedIslands = new ArrayList<>(reducedIslands);
     }
 }
