@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.player.Assistant;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
