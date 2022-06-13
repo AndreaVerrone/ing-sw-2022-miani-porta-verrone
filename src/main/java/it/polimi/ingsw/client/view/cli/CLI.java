@@ -449,7 +449,7 @@ public class CLI implements VirtualView, Runnable {
 
     @Override
     public void changeTowerOnIsland(int islandIDWithChange, TowerType actualTower) {
-        getClientController().updateTowerType(islandIDWithChange,actualTower);
+        table.updateTowerTypeOnIsland(islandIDWithChange,actualTower);
     }
 
     @Override
