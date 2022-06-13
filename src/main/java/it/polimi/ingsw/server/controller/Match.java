@@ -343,7 +343,7 @@ public class Match implements ObserversCommonInterface{
     @Override
     public void changeCurrentStateObserverUpdate(StateType stateType) {
         for(VirtualView playerView: playersView){
-            playerView.changeCurrentPlayerOrState(stateType, game.getModel().getCurrentPlayer().getNickname());
+            playerView.changeCurrentPlayerOrState(stateType, getCurrentPlayerNickname());
         }
     }
 
