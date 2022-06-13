@@ -430,7 +430,7 @@ public class Match implements ObserversCommonInterface{
     @Override
     public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
         for(VirtualView playerView: playersView){
-            playerView.changeCurrentPlayerOrState(game.getState().getType(),actualCurrentPlayerNickname);
+            playerView.changeCurrentPlayerOrState(getCurrentState(),actualCurrentPlayerNickname);
         }
     }
 
@@ -551,5 +551,17 @@ public class Match implements ObserversCommonInterface{
         for(VirtualView playerView: playersView){
             playerView.gameCreated(table);
         }
+    }
+
+    /**
+     * This method will return the current state.
+     * It can be either a state of the game or a state of the creation of it.
+     * @return the current state
+     */
+    private StateType getCurrentState(){
+        if(game!=null){
+            return game.getState().getType();
+        }
+        return matchMaking.getState().getType();
     }
 }
