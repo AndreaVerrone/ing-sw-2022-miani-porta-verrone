@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandBanImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -27,6 +28,16 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
     private final StudentList students = new StudentList();
 
     /**
+     * Number of bans on the island
+     */
+    private int numberOfBans = 0;
+
+    /**
+     * True if the game is in expert mode
+     */
+    private boolean isExpertMode = false;
+
+    /**
      * True if the animation to see teh students is triggered
      */
     private boolean isTriggered;
@@ -46,6 +57,12 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
      */
     private FadeTransition fadeTransition;
 
+    GridPane islandGrid;
+
+    int column;
+
+    int row;
+
     /**
      * This class represents all the student on a certain island, allowing to show them through an animation
      * @param islandGrid Grid used to place the students
@@ -54,12 +71,24 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
      */
     public StudentOnIslandHandler(GridPane islandGrid, int islandColumn, int islandRow){
 
+        this.islandGrid = islandGrid;
+        this.column = islandColumn;
+        this.row = islandRow;
         islandGrid.add(studentsView, islandColumn, islandRow);
+        studentsView.toFront();
         studentsView.setVisible(false);
         studentsView.setMouseTransparent(true);
 
         paneSetUp();
         animationSetUp();
+    }
+
+    /**
+     * Method to set the island in expert mode view
+     */
+    public void setExpertMode(){
+        this.isExpertMode = true;
+        studentsView.setMinHeight(160);
     }
 
     /**
@@ -95,6 +124,17 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
             studentLabel.setTextFill(StudentImageType.typeConverter(type).getColor());
             studentsView.getChildren().add(studentLabel);
         }
+        if(isExpertMode) {
+            ImageView banView = new ImageView(IslandBanImageType.BAN.getIcon());
+            Label banLabel = new Label();
+            banLabel.setGraphic(banView);
+            banLabel.setText("BANS = " + numberOfBans);
+            studentsView.getChildren().add(banLabel);
+        }
+    }
+
+    public void changeNumberOfBans(int numberOfBans){
+        this.numberOfBans = numberOfBans;
     }
 
     @Override
@@ -107,6 +147,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
                 studentsView.setTranslateY(0);
                 fillPaneWithStudents();
                 studentsView.setVisible(true);
+                studentsView.toFront();
                 addTranslateUpAnimation();
                 addFadeInAnimation();
                 isTriggered = true;
@@ -125,7 +166,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
      * Animation use to move the display up
      */
     private void addTranslateUpAnimation(){
-        translateTransition.setByY(-120);
+        translateTransition.setByY(-110);
         translateTransition.play();
     }
 

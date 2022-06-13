@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.view.gui.utils.position_getters.EntrancePosition;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.TowerPosition;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.geometry.HPos;
 import javafx.scene.image.ImageView;
@@ -97,7 +98,6 @@ public class SchoolBoard {
         ImageView student = new ImageView(studentType.getImage());
         tables.get(type).add(new Pawn(student, type));
         addListenerToPawn(student, type, Location.DINING_ROOM);
-        student.toFront();
         gridDiningRoom.add(student, tables.get(type).size(), studentType.getTablePosition());
     }
 
@@ -117,7 +117,6 @@ public class SchoolBoard {
             entrance.set(emptySpot, new Pawn(student, type));
         }
         addListenerToPawn(student, type, Location.ENTRANCE);
-        student.toFront();
         int row = EntrancePosition.values()[emptySpot].getRow();
         int column = EntrancePosition.values()[emptySpot].getColumn();
         gridEntrance.add(student, column, row);
@@ -145,7 +144,6 @@ public class SchoolBoard {
         ImageView professor = new ImageView(professorType.getImage());
         professors.add(new Pawn(professor, type));
         //addListenerToPawn(professor, type, Location.DINING_ROOM); NO NEED TO ADD LISTENER TO PROFESSORS
-        professor.toFront();
         gridDiningRoom.add(professor, 12, professorType.getTablePosition());
         GridPane.setHalignment(professor, HPos.CENTER);
     }
@@ -248,6 +246,36 @@ public class SchoolBoard {
         if(isFirstPlayer){
             LocationListern listener = new LocationListern(locationType) ;
             locationView.setOnMouseClicked(listener);
+        }
+    }
+
+    public void updateProfessors(HashSet<PawnType> newProfessors){
+       for(Pawn professorOnTable: professors) {
+           if(!newProfessors.contains(professorOnTable.getType())) removeProfessor(professorOnTable.getType());
+       }
+       for(PawnType newProfessor: newProfessors){
+           if(!((professors.stream().map(professor -> professor.getType()).toList()).contains(newProfessor))) addProfessor(newProfessor);
+       }
+    }
+
+    public void updateDiningRoom(StudentList newStudents){
+        for(PawnType student: PawnType.values()){
+            int differenceOfStudents = tables.get(student).size() - newStudents.getNumOf(student);
+            if(differenceOfStudents > 0){
+                for(int numberOfStudents = 0; numberOfStudents < differenceOfStudents; numberOfStudents ++){
+                    removeStudentFromDiningRoom(student);
+                }
+            } else if (differenceOfStudents < 0) {
+                for(int numberOfStudents = 0; numberOfStudents < Math.abs(differenceOfStudents); numberOfStudents ++){
+                    addStudentToDiningRoom(student);
+                }
+            }
+        }
+    }
+
+    public void updateEntrance(StudentList students){
+        for(Pawn studentOnEntrance: entrance){
+            //TODO:  update
         }
     }
 

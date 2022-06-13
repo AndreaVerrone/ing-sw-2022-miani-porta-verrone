@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -169,9 +170,9 @@ public class TableView implements Initializable {
     private FlowPane coinsPlayer3;
 
     /**
-     * List of schoolboards of the game
+     * Map with the schoolboards associated to every student
      */
-    private final List<SchoolBoard> schoolboards = new ArrayList<>();
+    private final HashMap<String, SchoolBoard> schoolboards = new HashMap<>(3,1);
 
     /**
      * List of island of the game
@@ -208,6 +209,11 @@ public class TableView implements Initializable {
      */
     private String currentPlayer;
 
+    /**
+     * ID of the island where mother nature is placed
+     */
+    private int motherNatureIsland;
+
 
     /**
      *Initialization of the table where schoolboards, islands, clouds and cards are created
@@ -230,7 +236,7 @@ public class TableView implements Initializable {
         table.toBack();
         scrollPane.toBack();
         //table.setGridLinesVisible(true);
-        SchoolBoard schoolBoard = schoolboards.get(0);
+        SchoolBoard schoolBoard = schoolboards.get("Giorgio");
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
@@ -253,9 +259,13 @@ public class TableView implements Initializable {
         schoolBoard.addStudentToEntrance(PawnType.PINK_FAIRIES);
         schoolBoard.removeProfessor(PawnType.BLUE_UNICORNS);
         schoolBoard.removeTower();
+        schoolBoard.addProfessor(PawnType.GREEN_FROGS);
 
         islands.get(5).addTower(TowerType.BLACK);
         islands.get(10).addTower(TowerType.WHITE);
+        clouds.get(1).addStudent(PawnType.YELLOW_GNOMES);
+        clouds.get(1).addStudent(PawnType.RED_DRAGONS);
+        clouds.get(1).addStudent(PawnType.BLUE_UNICORNS);
 
         islands.get(10).removeTower();
         islands.get(7).removeMotherNature();
@@ -278,9 +288,6 @@ public class TableView implements Initializable {
 
         table.setBackground(Background.fill(Color.LIGHTBLUE));
 
-        clouds.get(0).addStudent(PawnType.YELLOW_GNOMES);
-        clouds.get(0).addStudent(PawnType.RED_DRAGONS);
-        clouds.get(0).addStudent(PawnType.BLUE_UNICORNS);
 
         setCurrentPlayer("Giorgio");
     }
@@ -391,22 +398,22 @@ public class TableView implements Initializable {
      */
     private void createSchoolBoard(List<PlayerLoginInfo> players){
         Image schoolBoardImage;
-        for(int i =0; i< players.size(); i++){
-            if(schoolboards.size() == 0){
+        for (PlayerLoginInfo player : players) {
+            if (schoolboards.size() == 0) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
                 SchoolBoard schoolBoardPlayer1 = new SchoolBoard(true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, players.get(0).getTowerType());
-                schoolboards.add(schoolBoardPlayer1);
-                table.add(schoolBoardPlayer, 1,4);
+                schoolboards.put(player.getNickname(), schoolBoardPlayer1);
+                table.add(schoolBoardPlayer, 1, 4);
                 schoolBoardPlayer.toBack();
                 GridPane.setValignment(schoolBoardPlayer, VPos.BOTTOM);
                 continue;
             }
-            if(schoolboards.size() == 1){
+            if (schoolboards.size() == 1) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
                 SchoolBoard schoolBoardPlayer2 = new SchoolBoard(false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, players.get(1).getTowerType());
-                schoolboards.add(schoolBoardPlayer2);
+                schoolboards.put(player.getNickname(), schoolBoardPlayer2);
                 table.add(schoolBoardPlayer, 1, 0);
                 schoolBoardPlayer.toBack();
                 GridPane.setValignment(schoolBoardPlayer, VPos.TOP);
@@ -416,8 +423,8 @@ public class TableView implements Initializable {
             ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
             schoolBoardPlayer.setRotate(-90);
             SchoolBoard schoolBoardPlayer3 = new SchoolBoard(false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, players.get(2).getTowerType());
-            schoolboards.add(schoolBoardPlayer3);
-            table.add(schoolBoardPlayer, 0,2);
+            schoolboards.put(player.getNickname(), schoolBoardPlayer3);
+            table.add(schoolBoardPlayer, 0, 2);
             schoolBoardPlayer.toBack();
             GridPane.setHalignment(schoolBoardPlayer, HPos.CENTER);
             GridPane.setValignment(schoolBoardPlayer, VPos.CENTER);
@@ -524,5 +531,58 @@ public class TableView implements Initializable {
     }
 
     // METHODS TO MODIFY THE TABLE
+
+    public void moveMotherNature(int movements){
+        islands.get(motherNatureIsland).removeMotherNature();
+        islands.get(movements).addMotherNature();
+    }
+
+    public void changeBansOnIsland(int islandID, int numberOfBans){
+        islands.get(islandID).changeNumberOfBans(numberOfBans);
+    }
+
+    public void changeNumberOfCoinsPlayer(String player, int numberOfCoins){
+        playersCoinLabels.get(player).setText(Integer.toString(numberOfCoins));
+    }
+
+    public void updateProfessorsToPlayer(String player, HashSet<PawnType> professors){
+        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+        schoolBoardPlayer.updateProfessors(professors);
+    }
+
+    public void updateDiningRoomToPlayer(String player, StudentList students){
+        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+        schoolBoardPlayer.updateDiningRoom(students);
+    }
+
+    public void updateEntranceToPlayer(String player, StudentList students){
+        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+        for(PawnType student: PawnType.values()){
+            schoolBoardPlayer.removeStudentFromEntrance(student);
+        }
+        for(PawnType student: PawnType.values()){
+            for(int i = 0; i < students.getNumOf(student); i++) {
+                schoolBoardPlayer.addStudentToEntrance(student);
+            }
+        }
+    }
+
+    public void updateStudentsOnIsland(int islandID, StudentList students){
+        Island island = islands.get(islandID);
+        for(PawnType student: PawnType.values()){
+            island.removeStudent(student);
+        }
+        for(PawnType student: PawnType.values()){
+            for(int i = 0; i < students.getNumOf(student); i++) {
+                island.addStudent(student);
+            }
+        }
+    }
+
+    public void updateTowersOnSchoolBoard(String player, int numberOfTowers){
+
+    }
+
+
 
 }

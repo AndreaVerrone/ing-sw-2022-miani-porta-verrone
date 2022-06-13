@@ -24,7 +24,7 @@ public enum CoinImageType {
 
     /**
      * Method to get an {@code Image} of a coin from its path in the project
-     * @return {@code Image} of mother nature
+     * @return {@code Image} of coin
      */
     public Image getImage(){
         return new Image(path, 100, 100, true, false);

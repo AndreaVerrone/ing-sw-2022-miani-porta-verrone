@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.ClientApplication;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CoinImageType;
+import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandBanImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import javafx.fxml.FXML;
@@ -96,7 +97,7 @@ public class CharacterCardView {
             }
         }
         for(int numberOfBans=0; numberOfBans < card.getNumberOfBans(); numberOfBans++){
-            extras.getChildren().add(new ImageView(new Image("/assets/islands/deny_island_icon.png", 80, 80, true, false)));
+            extras.getChildren().add(new ImageView(IslandBanImageType.BAN.getImage()));
         }
     }
 

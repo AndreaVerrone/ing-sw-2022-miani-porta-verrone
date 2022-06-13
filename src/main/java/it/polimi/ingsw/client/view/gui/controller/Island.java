@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.view.gui.listeners.LocationListern;
+import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandBanImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.MotherNatureImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.TowerImageType;
@@ -28,6 +29,9 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 /**
@@ -65,6 +69,12 @@ public class Island {
      */
     private final StudentOnIslandHandler studentOnIslandHandler;
 
+
+    /**
+     * {@code ImageView} of the ban on the island
+     */
+    private ImageView banView;
+
     /**
      * This class allows to handle the image of an island on the view of the table, allowing to add a tower, mother nature and students
      * @param gridIsland Grid of the view used to place islands
@@ -83,6 +93,24 @@ public class Island {
         islandView.setOnMouseClicked(new LocationListern(Location.ISLAND));
         islandView.setOnMouseEntered(studentOnIslandHandler);
         islandView.setOnMouseExited(studentOnIslandHandler);
+
+        setBan();
+        studentOnIslandHandler.setExpertMode();
+        if(islandID == 3) {
+            changeNumberOfBans(4);
+        }
+    }
+
+    /**
+     * Set di ban image on the island
+     */
+    private void setBan(){
+        int column= IslandPosition.values()[islandID].getColumn();
+        int row=IslandPosition.values()[islandID].getRow();
+        banView = new ImageView(IslandBanImageType.BAN.getImage());
+        gridIsland.add(banView, column, row);
+        banView.toFront();
+        banView.setVisible(false);
     }
 
     /**
@@ -137,6 +165,10 @@ public class Island {
         }
     }
 
+    /**
+     * Add student to the island
+     * @param color color of the student added
+     */
     public void addStudent(PawnType color){
         try {
             studentOnIslandHandler.getStudents().changeNumOf(color, 1);
@@ -145,11 +177,25 @@ public class Island {
         }
     }
 
+    /**
+     * Remove a student from the island
+     * @param color of the student removed
+     */
     public void removeStudent(PawnType color){
         try {
             studentOnIslandHandler.getStudents().changeNumOf(color, -1);
         } catch (NotEnoughStudentException e) {
             //Simply do nothing
         }
+    }
+
+    /**
+     * Change number of bans on the island
+     * @param newNumberOfBans new number of bans on the island
+     */
+    public void changeNumberOfBans(int newNumberOfBans){
+        studentOnIslandHandler.changeNumberOfBans(newNumberOfBans);
+        if(newNumberOfBans == 0) banView.setVisible(false);
+        if(newNumberOfBans > 0) banView.setVisible(true);
     }
 }
