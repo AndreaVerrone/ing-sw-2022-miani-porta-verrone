@@ -31,7 +31,6 @@ public interface VirtualView {
 
     void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable);
 
-    void changeCurrentState(StateType stateType);
     void changeCurrentPlayerOrState(StateType stateType, String currentPlayer);
 
     void addCoinOnCard(CharacterCardsType characterCardsType, boolean coinOnCard);

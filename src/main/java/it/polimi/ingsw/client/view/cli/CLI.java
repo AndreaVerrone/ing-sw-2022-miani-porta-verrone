@@ -415,7 +415,6 @@ public class CLI implements VirtualView, Runnable {
 
     }
 
-    @Override
     public void changeCurrentPlayer(String actualCurrentPlayerNickname) {
         if (matchmakingView != null) {
             matchmakingView.setSelected(actualCurrentPlayerNickname);
