@@ -22,7 +22,7 @@ public class CurrentPlayerChanged extends ServerCommandNetMsg{
 
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 11/05/2022 handle change and show in view
+        client.currentPlayerChanged(currentPlayer);
     }
 
 }

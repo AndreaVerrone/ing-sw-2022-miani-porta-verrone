@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.launcher.*;
-import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
 import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
 import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
 import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
@@ -18,6 +17,7 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Class to control the messages from client to server
@@ -64,6 +64,10 @@ public class ClientController {
         return gameID;
     }
 
+    public boolean isInTurn() {
+        return Objects.equals(nickNameOwner, nickNameCurrentPlayer);
+    }
+
     /**
      * Tries to connect the client to the server using the specified IP and port number
      * @param ipAddress the IP address of the server
@@ -93,7 +97,9 @@ public class ClientController {
      * Method to set the nickname of the current player of the match played by the client
      * @param nickNameCurrentPlayer nickname of the current player of the match played by the client
      */
-    public void setNickNameCurrentPlayer(String nickNameCurrentPlayer) {
+    public void currentPlayerChanged(String nickNameCurrentPlayer) {
+        if (this.nickNameCurrentPlayer != null)
+            cli.changeCurrentPlayer(nickNameCurrentPlayer);
         this.nickNameCurrentPlayer = nickNameCurrentPlayer;
     }
 

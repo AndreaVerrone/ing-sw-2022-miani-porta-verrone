@@ -7,8 +7,9 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
+import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
-import it.polimi.ingsw.client.view.cli.matchmaking.MatchmakingView;
+import it.polimi.ingsw.client.view.cli.matchmaking.widgets.MatchmakingView;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -72,7 +73,7 @@ public class CLI implements VirtualView, Runnable {
                 currentScreen = nextScreen;
                 nextScreen = null;
             }
-            currentScreen.show();
+            currentScreen.run();
         }
     }
 
@@ -146,7 +147,7 @@ public class CLI implements VirtualView, Runnable {
 
     @Override
     public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert) {
-        matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert);
+        matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, clientController.getGameID());
         setNextScreen(new LobbyScreen(this));
     }
 
@@ -172,8 +173,9 @@ public class CLI implements VirtualView, Runnable {
 
     @Override
     public void playersChanged(Collection<ReducedPlayerLoginInfo> players) {
-        matchmakingView.update(players);
-        setNextScreen(currentScreen);
+        boolean lobbyFull = matchmakingView.update(players);
+        if (lobbyFull)
+            clientController.nextPhase();
     }
 
     @Override
