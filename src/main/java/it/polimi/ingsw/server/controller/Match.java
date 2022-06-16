@@ -433,7 +433,7 @@ public class Match implements ObserversCommonInterface{
         }
 
         // check condition of last round : if the player finishes the card, then set last round flag
-        if(actualDeck.size()==0){
+        if(actualDeck.isEmpty()){
             game.setLastRoundFlag();
             for(VirtualView playerView: playersView){
                 playerView.notifyLastRound();

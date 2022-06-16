@@ -163,7 +163,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
      *      <li> output: {"a|b|c"} </li>
      * </ul>
      * </p>
-     * @param strings the collection of strings to seprate with a "|"
+     * @param strings the collection of strings to separate with a "|"
      * @return a string with elements separated by "|"
      */
     private String regexBuilder(Collection<String> strings){

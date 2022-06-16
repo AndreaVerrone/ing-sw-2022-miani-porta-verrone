@@ -176,15 +176,17 @@ public class Translator {
     }
     public static String getMessageMoveStudentsPhase(){
         return isItalian ?
-                "inserisci il colore dello studente da muovere seguito dalla destinazione \n" +
-                "Esempio:\n" +
-                "se vuoi muovere uno studente blu sull'isola 1 scrivi: \"blu Isola#1\"\n" +
-                "oppure se vuoi muovere uno studente verde nella sala scrivi \" verde Sala\"" :
+                """
+                        inserisci il colore dello studente da muovere seguito dalla destinazione\s
+                        Esempio:
+                        se vuoi muovere uno studente blu sull'isola 1 scrivi: "blu Isola#1"
+                        oppure se vuoi muovere uno studente verde nella sala scrivi " verde Sala\"""" :
 
-                "insert the color of the student to move followed by the destination \n" +
-                "Example:\n" +
-                "if you want to move the blue student on the island 1 insert: \"blue Island#1\"\n" +
-                "or if you want to move the green student to the dining room insert: \"green Dining_Room\"";
+                """
+                        insert the color of the student to move followed by the destination\s
+                        Example:
+                        if you want to move the blue student on the island 1 insert: "blue Island#1"
+                        or if you want to move the green student to the dining room insert: "green Dining_Room\"""";
     }
 
     public static String getDiningRoomLocationName(){

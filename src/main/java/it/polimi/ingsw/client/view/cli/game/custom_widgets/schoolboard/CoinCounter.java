@@ -21,7 +21,7 @@ class CoinCounter extends StatefulWidget {
 
     /**
      * The constructor of the class.
-     * It will create the class taking in input the nuber of coins.
+     * It will create the class taking in input the number of coins.
      * @param coinNumber the number of coins
      */
     CoinCounter(int coinNumber) {

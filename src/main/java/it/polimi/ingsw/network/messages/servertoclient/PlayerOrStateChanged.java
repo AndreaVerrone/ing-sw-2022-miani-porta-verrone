@@ -4,8 +4,8 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.server.controller.StateType;
 
 /**
- * A message sent from the server to all clients connected to a game to indicate that t
- * he current player or the state has changed.
+ * A message sent from the server to all clients connected to a game to indicate that
+ * the current player or the state has changed.
  */
 public class PlayerOrStateChanged extends ServerCommandNetMsg{
 

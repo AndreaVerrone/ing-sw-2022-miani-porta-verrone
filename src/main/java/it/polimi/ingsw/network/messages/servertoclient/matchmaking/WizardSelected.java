@@ -20,7 +20,7 @@ public class WizardSelected extends ServerCommandNetMsg {
     private final Wizard wizard;
 
     /**
-     * Creates a new message to inform all the players in a game that the player has selected a aizard.
+     * Creates a new message to inform all the players in a game that the player has selected a wizard.
      * @param nickname of the player that selected the tower
      * @param wizard wizard selected by the player
      */

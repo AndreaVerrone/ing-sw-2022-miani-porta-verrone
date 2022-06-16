@@ -31,7 +31,7 @@ public class AssistantUsed extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        client.setAssistantsUsed(client.getNickNameCurrentPlayer(),assistant);
+        client.setAssistantsUsed(nickname,assistant);
     }
 
 }

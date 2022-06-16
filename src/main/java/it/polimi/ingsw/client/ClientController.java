@@ -277,7 +277,7 @@ public class ClientController {
      * Sends a message to the server to quit the game during the creation of the match
      */
     public void quitGame(){
-        connectionHandler.sendMessage(new QuitGame());
+        connectionHandler.quitGame();
     }
 
     // METHODS TO SENDS MESSAGES TO THE SERVER REGARDING THE PHASES OF THE GAME
@@ -351,7 +351,7 @@ public class ClientController {
     }
 
     /**
-     * Updates the view of the client to indicate that a card has been used and it's cost must be increased
+     * Updates the view of the client to indicate that a card has been used, and it's cost must be increased
      * @param card the card that has been used
      */
     public void coinOnCardAdded(CharacterCardsType card) {
@@ -406,7 +406,7 @@ public class ClientController {
      * this method allow to update the assistant deck of the player.
      *
      * @param assistantsList actual deck of the player
-     * @param owner the player that has the deck that has been chenged
+     * @param owner the player that has the deck that has been changed
      */
     public void setAssistantsList(Collection<Assistant> assistantsList, String owner) {
         // update the view only if the deck involved it is the one of the player

@@ -252,7 +252,7 @@ public class CLI implements VirtualView, Runnable {
 
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
-        // todo: current player it is not needed here, but required bu signaturw
+        // current player it is not needed here, but required but signature
         // display right state
         switch (currentState){
             case CHANGE_PLAYER_STATE -> {}

@@ -36,8 +36,7 @@ public abstract class StatefulWidget extends Widget{
         try {
             updateContent();
             content.onSizeChange(this::updateContent);
-        } catch (NullPointerException e) {
-        }
+        } catch (NullPointerException ignore) {}
     }
 
     @Override
