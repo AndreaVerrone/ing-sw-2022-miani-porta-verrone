@@ -19,6 +19,6 @@ public class QuitGame extends ClientCommandNetMsg {
 
     @Override
     public void processResponse(ResponseMessage response, ClientController clientController) {
-        // TODO: 11/05/2022 show the exit and update view
+        clientController.showHome();
     }
 }

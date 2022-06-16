@@ -105,6 +105,10 @@ public class ClientController {
         connectionHandler.closeApplication();
     }
 
+    public void showHome() {
+        cli.showHome();
+    }
+
     /**
      * Method to set the nickname of the current player of the match played by the client
      * @param nickNameCurrentPlayer nickname of the current player of the match played by the client

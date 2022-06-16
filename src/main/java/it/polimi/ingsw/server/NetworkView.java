@@ -37,6 +37,11 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
+    public void showHome() {
+        // not used here
+    }
+
+    @Override
     public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert, String currentPlayer) {
         sender.sendMessage(new GameEntered(playerLoginInfos, numPlayers, isExpert, currentPlayer));
     }

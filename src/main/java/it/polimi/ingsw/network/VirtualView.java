@@ -18,6 +18,11 @@ import java.util.Collection;
 public interface VirtualView {
 
     /**
+     * Displays the home page of the game
+     */
+    void showHome();
+
+    /**
      * Creates the initial view of the game (the matchmaking) using the parameter passed
      *
      * @param playerLoginInfos the list of players currently in the lobby

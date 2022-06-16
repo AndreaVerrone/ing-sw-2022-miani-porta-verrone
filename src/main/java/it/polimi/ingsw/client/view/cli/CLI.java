@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
+import it.polimi.ingsw.client.view.cli.launcher.HomeScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.widgets.MatchmakingView;
@@ -224,6 +225,11 @@ public class CLI implements VirtualView, Runnable {
 
     public MatchmakingView getMatchmakingView(){
         return matchmakingView;
+    }
+
+    @Override
+    public void showHome() {
+        setNextScreen(new HomeScreen(this));
     }
 
     @Override
