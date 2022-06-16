@@ -71,6 +71,10 @@ public class MatchMaking{
         return isHardMode;
     }
 
+    public MatchMakingState getState() {
+        return state;
+    }
+
     /**
      * An unmodifiable view of the players currently present in this lobby.
      * @return the players in this lobby

@@ -127,12 +127,10 @@ public class Canvas implements Drawable {
                     new SizedBox(content, centeredHeader.getWidth(), 0)
             ));
         }
-        Widget finalContent = new ColoredBox(
-                new Padding(
+        Widget finalContent = new Padding(
                         new SizedBox(actualContent, width, 0),
                         2f,
-                        0),
-                Color.BLUE);
+                        0);
         finalContent.show();
         System.out.print("\n");
         AnsiConsole.systemUninstall();

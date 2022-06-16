@@ -28,7 +28,7 @@ public class ConsoleCli {
      * @return the number of characters required
      */
     static public int convertFromGeneralWidthToCharNumber(float width){
-        return Math.round(width*3.3f);
+        return Math.round(width*2.8f);
     }
 
     /**

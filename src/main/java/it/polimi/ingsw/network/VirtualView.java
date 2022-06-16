@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
+import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -30,6 +32,7 @@ public interface VirtualView {
     void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable);
 
     void changeCurrentState(StateType stateType);
+    void changeCurrentPlayerOrState(StateType stateType, String currentPlayer);
 
     void addCoinOnCard(CharacterCardsType characterCardsType, boolean coinOnCard);
 
@@ -51,13 +54,9 @@ public interface VirtualView {
 
     void changeCoinNumber(String nickNameOfPlayer, int actualNumOfCoins);
 
-    void changeCurrentPlayer(String actualCurrentPlayerNickname);
-
     void changeTowerNumber(String nickName, int numOfActualTowers);
 
-    void conquerIslandObserver();
-
-    void emptyStudentBag();
+    void notifyLastRound();
 
     void islandNumberChanged(int actualNumOfIslands);
 
@@ -80,4 +79,6 @@ public interface VirtualView {
     void changeTowerOnIsland(int islandIDWithChange, TowerType actualTower);
 
     void endGame(Collection<String> winners);
+
+    void gameCreated(TableRecord tableRecord);
 }

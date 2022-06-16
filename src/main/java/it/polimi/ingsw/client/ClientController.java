@@ -1,23 +1,24 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.cli.CLI;
+import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.launcher.*;
-import it.polimi.ingsw.network.messages.clienttoserver.game.MoveMotherNature;
-import it.polimi.ingsw.network.messages.clienttoserver.game.QuitGame;
-import it.polimi.ingsw.network.messages.clienttoserver.game.TakeStudentsFromCloud;
-import it.polimi.ingsw.network.messages.clienttoserver.game.UseAssistant;
+import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.EnterGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.GetGames;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.ResumeGame;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.*;
+import it.polimi.ingsw.server.controller.StateType;
+import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
-
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Class to control the messages from client to server
@@ -56,8 +57,16 @@ public class ClientController {
     public ClientController(CLI cli){
         this.cli = cli;
         cli.attachTo(this);
+
         cli.setNextScreen(new LauncherScreen(cli));
         cli.run();
+
+        // todo:testing code
+        //  <--- from here
+        // cli.setTable(null,null,null,null, null, null,null,null,null,null, null);
+        // displayPlanningPhaseScreen();
+        // cli.run();
+        //  <--- to here
     }
 
     public String getGameID() {
@@ -86,6 +95,14 @@ public class ClientController {
         }
     }
 
+    public String getNickNameCurrentPlayer() {
+        return nickNameCurrentPlayer;
+    }
+
+    public String getNickNameOwner() {
+        return nickNameOwner;
+    }
+
     /**
      * Closes all the current tasks and terminates the application
      */
@@ -109,7 +126,7 @@ public class ClientController {
      */
     private boolean wrongPlayerTurn(){
         if(!nickNameOwner.equals(nickNameCurrentPlayer)){
-            //TODO: Update view, not your turn!
+            displayErrorMessage(Translator.getItIsNotYourTurnMessage());
             return true;
         }
         return false;
@@ -123,7 +140,7 @@ public class ClientController {
     public void createGame(int numberOfPlayers, Boolean wantExpert){
         //Control is a valid number of players
         if(numberOfPlayers < 2 || numberOfPlayers > 3){
-            //TODO: wrong input
+            displayErrorMessage(Translator.getInputOutOfRangeMessage());
             return;
         }
         connectionHandler.sendMessage(new CreateNewGame(numberOfPlayers, wantExpert));
@@ -195,7 +212,7 @@ public class ClientController {
         if(wrongPlayerTurn()) return;
         //Control it is a valid number of players
         if(newNumberPlayers < 2 || newNumberPlayers > 3){
-            //TODO: wrong input
+            displayErrorMessage(Translator.getInputOutOfRangeMessage());
             return;
         }
         connectionHandler.sendMessage(new ChangeNumPlayers(newNumberPlayers));
@@ -239,6 +256,47 @@ public class ClientController {
     }
 
     /**
+     * Sends a message to the server to quit the game during the creation of the match
+     */
+    public void quitGame(){
+        connectionHandler.sendMessage(new QuitGame());
+    }
+
+    // METHODS TO SENDS MESSAGES TO THE SERVER REGARDING THE PHASES OF THE GAME
+
+    /**
+     * Sends a message to the server to use the assistant card given by the client and controls the input is right
+     * @param assistant assistant card chosen by the client given
+     */
+    public void useAssistant(Assistant assistant){
+        if(wrongPlayerTurn()) return;
+        connectionHandler.sendMessage(new UseAssistant(assistant));
+    }
+
+    /**
+     * Sends a message to the server to choose a student from a location and controls the input is right
+     * @param student the student from location
+     * @param originPosition the position of the student
+     */
+    public void chooseStudentFromLocation(PawnType student, Position originPosition){
+        if(wrongPlayerTurn()){
+            return;
+        }
+        connectionHandler.sendMessage(new ChooseStudentFromLocation(student,originPosition));
+    }
+
+    /**
+     * Sends a message to the server to choose a destination position and controls the input is right
+     * @param destination the position
+     */
+    public void chooseDestination(Position destination){
+        if(wrongPlayerTurn()){
+            return;
+        }
+        connectionHandler.sendMessage(new ChooseDestination(destination));
+    }
+
+    /**
      * Sends a message to the server to move mother nature of a given number of movements and controls the input given is right
      * @param movements movements of mother nature given
      */
@@ -246,17 +304,10 @@ public class ClientController {
         if(wrongPlayerTurn()) return;
         //Control the number of movements given is positive
         if(movements<=0){
-            //TODO: wrong input
+            displayErrorMessage(Translator.getWrongMotherNatureMovementMessage());
             return;
         }
         connectionHandler.sendMessage(new MoveMotherNature(movements));
-    }
-
-    /**
-     * Sends a message to the server to quit the game during the creation of the match
-     */
-    public void quitGame(){
-        connectionHandler.sendMessage(new QuitGame());
     }
 
     /**
@@ -267,18 +318,187 @@ public class ClientController {
         if(wrongPlayerTurn()) return;
         //Control it is a valid ID for a cloud
         if(cloudId<0 || cloudId>3){
-            //TODO: wrongInput
+            displayErrorMessage(Translator.getInputOutOfRangeMessage());
             return;
         }
         connectionHandler.sendMessage(new TakeStudentsFromCloud(cloudId));
     }
 
-    /**
-     * Sends a message to the server to use the assistant card given by the client and controls the input is right
-     * @param assistant assistant card chosen by the client given
-     */
-    public void useAssistant(Assistant assistant){
-        if(wrongPlayerTurn()) return;
-        connectionHandler.sendMessage(new UseAssistant(assistant));
+    // METHODS TO UPDATE SCREENS OF THE GAME
+    public void gameStateChanged(String currentPlayerNickname, StateType currentState) {
+        cli.changeCurrentPlayerOrState(currentState, currentPlayerNickname);
     }
+
+    /**
+     * this method will display the end game screen
+     * @param winners the list of the winners of the game
+     */
+    public void displayEndGameScreen(List<String> winners){
+        cli.endGame(winners);
+    }
+
+    // METHODS TO DISPLAY MESSAGES
+
+    /**
+     * this method is used to display an error message.
+     * @param errorMessage string containing the error message to print
+     */
+    public void displayErrorMessage(String errorMessage){
+        cli.displayErrorMessage(errorMessage);
+    }
+
+    /**
+     * this method is used to print a generic message
+     * @param message string containing the message to print
+     */
+    public void displayMessage(String message){
+        cli.displayMessage(message);
+    }
+
+    // METHODS TO MODIFY COMPONENTS OF THE TABLE OF THE GAME
+
+    /**
+     * this method allow to update the assistant deck of the player.
+     *
+     * @param assistantsList actual deck of the player
+     * @param owner the player that has the deck that has been chenged
+     */
+    public void setAssistantsList(Collection<Assistant> assistantsList, String owner) {
+        // update the view only if the deck involved it is the one of the player
+        if(owner.equals(nickNameOwner)){
+            cli.changeAssistantDeck(owner, assistantsList);
+        }
+    }
+
+    /**
+     * this method allow to update the last assistant used of the player specified in the parameters
+     * @param owner the player
+     * @param assistantUsed the actual last assistant used
+     */
+    public void setAssistantsUsed(String owner, Assistant assistantUsed) {
+        cli.changeLastAssistantUsed(owner,assistantUsed);
+    }
+
+    /**
+     * this method allow to update the students on the cloud specified in parameters
+     * @param ID the id of the cloud
+     * @param studentList the actual student list on cloud
+     */
+    public void setClouds(int ID, StudentList studentList) {
+        cli.changeStudentsOnCloud(ID, studentList);
+    }
+
+    /**
+     * this method allow to update the student on entrance of the school board of the player specified in parameters
+     * @param owner the player
+     * @param studentsInEntrance the actual students on entrance
+     */
+    public void setEntranceList(String owner, StudentList studentsInEntrance) {
+        cli.changeStudentsOnEntrance(owner, studentsInEntrance);
+    }
+
+    /**
+     * this method allow to update the students in the dining room of the school board of the player
+     * specified in the parameters.
+     * @param owner the player
+     * @param studentsInDiningRoom the actual students in dining room
+     */
+    public void setDiningRoomList(String owner, StudentList studentsInDiningRoom) {
+        cli.changeStudentsInDiningRoom(owner,studentsInDiningRoom);
+    }
+
+    /**
+     * this method allow to update the professors in the school board of the player specified in the
+     * parameters
+     * @param owner the player
+     * @param professors the actual collection of professors
+     */
+    public void setProfTableList(String owner, Collection<PawnType> professors) {
+        cli.changeProfessor(owner, professors);
+    }
+
+    /**
+     * this method allow to update the number of the towers in the school board of the
+     * player specified in the parameters
+     * @param owner the player
+     * @param numOfTowers the actual number of towers
+     */
+    public void setTowerNumberList(String owner, int numOfTowers) {
+        cli.changeTowerNumber(owner, numOfTowers);
+    }
+
+    /**
+     * this method will allow to update the number of the coins in the school board
+     * of the player specified in the parameters.
+     * @param owner the player
+     * @param numOfCoins the actual number of coins
+     */
+    public void setCoinNumberList(String owner, int numOfCoins) {
+        cli.changeCoinNumber(owner, numOfCoins);
+    }
+
+    /**
+     * this method will update the number of the ban on the island with the ID specified
+     * in the parameters.
+     * @param ID the island on which the change has been happened
+     * @param actualNumOfBan the actual number of bans on the specified island
+     */
+    public void updateBanOnIsland(int ID, int actualNumOfBan){
+        cli.changeNumberOfBansOnIsland(ID, actualNumOfBan);
+    }
+
+    /**
+     * this method will update the color of the tower on the island with the ID specified
+     * in the parameters.
+     * @param ID the island on which the change has been happened
+     * @param actualTowerColor the actual color of the tower of the island (null if the tower is not present)
+     */
+    public void updateTowerType(int ID, TowerType actualTowerColor){
+        cli.changeTowerOnIsland(ID,actualTowerColor);
+    }
+
+    /**
+     * This method will update the students that are on the island with the ID specified
+     * in the parameter.
+     * @param ID the island on which the change has been happened
+     * @param actualStudentsOnIsland the actual students on the island
+     */
+    public void updateStudents(int ID, StudentList actualStudentsOnIsland){
+        cli.changeStudentsOnIsland(ID, actualStudentsOnIsland);
+    }
+
+    /**
+     * this method will update the position of mother nature
+     * @param ID the ID of the island on which mother nature should be moved
+     */
+    public void updateMotherNaturePosition(int ID){
+        cli.changeMotherNaturePosition(ID);
+    }
+
+    /**
+     * this method will update the screen with unified islands.
+     * @param ID the ID of the island kept
+     * @param IDIslandRemoved the ID of the island removed
+     * @param sizeIslandRemoved the size of the island removed
+     */
+    public void islandUnification(int ID, int IDIslandRemoved,int sizeIslandRemoved){
+        cli.islandUnification(ID, IDIslandRemoved, sizeIslandRemoved);
+    }
+
+    /**
+     * this method will allow to initialize the table of the game.
+     * @param tableRecord the table record used to initialize the table
+     */
+    public void initializeTable(TableRecord tableRecord){
+        cli.setTable(tableRecord);
+    }
+
+    // METHOD TO NOFIFY LAST ROUND
+    /**
+     * this method will notify the client that this is the last round
+     */
+    public void notifyLastRound(){
+        cli.notifyLastRound();
+    }
+
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver.launcher;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
@@ -17,7 +18,7 @@ public class ResumeGame extends ClientCommandNetMsg {
     }
 
     @Override
-    public void processResponse(ResponseMessage response) {
+    public void processResponse(ResponseMessage response, ClientController clientController) {
         // TODO: 12/05/2022 show response in view
     }
 }

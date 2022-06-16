@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.client.reduced_model.ReducedCloud;
+import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.model.CoinsBag;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -470,5 +472,33 @@ public class Player {
      */
     public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
         schoolBoard.removeStudentsInDiningRoomObserver(observer);
+    }
+
+    // CREATION OF THE REDUCED VERSION
+    /**
+     * Creates a reduced version of this school board used to represent it client side.
+     * @return a reduced version of this school board
+     * @see ReducedSchoolBoard
+     */
+    public ReducedSchoolBoard createSchoolBoardReduction(){
+
+        StudentList studentsInDiningRoom = new StudentList();
+        for(PawnType color : PawnType.values()){
+            try {
+                studentsInDiningRoom.changeNumOf(color,getNumStudentOf(color));
+            } catch (NotEnoughStudentException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new ReducedSchoolBoard(
+                nickName,
+                getStudentsInEntrance(),
+                getProfessors(),
+                studentsInDiningRoom,
+                getTowerType(),
+                getTowerNumbers(),
+                getCoins()
+        );
     }
 }

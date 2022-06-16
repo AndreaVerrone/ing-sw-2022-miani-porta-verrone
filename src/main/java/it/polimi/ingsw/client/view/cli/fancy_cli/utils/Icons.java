@@ -162,6 +162,25 @@ public enum Icons {
      *     </font>
      */
     BOX_BORDER_DOUBLE_HORIZONTAL_BOTTOM_RIGHT("\u255B"),
+    /**
+     * An icon for displaying a pink flower emoji
+     */
+    FLOWER_EMOJI("\uD83C\uDF3A"),
+    /**
+     * An icon for displaying a ban emoji
+     */
+    BAN_EMOJI("\uD83D\uDEAB"),
+
+    /**
+     * An icon representing a pawn (it can be either a student, a professor or a tower)
+     */
+    PAWN("█"),
+
+    /**
+     * An icon representing a coin.
+     */
+    COIN("●"),
+
     ;
 
     private final String code;

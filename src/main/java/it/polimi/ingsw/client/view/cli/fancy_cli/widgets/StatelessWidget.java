@@ -26,15 +26,15 @@ public abstract class StatelessWidget extends Widget{
      * are added at the widget. Not doing that can cause the widget to not
      * render properly.
      */
-    protected final void create(){
-        if (content != null)
-            return;
+    protected final void create() {
         Widget widget;
         try {
             widget = build();
         } catch (NullPointerException e){
             return;
         }
+        if (widget == null)
+            return;
         content = widget.clone();
         widget.setCanvas(null);
         setWidth(content.getWidth());
@@ -75,7 +75,7 @@ public abstract class StatelessWidget extends Widget{
     @Override
     void display() {
         content.setStartingPoint(getStartingPoint());
-        content.display();
+        content.show();
     }
 
     /**

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.gametable;
 
+import it.polimi.ingsw.client.reduced_model.ReducedCloud;
+import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.CloudNotFoundException;
@@ -8,6 +10,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.observers.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class GameTable {
@@ -383,6 +386,35 @@ public class GameTable {
      */
     public void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
         studentsBag.removeEmptyStudentBagObserver(observer);
+    }
+
+    // CREATION OF THE REDUCED VERSIONS
+
+    /**
+     * Creates a reduced version of the set of clouds
+     * it is used to represent it client side.
+     * @return a reduced version of this set of clouds
+     */
+    public Collection<ReducedCloud> createReducedSetOfClouds(){
+        Collection<ReducedCloud> reducedClouds = new ArrayList<>();
+        for(Cloud cloud: clouds){
+            reducedClouds.add(cloud.createCloudReduction());
+        }
+        return reducedClouds;
+    }
+
+    // CREATION OF THE REDUCED VERSION
+    /**
+     * Creates a reduced version of the set of islands
+     * it is used to represent it client side.
+     * @return a reduced version of this set of islands
+     */
+    public Collection<ReducedIsland> createReducedSetOfIslands(){
+        Collection<ReducedIsland> reducedIslands = new ArrayList<>();
+        for(Island island: islands){
+            reducedIslands.add(island.createReduction());
+        }
+        return reducedIslands;
     }
 
 }

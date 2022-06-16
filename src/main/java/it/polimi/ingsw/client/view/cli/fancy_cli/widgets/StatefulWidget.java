@@ -32,14 +32,12 @@ public abstract class StatefulWidget extends Widget{
      * render properly.
      */
     protected final void create() {
-        if (content != null)
-            return;
+        dirty = true;
         try {
             updateContent();
+            content.onSizeChange(this::updateContent);
         } catch (NullPointerException e) {
-            return;
         }
-        content.onSizeChange(this::updateContent);
     }
 
     @Override
@@ -77,7 +75,8 @@ public abstract class StatefulWidget extends Widget{
     private Widget getContent(){
         if (dirty){
             Widget widget = build();
-            dirty = false;
+            if (widget != null)
+                dirty = false;
             return widget;
         }
         return content;
@@ -90,7 +89,7 @@ public abstract class StatefulWidget extends Widget{
             return;
         content.setCanvas(getCanvas());
         content.setStartingPoint(getStartingPoint());
-        content.display();
+        content.show();
     }
 
     /**

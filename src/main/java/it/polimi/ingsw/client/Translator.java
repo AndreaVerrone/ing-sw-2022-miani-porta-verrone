@@ -124,6 +124,193 @@ public class Translator {
         return isItalian ? "Per favore scegli un nickname" : "Please provide a nickname";
     }
 
+    public static String getIslandName(){
+        return isItalian ? "Isola#" : "Island#";
+    }
+
+    // ****************** CLIENT CONTROLLER  *************************
+    public static String getItIsNotYourTurnMessage(){
+        return isItalian ? "Non è il tuo turno!" : "It is not your turn!";
+    }
+
+    public static String getWrongMotherNatureMovementMessage(){
+        return isItalian ? "Il valore non può essere negativo!" : "The value cannot be negative!";
+    }
+
+    public static String getInputOutOfRangeMessage(){
+        return isItalian ? "Il valore non è ammesso" : "The value is out of range";
+    }
+
+    // ****************** INPUT READER *************************
+    public static String getWrongInputErrorMessage(){
+        return isItalian ? "Il comando inserito non è corretto.":"The command is not correct.";
+    }
+
+    // ****************** CLI SCREENs *************************
+
+    // GENERAL
+    public static String getMessageToExit(){
+        return isItalian ? "esci" : "exit";
+    }
+
+    public static String getMessageCurrentPlayer(){
+        return isItalian ? "giocatore corrente":"current player";
+    }
+
+    // PLANNING PAHSE
+    public static String getPlanningPhaseName(){
+        return isItalian ? "FASE DI PIANIFICAZIONE": "PLANNING PHASE";
+    }
+
+    public static String getMessagePlanningPhase(){
+        return isItalian ?
+                "inserisci il numero della carta assistente che vuoi usare" :
+                "enter the number of the assistant card to play";
+    }
+
+    // ACTION PHASE: MOVE STUDENTS
+    public static String getMoveStudentsPhaseName(){
+        return isItalian ?
+                "FASE D'AZIONE: spostamento degli studenti, scegliere lo studente da muovere":
+                "ACTION PHASE: move students, choose the student to move";
+    }
+    public static String getMessageMoveStudentsPhase(){
+        return isItalian ?
+                "inserisci il colore dello studente da muovere seguito dalla destinazione \n" +
+                "Esempio:\n" +
+                "se vuoi muovere uno studente blu sull'isola 1 scrivi: \"blu Isola#1\"\n" +
+                "oppure se vuoi muovere uno studente verde nella sala scrivi \" verde Sala\"" :
+
+                "insert the color of the student to move followed by the destination \n" +
+                "Example:\n" +
+                "if you want to move the blue student on the island 1 insert: \"blue Island#1\"\n" +
+                "or if you want to move the green student to the dining room insert: \"green Dining_Room\"";
+    }
+
+    public static String getDiningRoomLocationName(){
+        return isItalian ? "Sala":"Dining_Room";
+    }
+
+    public static List<String> getColor(){
+        return isItalian ?
+                new ArrayList<>(List.of("blu", "verde", "giallo", "rosso", "rosa")) :
+                new ArrayList<>(List.of("blue", "green", "yellow", "red", "pink"));
+    }
+
+    // ACTION PHASE: MOVE MOTHER NATURE
+    public static String getMoveMotherNaturePhaseName(){
+        return isItalian? "FASE D'AZIONE: Spostamento di madre natura": "ACTION PHASE: move mother nature";
+    }
+    public static String getMessageMoveMotherNaturePhase(){
+        return isItalian ?
+                "inserisci il numero di passi che vuoi far fare a madre natura" :
+                "insert the number of step to move mother nature";
+    }
+
+    // ACTION PHASE: CHOOSE CLOUD
+    public static String getMessageChooseCloudPhase(){
+        return isItalian ?
+                "inserisci l'ID della nuvola da cui vuoi prendere gli studenti" :
+                "insert the ID of the cloud from which take the students";
+    }
+
+    // END OF GAME
+    public static String getEndGamePhaseName(){
+        return isItalian ? "FINE DEL GIOCO" : "END OF THE GAME";
+    }
+
+    public static String getMessageChooseEndPhase(){
+        return isItalian ?
+                "inserisci \"esci\" per uscire dal gioco":
+                "insert \"exit\" to exit from the game";
+    }
+
+    public static String getMessageForTheWinner(){
+        return isItalian ?
+                "congratulazioni, hai vinto la partita!":
+                "congratulation, you have won the game!";
+    }
+
+    public static String getMessageForTheLosers(){
+        return isItalian ? "ha vinto la partita":"has won the game";
+    }
+
+    public static String getMessageForParity(){
+        return isItalian ?
+                "la partita è finita in parità, i vincitori sono":
+                "the game ended in a draw, the winners are";
+    }
+
+    // ****************** WIDGETS *************************
+
+    // ASSISTANT CARD
+    public static String getValueFieldAssistantCard(){
+        return isItalian ? "valore: ":"value :";
+    }
+
+    public static String getRangeOfMotionFieldAssistantCard(){
+        return isItalian ? "range di movimento: ":"range of motion: ";
+    }
+
+    // CLOUD SETS
+    public static String getHeaderNameOfClouSet(){
+        return isItalian ? "NUVOLE":"CLOUDS";
+    }
+
+    // CLOUD VIEW
+    public static String getCloudNamePrefixCloudView(){
+        return isItalian ? "NUVOLA ":"CLOUD ";
+    }
+
+    // COIN COUNTER
+    public static String getCoinCounterHeader(){
+        return isItalian ? "MONETE":"COINS";
+    }
+
+    // DINING ROOM
+    public static String getDiningRoomViewHeader(){
+        return isItalian ? "SALA":"DINING ROOM";
+    }
+
+    // ENTRANCE
+    public static String getEntranceHeader(){
+        return isItalian ? "INGRESSO":"ENTRANCE";
+    }
+
+    // PROF TABLE
+    public static String getProfTableHeader(){
+        return isItalian ? "TAVOLO DEI PROFESSORI":"PROFESSOR TABLE";
+    }
+
+    // SCHOOLBOARD LIST
+    public static String getSchoolBoardListHeader(){
+        return isItalian ? "Scuole":"School boards";
+    }
+
+    // SCHOOLBOARD VIEW
+    public static String getSchoolBoardViewHeader(){
+        return isItalian ? "Scuola":"School board";
+    }
+
+    // TABLE
+    public static String getHeaderOfTable(){
+        return isItalian ? "TAVOLO DI GIOCO" : "GAME TABLE";
+    }
+
+    public static String getPlayerDeckName(){
+        return isItalian ? "MAZZO DI CARTE ASSISTENTE" : "DECK OF ASSISTANT CARDS";
+    }
+
+    // TOWER LOCATION
+    public static String getTowerLocationHeader(){
+        return isItalian ? "TORRI":"TOWERS";
+    }
+
+    // MESSAGES
+    public static String getLastRoundMessage() {
+        return  isItalian ? "Questo è l'ultimo round":"This is the last round";
+    }
+
     public static String getNumOfPlayers(){
         return isItalian ? "Numero di giocatori: " : "Number of players: ";
     }
@@ -179,6 +366,8 @@ public class Translator {
             case W4 -> isItalian ? "MAGO 4" : "WIZARD 4";
         };
     }
+
+    // ****************** MANAGEMENT OF ERROR MESSAGES *************************
 
     /**
      * Gets a description of the error occurred passed as a parameter

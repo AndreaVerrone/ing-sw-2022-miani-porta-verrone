@@ -31,7 +31,7 @@ public class AssistantUsed extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 11/05/2022 update the view
+        client.setAssistantsUsed(client.getNickNameCurrentPlayer(),assistant);
     }
 
 }

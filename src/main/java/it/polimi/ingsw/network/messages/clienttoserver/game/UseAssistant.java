@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
+import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
@@ -19,6 +22,7 @@ public class UseAssistant extends ClientCommandNetMsg {
 
     /**
      * Creates a new message to tell the server which assistant is chosen by the player to be used.
+     *
      * @param assistant the assistant chosen
      */
     public UseAssistant(Assistant assistant) {
@@ -31,8 +35,6 @@ public class UseAssistant extends ClientCommandNetMsg {
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
 
-    @Override
-    public void processResponse(ResponseMessage response) {
-        // TODO: 11/05/2022 handle response in client
-    }
 }
+
+
