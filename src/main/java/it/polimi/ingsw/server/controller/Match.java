@@ -105,7 +105,7 @@ public class Match implements ObserversCommonInterface{
             numPlayers = matchMaking.getNumPlayers();
             isExpert = matchMaking.isHardMode();
         }
-        view.createGameView(players, numPlayers, isExpert);
+        view.createGameView(players, numPlayers, isExpert, getCurrentPlayerNickname());
     }
 
     /**
@@ -362,6 +362,13 @@ public class Match implements ObserversCommonInterface{
         for(VirtualView playerView: playersView){
             playerView.changeCurrentState(stateType);
         }
+    }
+
+    @Override
+    public void requestChoosePlayerParameter(
+            Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
+        for (VirtualView playerView : playersView)
+            playerView.choosePlayerParameter(towersAvailable, wizardsAvailable);
     }
 
     @Override

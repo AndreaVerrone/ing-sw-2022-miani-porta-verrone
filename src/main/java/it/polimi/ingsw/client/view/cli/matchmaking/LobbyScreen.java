@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.cli.matchmaking;
 
-import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
@@ -21,9 +20,8 @@ public class LobbyScreen extends CliScreen {
 
     @Override
     protected void show() {
-        Canvas canvas = new Canvas();
-        canvas.setTitle("Matchmaking");
-        canvas.setSubtitle(Translator.getLabelGameID() + getCli().getClientController().getGameID());
+        Canvas canvas = getCli().getBaseCanvas();
+        canvas.setSubtitle("Matchmaking");
         canvas.setContent(getCli().getMatchmakingView());
         canvas.show();
     }

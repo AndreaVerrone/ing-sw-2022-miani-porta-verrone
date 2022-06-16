@@ -18,11 +18,16 @@ public interface VirtualView {
 
     /**
      * Creates the initial view of the game (the matchmaking) using the parameter passed
+     *
      * @param playerLoginInfos the list of players currently in the lobby
-     * @param numPlayers the number of players requested in the game
-     * @param isExpert if the game uses expert rules
+     * @param numPlayers       the number of players requested in the game
+     * @param isExpert         if the game uses expert rules
+     * @param currentPlayer the nickname of the current player
      */
-    void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert);
+    void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers,
+                        boolean isExpert, String currentPlayer);
+
+    void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable);
 
     void changeCurrentState(StateType stateType);
 

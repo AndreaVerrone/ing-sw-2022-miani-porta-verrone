@@ -146,7 +146,8 @@ public class CLI implements VirtualView, Runnable {
     }
 
     @Override
-    public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert) {
+    public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers,
+                               boolean isExpert, String currentPlayer) {
         matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, clientController.getGameID());
         setNextScreen(new LobbyScreen(this));
     }
@@ -210,7 +211,14 @@ public class CLI implements VirtualView, Runnable {
 
     @Override
     public void changeCurrentPlayer(String actualCurrentPlayerNickname) {
+        if (matchmakingView != null) {
+            matchmakingView.setSelected(actualCurrentPlayerNickname);
+        }
+    }
 
+    @Override
+    public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
+        setNextScreen(new ChooseParametersScreen(this, towersAvailable, wizardsAvailable));
     }
 
     @Override

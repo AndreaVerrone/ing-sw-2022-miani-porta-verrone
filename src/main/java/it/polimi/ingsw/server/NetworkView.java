@@ -37,8 +37,8 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert) {
-        sender.sendMessage(new GameEntered(playerLoginInfos, numPlayers, isExpert));
+    public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert, String currentPlayer) {
+        sender.sendMessage(new GameEntered(playerLoginInfos, numPlayers, isExpert, currentPlayer));
     }
 
     @Override
@@ -64,6 +64,11 @@ public class NetworkView implements VirtualView {
     @Override
     public void playersChanged(Collection<ReducedPlayerLoginInfo> players) {
         sender.sendMessage(new PlayersChanged(players));
+    }
+
+    @Override
+    public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
+        sender.sendMessage(new ChoosePlayerParameters(towersAvailable, wizardsAvailable));
     }
 
     @Override

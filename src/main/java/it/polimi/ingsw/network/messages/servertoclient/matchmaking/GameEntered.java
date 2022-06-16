@@ -27,19 +27,28 @@ public class GameEntered extends ServerCommandNetMsg {
     private final boolean isExpert;
 
     /**
-     * Creates a new message to comunicate to the client that he entered a game
-     * @param playerLoginInfos the information of all the players currently in the lobby of the game
-     * @param numPlayers the number of players requested to start the game
-     * @param isExpert {@code true} if the game uses the expert rules, {@code false} otherwise
+     * The nickname of the current player
      */
-    public GameEntered(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert) {
+    private final String currentPlayer;
+
+    /**
+     * Creates a new message to comunicate to the client that he entered a game
+     *
+     * @param playerLoginInfos the information of all the players currently in the lobby of the game
+     * @param numPlayers       the number of players requested to start the game
+     * @param isExpert         {@code true} if the game uses the expert rules, {@code false} otherwise
+     * @param currentPlayer the nickname of the current player
+     */
+    public GameEntered(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert, String currentPlayer) {
         this.playerLoginInfos = new ArrayList<>(playerLoginInfos);
         this.numPlayers = numPlayers;
         this.isExpert = isExpert;
+        this.currentPlayer = currentPlayer;
     }
 
     @Override
     public void processMessage(ClientController client) {
+        client.currentPlayerChanged(currentPlayer);
         client.createGameView(playerLoginInfos, numPlayers, isExpert);
     }
 }

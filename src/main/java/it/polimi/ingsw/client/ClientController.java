@@ -177,7 +177,7 @@ public class ClientController {
      * @param isExpert if the game uses expert rules
      */
     public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert) {
-        cli.createGameView(playerLoginInfos, numPlayers, isExpert);
+        cli.createGameView(playerLoginInfos, numPlayers, isExpert, nickNameCurrentPlayer);
     }
 
     /**
@@ -214,6 +214,10 @@ public class ClientController {
     public void nextPhase() {
         if(wrongPlayerTurn()) return;
         connectionHandler.sendMessage(new NextPhase());
+    }
+
+    public void requestChoosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
+        cli.choosePlayerParameter(towersAvailable, wizardsAvailable);
     }
 
     /**
