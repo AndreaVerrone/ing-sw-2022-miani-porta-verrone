@@ -230,6 +230,7 @@ public class Match implements ObserversCommonInterface{
             matchMaking = null;
             game = possibleGame.get();
             addObserverToGame();
+            game.askGameUpdate();
         }
     }
 
@@ -238,6 +239,7 @@ public class Match implements ObserversCommonInterface{
      */
     private void addObserverToGame(){
         game.addChangeCurrentStateObserver(this);
+        game.addGameCreatedObserver(this);
         game.addStudentsOnCardObserver(this);
         game.addCoinOnCardObserver(this);
 
@@ -264,7 +266,6 @@ public class Match implements ObserversCommonInterface{
             player.addStudentsInDiningRoomObserver(this);
             player.addStudentsOnEntranceObserver(this);
         }
-
     }
 
     /**

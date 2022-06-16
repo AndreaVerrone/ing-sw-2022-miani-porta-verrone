@@ -89,7 +89,7 @@ public class Game {
         initializeModel(players.size());
 
         // 4.CREATE THE REDUCED TABLE
-        createReducedTable();
+//        createReducedTable();
     }
 
     private void createReducedTable(){
@@ -401,6 +401,10 @@ public class Game {
         gameCreatedObservers.remove(observer);
     }
 
+    public void askGameUpdate(){
+        createReducedTable();
+        notifyChangeCurrentStateObservers();
+    }
     /**
      * This method notify all the attached observers that a change has been happened on current state.
      * @param table the table of the game just created

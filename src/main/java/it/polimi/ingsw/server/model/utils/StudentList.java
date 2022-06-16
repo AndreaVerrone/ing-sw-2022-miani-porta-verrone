@@ -2,12 +2,13 @@ package it.polimi.ingsw.server.model.utils;
 
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * A class used to store list of students
  */
-public class StudentList implements Cloneable{
+public class StudentList implements Cloneable, Serializable {
 
     private int yellow = 0;
     private int blue = 0;
