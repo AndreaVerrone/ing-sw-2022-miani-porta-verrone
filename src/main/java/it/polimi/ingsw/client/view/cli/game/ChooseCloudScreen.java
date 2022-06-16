@@ -82,17 +82,13 @@ public class ChooseCloudScreen extends CliScreen {
         String[] inputs = inputReader.readInput(Translator.getMessageChooseCloudPhase());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            // System.out.println("exiting from game"); // todo: testing only
             // change screen
-            getCli().confirmExit(); // todo: actual code
+            getCli().confirmExit();
         }else {
             int cloudID;
              cloudID=Integer.parseInt(inputs[0]);
             // send message to server
-            // System.out.println("sending to server your choice to take student from cloud: "+ cloudID); // todo: testing only
-            getCli().getClientController().takeStudentFromCloud(cloudID); // todo: actual code
+            getCli().getClientController().takeStudentFromCloud(cloudID);
         }
-
-        // getCli().setNextScreen(new MoveStudentsPhaseScreen(getCli())); // todo: testing only
     }
 }

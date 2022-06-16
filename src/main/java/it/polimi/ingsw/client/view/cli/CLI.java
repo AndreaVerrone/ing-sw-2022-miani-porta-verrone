@@ -257,7 +257,7 @@ public class CLI implements VirtualView, Runnable {
 
     @Override
     public void changeNumberOfPlayers(int numberOfPlayers) {
-        // todo: implement
+        // can't be implemented in cli
     }
 
     @Override
