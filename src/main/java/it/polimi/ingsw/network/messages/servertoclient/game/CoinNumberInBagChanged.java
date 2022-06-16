@@ -23,6 +23,6 @@ public class CoinNumberInBagChanged extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        //TODO; update view
+        client.coinsInBagChanged(numberOfCoinsInBag);
     }
 }

@@ -32,6 +32,6 @@ public class StudentsOnCardAdded extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        //TODO: update view
+        client.studentsOnCardChanged(card, studentsOnCard);
     }
 }

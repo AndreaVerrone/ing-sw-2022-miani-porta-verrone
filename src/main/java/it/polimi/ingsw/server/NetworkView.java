@@ -47,22 +47,22 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void changeCurrentPlayerOrState(StateType stateType, String currentPlayer) {
+    public void currentPlayerOrStateChanged(StateType stateType, String currentPlayer) {
         sender.sendMessage(new PlayerOrStateChanged(currentPlayer, stateType));
     }
 
     @Override
-    public void addCoinOnCard(CharacterCardsType characterCardsType, boolean coinOnCard) {
-        sender.sendMessage(new CoinOnCardAdded(characterCardsType, coinOnCard));
+    public void coinOnCardAdded(CharacterCardsType characterCardsType) {
+        sender.sendMessage(new CoinOnCardAdded(characterCardsType));
     }
 
     @Override
-    public void addStudentsOnCard(CharacterCardsType characterCardType, StudentList actualStudents) {
+    public void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents) {
         sender.sendMessage(new StudentsOnCardAdded(characterCardType, actualStudents));
     }
 
     @Override
-    public void changeNumberOfPlayers(int numberOfPlayers) {
+    public void numberOfPlayersChanged(int numberOfPlayers) {
         sender.sendMessage(new NumPlayersChanged(numberOfPlayers));
     }
 
@@ -87,27 +87,27 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void changeNumberOfBansOnIsland(int islandIDWithBan, int actualNumOfBans) {
+    public void numberOfBansOnIslandChanged(int islandIDWithBan, int actualNumOfBans) {
         sender.sendMessage(new BanOnIslandChanged(islandIDWithBan,actualNumOfBans));
     }
 
     @Override
-    public void changeAssistantDeck(String nickName, Collection<Assistant> actualDeck) {
+    public void assistantDeckChanged(String nickName, Collection<Assistant> actualDeck) {
         sender.sendMessage(new DeckChanged(nickName,actualDeck));
     }
 
     @Override
-    public void changeCoinNumberInBag(int actualNumOfCoins) {
+    public void coinNumberInBagChanged(int actualNumOfCoins) {
         sender.sendMessage(new CoinNumberInBagChanged(actualNumOfCoins));
     }
 
     @Override
-    public void changeCoinNumber(String nickNameOfPlayer, int actualNumOfCoins) {
+    public void coinNumberOfPlayerChanged(String nickNameOfPlayer, int actualNumOfCoins) {
         sender.sendMessage(new CoinInSchoolBoardChanged(nickNameOfPlayer,actualNumOfCoins));
     }
 
     @Override
-    public void changeTowerNumber(String nickName, int numOfActualTowers) {
+    public void towerNumberOfPlayerChanged(String nickName, int numOfActualTowers) {
         sender.sendMessage(new TowerNumberChanged(nickName,numOfActualTowers));
     }
 
@@ -124,52 +124,52 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void islandUnification(int islandID, int islandRemovedID, int finalSize) {
+    public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
         sender.sendMessage(new IslandUnified(islandID,islandRemovedID,finalSize));
     }
 
     @Override
-    public void changeLastAssistantUsed(String nickName, Assistant actualLastAssistant) {
+    public void lastAssistantUsedChanged(String nickName, Assistant actualLastAssistant) {
         sender.sendMessage(new AssistantUsed(nickName, actualLastAssistant));
     }
 
     @Override
-    public void changeMotherNaturePosition(int actualMotherNaturePosition) {
+    public void motherNaturePositionChanged(int actualMotherNaturePosition) {
         sender.sendMessage(new MotherNatureMoved(actualMotherNaturePosition));
     }
 
     @Override
-    public void changeProfessor(String nickName, Collection<PawnType> actualProfessors) {
+    public void professorsOfPlayerChanged(String nickName, Collection<PawnType> actualProfessors) {
         sender.sendMessage(new ProfessorChanged(nickName, actualProfessors));
     }
 
     @Override
-    public void changeStudentsInDiningRoom(String nickname, StudentList actualStudents) {
+    public void studentsInDiningRoomChanged(String nickname, StudentList actualStudents) {
         sender.sendMessage(new StudentsInDiningRoomChanged(nickname,actualStudents));
     }
 
     @Override
-    public void changeStudentsOnCloud(int cloudID, StudentList actualStudentList) {
+    public void studentsOnCloudChanged(int cloudID, StudentList actualStudentList) {
         sender.sendMessage(new StudentsOnCloudChanged(cloudID,actualStudentList));
     }
 
     @Override
-    public void changeStudentsOnEntrance(String nickname, StudentList actualStudents) {
+    public void studentsOnEntranceChanged(String nickname, StudentList actualStudents) {
         sender.sendMessage(new StudentsOnEntranceChanged(nickname,actualStudents));
     }
 
     @Override
-    public void changeStudentsOnIsland(int islandID, StudentList actualStudents) {
+    public void studentsOnIslandChanged(int islandID, StudentList actualStudents) {
         sender.sendMessage(new StudentsOnIslandChanged(islandID,actualStudents));
     }
 
     @Override
-    public void changeTowerOnIsland(int islandIDWithChange, TowerType actualTower) {
+    public void towerOnIslandChanged(int islandIDWithChange, TowerType actualTower) {
         sender.sendMessage(new TowerOnIslandChanged(actualTower, islandIDWithChange));
     }
 
     @Override
-    public void endGame(Collection<String> winners) {
+    public void gameEnded(Collection<String> winners) {
         sender.sendMessage(new GameEnded(winners));
     }
 

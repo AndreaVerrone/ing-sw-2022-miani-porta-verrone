@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.launcher.ResumeGame;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.*;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Position;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -220,6 +221,14 @@ public class ClientController {
     }
 
     /**
+     * Updates the view of the client to show the changing in the number of players requested in the game
+     * @param playersNum the new number of players
+     */
+    public void numPlayersChanged(int playersNum) {
+        cli.numberOfPlayersChanged(playersNum);
+    }
+
+    /**
      * Sends a message to the server to exit the game
      */
     public void exitFromGame(){
@@ -333,10 +342,35 @@ public class ClientController {
         connectionHandler.sendMessage(new TakeStudentsFromCloud(cloudId));
     }
 
+    /**
+     * Updates the view of the client to reflect a change in the number of coins on the table
+     * @param coinsNum the number of coins on the table
+     */
+    public void coinsInBagChanged(int coinsNum) {
+        cli.coinNumberInBagChanged(coinsNum);
+    }
+
+    /**
+     * Updates the view of the client to indicate that a card has been used and it's cost must be increased
+     * @param card the card that has been used
+     */
+    public void coinOnCardAdded(CharacterCardsType card) {
+        cli.coinOnCardAdded(card);
+    }
+
+    /**
+     * Updates the view of the client to indicate that the students on a card has changed.
+     * @param card the card on which the change occurred
+     * @param students the students on that card
+     */
+    public void studentsOnCardChanged(CharacterCardsType card, StudentList students) {
+        cli.studentsOnCardChanged(card, students);
+    }
+
     // METHODS TO UPDATE SCREENS OF THE GAME
     public void gameStateChanged(String currentPlayerNickname, StateType currentState) {
         gameState = currentState;
-        cli.changeCurrentPlayerOrState(currentState, currentPlayerNickname);
+        cli.currentPlayerOrStateChanged(currentState, currentPlayerNickname);
     }
 
     /**
@@ -344,7 +378,7 @@ public class ClientController {
      * @param winners the list of the winners of the game
      */
     public void displayEndGameScreen(List<String> winners){
-        cli.endGame(winners);
+        cli.gameEnded(winners);
     }
 
     // METHODS TO DISPLAY MESSAGES
@@ -355,7 +389,7 @@ public class ClientController {
      */
     public void displayErrorMessage(String errorMessage){
         cli.displayErrorMessage(errorMessage);
-        cli.changeCurrentPlayerOrState(gameState, nickNameCurrentPlayer);
+        cli.currentPlayerOrStateChanged(gameState, nickNameCurrentPlayer);
     }
 
     /**
@@ -377,7 +411,7 @@ public class ClientController {
     public void setAssistantsList(Collection<Assistant> assistantsList, String owner) {
         // update the view only if the deck involved it is the one of the player
         if(owner.equals(nickNameOwner)){
-            cli.changeAssistantDeck(owner, assistantsList);
+            cli.assistantDeckChanged(owner, assistantsList);
         }
     }
 
@@ -387,7 +421,7 @@ public class ClientController {
      * @param assistantUsed the actual last assistant used
      */
     public void setAssistantsUsed(String owner, Assistant assistantUsed) {
-        cli.changeLastAssistantUsed(owner,assistantUsed);
+        cli.lastAssistantUsedChanged(owner,assistantUsed);
     }
 
     /**
@@ -396,7 +430,7 @@ public class ClientController {
      * @param studentList the actual student list on cloud
      */
     public void setClouds(int ID, StudentList studentList) {
-        cli.changeStudentsOnCloud(ID, studentList);
+        cli.studentsOnCloudChanged(ID, studentList);
     }
 
     /**
@@ -405,7 +439,7 @@ public class ClientController {
      * @param studentsInEntrance the actual students on entrance
      */
     public void setEntranceList(String owner, StudentList studentsInEntrance) {
-        cli.changeStudentsOnEntrance(owner, studentsInEntrance);
+        cli.studentsOnEntranceChanged(owner, studentsInEntrance);
     }
 
     /**
@@ -415,7 +449,7 @@ public class ClientController {
      * @param studentsInDiningRoom the actual students in dining room
      */
     public void setDiningRoomList(String owner, StudentList studentsInDiningRoom) {
-        cli.changeStudentsInDiningRoom(owner,studentsInDiningRoom);
+        cli.studentsInDiningRoomChanged(owner,studentsInDiningRoom);
     }
 
     /**
@@ -425,7 +459,7 @@ public class ClientController {
      * @param professors the actual collection of professors
      */
     public void setProfTableList(String owner, Collection<PawnType> professors) {
-        cli.changeProfessor(owner, professors);
+        cli.professorsOfPlayerChanged(owner, professors);
     }
 
     /**
@@ -435,7 +469,7 @@ public class ClientController {
      * @param numOfTowers the actual number of towers
      */
     public void setTowerNumberList(String owner, int numOfTowers) {
-        cli.changeTowerNumber(owner, numOfTowers);
+        cli.towerNumberOfPlayerChanged(owner, numOfTowers);
     }
 
     /**
@@ -445,7 +479,7 @@ public class ClientController {
      * @param numOfCoins the actual number of coins
      */
     public void setCoinNumberList(String owner, int numOfCoins) {
-        cli.changeCoinNumber(owner, numOfCoins);
+        cli.coinNumberOfPlayerChanged(owner, numOfCoins);
     }
 
     /**
@@ -455,7 +489,7 @@ public class ClientController {
      * @param actualNumOfBan the actual number of bans on the specified island
      */
     public void updateBanOnIsland(int ID, int actualNumOfBan){
-        cli.changeNumberOfBansOnIsland(ID, actualNumOfBan);
+        cli.numberOfBansOnIslandChanged(ID, actualNumOfBan);
     }
 
     /**
@@ -465,7 +499,7 @@ public class ClientController {
      * @param actualTowerColor the actual color of the tower of the island (null if the tower is not present)
      */
     public void updateTowerType(int ID, TowerType actualTowerColor){
-        cli.changeTowerOnIsland(ID,actualTowerColor);
+        cli.towerOnIslandChanged(ID,actualTowerColor);
     }
 
     /**
@@ -475,7 +509,7 @@ public class ClientController {
      * @param actualStudentsOnIsland the actual students on the island
      */
     public void updateStudents(int ID, StudentList actualStudentsOnIsland){
-        cli.changeStudentsOnIsland(ID, actualStudentsOnIsland);
+        cli.studentsOnIslandChanged(ID, actualStudentsOnIsland);
     }
 
     /**
@@ -483,7 +517,7 @@ public class ClientController {
      * @param ID the ID of the island on which mother nature should be moved
      */
     public void updateMotherNaturePosition(int ID){
-        cli.changeMotherNaturePosition(ID);
+        cli.motherNaturePositionChanged(ID);
     }
 
     /**
@@ -493,7 +527,7 @@ public class ClientController {
      * @param sizeIslandRemoved the size of the island removed
      */
     public void islandUnification(int ID, int IDIslandRemoved,int sizeIslandRemoved){
-        cli.islandUnification(ID, IDIslandRemoved, sizeIslandRemoved);
+        cli.islandsUnified(ID, IDIslandRemoved, sizeIslandRemoved);
     }
 
     /**

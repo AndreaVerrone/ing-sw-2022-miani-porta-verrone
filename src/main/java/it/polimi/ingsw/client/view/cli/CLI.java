@@ -251,7 +251,7 @@ public class CLI implements VirtualView, Runnable {
     }
 
     @Override
-    public void changeCurrentPlayerOrState(StateType currentState, String currentPlayer) {
+    public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
         // todo: current player it is not needed here, but required bu signaturw
         // display right state
         switch (currentState){
@@ -283,17 +283,17 @@ public class CLI implements VirtualView, Runnable {
     }
 
     @Override
-    public void addCoinOnCard(CharacterCardsType characterCardsType, boolean coinOnCard) {
+    public void coinOnCardAdded(CharacterCardsType characterCardsType) {
         // todo: implement
     }
 
     @Override
-    public void addStudentsOnCard(CharacterCardsType characterCardType, StudentList actualStudents) {
+    public void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents) {
         // todo: implement
     }
 
     @Override
-    public void changeNumberOfPlayers(int numberOfPlayers) {
+    public void numberOfPlayersChanged(int numberOfPlayers) {
         // can't be implemented in cli
     }
 
@@ -317,24 +317,24 @@ public class CLI implements VirtualView, Runnable {
     }
 
     @Override
-    public void changeNumberOfBansOnIsland(int islandIDWithBan, int actualNumOfBans) {
+    public void numberOfBansOnIslandChanged(int islandIDWithBan, int actualNumOfBans) {
         table.updateBanOnIsland(islandIDWithBan, actualNumOfBans);
     }
 
     @Override
-    public void changeAssistantDeck(String owner,Collection<Assistant> actualDeck) {
+    public void assistantDeckChanged(String owner, Collection<Assistant> actualDeck) {
         // todo: here owner it is useless, but it is needed
         //  since the signature requires it
         table.setAssistantsList(actualDeck);
     }
 
     @Override
-    public void changeCoinNumberInBag(int actualNumOfCoins) {
+    public void coinNumberInBagChanged(int actualNumOfCoins) {
         // todo: it is not shown in cli
     }
 
     @Override
-    public void changeCoinNumber(String nickNameOfPlayer, int actualNumOfCoins) {
+    public void coinNumberOfPlayerChanged(String nickNameOfPlayer, int actualNumOfCoins) {
         table.setCoinNumberList(nickNameOfPlayer,actualNumOfCoins);
 
     }
@@ -353,7 +353,7 @@ public class CLI implements VirtualView, Runnable {
     }
 
     @Override
-    public void changeTowerNumber(String nickName, int numOfActualTowers) {
+    public void towerNumberOfPlayerChanged(String nickName, int numOfActualTowers) {
         table.setTowerNumberList(nickName, numOfActualTowers);
     }
 
@@ -368,52 +368,52 @@ public class CLI implements VirtualView, Runnable {
     }
 
     @Override
-    public void islandUnification(int islandID, int islandRemovedID, int finalSize) {
+    public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
         table.islandUnification(islandID, islandRemovedID, finalSize);
     }
 
     @Override
-    public void changeLastAssistantUsed(String nickName, Assistant actualLastAssistant) {
+    public void lastAssistantUsedChanged(String nickName, Assistant actualLastAssistant) {
         table.setAssistantsUsed(nickName, actualLastAssistant);
     }
 
     @Override
-    public void changeMotherNaturePosition(int actualMotherNaturePosition) {
+    public void motherNaturePositionChanged(int actualMotherNaturePosition) {
         table.updateMotherNaturePosition(actualMotherNaturePosition);
     }
 
     @Override
-    public void changeProfessor(String nickName, Collection<PawnType> actualProfessors) {
+    public void professorsOfPlayerChanged(String nickName, Collection<PawnType> actualProfessors) {
         table.setProfTableList(nickName, actualProfessors);
     }
 
     @Override
-    public void changeStudentsInDiningRoom(String nickname, StudentList actualStudents) {
+    public void studentsInDiningRoomChanged(String nickname, StudentList actualStudents) {
         table.setDiningRoomList(nickname, actualStudents);
     }
 
     @Override
-    public void changeStudentsOnCloud(int cloudID, StudentList actualStudentList) {
+    public void studentsOnCloudChanged(int cloudID, StudentList actualStudentList) {
         table.setClouds(cloudID, actualStudentList);
     }
 
     @Override
-    public void changeStudentsOnEntrance(String nickname, StudentList actualStudents) {
+    public void studentsOnEntranceChanged(String nickname, StudentList actualStudents) {
         table.setEntranceList(nickname,actualStudents);
     }
 
     @Override
-    public void changeStudentsOnIsland(int islandID, StudentList actualStudents) {
+    public void studentsOnIslandChanged(int islandID, StudentList actualStudents) {
         table.updateStudentsOnIsland(islandID, actualStudents);
     }
 
     @Override
-    public void changeTowerOnIsland(int islandIDWithChange, TowerType actualTower) {
+    public void towerOnIslandChanged(int islandIDWithChange, TowerType actualTower) {
         table.updateTowerTypeOnIsland(islandIDWithChange,actualTower);
     }
 
     @Override
-    public void endGame(Collection<String> winners) {
+    public void gameEnded(Collection<String> winners) {
         setNextScreen(new EndGameScreen(this,new ArrayList<>(winners)));
     }
 

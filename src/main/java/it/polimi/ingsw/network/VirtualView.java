@@ -45,27 +45,26 @@ public interface VirtualView {
      * @param stateType the current state of the game
      * @param currentPlayer the current player
      */
-    void changeCurrentPlayerOrState(StateType stateType, String currentPlayer);
+    void currentPlayerOrStateChanged(StateType stateType, String currentPlayer);
 
     /**
      * Notifies that the passed card has been used and need to increase it's cost
      * @param characterCardsType the card used
-     * @param coinOnCard true
      */
-    void addCoinOnCard(CharacterCardsType characterCardsType, boolean coinOnCard);
+    void coinOnCardAdded(CharacterCardsType characterCardsType);
 
     /**
      * Notifies a change in the students on the specified card
      * @param characterCardType the card on which the changes happened
      * @param actualStudents the students on the card
      */
-    void addStudentsOnCard(CharacterCardsType characterCardType, StudentList actualStudents);
+    void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents);
 
     /**
      * Notifies that the selected number of players for the game has changed
      * @param numberOfPlayers the new number of player requested
      */
-    void changeNumberOfPlayers(int numberOfPlayers);
+    void numberOfPlayersChanged(int numberOfPlayers);
 
     /**
      * Notifies that the players in the matchmaking have been changed
@@ -92,34 +91,34 @@ public interface VirtualView {
      * @param islandIDWithBan the id of the island
      * @param actualNumOfBans the number of bans on that island
      */
-    void changeNumberOfBansOnIsland(int islandIDWithBan, int actualNumOfBans);
+    void numberOfBansOnIslandChanged(int islandIDWithBan, int actualNumOfBans);
 
     /**
      * Notifies that the deck of the specified player has changed
      * @param nickName the nickname of the player
      * @param actualDeck the deck of the player
      */
-    void changeAssistantDeck(String nickName, Collection<Assistant> actualDeck);
+    void assistantDeckChanged(String nickName, Collection<Assistant> actualDeck);
 
     /**
      * Notifies that the number of coins in the bag has changed
      * @param actualNumOfCoins the new number of coins
      */
-    void changeCoinNumberInBag(int actualNumOfCoins);
+    void coinNumberInBagChanged(int actualNumOfCoins);
 
     /**
      * Notifies that the number of coins of a player has changed
      * @param nickNameOfPlayer the nickname of the player
      * @param actualNumOfCoins the number of coins
      */
-    void changeCoinNumber(String nickNameOfPlayer, int actualNumOfCoins);
+    void coinNumberOfPlayerChanged(String nickNameOfPlayer, int actualNumOfCoins);
 
     /**
      * Notifies that the number of towers of a player has changed
      * @param nickName the nickname of the player
      * @param numOfActualTowers the number of towers
      */
-    void changeTowerNumber(String nickName, int numOfActualTowers);
+    void towerNumberOfPlayerChanged(String nickName, int numOfActualTowers);
 
     /**
      * Notifies that the current round the clients are playing is the last of this game
@@ -138,68 +137,68 @@ public interface VirtualView {
      * @param islandRemovedID the id of the island removed from the table
      * @param finalSize the size of the island removed
      */
-    void islandUnification(int islandID, int islandRemovedID, int finalSize);
+    void islandsUnified(int islandID, int islandRemovedID, int finalSize);
 
     /**
      * Notifies that the last assistant played of a player has changed
      * @param nickName the nickname of the player
      * @param actualLastAssistant the last assistant that he used
      */
-    void changeLastAssistantUsed(String nickName, Assistant actualLastAssistant);
+    void lastAssistantUsedChanged(String nickName, Assistant actualLastAssistant);
 
     /**
      * Notifies that the position of mother nature has changed
      * @param actualMotherNaturePosition the new position of mother nature
      */
-    void changeMotherNaturePosition(int actualMotherNaturePosition);
+    void motherNaturePositionChanged(int actualMotherNaturePosition);
 
     /**
      * Notifies that the professors of a player changed
      * @param nickName the nickname of the player
      * @param actualProfessors the professors he owns
      */
-    void changeProfessor(String nickName, Collection<PawnType> actualProfessors);
+    void professorsOfPlayerChanged(String nickName, Collection<PawnType> actualProfessors);
 
     /**
      * Notifies that the students in the dining room of a player changed
      * @param nickname the nickname of the player
      * @param actualStudents the students in his dining room
      */
-    void changeStudentsInDiningRoom(String nickname, StudentList actualStudents);
+    void studentsInDiningRoomChanged(String nickname, StudentList actualStudents);
 
     /**
      * Notifies that the students on a cloud changed
      * @param cloudID the id of the cloud
      * @param actualStudentList the students on the cloud
      */
-    void changeStudentsOnCloud(int cloudID, StudentList actualStudentList);
+    void studentsOnCloudChanged(int cloudID, StudentList actualStudentList);
 
     /**
      * Notifies that the students in the entrance of a player changed
      * @param nickname the nickname of the player
      * @param actualStudents the students in his entrance
      */
-    void changeStudentsOnEntrance(String nickname, StudentList actualStudents);
+    void studentsOnEntranceChanged(String nickname, StudentList actualStudents);
 
     /**
      * Notifies that the students on an island changed
      * @param islandID the id of the island
      * @param actualStudents the students on the island
      */
-    void changeStudentsOnIsland(int islandID, StudentList actualStudents);
+    void studentsOnIslandChanged(int islandID, StudentList actualStudents);
 
     /**
      * Notifies that the tower on an island changed
      * @param islandIDWithChange the id of the island
      * @param actualTower the new tower on that island
      */
-    void changeTowerOnIsland(int islandIDWithChange, TowerType actualTower);
+    void towerOnIslandChanged(int islandIDWithChange, TowerType actualTower);
 
     /**
      * Notifies that the game has ended and who is the winner
      * @param winners a list containing the nicknames of the winners
      */
-    void endGame(Collection<String> winners);
+    void gameEnded(Collection<String> winners);
 
     /**
      * Notifies that the game has been created

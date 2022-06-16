@@ -103,7 +103,7 @@ abstract public class CharacterCard {
      */
     private void notifyCoinOnCardObservers(){
         for(CoinOnCardObserver observer : coinOnCardObservers)
-            observer.coinOnCardObserverUpdate(this.cardType,this.used);
+            observer.coinOnCardObserverUpdate(this.cardType);
     }
 
     // MANAGEMENT OF OBSERVERS ON STUDENTS ON CHARACTER CARD
