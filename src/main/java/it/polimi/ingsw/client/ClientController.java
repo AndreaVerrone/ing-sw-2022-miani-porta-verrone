@@ -41,6 +41,8 @@ public class ClientController {
      */
     private String gameID;
 
+    private StateType gameState;
+
     /**
      * Virtual match played by the client
      */
@@ -333,6 +335,7 @@ public class ClientController {
 
     // METHODS TO UPDATE SCREENS OF THE GAME
     public void gameStateChanged(String currentPlayerNickname, StateType currentState) {
+        gameState = currentState;
         cli.changeCurrentPlayerOrState(currentState, currentPlayerNickname);
     }
 
@@ -352,6 +355,7 @@ public class ClientController {
      */
     public void displayErrorMessage(String errorMessage){
         cli.displayErrorMessage(errorMessage);
+        cli.changeCurrentPlayerOrState(gameState, nickNameCurrentPlayer);
     }
 
     /**

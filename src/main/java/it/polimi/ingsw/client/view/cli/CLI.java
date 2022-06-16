@@ -57,6 +57,9 @@ public class CLI implements VirtualView, Runnable {
      */
     Table table;
 
+    private Collection<TowerType> towersAvailable = new ArrayList<>();
+    private Collection<Wizard> wizardsAvailable = new ArrayList<>();
+
     public Table getTable() {
         return table;
     }
@@ -83,6 +86,14 @@ public class CLI implements VirtualView, Runnable {
      * A widget representing the matchmaking content
      */
     private MatchmakingView matchmakingView;
+
+    public Collection<TowerType> getTowersAvailable() {
+        return towersAvailable;
+    }
+
+    public Collection<Wizard> getWizardsAvailable() {
+        return wizardsAvailable;
+    }
 
     @Override
     public void run() {
@@ -244,10 +255,30 @@ public class CLI implements VirtualView, Runnable {
         // todo: current player it is not needed here, but required bu signaturw
         // display right state
         switch (currentState){
+            case CHANGE_PLAYER_STATE -> {}
+            case SET_PLAYER_PARAMETER_STATE -> setNextScreen(new ChooseParametersScreen(this));
             case PLAY_ASSISTANT_STATE -> displayPlanningPhaseScreen();
             case MOVE_STUDENT_STATE -> displayMoveStudentsScreen();
             case MOVE_MOTHER_NATURE_STATE -> displayMoveMotherNatureScreen();
             case CHOOSE_CLOUD_STATE -> displayChooseCloudScreen();
+            case END_STATE -> {
+            }
+            case USE_CHARACTER_CARD1_STATE -> {
+            }
+            case USE_CHARACTER_CARD4_STATE -> {
+            }
+            case USE_CHARACTER_CARD5_STATE -> {
+            }
+            case USE_CHARACTER_CARD8_STATE -> {
+            }
+            case USE_CHARACTER_CARD9_STATE -> {
+            }
+            case USE_CHARACTER_CARD10_STATE -> {
+            }
+            case USE_CHARACTER_CARD11_STATE -> {
+            }
+            case USE_CHARACTER_CARD12_STATE -> {
+            }
         }
     }
 
@@ -276,11 +307,13 @@ public class CLI implements VirtualView, Runnable {
     @Override
     public void towerSelected(String player, TowerType tower) {
         matchmakingView.modify(player, tower);
+        setNextScreen(new ChooseParametersScreen(this));
     }
 
     @Override
     public void wizardSelected(String player, Wizard wizard) {
         matchmakingView.modify(player, wizard);
+        setNextScreen(new ChooseParametersScreen(this));
     }
 
     @Override
@@ -314,7 +347,9 @@ public class CLI implements VirtualView, Runnable {
 
     @Override
     public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
-        setNextScreen(new ChooseParametersScreen(this, towersAvailable, wizardsAvailable));
+        this.towersAvailable = towersAvailable;
+        this.wizardsAvailable = wizardsAvailable;
+        setNextScreen(new ChooseParametersScreen(this));
     }
 
     @Override

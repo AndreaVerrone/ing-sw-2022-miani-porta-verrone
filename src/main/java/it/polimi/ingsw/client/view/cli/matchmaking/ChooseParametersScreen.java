@@ -33,13 +33,11 @@ public class ChooseParametersScreen extends CliScreen {
     /**
      * Creates a new screen with the provided towers and wizards available
      * @param cli the cli of the client
-     * @param towersAvailable the list of towers that can be chosen
-     * @param wizardsAvailable the list of wizards that can be chosen
      */
-    public ChooseParametersScreen(CLI cli, Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
+    public ChooseParametersScreen(CLI cli) {
         super(cli);
-        this.towersAvailable = towersAvailable;
-        this.wizardsAvailable = wizardsAvailable;
+        this.towersAvailable = cli.getTowersAvailable();
+        this.wizardsAvailable = cli.getWizardsAvailable();
     }
 
     @Override
@@ -117,7 +115,7 @@ public class ChooseParametersScreen extends CliScreen {
                         Completers.TreeCompleter.node(wizardsAvailable.stream().map(w -> getLast(w.name())).toArray()))
         ));
 
-        while (!shouldStop()) {
+//        while (!shouldStop()) {
             String[] input = inputReader.readInput("choose");
             String command = input[0];
 
@@ -130,7 +128,7 @@ public class ChooseParametersScreen extends CliScreen {
             } else if (Translator.getNextPhase().equals(command)) {
                 getCli().getClientController().nextPhase();
             }
-        }
+//        }
     }
 
     private String getLast(String s){
