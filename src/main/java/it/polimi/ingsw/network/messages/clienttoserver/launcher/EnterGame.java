@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver.launcher;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
@@ -41,7 +42,7 @@ public class EnterGame extends ClientCommandNetMsg {
     }
 
     @Override
-    public void processResponse(ResponseMessage response) {
+    public void processResponse(ResponseMessage response, ClientController clientController) {
         if (response.isSuccess()) {
             //TODO: notify the view of the success
             return;

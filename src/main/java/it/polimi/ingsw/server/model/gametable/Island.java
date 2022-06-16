@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.gametable;
 
+import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -270,5 +271,14 @@ public class Island {
     private void notifyTowerOnIslandObservers(int islandIDWithChange, TowerType actualTower){
         for(TowerOnIslandObserver observer : towerOnIslandObservers)
             observer.towerOnIslandObserverUpdate(islandIDWithChange, actualTower);
+    }
+
+    /**
+     * Creates a reduced version of this island used to represent it client side.
+     * @return a reduced version of this island
+     * @see ReducedIsland
+     */
+    ReducedIsland createReduction(){
+        return new ReducedIsland(ID, students, tower, size, ban);
     }
 }

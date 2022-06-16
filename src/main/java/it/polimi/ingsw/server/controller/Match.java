@@ -1,10 +1,12 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
+import it.polimi.ingsw.server.controller.game.states.EndState;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.gametable.GameTable;
@@ -223,7 +225,6 @@ public class Match implements ObserversCommonInterface{
 
         GameModel model = game.getModel();
         model.addChangeCurrentPlayerObserver(this);
-        model.addConquerIslandObserver(this);
         model.addEmptyStudentBagObserver(this);
         model.addChangeCoinNumberInBagObserver(this);
 
@@ -342,7 +343,7 @@ public class Match implements ObserversCommonInterface{
     @Override
     public void changeCurrentStateObserverUpdate(StateType stateType) {
         for(VirtualView playerView: playersView){
-            playerView.changeCurrentState(stateType);
+            playerView.changeCurrentPlayerOrState(stateType, getCurrentPlayerNickname());
         }
     }
 
@@ -397,10 +398,19 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
+
+        // todo: maybe send only to the right player ?
         for(VirtualView playerView: playersView){
             playerView.changeAssistantDeck(nickName, actualDeck);
         }
 
+        // check condition of last round : if the player finishes the card, then set last round flag
+        if(actualDeck.size()==0){
+            game.setLastRoundFlag();
+            for(VirtualView playerView: playersView){
+                playerView.notifyLastRound();
+            }
+        }
     }
 
     @Override
@@ -420,7 +430,7 @@ public class Match implements ObserversCommonInterface{
     @Override
     public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
         for(VirtualView playerView: playersView){
-            playerView.changeCurrentPlayer(actualCurrentPlayerNickname);
+            playerView.changeCurrentPlayerOrState(getCurrentState(),actualCurrentPlayerNickname);
         }
     }
 
@@ -429,24 +439,32 @@ public class Match implements ObserversCommonInterface{
         for(VirtualView playerView: playersView){
             playerView.changeTowerNumber(nickName, numOfActualTowers);
         }
-    }
 
-    @Override
-    public void conquerIslandObserverUpdate() {
-        for(VirtualView playerView: playersView){
-            playerView.conquerIslandObserver();
+        // check condition of end of the game
+        if(numOfActualTowers==0){
+            game.setState(new EndState(game));
         }
     }
 
     @Override
     public void emptyStudentBagObserverUpdate() {
+        // set the last round flag
+        game.setLastRoundFlag();
+
         for(VirtualView playerView: playersView){
-            playerView.emptyStudentBag();
+            playerView.notifyLastRound();
         }
     }
 
     @Override
     public void islandNumberObserverUpdate(int actualNumOfIslands) {
+
+        // check condition of end of the game
+        if(actualNumOfIslands==3){
+            game.setState(new EndState(game));
+        }
+
+        // todo: maybe this is not needed
         for(VirtualView playerView: playersView){
             playerView.islandNumberChanged(actualNumOfIslands);
         }
@@ -520,5 +538,30 @@ public class Match implements ObserversCommonInterface{
         for(VirtualView playerView: playersView){
             playerView.endGame(winners);
         }
+    }
+
+    /**
+     * this method is the {@code update()} method of the observer pattern.
+     * It is called by the subject in order to notify a change to all its attached observers.
+     *
+     * @param table the table of the game
+     */
+    @Override
+    public void gameCreatedObserverUpdate(TableRecord table) {
+        for(VirtualView playerView: playersView){
+            playerView.gameCreated(table);
+        }
+    }
+
+    /**
+     * This method will return the current state.
+     * It can be either a state of the game or a state of the creation of it.
+     * @return the current state
+     */
+    private StateType getCurrentState(){
+        if(game!=null){
+            return game.getState().getType();
+        }
+        return matchMaking.getState().getType();
     }
 }

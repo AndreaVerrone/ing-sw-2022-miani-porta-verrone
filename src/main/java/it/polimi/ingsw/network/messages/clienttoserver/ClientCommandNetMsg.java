@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.messages.clienttoserver;
 
+import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.network.messages.NetworkMessage;
+import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.responses.Result;
 import it.polimi.ingsw.server.ClientHandler;
@@ -59,8 +62,16 @@ abstract public class ClientCommandNetMsg extends NetworkMessage {
      * This method runs in the client.
      *
      * @param response the response of this request
+     * @param clientController the controller (client side)
      */
-    abstract public void processResponse(ResponseMessage response);
+    public void processResponse(ResponseMessage response, ClientController clientController){
+        // if there is an error
+        if (!response.isSuccess()) {
+            // get the error code and print it
+            ErrorCode errorCode = response.getErrorCode();
+            clientController.displayErrorMessage(Translator.getErrorMessage(errorCode));
+        }
+    }
 
     /**
      * Returns if this message was sent more than 4 seconds ago.

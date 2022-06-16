@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 public class LastRound extends ServerCommandNetMsg {
     @Override
     public void processMessage(ClientController client) {
-        // TODO: 11/05/2022 show in view
+        client.notifyLastRound();
     }
 
 }

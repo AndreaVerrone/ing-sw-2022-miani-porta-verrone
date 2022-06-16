@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.fancy_cli.inputs;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import org.fusesource.jansi.AnsiConsole;
@@ -38,7 +39,7 @@ public class InputReader {
     /**
      * A generic message shown when the input is not correct
      */
-    private static final String errorMessage = Color.RED + "The command is not correct.";
+    private static final String errorMessage = Color.RED + Translator.getWrongInputErrorMessage();
 
     /**
      * The completer that suggests the commands to the user
@@ -174,6 +175,7 @@ public class InputReader {
 
     /**
      * Shows an error message on the console, with the additional info at the bottom of it.
+     * It will also emit a sound.
      * @param additionalInfo additional info to display
      */
     public void showErrorMessage(String additionalInfo){
@@ -182,6 +184,7 @@ public class InputReader {
         if (!additionalInfo.isEmpty())
             System.out.print("\n"+additionalInfo);
         ConsoleCli.resetStyle();
+        System.out.print("\u0007"); // sound emission
         System.out.print("\n");
         AnsiConsole.systemUninstall();
     }

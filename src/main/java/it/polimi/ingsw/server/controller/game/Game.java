@@ -1,9 +1,10 @@
 package it.polimi.ingsw.server.controller.game;
 
-import it.polimi.ingsw.server.controller.ChangeCurrentStateObserver;
-import it.polimi.ingsw.server.controller.NotValidArgumentException;
-import it.polimi.ingsw.server.controller.NotValidOperationException;
-import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.client.reduced_model.ReducedCloud;
+import it.polimi.ingsw.client.reduced_model.ReducedIsland;
+import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
+import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.server.controller.*;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.game.expert.card_observers.CoinOnCardObserver;
 import it.polimi.ingsw.server.controller.game.expert.card_observers.StudentsOnCardObserver;
@@ -87,6 +88,18 @@ public class Game {
         // 3. INITIALIZATION OF THE MODEL
         initializeModel(players.size());
 
+        // 4.CREATE THE REDUCED TABLE
+        createReducedTable();
+    }
+
+    private void createReducedTable(){
+        Collection<Assistant> deck = List.of(Assistant.values());
+        Map<String, Assistant> assistantsUsed = new HashMap<>();
+        Collection<ReducedCloud> clouds = model.getGameTable().createReducedSetOfClouds();
+        Collection<ReducedSchoolBoard> schoolBoards = model.createReducedSetOfSchoolBoards();
+        Collection<ReducedIsland> islands = model.getGameTable().createReducedSetOfIslands();
+        TableRecord tableRecord = new TableRecord(deck,assistantsUsed,clouds,schoolBoards,islands);
+        notifyGameCreatedObservers(tableRecord);
     }
 
     /**
@@ -364,6 +377,37 @@ public class Game {
     private void notifyChangeCurrentStateObservers(){
         for(ChangeCurrentStateObserver observer : changeCurrentStateObservers)
             observer.changeCurrentStateObserverUpdate(this.state.getType());
+    }
+
+    // MANAGEMENT OF OBSERVERS FOR GAME CREATED
+    /**
+     * List of the observer on the game creation
+     */
+    private final List<GameCreatedObserver> gameCreatedObservers = new ArrayList<>();
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on game creation.
+     * @param observer the observer to be added
+     */
+    public void addGameCreatedObserver(GameCreatedObserver observer){
+        gameCreatedObservers.add(observer);
+    }
+
+    /**
+     * This method allows to remove the observer, passed as a parameter, on game creation.
+     * @param observer the observer to be removed
+     */
+    public void removeGameCreatedObserver(GameCreatedObserver observer){
+        gameCreatedObservers.remove(observer);
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on current state.
+     * @param table the table of the game just created
+     */
+    private void notifyGameCreatedObservers(TableRecord table){
+        for(GameCreatedObserver observer : gameCreatedObservers)
+            observer.gameCreatedObserverUpdate(table);
     }
 
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON CHARACTER CARDS IF ANY

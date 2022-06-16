@@ -146,7 +146,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
                 synchronized (sentMessages) {
                     parentMessage = sentMessages.remove(parentId);
                 }
-                parentMessage.processResponse(response);
+                parentMessage.processResponse(response,clientController);
             }
             return;
         }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.gametable;
 
+import it.polimi.ingsw.client.reduced_model.ReducedCloud;
+import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
@@ -97,6 +99,16 @@ class Cloud {
     private void notifyStudentsOnCloudObservers(int cloudID, StudentList actualStudentList){
         for(StudentsOnCloudObserver observer : studentsOnCloudObservers)
             observer.studentsOnCloudObserverUpdate(cloudID,actualStudentList);
+    }
+
+    // CREATION OF THE REDUCED VERSION
+    /**
+     * Creates a reduced version of this cloud used to represent it client side.
+     * @return a reduced version of this cloud
+     * @see ReducedCloud
+     */
+    ReducedCloud createCloudReduction(){
+        return new ReducedCloud(ID,students);
     }
 
 }
