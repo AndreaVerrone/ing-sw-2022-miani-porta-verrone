@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
+import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.*;
 
@@ -132,6 +134,50 @@ public class Translator {
 
     public static String getLabelGameID(){
         return isItalian ? "Identificatore della partita: " : "Identifier of this game: ";
+    }
+
+    public static String getNextPhase(){
+        return isItalian ? "Avanti" : "Next";
+    }
+
+    public static String getAvailableSuffix(){
+        return isItalian ? " disponibili" : " available";
+    }
+
+    public static String getTowerLabel(){
+        return isItalian ? "Torre" : "Tower";
+    }
+    public static String getTowerName(TowerType towerType){
+        if (!isItalian)
+            return towerType.name();
+        return switch (towerType) {
+            case BLACK -> "NERA";
+            case WHITE -> "BIANCA";
+            case GREY -> "GRIGIA";
+        };
+    }
+
+    public static TowerType parseTowerType(String tower) throws IllegalArgumentException{
+        if (!isItalian)
+            return TowerType.valueOf(tower);
+        return switch (tower) {
+            case "NERA" -> TowerType.BLACK;
+            case "BIANCA" -> TowerType.WHITE;
+            case "GRIGIA" -> TowerType.GREY;
+            default -> throw new IllegalArgumentException();
+        };
+    }
+
+    public static String getWizardLabel(){
+        return isItalian ? "Mago" : "Wizard";
+    }
+    public static String getWizardName(Wizard wizard) {
+        return switch (wizard) {
+            case W1 -> isItalian ? "MAGO 1" : "WIZARD 1";
+            case W2 -> isItalian ? "MAGO 2" : "WIZARD 2";
+            case W3 -> isItalian ? "MAGO 3" : "WIZARD 3";
+            case W4 -> isItalian ? "MAGO 4" : "WIZARD 4";
+        };
     }
 
     /**
