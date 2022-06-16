@@ -31,10 +31,6 @@ public class MoveStudentsPhaseScreen extends CliScreen {
      */
     private final Table table;
 
-    private static final int MOVE_STUDENT_TO_DININGROOM = 1;
-
-    private static final int MOVE_STUDENT_TO_ISLAND = 2;
-
     /**
      * The constructor od the class
      * @param cli the cli of the user
@@ -58,16 +54,14 @@ public class MoveStudentsPhaseScreen extends CliScreen {
 
         canvas.setSubtitle(Translator.getMessageCurrentPlayer()+": "+currentPlayerNickname);
         canvas.show();
-
-        askForAction();
-
     }
 
     /**
      * this method will ask the player to move a student from the entrance of
      * the school board to a destination (island or dining room)
      */
-    private void askForAction() {
+    @Override
+    protected void askAction() {
 
         InputReader inputReader = new InputReader();
 

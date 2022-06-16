@@ -51,15 +51,13 @@ public class PlanningPhaseScreen extends CliScreen {
 
        canvas.setSubtitle(Translator.getMessageCurrentPlayer()+": "+currentPlayerNickname);
        canvas.show();
-
-       askForAction();
-
     }
 
     /**
      * this method will ask the player to use an assistant card.
      */
-    private void askForAction() {
+    @Override
+    protected void askAction() {
 
         InputReader inputReader = new InputReader();
 

@@ -76,15 +76,13 @@ public class EndGameScreen extends CliScreen {
         canvas.setTitle(phase);
 
         canvas.show();
-
-        askForAction();
-
     }
 
     /**
      * this method allow the player to close the game when he asks to do that.
      */
-    public void askForAction(){
+    @Override
+    protected void askAction(){
 
         InputReader inputReader = new InputReader();
 

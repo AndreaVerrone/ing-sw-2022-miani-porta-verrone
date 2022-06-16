@@ -52,14 +52,13 @@ public class ChooseCloudScreen extends CliScreen {
         canvas.setSubtitle(Translator.getMessageCurrentPlayer()+": "+currentPlayerNickname);
         canvas.show();
 
-        askForAction();
-
     }
 
     /**
      * this method will ask the player to choose a cloud.
      */
-    private void askForAction() {
+    @Override
+    protected void askAction() {
 
         InputReader inputReader = new InputReader();
 
