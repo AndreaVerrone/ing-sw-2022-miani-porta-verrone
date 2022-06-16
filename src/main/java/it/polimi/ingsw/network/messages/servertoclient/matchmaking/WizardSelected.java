@@ -31,6 +31,6 @@ public class WizardSelected extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        //TODO; update the wizard selected
+        client.wizardChanged(nickname, wizard);
     }
 }

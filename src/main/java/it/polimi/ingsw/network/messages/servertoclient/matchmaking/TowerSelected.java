@@ -31,6 +31,6 @@ public class TowerSelected extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientController client) {
-        //TODO; update the tower selected
+        client.towerChanged(nickname, tower);
     }
 }

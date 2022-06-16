@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.cli.CLI;
-import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
@@ -17,8 +16,11 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Class to control the messages from client to server
@@ -60,13 +62,6 @@ public class ClientController {
 
         cli.setNextScreen(new LauncherScreen(cli));
         cli.run();
-
-        // todo:testing code
-        //  <--- from here
-        // cli.setTable(null,null,null,null, null, null,null,null,null,null, null);
-        // displayPlanningPhaseScreen();
-        // cli.run();
-        //  <--- to here
     }
 
     public String getGameID() {
@@ -246,6 +241,10 @@ public class ClientController {
         connectionHandler.sendMessage(new SetTower(tower));
     }
 
+    public void towerChanged(String nickname, TowerType towerType) {
+        cli.towerSelected(nickname, towerType);
+    }
+
     /**
      * Sends a message to the server to set the wizard of the client and controls the input give is right
      * @param wizard wizard type chosen by the client
@@ -253,6 +252,10 @@ public class ClientController {
     public void setWizard(Wizard wizard){
         if(wrongPlayerTurn()) return;
         connectionHandler.sendMessage(new SetWizard(wizard));
+    }
+
+    public void wizardChanged(String nickname, Wizard wizard) {
+        cli.wizardSelected(nickname, wizard);
     }
 
     /**

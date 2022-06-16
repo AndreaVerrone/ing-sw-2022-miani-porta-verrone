@@ -40,7 +40,7 @@ public class PlayerOrStateChanged extends ServerCommandNetMsg{
      */
     @Override
     public void processMessage(ClientController client) {
-        client.setNickNameCurrentPlayer(currentPlayerNickname);
+        client.currentPlayerChanged(currentPlayerNickname);
         client.gameStateChanged(currentPlayerNickname,currentState);
     }
 }
