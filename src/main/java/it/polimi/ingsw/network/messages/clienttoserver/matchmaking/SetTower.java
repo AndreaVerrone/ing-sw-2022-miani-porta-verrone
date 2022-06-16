@@ -34,9 +34,4 @@ public class SetTower extends ClientCommandNetMsg {
         clientInServer.getSessionController().setTowerOfPlayer(tower);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        // TODO: 11/05/2022 handle response in client
-    }
 }

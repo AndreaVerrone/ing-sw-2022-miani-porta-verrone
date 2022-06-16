@@ -16,9 +16,4 @@ public class ResumeGame extends ClientCommandNetMsg {
         clientInServer.getSessionController().resumeGame();
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        // TODO: 12/05/2022 show response in view
-    }
 }

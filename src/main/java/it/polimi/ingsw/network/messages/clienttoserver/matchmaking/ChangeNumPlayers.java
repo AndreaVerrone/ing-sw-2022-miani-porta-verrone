@@ -32,9 +32,4 @@ public class ChangeNumPlayers extends ClientCommandNetMsg {
         clientInServer.getSessionController().changeNumOfPlayers(newNumPlayers);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        // TODO: 11/05/2022 show response to client
-    }
 }

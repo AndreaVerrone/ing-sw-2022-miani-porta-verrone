@@ -33,9 +33,4 @@ public class ExitFromGame extends ClientCommandNetMsg {
         clientInServer.getSessionController().exitFromGame(nickname);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        // TODO: 10/05/2022 show the response to the client 
-    }
 }

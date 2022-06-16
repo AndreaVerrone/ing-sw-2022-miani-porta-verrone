@@ -32,9 +32,4 @@ public class SetWizard extends ClientCommandNetMsg {
         clientInServer.getSessionController().setWizardOfPlayer(wizard);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        // TODO: 11/05/2022 handle response in client
-    }
 }

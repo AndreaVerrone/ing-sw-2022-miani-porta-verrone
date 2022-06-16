@@ -43,12 +43,4 @@ public class CreateNewGame extends ClientCommandNetMsg {
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
         clientInServer.sendMessage(new GameCreated(newGameID));
     }
-
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        if (!response.isSuccess()) {
-            // TODO: 09/05/2022 notify view of the error
-        }
-    }
 }

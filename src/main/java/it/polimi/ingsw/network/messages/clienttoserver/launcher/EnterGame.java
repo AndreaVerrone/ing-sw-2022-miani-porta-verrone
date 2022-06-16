@@ -40,28 +40,4 @@ public class EnterGame extends ClientCommandNetMsg {
         clientInServer.getSessionController().enterGame(nickname, gameID);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        if (response.isSuccess()) {
-            //TODO: notify the view of the success
-            return;
-        }
-        ErrorCode errorCode = response.getErrorCode();
-        switch (errorCode) {
-            case GAME_NOT_EXIST -> {
-                //TODO: notify view
-            }
-            case NICKNAME_TAKEN -> {
-                // TODO: 09/05/2022 ask for another nickname
-            }
-            case GAME_IS_FULL -> {
-                // TODO: 09/05/2022 notify view
-            }
-            case GENERIC_INVALID_OPERATION -> {
-                // TODO: 09/05/2022 notify view can't join
-            }
-        }
-
-    }
 }
