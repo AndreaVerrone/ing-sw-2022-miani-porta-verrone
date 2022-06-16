@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.model.gametable.GameTable;

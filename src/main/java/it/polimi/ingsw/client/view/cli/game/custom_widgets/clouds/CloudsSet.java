@@ -6,7 +6,9 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * this class is used to give a graphical representation of a set of clouds.

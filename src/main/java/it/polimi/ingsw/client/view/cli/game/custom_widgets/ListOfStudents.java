@@ -2,7 +2,10 @@ package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Icons;
-import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
+import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Column;
+import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.StatefulWidget;
+import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Text;
+import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Widget;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 

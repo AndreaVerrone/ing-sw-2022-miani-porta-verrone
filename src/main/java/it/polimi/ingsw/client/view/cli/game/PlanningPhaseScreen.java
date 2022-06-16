@@ -4,14 +4,16 @@ import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
-import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
+import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import it.polimi.ingsw.server.model.player.Assistant;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.AggregateCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * this is the screen that needs to be displayed during the planning phase of the game

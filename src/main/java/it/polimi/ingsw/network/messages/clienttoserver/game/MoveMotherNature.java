@@ -1,9 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
-import it.polimi.ingsw.client.ClientController;
-import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
-import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
