@@ -42,12 +42,12 @@ public class MoveStudentState implements GameState {
      */
     private PawnType studentToMove;
 
-    public MoveStudentState(Game game) {
+    public MoveStudentState(Game game, int numberOfStudentsMoved) {
         this.game = game;
         this.gameModel = game.getModel();
-        this.numberOfStudentsMoved=0;
+        this.numberOfStudentsMoved = numberOfStudentsMoved;
         int numOfPlayers=game.getModel().getPlayerList().size();
-        this.numOfStudentsToMove=(numOfPlayers==2||numOfPlayers==4)?3:4;
+        this.numOfStudentsToMove = numOfPlayers==2 ? 3 : 4;
     }
 
     @Override
@@ -104,12 +104,13 @@ public class MoveStudentState implements GameState {
     }
 
     private void updateState(){
-        studentToMove = null;
         numberOfStudentsMoved ++;
 
         if(numberOfStudentsMoved==numOfStudentsToMove){
             goToMoveMotherNatureState();
+            return;
         }
+        game.setState(new MoveStudentState(game, numberOfStudentsMoved));
     }
 
     /**
