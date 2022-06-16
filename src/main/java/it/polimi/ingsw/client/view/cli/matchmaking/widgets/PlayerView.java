@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.matchmaking;
+package it.polimi.ingsw.client.view.cli.matchmaking.widgets;
 
 import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;

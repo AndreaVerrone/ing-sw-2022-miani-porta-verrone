@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view.cli.matchmaking;
+package it.polimi.ingsw.client.view.cli.matchmaking.widgets;
 
 import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.Translator;
@@ -31,7 +31,16 @@ public class MatchmakingView extends StatefulWidget {
     /**
      * A widget containing the current number of players
      */
-    private Text actualPlayers = new Text("0");
+    private final Text actualPlayers = new Text("0");
+
+    /**
+     * A widget used to display the id of the game
+     */
+    private final Widget gameID;
+    /**
+     * The number of players requested in this game
+     */
+    private final int numPlayers;
 
     /**
      * Creates a new widget used to show the infos of the matchmaking
@@ -39,8 +48,10 @@ public class MatchmakingView extends StatefulWidget {
      * @param numPlayers the maximum number of players
      * @param expert {@code true} if the expert rules are selected, {@code false} otherwise
      */
-    public MatchmakingView(Collection<ReducedPlayerLoginInfo> playersInfo, int numPlayers, boolean expert){
+    public MatchmakingView(Collection<ReducedPlayerLoginInfo> playersInfo, int numPlayers, boolean expert, String gameID){
         setContent(playersInfo);
+        this.numPlayers = numPlayers;
+        this.gameID = new Text(Translator.getLabelGameID()+gameID);
         header = new Row(List.of(
                 new Text(Translator.getNumOfPlayers()),
                 actualPlayers,
@@ -57,7 +68,7 @@ public class MatchmakingView extends StatefulWidget {
             players.put(info.nickname(), new PlayerView(info));
         }
         String numPlayers = String.valueOf(playersInfo.size());
-        actualPlayers = new Text(numPlayers);
+        actualPlayers.setText(numPlayers);
     }
 
     /**
@@ -71,9 +82,11 @@ public class MatchmakingView extends StatefulWidget {
     /**
      * Update this widget showing the infos passed as a parameter
      * @param playerLoginInfos the new player list of this lobby
+     * @return {@code true} if the lobby is full, {@code false} otherwise
      */
-    public void update(Collection<ReducedPlayerLoginInfo> playerLoginInfos){
+    public boolean update(Collection<ReducedPlayerLoginInfo> playerLoginInfos){
         setState(() -> setContent(playerLoginInfos));
+        return playerLoginInfos.size() == numPlayers;
     }
 
     /**
@@ -98,6 +111,7 @@ public class MatchmakingView extends StatefulWidget {
     @Override
     protected Widget build() {
         Collection<Widget> widgets = new ArrayList<>();
+        widgets.add(gameID);
         widgets.add(header);
         widgets.add(new SizedBox(0,2));
         for (String nickname : players.keySet()){
