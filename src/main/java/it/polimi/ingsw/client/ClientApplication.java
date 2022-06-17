@@ -1,13 +1,20 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.Switcher;
+import it.polimi.ingsw.client.view.gui.controller.*;
+import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class ClientApplication extends javafx.application.Application
@@ -52,12 +59,34 @@ public class ClientApplication extends javafx.application.Application
       switcher = new Switcher(primaryStage);
       controller = new Controller(connectionHandler);
       Group rootP = new Group();
-      Parent root = FXMLLoader.load(getClass().getResource("/fxml/MenuScene.fxml"));
+      // Parent root = FXMLLoader.load(getClass().getResource("/fxml/StartingScreen.fxml"));
+
+      /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CreateGameScreen.fxml"));
+      Parent root = loader.load();
+      CreateGameScreen createGameScreen = (CreateGameScreen) loader.getController();
+      createGameScreen.setLabels();*/
+
+      /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseWizardAndTowerScreen.fxml"));
+      Parent root = loader.load();
+      ChooseWizardAndTowerScreen chooseWizardAndTowerScreen = (ChooseWizardAndTowerScreen) loader.getController();
+      chooseWizardAndTowerScreen.setUp(List.of(Wizard.W1,Wizard.W2,Wizard.W3,Wizard.W4),
+              List.of(TowerType.WHITE,TowerType.GREY,TowerType.BLACK));*/
+
+      /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
+      Parent root = loader.load();
+      ChooseGame chooseGame = (ChooseGame) loader.getController();
+      chooseGame.setListOfGames(List.of("Game 1","Game 2", "Game 3", "Game 4", "Game 5", "Game 6"));*/
+
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ListOfGamesScreen.fxml"));
+      Parent root = loader.load();
+      ListOfGamesScreen listOfGamesScreen = (ListOfGamesScreen) loader.getController();
+      listOfGamesScreen.setComponents(List.of("Game 1","Game 2", "Game 3", "Game 4", "Game 5", "Game 6"));
+
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       //primaryStage.setMaxHeight(800);
       //primaryStage.setMaxWidth(1200);
-      //primaryStage.setResizable(false);
+      primaryStage.setResizable(false);
       primaryStage.show();
     } catch (IOException e) {
       e.printStackTrace();
