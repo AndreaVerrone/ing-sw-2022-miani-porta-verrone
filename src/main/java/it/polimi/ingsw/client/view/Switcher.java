@@ -11,6 +11,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class Switcher {
 
@@ -59,5 +62,188 @@ public class Switcher {
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
+    }
+
+    public void goToExitScreen(List<String> winners){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ExitScreen.fxml"));
+            Parent root = loader.load();
+            ExitScreen controllerCard = (ExitScreen) loader.getController();
+            controllerCard.setUpExitScreen(winners);
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            //stage.setFullScreen(true);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToAskServerParameters(){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseServerParameters.fxml"));
+            Parent root = loader.load();
+
+            ChooseServerParameters chooseServerParameters = (ChooseServerParameters) loader.getController();
+            chooseServerParameters.setLabels();
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            // stage.setFullScreen(true);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void goToHomeScreen(){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuScene.fxml"));
+            Parent root = loader.load();
+
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            // stage.setFullScreen(true);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void goToChooseLanguageScreen(){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseLanguageScreen.fxml"));
+            Parent root = loader.load();
+
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            // stage.setFullScreen(true);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void goToCreateGameScreen() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CreateGameScreen.fxml"));
+            Parent root = loader.load();
+
+            CreateGameScreen createGameScreen = (CreateGameScreen) loader.getController();
+            createGameScreen.setLabels();
+
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            // stage.setFullScreen(true);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToAskNicknameScreen(int gameID){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNicknameScreen.fxml"));
+            Parent root = loader.load();
+
+            AskNicknameScreen askNicknameScreen = (AskNicknameScreen) loader.getController();
+            askNicknameScreen.setParameters(gameID);
+
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            // stage.setFullScreen(true);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void goToChooseGameToJoin(Collection<String> gameIDs){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ListOfGamesScreen.fxml"));
+            Parent root = loader.load();
+
+            ListOfGamesScreen listOfGamesScreen = (ListOfGamesScreen) loader.getController();
+            listOfGamesScreen.setComponents(new ArrayList<>(gameIDs));
+
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void goToChooseWizardAndTower(List<Wizard> wizardsAvailable, List<TowerType> towersAvailble){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseWizardAndTowerScreen.fxml"));
+            Parent root = loader.load();
+
+            ChooseWizardAndTowerScreen chooseWizardAndTowerScreen = (ChooseWizardAndTowerScreen) loader.getController();
+            chooseWizardAndTowerScreen.setUp(wizardsAvailable,towersAvailble);
+
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void goToChooseGameScreen(Collection<String> games){
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
+            Parent root = loader.load();
+            ChooseGame chooseGame = (ChooseGame) loader.getController();
+            chooseGame.setListOfGames(List.of("1","2"));
+
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
