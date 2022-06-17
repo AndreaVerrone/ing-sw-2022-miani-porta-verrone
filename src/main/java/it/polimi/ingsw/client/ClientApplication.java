@@ -62,6 +62,27 @@ public class ClientApplication extends javafx.application.Application
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    primaryStage.setOnCloseRequest(
+            event -> {
+              event.consume();
+              logout(primaryStage);
+            });
+  }
+
+  public void logout(Stage stage) {
+
+
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Exiting from game");
+    alert.setHeaderText("You're about to exit from game");
+    alert.setContentText("Do you want to exit the game ? ");
+
+
+    if (alert.showAndWait().get() == ButtonType.OK) {
+      // System.out.println("you have successfully logged out");
+      stage.close();
+    }
   }
 
 
