@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.view.gui.controller.CharacterCard;
-import it.polimi.ingsw.client.view.gui.controller.CharacterCardView;
-import it.polimi.ingsw.client.view.gui.controller.TableView;
+import it.polimi.ingsw.client.view.gui.controller.*;
+import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
