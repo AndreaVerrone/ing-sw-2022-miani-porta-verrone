@@ -6,22 +6,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.StartingScreen">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.StartingScreen">
    <children>
-      <ImageView pickOnBounds="true" preserveRatio="true">
+      <ImageView pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../assets/logo/eriantys_banner.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="144.0" fitWidth="600.0" layoutX="129.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="144.0" fitWidth="600.0" layoutX="117.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="117.0" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../assets/logo/eriantys_logo.png" />
          </image>
       </ImageView>
-      <Button layoutX="240.0" layoutY="457.0" mnemonicParsing="false" onAction="#startGame" text="Inizia/Start">
+      <Button fx:id="startButton" layoutX="228.0" layoutY="460.0" mnemonicParsing="false" onAction="#startGame" text="Inizia/Start" AnchorPane.leftAnchor="228.0" AnchorPane.rightAnchor="228.0">
          <font>
-            <Font size="25.0" />
+            <Font size="20.0" />
          </font>
       </Button>
    </children>
