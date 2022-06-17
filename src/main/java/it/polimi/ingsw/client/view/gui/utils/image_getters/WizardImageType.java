@@ -18,6 +18,10 @@ public enum WizardImageType{
      */
     private final String path;
 
+    public String getPath() {
+        return path;
+    }
+
     /**
      * Saves the path of the image
      * @param path of the image of the wizard
