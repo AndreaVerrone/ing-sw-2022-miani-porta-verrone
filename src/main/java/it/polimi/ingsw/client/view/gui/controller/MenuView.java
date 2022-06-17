@@ -10,6 +10,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class MenuView implements VirtualView {
 
     @FXML
@@ -31,7 +33,9 @@ public class MenuView implements VirtualView {
     }
 
     public void resumeGame(ActionEvent event){
-        System.out.println("Resume game");
+        ClientApplication.getSwitcher().goToCreateGameScreen();
+        // ClientApplication.getSwitcher().goToExitScreen(List.of("Player 1"));
+        //System.out.println("Resume game");
 
     }
 

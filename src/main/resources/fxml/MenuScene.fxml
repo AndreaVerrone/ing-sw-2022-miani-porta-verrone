@@ -23,7 +23,7 @@
          <Font name="Jokerman" size="17.0" />
       </font>
    </Button>
-   <Button fx:id="newGameButton2" layoutX="515.0" layoutY="468.0" mnemonicParsing="false" onAction="#createNewGame" prefHeight="46.0" prefWidth="83.0" text="RESUME">
+   <Button fx:id="newGameButton2" layoutX="515.0" layoutY="468.0" mnemonicParsing="false" onAction="#resumeGame" prefHeight="46.0" prefWidth="83.0" text="RESUME">
       <font>
          <Font name="Jokerman" size="13.0" />
       </font>
