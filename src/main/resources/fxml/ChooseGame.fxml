@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.ChooseGame">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="600.0" layoutX="26.0" layoutY="-1.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../assets/logo/eriantys_banner.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="126.0" fitWidth="472.0" layoutX="141.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="474.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="139.15383911132812" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../assets/logo/eriantys_logo.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="268.0" layoutY="453.0" mnemonicParsing="false" onAction="#takeGame" prefHeight="26.0" prefWidth="65.0" text="OK">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <ChoiceBox fx:id="listOfGames" layoutX="160.0" layoutY="222.0" prefHeight="26.0" prefWidth="268.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="160.0" />
+      <Label fx:id="header" alignment="CENTER" layoutY="118.0" prefHeight="37.0" prefWidth="600.0" text="Label" textAlignment="CENTER" textFill="#02017a" AnchorPane.bottomAnchor="445.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="118.0">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="37.0" fitWidth="48.0" layoutX="28.0" layoutY="43.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/goBackArrow.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
