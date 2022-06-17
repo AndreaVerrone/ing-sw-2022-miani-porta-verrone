@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.ChooseWizardAndTowerScreen">
+   <children>
+      <ImageView fitHeight="614.0" fitWidth="617.0" layoutX="-6.0" layoutY="-3.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/logo/eriantys_banner.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="133.0" fitWidth="608.0" layoutX="132.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/logo/eriantys_logo.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="40.0" layoutY="459.0" mnemonicParsing="false" onAction="#setPreviousImage" text="&lt;-" AnchorPane.leftAnchor="40.0" />
+      <ImageView fx:id="immagine" fitHeight="339.0" fitWidth="229.0" layoutX="40.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="141.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="331.0" AnchorPane.topAnchor="120.0" />
+      <Button layoutX="238.0" layoutY="460.0" mnemonicParsing="false" onAction="#setNextImage" text="-&gt;" AnchorPane.leftAnchor="238.0" />
+      <Label fx:id="indicator" alignment="CENTER" layoutX="71.0" layoutY="464.0" prefHeight="17.0" prefWidth="167.0" text="Label" textAlignment="CENTER" />
+      <Button layoutX="265.0" layoutY="524.0" mnemonicParsing="false" onAction="#confirmChoice" prefHeight="26.0" prefWidth="70.0" text="OK" />
+      <Button layoutX="358.0" layoutY="459.0" mnemonicParsing="false" onAction="#setPreviusTower" text="&lt;-" AnchorPane.rightAnchor="246.5" />
+      <Button layoutX="517.0" layoutY="459.0" mnemonicParsing="false" onAction="#setNextTower" text="-&gt;" AnchorPane.rightAnchor="40.0" />
+      <ImageView fx:id="imageViewTower" fitHeight="339.0" fitWidth="229.0" layoutX="358.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="141.0" AnchorPane.leftAnchor="331.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="120.0" />
+      <Label fx:id="towerIndicator" alignment="CENTER" layoutX="364.0" layoutY="465.0" prefHeight="17.0" prefWidth="167.0" text="Label" textAlignment="CENTER" />
+      <Label fx:id="header" alignment="CENTER" layoutX="2.0" layoutY="53.0" prefHeight="17.0" prefWidth="594.0" text="Label" textFill="#01057a">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
