@@ -7,88 +7,52 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="684.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.ChooseLanguageScreen">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.ChooseLanguageScreen">
    <children>
-      <ImageView fitHeight="753.0" fitWidth="825.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="600.0" fitWidth="600.0" layoutX="54.0" layoutY="66.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../assets/logo/eriantys_banner.png" />
          </image>
       </ImageView>
-      <VBox layoutY="1.0" prefHeight="684.0" prefWidth="753.0">
-         <children>
-            <Pane prefHeight="159.0" prefWidth="753.0">
-               <children>
-                  <ImageView fitHeight="155.0" fitWidth="462.0" layoutX="180.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/logo/eriantys_logo.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Label alignment="CENTER" prefHeight="117.0" prefWidth="755.0" text="Scegli la lingua / Choose a language" textFill="#060b6f">
-               <font>
-                  <Font size="26.0" />
-               </font>
-            </Label>
-            <Pane prefHeight="109.0" prefWidth="753.0" />
-            <HBox prefHeight="180.0" prefWidth="549.0">
-               <children>
-                  <Pane prefHeight="180.0" prefWidth="220.0" />
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <ImageView fitHeight="107.0" fitWidth="162.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../assets/flags/ItalianFlag.png" />
-                           </image>
-                        </ImageView>
-                        <Pane prefHeight="36.0" prefWidth="162.0" />
-                        <RadioButton fx:id="itaButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="162.0" text="Italiano">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="language" />
-                           </toggleGroup>
-                        </RadioButton>
-                     </children>
-                  </VBox>
-                  <Pane prefHeight="180.0" prefWidth="352.0" />
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <ImageView fitHeight="107.0" fitWidth="162.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../assets/flags/EnglishFlag.png" />
-                           </image>
-                        </ImageView>
-                        <Pane prefHeight="38.0" prefWidth="162.0" />
-                        <RadioButton fx:id="engButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="162.0" text="English" toggleGroup="$language">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </RadioButton>
-                     </children>
-                  </VBox>
-                  <Pane prefHeight="200.0" prefWidth="220.0" />
-               </children>
-            </HBox>
-            <Pane prefHeight="79.0" prefWidth="753.0" />
-            <HBox prefHeight="107.0" prefWidth="753.0">
-               <children>
-                  <Pane prefHeight="107.0" prefWidth="335.0" />
-                  <Button mnemonicParsing="false" onAction="#getLanguage" prefHeight="26.0" prefWidth="115.0" text="OK">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-                  <Pane prefHeight="107.0" prefWidth="303.0" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
+      <ImageView fitHeight="150.0" fitWidth="572.0" layoutX="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="109.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../assets/logo/eriantys_logo.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="107.0" fitWidth="162.0" layoutX="423.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="250.0">
+         <image>
+            <Image url="@../assets/flags/EnglishFlag.png" />
+         </image>
+      </ImageView>
+      <RadioButton fx:id="engButton" layoutX="415.0" layoutY="366.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="123.0" text="English" AnchorPane.topAnchor="366.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="language" />
+         </toggleGroup>
+      </RadioButton>
+      <ImageView fitHeight="107.0" fitWidth="162.0" layoutX="67.0" layoutY="286.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="250.0">
+         <image>
+            <Image url="@../assets/flags/ItalianFlag.png" />
+         </image>
+      </ImageView>
+      <RadioButton fx:id="itaButton" layoutX="70.0" layoutY="366.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="107.0" text="Italiano" toggleGroup="$language" AnchorPane.topAnchor="366.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </RadioButton>
+      <Label alignment="CENTER" layoutY="129.0" prefHeight="39.0" prefWidth="600.0" text="Scegli la lingua / Choose a language" textFill="#000351" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="okButton" layoutX="243.0" layoutY="445.0" mnemonicParsing="false" onAction="#setLanguageAndChangeScreen" prefHeight="26.0" prefWidth="115.0" text="OK" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="243.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
