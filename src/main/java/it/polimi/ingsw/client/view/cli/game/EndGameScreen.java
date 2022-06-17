@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Text;
 import org.jline.reader.impl.completer.StringsCompleter;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,14 +24,14 @@ public class EndGameScreen extends CliScreen {
     /**
      * The list of the winners.
      */
-    private final List<String> winners;
+    private final Collection<String> winners;
 
     /**
      * The constructor of the class
      * @param cli the cli of the user
      * @param winners the list of the winners of the game
      */
-    public EndGameScreen(CLI cli, List<String> winners) {
+    public EndGameScreen(CLI cli, Collection<String> winners) {
         super(cli);
         this.winners = winners;
     }
@@ -59,7 +60,7 @@ public class EndGameScreen extends CliScreen {
                 text = new Text(Translator.getMessageForTheWinner());
             } else {
                 // the winner is not the owner
-                text = new Text(winners.get(0) + " " + Translator.getMessageForTheLosers());
+                text = new Text(winners.toArray()[0] + " " + Translator.getMessageForTheLosers());
             }
 
         } else {

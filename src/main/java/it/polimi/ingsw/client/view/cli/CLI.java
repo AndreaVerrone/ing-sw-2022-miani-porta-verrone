@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
@@ -15,7 +15,6 @@ import it.polimi.ingsw.client.view.cli.launcher.HomeScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.widgets.MatchmakingView;
-import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -35,12 +34,9 @@ import java.util.Locale;
 /**
  * A class to handle the client ui in the console
  */
-public class CLI implements VirtualView, Runnable {
+public class CLI extends ClientView {
 
-    /**
-     * The controller of the client of this view
-     */
-    private ClientController clientController;
+
 
     /**
      * The current screen that must be shown to the client
@@ -60,12 +56,12 @@ public class CLI implements VirtualView, Runnable {
     private Collection<TowerType> towersAvailable = new ArrayList<>();
     private Collection<Wizard> wizardsAvailable = new ArrayList<>();
 
-    public Table getTable() {
-        return table;
+    public CLI() {
+        setScreenBuilder(new CliScreenBuilder(this));
     }
 
-    public void setTable(TableRecord tableRecord) {
-         this.table = new Table(tableRecord);
+    public Table getTable() {
+        return table;
     }
 
     /**
@@ -108,19 +104,6 @@ public class CLI implements VirtualView, Runnable {
         }
     }
 
-    /**
-     * Attach this view to the specified controller, if not already attached to one.
-     * @param clientController the controller of the client
-     */
-    public void attachTo(ClientController clientController){
-        if (this.clientController == null)
-            this.clientController = clientController;
-    }
-
-    public ClientController getClientController(){
-        return clientController;
-    }
-
     public void setNextScreen(CliScreen screen){
         nextScreen = screen;
         currentScreen.setStop();
@@ -159,7 +142,7 @@ public class CLI implements VirtualView, Runnable {
         if (parseBoolean(input)) {
             shouldStop = true;
             currentScreen.setStop();
-            clientController.closeApplication();
+            getClientController().closeApplication();
             return;
         }
         setNextScreen(currentScreen);
@@ -172,11 +155,6 @@ public class CLI implements VirtualView, Runnable {
         };
     }
 
-    /**
-     * this method will print in red the message passed in the parameters,
-     * and it will emit a sound
-     * @param errorMessage string containing the error message to print
-     */
     public void displayErrorMessage(String errorMessage){
         // print the message in red
         printColorMessage(Color.RED,errorMessage);
@@ -246,7 +224,7 @@ public class CLI implements VirtualView, Runnable {
     @Override
     public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers,
                                boolean isExpert, String currentPlayer) {
-        matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, clientController.getGameID());
+        matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
         setNextScreen(new LobbyScreen(this));
     }
 
@@ -301,7 +279,7 @@ public class CLI implements VirtualView, Runnable {
     public void playersChanged(Collection<ReducedPlayerLoginInfo> players) {
         boolean lobbyFull = matchmakingView.update(players);
         if (lobbyFull)
-            clientController.nextPhase();
+            getClientController().nextPhase();
     }
 
     @Override
@@ -419,6 +397,6 @@ public class CLI implements VirtualView, Runnable {
 
     @Override
     public void gameCreated(TableRecord tableRecord) {
-        setTable(tableRecord);
+        this.table = new Table(tableRecord);
     }
 }

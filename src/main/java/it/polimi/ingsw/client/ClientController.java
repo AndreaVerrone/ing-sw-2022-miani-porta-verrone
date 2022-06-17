@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.launcher.*;
+import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.EnterGame;
@@ -42,6 +43,9 @@ public class ClientController {
      */
     private String gameID;
 
+    /**
+     * The state in which the game is currently in
+     */
     private StateType gameState;
 
     /**
@@ -52,19 +56,19 @@ public class ClientController {
     /**
      * The cli of the client
      */
-    private final CLI cli;
+    private final ClientView view;
 
     /**
      * Creates a new controller that handles the connection between client and server and
      * check if the inputs are correct.
-     * @param cli the cli of the client
+     * @param view the view of the client
      */
-    public ClientController(CLI cli){
-        this.cli = cli;
-        cli.attachTo(this);
+    public ClientController(ClientView view){
+        this.view = view;
+        view.attachTo(this);
 
-        cli.setNextScreen(new LauncherScreen(cli));
-        cli.run();
+        view.getScreenBuilder().build(ScreenBuilder.Screen.LAUNCHER);
+        view.run();
     }
 
     public String getGameID() {
@@ -86,10 +90,10 @@ public class ClientController {
         try {
             connectionHandler = new ConnectionHandler(this, ipAddress, port);
             new Thread(connectionHandler).start();
-            cli.setNextScreen(new HomeScreen(cli));
+            view.getScreenBuilder().build(ScreenBuilder.Screen.HOME);
         } catch (IOException e) {
             System.out.println("Can't connect to server. Try again\n");
-            cli.setNextScreen(new AskServerSpecificationScreen(cli));
+            view.getScreenBuilder().build(ScreenBuilder.Screen.SERVER_SPECS);
         }
     }
 
@@ -109,7 +113,7 @@ public class ClientController {
     }
 
     public void showHome() {
-        cli.showHome();
+        view.showHome();
     }
 
     /**
@@ -117,8 +121,8 @@ public class ClientController {
      * @param nickNameCurrentPlayer nickname of the current player of the match played by the client
      */
     public void currentPlayerChanged(String nickNameCurrentPlayer) {
-        if (this.nickNameCurrentPlayer != null)
-            cli.changeCurrentPlayer(nickNameCurrentPlayer);
+//        if (this.nickNameCurrentPlayer != null)
+//            view.changeCurrentPlayer(nickNameCurrentPlayer);
         this.nickNameCurrentPlayer = nickNameCurrentPlayer;
     }
 
@@ -153,7 +157,7 @@ public class ClientController {
      * @param gameID the ID of the game he wants to enter
      */
     public void askNicknameToEnter(String gameID){
-        cli.setNextScreen(new RequestNicknameScreen(cli, gameID));
+        view.getScreenBuilder().build(ScreenBuilder.Screen.ASK_NICKNAME, gameID);
     }
 
     /**
@@ -179,7 +183,7 @@ public class ClientController {
      * @param gameIDs the listo of game ID to show
      */
     public void displayGames(Collection<String> gameIDs){
-        cli.setNextScreen(new GamesListScreen(cli, gameIDs));
+        view.getScreenBuilder().build(ScreenBuilder.Screen.GAMES_LIST, gameIDs);
     }
 
     /**
@@ -196,7 +200,7 @@ public class ClientController {
      * @param isExpert if the game uses expert rules
      */
     public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert) {
-        cli.createGameView(playerLoginInfos, numPlayers, isExpert, nickNameCurrentPlayer);
+        view.createGameView(playerLoginInfos, numPlayers, isExpert, nickNameCurrentPlayer);
     }
 
     /**
@@ -204,7 +208,7 @@ public class ClientController {
      * @param newPlayers the new list of players in the lobby
      */
     public void playersMatchmakingChanged(Collection<ReducedPlayerLoginInfo> newPlayers){
-        cli.playersChanged(newPlayers);
+        view.playersChanged(newPlayers);
     }
     /**
      * Sends a message to the server to change the number of players and controls the input given is right
@@ -225,7 +229,7 @@ public class ClientController {
      * @param playersNum the new number of players
      */
     public void numPlayersChanged(int playersNum) {
-        cli.numberOfPlayersChanged(playersNum);
+        view.numberOfPlayersChanged(playersNum);
     }
 
     /**
@@ -244,7 +248,7 @@ public class ClientController {
     }
 
     public void requestChoosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
-        cli.choosePlayerParameter(towersAvailable, wizardsAvailable);
+        view.choosePlayerParameter(towersAvailable, wizardsAvailable);
     }
 
     /**
@@ -257,7 +261,7 @@ public class ClientController {
     }
 
     public void towerChanged(String nickname, TowerType towerType) {
-        cli.towerSelected(nickname, towerType);
+        view.towerSelected(nickname, towerType);
     }
 
     /**
@@ -270,7 +274,7 @@ public class ClientController {
     }
 
     public void wizardChanged(String nickname, Wizard wizard) {
-        cli.wizardSelected(nickname, wizard);
+        view.wizardSelected(nickname, wizard);
     }
 
     /**
@@ -347,7 +351,7 @@ public class ClientController {
      * @param coinsNum the number of coins on the table
      */
     public void coinsInBagChanged(int coinsNum) {
-        cli.coinNumberInBagChanged(coinsNum);
+        view.coinNumberInBagChanged(coinsNum);
     }
 
     /**
@@ -355,7 +359,7 @@ public class ClientController {
      * @param card the card that has been used
      */
     public void coinOnCardAdded(CharacterCardsType card) {
-        cli.coinOnCardAdded(card);
+        view.coinOnCardAdded(card);
     }
 
     /**
@@ -364,13 +368,33 @@ public class ClientController {
      * @param students the students on that card
      */
     public void studentsOnCardChanged(CharacterCardsType card, StudentList students) {
-        cli.studentsOnCardChanged(card, students);
+        view.studentsOnCardChanged(card, students);
     }
 
     // METHODS TO UPDATE SCREENS OF THE GAME
     public void gameStateChanged(String currentPlayerNickname, StateType currentState) {
         gameState = currentState;
-        cli.currentPlayerOrStateChanged(currentState, currentPlayerNickname);
+        ScreenBuilder.Screen nextScreen = switch (currentState){
+            case CHANGE_PLAYER_STATE -> ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS;
+            case SET_PLAYER_PARAMETER_STATE -> ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS;
+            case PLAY_ASSISTANT_STATE -> ScreenBuilder.Screen.PLAY_ASSISTANT_CARD;
+            case MOVE_STUDENT_STATE -> ScreenBuilder.Screen.MOVE_STUDENT;
+            case MOVE_MOTHER_NATURE_STATE -> ScreenBuilder.Screen.MOVE_MOTHER_NATURE;
+            case CHOOSE_CLOUD_STATE -> ScreenBuilder.Screen.CHOOSE_CLOUD;
+            default -> null;
+            /*
+            // todo: implement
+            case USE_CHARACTER_CARD1_STATE -> null;
+            case USE_CHARACTER_CARD4_STATE -> null;
+            case USE_CHARACTER_CARD5_STATE -> null;
+            case USE_CHARACTER_CARD8_STATE -> null;
+            case USE_CHARACTER_CARD9_STATE -> null;
+            case USE_CHARACTER_CARD10_STATE -> null;
+            case USE_CHARACTER_CARD11_STATE -> null;
+            case USE_CHARACTER_CARD12_STATE -> null;
+             */
+        };
+        view.getScreenBuilder().build(nextScreen);
     }
 
     /**
@@ -378,7 +402,7 @@ public class ClientController {
      * @param winners the list of the winners of the game
      */
     public void displayEndGameScreen(List<String> winners){
-        cli.gameEnded(winners);
+        view.gameEnded(winners);
     }
 
     // METHODS TO DISPLAY MESSAGES
@@ -388,8 +412,8 @@ public class ClientController {
      * @param errorMessage string containing the error message to print
      */
     public void displayErrorMessage(String errorMessage){
-        cli.displayErrorMessage(errorMessage);
-        cli.currentPlayerOrStateChanged(gameState, nickNameCurrentPlayer);
+        view.displayErrorMessage(errorMessage);
+        view.currentPlayerOrStateChanged(gameState, nickNameCurrentPlayer);
     }
 
     /**
@@ -397,7 +421,7 @@ public class ClientController {
      * @param message string containing the message to print
      */
     public void displayMessage(String message){
-        cli.displayMessage(message);
+        view.displayMessage(message);
     }
 
     // METHODS TO MODIFY COMPONENTS OF THE TABLE OF THE GAME
@@ -411,7 +435,7 @@ public class ClientController {
     public void setAssistantsList(Collection<Assistant> assistantsList, String owner) {
         // update the view only if the deck involved it is the one of the player
         if(owner.equals(nickNameOwner)){
-            cli.assistantDeckChanged(owner, assistantsList);
+            view.assistantDeckChanged(owner, assistantsList);
         }
     }
 
@@ -421,7 +445,7 @@ public class ClientController {
      * @param assistantUsed the actual last assistant used
      */
     public void setAssistantsUsed(String owner, Assistant assistantUsed) {
-        cli.lastAssistantUsedChanged(owner,assistantUsed);
+        view.lastAssistantUsedChanged(owner,assistantUsed);
     }
 
     /**
@@ -430,7 +454,7 @@ public class ClientController {
      * @param studentList the actual student list on cloud
      */
     public void setClouds(int ID, StudentList studentList) {
-        cli.studentsOnCloudChanged(ID, studentList);
+        view.studentsOnCloudChanged(ID, studentList);
     }
 
     /**
@@ -439,7 +463,7 @@ public class ClientController {
      * @param studentsInEntrance the actual students on entrance
      */
     public void setEntranceList(String owner, StudentList studentsInEntrance) {
-        cli.studentsOnEntranceChanged(owner, studentsInEntrance);
+        view.studentsOnEntranceChanged(owner, studentsInEntrance);
     }
 
     /**
@@ -449,7 +473,7 @@ public class ClientController {
      * @param studentsInDiningRoom the actual students in dining room
      */
     public void setDiningRoomList(String owner, StudentList studentsInDiningRoom) {
-        cli.studentsInDiningRoomChanged(owner,studentsInDiningRoom);
+        view.studentsInDiningRoomChanged(owner,studentsInDiningRoom);
     }
 
     /**
@@ -459,7 +483,7 @@ public class ClientController {
      * @param professors the actual collection of professors
      */
     public void setProfTableList(String owner, Collection<PawnType> professors) {
-        cli.professorsOfPlayerChanged(owner, professors);
+        view.professorsOfPlayerChanged(owner, professors);
     }
 
     /**
@@ -469,7 +493,7 @@ public class ClientController {
      * @param numOfTowers the actual number of towers
      */
     public void setTowerNumberList(String owner, int numOfTowers) {
-        cli.towerNumberOfPlayerChanged(owner, numOfTowers);
+        view.towerNumberOfPlayerChanged(owner, numOfTowers);
     }
 
     /**
@@ -479,7 +503,7 @@ public class ClientController {
      * @param numOfCoins the actual number of coins
      */
     public void setCoinNumberList(String owner, int numOfCoins) {
-        cli.coinNumberOfPlayerChanged(owner, numOfCoins);
+        view.coinNumberOfPlayerChanged(owner, numOfCoins);
     }
 
     /**
@@ -489,7 +513,7 @@ public class ClientController {
      * @param actualNumOfBan the actual number of bans on the specified island
      */
     public void updateBanOnIsland(int ID, int actualNumOfBan){
-        cli.numberOfBansOnIslandChanged(ID, actualNumOfBan);
+        view.numberOfBansOnIslandChanged(ID, actualNumOfBan);
     }
 
     /**
@@ -499,7 +523,7 @@ public class ClientController {
      * @param actualTowerColor the actual color of the tower of the island (null if the tower is not present)
      */
     public void updateTowerType(int ID, TowerType actualTowerColor){
-        cli.towerOnIslandChanged(ID,actualTowerColor);
+        view.towerOnIslandChanged(ID,actualTowerColor);
     }
 
     /**
@@ -509,7 +533,7 @@ public class ClientController {
      * @param actualStudentsOnIsland the actual students on the island
      */
     public void updateStudents(int ID, StudentList actualStudentsOnIsland){
-        cli.studentsOnIslandChanged(ID, actualStudentsOnIsland);
+        view.studentsOnIslandChanged(ID, actualStudentsOnIsland);
     }
 
     /**
@@ -517,7 +541,7 @@ public class ClientController {
      * @param ID the ID of the island on which mother nature should be moved
      */
     public void updateMotherNaturePosition(int ID){
-        cli.motherNaturePositionChanged(ID);
+        view.motherNaturePositionChanged(ID);
     }
 
     /**
@@ -527,7 +551,7 @@ public class ClientController {
      * @param sizeIslandRemoved the size of the island removed
      */
     public void islandUnification(int ID, int IDIslandRemoved,int sizeIslandRemoved){
-        cli.islandsUnified(ID, IDIslandRemoved, sizeIslandRemoved);
+        view.islandsUnified(ID, IDIslandRemoved, sizeIslandRemoved);
     }
 
     /**
@@ -535,7 +559,7 @@ public class ClientController {
      * @param tableRecord the table record used to initialize the table
      */
     public void initializeTable(TableRecord tableRecord){
-        cli.setTable(tableRecord);
+        view.gameCreated(tableRecord);
     }
 
     // METHOD TO NOFIFY LAST ROUND
@@ -543,7 +567,7 @@ public class ClientController {
      * this method will notify the client that this is the last round
      */
     public void notifyLastRound(){
-        cli.notifyLastRound();
+        view.notifyLastRound();
     }
 
 }
