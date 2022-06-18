@@ -57,9 +57,7 @@ public class MenuView implements Initializable{
         // It will ask the server the list of the available games.
         // In the meantime it will display idle screen.
         // todo: this is only for testing
-        ClientApplication.getSwitcher().goToChooseGameScreen(
-                List.of("Game 1," + "Game 2", "Game 3", "Game 4")
-        );
+        ClientApplication.getSwitcher().goToChooseGameScreen(List.of(1627,21289182,91192,99198));
         // todo: actual code
         // ask available games to server
         // getClientController().getGames();
