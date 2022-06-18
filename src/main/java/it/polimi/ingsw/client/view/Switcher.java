@@ -21,8 +21,41 @@ public class Switcher {
 
     private final Stage stage;
 
+    public Stage getStage() {
+        return stage;
+    }
+
     public Switcher(Stage stage){
         this.stage = stage;
+    }
+
+    // STARTING SCREEN
+
+    // CHOOSE LANGUAGE
+
+    // HOME SCREEN
+
+    /**
+     * This method allow to go to the home screen.
+     */
+    public void goToHomeScreen(){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuScene.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            /*stage.setOnShown(event -> {
+                MenuView menu = new MenuView();
+                menu.buttonsSetUp();
+            });*/
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void goToCreateNewGame(){
@@ -88,13 +121,9 @@ public class Switcher {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseServerParameters.fxml"));
             Parent root = loader.load();
 
-            ChooseServerParameters chooseServerParameters = (ChooseServerParameters) loader.getController();
-            chooseServerParameters.setLabels();
-            // display(root);
-
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            // stage.setFullScreen(true);
+            stage.setResizable(false);
             stage.show();
 
         } catch (IOException e) {
@@ -103,24 +132,6 @@ public class Switcher {
 
     }
 
-    public void goToHomeScreen(){
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuScene.fxml"));
-            Parent root = loader.load();
-
-            // display(root);
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            // stage.setFullScreen(true);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public void goToChooseLanguageScreen(){
 
