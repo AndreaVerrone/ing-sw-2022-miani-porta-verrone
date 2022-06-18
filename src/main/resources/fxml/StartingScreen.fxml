@@ -18,7 +18,7 @@
             <Image url="@../assets/logo/eriantys_logo.png" />
          </image>
       </ImageView>
-      <Button fx:id="startButton" layoutX="228.0" layoutY="460.0" mnemonicParsing="false" onAction="#startGame" text="Inizia/Start" AnchorPane.leftAnchor="228.0" AnchorPane.rightAnchor="228.0">
+      <Button fx:id="startButton" layoutX="228.0" layoutY="460.0" mnemonicParsing="false" onAction="#startGame" text="Inizia/Start" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="228.0" AnchorPane.rightAnchor="228.0">
          <font>
             <Font size="20.0" />
          </font>
