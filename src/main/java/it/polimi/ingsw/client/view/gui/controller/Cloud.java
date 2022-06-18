@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
@@ -85,4 +86,8 @@ public class Cloud {
         }
         students.clear();
     }
+
+    public void updateStudents(StudentList students){
+        //TODO : update
+     }
 }

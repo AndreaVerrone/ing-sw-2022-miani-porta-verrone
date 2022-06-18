@@ -118,6 +118,7 @@ public class Island {
      * @param towerType color of the tower placed
      */
     public void addTower(TowerType towerType){
+        if(towerView != null) removeTower();
         ImageView towerView = new ImageView(TowerImageType.typeConverter(towerType).getImage());
         int column= IslandPosition.values()[islandID].getColumn();
         int row=IslandPosition.values()[islandID].getRow();
@@ -197,5 +198,16 @@ public class Island {
         studentOnIslandHandler.changeNumberOfBans(newNumberOfBans);
         if(newNumberOfBans == 0) banView.setVisible(false);
         if(newNumberOfBans > 0) banView.setVisible(true);
+    }
+
+    public void updateStudentsOnIsland(StudentList students){
+        for(PawnType student: PawnType.values()){
+            removeStudent(student);
+        }
+        for(PawnType student: PawnType.values()){
+            for(int i = 0; i < students.getNumOf(student); i++) {
+                addStudent(student);
+            }
+        }
     }
 }

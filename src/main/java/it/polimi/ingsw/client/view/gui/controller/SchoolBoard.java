@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import javafx.geometry.HPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -254,7 +255,7 @@ public class SchoolBoard {
            if(!newProfessors.contains(professorOnTable.getType())) removeProfessor(professorOnTable.getType());
        }
        for(PawnType newProfessor: newProfessors){
-           if(!((professors.stream().map(professor -> professor.getType()).toList()).contains(newProfessor))) addProfessor(newProfessor);
+           if(!((professors.stream().map(Pawn::getType).toList()).contains(newProfessor))) addProfessor(newProfessor);
        }
     }
 
@@ -274,9 +275,43 @@ public class SchoolBoard {
     }
 
     public void updateEntrance(StudentList students){
+        StudentList studentsCopy = students.clone();
         for(Pawn studentOnEntrance: entrance){
-            //TODO:  update
+            if(studentOnEntrance != null) {
+                if (studentsCopy.getNumOf(studentOnEntrance.getType()) == 0) {
+                    removeStudentFromEntrance(studentOnEntrance.getType());
+                } else {
+                    try {
+                        studentsCopy.changeNumOf(studentOnEntrance.getType(), -1);
+                    } catch (NotEnoughStudentException e) {
+                        throw new RuntimeException(e); //Not possible theoretically
+                    }
+                }
+            }
         }
+        List<PawnType> entranceType = entrance.stream().filter(Objects::nonNull).map(Pawn::getType).collect(ArrayList::new,
+                ArrayList::add,
+                ArrayList::addAll);
+        for(PawnType student: PawnType.values()){
+            for(int i = 0; i < students.getNumOf(student); i++) {
+                if((entranceType.contains(student))){
+                    entranceType.remove(student);
+                }
+                else {
+                    addStudentToEntrance(student);
+
+                }
+            }
+        }
+    }
+
+    public void updateTowers(int numberOfTowers){
+        int differenceNumberOfTowers = towers.size() - numberOfTowers;
+        for(int i=0; i < differenceNumberOfTowers; i++){
+            if(differenceNumberOfTowers > 0) removeTower();
+            else addTower();
+        }
+
     }
 
 }

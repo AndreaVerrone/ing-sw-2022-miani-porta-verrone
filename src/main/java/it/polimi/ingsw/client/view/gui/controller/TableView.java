@@ -14,6 +14,7 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,6 +26,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import javafx.scene.image.ImageView;
@@ -287,7 +289,6 @@ public class TableView implements Initializable {
         //gridEntrance.setOnMouseClicked(e -> System.out.println("SCELTO"));
 
         table.setBackground(Background.fill(Color.LIGHTBLUE));
-
 
         setCurrentPlayer("Giorgio");
     }
@@ -557,32 +558,50 @@ public class TableView implements Initializable {
 
     public void updateEntranceToPlayer(String player, StudentList students){
         SchoolBoard schoolBoardPlayer = schoolboards.get(player);
-        for(PawnType student: PawnType.values()){
-            schoolBoardPlayer.removeStudentFromEntrance(student);
-        }
-        for(PawnType student: PawnType.values()){
-            for(int i = 0; i < students.getNumOf(student); i++) {
-                schoolBoardPlayer.addStudentToEntrance(student);
-            }
-        }
+        schoolBoardPlayer.updateEntrance(students);
     }
 
     public void updateStudentsOnIsland(int islandID, StudentList students){
         Island island = islands.get(islandID);
-        for(PawnType student: PawnType.values()){
-            island.removeStudent(student);
-        }
-        for(PawnType student: PawnType.values()){
-            for(int i = 0; i < students.getNumOf(student); i++) {
-                island.addStudent(student);
-            }
-        }
+        island.updateStudentsOnIsland(students);
     }
 
     public void updateTowersOnSchoolBoard(String player, int numberOfTowers){
+        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+        schoolBoardPlayer.updateTowers(numberOfTowers);
+    }
+
+    public void updateTowerOnIsland(int islandID, TowerType newTower){
+        Island island = islands.get(islandID);
+        island.addTower(newTower);
+    }
+
+    public void updateStudentOnCloud(int cloudID, StudentList students){
 
     }
 
+    public void tryUpdate(MouseEvent event){
+        StudentList students1 = new StudentList();
+        StudentList students2 = new StudentList();
+        try {
+            students1.changeNumOf(PawnType.RED_DRAGONS, 3);
+            students1.changeNumOf(PawnType.GREEN_FROGS, 6);
+            students1.changeNumOf(PawnType.YELLOW_GNOMES, 2);
+            students2.changeNumOf(PawnType.GREEN_FROGS, 2);
+            students2.changeNumOf(PawnType.PINK_FAIRIES, 1);
+            students2.changeNumOf(PawnType.BLUE_UNICORNS, 1);
+        } catch (NotEnoughStudentException e) {
+            throw new RuntimeException(e);
+        }
+
+        updateDiningRoomToPlayer("Giorgio", students1);
+        updateDiningRoomToPlayer("Alessia", students1);
+        updateEntranceToPlayer("Giorgio", students2);
+        //updateEntranceToPlayer("Andrea", students2);
+        //updateEntranceToPlayer("Alessia", students2);
+
+        updateTowersOnSchoolBoard("Giorgio", 3);
+    }
 
 
 }
