@@ -82,30 +82,31 @@ public class ChooseServerParameters implements Initializable {
         String portNumber = serverPort.getText();
 
         // reset to void the labels for errors
-        // LABELS TO DIPLAY ERROR MESSAGES
-
         wrongIpErrorBox.setText("");
-        // label for wrong port number
         wrongPortNumberErrorBox.setText("");
 
+        // if both IP and port are correct send message
         if(parseIPAddress(ipAddress)&& parsePortNumber(portNumber)){
             System.out.println("connecting to: "+serverIP.getText() + "" + serverPort.getText());
             ClientApplication.getSwitcher().goToHomeScreen();
             // getClientController().createConnection(ipAddress, Integer.parseInt(portNumber)); // todo: similar to actual code
         }else{
+            // if the IP is wrong:
             if(!parseIPAddress(ipAddress)) {
-                wrongIpErrorBox.setText("IP address not valid");
+                // display that it is wrong and
+                wrongIpErrorBox.setText("IP address not valid"); // todo: add translation
+                // clear the text box
                 serverIP.setText("");
-                System.out.println("ERROR");
             }
+            // if the port is wrong:
             if(!parsePortNumber(portNumber)){
-                wrongPortNumberErrorBox.setText("port number not valid");
+                // display that it is wrong and
+                wrongPortNumberErrorBox.setText("port number not valid"); // todo: add translation
+                // clear the text box
                 serverPort.setText("");
-                System.out.println("ERROR");
             }
         }
     }
-
 
     /**
      * This method is used to set all the labels.
@@ -116,8 +117,6 @@ public class ChooseServerParameters implements Initializable {
         serverIPLabel.setText("Insert IP address of the server");
         serverPortLabel.setText("Insert Port Number of the server");
     }
-
-
 
     /**
      * This method is called to check the validity of the IP address inserted by the user.
@@ -152,5 +151,4 @@ public class ChooseServerParameters implements Initializable {
     private boolean parsePortNumber(String portNumber){
         return Pattern.matches("\\d{4,5}", portNumber);
     }
-
 }
