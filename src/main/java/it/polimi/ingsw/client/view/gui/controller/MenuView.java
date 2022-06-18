@@ -76,7 +76,9 @@ public class MenuView implements Initializable{
         // ClientApplication.getSwitcher().goToExitScreen(List.of("Player 1"));
         //System.out.println("Resume game");
         // todo: actual code
+        // send message to resume
         // getClientController().resumeGame();
+        // display idle screen
     }
 
     /**
