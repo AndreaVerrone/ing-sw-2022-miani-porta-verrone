@@ -18,7 +18,7 @@
     <ImageView fitHeight="154.0" fitWidth="439.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="109.0" AnchorPane.topAnchor="0.0">
         <Image url="@../assets/logo/eriantys_logo.png" />
     </ImageView>
-   <Button fx:id="newGameButton1" layoutX="245.0" layoutY="454.0" mnemonicParsing="false" onAction="#createNewGame" prefHeight="46.0" prefWidth="118.0" text="JOIN" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="245.0">
+   <Button fx:id="newGameButton1" layoutX="245.0" layoutY="454.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="46.0" prefWidth="118.0" text="JOIN" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="245.0">
       <font>
          <Font size="15.0" />
       </font>
