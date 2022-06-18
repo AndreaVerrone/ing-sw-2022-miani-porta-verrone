@@ -87,7 +87,7 @@ public class ChooseServerParameters implements Initializable {
 
         // if both IP and port are correct send message
         if(parseIPAddress(ipAddress)&& parsePortNumber(portNumber)){
-            System.out.println("connecting to: "+serverIP.getText() + "" + serverPort.getText());
+            System.out.println("connecting to: "+serverIP.getText() + " " + serverPort.getText()); // todo: only for testing
             ClientApplication.getSwitcher().goToHomeScreen();
             // getClientController().createConnection(ipAddress, Integer.parseInt(portNumber)); // todo: similar to actual code
         }else{
