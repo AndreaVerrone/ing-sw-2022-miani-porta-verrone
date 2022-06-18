@@ -18,12 +18,12 @@
     <ImageView fitHeight="154.0" fitWidth="439.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="109.0" AnchorPane.topAnchor="0.0">
         <Image url="@../assets/logo/eriantys_logo.png" />
     </ImageView>
-   <Button fx:id="newGameButton1" layoutX="245.0" layoutY="454.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="46.0" prefWidth="118.0" text="JOIN" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="245.0">
+   <Button fx:id="joinButton" layoutX="245.0" layoutY="454.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="46.0" prefWidth="118.0" text="JOIN" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="245.0">
       <font>
          <Font size="15.0" />
       </font>
    </Button>
-   <Button fx:id="newGameButton2" layoutX="443.0" layoutY="448.0" mnemonicParsing="false" onAction="#resumeGame" prefHeight="46.0" prefWidth="110.0" text="RESUME" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="50.0">
+   <Button fx:id="resumeButton" layoutX="443.0" layoutY="448.0" mnemonicParsing="false" onAction="#resumeGameButton" prefHeight="46.0" prefWidth="110.0" text="RESUME" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="50.0">
       <font>
          <Font size="15.0" />
       </font>

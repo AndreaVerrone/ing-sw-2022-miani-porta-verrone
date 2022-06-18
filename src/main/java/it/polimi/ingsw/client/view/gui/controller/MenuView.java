@@ -33,7 +33,7 @@ public class MenuView implements Initializable{
      * button to resume a game
      */
     @FXML
-    Button resumeGameButton;
+    Button resumeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,7 +70,7 @@ public class MenuView implements Initializable{
      * This method is called when the {@code resumeButton} is pressed.
      * It will allow to resume a game.
      */
-    public void resumeGame(){
+    public void resumeGameButton(){
         // todo: only for testing
         ClientApplication.getSwitcher().goToCreateGameScreen();
         // ClientApplication.getSwitcher().goToExitScreen(List.of("Player 1"));
@@ -88,6 +88,7 @@ public class MenuView implements Initializable{
         // todo: add translation
         newGameButton.setText("NEW GAME");
         joinButton.setText("JOIN");
-        resumeGameButton.setText("RESUME");
+        resumeButton.setText("RESUME");
     }
+
 }
