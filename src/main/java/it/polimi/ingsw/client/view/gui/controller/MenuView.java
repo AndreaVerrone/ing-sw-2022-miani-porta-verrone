@@ -71,9 +71,12 @@ public class MenuView implements Initializable{
      * It will allow to resume a game.
      */
     public void resumeGame(){
+        // todo: only for testing
         ClientApplication.getSwitcher().goToCreateGameScreen();
         // ClientApplication.getSwitcher().goToExitScreen(List.of("Player 1"));
         //System.out.println("Resume game");
+        // todo: actual code
+        // getClientController().resumeGame();
     }
 
     /**
