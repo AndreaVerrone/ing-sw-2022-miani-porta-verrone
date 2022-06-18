@@ -34,7 +34,7 @@
             <Image url="@../assets/flags/ItalianFlag.png" />
          </image>
       </ImageView>
-      <RadioButton fx:id="itaButton" layoutX="70.0" layoutY="366.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="107.0" text="Italiano" toggleGroup="$language" AnchorPane.topAnchor="366.0">
+      <RadioButton fx:id="itaButton" layoutX="70.0" layoutY="366.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="107.0" selected="true" text="Italiano" toggleGroup="$language" AnchorPane.topAnchor="366.0">
          <font>
             <Font size="20.0" />
          </font>
