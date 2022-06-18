@@ -16,11 +16,6 @@
             <Image url="@../assets/logo/eriantys_banner.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="572.0" layoutX="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="109.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@../assets/logo/eriantys_logo.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="107.0" fitWidth="162.0" layoutX="423.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="250.0">
          <image>
             <Image url="@../assets/flags/EnglishFlag.png" />
@@ -54,5 +49,10 @@
             <Font size="20.0" />
          </font>
       </Button>
+      <ImageView fitHeight="150.0" fitWidth="600.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="109.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../assets/logo/eriantys_logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
