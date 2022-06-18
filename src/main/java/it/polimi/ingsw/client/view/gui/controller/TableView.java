@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import com.sun.javafx.scene.layout.region.CornerRadiiConverter;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CharacterCardImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CloudImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CoinImageType;
@@ -171,6 +170,9 @@ public class TableView implements Initializable {
     @FXML
     private FlowPane coinsPlayer3;
 
+    @FXML
+    private Label stateLabel;
+
     /**
      * Map with the schoolboards associated to every student
      */
@@ -303,8 +305,17 @@ public class TableView implements Initializable {
         createIslands();
         createClouds(players.size());
         createAssistantDeck(players);
+        setStateLabelProperties();
         setNicknames(players);
         setCoins(players);
+    }
+
+    private void setStateLabelProperties(){
+        stateLabel.setTextAlignment(TextAlignment.RIGHT);
+        stateLabel.setPadding(new Insets(5));
+        stateLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        stateLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.MEDIUM)));
+        stateLabel.setBackground(Background.fill(Color.WHITESMOKE));
     }
 
     /**
@@ -580,6 +591,33 @@ public class TableView implements Initializable {
 
     }
 
+    public void useAssistantCard(String player, Assistant assistant){
+        AssistantCardDeck playerDeck =decks.get(player);
+        playerDeck.useAssistantCard(assistant);
+    }
+
+    public void addCoinOnCard(CharacterCardsType cardType, boolean isCoinOnCard){
+        for(CharacterCard card: characterCards){
+            if(card.getCardType().equals(cardType)){
+                card.setCoinOnCard(isCoinOnCard);
+            }
+        }
+    }
+
+    public void updateStudentsOnCard(CharacterCardsType cardType, StudentList students){
+        for(CharacterCard card: characterCards){
+            if(card.getCardType().equals(cardType)){
+                card.setStudents(students);
+            }
+        }
+    }
+
+    public void updateState(){
+        stateLabel.setText("");
+        //TODO: UPDATE STATE
+    }
+
+
     public void tryUpdate(MouseEvent event){
         StudentList students1 = new StudentList();
         StudentList students2 = new StudentList();
@@ -595,7 +633,7 @@ public class TableView implements Initializable {
         }
 
         updateDiningRoomToPlayer("Giorgio", students1);
-        updateDiningRoomToPlayer("Alessia", students1);
+        updateDiningRoomToPlayer("Andrea", students1);
         updateEntranceToPlayer("Giorgio", students2);
         //updateEntranceToPlayer("Andrea", students2);
         //updateEntranceToPlayer("Alessia", students2);

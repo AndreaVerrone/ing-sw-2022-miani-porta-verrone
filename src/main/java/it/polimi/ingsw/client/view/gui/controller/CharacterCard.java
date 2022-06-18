@@ -112,4 +112,13 @@ public class CharacterCard {
     public void setCoinOnCard(boolean coinOnCard) {
         this.coinOnCard = coinOnCard;
     }
+
+    /**
+     * Fill the students on the card with the given students
+     * @param students new students on the card
+     */
+    public void setStudents(StudentList students){
+        this.students.empty();
+        this.students.add(students);
+    }
 }
