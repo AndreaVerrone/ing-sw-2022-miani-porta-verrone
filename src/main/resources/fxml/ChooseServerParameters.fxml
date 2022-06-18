@@ -50,12 +50,12 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="wrongIpErrorBox" layoutX="180.0" layoutY="292.0" prefHeight="35.0" prefWidth="215.0" textFill="#9e0000" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0">
+      <Label fx:id="wrongIpErrorBox" layoutX="180.0" layoutY="292.0" prefHeight="35.0" prefWidth="215.0" textFill="#8a0000" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="wrongPortNumberErrorBox" layoutX="180.0" layoutY="438.0" prefHeight="35.0" prefWidth="215.0" textFill="#9e0000" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0">
+      <Label fx:id="wrongPortNumberErrorBox" layoutX="180.0" layoutY="438.0" prefHeight="35.0" prefWidth="215.0" textFill="#8a0000" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0">
          <font>
             <Font size="15.0" />
          </font>
