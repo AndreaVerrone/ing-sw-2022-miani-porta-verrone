@@ -48,6 +48,6 @@ public class GameEntered extends ServerCommandNetMsg {
 
     @Override
     public void processMessage(ClientView client) {
-        client.createGameView(playerLoginInfos, numPlayers, isExpert, currentPlayer);
+        client.createMatchmakingView(playerLoginInfos, numPlayers, isExpert, currentPlayer);
     }
 }

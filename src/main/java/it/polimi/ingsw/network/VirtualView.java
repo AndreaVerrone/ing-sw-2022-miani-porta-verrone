@@ -18,11 +18,6 @@ import java.util.Collection;
 public interface VirtualView {
 
     /**
-     * Displays the home page of the game
-     */
-    void showHome();
-
-    /**
      * Creates the initial view of the game (the matchmaking) using the parameter passed
      *
      * @param playerLoginInfos the list of players currently in the lobby
@@ -30,8 +25,8 @@ public interface VirtualView {
      * @param isExpert         if the game uses expert rules
      * @param currentPlayer the nickname of the current player
      */
-    void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers,
-                        boolean isExpert, String currentPlayer);
+    void createMatchmakingView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers,
+                               boolean isExpert, String currentPlayer);
 
     /**
      * Notifies that the towers and wizards available have been changed

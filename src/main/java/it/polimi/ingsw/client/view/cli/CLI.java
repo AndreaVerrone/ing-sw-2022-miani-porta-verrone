@@ -36,8 +36,6 @@ import java.util.Locale;
  */
 public class CLI extends ClientView {
 
-
-
     /**
      * The current screen that must be shown to the client
      */
@@ -55,14 +53,6 @@ public class CLI extends ClientView {
 
     private Collection<TowerType> towersAvailable = new ArrayList<>();
     private Collection<Wizard> wizardsAvailable = new ArrayList<>();
-
-    public CLI() {
-        setScreenBuilder(new CliScreenBuilder(this));
-    }
-
-    public Table getTable() {
-        return table;
-    }
 
     /**
      * The title of the application
@@ -83,12 +73,24 @@ public class CLI extends ClientView {
      */
     private MatchmakingView matchmakingView;
 
+    public CLI() {
+        setScreenBuilder(new CliScreenBuilder(this));
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
     public Collection<TowerType> getTowersAvailable() {
         return towersAvailable;
     }
 
     public Collection<Wizard> getWizardsAvailable() {
         return wizardsAvailable;
+    }
+
+    public MatchmakingView getMatchmakingView(){
+        return matchmakingView;
     }
 
     @Override
@@ -185,21 +187,17 @@ public class CLI extends ClientView {
         AnsiConsole.systemUninstall();
     }
 
-    public MatchmakingView getMatchmakingView(){
-        return matchmakingView;
-    }
-
     @Override
-    public void showHome() {
-        setNextScreen(new HomeScreen(this));
-    }
-
-    @Override
-    public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers,
-                               boolean isExpert, String currentPlayer) {
+    public void createMatchmakingView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers,
+                                      boolean isExpert, String currentPlayer) {
         getClientController().setNickNameCurrentPlayer(currentPlayer);
         matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
         setNextScreen(new LobbyScreen(this));
+    }
+
+    @Override
+    public void gameCreated(TableRecord tableRecord) {
+        this.table = new Table(tableRecord);
     }
 
     @Override
@@ -209,15 +207,7 @@ public class CLI extends ClientView {
         super.currentPlayerOrStateChanged(currentState, currentPlayer);
     }
 
-    @Override
-    public void coinOnCardAdded(CharacterCardsType characterCardsType) {
-        // todo: implement
-    }
-
-    @Override
-    public void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents) {
-        // todo: implement
-    }
+    // MATCHMAKING UPDATES METHODS
 
     @Override
     public void numberOfPlayersChanged(int numberOfPlayers) {
@@ -232,6 +222,13 @@ public class CLI extends ClientView {
     }
 
     @Override
+    public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
+        this.towersAvailable = towersAvailable;
+        this.wizardsAvailable = wizardsAvailable;
+        setNextScreen(new ChooseParametersScreen(this));
+    }
+
+    @Override
     public void towerSelected(String player, TowerType tower) {
         matchmakingView.modify(player, tower);
         setNextScreen(new ChooseParametersScreen(this));
@@ -243,33 +240,33 @@ public class CLI extends ClientView {
         setNextScreen(new ChooseParametersScreen(this));
     }
 
-    @Override
-    public void numberOfBansOnIslandChanged(int islandIDWithBan, int actualNumOfBans) {
-        table.updateBanOnIsland(islandIDWithBan, actualNumOfBans);
-    }
+    // PLANNING PHASE UPDATES METHODS
 
+    @Override
+    public void lastAssistantUsedChanged(String nickName, Assistant actualLastAssistant) {
+        table.setAssistantsUsed(nickName, actualLastAssistant);
+    }
     @Override
     public void assistantDeckChanged(String owner, Collection<Assistant> actualDeck) {
         if (owner.equals(getClientController().getNickNameOwner()))
             table.setAssistantsList(actualDeck);
     }
 
+    // SCHOOLBOARD UPDATES METHODS
+
     @Override
-    public void coinNumberInBagChanged(int actualNumOfCoins) {
-        // todo: it is not shown in cli
+    public void studentsOnEntranceChanged(String nickname, StudentList actualStudents) {
+        table.setEntranceList(nickname,actualStudents);
     }
 
     @Override
-    public void coinNumberOfPlayerChanged(String nickNameOfPlayer, int actualNumOfCoins) {
-        table.setCoinNumberList(nickNameOfPlayer,actualNumOfCoins);
-
+    public void studentsInDiningRoomChanged(String nickname, StudentList actualStudents) {
+        table.setDiningRoomList(nickname, actualStudents);
     }
 
     @Override
-    public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
-        this.towersAvailable = towersAvailable;
-        this.wizardsAvailable = wizardsAvailable;
-        setNextScreen(new ChooseParametersScreen(this));
+    public void professorsOfPlayerChanged(String nickName, Collection<PawnType> actualProfessors) {
+        table.setProfTableList(nickName, actualProfessors);
     }
 
     @Override
@@ -277,9 +274,16 @@ public class CLI extends ClientView {
         table.setTowerNumberList(nickName, numOfActualTowers);
     }
 
+    // ISLAND UPDATES METHODS
+
     @Override
-    public void notifyLastRound() {
-        displayMessage(Translator.getLastRoundMessage());
+    public void studentsOnIslandChanged(int islandID, StudentList actualStudents) {
+        table.updateStudentsOnIsland(islandID, actualStudents);
+    }
+
+    @Override
+    public void towerOnIslandChanged(int islandIDWithChange, TowerType actualTower) {
+        table.updateTowerTypeOnIsland(islandIDWithChange,actualTower);
     }
 
     @Override
@@ -293,52 +297,52 @@ public class CLI extends ClientView {
     }
 
     @Override
-    public void lastAssistantUsedChanged(String nickName, Assistant actualLastAssistant) {
-        table.setAssistantsUsed(nickName, actualLastAssistant);
-    }
-
-    @Override
     public void motherNaturePositionChanged(int actualMotherNaturePosition) {
         table.updateMotherNaturePosition(actualMotherNaturePosition);
     }
 
-    @Override
-    public void professorsOfPlayerChanged(String nickName, Collection<PawnType> actualProfessors) {
-        table.setProfTableList(nickName, actualProfessors);
-    }
-
-    @Override
-    public void studentsInDiningRoomChanged(String nickname, StudentList actualStudents) {
-        table.setDiningRoomList(nickname, actualStudents);
-    }
+    // CLOUD UPDATES METHOD
 
     @Override
     public void studentsOnCloudChanged(int cloudID, StudentList actualStudentList) {
         table.setClouds(cloudID, actualStudentList);
     }
 
+    // EXPERT GAME UPDATES METHODS
+
     @Override
-    public void studentsOnEntranceChanged(String nickname, StudentList actualStudents) {
-        table.setEntranceList(nickname,actualStudents);
+    public void coinNumberInBagChanged(int actualNumOfCoins) {
+        // todo: it is not shown in cli
     }
 
     @Override
-    public void studentsOnIslandChanged(int islandID, StudentList actualStudents) {
-        table.updateStudentsOnIsland(islandID, actualStudents);
+    public void coinNumberOfPlayerChanged(String nickNameOfPlayer, int actualNumOfCoins) {
+        table.setCoinNumberList(nickNameOfPlayer,actualNumOfCoins);
     }
 
     @Override
-    public void towerOnIslandChanged(int islandIDWithChange, TowerType actualTower) {
-        table.updateTowerTypeOnIsland(islandIDWithChange,actualTower);
+    public void numberOfBansOnIslandChanged(int islandIDWithBan, int actualNumOfBans) {
+        table.updateBanOnIsland(islandIDWithBan, actualNumOfBans);
+    }
+
+    @Override
+    public void coinOnCardAdded(CharacterCardsType characterCardsType) {
+        // todo: implement
+    }
+
+    @Override
+    public void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents) {
+        // todo: implement
+    }
+
+    // END GAME UPDATE METHODS
+    @Override
+    public void notifyLastRound() {
+        displayMessage(Translator.getLastRoundMessage());
     }
 
     @Override
     public void gameEnded(Collection<String> winners) {
         setNextScreen(new EndGameScreen(this,new ArrayList<>(winners)));
-    }
-
-    @Override
-    public void gameCreated(TableRecord tableRecord) {
-        this.table = new Table(tableRecord);
     }
 }

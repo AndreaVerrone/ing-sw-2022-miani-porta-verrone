@@ -107,7 +107,7 @@ public class Match implements ObserversCommonInterface{
             numPlayers = matchMaking.getNumPlayers();
             isExpert = matchMaking.isHardMode();
         }
-        view.createGameView(players, numPlayers, isExpert, getCurrentPlayerNickname());
+        view.createMatchmakingView(players, numPlayers, isExpert, getCurrentPlayerNickname());
     }
 
     /**

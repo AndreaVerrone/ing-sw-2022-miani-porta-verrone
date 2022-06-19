@@ -61,12 +61,20 @@ public class ClientController {
         return gameID;
     }
 
-    public void setNickNameCurrentPlayer(String currentPlayer) {
-        nickNameCurrentPlayer = currentPlayer;
+    public String getNickNameCurrentPlayer() {
+        return nickNameCurrentPlayer;
+    }
+
+    public String getNickNameOwner() {
+        return nickNameOwner;
     }
 
     public boolean isInTurn() {
         return Objects.equals(nickNameOwner, nickNameCurrentPlayer);
+    }
+
+    public void setNickNameCurrentPlayer(String currentPlayer) {
+        nickNameCurrentPlayer = currentPlayer;
     }
 
     /**
@@ -85,14 +93,6 @@ public class ClientController {
             System.out.println("Can't connect to server. Try again\n");
             view.getScreenBuilder().build(ScreenBuilder.Screen.SERVER_SPECS);
         }
-    }
-
-    public String getNickNameCurrentPlayer() {
-        return nickNameCurrentPlayer;
-    }
-
-    public String getNickNameOwner() {
-        return nickNameOwner;
     }
 
     /**
@@ -201,7 +201,7 @@ public class ClientController {
     }
 
     /**
-     * Sends a message to the server to quit the game during the creation of the match
+     * Sends a message to the server to quit the game regardless of the state of it.
      */
     public void quitGame(){
         connectionHandler.quitGame();
