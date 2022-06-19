@@ -65,6 +65,69 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.1</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.4</version>
+        <executions>
+          <execution>
+            <id>server-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <outputFile>target/jars/${project.artifactId}-server.jar</outputFile>
+              <filters>
+                <filter>
+                  <artifact>it.polimi.ingsw:PSP31</artifact>
+                  <includes>
+                    <include>it/polimi/ingsw/**</include>
+                  </includes>
+                  <excludes>
+                    <exclude>it/polimi/ingsw/client/view</exclude>
+                    <exclude>it/polimi/ingsw/client/ClientController.java</exclude>
+                    <exclude>it/polimi/ingsw/client/ClientView.java</exclude>
+                    <exclude>it/polimi/ingsw/client/ConnectionHandler.java</exclude>
+                    <exclude>it/polimi/ingsw/client/ScreenBuilder.java</exclude>
+                    <exclude>it/polimi/ingsw/client/Translator.java</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+              <transformers>
+                <transformer implementation=
+                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>it.polimi.ingsw.server.Server</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+          <execution>
+            <id>client-cli-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <outputFile>target/jars/${project.artifactId}-cli.jar</outputFile>
+              <filters>
+                <filter>
+                  <artifact>it.polimi.ingsw:PSP31</artifact>
+                  <excludes>
+                    <exclude>it/polimi/ingsw/server</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+              <transformers>
+                <transformer implementation=
+                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>it.polimi.ingsw.client.view.cli.ClientCli</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
