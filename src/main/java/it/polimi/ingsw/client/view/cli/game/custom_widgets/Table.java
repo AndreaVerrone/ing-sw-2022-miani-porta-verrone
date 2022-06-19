@@ -49,7 +49,7 @@ public class Table extends StatefulWidget {
     /**
      * the island set that are on the table.
      */
-    private IslandsSet islandsSet;
+    private final IslandsSet islandsSet;
 
     /**
      * the constructor of the class
@@ -72,6 +72,8 @@ public class Table extends StatefulWidget {
         }
 
         this.reducedIslands = tableRecord.reducedIslands();
+        islandsSet = new IslandsSet(tableRecord.reducedIslands());
+        islandsSet.motherNatureMoved(tableRecord.motherNaturePosition());
 
         create();
     }
@@ -106,7 +108,7 @@ public class Table extends StatefulWidget {
      * @return the collection of the ID of the islands that are on the table
      */
     public Collection<Integer> getIdOfReducedIslands() {
-        return reducedIslands.stream().map(ReducedIsland::ID).toList();
+        return islandsSet.getIslandsID();
     }
 
     // SETTERS
@@ -269,7 +271,7 @@ public class Table extends StatefulWidget {
         }
 
         // 3. islands
-        islandsSet = new IslandsSet(reducedIslands);
+//        islandsSet = new IslandsSet(reducedIslands);
 
         // 4. clouds
         CloudsSet cloudsOnTable = new CloudsSet(clouds.values());

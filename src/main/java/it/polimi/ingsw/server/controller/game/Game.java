@@ -91,7 +91,8 @@ public class Game {
         Collection<ReducedCloud> clouds = model.getGameTable().createReducedSetOfClouds();
         Collection<ReducedSchoolBoard> schoolBoards = model.createReducedSetOfSchoolBoards();
         Collection<ReducedIsland> islands = model.getGameTable().createReducedSetOfIslands();
-        TableRecord tableRecord = new TableRecord(deck,assistantsUsed,clouds,schoolBoards,islands);
+        TableRecord tableRecord = new TableRecord(deck,assistantsUsed,clouds,schoolBoards,
+                islands, model.getGameTable().getMotherNaturePosition());
         notifyGameCreatedObservers(tableRecord);
     }
 
