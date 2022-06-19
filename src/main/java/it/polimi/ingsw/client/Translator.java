@@ -76,6 +76,10 @@ public class Translator {
         return isItalian ? "Sei sicuro di voler uscire dal gioco? [yes/no]"
                 : "Are you sure you want to exit the game? [yes/no]";
     }
+
+    public static String getConnectionError(){
+        return isItalian ? "Errore di connessione. Attendi" : "Connection error. Wait";
+    }
     public static String getChooseIP(){
         return isItalian ? "Scegli l'indirizzo IP del server" : "Choose the IP address of the server";
     }

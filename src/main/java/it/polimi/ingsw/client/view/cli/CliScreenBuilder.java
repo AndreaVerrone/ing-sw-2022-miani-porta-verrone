@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
+import it.polimi.ingsw.client.view.cli.waiting.ConnectionErrorScreen;
 
 import java.util.Collection;
 
@@ -29,6 +30,7 @@ public class CliScreenBuilder extends ScreenBuilder {
     @Override
     public void build(ScreenBuilder.Screen screen) {
         CliScreen nextScreen = switch (screen){
+            case CONNECTION_ERROR -> new ConnectionErrorScreen(cli);
             case LAUNCHER -> new LauncherScreen(cli);
             case HOME -> new HomeScreen(cli);
             case SERVER_SPECS -> new AskServerSpecificationScreen(cli);

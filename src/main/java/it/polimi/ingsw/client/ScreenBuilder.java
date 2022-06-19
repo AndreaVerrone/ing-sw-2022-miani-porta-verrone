@@ -11,6 +11,7 @@ public abstract class ScreenBuilder {
 
     @SuppressWarnings("MissingJavadoc")
     public enum Screen {
+        CONNECTION_ERROR,
         LAUNCHER,
         HOME,
         SERVER_SPECS,

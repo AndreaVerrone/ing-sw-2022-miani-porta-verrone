@@ -123,8 +123,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
                     Object message = input.readObject();
                     handleMessage(message);
                 } catch (SocketTimeoutException e) {
-                    // TODO: 11/05/2022 show connection error on screen
-                    System.out.println("Connecting...");
+                    clientView.getScreenBuilder().build(ScreenBuilder.Screen.CONNECTION_ERROR);
                 }
             }
         } catch (ClassNotFoundException | ClassCastException e) {
