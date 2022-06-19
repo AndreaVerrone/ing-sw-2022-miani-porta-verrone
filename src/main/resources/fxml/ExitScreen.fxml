@@ -23,7 +23,7 @@
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Label fx:id="description" alignment="CENTER" layoutY="124.0" prefHeight="283.0" prefWidth="600.0" textAlignment="CENTER" textFill="#000351" wrapText="true">
+      <Label fx:id="description" alignment="CENTER" layoutY="124.0" prefHeight="283.0" prefWidth="600.0" textAlignment="CENTER" textFill="#000351" wrapText="true" AnchorPane.topAnchor="130.0">
          <font>
             <Font size="24.0" />
          </font>
