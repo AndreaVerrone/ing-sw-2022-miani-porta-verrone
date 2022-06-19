@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.client.Reducible;
 import it.polimi.ingsw.server.controller.matchmaking.observers.TowerSelectedObserver;
 import it.polimi.ingsw.server.controller.matchmaking.observers.WizardSelectedObserver;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -13,7 +12,7 @@ import java.util.List;
 /**
  * This class is used to store information about the player of a game before the creation of the game.
  */
-public class PlayerLoginInfo implements Reducible<ReducedPlayerLoginInfo> {
+public class PlayerLoginInfo {
 
     /**
      * the {@code nickname} identifies the player.
@@ -132,7 +131,10 @@ public class PlayerLoginInfo implements Reducible<ReducedPlayerLoginInfo> {
             observer.towerSelectedObserverUpdate(this.nickname, this.towerType);
     }
 
-    @Override
+    /**
+     * Creates a reduced version fo this class that can be sent over the network.
+     * @return the reduced version of this
+     */
     public ReducedPlayerLoginInfo reduce() {
         return new ReducedPlayerLoginInfo(nickname, towerType, wizard);
     }
