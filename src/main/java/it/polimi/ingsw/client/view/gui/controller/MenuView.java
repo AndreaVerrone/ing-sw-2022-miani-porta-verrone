@@ -59,9 +59,11 @@ public class MenuView implements Initializable{
         // todo: this is only for testing
         ClientApplication.getSwitcher().goToChooseGameScreen(List.of(1627,21289182,91192,99198));
         // todo: actual code
+        // display wit screen
+        // ClientApplication.getSwitcher().goToWaitScreen();
         // ask available games to server
         // getClientController().getGames();
-        // display idle screen
+
     }
 
     /**
@@ -74,9 +76,10 @@ public class MenuView implements Initializable{
         // ClientApplication.getSwitcher().goToExitScreen(List.of("Player 1"));
         //System.out.println("Resume game");
         // todo: actual code
+        // display wit screen
+        // ClientApplication.getSwitcher().goToWaitScreen();
         // send message to resume
         // getClientController().resumeGame();
-        // display idle screen
     }
 
     /**
