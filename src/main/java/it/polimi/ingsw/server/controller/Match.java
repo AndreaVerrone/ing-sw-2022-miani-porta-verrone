@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.Server;

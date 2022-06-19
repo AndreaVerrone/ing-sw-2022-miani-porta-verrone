@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;

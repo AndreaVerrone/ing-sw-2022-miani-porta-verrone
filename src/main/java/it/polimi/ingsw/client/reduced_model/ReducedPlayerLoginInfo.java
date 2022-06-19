@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.reduced_model;
 
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;

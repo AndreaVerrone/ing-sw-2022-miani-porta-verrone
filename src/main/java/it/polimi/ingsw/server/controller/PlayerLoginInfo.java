@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.client.ReducedPlayerLoginInfo;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.Reducible;
 import it.polimi.ingsw.server.controller.matchmaking.observers.TowerSelectedObserver;
 import it.polimi.ingsw.server.controller.matchmaking.observers.WizardSelectedObserver;

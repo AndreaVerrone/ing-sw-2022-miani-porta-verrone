@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
-import it.polimi.ingsw.client.view.cli.CLI;
-import it.polimi.ingsw.client.view.cli.launcher.*;
-import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.EnterGame;
