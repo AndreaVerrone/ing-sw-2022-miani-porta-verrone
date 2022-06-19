@@ -45,7 +45,7 @@ public class PlanningPhaseScreen extends CliScreen {
     @Override
     protected void show() {
 
-       Canvas canvas = new Canvas();
+       Canvas canvas = new Canvas(true, false);
        canvas.setContent(table);
        canvas.setTitle(phase);
 
