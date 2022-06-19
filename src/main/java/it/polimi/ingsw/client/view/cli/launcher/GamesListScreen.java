@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.launcher;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
@@ -67,6 +68,6 @@ public class GamesListScreen extends CliScreen {
             getCli().setNextScreen(new HomeScreen(getCli()));
             return;
         }
-        getCli().getClientController().askNicknameToEnter(input);
+        getCli().getScreenBuilder().build(ScreenBuilder.Screen.ASK_NICKNAME, input);
     }
 }

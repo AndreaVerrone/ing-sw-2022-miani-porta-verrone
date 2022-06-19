@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
@@ -24,8 +24,8 @@ public class MotherNatureMoved extends ServerCommandNetMsg {
 
 
     @Override
-    public void processMessage(ClientController client) {
-        client.updateMotherNaturePosition(position);
+    public void processMessage(ClientView client) {
+        client.motherNaturePositionChanged(position);
     }
 
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
@@ -31,8 +31,8 @@ public class TowerOnIslandChanged extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        client.updateTowerType(islandID,newTower);
+    public void processMessage(ClientView client) {
+        client.towerOnIslandChanged(islandID,newTower);
     }
 
 }

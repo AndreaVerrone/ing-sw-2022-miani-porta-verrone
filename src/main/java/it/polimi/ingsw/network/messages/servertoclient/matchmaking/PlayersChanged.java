@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.matchmaking;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
@@ -26,8 +26,8 @@ public class PlayersChanged extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        client.playersMatchmakingChanged(players);
+    public void processMessage(ClientView client) {
+        client.playersChanged(players);
     }
 
 }

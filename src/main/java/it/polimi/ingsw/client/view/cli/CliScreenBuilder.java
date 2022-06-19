@@ -27,7 +27,7 @@ public class CliScreenBuilder extends ScreenBuilder {
     }
 
     @Override
-    protected void build(ScreenBuilder.Screen screen) {
+    public void build(ScreenBuilder.Screen screen) {
         CliScreen nextScreen = switch (screen){
             case LAUNCHER -> new LauncherScreen(cli);
             case HOME -> new HomeScreen(cli);
@@ -44,14 +44,14 @@ public class CliScreenBuilder extends ScreenBuilder {
     }
 
     @Override
-    protected void build(ScreenBuilder.Screen screen, String gameID) {
+    public void build(ScreenBuilder.Screen screen, String gameID) {
         if (screen != Screen.ASK_NICKNAME)
             throw new IllegalArgumentException();
         cli.setNextScreen(new RequestNicknameScreen(cli, gameID));
     }
 
     @Override
-    protected void build(ScreenBuilder.Screen screen, Collection<String> inputs) {
+    public void build(ScreenBuilder.Screen screen, Collection<String> inputs) {
         switch (screen){
             case GAMES_LIST -> cli.setNextScreen(new GamesListScreen(cli, inputs));
             case END_GAME -> cli.setNextScreen(new EndGameScreen(cli, inputs));

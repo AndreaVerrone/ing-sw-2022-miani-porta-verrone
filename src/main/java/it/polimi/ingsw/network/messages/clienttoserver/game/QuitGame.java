@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.ExitFromGame;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
@@ -18,7 +19,7 @@ public class QuitGame extends ClientCommandNetMsg {
     }
 
     @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        clientController.showHome();
+    public void processResponse(ResponseMessage response, ClientView clientView) {
+        clientView.getScreenBuilder().build(ScreenBuilder.Screen.HOME);
     }
 }

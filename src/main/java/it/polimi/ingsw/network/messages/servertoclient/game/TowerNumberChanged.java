@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 public class TowerNumberChanged extends ServerCommandNetMsg {
@@ -33,7 +33,7 @@ public class TowerNumberChanged extends ServerCommandNetMsg {
      * @param client the client that receives this message
      */
     @Override
-    public void processMessage(ClientController client) {
-        client.setTowerNumberList(player,actualNumOfTowers);
+    public void processMessage(ClientView client) {
+        client.towerNumberOfPlayerChanged(player,actualNumOfTowers);
     }
 }

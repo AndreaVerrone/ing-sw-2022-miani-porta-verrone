@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.messages.servertoclient.launcher;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 import java.util.Collection;
@@ -25,8 +26,8 @@ public class PossibleGames extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        client.displayGames(games);
+    public void processMessage(ClientView client) {
+        client.getScreenBuilder().build(ScreenBuilder.Screen.GAMES_LIST, games);
     }
 
 }

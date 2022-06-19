@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.server.controller.StateType;
 
 /**
@@ -39,8 +39,7 @@ public class PlayerOrStateChanged extends ServerCommandNetMsg{
      * @param client the client that receives this message
      */
     @Override
-    public void processMessage(ClientController client) {
-        client.currentPlayerChanged(currentPlayerNickname);
-        client.gameStateChanged(currentPlayerNickname,currentState);
+    public void processMessage(ClientView client) {
+        client.currentPlayerOrStateChanged(currentState, currentPlayerNickname);
     }
 }

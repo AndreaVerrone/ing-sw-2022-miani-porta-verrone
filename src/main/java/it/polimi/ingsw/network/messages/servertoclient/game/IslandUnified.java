@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
@@ -44,7 +44,7 @@ public class IslandUnified extends ServerCommandNetMsg {
      * @param client the client that receives this message
      */
     @Override
-    public void processMessage(ClientController client) {
-        client.islandUnification(IDIslandToKeep,IDIslandRemoved,sizeIslandRemoved);
+    public void processMessage(ClientView client) {
+        client.islandsUnified(IDIslandToKeep,IDIslandRemoved,sizeIslandRemoved);
     }
 }

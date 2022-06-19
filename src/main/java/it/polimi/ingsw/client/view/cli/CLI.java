@@ -1,15 +1,15 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.ClientView;
-import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
-import it.polimi.ingsw.client.view.cli.game.*;
+import it.polimi.ingsw.client.view.cli.game.EndGameScreen;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import it.polimi.ingsw.client.view.cli.launcher.HomeScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
@@ -155,7 +155,8 @@ public class CLI extends ClientView {
         };
     }
 
-    public void displayErrorMessage(String errorMessage){
+    @Override
+    protected void showErrorMessage(String errorMessage){
         // print the message in red
         printColorMessage(Color.RED,errorMessage);
         // emit a sound
@@ -166,6 +167,7 @@ public class CLI extends ClientView {
      * this method will print in yellow the message passed in the parameters
      * @param message string containing the message to print
      */
+    @Override
     public void displayMessage(String message){
         printColorMessage(Color.BRIGHT_YELLOW,message);
     }
@@ -183,35 +185,6 @@ public class CLI extends ClientView {
         AnsiConsole.systemUninstall();
     }
 
-    // METHODS TO DISPLAY THE SCREENS OF THE GAME
-    /**
-     * this method will display the planning phase screen
-     */
-    public void displayPlanningPhaseScreen(){
-        setNextScreen(new PlanningPhaseScreen(this));
-    }
-
-    /**
-     * this method will display the move student phase screen
-     */
-    public void displayMoveStudentsScreen(){
-        setNextScreen(new MoveStudentsPhaseScreen(this));
-    }
-
-    /**
-     * this method will display the move mother nature phase screen
-     */
-    public void displayMoveMotherNatureScreen(){
-        setNextScreen(new MoveMotherNatureScreen(this));
-    }
-
-    /**
-     * this method will display the "choose cloud" phase screen
-     */
-    public void displayChooseCloudScreen(){
-        setNextScreen(new ChooseCloudScreen(this));
-    }
-
     public MatchmakingView getMatchmakingView(){
         return matchmakingView;
     }
@@ -224,40 +197,16 @@ public class CLI extends ClientView {
     @Override
     public void createGameView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers,
                                boolean isExpert, String currentPlayer) {
+        getClientController().setNickNameCurrentPlayer(currentPlayer);
         matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
         setNextScreen(new LobbyScreen(this));
     }
 
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
-        // current player it is not needed here, but required but signature
-        // display right state
-        switch (currentState){
-            case CHANGE_PLAYER_STATE -> {}
-            case SET_PLAYER_PARAMETER_STATE -> setNextScreen(new ChooseParametersScreen(this));
-            case PLAY_ASSISTANT_STATE -> displayPlanningPhaseScreen();
-            case MOVE_STUDENT_STATE -> displayMoveStudentsScreen();
-            case MOVE_MOTHER_NATURE_STATE -> displayMoveMotherNatureScreen();
-            case CHOOSE_CLOUD_STATE -> displayChooseCloudScreen();
-            case END_STATE -> {
-            }
-            case USE_CHARACTER_CARD1_STATE -> {
-            }
-            case USE_CHARACTER_CARD4_STATE -> {
-            }
-            case USE_CHARACTER_CARD5_STATE -> {
-            }
-            case USE_CHARACTER_CARD8_STATE -> {
-            }
-            case USE_CHARACTER_CARD9_STATE -> {
-            }
-            case USE_CHARACTER_CARD10_STATE -> {
-            }
-            case USE_CHARACTER_CARD11_STATE -> {
-            }
-            case USE_CHARACTER_CARD12_STATE -> {
-            }
-        }
+        if (matchmakingView != null)
+            matchmakingView.setSelected(currentPlayer);
+        super.currentPlayerOrStateChanged(currentState, currentPlayer);
     }
 
     @Override
@@ -301,9 +250,8 @@ public class CLI extends ClientView {
 
     @Override
     public void assistantDeckChanged(String owner, Collection<Assistant> actualDeck) {
-        // todo: here owner it is useless, but it is needed
-        //  since the signature requires it
-        table.setAssistantsList(actualDeck);
+        if (owner.equals(getClientController().getNickNameOwner()))
+            table.setAssistantsList(actualDeck);
     }
 
     @Override
@@ -315,12 +263,6 @@ public class CLI extends ClientView {
     public void coinNumberOfPlayerChanged(String nickNameOfPlayer, int actualNumOfCoins) {
         table.setCoinNumberList(nickNameOfPlayer,actualNumOfCoins);
 
-    }
-
-    public void changeCurrentPlayer(String actualCurrentPlayerNickname) {
-        if (matchmakingView != null) {
-            matchmakingView.setSelected(actualCurrentPlayerNickname);
-        }
     }
 
     @Override

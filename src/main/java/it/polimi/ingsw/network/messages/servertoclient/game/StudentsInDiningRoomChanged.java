@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.utils.StudentList;
 
@@ -38,7 +38,7 @@ public class StudentsInDiningRoomChanged extends ServerCommandNetMsg {
      * @param client the client that receives this message
      */
     @Override
-    public void processMessage(ClientController client) {
-        client.setDiningRoomList(player,studentList);
+    public void processMessage(ClientView client) {
+        client.studentsInDiningRoomChanged(player,studentList);
     }
 }

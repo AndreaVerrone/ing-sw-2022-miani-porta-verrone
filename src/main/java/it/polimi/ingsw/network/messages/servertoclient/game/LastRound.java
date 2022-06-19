@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
  */
 public class LastRound extends ServerCommandNetMsg {
     @Override
-    public void processMessage(ClientController client) {
+    public void processMessage(ClientView client) {
         client.notifyLastRound();
     }
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 
 /**
@@ -27,7 +27,7 @@ abstract public class ServerCommandNetMsg extends NetworkMessage {
      *
      * @param client the client that receives this message
      */
-    abstract public void processMessage(ClientController client);
+    abstract public void processMessage(ClientView client);
 
 
     /**

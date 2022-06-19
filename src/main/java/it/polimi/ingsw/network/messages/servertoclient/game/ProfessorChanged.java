@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.utils.PawnType;
 
@@ -34,8 +34,8 @@ public class ProfessorChanged extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        client.setProfTableList(playerNickname,professors);
+    public void processMessage(ClientView client) {
+        client.professorsOfPlayerChanged(playerNickname,professors);
     }
 
 }

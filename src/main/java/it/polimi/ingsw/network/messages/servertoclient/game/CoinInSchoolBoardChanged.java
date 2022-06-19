@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
@@ -37,7 +37,7 @@ public class CoinInSchoolBoardChanged extends ServerCommandNetMsg {
      * @param client the client that receives this message
      */
     @Override
-    public void processMessage(ClientController client) {
-        client.setCoinNumberList(player,actualNumOfCoins);
+    public void processMessage(ClientView client) {
+        client.coinNumberOfPlayerChanged(player,actualNumOfCoins);
     }
 }
