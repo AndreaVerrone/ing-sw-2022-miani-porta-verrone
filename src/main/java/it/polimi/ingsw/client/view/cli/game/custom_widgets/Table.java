@@ -42,11 +42,6 @@ public class Table extends StatefulWidget {
     private final Map<String,ReducedSchoolBoard> schoolBoards = new HashMap<>();
 
     /**
-     * the list of reduced islands composing the island set
-     */
-    private final Collection<ReducedIsland> reducedIslands;
-
-    /**
      * the island set that are on the table.
      */
     private final IslandsSet islandsSet;
@@ -71,7 +66,6 @@ public class Table extends StatefulWidget {
             schoolBoards.put(schoolBoard.getOwner(),schoolBoard);
         }
 
-        this.reducedIslands = tableRecord.reducedIslands();
         islandsSet = new IslandsSet(tableRecord.reducedIslands());
         islandsSet.motherNatureMoved(tableRecord.motherNaturePosition());
 
