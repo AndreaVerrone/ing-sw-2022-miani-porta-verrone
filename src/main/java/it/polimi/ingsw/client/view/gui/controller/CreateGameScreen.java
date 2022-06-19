@@ -104,9 +104,10 @@ public class CreateGameScreen implements Initializable {
 
         boolean expertMode = difficulty.getValue().equals("expert"); // todo: add translation
         // todo: similar to actual code
+        // show wait screen
+        // ClientApplication.getSwitcher().goToWaitScreen();
         // send message
         // getClientController().createGame(numOfPlayers.getValue(), expertMode);
-        // show idle screen
 
         // todo: only for testing
         System.out.println(numOfPlayers.getValue());
