@@ -68,7 +68,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <id>server-jar</id>
@@ -78,22 +78,7 @@
             </goals>
             <configuration>
               <outputFile>target/jars/${project.artifactId}-server.jar</outputFile>
-              <filters>
-                <filter>
-                  <artifact>it.polimi.ingsw:PSP31</artifact>
-                  <includes>
-                    <include>it/polimi/ingsw/**</include>
-                  </includes>
-                  <excludes>
-                    <exclude>it/polimi/ingsw/client/view</exclude>
-                    <exclude>it/polimi/ingsw/client/ClientController.java</exclude>
-                    <exclude>it/polimi/ingsw/client/ClientView.java</exclude>
-                    <exclude>it/polimi/ingsw/client/ConnectionHandler.java</exclude>
-                    <exclude>it/polimi/ingsw/client/ScreenBuilder.java</exclude>
-                    <exclude>it/polimi/ingsw/client/Translator.java</exclude>
-                  </excludes>
-                </filter>
-              </filters>
+              <minimizeJar>true</minimizeJar>
               <transformers>
                 <transformer implementation=
                                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -110,14 +95,7 @@
             </goals>
             <configuration>
               <outputFile>target/jars/${project.artifactId}-cli.jar</outputFile>
-              <filters>
-                <filter>
-                  <artifact>it.polimi.ingsw:PSP31</artifact>
-                  <excludes>
-                    <exclude>it/polimi/ingsw/server</exclude>
-                  </excludes>
-                </filter>
-              </filters>
+              <minimizeJar>true</minimizeJar>
               <transformers>
                 <transformer implementation=
                                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
