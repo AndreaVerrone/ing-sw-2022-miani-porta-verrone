@@ -54,19 +54,6 @@ public class ExitScreen {
         alert.setHeaderText("You're about to exit from game");
         alert.setContentText("Do you want to exit the game ?");
 
-        // Create the ButtonBar instance
-        ButtonBar buttonBar = new ButtonBar();
-
-        // Create the buttons to go into the ButtonBar
-        Button yesButton = new Button("Yes");
-        ButtonBar.setButtonData(yesButton, ButtonBar.ButtonData.YES);
-
-        Button noButton = new Button("No");
-        ButtonBar.setButtonData(noButton, ButtonBar.ButtonData.NO);
-
-        // Add buttons to the ButtonBar
-        buttonBar.getButtons().addAll(yesButton, noButton);
-
         if(alert.showAndWait().get() == ButtonType.OK) {
             // todo: maybe use also the proper method of the controller to exit the game !
             // set the stage to the current one that we are working with
