@@ -88,8 +88,24 @@ public class Translator {
         return isItalian ? "Esci" : "Exit";
     }
 
+    public static String getBack(){
+        return isItalian ? "Indietro" : "Back";
+    }
+
     public static String getChooseHomeAction(){
         return isItalian ? "Cosa vuoi fare?" + tabHelpIT : "What do you want to do?" + tabHelpEn ;
+    }
+
+    public static String getCreate(){
+        return isItalian ? "Crea" : "Create";
+    }
+
+    public static String getJoin(){
+        return isItalian ? "Unisciti" : "Join";
+    }
+
+    public static String getResume(){
+        return isItalian ? "Riprendi" : "Resume";
     }
 
     public static String getCreateGame(){
@@ -317,8 +333,11 @@ public class Translator {
         return isItalian ? "Numero di giocatori: " : "Number of players: ";
     }
     public static String getDisplayDifficulty(boolean isExpert){
-        return isItalian ? "Difficoltà: " + (isExpert ? "per esperti" : "normale") :
-                "Difficulty: " + (isExpert ? "expert mode" : "standard");
+        return (isItalian ? "Difficoltà: " : "Difficulty: ") + getDifficulty(isExpert);
+    }
+
+    public static String getDifficulty(boolean isExpert){
+        return isItalian ? (isExpert ? "esperti" : "normale") : (isExpert ? "expert" : "standard");
     }
 
     public static String getLabelGameID(){
@@ -367,6 +386,11 @@ public class Translator {
             case W3 -> isItalian ? "MAGO 3" : "WIZARD 3";
             case W4 -> isItalian ? "MAGO 4" : "WIZARD 4";
         };
+    }
+
+    public static String getAskForInitialParameters(){
+        return isItalian ? "Scegli la torre e il mago che vuoi usare durante la partita" + tabHelpIT
+                : "Choose the tower and wizard that you want to use during the game" + tabHelpEn;
     }
 
     // ****************** MANAGEMENT OF ERROR MESSAGES *************************

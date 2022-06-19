@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.matchmaking.widgets;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -48,11 +49,12 @@ public class PlayerView extends StatefulWidget {
     }
 
     private Widget createTower(TowerType towerType){
-        return towerType == null ? spacer : new Text("Tower: "+towerType);
+        return towerType == null ? spacer :
+                new Text(Translator.getTowerLabel() + " " + Translator.getTowerName(towerType));
     }
 
     private Widget createWizard(Wizard wizard){
-        return wizard == null ? spacer : new Text("Wizard: "+wizard);
+        return wizard == null ? spacer : new Text(Translator.getWizardName(wizard));
     }
 
     @Override

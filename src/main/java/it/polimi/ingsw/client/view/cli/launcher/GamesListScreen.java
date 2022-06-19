@@ -59,11 +59,11 @@ public class GamesListScreen extends CliScreen {
             inputReader.addCommandValidator(gameID);
             completers.add(new StringsCompleter(gameID));
         }
-        completers.add(new StringsCompleter("back"));
+        completers.add(new StringsCompleter(Translator.getBack()));
         inputReader.addCompleter(new AggregateCompleter(completers));
-        inputReader.addCommandValidator("back");
+        inputReader.addCommandValidator(Translator.getBack());
         String input = inputReader.readInput(Translator.getChooseGame())[0];
-        if (input.equals("back")){
+        if (input.equals(Translator.getBack())){
             getCli().setNextScreen(new HomeScreen(getCli()));
             return;
         }

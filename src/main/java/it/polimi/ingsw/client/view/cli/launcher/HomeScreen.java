@@ -48,7 +48,8 @@ public class HomeScreen extends CliScreen {
 
     private void askForAction(){
         InputReader inputReader = new InputReader();
-        Collection<String> commands = List.of("create", "join", "resume", "exit");
+        Collection<String> commands = List.of(
+                Translator.getCreate(), Translator.getJoin(), Translator.getResume(), Translator.getExit());
         Collection<Completer> completers = new ArrayList<>();
         for (String command : commands){
             inputReader.addCommandValidator(command);
@@ -56,19 +57,17 @@ public class HomeScreen extends CliScreen {
         }
         inputReader.addCompleter(new AggregateCompleter(completers));
         String command = inputReader.readInput(Translator.getChooseHomeAction())[0];
-        switch (command){
-            case "create" -> {
+        if (command.equals(Translator.getCreate())) {
                 int numPlayers = askNumOfPlayers();
-                if (numPlayers == -1) {
-                    show();
-                    return;
-                }
                 boolean wantExpertMode = askDifficulty();
                 getCli().getClientController().createGame(numPlayers, wantExpertMode);
-            }
-            case "join" -> getCli().getClientController().getGames();
-            case "resume" -> getCli().getClientController().resumeGame();
-            case "exit" -> getCli().confirmExit();
+
+        } else if (command.equals(Translator.getJoin())) {
+            getCli().getClientController().getGames();
+        } else if (command.equals(Translator.getResume())) {
+            getCli().getClientController().resumeGame();
+        } else if (command.equals(Translator.getExit())) {
+            getCli().confirmExit();
         }
     }
 
@@ -83,11 +82,11 @@ public class HomeScreen extends CliScreen {
     private boolean askDifficulty(){
         InputReader inputReader = new InputReader();
         inputReader.addCompleter(new AggregateCompleter(
-                new StringsCompleter("normal"),
-                new StringsCompleter("expert")));
-        inputReader.addCommandValidator("normal");
-        inputReader.addCommandValidator("expert");
+                new StringsCompleter(Translator.getDifficulty(true)),
+                new StringsCompleter(Translator.getDifficulty(false))));
+        inputReader.addCommandValidator(Translator.getDifficulty(true));
+        inputReader.addCommandValidator(Translator.getDifficulty(false));
         String input = inputReader.readInput(Translator.getChooseDifficulty())[0];
-        return input.equals("expert");
+        return input.equals(Translator.getDifficulty(true));
     }
 }

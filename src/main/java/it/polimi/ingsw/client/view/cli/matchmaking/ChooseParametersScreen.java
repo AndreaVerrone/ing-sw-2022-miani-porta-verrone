@@ -72,7 +72,7 @@ public class ChooseParametersScreen extends CliScreen {
     }
 
     private Widget createTower(TowerType towerType){
-        Text baseText = new Text(Translator.getTowerName(towerType)).setBackgroundColor(Color.BRIGHT_BLUE);
+        Text baseText = new Text(Translator.getTowerName(towerType)).setBackgroundColor(Color.BRIGHT_GREY);
         return switch (towerType){
             case BLACK -> baseText.setForegroundColor(Color.BLACK);
             case WHITE -> baseText.setForegroundColor(Color.WHITE);
@@ -81,7 +81,7 @@ public class ChooseParametersScreen extends CliScreen {
     }
 
     private Widget createWizard(Wizard wizard){
-        Text baseText = new Text(Translator.getWizardName(wizard)).setBackgroundColor(Color.BRIGHT_BLUE);
+        Text baseText = new Text(Translator.getWizardName(wizard)).setBackgroundColor(Color.BRIGHT_GREY);
         return switch (wizard){
             case W1 -> baseText.setForegroundColor(Color.BRIGHT_YELLOW);
             case W2 -> baseText.setForegroundColor(Color.BRIGHT_GREEN);
@@ -115,12 +115,11 @@ public class ChooseParametersScreen extends CliScreen {
                         Completers.TreeCompleter.node(wizardsAvailable.stream().map(w -> getLast(w.name())).toArray()))
         ));
 
-//        while (!shouldStop()) {
-            String[] input = inputReader.readInput("choose");
+            String[] input = inputReader.readInput(Translator.getAskForInitialParameters());
             String command = input[0];
 
             if (Translator.getExit().equals(command)) {
-                getCli().getClientController().exitFromGame();
+                getCli().confirmExit();
             } else if (Translator.getTowerLabel().equals(command)) {
                 getCli().getClientController().setTower(Translator.parseTowerType(input[1]));
             } else if (Translator.getWizardLabel().equals(command)) {
@@ -128,7 +127,6 @@ public class ChooseParametersScreen extends CliScreen {
             } else if (Translator.getNextPhase().equals(command)) {
                 getCli().getClientController().nextPhase();
             }
-//        }
     }
 
     private String getLast(String s){
