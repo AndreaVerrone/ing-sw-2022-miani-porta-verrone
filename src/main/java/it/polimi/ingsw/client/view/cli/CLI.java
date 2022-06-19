@@ -278,7 +278,7 @@ public class CLI extends ClientView {
     @Override
     public void playersChanged(Collection<ReducedPlayerLoginInfo> players) {
         boolean lobbyFull = matchmakingView.update(players);
-        if (lobbyFull)
+        if (lobbyFull && getClientController().isInTurn())
             getClientController().nextPhase();
     }
 
