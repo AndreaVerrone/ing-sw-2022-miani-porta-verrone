@@ -10,11 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 
 public class ClientApplication extends javafx.application.Application
@@ -59,12 +61,24 @@ public class ClientApplication extends javafx.application.Application
       switcher = new Switcher(primaryStage);
       controller = new Controller(connectionHandler);
       Group rootP = new Group();
-      // Parent root = FXMLLoader.load(getClass().getResource("/fxml/StartingScreen.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/fxml/StartingScreen.fxml"));
+      // Parent root = FXMLLoader.load(getClass().getResource("/fxml/ChooseLanguageScreen.fxml"));
 
-      /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CreateGameScreen.fxml"));
+      /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LobbyScreen.fxml"));
       Parent root = loader.load();
-      CreateGameScreen createGameScreen = (CreateGameScreen) loader.getController();
-      createGameScreen.setLabels();*/
+      LobbyScreen createGameScreen =loader.getController();
+      PlayerView playerView1 = new PlayerView("Ale");
+      playerView1.setTowerType(TowerType.BLACK);
+      playerView1.setWizard(Wizard.W1);
+      PlayerView playerView2 = new PlayerView("Andre");
+      //playerView2.setTowerType(TowerType.WHITE);
+      playerView2.setWizard(Wizard.W2);
+
+      createGameScreen.setUp(123,2,"easy",
+              List.of(
+                      playerView1,
+                      playerView2
+              ));*/
 
       /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseWizardAndTowerScreen.fxml"));
       Parent root = loader.load();
@@ -77,15 +91,20 @@ public class ClientApplication extends javafx.application.Application
       ChooseGame chooseGame = (ChooseGame) loader.getController();
       chooseGame.setListOfGames(List.of("Game 1","Game 2", "Game 3", "Game 4", "Game 5", "Game 6"));*/
 
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ListOfGamesScreen.fxml"));
+      /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ListOfGamesScreen.fxml"));
       Parent root = loader.load();
       ListOfGamesScreen listOfGamesScreen = (ListOfGamesScreen) loader.getController();
-      listOfGamesScreen.setComponents(List.of("Game 1","Game 2", "Game 3", "Game 4", "Game 5", "Game 6"));
+      listOfGamesScreen.setComponents(List.of("Game 1","Game 2", "Game 3", "Game 4", "Game 5", "Game 6"));*/
 
+
+      // primaryStage.getIcons().add(new Image("/assets/logo/eriantys_banner.png")); todo: I don't know why it does not work
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       //primaryStage.setMaxHeight(800);
       //primaryStage.setMaxWidth(1200);
+
+
+
       primaryStage.setResizable(false);
       primaryStage.show();
     } catch (IOException e) {
