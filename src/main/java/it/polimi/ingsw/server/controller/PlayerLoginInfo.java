@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.server.controller.matchmaking.observers.TowerSelectedObserver;
 import it.polimi.ingsw.server.controller.matchmaking.observers.WizardSelectedObserver;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -128,5 +129,13 @@ public class PlayerLoginInfo {
     private void notifyTowerSelectedObserver(){
         for(TowerSelectedObserver observer : towerSelectedObservers)
             observer.towerSelectedObserverUpdate(this.nickname, this.towerType);
+    }
+
+    /**
+     * Creates a reduced version fo this class that can be sent over the network.
+     * @return the reduced version of this
+     */
+    public ReducedPlayerLoginInfo reduce() {
+        return new ReducedPlayerLoginInfo(nickname, towerType, wizard);
     }
 }

@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Text;
 import org.jline.reader.impl.completer.StringsCompleter;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,14 +24,14 @@ public class EndGameScreen extends CliScreen {
     /**
      * The list of the winners.
      */
-    private final List<String> winners;
+    private final Collection<String> winners;
 
     /**
      * The constructor of the class
      * @param cli the cli of the user
      * @param winners the list of the winners of the game
      */
-    public EndGameScreen(CLI cli, List<String> winners) {
+    public EndGameScreen(CLI cli, Collection<String> winners) {
         super(cli);
         this.winners = winners;
     }
@@ -41,12 +42,11 @@ public class EndGameScreen extends CliScreen {
     @Override
     protected void show() {
 
-        Canvas canvas = new Canvas();
+        Canvas canvas = new Canvas(true, false);
 
         Text text;
 
-        String ownerPlayer = getCli().getClientController().getNickNameOwner(); // todo: actual code
-        // String ownerPlayer = "player 1"; // todo: only for testing
+        String ownerPlayer = getCli().getClientController().getNickNameOwner();
 
         int numOfWinners = winners.size();
 
@@ -60,7 +60,7 @@ public class EndGameScreen extends CliScreen {
                 text = new Text(Translator.getMessageForTheWinner());
             } else {
                 // the winner is not the owner
-                text = new Text(winners.get(0) + " " + Translator.getMessageForTheLosers());
+                text = new Text(winners.toArray()[0] + " " + Translator.getMessageForTheLosers());
             }
 
         } else {
@@ -77,15 +77,13 @@ public class EndGameScreen extends CliScreen {
         canvas.setTitle(phase);
 
         canvas.show();
-
-        askForAction();
-
     }
 
     /**
      * this method allow the player to close the game when he asks to do that.
      */
-    public void askForAction(){
+    @Override
+    protected void askAction(){
 
         InputReader inputReader = new InputReader();
 
@@ -101,9 +99,8 @@ public class EndGameScreen extends CliScreen {
         String[] inputs = inputReader.readInput(Translator.getMessageChooseEndPhase());
 
         if (inputs[0].equals(Translator.getMessageToExit())) {
-            // System.out.println("exiting from game"); // todo: testing only
             // change screen
-            getCli().confirmExit(); // todo: actual code
+            getCli().confirmExit();
         }
     }
 }

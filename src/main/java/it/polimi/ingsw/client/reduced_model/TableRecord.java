@@ -19,21 +19,23 @@ public record TableRecord(
         Collection<Assistant> assistantsList,
         Map<String, Assistant> assistantsUsed,
         Collection<ReducedCloud> clouds,
-
         Collection<ReducedSchoolBoard> schoolBoardList,
-        Collection<ReducedIsland> reducedIslands) implements Serializable {
+        Collection<ReducedIsland> reducedIslands,
+        int motherNaturePosition) implements Serializable {
         
         public TableRecord(
                 Collection<Assistant> assistantsList,
                 Map<String, Assistant> assistantsUsed,
                 Collection<ReducedCloud> clouds,
                 Collection<ReducedSchoolBoard> schoolBoardList,
-                Collection<ReducedIsland> reducedIslands
+                Collection<ReducedIsland> reducedIslands,
+                int motherNaturePosition
         ) {
             this.assistantsList = new ArrayList<>(assistantsList);
             this.assistantsUsed = new HashMap<>(assistantsUsed);
             this.clouds = new ArrayList<>(clouds);
             this.schoolBoardList = new ArrayList<>(schoolBoardList);
             this.reducedIslands = new ArrayList<>(reducedIslands);
+            this.motherNaturePosition = motherNaturePosition;
     }
 }

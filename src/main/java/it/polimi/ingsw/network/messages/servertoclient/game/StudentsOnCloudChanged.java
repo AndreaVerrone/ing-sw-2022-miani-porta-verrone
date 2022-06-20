@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.utils.StudentList;
 
@@ -38,8 +38,8 @@ public class StudentsOnCloudChanged extends ServerCommandNetMsg {
      * @param client the client that receives this message
      */
     @Override
-    public void processMessage(ClientController client) {
-        client.setClouds(ID,studentList);
+    public void processMessage(ClientView client) {
+        client.studentsOnCloudChanged(ID,studentList);
 
     }
 }

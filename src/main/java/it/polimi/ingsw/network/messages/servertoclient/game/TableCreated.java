@@ -1,17 +1,8 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
-import it.polimi.ingsw.client.reduced_model.ReducedIsland;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
-import it.polimi.ingsw.server.model.player.Assistant;
-import it.polimi.ingsw.server.model.utils.PawnType;
-import it.polimi.ingsw.server.model.utils.StudentList;
-import it.polimi.ingsw.server.model.utils.TowerType;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A message sent from server to all the client connected to a game with all the data
@@ -38,7 +29,7 @@ public class TableCreated extends ServerCommandNetMsg {
      * @param client the client that receives this message
      */
     @Override
-    public void processMessage(ClientController client) {
-        client.initializeTable(table);
+    public void processMessage(ClientView client) {
+        client.gameCreated(table);
     }
 }

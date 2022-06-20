@@ -29,7 +29,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     /**
      * The controller of the client
      */
-    private final ClientController clientController;
+    private final ClientView clientView;
     /**
      * The socket connected to the server
      */
@@ -70,13 +70,13 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     /**
      * Creates a new connection with the server using the IP and port specified.
      *
-     * @param clientController The controller of the client
+     * @param clientView The view of the client
      * @param serverIP         the IP of the server
      * @param serverPort       the port to use to connect on the server
      * @throws IOException if an I/O error occurs when creating the connection
      */
-    public ConnectionHandler(ClientController clientController, String serverIP, int serverPort) throws IOException{
-        this.clientController = clientController;
+    public ConnectionHandler(ClientView clientView, String serverIP, int serverPort) throws IOException{
+        this.clientView = clientView;
         server = new Socket(serverIP, serverPort);
         server.setSoTimeout(SOKET_TIME_OUT * 1000);
     }
@@ -123,8 +123,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
                     Object message = input.readObject();
                     handleMessage(message);
                 } catch (SocketTimeoutException e) {
-                    // TODO: 11/05/2022 show connection error on screen
-                    System.out.println("Connecting...");
+                    clientView.getScreenBuilder().build(ScreenBuilder.Screen.CONNECTION_ERROR);
                 }
             }
         } catch (ClassNotFoundException | ClassCastException e) {
@@ -146,13 +145,13 @@ public class ConnectionHandler implements Runnable, NetworkSender {
                 synchronized (sentMessages) {
                     parentMessage = sentMessages.remove(parentId);
                 }
-                parentMessage.processResponse(response,clientController);
+                parentMessage.processResponse(response, clientView);
             }
             return;
         }
         ServerCommandNetMsg request = (ServerCommandNetMsg) message;
         sendMessage(ResponseMessage.newSuccess(request));
-        request.processMessage(clientController);
+        request.processMessage(clientView);
     }
 
     private void checkForExpired() {

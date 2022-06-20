@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.messages.servertoclient.launcher;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
@@ -22,8 +23,8 @@ public class GameCreated extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        client.askNicknameToEnter(gameID);
+    public void processMessage(ClientView client) {
+        client.getScreenBuilder().build(ScreenBuilder.Screen.ASK_NICKNAME, gameID);
     }
 
 }

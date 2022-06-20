@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
@@ -37,7 +37,7 @@ public class BanOnIslandChanged extends ServerCommandNetMsg {
      * @param client the client that receives this message
      */
     @Override
-    public void processMessage(ClientController client) {
-        client.updateBanOnIsland(ID,actualNumOfBans);
+    public void processMessage(ClientView client) {
+        client.numberOfBansOnIslandChanged(ID,actualNumOfBans);
     }
 }

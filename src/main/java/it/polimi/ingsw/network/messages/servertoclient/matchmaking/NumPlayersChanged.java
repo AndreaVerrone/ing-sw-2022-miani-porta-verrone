@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.matchmaking;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
@@ -23,8 +23,8 @@ public class NumPlayersChanged extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        // TODO: 11/05/2022 update the view of the client
+    public void processMessage(ClientView client) {
+        client.numberOfPlayersChanged(newNumOfPlayers);
     }
 
 }

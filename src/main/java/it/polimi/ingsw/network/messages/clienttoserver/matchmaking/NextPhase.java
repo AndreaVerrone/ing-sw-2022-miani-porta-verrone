@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.messages.clienttoserver.matchmaking;
 
-import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
@@ -14,10 +13,5 @@ public class NextPhase extends ClientCommandNetMsg {
     protected void normalProcess(ClientHandler clientInServer) throws NotValidOperationException {
         clientInServer.getSessionController().next();
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
-    }
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        // TODO: 11/05/2022 handle response in client
     }
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.messages.clienttoserver.launcher;
 
-import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.launcher.GameCreated;
@@ -42,13 +41,5 @@ public class CreateNewGame extends ClientCommandNetMsg {
         String newGameID = clientInServer.getSessionController().createNewGame(numOfPlayers, wantExpert);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
         clientInServer.sendMessage(new GameCreated(newGameID));
-    }
-
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        if (!response.isSuccess()) {
-            // TODO: 09/05/2022 notify view of the error
-        }
     }
 }

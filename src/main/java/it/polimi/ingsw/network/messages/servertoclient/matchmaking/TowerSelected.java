@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.matchmaking;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
@@ -30,7 +30,7 @@ public class TowerSelected extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        //TODO; update the tower selected
+    public void processMessage(ClientView client) {
+        client.towerSelected(nickname, tower);
     }
 }

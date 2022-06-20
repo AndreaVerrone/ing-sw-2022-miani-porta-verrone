@@ -34,6 +34,10 @@ public class IslandsSet extends StatefulWidget {
         create();
     }
 
+    public Collection<Integer> getIslandsID() {
+        return Collections.unmodifiableCollection(islands.keySet());
+    }
+
     /**
      * Changes the students on the specified island with the new ones passed as parameter
      *

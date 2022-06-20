@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.game.states;
 
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Player;
@@ -185,7 +186,7 @@ class PlayAssistantStateTest {
         assertEquals("Player1",game.getModel().getCurrentPlayer().getNickname());
         // 2. the state now should be MoveStudentState that is the first of the action phase
         // since all the player of the game have completed the planning phase
-        assertEquals(game.getMoveStudentState(),game.getState());
+        assertEquals(StateType.MOVE_STUDENT_STATE,game.getState().getType());
     }
 
     @Test

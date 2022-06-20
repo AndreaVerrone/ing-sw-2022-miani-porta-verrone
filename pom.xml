@@ -38,6 +38,11 @@
       <artifactId>jline-terminal-jansi</artifactId>
       <version>3.21.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.jline</groupId>
+      <artifactId>jline-builtins</artifactId>
+      <version>3.21.0</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -59,6 +64,47 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>server-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <outputFile>target/jars/${project.artifactId}-server.jar</outputFile>
+              <minimizeJar>true</minimizeJar>
+              <transformers>
+                <transformer implementation=
+                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>it.polimi.ingsw.server.Server</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+          <execution>
+            <id>client-cli-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <outputFile>target/jars/${project.artifactId}-cli.jar</outputFile>
+              <minimizeJar>true</minimizeJar>
+              <transformers>
+                <transformer implementation=
+                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>it.polimi.ingsw.client.view.cli.ClientCli</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

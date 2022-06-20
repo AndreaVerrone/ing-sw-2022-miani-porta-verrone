@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
@@ -62,14 +62,14 @@ abstract public class ClientCommandNetMsg extends NetworkMessage {
      * This method runs in the client.
      *
      * @param response the response of this request
-     * @param clientController the controller (client side)
+     * @param clientView the view of the client
      */
-    public void processResponse(ResponseMessage response, ClientController clientController){
+    public void processResponse(ResponseMessage response, ClientView clientView){
         // if there is an error
         if (!response.isSuccess()) {
             // get the error code and print it
             ErrorCode errorCode = response.getErrorCode();
-            clientController.displayErrorMessage(Translator.getErrorMessage(errorCode));
+            clientView.displayErrorMessage(Translator.getErrorMessage(errorCode));
         }
     }
 

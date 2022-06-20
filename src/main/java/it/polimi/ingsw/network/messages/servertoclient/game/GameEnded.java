@@ -1,9 +1,9 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -29,8 +29,8 @@ public class GameEnded extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        client.displayEndGameScreen(new ArrayList<>(winners));
+    public void processMessage(ClientView client) {
+        client.getScreenBuilder().build(ScreenBuilder.Screen.END_GAME, winners);
     }
 
 }

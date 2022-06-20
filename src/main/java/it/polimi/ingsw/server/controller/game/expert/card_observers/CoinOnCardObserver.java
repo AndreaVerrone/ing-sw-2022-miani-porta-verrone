@@ -12,7 +12,6 @@ public interface CoinOnCardObserver {
      * It is called by the subject in order to notify a change to all its attached observers.
      *
      * @param characterCardsType the card type on which the change has been happened
-     * @param coinOnCard the actual value (true, if the coin is present, false otherwise)
      */
-    void coinOnCardObserverUpdate(CharacterCardsType characterCardsType, boolean coinOnCard);
+    void coinOnCardObserverUpdate(CharacterCardsType characterCardsType);
 }

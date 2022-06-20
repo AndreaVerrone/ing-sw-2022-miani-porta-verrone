@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.controller.matchmaking;
 
-import it.polimi.ingsw.server.controller.ChangeCurrentStateObserver;
-import it.polimi.ingsw.server.controller.NotValidArgumentException;
-import it.polimi.ingsw.server.controller.NotValidOperationException;
-import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.*;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.matchmaking.observers.NumberOfPlayersObserver;
 import it.polimi.ingsw.server.controller.matchmaking.observers.PlayersChangedObserver;
@@ -297,8 +294,12 @@ public class MatchMaking{
      * This method notify all the attached observers that a change has been happened on current state.
      */
     private void notifyChangeCurrentStateObservers(){
-        for(ChangeCurrentStateObserver observer : changeCurrentStateObservers)
-            observer.changeCurrentStateObserverUpdate(this.state.getType());
+        StateType state = this.state.getType();
+        for(ChangeCurrentStateObserver observer : changeCurrentStateObservers) {
+            observer.changeCurrentStateObserverUpdate(state);
+            if (state == StateType.SET_PLAYER_PARAMETER_STATE)
+                observer.requestChoosePlayerParameter(getTowersAvailable(), getWizardsAvailable());
+        }
     }
 
   // MANAGEMENT OF OBSERVERS FOR PLAYERS OF THE MATCH

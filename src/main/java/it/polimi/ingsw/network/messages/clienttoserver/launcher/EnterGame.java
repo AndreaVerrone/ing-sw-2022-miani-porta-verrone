@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver.launcher;
 
-import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
-import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
@@ -39,29 +37,5 @@ public class EnterGame extends ClientCommandNetMsg {
             throws NotValidArgumentException, NotValidOperationException {
         clientInServer.getSessionController().enterGame(nickname, gameID);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
-    }
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        if (response.isSuccess()) {
-            //TODO: notify the view of the success
-            return;
-        }
-        ErrorCode errorCode = response.getErrorCode();
-        switch (errorCode) {
-            case GAME_NOT_EXIST -> {
-                //TODO: notify view
-            }
-            case NICKNAME_TAKEN -> {
-                // TODO: 09/05/2022 ask for another nickname
-            }
-            case GAME_IS_FULL -> {
-                // TODO: 09/05/2022 notify view
-            }
-            case GENERIC_INVALID_OPERATION -> {
-                // TODO: 09/05/2022 notify view can't join
-            }
-        }
-
     }
 }

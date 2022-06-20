@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
+import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.*;
 
@@ -74,6 +76,10 @@ public class Translator {
         return isItalian ? "Sei sicuro di voler uscire dal gioco? [yes/no]"
                 : "Are you sure you want to exit the game? [yes/no]";
     }
+
+    public static String getConnectionError(){
+        return isItalian ? "Errore di connessione. Attendi" : "Connection error. Wait";
+    }
     public static String getChooseIP(){
         return isItalian ? "Scegli l'indirizzo IP del server" : "Choose the IP address of the server";
     }
@@ -86,8 +92,24 @@ public class Translator {
         return isItalian ? "Esci" : "Exit";
     }
 
+    public static String getBack(){
+        return isItalian ? "Indietro" : "Back";
+    }
+
     public static String getChooseHomeAction(){
         return isItalian ? "Cosa vuoi fare?" + tabHelpIT : "What do you want to do?" + tabHelpEn ;
+    }
+
+    public static String getCreate(){
+        return isItalian ? "Crea" : "Create";
+    }
+
+    public static String getJoin(){
+        return isItalian ? "Unisciti" : "Join";
+    }
+
+    public static String getResume(){
+        return isItalian ? "Riprendi" : "Resume";
     }
 
     public static String getCreateGame(){
@@ -174,15 +196,17 @@ public class Translator {
     }
     public static String getMessageMoveStudentsPhase(){
         return isItalian ?
-                "inserisci il colore dello studente da muovere seguito dalla destinazione \n" +
-                "Esempio:\n" +
-                "se vuoi muovere uno studente blu sull'isola 1 scrivi: \"blu Isola#1\"\n" +
-                "oppure se vuoi muovere uno studente verde nella sala scrivi \" verde Sala\"" :
+                """
+                        inserisci il colore dello studente da muovere seguito dalla destinazione\s
+                        Esempio:
+                        se vuoi muovere uno studente blu sull'isola 1 scrivi: "blu Isola#1"
+                        oppure se vuoi muovere uno studente verde nella sala scrivi " verde Sala\"""" :
 
-                "insert the color of the student to move followed by the destination \n" +
-                "Example:\n" +
-                "if you want to move the blue student on the island 1 insert: \"blue Island#1\"\n" +
-                "or if you want to move the green student to the dining room insert: \"green Dining_Room\"";
+                """
+                        insert the color of the student to move followed by the destination\s
+                        Example:
+                        if you want to move the blue student on the island 1 insert: "blue Island#1"
+                        or if you want to move the green student to the dining room insert: "green Dining_Room\"""";
     }
 
     public static String getDiningRoomLocationName(){
@@ -313,8 +337,64 @@ public class Translator {
         return isItalian ? "Numero di giocatori: " : "Number of players: ";
     }
     public static String getDisplayDifficulty(boolean isExpert){
-        return isItalian ? "Difficoltà: " + (isExpert ? "per esperti" : "normale") :
-                "Difficulty: " + (isExpert ? "expert mode" : "standard");
+        return (isItalian ? "Difficoltà: " : "Difficulty: ") + getDifficulty(isExpert);
+    }
+
+    public static String getDifficulty(boolean isExpert){
+        return isItalian ? (isExpert ? "esperti" : "normale") : (isExpert ? "expert" : "standard");
+    }
+
+    public static String getLabelGameID(){
+        return isItalian ? "Identificatore della partita: " : "Identifier of this game: ";
+    }
+
+    public static String getNextPhase(){
+        return isItalian ? "Avanti" : "Next";
+    }
+
+    public static String getAvailableSuffix(){
+        return isItalian ? " disponibili" : " available";
+    }
+
+    public static String getTowerLabel(){
+        return isItalian ? "Torre" : "Tower";
+    }
+    public static String getTowerName(TowerType towerType){
+        if (!isItalian)
+            return towerType.name();
+        return switch (towerType) {
+            case BLACK -> "NERA";
+            case WHITE -> "BIANCA";
+            case GREY -> "GRIGIA";
+        };
+    }
+
+    public static TowerType parseTowerType(String tower) throws IllegalArgumentException{
+        if (!isItalian)
+            return TowerType.valueOf(tower);
+        return switch (tower) {
+            case "NERA" -> TowerType.BLACK;
+            case "BIANCA" -> TowerType.WHITE;
+            case "GRIGIA" -> TowerType.GREY;
+            default -> throw new IllegalArgumentException();
+        };
+    }
+
+    public static String getWizardLabel(){
+        return isItalian ? "Mago" : "Wizard";
+    }
+    public static String getWizardName(Wizard wizard) {
+        return switch (wizard) {
+            case W1 -> isItalian ? "MAGO 1" : "WIZARD 1";
+            case W2 -> isItalian ? "MAGO 2" : "WIZARD 2";
+            case W3 -> isItalian ? "MAGO 3" : "WIZARD 3";
+            case W4 -> isItalian ? "MAGO 4" : "WIZARD 4";
+        };
+    }
+
+    public static String getAskForInitialParameters(){
+        return isItalian ? "Scegli la torre e il mago che vuoi usare durante la partita" + tabHelpIT
+                : "Choose the tower and wizard that you want to use during the game" + tabHelpEn;
     }
 
     // ****************** MANAGEMENT OF ERROR MESSAGES *************************

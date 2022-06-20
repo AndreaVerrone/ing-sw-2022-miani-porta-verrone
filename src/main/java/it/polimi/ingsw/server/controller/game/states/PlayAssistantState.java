@@ -92,7 +92,7 @@ public class PlayAssistantState implements GameState {
         if(numOfPlayersHavePlayed==numOfPlayers) {
             game.getModel().calculateActionPhaseOrder();
             resetState();
-            game.setState(game.getMoveStudentState());
+            game.setState(new MoveStudentState(game, 0));
         }else{
         // otherwise set the next current player and continue the planning phase
             gameModel.nextPlayerTurn();

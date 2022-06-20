@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+
 import java.util.*;
 
 /**
@@ -41,14 +42,9 @@ public class Table extends StatefulWidget {
     private final Map<String,ReducedSchoolBoard> schoolBoards = new HashMap<>();
 
     /**
-     * the list of reduced islands composing the island set
-     */
-    private final Collection<ReducedIsland> reducedIslands;
-
-    /**
      * the island set that are on the table.
      */
-    private IslandsSet islandsSet;
+    private final IslandsSet islandsSet;
 
     /**
      * the constructor of the class
@@ -70,7 +66,8 @@ public class Table extends StatefulWidget {
             schoolBoards.put(schoolBoard.getOwner(),schoolBoard);
         }
 
-        this.reducedIslands = tableRecord.reducedIslands();
+        islandsSet = new IslandsSet(tableRecord.reducedIslands());
+        islandsSet.motherNatureMoved(tableRecord.motherNaturePosition());
 
         create();
     }
@@ -105,7 +102,7 @@ public class Table extends StatefulWidget {
      * @return the collection of the ID of the islands that are on the table
      */
     public Collection<Integer> getIdOfReducedIslands() {
-        return reducedIslands.stream().map(ReducedIsland::ID).toList();
+        return islandsSet.getIslandsID();
     }
 
     // SETTERS
@@ -268,7 +265,7 @@ public class Table extends StatefulWidget {
         }
 
         // 3. islands
-        islandsSet = new IslandsSet(reducedIslands);
+//        islandsSet = new IslandsSet(reducedIslands);
 
         // 4. clouds
         CloudsSet cloudsOnTable = new CloudsSet(clouds.values());

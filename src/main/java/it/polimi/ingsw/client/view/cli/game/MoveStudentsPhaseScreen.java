@@ -31,10 +31,6 @@ public class MoveStudentsPhaseScreen extends CliScreen {
      */
     private final Table table;
 
-    private static final int MOVE_STUDENT_TO_DININGROOM = 1;
-
-    private static final int MOVE_STUDENT_TO_ISLAND = 2;
-
     /**
      * The constructor od the class
      * @param cli the cli of the user
@@ -50,7 +46,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
     @Override
     protected void show() {
 
-        Canvas canvas = new Canvas();
+        Canvas canvas = new Canvas(true, false);
         canvas.setContent(table);
         canvas.setTitle(phase);
 
@@ -58,16 +54,14 @@ public class MoveStudentsPhaseScreen extends CliScreen {
 
         canvas.setSubtitle(Translator.getMessageCurrentPlayer()+": "+currentPlayerNickname);
         canvas.show();
-
-        askForAction();
-
     }
 
     /**
      * this method will ask the player to move a student from the entrance of
      * the school board to a destination (island or dining room)
      */
-    private void askForAction() {
+    @Override
+    protected void askAction() {
 
         InputReader inputReader = new InputReader();
 
@@ -132,21 +126,18 @@ public class MoveStudentsPhaseScreen extends CliScreen {
 
         // if it is the string to exit -- > go to confirm exit screen
         if (firstStringOfInput.equals(Translator.getMessageToExit())) {
-            // System.out.println("exiting from game ..."); // todo: for testing only
             // change screen
-            getCli().confirmExit(); // todo: actual code
+            getCli().confirmExit();
 
         } else {
             // if it is not exit, take the color of the student to move
-            // System.out.println("sending to server: " + getPawnType(inputs[0])); // todo: for testing only
-            getCli().getClientController().chooseStudentFromLocation(getPawnType(firstStringOfInput), new Position(Location.ENTRANCE)); // todo: actual code
+            getCli().getClientController().chooseStudentFromLocation(getPawnType(firstStringOfInput), new Position(Location.ENTRANCE));
 
             // 2. check the second string of the input
             String secondStringOfInput = inputs[1];
             // if the destination is dining room
             if (secondStringOfInput.equals(Translator.getDiningRoomLocationName())) {
-                // System.out.println("move to dining room"); // todo: testing only
-                getCli().getClientController().chooseDestination(new Position(Location.DINING_ROOM)); // todo: actual code
+                getCli().getClientController().chooseDestination(new Position(Location.DINING_ROOM));
                 return;
             }
 
@@ -156,8 +147,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
             // which is for example Island#1 or Isola#1, so the number of the island is the
             // last character of the string
             islandID = Integer.parseInt(secondStringOfInput.substring(secondStringOfInput.length() - 1));
-            // System.out.println("sending to server to move student to island: " + islandID); // todo: testing only
-            Position island = new Position(Location.ISLAND); // todo: actual code
+            Position island = new Position(Location.ISLAND);
             island.setField(islandID);
             getCli().getClientController().chooseDestination(island);
         }
@@ -173,7 +163,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
      *      <li> output: {"a|b|c"} </li>
      * </ul>
      * </p>
-     * @param strings the collection of strings to seprate with a "|"
+     * @param strings the collection of strings to separate with a "|"
      * @return a string with elements separated by "|"
      */
     private String regexBuilder(Collection<String> strings){

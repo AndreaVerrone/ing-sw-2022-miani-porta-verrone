@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.messages.clienttoserver.matchmaking;
 
-import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
@@ -31,10 +30,5 @@ public class SetWizard extends ClientCommandNetMsg {
             throws NotValidArgumentException, NotValidOperationException {
         clientInServer.getSessionController().setWizardOfPlayer(wizard);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
-    }
-
-    @Override
-    public void processResponse(ResponseMessage response, ClientController clientController) {
-        // TODO: 11/05/2022 handle response in client
     }
 }

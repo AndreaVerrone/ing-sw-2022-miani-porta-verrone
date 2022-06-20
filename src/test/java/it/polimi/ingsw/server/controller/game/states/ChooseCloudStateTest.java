@@ -48,9 +48,7 @@ class ChooseCloudStateTest {
                 int randomStudent = new Random().nextInt(PawnType.values().length);
                 try {
                     currentPlayer.removeStudentFromEntrance(PawnType.values()[randomStudent]);
-                } catch (NotEnoughStudentException e) {
-                    fail();
-                }
+                } catch (NotEnoughStudentException ignore) {}
             }
         }
 

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.controller.game;
 
-import it.polimi.ingsw.server.model.player.Player;
-
 import java.util.Collection;
 
 /**

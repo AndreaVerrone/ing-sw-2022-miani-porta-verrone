@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
@@ -22,7 +22,7 @@ public class CoinNumberInBagChanged extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        //TODO; update view
+    public void processMessage(ClientView client) {
+        client.coinNumberInBagChanged(numberOfCoinsInBag);
     }
 }

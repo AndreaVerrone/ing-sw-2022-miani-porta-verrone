@@ -30,10 +30,6 @@ public class Game {
      */
     private final GameState playAssistantState;
     /**
-     * State in which the player moves a student from his entrance to an island or his dining room
-     */
-    private final GameState moveStudentState;
-    /**
      * State in which the player is moving mother nature
      */
     private final GameState moveMotherNatureState;
@@ -78,7 +74,6 @@ public class Game {
 
         // 2.1 create the states of the game regarding the planning phase and the 3 step of the action phase
         playAssistantState = new PlayAssistantState(this);
-        moveStudentState = new MoveStudentState(this);
         moveMotherNatureState = new MoveMotherNatureState(this);
         chooseCloudState = new ChooseCloudState(this);
 
@@ -88,8 +83,6 @@ public class Game {
         // 3. INITIALIZATION OF THE MODEL
         initializeModel(players.size());
 
-        // 4.CREATE THE REDUCED TABLE
-        createReducedTable();
     }
 
     private void createReducedTable(){
@@ -98,7 +91,8 @@ public class Game {
         Collection<ReducedCloud> clouds = model.getGameTable().createReducedSetOfClouds();
         Collection<ReducedSchoolBoard> schoolBoards = model.createReducedSetOfSchoolBoards();
         Collection<ReducedIsland> islands = model.getGameTable().createReducedSetOfIslands();
-        TableRecord tableRecord = new TableRecord(deck,assistantsUsed,clouds,schoolBoards,islands);
+        TableRecord tableRecord = new TableRecord(deck,assistantsUsed,clouds,schoolBoards,
+                islands, model.getGameTable().getMotherNaturePosition());
         notifyGameCreatedObservers(tableRecord);
     }
 
@@ -281,7 +275,7 @@ public class Game {
             return;
         }
         model.nextPlayerTurn();
-        setState(moveStudentState);
+        setState(new MoveStudentState(this, 0));
     }
 
     public GameModel getModel() {
@@ -296,10 +290,6 @@ public class Game {
 
     public GameState getPlayAssistantState() {
         return playAssistantState;
-    }
-
-    public GameState getMoveStudentState() {
-        return moveStudentState;
     }
 
     public GameState getMoveMotherNatureState() {
@@ -401,6 +391,10 @@ public class Game {
         gameCreatedObservers.remove(observer);
     }
 
+    public void askGameUpdate(){
+        createReducedTable();
+        notifyChangeCurrentStateObservers();
+    }
     /**
      * This method notify all the attached observers that a change has been happened on current state.
      * @param table the table of the game just created

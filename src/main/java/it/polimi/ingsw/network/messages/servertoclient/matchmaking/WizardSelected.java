@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.matchmaking;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.player.Wizard;
 
@@ -20,7 +20,7 @@ public class WizardSelected extends ServerCommandNetMsg {
     private final Wizard wizard;
 
     /**
-     * Creates a new message to inform all the players in a game that the player has selected a aizard.
+     * Creates a new message to inform all the players in a game that the player has selected a wizard.
      * @param nickname of the player that selected the tower
      * @param wizard wizard selected by the player
      */
@@ -30,7 +30,7 @@ public class WizardSelected extends ServerCommandNetMsg {
     }
 
     @Override
-    public void processMessage(ClientController client) {
-        //TODO; update the wizard selected
+    public void processMessage(ClientView client) {
+        client.wizardSelected(nickname, wizard);
     }
 }

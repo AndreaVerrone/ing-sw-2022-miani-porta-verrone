@@ -8,7 +8,6 @@ import it.polimi.ingsw.server.model.player.Assistant;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * this class represent a deck of cards.

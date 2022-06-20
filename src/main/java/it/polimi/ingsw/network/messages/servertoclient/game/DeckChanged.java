@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 import it.polimi.ingsw.server.model.player.Assistant;
 
@@ -42,7 +42,7 @@ public class DeckChanged extends ServerCommandNetMsg {
      * @param client the client that receives this message
      */
     @Override
-    public void processMessage(ClientController client) {
-        client.setAssistantsList(assistantsList,player);
+    public void processMessage(ClientView client) {
+        client.assistantDeckChanged(player, assistantsList);
     }
 }

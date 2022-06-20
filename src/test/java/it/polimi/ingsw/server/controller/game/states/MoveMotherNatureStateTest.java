@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.game.states;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.model.player.Assistant;
 import org.junit.jupiter.api.AfterEach;
@@ -85,8 +86,8 @@ class MoveMotherNatureStateTest {
         game.setLastRoundFlag();
         try {
             game.moveMotherNature(4);
-            assertEquals(game.getMoveStudentState(),
-                    game.getState());
+            assertEquals(StateType.MOVE_STUDENT_STATE,
+                    game.getState().getType());
         } catch (NotValidArgumentException | NotValidOperationException e) {
             fail();
         }
