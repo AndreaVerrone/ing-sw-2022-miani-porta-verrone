@@ -119,16 +119,6 @@ public class ExpertGame extends Game {
         }
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the character cards in expert mode.
-     * @param observer the observer to be removed
-     */
-    @Override
-    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){
-        for(CharacterCard card: cards.values()){
-            card.removeStudentsOnCardObserver(observer);
-        }
-    }
 
     /**
      * This method allows to add the observer, passed as a parameter, on the character cards in expert mode.
@@ -141,14 +131,4 @@ public class ExpertGame extends Game {
         }
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the character cards in expert mode.
-     * @param observer the observer to be removed
-     */
-    @Override
-    public void removeCoinOnCardObserver(CoinOnCardObserver observer){
-        for(CharacterCard card: cards.values()){
-            card.removeCoinOnCardObserver(observer);
-        }
-    }
 }
