@@ -82,13 +82,6 @@ class Cloud {
         studentsOnCloudObservers.add(observer);
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on students on cloud.
-     * @param observer the observer to be removed
-     */
-    void removeStudentsOnCloudObserver(StudentsOnCloudObserver observer){
-        studentsOnCloudObservers.remove(observer);
-    }
 
     /**
      * This method notify all the attached observers that a change has been happened on students on cloud.
