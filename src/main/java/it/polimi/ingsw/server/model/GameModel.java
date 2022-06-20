@@ -351,14 +351,6 @@ public class GameModel {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on current player.
-     * @param observer the observer to be removed
-     */
-    public void removeChangeCurrentPlayerObserver(ChangeCurrentPlayerObserver observer){
-        changeCurrentPlayerObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on current player.
      * @param actualCurrentPlayerNickname the actual current player's nickname
      */
@@ -383,15 +375,6 @@ public class GameModel {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on conquer island
-     * invocation when there is a ban on the island.
-     * @param observer the observer to be removed
-     */
-    public void removeConquerIslandObserver(ConquerIslandObserver observer){
-        conquerIslandObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that conquer island method has been invoked when there is
      * a ban on the island.
      */
@@ -411,14 +394,6 @@ public class GameModel {
         gameTable.addEmptyStudentBagObserver(observer);
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on empty student bag.
-     * @param observer the observer to be removed
-     */
-    public void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
-        gameTable.removeEmptyStudentBagObserver(observer);
-    }
-
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON COINS BAG
 
     /**
@@ -427,14 +402,6 @@ public class GameModel {
      */
     public void addChangeCoinNumberInBagObserver(ChangeCoinNumberInBagObserver observer){
         coinsBag.addChangeCoinNumberInBagObserver(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on coins bag.
-     * @param observer the observer to be removed
-     */
-    public void removeChangeCoinNumberInBagObserver(ChangeCoinNumberInBagObserver observer){
-        coinsBag.removeChangeCoinNumberInBagObserver(observer);
     }
 
     // CREATION OF THE REDUCED VERSION
