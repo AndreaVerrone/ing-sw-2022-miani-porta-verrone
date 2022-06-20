@@ -242,6 +242,7 @@ public class Match implements ObserversCommonInterface{
         game.addGameCreatedObserver(this);
         game.addStudentsOnCardObserver(this);
         game.addCoinOnCardObserver(this);
+        game.addEndOfGameObserver(this);
 
         GameModel model = game.getModel();
         model.addChangeCurrentPlayerObserver(this);
