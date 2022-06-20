@@ -82,14 +82,6 @@ class DiningRoom {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the students dining room.
-     * @param observer the observer to be removed
-     */
-    void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
-        studentsInDiningRoomObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on the students dining room.
      * @param nickName the nickname of the player that has the school board on which the changes have been happened
      * @param actualStudents the actual student list in dining room
