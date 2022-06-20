@@ -158,8 +158,8 @@ public class Switcher {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CreateGameScreen.fxml"));
             Parent root = loader.load();
 
-            CreateGameScreen createGameScreen = (CreateGameScreen) loader.getController();
-            createGameScreen.setLabels();
+            // CreateGameScreen createGameScreen = loader.getController();
+            //createGameScreen.setLabels();
 
             // display(root);
 
@@ -179,8 +179,8 @@ public class Switcher {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNicknameScreen.fxml"));
             Parent root = loader.load();
 
-            AskNicknameScreen askNicknameScreen = (AskNicknameScreen) loader.getController();
-            askNicknameScreen.setParameters(gameID);
+            //AskNicknameScreen askNicknameScreen = (AskNicknameScreen) loader.getController();
+            //askNicknameScreen.setParameters(gameID);
 
             // display(root);
 
@@ -238,13 +238,13 @@ public class Switcher {
 
     }
 
-    public void goToChooseGameScreen(Collection<String> games){
+    public void goToChooseGameScreen(Collection<Integer> games){
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
             Parent root = loader.load();
-            ChooseGame chooseGame = (ChooseGame) loader.getController();
-            chooseGame.setListOfGames(List.of("1","2"));
+            //ChooseGame chooseGame = (ChooseGame) loader.getController();
+            //chooseGame.setListOfGames(List.of("1","2"));
 
             // display(root);
 
@@ -256,5 +256,24 @@ public class Switcher {
             e.printStackTrace();
         }
 
+    }
+
+    public void goToWaitScreen(){
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/WaitScreen.fxml"));
+            Parent root = loader.load();
+            //ChooseGame chooseGame = (ChooseGame) loader.getController();
+            //chooseGame.setListOfGames(List.of("1","2"));
+
+            // display(root);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
