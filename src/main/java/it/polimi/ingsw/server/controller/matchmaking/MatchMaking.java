@@ -283,14 +283,6 @@ public class MatchMaking{
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on current state.
-     * @param observer the observer to be removed
-     */
-    public void removeChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
-        changeCurrentStateObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on current state.
      */
     private void notifyChangeCurrentStateObservers(){
@@ -317,14 +309,6 @@ public class MatchMaking{
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the players.
-     * @param observer the observer to be removed
-     */
-    public void removePlayersChangedObserver(PlayersChangedObserver observer){
-        playersChangedObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that the players of the match have changed.
      */
     private void notifyPlayersChangedObserver(){
@@ -347,14 +331,6 @@ public class MatchMaking{
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on current player.
-     * @param observer the observer to be removed
-     */
-    public void removeChangeCurrentPlayerObserver(ChangeCurrentPlayerObserver observer){
-        changeCurrentPlayerObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on current player.
      */
     private void notifyChangeCurrentPlayerObservers(){
@@ -374,13 +350,6 @@ public class MatchMaking{
      */
     public void addNumberOfPlayersObserver(NumberOfPlayersObserver observer){
         numberOfPlayersObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the number of players.
-     * @param observer the observer to be removed
-     */
-    public void removeNumberOfPlayersObserver(NumberOfPlayersObserver observer){numberOfPlayersObservers.remove(observer);
     }
 
     /**
