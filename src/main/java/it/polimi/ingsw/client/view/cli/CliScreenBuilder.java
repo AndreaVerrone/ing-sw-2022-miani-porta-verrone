@@ -20,6 +20,11 @@ public class CliScreenBuilder extends ScreenBuilder {
     private final CLI cli;
 
     /**
+     * The last screen shown on the client's console
+     */
+    private CliScreen currentScreen;
+
+    /**
      * Creates a new ScreenBuilder used to create and show the various screens of the passed cli
      * @param cli the cli this builder is created for
      */
@@ -29,7 +34,7 @@ public class CliScreenBuilder extends ScreenBuilder {
 
     @Override
     public void build(ScreenBuilder.Screen screen) {
-        CliScreen nextScreen = switch (screen){
+        currentScreen = switch (screen){
             case CONNECTION_ERROR -> new ConnectionErrorScreen(cli);
             case LAUNCHER -> new LauncherScreen(cli);
             case HOME -> new HomeScreen(cli);
@@ -42,22 +47,33 @@ public class CliScreenBuilder extends ScreenBuilder {
             case CHOOSE_CLOUD -> new ChooseCloudScreen(cli);
             default -> throw new IllegalArgumentException();
         };
-        cli.setNextScreen(nextScreen);
+        show();
     }
 
     @Override
     public void build(ScreenBuilder.Screen screen, String gameID) {
         if (screen != Screen.ASK_NICKNAME)
             throw new IllegalArgumentException();
-        cli.setNextScreen(new RequestNicknameScreen(cli, gameID));
+        currentScreen = new RequestNicknameScreen(cli, gameID);
+        show();
     }
 
     @Override
     public void build(ScreenBuilder.Screen screen, Collection<String> inputs) {
         switch (screen){
-            case GAMES_LIST -> cli.setNextScreen(new GamesListScreen(cli, inputs));
-            case END_GAME -> cli.setNextScreen(new EndGameScreen(cli, inputs));
+            case GAMES_LIST -> currentScreen = new GamesListScreen(cli, inputs);
+            case END_GAME -> currentScreen = new EndGameScreen(cli, inputs);
             default -> throw new IllegalArgumentException();
         }
+        show();
+    }
+
+    @Override
+    public void rebuild() {
+        show();
+    }
+
+    private void show() {
+        cli.setNextScreen(currentScreen);
     }
 }

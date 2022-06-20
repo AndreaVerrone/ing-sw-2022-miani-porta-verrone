@@ -68,4 +68,9 @@ public abstract class ScreenBuilder {
      * @param inputs the list of inputs
      */
     abstract public void build(Screen screen, Collection<String> inputs);
+
+    /**
+     * Reshow the last screen displayed to the client
+     */
+    abstract public void rebuild();
 }
