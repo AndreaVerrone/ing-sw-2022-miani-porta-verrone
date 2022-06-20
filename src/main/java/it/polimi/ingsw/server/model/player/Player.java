@@ -292,14 +292,6 @@ public class Player {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the tower number.
-     * @param observer the observer to be removed
-     */
-    public void removeChangeTowerNumberObserver(ChangeTowerNumberObserver observer){
-        changeTowerNumberObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on the tower number.
      * @param nickName the nickname of the player that has the school board on which the changes have been happened.
      * @param numOfActualTowers the actual number of towers
@@ -321,14 +313,6 @@ public class Player {
      */
     public void addStudentsOnEntranceObserver(StudentsOnEntranceObserver observer){
         studentsOnEntranceObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the students on entrance.
-     * @param observer the observer to be removed
-     */
-    public void removeStudentsOnEntranceObserver(StudentsOnEntranceObserver observer){
-        studentsOnEntranceObservers.remove(observer);
     }
 
     /**
@@ -356,14 +340,6 @@ public class Player {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the assistant deck.
-     * @param observer the observer to be removed
-     */
-    public void removeProfessorObserver(ProfessorObserver observer){
-        professorObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on the assistant deck.
      * @param nickName that has the school board on which the change of professors have been happened
      * @param actualProfessors the actual professor list in dining room
@@ -385,14 +361,6 @@ public class Player {
      */
     public void addChangeAssistantDeckObserver(ChangeAssistantDeckObserver observer){
         changeAssistantDeckObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the assistant deck.
-     * @param observer the observer to be removed
-     */
-    public void removeChangeAssistantDeckObserver(ChangeAssistantDeckObserver observer){
-        changeAssistantDeckObservers.remove(observer);
     }
 
     /**
@@ -420,14 +388,6 @@ public class Player {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on last assistant.
-     * @param observer the observer to be removed
-     */
-    public void removeLastAssistantUsedObserver(LastAssistantUsedObserver observer){
-        lastAssistantUsedObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on last assistant.
      * @param nickName the nickname of the player that has the deck that has been changed
      * @param actualLastAssistant the actual last assistant
@@ -447,14 +407,6 @@ public class Player {
         schoolBoard.addChangeCoinNumberObserver(observer);
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the coin number.
-     * @param observer the observer to be removed
-     */
-    public void removeChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
-        schoolBoard.removeChangeCoinNumberObserver(observer);
-    }
-
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS IN DINING ROOM
 
     /**
@@ -463,14 +415,6 @@ public class Player {
      */
     public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
         schoolBoard.addStudentsInDiningRoomObserver(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the students dining room.
-     * @param observer the observer to be removed
-     */
-    public void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
-        schoolBoard.removeStudentsInDiningRoomObserver(observer);
     }
 
     // CREATION OF THE REDUCED VERSION
