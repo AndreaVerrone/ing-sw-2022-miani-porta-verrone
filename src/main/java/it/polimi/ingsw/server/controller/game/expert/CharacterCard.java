@@ -114,10 +114,4 @@ abstract public class CharacterCard {
      */
     protected void addStudentsOnCardObserver(StudentsOnCardObserver observer){}
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the students on character card.
-     * @param observer the observer to be removed
-     */
-    protected void removeStudentsOnCardObserver(StudentsOnCardObserver observer){}
-
 }

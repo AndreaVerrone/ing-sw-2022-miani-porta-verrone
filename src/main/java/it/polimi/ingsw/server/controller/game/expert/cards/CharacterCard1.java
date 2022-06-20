@@ -104,15 +104,6 @@ public class CharacterCard1 extends CharacterCard {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the students on character card.
-     * @param observer the observer to be removed
-     */
-    @Override
-    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){
-        studentsOnCardObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on the students on character card.
      * @param actualStudents the actual student list on card
      */
