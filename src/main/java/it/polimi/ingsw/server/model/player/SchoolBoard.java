@@ -248,14 +248,6 @@ class SchoolBoard {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the coin number.
-     * @param observer the observer to be removed
-     */
-    void removeChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
-        changeCoinNumberObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on the coin number.
      * @param nickNameOfPlayer the nickname of the player associated to this school board
      * @param actualNumOfCoins the actual num of coins in the school board
@@ -273,14 +265,6 @@ class SchoolBoard {
      */
     void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
         diningRoom.addStudentsInDiningRoomObserver(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the students dining room.
-     * @param observer the observer to be removed
-     */
-    void removeStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
-        diningRoom.removeStudentsInDiningRoomObserver(observer);
     }
 
 }

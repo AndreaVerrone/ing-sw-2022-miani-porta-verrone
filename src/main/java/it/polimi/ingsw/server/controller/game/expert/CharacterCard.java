@@ -91,14 +91,6 @@ abstract public class CharacterCard {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on character card usage.
-     * @param observer the observer to be removed
-     */
-    void removeCoinOnCardObserver(CoinOnCardObserver observer){
-        coinOnCardObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that the card has been used.
      */
     private void notifyCoinOnCardObservers(){
@@ -113,11 +105,5 @@ abstract public class CharacterCard {
      * @param observer the observer to be added
      */
     protected void addStudentsOnCardObserver(StudentsOnCardObserver observer){}
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the students on character card.
-     * @param observer the observer to be removed
-     */
-    protected void removeStudentsOnCardObserver(StudentsOnCardObserver observer){}
 
 }

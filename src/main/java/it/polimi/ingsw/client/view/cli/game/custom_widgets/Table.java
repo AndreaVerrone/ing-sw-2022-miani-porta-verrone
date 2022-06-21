@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.ReducedCloud;
-import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;

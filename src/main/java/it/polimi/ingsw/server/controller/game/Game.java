@@ -324,14 +324,6 @@ public class Game {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the end of game.
-     * @param observer the observer to be removed
-     */
-    public void removeEndOfGameObserver(EndOfGameObserver observer){
-        endOfGameObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that the game has ended.
      */
     private void notifyEndOfGameObservers(){
@@ -354,14 +346,6 @@ public class Game {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on current state.
-     * @param observer the observer to be removed
-     */
-    public void removeChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
-        changeCurrentStateObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on current state.
      */
     private void notifyChangeCurrentStateObservers(){
@@ -381,14 +365,6 @@ public class Game {
      */
     public void addGameCreatedObserver(GameCreatedObserver observer){
         gameCreatedObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on game creation.
-     * @param observer the observer to be removed
-     */
-    public void removeGameCreatedObserver(GameCreatedObserver observer){
-        gameCreatedObservers.remove(observer);
     }
 
     public void askGameUpdate(){
@@ -416,17 +392,6 @@ public class Game {
      * Does nothing in basic mode since there are no character cards.
      * @param observer the observer to be added if it's expert mode
      */
-    public void removeStudentsOnCardObserver(StudentsOnCardObserver observer){}
-
-    /**
-     * Does nothing in basic mode since there are no character cards.
-     * @param observer the observer to be added if it's expert mode
-     */
     public void addCoinOnCardObserver(CoinOnCardObserver observer){}
 
-    /**
-     * Does nothing in basic mode since there are no character cards.
-     * @param observer the observer to be added if it's expert mode
-     */
-    public void removeCoinOnCardObserver(CoinOnCardObserver observer){}
 }

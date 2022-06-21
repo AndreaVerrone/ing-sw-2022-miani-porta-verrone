@@ -9,7 +9,6 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Text;
 import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * this class represent the screen that must be displayed at the end of the game.

@@ -213,13 +213,6 @@ public class GameTable {
         islandNumberObservers.add(observer);
      }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the number of islands.
-     * @param observer the observer to be removed
-     */
-     public void removeIslandNumberObserver(IslandNumberObserver observer){
-         islandNumberObservers.remove(observer);
-      }
 
     /**
      * This method notify all the attached observers a change on the number of islands.
@@ -245,14 +238,6 @@ public class GameTable {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on mother nature position.
-     * @param observer the observer to be removed
-     */
-    public void removeMotherNaturePositionObserver(MotherNaturePositionObserver observer){
-        motherNaturePositionObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on mother nature position.
      * @param actualMotherNaturePosition the actual islandID on which mother nature is
      */
@@ -272,16 +257,6 @@ public class GameTable {
         }
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on students on cloud.
-     * @param observer the observer to be removed
-     */
-    public void removeStudentsOnCloudObserver(StudentsOnCloudObserver observer){
-        for (Cloud cloud : clouds) {
-            cloud.removeStudentsOnCloudObserver(observer);
-        }
-    }
-
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON BAN ON ISLAND
 
     /**
@@ -294,15 +269,6 @@ public class GameTable {
         }
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on ban on island.
-     * @param observer the observer to be removed
-     */
-    public void removeBanOnIslandObserver(BanOnIslandObserver observer){
-        for (Island island : islands) {
-            island.removeBanOnIslandObserver(observer);
-        }
-    }
 
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS ON ISLAND
 
@@ -316,15 +282,6 @@ public class GameTable {
         }
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the students on island.
-     * @param observer the observer to be removed
-     */
-    public void removeStudentsOnIslandObserver(StudentsOnIslandObserver observer){
-        for (Island island : islands) {
-            island.removeStudentsOnIslandObserver(observer);
-        }
-    }
 
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON UNIFICATION OF ISLANDS
 
@@ -338,15 +295,6 @@ public class GameTable {
         }
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the unification of islands.
-     * @param observer the observer to be removed
-     */
-    public void removeUnificationIslandObserver(IslandUnificationObserver observer){
-        for (Island island : islands) {
-            island.removeUnificationIslandObserver(observer);
-        }
-    }
 
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON TOWER ON ISLAND
 
@@ -360,15 +308,6 @@ public class GameTable {
         }
     }
 
-    /**
-     * This method allows to remove the observer, passed as a parameter, on tower on island.
-     * @param observer the observer to be removed
-     */
-    public void removeTowerOnIslandObserver(TowerOnIslandObserver observer){
-        for (Island island : islands) {
-            island.removeTowerOnIslandObserver(observer);
-        }
-    }
 
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON EMPTY STUDENT BAG
 
@@ -378,14 +317,6 @@ public class GameTable {
      */
     public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
         studentsBag.addEmptyStudentBagObserver(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on tower on empty student bag.
-     * @param observer the observer to be removed
-     */
-    public void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
-        studentsBag.removeEmptyStudentBagObserver(observer);
     }
 
     // CREATION OF THE REDUCED VERSIONS

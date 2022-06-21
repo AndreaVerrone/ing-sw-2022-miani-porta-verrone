@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.cli.waiting;
 
-import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;

@@ -85,14 +85,6 @@ class StudentsBag {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on empty student bag.
-     * @param observer the observer to be removed
-     */
-    void removeEmptyStudentBagObserver(EmptyStudentBagObserver observer){
-        emptyStudentBagObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that the student bag is empty.
      */
     private void notifyEmptyStudentBagObserver(){

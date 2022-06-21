@@ -159,14 +159,6 @@ public class Island {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on ban on island.
-     * @param observer the observer to be removed
-     */
-    void removeBanOnIslandObserver(BanOnIslandObserver observer){
-        banOnIslandObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers that a change has been happened on ban on island.
      * @param islandIDWithBan the island on which a ban has been put or removed
      * @param actualNumOfBans the actual num of bans on the island
@@ -188,14 +180,6 @@ public class Island {
      */
     void addStudentsOnIslandObserver(StudentsOnIslandObserver observer){
         studentsOnIslandObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on the students on island.
-     * @param observer the observer to be removed
-     */
-    void removeStudentsOnIslandObserver(StudentsOnIslandObserver observer){
-        studentsOnIslandObservers.remove(observer);
     }
 
     /**
@@ -223,14 +207,6 @@ public class Island {
     }
 
     /**
-     * This method allows to remove the observer, passed as a parameter, on the unification of islands.
-     * @param observer the observer to be removed
-     */
-    void removeUnificationIslandObserver(IslandUnificationObserver observer){
-        unificationIslandObservers.remove(observer);
-    }
-
-    /**
      * This method notify all the attached observers a change involving the unification of islands.
      * @param islandID  the ID of the island kept
      * @param islandRemovedID ID of the island that has been removed
@@ -253,14 +229,6 @@ public class Island {
      */
     void addTowerOnIslandObserver(TowerOnIslandObserver observer){
         towerOnIslandObservers.add(observer);
-    }
-
-    /**
-     * This method allows to remove the observer, passed as a parameter, on tower on island.
-     * @param observer the observer to be removed
-     */
-    void removeTowerOnIslandObserver(TowerOnIslandObserver observer){
-        towerOnIslandObservers.remove(observer);
     }
 
     /**
