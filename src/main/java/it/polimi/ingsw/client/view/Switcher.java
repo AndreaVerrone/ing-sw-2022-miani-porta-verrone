@@ -28,6 +28,7 @@ public class Switcher {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
             Parent root = loader.load();
             controllerTable = (TableView) loader.getController();
+            controllerTable.tryCreateTable();
             display(root);
         } catch (IOException e) {
             e.printStackTrace();

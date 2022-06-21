@@ -59,9 +59,13 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
 
     GridPane islandGrid;
 
-    int column;
+    private int column;
 
-    int row;
+    private int row;
+
+    private double yPosition = 0;
+
+    private boolean show = true;
 
     /**
      * This class represents all the student on a certain island, allowing to show them through an animation
@@ -144,9 +148,9 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
         fadeTransition.stop();
         if(mouseEvent.getEventType() == MouseEvent.MOUSE_ENTERED){
             if(!isTriggered){
-                studentsView.setTranslateY(0);
+                studentsView.setTranslateY(yPosition);
                 fillPaneWithStudents();
-                studentsView.setVisible(true);
+                studentsView.setVisible(show);
                 studentsView.toFront();
                 addTranslateUpAnimation();
                 addFadeInAnimation();
@@ -199,4 +203,23 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
     public StudentList getStudents() {
         return students;
     }
+
+    /**
+     * Method to translate the view of the students of a fixed position
+     * @param x translation on the x-axis
+     * @param y translation on the y-axis
+     */
+    public void translateStudentsView(double x, double y){
+        studentsView.setTranslateX(x);
+        studentsView.setTranslateY(y);
+        yPosition = y;
+    }
+
+    /**
+     * Method to not show anymore the students on the island
+     */
+    public void showStudentsView(boolean show){
+        this.show = show;
+    }
+
 }

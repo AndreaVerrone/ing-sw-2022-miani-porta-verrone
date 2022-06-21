@@ -14,6 +14,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,6 +31,7 @@ import javafx.scene.layout.*;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -170,6 +172,9 @@ public class TableView implements Initializable {
     @FXML
     private FlowPane coinsPlayer3;
 
+    /**
+     * Label showing the current state of the game
+     */
     @FXML
     private Label stateLabel;
 
@@ -224,6 +229,10 @@ public class TableView implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    public void tryCreateTable(){
         PlayerLoginInfo player1 = new PlayerLoginInfo("Giorgio");
         this.currentPlayer = "Giorgio";
         player1.setTowerType(TowerType.BLACK);
@@ -237,9 +246,7 @@ public class TableView implements Initializable {
         createTable(new ArrayList<>(List.of(player1,
                 player2,
                 player3)));
-        table.toBack();
-        scrollPane.toBack();
-        //table.setGridLinesVisible(true);
+
         SchoolBoard schoolBoard = schoolboards.get("Giorgio");
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
@@ -287,10 +294,6 @@ public class TableView implements Initializable {
         addCards(new ArrayList<>((List.of(CharacterCardsType.CARD1,
                 CharacterCardsType.CARD5,
                 CharacterCardsType.CARD9))));
-        //gridEntrance.toFront();
-        //gridEntrance.setOnMouseClicked(e -> System.out.println("SCELTO"));
-
-        table.setBackground(Background.fill(Color.LIGHTBLUE));
 
         setCurrentPlayer("Giorgio");
     }
@@ -301,6 +304,9 @@ public class TableView implements Initializable {
      * @param players List of players playing
      */
     public void createTable(List<PlayerLoginInfo> players){
+        table.setBackground(Background.fill(Color.LIGHTBLUE));
+        table.toBack();
+        scrollPane.toBack();
         createSchoolBoard(players);
         createIslands();
         createClouds(players.size());
@@ -310,6 +316,9 @@ public class TableView implements Initializable {
         setCoins(players);
     }
 
+    /**
+     * Method to set the properties of the label that shows the state of the game
+     */
     private void setStateLabelProperties(){
         stateLabel.setTextAlignment(TextAlignment.RIGHT);
         stateLabel.setPadding(new Insets(5));
@@ -455,15 +464,14 @@ public class TableView implements Initializable {
             Image RandomIslandImage = IslandImageType.values()[random].getImage();
             ImageView islandView = new ImageView(RandomIslandImage);
             islandView.setCursor(Cursor.HAND);
-            Island island = new Island(islandGrid, islandView, islandID);
             column= IslandPosition.values()[islandID].getColumn();
             row=IslandPosition.values()[islandID].getRow();
             islandGrid.add(islandView, column, row);
             islandView.toBack();
             GridPane.setValignment(islandView, VPos.CENTER);
             GridPane.setHalignment(islandView, HPos.CENTER);
+            Island island = new Island(islandGrid, islandView, islandID);
             islands.add(island);
-            island.addMotherNature();
         }
     }
 
@@ -544,34 +552,69 @@ public class TableView implements Initializable {
 
     // METHODS TO MODIFY THE TABLE
 
+    /**
+     * Method to move mother nature
+     * @param movements new island where mother nature is moved
+     */
     public void moveMotherNature(int movements){
         islands.get(motherNatureIsland).removeMotherNature();
         islands.get(movements).addMotherNature();
+        motherNatureIsland = movements;
     }
 
+    /**
+     * Method to change the number of bans on an island
+     * @param islandID island selected
+     * @param numberOfBans new number of bans on the island
+     */
     public void changeBansOnIsland(int islandID, int numberOfBans){
         islands.get(islandID).changeNumberOfBans(numberOfBans);
     }
 
+    /**
+     * Method to change the number of coins of a player
+     * @param player player with the number of coins changed
+     * @param numberOfCoins new number of coins
+     */
     public void changeNumberOfCoinsPlayer(String player, int numberOfCoins){
         playersCoinLabels.get(player).setText(Integer.toString(numberOfCoins));
     }
 
+    /**
+     * Method to update the professor of a player
+     * @param player player with the porfessor changed
+     * @param professors new professors
+     */
     public void updateProfessorsToPlayer(String player, HashSet<PawnType> professors){
         SchoolBoard schoolBoardPlayer = schoolboards.get(player);
         schoolBoardPlayer.updateProfessors(professors);
     }
 
+    /**
+     * Method to update the students on the dining room of a player
+     * @param player player with the dining room changed
+     * @param students new students on the dining room
+     */
     public void updateDiningRoomToPlayer(String player, StudentList students){
         SchoolBoard schoolBoardPlayer = schoolboards.get(player);
         schoolBoardPlayer.updateDiningRoom(students);
     }
 
+    /**
+     * Method to update the students on the entrance of a player
+     * @param player player with the entrance changed
+     * @param students new students on the entrance
+     */
     public void updateEntranceToPlayer(String player, StudentList students){
         SchoolBoard schoolBoardPlayer = schoolboards.get(player);
         schoolBoardPlayer.updateEntrance(students);
     }
 
+    /**
+     * Method to update the students on an island
+     * @param islandID ID of the island with the students changed
+     * @param students new students on the island
+     */
     public void updateStudentsOnIsland(int islandID, StudentList students){
         Island island = islands.get(islandID);
         island.updateStudentsOnIsland(students);
@@ -582,28 +625,52 @@ public class TableView implements Initializable {
         schoolBoardPlayer.updateTowers(numberOfTowers);
     }
 
+    /**
+     * Method to update the tower on an island
+     * @param islandID ID of the island with the tower changed
+     * @param newTower type of the new tower
+     */
     public void updateTowerOnIsland(int islandID, TowerType newTower){
         Island island = islands.get(islandID);
         island.addTower(newTower);
     }
 
+    /**
+     * Method to update the students on an cloud
+     * @param cloudID ID of the cloud with the students changed
+     * @param students new students on the cloud
+     */
     public void updateStudentOnCloud(int cloudID, StudentList students){
 
     }
 
+    /**
+     * Method to update the assistant card used by a player
+     * @param player player with the assistant changed
+     * @param assistant new assistant used by the player
+     */
     public void useAssistantCard(String player, Assistant assistant){
         AssistantCardDeck playerDeck =decks.get(player);
         playerDeck.useAssistantCard(assistant);
     }
 
-    public void addCoinOnCard(CharacterCardsType cardType, boolean isCoinOnCard){
+    /**
+     * Method to add a coin on the card
+     * @param cardType type of the card with the coin changed
+     */
+    public void addCoinOnCard(CharacterCardsType cardType){
         for(CharacterCard card: characterCards){
             if(card.getCardType().equals(cardType)){
-                card.setCoinOnCard(isCoinOnCard);
+                card.incrementCost();
             }
         }
     }
 
+    /**
+     * Method to update the students on the card
+     * @param cardType type of the card with the students changed
+     * @param students new students on the card
+     */
     public void updateStudentsOnCard(CharacterCardsType cardType, StudentList students){
         for(CharacterCard card: characterCards){
             if(card.getCardType().equals(cardType)){
@@ -612,13 +679,118 @@ public class TableView implements Initializable {
         }
     }
 
+    /**
+     *
+     * Method to show on the table that this is the last round
+     */
+    public void showLastRound(){
+
+        new Thread(() -> {
+            String oldText = stateLabel.getText();
+            Platform.runLater(() -> stateLabel.setText("LAST ROUND"));
+            for(int blinks = 0; blinks < 3; blinks ++){
+                Platform.runLater(() -> stateLabel.setBackground(Background.fill(Color.YELLOW)));
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                Platform.runLater(() -> stateLabel.setBackground(Background.fill(Color.WHITESMOKE)));
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            Platform.runLater(()-> stateLabel.setText(oldText));
+        }).start();
+    }
+
+    /**
+     * Method to update the state of the game
+     */
     public void updateState(){
         stateLabel.setText("");
         //TODO: UPDATE STATE
     }
 
+    public void unifyIslands(int IDIslandToKeep, int IDIslandToRemove, int sizeIslandRemoved){
+        Island islandToKeep = islands.get(IDIslandToKeep);
+        Island islandToRemove = islands.get(IDIslandToRemove);
+        int IDLastIslandClockWiseToKeep = getLastIslandClockWise(islandToKeep);
+        int IDLastIslandCounterClockWiseToKeep= getLastIslandCounterClockWise(islandToKeep);
+        int IDLastIslandClockWiseToRemove = getLastIslandClockWise(islandToRemove);
+        int IDLastIslandCounterCLockWiseToRemove = getLastIslandCounterClockWise(islandToRemove);
+        boolean roundClockWise;
+        System.out.println("Island to keep " + IDIslandToKeep + " clockwise: " + IDLastIslandClockWiseToKeep + " counterclockwise: " + IDLastIslandCounterClockWiseToKeep);
+        System.out.println("Island to remove " + IDIslandToRemove + " clockwise: " + IDLastIslandClockWiseToRemove + " counterclockwise: " + IDLastIslandCounterCLockWiseToRemove);
+        if(IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == 1 || IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == -11){
+            IDIslandToKeep = IDLastIslandCounterClockWiseToKeep;
+            IDIslandToRemove = IDLastIslandClockWiseToRemove;
+            islandToKeep = islands.get(IDIslandToKeep);
+            islandToRemove = islands.get(IDIslandToRemove);
+            islandToKeep.setIslandUnitedCounterClockWise(islandToRemove);
+            islandToRemove.setIslandUnitedClockwise(islandToKeep);
+            roundClockWise = true;
+        }
+        else{
+            IDIslandToKeep = IDLastIslandClockWiseToKeep;
+            IDIslandToRemove = IDLastIslandCounterCLockWiseToRemove;
+            islandToKeep.setIslandUnitedClockwise(islandToRemove);
+            islandToRemove.setIslandUnitedCounterClockWise(islandToKeep);
+            roundClockWise = false;
+        }
+        int IDKept = IDIslandToKeep;
+        int IDRemoved;
+        for(int i=0; i < sizeIslandRemoved; i++){
+            if(!roundClockWise){
+                IDRemoved = (IDIslandToRemove + i) % 12;
+            }else {
+                IDRemoved = (IDIslandToRemove + 12 - i) % 12;
+            }
+            moveIslands(IDKept, IDRemoved);
+            IDKept = IDRemoved;
+        }
 
+    }
+
+    private int getLastIslandClockWise(Island island){
+        while (island.getIslandUnitedClockwise() != null){
+            island = island.getIslandUnitedClockwise();
+        }
+        return island.getIslandID();
+    }
+
+    private int getLastIslandCounterClockWise(Island island){
+        while (island.getIslandUnitedCounterClockWise() != null){
+            island = island.getIslandUnitedCounterClockWise();
+        }
+        return island.getIslandID();
+    }
+
+    public void moveIslands(int IDIslandToKeep, int IDIslandToRemove){
+        Island islandToKeep = islands.get(IDIslandToKeep);
+        Island islandToRemove = islands.get(IDIslandToRemove);
+        double xTranslation = islandToKeep.getXPosition() - islandToRemove.getXPosition();
+        double yTranslation = islandToKeep.getYPosition() - islandToRemove.getYPosition();
+        islandToKeep.calculateCoordinates();
+        boolean roundClockWise = ((IDIslandToRemove < IDIslandToKeep) && !(IDIslandToRemove == 0 && IDIslandToKeep == 11)) || (IDIslandToRemove == 11 && IDIslandToKeep == 0);
+
+        if(roundClockWise){
+            xTranslation += islandToKeep.getCounterClockWiseXCoordinate();
+            yTranslation += islandToKeep.getCounterClockWiseYCoordinate();
+        }else{
+            xTranslation += islandToKeep.getClockWiseXCoordinate();
+            yTranslation += islandToKeep.getClockWiseYCoordinate();
+        }
+
+        islandToRemove.translateIsland(xTranslation, yTranslation);
+
+    }
+
+    int clicks = 0;
     public void tryUpdate(MouseEvent event){
+        clicks ++;
         StudentList students1 = new StudentList();
         StudentList students2 = new StudentList();
         try {
@@ -639,6 +811,55 @@ public class TableView implements Initializable {
         //updateEntranceToPlayer("Alessia", students2);
 
         updateTowersOnSchoolBoard("Giorgio", 3);
+
+        showLastRound();
+
+        if (clicks == 1) {
+            motherNatureIsland = 6;
+            moveMotherNature(11);
+            updateTowerOnIsland(10, TowerType.WHITE);
+            changeBansOnIsland(10, 1);
+            unifyIslands(10, 11, 1);
+        }
+        if(clicks == 2){
+            moveMotherNature(2);
+            unifyIslands(10, 9, 1);
+        }
+        if(clicks == 3){
+            unifyIslands(9, 8, 1);
+            updateTowerOnIsland(10, TowerType.BLACK);
+            moveMotherNature(11);
+        }
+        if(clicks == 4){
+            unifyIslands(8, 7, 1);
+            updateTowerOnIsland(10, TowerType.BLACK);
+            moveMotherNature(11);
+        }
+        if(clicks == 5){
+            unifyIslands(6, 11, 5);
+            updateTowerOnIsland(10, TowerType.BLACK);
+            moveMotherNature(11);
+        }
+        if(clicks == 6){
+            unifyIslands(0, 8, 6);
+            updateTowerOnIsland(10, TowerType.BLACK);
+            moveMotherNature(11);
+        }
+        if(clicks == 7){
+            unifyIslands(6, 5, 1);
+            updateTowerOnIsland(10, TowerType.BLACK);
+            moveMotherNature(11);
+        }
+        if(clicks == 8){
+            unifyIslands(5, 4, 1);
+            updateTowerOnIsland(10, TowerType.BLACK);
+            moveMotherNature(11);
+        }
+        if(clicks == 9){
+            unifyIslands(4, 3, 1);
+            updateTowerOnIsland(10, TowerType.BLACK);
+            moveMotherNature(11);
+        }
     }
 
 

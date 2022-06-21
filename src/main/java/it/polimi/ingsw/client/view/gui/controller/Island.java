@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.gui.controller;
 import it.polimi.ingsw.client.view.gui.listeners.LocationListern;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandBanImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.MotherNatureImageType;
-import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.TowerImageType;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.IslandPosition;
 import it.polimi.ingsw.server.controller.game.Location;
@@ -11,28 +10,10 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.TranslateTransition;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.util.Duration;
 
 /**
  * Class that represents an island on the table of the game
@@ -75,6 +56,26 @@ public class Island {
      */
     private ImageView banView;
 
+    private double XTranslation = 0;
+
+    private double YTranslation = 0;
+
+    private int column;
+
+    private int row;
+
+    private Island islandUnitedClockwise = null;
+
+    private Island islandUnitedCounterClockWise = null;
+
+    private double clockWiseXCoordinate;
+
+    private double counterClockWiseXCoordinate;
+
+    private double clockWiseYCoordinate;
+
+    private double counterClockWiseYCoordinate;
+
     /**
      * This class allows to handle the image of an island on the view of the table, allowing to add a tower, mother nature and students
      * @param gridIsland Grid of the view used to place islands
@@ -86,8 +87,9 @@ public class Island {
         this.islandView = islandView;
         this.islandID = islandID;
 
-        int column = IslandPosition.values()[islandID].getColumn();
-        int row = IslandPosition.values()[islandID].getRow();
+         column = IslandPosition.values()[islandID].getColumn();
+         row = IslandPosition.values()[islandID].getRow();
+
 
         studentOnIslandHandler = new StudentOnIslandHandler(gridIsland, column, row);
         islandView.setOnMouseClicked(new LocationListern(Location.ISLAND));
@@ -98,6 +100,147 @@ public class Island {
         studentOnIslandHandler.setExpertMode();
         if(islandID == 3) {
             changeNumberOfBans(4);
+        }
+    }
+
+    public int getIslandID() {
+        return islandID;
+    }
+
+    public double getXPosition(){
+        return (gridIsland.getCellBounds(column, row).getCenterX() + XTranslation);
+    }
+
+    public double getYPosition(){
+        return (gridIsland.getCellBounds(column, row).getCenterY() + YTranslation);
+    }
+
+
+    public double getClockWiseXCoordinate() {
+        return clockWiseXCoordinate;
+    }
+
+    public double getClockWiseYCoordinate() {
+        return clockWiseYCoordinate;
+    }
+
+    public double getCounterClockWiseXCoordinate() {
+        return counterClockWiseXCoordinate;
+    }
+
+    public double getCounterClockWiseYCoordinate() {
+        return counterClockWiseYCoordinate;
+    }
+
+    public Island getIslandUnitedClockwise() {
+        return islandUnitedClockwise;
+    }
+
+    public Island getIslandUnitedCounterClockWise() {
+        return islandUnitedCounterClockWise;
+    }
+
+    public void setIslandUnitedClockwise(Island islandUnitedClockwise) {
+        this.islandUnitedClockwise = islandUnitedClockwise;
+    }
+
+    public void setIslandUnitedCounterClockWise(Island islandUnitedCounterClockWise) {
+        this.islandUnitedCounterClockWise = islandUnitedCounterClockWise;
+    }
+
+    public void calculateCoordinates(){
+        int SPACE_BETWEEN_ISLANDS_LINEAR = 100;
+        int SPACE_BETWEEN_ISLANDS_DIAGONAL = 70;
+        if(getYPosition() < 170) {
+            if (getXPosition() >= 280 && getXPosition() <= 840) {
+                clockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                clockWiseYCoordinate = 0;
+                counterClockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_LINEAR;
+                counterClockWiseYCoordinate = 0;
+            } else if (getXPosition() >= 840 && getXPosition() <= 910) {
+                clockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                clockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_LINEAR;
+                counterClockWiseYCoordinate = 0;
+            } else if (getXPosition() >= 910 && getXPosition() <= 1020) {
+                clockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                clockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+            } else if (getXPosition() >= 80 && getXPosition() <= 200) {
+                clockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                clockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+            } else if (getXPosition() >= 200 && getXPosition() <= 280) {
+                clockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                clockWiseYCoordinate = 0;
+                counterClockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+            }
+        } else if (getYPosition() >= 170 && getYPosition() <= 360) {
+            if(getXPosition() >= 900){
+                if(getYPosition() < 200){
+                    clockWiseXCoordinate = 0;
+                    clockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                    counterClockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                    counterClockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                } else if (getYPosition() > 320) {
+                    clockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                    clockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                    counterClockWiseXCoordinate = 0;
+                    counterClockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                }else {
+                    clockWiseXCoordinate = 0;
+                    clockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                    counterClockWiseXCoordinate = 0;
+                    counterClockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_LINEAR;
+                }
+            } else if (getXPosition() <= 120) {
+                if(getYPosition() < 200){
+                    clockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                    clockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                    counterClockWiseXCoordinate = 0;
+                    counterClockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                } else if (getYPosition() > 330) {
+                    clockWiseXCoordinate = 0;
+                    clockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_LINEAR;
+                    counterClockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                    counterClockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                }else {
+                    clockWiseXCoordinate = 0;
+                    clockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_LINEAR;
+                    counterClockWiseXCoordinate = 0;
+                    counterClockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                }
+            }
+        } else if (getYPosition() > 360) {
+            if (getXPosition() >= 280 && getXPosition() <= 840) {
+                clockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_LINEAR;
+                clockWiseYCoordinate = 0;
+                counterClockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                counterClockWiseYCoordinate = 0;
+            } else if (getXPosition() >= 840 && getXPosition() <= 910) {
+                clockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_LINEAR;
+                clockWiseYCoordinate = 0;
+                counterClockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+            } else if (getXPosition() >= 910 && getXPosition() <= 1020) {
+                clockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                clockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+            } else if (getXPosition() >= 80 && getXPosition() <= 200) {
+                clockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                clockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
+            } else if (getXPosition() >= 200 && getXPosition() <= 280) {
+                clockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                clockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
+                counterClockWiseXCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                counterClockWiseYCoordinate = 0;
+            }
         }
     }
 
@@ -127,9 +270,12 @@ public class Island {
         GridPane.setValignment(towerView, VPos.TOP);
         GridPane.setHalignment(towerView, HPos.CENTER);
         this.towerView = towerView;
+        translateTower();
         if(motherNatureView != null){
+            removeMotherNature();
             addMotherNature();
         }
+
     }
 
     /**
@@ -144,6 +290,7 @@ public class Island {
         GridPane.setValignment(motherNatureView, VPos.CENTER);
         GridPane.setHalignment(motherNatureView, HPos.CENTER);
         this.motherNatureView = motherNatureView;
+        translateMotherNature();
     }
 
     /**
@@ -210,4 +357,36 @@ public class Island {
             }
         }
     }
+
+    public void translateIsland(double x, double y){
+        XTranslation += x;
+        YTranslation += y;
+
+        islandView.setTranslateX(XTranslation);
+        islandView.setTranslateY(YTranslation);
+
+        if(motherNatureView != null) {
+            translateMotherNature();
+        }
+        if(towerView != null){
+            translateTower();
+        }
+        if(banView != null){
+            banView.setVisible(false);
+        }
+
+        studentOnIslandHandler.showStudentsView(false);
+
+    }
+
+    private void translateMotherNature(){
+        motherNatureView.setTranslateX(XTranslation);
+        motherNatureView.setTranslateY(YTranslation);
+    }
+
+    private void translateTower(){
+        towerView.setTranslateX(XTranslation);
+        towerView.setTranslateY(YTranslation);
+    }
+
 }

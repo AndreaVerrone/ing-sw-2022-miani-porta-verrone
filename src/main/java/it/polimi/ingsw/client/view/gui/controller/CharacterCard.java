@@ -121,4 +121,13 @@ public class CharacterCard {
         this.students.empty();
         this.students.add(students);
     }
+
+    /**
+     * Method to increment the cost of a card
+     */
+    public void incrementCost(){
+        this.cost ++;
+        setCoinOnCard(true);
+
+    }
 }
