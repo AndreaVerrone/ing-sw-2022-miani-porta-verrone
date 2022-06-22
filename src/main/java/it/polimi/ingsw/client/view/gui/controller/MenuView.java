@@ -1,21 +1,17 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
-import it.polimi.ingsw.client.ConnectionHandler;
-import it.polimi.ingsw.client.view.Switcher;
-import it.polimi.ingsw.network.VirtualView;
-import javafx.event.ActionEvent;
+import it.polimi.ingsw.client.view.gui.ClientGui;
+import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MenuView implements Initializable{
+public class MenuView extends GuiScreen implements Initializable{
 
     /**
      * button to create a new game
@@ -35,6 +31,10 @@ public class MenuView implements Initializable{
     @FXML
     Button resumeButton;
 
+    protected MenuView(GUI gui) {
+        super(gui);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buttonsSetUp();
@@ -46,7 +46,7 @@ public class MenuView implements Initializable{
      * number of players and difficulty)
      */
     public void createNewGame(){
-        ClientApplication.getSwitcher().goToCreateGameScreen();
+        ClientGui.getSwitcher().goToCreateGameScreen();
     }
 
     /**
@@ -57,12 +57,12 @@ public class MenuView implements Initializable{
         // It will ask the server the list of the available games.
         // In the meantime it will display idle screen.
         // todo: this is only for testing
-        ClientApplication.getSwitcher().goToChooseGameScreen(List.of(1627,21289182,91192,99198));
+        ClientGui.getSwitcher().goToChooseGameScreen(List.of(1627,21289182,91192,99198));
         // todo: actual code
         // display wit screen
         // ClientApplication.getSwitcher().goToWaitScreen();
         // ask available games to server
-        // getClientController().getGames();
+        getGui().getClientController().getGames();
 
     }
 
@@ -72,7 +72,7 @@ public class MenuView implements Initializable{
      */
     public void resumeGameButton(){
         // todo: only for testing
-        ClientApplication.getSwitcher().goToCreateGameScreen();
+        ClientGui.getSwitcher().goToCreateGameScreen();
         // ClientApplication.getSwitcher().goToExitScreen(List.of("Player 1"));
         //System.out.println("Resume game");
         // todo: actual code
