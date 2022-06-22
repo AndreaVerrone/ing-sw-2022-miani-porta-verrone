@@ -24,6 +24,10 @@ public enum TowerImageType {
         this.path = path;
     }
 
+    public String getPath() {
+        return path;
+    }
+
     /**
      * Method to get an {@code Image} of a tower from its path in the project
      * @return {@code Image} of the tower

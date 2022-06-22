@@ -23,6 +23,10 @@ public enum WizardImageType{
      */
     private final String pathImageWithoutBackground;
 
+    public String getPath() {
+        return path;
+    }
+
     /**
      * Saves the path of the image
      * @param pathNormalImage path of the image of the wizard with the card
