@@ -737,7 +737,7 @@ public class TableView implements Initializable {
 
     /**
      * Method to show a message to the player
-     * @param message
+     * @param message message shown to the player
      */
     public void showMessage(String message){
         messageLabel.setText(message);
