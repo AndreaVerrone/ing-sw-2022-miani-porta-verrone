@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.view.gui.controller.*;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -29,11 +30,6 @@ public class Switcher {
         this.stage = stage;
     }
 
-    // STARTING SCREEN
-
-    // CHOOSE LANGUAGE
-
-    // HOME SCREEN
 
     /**
      * This method allow to go to the home screen.
@@ -69,6 +65,20 @@ public class Switcher {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private FXMLLoader loadFXMLProva(String fxmlFilePath){
+        return new FXMLLoader(getClass().getResource(fxmlFilePath));
+    }
+
+    private FXMLLoader loadFXML(ScreenBuilder.Screen screen){
+        String filePath = "";
+        switch (screen){
+            case HOME -> filePath = "/fxml/MenuScene.fxml";
+            case END_GAME -> filePath = "/fxml/ExitScreen.fxml";
+        }
+        return new FXMLLoader(getClass().getResource(filePath));
+
     }
 
     public void goToCharacterCardView(CharacterCard card){
