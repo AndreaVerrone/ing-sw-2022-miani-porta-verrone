@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.view.gui.utils.image_getters.CharacterCardImageType;
-import it.polimi.ingsw.client.view.gui.utils.image_getters.CloudImageType;
-import it.polimi.ingsw.client.view.gui.utils.image_getters.CoinImageType;
-import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandImageType;
+import it.polimi.ingsw.client.view.gui.utils.image_getters.*;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.CloudPosition;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.IslandPosition;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
@@ -179,6 +176,18 @@ public class TableView implements Initializable {
     private Label stateLabel;
 
     /**
+     * Label used to show a message
+     */
+    @FXML
+    private Label messageLabel;
+
+    /**
+     * Image used to show the message
+      */
+    @FXML
+    private ImageView messageImage;
+
+    /**
      * Map with the schoolboards associated to every student
      */
     private final HashMap<String, SchoolBoard> schoolboards = new HashMap<>(3,1);
@@ -312,6 +321,7 @@ public class TableView implements Initializable {
         createClouds(players.size());
         createAssistantDeck(players);
         setStateLabelProperties();
+        setUpMessageView(players.get(0).getWizard());
         setNicknames(players);
         setCoins(players);
     }
@@ -323,20 +333,8 @@ public class TableView implements Initializable {
         stateLabel.setTextAlignment(TextAlignment.RIGHT);
         stateLabel.setPadding(new Insets(5));
         stateLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 20));
-        stateLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.MEDIUM)));
-        stateLabel.setBackground(Background.fill(Color.WHITESMOKE));
-    }
-
-    /**
-     * Allows to save the nickname of the current player and sets the label of the current player as yellow
-     * @param currentPlayer nickname of the current player
-     */
-    public void setCurrentPlayer(String currentPlayer){
-        Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
-        labelOldCurrentPlayer.setBackground(Background.fill(Color.WHITESMOKE));
-        Label labelNewCurrentPlayer = playersLabel.get(currentPlayer);
-        labelNewCurrentPlayer.setBackground(Background.fill(Color.YELLOW));
-        this.currentPlayer = currentPlayer;
+        stateLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), BorderStroke.MEDIUM)));
+        stateLabel.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(20), Insets.EMPTY)));
     }
 
     /**
@@ -372,7 +370,19 @@ public class TableView implements Initializable {
         label.setPadding(new Insets(5));
         label.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 20));
         label.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.MEDIUM)));
-        label.setBackground(Background.fill(Color.WHITE));
+        label.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(5), Insets.EMPTY)));
+    }
+
+    /**
+     * Method used to set up the abel and the image to show a message to the player
+     * @param wizard wizard chosen by the owner
+     */
+    private void setUpMessageView(Wizard wizard){
+        messageLabel.setPadding(new Insets(5));
+        messageLabel.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
+        messageLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(40), BorderStroke.MEDIUM)));
+        messageLabel.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(40), Insets.EMPTY)));
+        messageImage.setImage(WizardImageType.typeConverter(wizard).getImageWithoutBackground());
     }
 
     /**
@@ -502,7 +512,7 @@ public class TableView implements Initializable {
     private void addCards(Collection<CharacterCardsType> cards){
         FlowPane grid = new FlowPane(Orientation.HORIZONTAL, 300, 50);
         table.add(grid, 2, 2);
-        grid.setTranslateX(300);
+        grid.setTranslateX(500);
         for(CharacterCardsType card : cards){
             ImageView cardView = new ImageView(CharacterCardImageType.typeConverter(card).getImage());
             CharacterCard newCard = new CharacterCard(card, cardView);
@@ -551,6 +561,18 @@ public class TableView implements Initializable {
     }
 
     // METHODS TO MODIFY THE TABLE
+
+    /**
+     * Allows to save the nickname of the current player and sets the label of the current player as yellow
+     * @param currentPlayer nickname of the current player
+     */
+    public void setCurrentPlayer(String currentPlayer){
+        Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
+        labelOldCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+        Label labelNewCurrentPlayer = playersLabel.get(currentPlayer);
+        labelNewCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+        this.currentPlayer = currentPlayer;
+    }
 
     /**
      * Method to move mother nature
@@ -641,7 +663,7 @@ public class TableView implements Initializable {
      * @param students new students on the cloud
      */
     public void updateStudentOnCloud(int cloudID, StudentList students){
-
+        //TODO update student son cloud one at a time
     }
 
     /**
@@ -680,29 +702,28 @@ public class TableView implements Initializable {
     }
 
     /**
-     *
      * Method to show on the table that this is the last round
      */
     public void showLastRound(){
 
         new Thread(() -> {
-            String oldText = stateLabel.getText();
-            Platform.runLater(() -> stateLabel.setText("LAST ROUND"));
+            String oldText = messageLabel.getText();
+            Platform.runLater(() -> messageLabel.setText("LAST ROUND"));
             for(int blinks = 0; blinks < 3; blinks ++){
-                Platform.runLater(() -> stateLabel.setBackground(Background.fill(Color.YELLOW)));
+                Platform.runLater(() -> messageLabel.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(40), Insets.EMPTY))));
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                Platform.runLater(() -> stateLabel.setBackground(Background.fill(Color.WHITESMOKE)));
+                Platform.runLater(() -> messageLabel.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(40), Insets.EMPTY))));
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
-            Platform.runLater(()-> stateLabel.setText(oldText));
+            Platform.runLater(()-> messageLabel.setText(oldText));
         }).start();
     }
 
@@ -714,16 +735,32 @@ public class TableView implements Initializable {
         //TODO: UPDATE STATE
     }
 
+    /**
+     * Method to show a message to the player
+     * @param message
+     */
+    public void showMessage(String message){
+        messageLabel.setText(message);
+    }
+
+    /**
+     * Method to unify two group of islands
+     * @param IDIslandToKeep ID of the islands remaining still
+     * @param IDIslandToRemove ID of the island moving towards the other one
+     * @param sizeIslandRemoved number of islands in the group containing the island moving
+     */
     public void unifyIslands(int IDIslandToKeep, int IDIslandToRemove, int sizeIslandRemoved){
         Island islandToKeep = islands.get(IDIslandToKeep);
         Island islandToRemove = islands.get(IDIslandToRemove);
+
+        //Get the last and the first island of each group
         int IDLastIslandClockWiseToKeep = getLastIslandClockWise(islandToKeep);
         int IDLastIslandCounterClockWiseToKeep= getLastIslandCounterClockWise(islandToKeep);
         int IDLastIslandClockWiseToRemove = getLastIslandClockWise(islandToRemove);
         int IDLastIslandCounterCLockWiseToRemove = getLastIslandCounterClockWise(islandToRemove);
         boolean roundClockWise;
-        System.out.println("Island to keep " + IDIslandToKeep + " clockwise: " + IDLastIslandClockWiseToKeep + " counterclockwise: " + IDLastIslandCounterClockWiseToKeep);
-        System.out.println("Island to remove " + IDIslandToRemove + " clockwise: " + IDLastIslandClockWiseToRemove + " counterclockwise: " + IDLastIslandCounterCLockWiseToRemove);
+
+       //Find the tow nearest islands in the group
         if(IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == 1 || IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == -11){
             IDIslandToKeep = IDLastIslandCounterClockWiseToKeep;
             IDIslandToRemove = IDLastIslandClockWiseToRemove;
@@ -740,6 +777,8 @@ public class TableView implements Initializable {
             islandToRemove.setIslandUnitedCounterClockWise(islandToKeep);
             roundClockWise = false;
         }
+
+        //Move each island of one group to the nearest island of the other one
         int IDKept = IDIslandToKeep;
         int IDRemoved;
         for(int i=0; i < sizeIslandRemoved; i++){
@@ -754,6 +793,11 @@ public class TableView implements Initializable {
 
     }
 
+    /**
+     * Get last island of a group of island moving clockwise
+     * @param island one island of the group
+     * @return ID of the last island of the group of island moving clockwise
+     */
     private int getLastIslandClockWise(Island island){
         while (island.getIslandUnitedClockwise() != null){
             island = island.getIslandUnitedClockwise();
@@ -761,6 +805,11 @@ public class TableView implements Initializable {
         return island.getIslandID();
     }
 
+    /**
+     * Get last island of a group of island moving counterclockwise
+     * @param island one island of the group
+     * @return ID of the last island of the group of island moving counterclockwise
+     */
     private int getLastIslandCounterClockWise(Island island){
         while (island.getIslandUnitedCounterClockWise() != null){
             island = island.getIslandUnitedCounterClockWise();
@@ -768,14 +817,24 @@ public class TableView implements Initializable {
         return island.getIslandID();
     }
 
+    /**
+     * Method to move two islands near each other.One island stay stills and the other one moves towards the first one
+     * @param IDIslandToKeep ID of the island remaining still
+     * @param IDIslandToRemove ID of the island moving
+     */
     public void moveIslands(int IDIslandToKeep, int IDIslandToRemove){
         Island islandToKeep = islands.get(IDIslandToKeep);
         Island islandToRemove = islands.get(IDIslandToRemove);
+
+        //FInd distance between islands
         double xTranslation = islandToKeep.getXPosition() - islandToRemove.getXPosition();
         double yTranslation = islandToKeep.getYPosition() - islandToRemove.getYPosition();
         islandToKeep.calculateCoordinates();
+
+        //Find the the direction of the movement
         boolean roundClockWise = ((IDIslandToRemove < IDIslandToKeep) && !(IDIslandToRemove == 0 && IDIslandToKeep == 11)) || (IDIslandToRemove == 11 && IDIslandToKeep == 0);
 
+        //Place the island based on the position on the map of the island remaining still
         if(roundClockWise){
             xTranslation += islandToKeep.getCounterClockWiseXCoordinate();
             yTranslation += islandToKeep.getCounterClockWiseYCoordinate();
@@ -784,10 +843,15 @@ public class TableView implements Initializable {
             yTranslation += islandToKeep.getClockWiseYCoordinate();
         }
 
+        //Move the island
         islandToRemove.translateIsland(xTranslation, yTranslation);
 
     }
 
+
+    /**
+     * Method and attribute used only for debugging, remove after
+     */
     int clicks = 0;
     public void tryUpdate(MouseEvent event){
         clicks ++;

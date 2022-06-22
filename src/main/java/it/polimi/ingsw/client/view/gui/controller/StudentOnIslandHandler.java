@@ -57,14 +57,29 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
      */
     private FadeTransition fadeTransition;
 
+    /**
+     * Grid containing the islands
+     */
     GridPane islandGrid;
 
-    private int column;
+    /**
+     * Column of the grid where the island is initially placed
+     */
+    private final int column;
 
-    private int row;
+    /**
+     * Column of the grid where the island is initially placed
+     */
+    private final int row;
 
+    /**
+     * Movement of the pane showing the students on the y-axis
+     */
     private double yPosition = 0;
 
+    /**
+     * True if the students must be shown
+     */
     private boolean show = true;
 
     /**
@@ -137,10 +152,18 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
         }
     }
 
+    /**
+     * Method to change the number of bans on the island
+     * @param numberOfBans new numbe rof bans
+     */
     public void changeNumberOfBans(int numberOfBans){
         this.numberOfBans = numberOfBans;
     }
 
+    /**
+     * Method to show the students on the island when the mouse is on the island
+     * @param mouseEvent mouse entering or exiting the island
+     */
     @Override
     public void handle(MouseEvent mouseEvent) {
         //TO prevent bug on animations

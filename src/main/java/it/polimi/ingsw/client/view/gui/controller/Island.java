@@ -10,10 +10,12 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+
 
 /**
  * Class that represents an island on the table of the game
@@ -56,26 +58,70 @@ public class Island {
      */
     private ImageView banView;
 
+    /**
+     * Movement of the island on the x-axis
+     */
     private double XTranslation = 0;
 
+    /**
+     * Movement of the island on the y-axis
+     */
     private double YTranslation = 0;
 
-    private int column;
+    /**
+     * Column of the grid where the island is initially placed
+     */
+    private final int column;
 
-    private int row;
+    /**
+     * Row of the grid where the island is initially placed
+     */
+    private final int row;
 
+    /**
+     * Island unified to this one moving clockwise
+     */
     private Island islandUnitedClockwise = null;
 
+    /**
+     * Island unified to this one moving counterclockwise
+     */
     private Island islandUnitedCounterClockWise = null;
 
+    /**
+     * X coordinate of the position available next to the island moving clockwise
+     */
     private double clockWiseXCoordinate;
 
+    /**
+     * X coordinate of the position available next to the island moving counterclockwise
+     */
     private double counterClockWiseXCoordinate;
 
+    /**
+     * Y coordinate of the position available next to the island moving clockwise
+     */
     private double clockWiseYCoordinate;
 
+    /**
+     * Y coordinate of the position available next to the island moving counterclockwise
+     */
     private double counterClockWiseYCoordinate;
 
+    /**
+     * Allows to move the island using an animation
+     */
+    private TranslateTransition translateAnimationIsland;
+
+    /**
+     * Allows to move the tower on the island using an animation
+     */
+    private TranslateTransition translateAnimationMotherNature;
+
+    /**
+     * Allows to move mother nature on the island using an animation
+     */
+    private TranslateTransition translateAnimationTower;
     /**
      * This class allows to handle the image of an island on the view of the table, allowing to add a tower, mother nature and students
      * @param gridIsland Grid of the view used to place islands
@@ -97,24 +143,35 @@ public class Island {
         islandView.setOnMouseExited(studentOnIslandHandler);
 
         setBan();
+
+    }
+
+    /**
+     * Method to show the number of bans on the island
+     */
+    public void makeBansVisible(){
         studentOnIslandHandler.setExpertMode();
-        if(islandID == 3) {
-            changeNumberOfBans(4);
-        }
     }
 
     public int getIslandID() {
         return islandID;
     }
 
+    /**
+     * Get the position of the island on x-axis of the table
+     * @return position of the island on x-axis of the table
+     */
     public double getXPosition(){
         return (gridIsland.getCellBounds(column, row).getCenterX() + XTranslation);
     }
 
+    /**
+     * Get the position of the island on y-axis of the table
+     * @return position of the island on y-axis of the table
+     */
     public double getYPosition(){
         return (gridIsland.getCellBounds(column, row).getCenterY() + YTranslation);
     }
-
 
     public double getClockWiseXCoordinate() {
         return clockWiseXCoordinate;
@@ -140,14 +197,25 @@ public class Island {
         return islandUnitedCounterClockWise;
     }
 
+    /**
+     * Method to save the island unified to his one moving clockwise
+     * @param islandUnitedClockwise island unified moving clockwise
+     */
     public void setIslandUnitedClockwise(Island islandUnitedClockwise) {
         this.islandUnitedClockwise = islandUnitedClockwise;
     }
 
+    /**
+     * Method to save the island unified to his one moving counterclockwise
+     * @param islandUnitedCounterClockWise island unified moving counterclockwise
+     */
     public void setIslandUnitedCounterClockWise(Island islandUnitedCounterClockWise) {
         this.islandUnitedCounterClockWise = islandUnitedCounterClockWise;
     }
 
+    /**
+     * Method to calculate the coordinates of the positions available next to the island, based on its position on the table
+     */
     public void calculateCoordinates(){
         int SPACE_BETWEEN_ISLANDS_LINEAR = 100;
         int SPACE_BETWEEN_ISLANDS_DIAGONAL = 70;
@@ -343,10 +411,14 @@ public class Island {
      */
     public void changeNumberOfBans(int newNumberOfBans){
         studentOnIslandHandler.changeNumberOfBans(newNumberOfBans);
-        if(newNumberOfBans == 0) banView.setVisible(false);
-        if(newNumberOfBans > 0) banView.setVisible(true);
+        if (newNumberOfBans == 0) banView.setVisible(false);
+        if (newNumberOfBans > 0) banView.setVisible(true);
     }
 
+    /**
+     * Method to update the students on the island
+     * @param students new student son the island
+     */
     public void updateStudentsOnIsland(StudentList students){
         for(PawnType student: PawnType.values()){
             removeStudent(student);
@@ -358,6 +430,11 @@ public class Island {
         }
     }
 
+    /**
+     * Method to move the island of a fixed position
+     * @param x movement on the x-axis
+     * @param y movement on the y-axis
+     */
     public void translateIsland(double x, double y){
         XTranslation += x;
         YTranslation += y;
@@ -365,12 +442,17 @@ public class Island {
         islandView.setTranslateX(XTranslation);
         islandView.setTranslateY(YTranslation);
 
-        if(motherNatureView != null) {
-            translateMotherNature();
-        }
-        if(towerView != null){
-            translateTower();
-        }
+        /*
+        translateAnimationIsland = new TranslateTransition(Duration.millis(1000), islandView);
+        translateAnimationIsland.setByX(XTranslation);
+        translateAnimationIsland.setByY(YTranslation);
+        translateAnimationIsland.play(); *///ANIMATION NOT WORKING
+        //TODO: FIX ANIMATION
+
+        translateMotherNature();
+
+        translateTower();
+
         if(banView != null){
             banView.setVisible(false);
         }
@@ -379,14 +461,24 @@ public class Island {
 
     }
 
+    /**
+     * Method to move mother nature if present on the island
+     */
     private void translateMotherNature(){
-        motherNatureView.setTranslateX(XTranslation);
-        motherNatureView.setTranslateY(YTranslation);
+        if(motherNatureView != null) {
+            motherNatureView.setTranslateX(XTranslation);
+            motherNatureView.setTranslateY(YTranslation);
+        }
     }
 
+    /**
+     * Method to move the tower if present on the island
+     */
     private void translateTower(){
-        towerView.setTranslateX(XTranslation);
-        towerView.setTranslateY(YTranslation);
+        if(towerView != null) {
+            towerView.setTranslateX(XTranslation);
+            towerView.setTranslateY(YTranslation);
+        }
     }
 
 }
