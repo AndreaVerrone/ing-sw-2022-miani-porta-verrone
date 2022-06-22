@@ -16,7 +16,7 @@ public class MotherNatureMoved extends ServerCommandNetMsg {
     private final int movement;
 
     /**
-     * Creates a new message to communicate that mother nature has moved
+     * Creates a new message to comunicate that mother nature has moved
      * @param movement the number of movement
      */
     public MotherNatureMoved(int movement) {
