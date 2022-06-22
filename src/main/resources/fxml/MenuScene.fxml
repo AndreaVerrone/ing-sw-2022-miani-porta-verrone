@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.MenuView">
+    <ImageView fitHeight="654.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../assets/logo/eriantys_banner.png" />
+    </ImageView>
+    <Button fx:id="newGameButton" layoutX="59.0" layoutY="454.0" mnemonicParsing="false" onAction="#createNewGame" prefHeight="46.0" prefWidth="110.0" text="NEW GAME" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0">
+        <font>
+        <Font size="15.0" />
+        </font>
+    </Button>
+    <ImageView fitHeight="144.0" layoutX="109.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="117.0" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="0.0">
+        <Image url="@../assets/logo/eriantys_logo.png" />
+    </ImageView>
+   <Button fx:id="joinButton" layoutX="245.0" layoutY="454.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="46.0" prefWidth="118.0" text="JOIN" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="245.0">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Button>
+   <Button fx:id="resumeButton" layoutX="443.0" layoutY="448.0" mnemonicParsing="false" onAction="#resumeGameButton" prefHeight="46.0" prefWidth="110.0" text="RESUME" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="50.0">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Button>
+</AnchorPane>
