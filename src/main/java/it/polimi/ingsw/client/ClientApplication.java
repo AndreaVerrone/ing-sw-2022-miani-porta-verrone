@@ -107,6 +107,7 @@ public class ClientApplication extends javafx.application.Application
 
       primaryStage.setResizable(false);
       primaryStage.show();
+      switcher.goToCreateNewGame();
     } catch (IOException e) {
       e.printStackTrace();
     }

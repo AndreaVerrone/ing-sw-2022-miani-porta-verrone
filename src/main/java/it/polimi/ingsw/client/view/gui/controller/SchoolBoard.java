@@ -86,7 +86,7 @@ public class SchoolBoard {
         for(PawnType type : PawnType.values()) {
             tables.put(type, new ArrayList<>());
         }
-        fillTowers(8);
+        updateTowers(8);
     }
 
     /**
@@ -250,6 +250,10 @@ public class SchoolBoard {
         }
     }
 
+    /**
+     * Method to update the professors in the schoolboard one at a time
+     * @param newProfessors new professors on the schoolboard
+     */
     public void updateProfessors(HashSet<PawnType> newProfessors){
        for(Pawn professorOnTable: professors) {
            if(!newProfessors.contains(professorOnTable.getType())) removeProfessor(professorOnTable.getType());
@@ -259,6 +263,10 @@ public class SchoolBoard {
        }
     }
 
+    /**
+     * Method to update the students in the dining room one at a time
+     * @param newStudents new students in the dining room
+     */
     public void updateDiningRoom(StudentList newStudents){
         for(PawnType student: PawnType.values()){
             int differenceOfStudents = tables.get(student).size() - newStudents.getNumOf(student);
@@ -274,8 +282,12 @@ public class SchoolBoard {
         }
     }
 
-    public void updateEntrance(StudentList students){
-        StudentList studentsCopy = students.clone();
+    /**
+     * Method to update the students in the entrance one at a time
+     * @param newStudents new students in the entrance
+     */
+    public void updateEntrance(StudentList newStudents){
+        StudentList studentsCopy = newStudents.clone();
         for(Pawn studentOnEntrance: entrance){
             if(studentOnEntrance != null) {
                 if (studentsCopy.getNumOf(studentOnEntrance.getType()) == 0) {
@@ -293,7 +305,7 @@ public class SchoolBoard {
                 ArrayList::add,
                 ArrayList::addAll);
         for(PawnType student: PawnType.values()){
-            for(int i = 0; i < students.getNumOf(student); i++) {
+            for(int i = 0; i < newStudents.getNumOf(student); i++) {
                 if((entranceType.contains(student))){
                     entranceType.remove(student);
                 }
@@ -305,9 +317,13 @@ public class SchoolBoard {
         }
     }
 
+    /**
+     * Method to update the towers on the schoolboard
+     * @param numberOfTowers new number of towers on the schoolboard
+     */
     public void updateTowers(int numberOfTowers){
         int differenceNumberOfTowers = towers.size() - numberOfTowers;
-        for(int i=0; i < differenceNumberOfTowers; i++){
+        for(int i=0; i < Math.abs(differenceNumberOfTowers); i++){
             if(differenceNumberOfTowers > 0) removeTower();
             else addTower();
         }

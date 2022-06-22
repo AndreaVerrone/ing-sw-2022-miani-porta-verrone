@@ -24,7 +24,7 @@ public enum WizardImageType{
     private final String pathImageWithoutBackground;
 
     public String getPath() {
-        return path;
+        return pathNormalImage;
     }
 
     /**
