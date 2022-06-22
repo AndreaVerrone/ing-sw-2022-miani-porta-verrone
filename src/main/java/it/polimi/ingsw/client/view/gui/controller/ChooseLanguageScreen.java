@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
+import it.polimi.ingsw.client.view.gui.ClientGui;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 
@@ -29,6 +29,6 @@ public class ChooseLanguageScreen {
         }
 
         // go to screen to choose the server.
-        ClientApplication.getSwitcher().goToAskServerParameters();
+        ClientGui.getSwitcher().goToAskServerParameters();
     }
 }

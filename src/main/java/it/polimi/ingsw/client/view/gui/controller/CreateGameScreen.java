@@ -1,16 +1,13 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
-import javafx.event.ActionEvent;
+import it.polimi.ingsw.client.view.gui.ClientGui;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 /**
  * This class is the controller of the screen to create the game.
@@ -112,7 +109,7 @@ public class CreateGameScreen implements Initializable {
         // todo: only for testing
         System.out.println(numOfPlayers.getValue());
         System.out.println(difficulty.getValue());
-        ClientApplication.getSwitcher().goToAskNicknameScreen(4);
+        ClientGui.getSwitcher().goToAskNicknameScreen(4);
     }
 
     /**
@@ -120,7 +117,7 @@ public class CreateGameScreen implements Initializable {
      * It allows the player to go back to the home screen.
      */
     public void goBack() {
-        ClientApplication.getSwitcher().goToHomeScreen();
+        ClientGui.getSwitcher().goToHomeScreen();
     }
 
     /**

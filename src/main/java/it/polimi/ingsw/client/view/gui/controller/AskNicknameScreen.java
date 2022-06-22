@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
+import it.polimi.ingsw.client.view.gui.ClientGui;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.fxml.FXML;
@@ -80,7 +80,7 @@ public class AskNicknameScreen implements Initializable {
             // if the nickname is correct:
             System.out.println("OK"); // todo: only for testing
             // todo: only for testing
-            ClientApplication.getSwitcher().goToChooseWizardAndTower(List.of(Wizard.values()), List.of(TowerType.values()));
+            ClientGui.getSwitcher().goToChooseWizardAndTower(List.of(Wizard.values()), List.of(TowerType.values()));
             // todo: actual code
             // getClientController().enterGame(nicknameTextField.getText(),gameID);
             // display lobby screen

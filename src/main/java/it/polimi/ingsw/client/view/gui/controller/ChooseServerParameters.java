@@ -1,14 +1,10 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
+import it.polimi.ingsw.client.view.gui.ClientGui;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
-import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -89,7 +85,7 @@ public class ChooseServerParameters implements Initializable {
         if(parseIPAddress(ipAddress)&& parsePortNumber(portNumber)){
             // todo: only for testing
             System.out.println("connecting to: "+serverIP.getText() + " " + serverPort.getText());
-            ClientApplication.getSwitcher().goToHomeScreen();
+            ClientGui.getSwitcher().goToHomeScreen();
 
             // todo: similar to actual code
             // go to idle screen

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
+import it.polimi.ingsw.client.view.gui.ClientGui;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -57,7 +57,7 @@ public class ChooseGame implements Initializable{
      * It allows to go back to the home screen.
      */
     public void goBack(){
-        ClientApplication.getSwitcher().goToHomeScreen();
+        ClientGui.getSwitcher().goToHomeScreen();
     }
 
     /**
@@ -68,7 +68,7 @@ public class ChooseGame implements Initializable{
         // todo: testing only
         System.out.println(listOfGames.getValue());
         // todo: actual code
-        ClientApplication.getSwitcher().goToAskNicknameScreen(listOfGames.getValue());
+        ClientGui.getSwitcher().goToAskNicknameScreen(listOfGames.getValue());
     }
 
 }
