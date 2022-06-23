@@ -471,5 +471,136 @@ public class Translator {
             case NO_BANS_ON_CARD -> "This card cannot be used, there are no bans on it!";
         };
     }
+
+    /* *************************************************************************************************** *
+    *                                             GUI                                                      *
+    * **************************************************************************************************** */
+
+    // ******************************** MATCHMAKING AND LAUNCHER *******************************************
+
+    // WAITING SCREEN
+    public static String getWaitMessageGui(){
+        return isItalian ? "Per favore aspetta...":"Please wait...";
+    }
+
+    // CHOOSE SERVER PARAMTERS SCREEN
+    public static String getChooseAServer(){
+        return isItalian ? "Scegli un server":"Choose a server";
+    }
+
+    public static String getInsertIPAddress(){
+        return isItalian ?
+                "Inserisci l'indirizzo IP del server":
+                "Insert IP address of the server";
+    }
+
+    public static String getInsertPortNumber(){
+        return isItalian ?
+                "Inserisci il numero di porta del server":
+                "Insert Port Number of the server";
+    }
+
+    public static String getWrongIPAddressMessage(){
+        return isItalian ? "Indirizzo IP non valido":"IP address not vali";
+    }
+
+    public static String getWrongPortNumberMessage(){
+        return isItalian ? "numero di porta non valido":"port number not valid";
+    }
+
+    // HOME SCREEN
+    public static String getCreateButton(){
+        return isItalian ? "NUOVO":"NEW GAME";
+    }
+
+    public static String getJoinButton(){
+        return isItalian ? "UNISCITI":"JOIN";
+    }
+
+    public static String getResumeButton(){
+        return isItalian ? "RIPRENDI":"RESUME";
+    }
+
+    // CREATE GAME SCREEN
+    public static String getHeaderCreateGameScreen(){
+        return isItalian ? "Creazione di un nuovo gioco":"Creation of a new game";
+    }
+
+    public static String getChooseNumOfPlayers(){
+        return isItalian ? "Scegli il numero di giocatori":"Choose number of players";
+    }
+
+    public static String getChooseDifficultyOfGame(){
+        return isItalian ? "Scegli la difficoltà":"Choose difficulty";
+    }
+
+    public static String getMissingParameterError(){
+        return isItalian ? "non è opzionale":"it is not optional";
+    }
+
+    public static List<String> getDifficultyParameters(){
+        return isItalian ?
+                new ArrayList<>(List.of("normale","esperti")):
+                new ArrayList<>(List.of("normal", "expert"));
+    }
+
+    // ASK NICKNAME SCREEN
+    public static String getAskNickname(){
+        return isItalian ? "Scegli un nickname":"Choose a nickname";
+    }
+
+    public static String getNoteOnNickname(){
+        return isItalian ?
+                "può contenere qualunque carattere eccetto lo spazio":
+                "it can contains any character except for space";
+    }
+
+    public static String getMessageWrongNickname(){
+        return isItalian ?
+                "nickname non valido, non può contenere spazi":
+                "it is not valid: you cannot insert spaces";
+    }
+
+    // CHOOSE WIZARD AND TOWER SCREEN
+    public static String getHeaderChooseWizardAndTower(){
+        return isItalian ?
+                "Scegli il mago e la torre con cui vuoi giocare":
+                "Choose the wizard and the tower to play with";
+    }
+
+    // CHOOSE GAME TO JOIN
+    public static String getHeaderChooseGameToJoin(){
+        return isItalian ? "Scegli il gioco a cui vuoi unirti":"choose the game to join";
+    }
+
+    // EXIT SCREEN
+    public static String getExitButton(){
+        return isItalian ? "Esci dal gioco":"Exit from game";
+    }
+
+    public static String getGameHasEndedMessage(){
+        return isItalian ? "Il gioco è finito":"The game has ended";
+    }
+
+    public static String getHaveWonTheGameMessage(){
+        return isItalian ? "hanno vinto la partita":"have won the game";
+    }
+
+    public static String getParityString(){
+        return isItalian ? "PARITA'":"PARITY";
+    }
+
+    public static String getAlertTitle(){
+        return isItalian ? "Esci dal gioco":"Exit from game";
+    }
+
+    public static String getAlertHeader(){
+        return isItalian ? "Stai per uscire dal gioco":"You're about to exit from game";
+    }
+
+    public static String getAlertContent(){
+        return isItalian ? "Vuoi uscire dal gioco ?":"Do you want to exit the game ?";
+    }
+
 }
 
