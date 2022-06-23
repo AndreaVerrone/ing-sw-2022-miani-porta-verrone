@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui.controller;
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -58,8 +59,10 @@ public class ChooseGame extends GuiScreen implements Initializable{
      * It allows to go back to the home screen.
      */
     public void goBack(){
-        getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
-        getGui().run();
+        Platform.runLater(() -> {
+                    getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
+                });
+        // getGui().run();
     }
 
     /**
@@ -70,8 +73,11 @@ public class ChooseGame extends GuiScreen implements Initializable{
         // todo: testing only
         System.out.println(listOfGames.getValue());
         // todo: actual code
-        getGui().getScreenBuilder().build(ScreenBuilder.Screen.ASK_NICKNAME, listOfGames.getValue());
-        getGui().run();
+        Platform.runLater(()->{
+            getGui().getScreenBuilder().build(ScreenBuilder.Screen.ASK_NICKNAME, listOfGames.getValue());
+            }
+        );
+        // getGui().run();
     }
 
 }
