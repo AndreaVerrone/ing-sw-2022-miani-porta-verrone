@@ -1,37 +1,31 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.ScreenBuilder;
-import it.polimi.ingsw.client.view.cli.game.ChooseCloudScreen;
-import it.polimi.ingsw.client.view.cli.game.MoveMotherNatureScreen;
-import it.polimi.ingsw.client.view.cli.game.MoveStudentsPhaseScreen;
-import it.polimi.ingsw.client.view.cli.game.PlanningPhaseScreen;
-import it.polimi.ingsw.client.view.cli.launcher.AskServerSpecificationScreen;
-import it.polimi.ingsw.client.view.cli.launcher.HomeScreen;
-import it.polimi.ingsw.client.view.cli.launcher.LauncherScreen;
-import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
-import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
-import it.polimi.ingsw.client.view.cli.waiting.ConnectionErrorScreen;
 import it.polimi.ingsw.client.view.gui.controller.*;
-import it.polimi.ingsw.server.model.player.Wizard;
-import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
+
+/**
+ * The builder of the screens of the GUI.
+ */
 public class GuiScreenBuilder extends ScreenBuilder {
 
-
-
+    /**
+     * The GUI.
+     */
     private GUI gui;
 
     private Stage stage;
 
+    /**
+     * The path of the fxml file of the current screen.
+     */
     private String currentViewPath;
 
     public GuiScreenBuilder(GUI gui,Stage stage) {
@@ -43,10 +37,10 @@ public class GuiScreenBuilder extends ScreenBuilder {
         this.stage=stage;
     }
 
-
-
-
-
+    /**
+     * Method to load the screen specified by the path.
+     * @param path path of the fxml file to load.
+     */
     public void goToScreen(String path){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
@@ -65,7 +59,6 @@ public class GuiScreenBuilder extends ScreenBuilder {
     }
 
 
-
     /**
      * Builds and shows the screen corresponding to the specified input
      *
@@ -74,9 +67,12 @@ public class GuiScreenBuilder extends ScreenBuilder {
     @Override
     public void build(Screen screen) {
         currentViewPath = switch (screen){
+            case IDLE -> "/fxml/WaitScreen.fxml";
+            case CHOOSE_GAME_PARAMETERS -> "/fxml/CreateGameScreen.fxml";
+            case CHOOSE_LANGUAGE -> "/fxml/ChooseLanguageScreen.fxml";
             case CONNECTION_ERROR -> "";//todo: add screen here??
             case LAUNCHER -> "/fxml/StartingScreen.fxml";
-            case HOME -> "/fxml/ChooseLanguageScreen.fxml";
+            case HOME -> "/fxml/MenuScene.fxml";
             case SERVER_SPECS -> "/fxml/ChooseServerParameters.fxml";
             case MATCHMAKING_WAIT_PLAYERS -> "/fxml/LobbyScreen.fxml";
             case MATCHMAKING_ASK_PARAMS -> "/fxml/ChooseWizardAndTowerScreen.fxml";
@@ -90,7 +86,6 @@ public class GuiScreenBuilder extends ScreenBuilder {
 
     }
 
-
     /**
      * Builds and shows a content to ask the client a nickname to enter a game
      *
@@ -99,6 +94,22 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     @Override
     public void build(Screen screen, String gameID) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNickNameScreen.fxml"));
+            Parent root = loader.load();
+
+
+            AskNicknameScreen askNicknameScreen = loader.getController();
+            askNicknameScreen.setGameID(gameID);
+            gui.setCurrentScreen(askNicknameScreen);
+            askNicknameScreen.attachTo(gui);
+
+            Scene scene = new Scene(root);
+            gui.getStage().setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -111,6 +122,22 @@ public class GuiScreenBuilder extends ScreenBuilder {
     @Override
     public void build(Screen screen, Collection<String> inputs) {
 
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
+            Parent root = loader.load();
+
+            ChooseGame chooseGame = loader.getController();
+            chooseGame.setListOfGames(new ArrayList<>(inputs));
+
+            gui.setCurrentScreen(chooseGame);
+            chooseGame.attachTo(gui);
+
+            Scene scene = new Scene(root);
+            gui.getStage().setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -120,6 +147,5 @@ public class GuiScreenBuilder extends ScreenBuilder {
     public void rebuild() {
 
     }
-
 
 }
