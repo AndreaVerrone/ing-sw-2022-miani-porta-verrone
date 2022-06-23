@@ -3,41 +3,43 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
-import it.polimi.ingsw.client.view.cli.waiting.IdleScreen;
-import it.polimi.ingsw.client.view.gui.controller.TableView;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.Collection;
 
-
+/**
+ * A class to handle the client GUI.
+ */
 public class GUI extends ClientView {
 
-
+    /**
+     * The stage
+     */
     Stage stage;
 
+    /**
+     * The controller class of the current screen
+     */
     private GuiScreen currentScreen;
+
 
     private boolean shouldStop = false;
 
-
-
-
+    /**
+     * The constructor of the class.
+     * It will construct the class by taking in input the stage.
+     * @param stage stage used to build the gui
+     */
     public GUI(Stage stage) {
         this.stage=stage;
         setScreenBuilder(new GuiScreenBuilder(this,stage));
-
     }
 
     public Stage getStage() {
@@ -47,7 +49,6 @@ public class GUI extends ClientView {
     public void setCurrentScreen(GuiScreen screen){
         currentScreen = screen;
     }
-
 
     /**
      * When an object implementing interface {@code Runnable} is used
@@ -119,6 +120,10 @@ public class GUI extends ClientView {
      */
     @Override
     public void createMatchmakingView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert, String currentPlayer) {
+
+        getClientController().setNickNameCurrentPlayer(currentPlayer);
+        //matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
+        // setNextScreen(new LobbyScreen(this));
 
     }
 
