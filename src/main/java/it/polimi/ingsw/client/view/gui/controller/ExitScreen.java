@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -12,7 +14,7 @@ import java.util.List;
  * The exit screen is a screen used to display the winners
  * and allow the player to exit the game.
  */
-public class ExitScreen {
+public class ExitScreen extends GuiScreen {
 
     /**
      * The anchorPane of this screen
@@ -40,7 +42,7 @@ public class ExitScreen {
      */
     public void setUpExitScreen(List<String> winners) {
         setDescriptionText(winners);
-        logoutButton.setText("Exit from Game"); // todo: actual code logoutButton.setText(Translator.getExitButton());
+        logoutButton.setText(Translator.getExitButton());
     }
 
     /**
@@ -48,18 +50,17 @@ public class ExitScreen {
      * It allows to exit the game.
      */
     public void logout(){
-        // todo: add translation
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Exit from game");
-        alert.setHeaderText("You're about to exit from game");
-        alert.setContentText("Do you want to exit the game ?");
+        alert.setTitle(Translator.getAlertTitle());
+        alert.setHeaderText(Translator.getAlertHeader());
+        alert.setContentText(Translator.getAlertContent());
 
         if(alert.showAndWait().get() == ButtonType.OK) {
-            // todo: maybe use also the proper method of the controller to exit the game !
             // set the stage to the current one that we are working with
             Stage stage = (Stage) scenePane.getScene().getWindow();
             // System.out.println("you have successfully logged out");
             stage.close();
+            // getGui().getClientController().quitGame(); // todo: maybe use also the proper method of the controller to exit the game !
         }
     }
 
@@ -70,8 +71,8 @@ public class ExitScreen {
      */
     private void setDescriptionText(List<String> winners){
 
-        // String ownerPlayer = getClientController().getNickNameOwner(); // todo: actual code
-        String ownerPlayer = "player 1"; // todo: only for testing
+        String ownerPlayer = getGui().getClientController().getNickNameOwner();
+        // String ownerPlayer = "player 1"; // todo: only for testing
 
         int numOfWinners = winners.size();
 
@@ -82,24 +83,21 @@ public class ExitScreen {
 
             // the winner is the owner
             if (winners.contains(ownerPlayer)) {
-                description.setText("The game has ended \n\n Congratulation, you have won the game !"); // todo: testing only
-                // description.setText(Translator.getMessageForTheWinner()); todo: actual code
+                description.setText(Translator.getGameHasEndedMessage()+" \n\n "+ Translator.getMessageForTheWinner());
             } else {
                 // the winner is not the owner
-                // description.setText(winners.get(0) + " " + Translator.getMessageForTheLosers()); // todo: actual code
-                description.setText("The game has ended \n\n"+winners.get(0) + " " + "have won the game"); // todo: testing only
+                description.setText(Translator.getGameHasEndedMessage()+" \n\n"+winners.get(0) + " " + Translator.getHaveWonTheGameMessage());
 
             }
 
         } else {
             // *** 2. there is more than 1 winner --> parity situation
-            //StringBuilder message = new StringBuilder(Translator.getMessageForParity() +": \n"); // todo: actaul code
-            StringBuilder message = new StringBuilder("The game has ended \n\n PARITY" +": \n\n"); // todo: testing only
+            StringBuilder message = new StringBuilder(Translator.getGameHasEndedMessage()+" \n\n "+ Translator.getParityString()+": \n\n");
 
             for (String winner : winners) {
                 message.append(winner).append("\n");
             }
-            message.append("\n have won the game");
+            message.append("\n ").append(Translator.getGameHasEndedMessage());
             description.setText(message.toString());
         }
     }
