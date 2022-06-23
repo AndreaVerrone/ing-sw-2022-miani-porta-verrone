@@ -1,11 +1,12 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.view.gui.ClientGui;
+import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.ResourceBundle;
  * This class is the controller of the screen used to allow the player
  * to choose the game to join.
  */
-public class ChooseGame implements Initializable{
+public class ChooseGame extends GuiScreen implements Initializable{
 
     /**
      * This label is used for the header of the screen.
@@ -28,7 +29,7 @@ public class ChooseGame implements Initializable{
      * This is the choice box used to display the available games to join.
      */
     @FXML
-    private ChoiceBox<Integer> listOfGames;
+    private ChoiceBox<String> listOfGames;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -39,7 +40,7 @@ public class ChooseGame implements Initializable{
      * This method is used to set the labels of tre screen.
      */
     private void setLabels(){
-        header.setText("choose the game to join");
+        header.setText(Translator.getHeaderChooseGameToJoin());
     }
 
     /**
@@ -47,7 +48,7 @@ public class ChooseGame implements Initializable{
      * of the available games.
      * @param games list of available games to join.
      */
-    public void setListOfGames(Collection<Integer> games){
+    public void setListOfGames(Collection<String> games){
         this.listOfGames.getItems().addAll(new ArrayList<>(games));
     }
 
@@ -57,7 +58,8 @@ public class ChooseGame implements Initializable{
      * It allows to go back to the home screen.
      */
     public void goBack(){
-        ClientGui.getSwitcher().goToHomeScreen();
+        getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
+        getGui().run();
     }
 
     /**
@@ -68,7 +70,8 @@ public class ChooseGame implements Initializable{
         // todo: testing only
         System.out.println(listOfGames.getValue());
         // todo: actual code
-        ClientGui.getSwitcher().goToAskNicknameScreen(listOfGames.getValue());
+        getGui().getScreenBuilder().build(ScreenBuilder.Screen.ASK_NICKNAME, listOfGames.getValue());
+        getGui().run();
     }
 
 }
