@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -122,6 +123,11 @@ public class GUI extends ClientView {
     public void createMatchmakingView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert, String currentPlayer) {
 
         getClientController().setNickNameCurrentPlayer(currentPlayer);
+        if(getClientController().getNickNameCurrentPlayer().equals(getClientController().getNickNameOwner())){
+            getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
+        }
+        getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
+        // getScreenBuilder().build();
         //matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
         // setNextScreen(new LobbyScreen(this));
 
