@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.view.gui.ClientGui;
+import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 
@@ -8,7 +11,7 @@ import javafx.scene.control.RadioButton;
  * This class is the controller of the screen used to make the user choose the language
  * of the game.
  */
-public class ChooseLanguageScreen {
+public class ChooseLanguageScreen extends GuiScreen {
 
     @FXML
     private RadioButton itaButton, engButton;
@@ -29,6 +32,7 @@ public class ChooseLanguageScreen {
         }
 
         // go to screen to choose the server.
-        ClientGui.getSwitcher().goToAskServerParameters();
+        getGui().getScreenBuilder().build(ScreenBuilder.Screen.SERVER_SPECS);
+        getGui().run();
     }
 }

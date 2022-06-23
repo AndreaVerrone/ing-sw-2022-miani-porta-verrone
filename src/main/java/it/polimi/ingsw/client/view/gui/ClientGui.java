@@ -33,27 +33,16 @@ public class ClientGui extends javafx.application.Application {
 
         GUI gui = new GUI(primaryStage);
         ClientController clientController = new ClientController(gui);
-
         GuiScreenBuilder guiScreenBuilder = new GuiScreenBuilder(gui, primaryStage);
+
         switcher = new Switcher(primaryStage);
-
-
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/StartingScreen.fxml"));
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-      }
-
-      primaryStage.setOnCloseRequest(
-              event -> {
-                event.consume();
-                logout(primaryStage);
-              }
-      );
+        primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest(
+                event -> {
+                    event.consume();
+                    logout(primaryStage);
+                }
+        );
 
     }
 

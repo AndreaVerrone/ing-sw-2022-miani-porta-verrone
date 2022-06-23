@@ -49,12 +49,12 @@ public class GuiScreenBuilder extends ScreenBuilder {
 
     public void goToScreen(String path){
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
 
             GuiScreen screenController = loader.getController();
-            gui.setNextScreen(screenController);
+            gui.setCurrentScreen(screenController);
+            screenController.attachTo(gui);
 
             Scene scene = new Scene(root);
             gui.getStage().setScene(scene);
@@ -73,21 +73,19 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     @Override
     public void build(Screen screen) {
-        String filePath = "";
         currentViewPath = switch (screen){
-            case CONNECTION_ERROR -> "";//todo: add screen here
-            case LAUNCHER -> "/assets/StartingScreen.fxml";
-            case HOME -> "/assets/.fxml";//todo: dont know here
-            case SERVER_SPECS -> "/assets/ChooseServerParameters.fxml";
-            case MATCHMAKING_WAIT_PLAYERS -> "/assets/LobbyScreen.fxml";
-            case MATCHMAKING_ASK_PARAMS -> "/assets/ChooseWizardAndTowerScreen.fxml";
+            case CONNECTION_ERROR -> "";//todo: add screen here??
+            case LAUNCHER -> "/fxml/StartingScreen.fxml";
+            case HOME -> "/fxml/ChooseLanguageScreen.fxml";
+            case SERVER_SPECS -> "/fxml/ChooseServerParameters.fxml";
+            case MATCHMAKING_WAIT_PLAYERS -> "/fxml/LobbyScreen.fxml";
+            case MATCHMAKING_ASK_PARAMS -> "/fxml/ChooseWizardAndTowerScreen.fxml";
             case PLAY_ASSISTANT_CARD -> "";//TODO missing;
-            case MOVE_STUDENT -> "/assets/Table.fxml";
-            case MOVE_MOTHER_NATURE -> "/assets/Table.fxml";//TODO ITS THE SAME SCREEN, SEE WHAT TO DO
-            case CHOOSE_CLOUD -> "/assets/Table.fxml";
+            case MOVE_STUDENT -> "/fxml/Table.fxml";
+            case MOVE_MOTHER_NATURE -> "/fxml/Table.fxml";//TODO ITS THE SAME SCREEN, SEE WHAT TO DO
+            case CHOOSE_CLOUD -> "/fxml/Table.fxml";
             default -> throw new IllegalArgumentException();
         };
-        currentViewPath = filePath;
         goToScreen(currentViewPath);
 
     }

@@ -27,8 +27,6 @@ public class GUI extends ClientView {
 
     Stage stage;
 
-    private GuiScreen nextScreen;
-
     private GuiScreen currentScreen;
 
     private boolean shouldStop = false;
@@ -46,8 +44,8 @@ public class GUI extends ClientView {
         return stage;
     }
 
-    public void setNextScreen(GuiScreen screen){
-        nextScreen = screen;
+    public void setCurrentScreen(GuiScreen screen){
+        currentScreen = screen;
     }
 
 
@@ -64,14 +62,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void run() {
-
-        while (!shouldStop){
-            if (nextScreen == null){
-            } else {
-                currentScreen = nextScreen;
-                nextScreen = null;
-            }
-        }
+        stage.show();
 
     }
 

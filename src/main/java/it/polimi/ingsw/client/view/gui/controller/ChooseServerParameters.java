@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.view.gui.ClientGui;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
 /**
  * This class is the controller of the screen used to choose the server.
  */
-public class ChooseServerParameters implements Initializable {
+public class ChooseServerParameters extends GuiScreen implements Initializable  {
 
     /**
      * label for the header of the screen.
