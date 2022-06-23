@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.view.gui.ClientGui;
+import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -84,26 +85,24 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
 
         // if both IP and port are correct send message
         if(parseIPAddress(ipAddress)&& parsePortNumber(portNumber)){
+            // go to idle screen
+            getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
+            // create connection
+            getGui().getClientController().createConnection(ipAddress, Integer.parseInt(portNumber));
             // todo: only for testing
             System.out.println("connecting to: "+serverIP.getText() + " " + serverPort.getText());
-            ClientGui.getSwitcher().goToHomeScreen();
-
-            // todo: similar to actual code
-            // go to idle screen
-            // ClientApplication.getSwitcher().goToWaitScreen();
-            // getClientController().createConnection(ipAddress, Integer.parseInt(portNumber));
         }else{
             // if the IP is wrong:
             if(!parseIPAddress(ipAddress)) {
                 // display that it is wrong and
-                wrongIpErrorBox.setText("IP address not valid"); // todo: add translation
+                wrongIpErrorBox.setText(Translator.getWrongIPAddressMessage());
                 // clear the text box
                 serverIP.setText("");
             }
             // if the port is wrong:
             if(!parsePortNumber(portNumber)){
                 // display that it is wrong and
-                wrongPortNumberErrorBox.setText("port number not valid"); // todo: add translation
+                wrongPortNumberErrorBox.setText(Translator.getWrongPortNumberMessage());
                 // clear the text box
                 serverPort.setText("");
             }
@@ -114,10 +113,9 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
      * This method is used to set all the labels.
      */
     public void setLabels(){
-        // todo: add translation
-        headerLabel.setText("Choose a server");
-        serverIPLabel.setText("Insert IP address of the server");
-        serverPortLabel.setText("Insert Port Number of the server");
+        headerLabel.setText(Translator.getChooseAServer());
+        serverIPLabel.setText(Translator.getInsertIPAddress());
+        serverPortLabel.setText(Translator.getInsertPortNumber());
     }
 
     /**
@@ -131,6 +129,7 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
                 IPAddress
         );
 
+        // todo: choose one of the 2 methods
         /* ALTERNATIVE METHOD
         if(Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}", IPAddress)){
             String[] elements = IPAddress.split(",",0);
