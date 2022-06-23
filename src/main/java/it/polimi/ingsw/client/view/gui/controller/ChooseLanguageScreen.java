@@ -1,8 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.ScreenBuilder;
-import it.polimi.ingsw.client.view.gui.ClientGui;
-import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
@@ -13,6 +12,9 @@ import javafx.scene.control.RadioButton;
  */
 public class ChooseLanguageScreen extends GuiScreen {
 
+    /**
+     * Radio buttons.
+     */
     @FXML
     private RadioButton itaButton, engButton;
 
@@ -24,11 +26,9 @@ public class ChooseLanguageScreen extends GuiScreen {
 
         // set the language
         if(itaButton.isSelected()){
-            // Translator.setLanguage(Language.ITALIANO) // todo: actual code
-            System.out.println("ITALIAN SELECTED"); // todo: testing code
+            Translator.setLanguage(Translator.Language.ITALIANO);
         }else if(engButton.isSelected()){
-            // Translator.setLanguage(Language.ENGLISH) // todo: actual code
-            System.out.println("ENGLISH SELECTED"); // todo: testing code
+            Translator.setLanguage(Translator.Language.ENGLISH);
         }
 
         // go to screen to choose the server.
