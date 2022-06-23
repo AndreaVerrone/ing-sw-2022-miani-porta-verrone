@@ -1,41 +1,42 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.Switcher;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import java.io.IOException;
 
-
+/**
+ * The client that is running the game
+ */
 public class ClientGui extends javafx.application.Application {
 
-    private static ClientGui currentApplication;
+    private static ClientGui currentApplication; // todo: remove
 
-    private Stage primaryStage;
+    private Stage primaryStage; // todo: I think it can bre removed
 
-    private static Switcher switcher;
+    private static Switcher switcher; // todo: remove
 
-
-    // When using IntelliJ, don't run the application from here, use the main method in Client
+    /**
+     * The main.
+     * <p>
+     * Note: When using IntelliJ, don't run the application from here, use the main method in Client
+     * @param args string of arguments
+     */
     public static void main(String[] args) {
         launch(args);
-        //GUI gui = new GUI(new Stage());
-        //ClientController clientController = new ClientController(gui);
     }
-
 
     @Override
     public void start(Stage primaryStage) {
 
         GUI gui = new GUI(primaryStage);
         ClientController clientController = new ClientController(gui);
-        GuiScreenBuilder guiScreenBuilder = new GuiScreenBuilder(gui, primaryStage);
 
-        switcher = new Switcher(primaryStage);
+        // GuiScreenBuilder guiScreenBuilder = new GuiScreenBuilder(gui, primaryStage);
+        switcher = new Switcher(primaryStage); // todo: remove
+
         primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(
                 event -> {
@@ -46,29 +47,33 @@ public class ClientGui extends javafx.application.Application {
 
     }
 
-  public void logout(Stage stage) {
-      Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-      alert.setTitle("Exiting from game");
-      alert.setHeaderText("You're about to exit from game");
-      alert.setContentText("Do you want to exit the game ? ");
-      if (alert.showAndWait().get() == ButtonType.OK) {
-        stage.close();
-      }
-  }
+    /**
+     * This is the method that it called when you try to exit the game closing the window.
+     * It allows to exit the game.
+     * @param stage the current stage
+     */
+     public void logout(Stage stage) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(Translator.getAlertTitle());
+        alert.setHeaderText(Translator.getAlertHeader());
+        alert.setContentText(Translator.getAlertContent());
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            stage.close();
+        }
+    }
 
+    // todo: remove
     public static ClientGui getCurrentApplication()
   {
     return currentApplication;
   }
 
+  // todo: remove
     public static Switcher getSwitcher() {
       return switcher;
   }
 
 }
-
-
-
 
 
 
