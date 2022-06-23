@@ -1,13 +1,26 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.ScreenBuilder;
-import it.polimi.ingsw.client.view.gui.controller.ExitScreen;
+import it.polimi.ingsw.client.view.cli.game.ChooseCloudScreen;
+import it.polimi.ingsw.client.view.cli.game.MoveMotherNatureScreen;
+import it.polimi.ingsw.client.view.cli.game.MoveStudentsPhaseScreen;
+import it.polimi.ingsw.client.view.cli.game.PlanningPhaseScreen;
+import it.polimi.ingsw.client.view.cli.launcher.AskServerSpecificationScreen;
+import it.polimi.ingsw.client.view.cli.launcher.HomeScreen;
+import it.polimi.ingsw.client.view.cli.launcher.LauncherScreen;
+import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
+import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
+import it.polimi.ingsw.client.view.cli.waiting.ConnectionErrorScreen;
+import it.polimi.ingsw.client.view.gui.controller.*;
+import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,6 +31,8 @@ public class GuiScreenBuilder extends ScreenBuilder {
     private GUI gui;
 
     private Stage stage;
+
+    private String currentViewPath;
 
     public GuiScreenBuilder(GUI gui,Stage stage) {
         this.gui= gui;
@@ -30,46 +45,19 @@ public class GuiScreenBuilder extends ScreenBuilder {
 
 
 
-    private String gerFXMLFilePath(ScreenBuilder.Screen screen){
-        String filePath = "";
-        switch (screen){
-            case HOME -> filePath = "/fxml/MenuScene.fxml";
-            case END_GAME -> filePath = "/fxml/ExitScreen.fxml";
-        }
-        return filePath;
-    }
 
 
-
-    /**
-     * This method allow to go to the home screen.
-     */
-    public void goToHomeScreen(){
-
+    public void goToScreen(String path){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuScene.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-    }
-
-    public void goToExitScreen(List<String> winners){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ExitScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
-            ExitScreen controllerCard = (ExitScreen) loader.getController();
-            controllerCard.setUpExitScreen(winners);
-            // display(root);
+
+            GuiScreen screenController = loader.getController();
+            gui.setNextScreen(screenController);
 
             Scene scene = new Scene(root);
-            stage.setScene(scene);
-            //stage.setFullScreen(true);
-            stage.show();
+            gui.getStage().setScene(scene);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,13 +73,25 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     @Override
     public void build(Screen screen) {
-        switch (screen){
-            case HOME -> goToHomeScreen();
-
-        }
-
+        String filePath = "";
+        currentViewPath = switch (screen){
+            case CONNECTION_ERROR -> "";//todo: add screen here
+            case LAUNCHER -> "/assets/StartingScreen.fxml";
+            case HOME -> "/assets/.fxml";//todo: dont know here
+            case SERVER_SPECS -> "/assets/ChooseServerParameters.fxml";
+            case MATCHMAKING_WAIT_PLAYERS -> "/assets/LobbyScreen.fxml";
+            case MATCHMAKING_ASK_PARAMS -> "/assets/ChooseWizardAndTowerScreen.fxml";
+            case PLAY_ASSISTANT_CARD -> "";//TODO missing;
+            case MOVE_STUDENT -> "/assets/Table.fxml";
+            case MOVE_MOTHER_NATURE -> "/assets/Table.fxml";//TODO ITS THE SAME SCREEN, SEE WHAT TO DO
+            case CHOOSE_CLOUD -> "/assets/Table.fxml";
+            default -> throw new IllegalArgumentException();
+        };
+        currentViewPath = filePath;
+        goToScreen(currentViewPath);
 
     }
+
 
     /**
      * Builds and shows a content to ask the client a nickname to enter a game
@@ -122,4 +122,6 @@ public class GuiScreenBuilder extends ScreenBuilder {
     public void rebuild() {
 
     }
+
+
 }

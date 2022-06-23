@@ -3,27 +3,98 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.view.cli.waiting.IdleScreen;
+import it.polimi.ingsw.client.view.gui.controller.TableView;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Collection;
 
 
 public class GUI extends ClientView {
 
 
-
     Stage stage;
+
+    private GuiScreen nextScreen;
+
+    private GuiScreen currentScreen;
+
+    private boolean shouldStop = false;
+
+
+
 
     public GUI(Stage stage) {
         this.stage=stage;
         setScreenBuilder(new GuiScreenBuilder(this,stage));
 
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setNextScreen(GuiScreen screen){
+        nextScreen = screen;
+    }
+
+
+    /**
+     * When an object implementing interface {@code Runnable} is used
+     * to create a thread, starting the thread causes the object's
+     * {@code run} method to be called in that separately executing
+     * thread.
+     * <p>
+     * The general contract of the method {@code run} is that it may
+     * take any action whatsoever.
+     *
+     * @see Thread#run()
+     */
+    @Override
+    public void run() {
+
+        while (!shouldStop){
+            if (nextScreen == null){
+            } else {
+                currentScreen = nextScreen;
+                nextScreen = null;
+            }
+        }
+
+    }
+
+    public void show(){
+        stage.setResizable(false);
+        stage.setOnCloseRequest(
+                event -> {
+                    event.consume();
+                    logout(stage);
+                }
+        );
+        stage.show();
+    }
+
+    private void logout(Stage stage) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exiting from game");
+        alert.setHeaderText("You're about to exit from game");
+        alert.setContentText("Do you want to exit the game ? ");
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            shouldStop = true;
+            stage.close();
+        }
     }
 
     /**
@@ -325,19 +396,4 @@ public class GUI extends ClientView {
 
     }
 
-    /**
-     * When an object implementing interface {@code Runnable} is used
-     * to create a thread, starting the thread causes the object's
-     * {@code run} method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method {@code run} is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
-    @Override
-    public void run() {
-        new ClientGui().start(stage);
-    }
 }

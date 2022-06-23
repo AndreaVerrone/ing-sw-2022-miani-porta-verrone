@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -10,7 +11,7 @@ import java.util.ResourceBundle;
 /**
  * This is the controller of the wiat screen.
  */
-public class WaitScreen implements Initializable {
+public class WaitScreen extends GuiScreen implements Initializable {
 
     /**
      * The label of the header to display to wait.

@@ -22,20 +22,21 @@ public class ClientGui extends javafx.application.Application {
 
     // When using IntelliJ, don't run the application from here, use the main method in Client
     public static void main(String[] args) {
-        // launch(args);
-        GUI gui = new GUI(new Stage());
-        ClientController clientController = new ClientController(gui);
+        launch(args);
+        //GUI gui = new GUI(new Stage());
+        //ClientController clientController = new ClientController(gui);
     }
 
 
     @Override
     public void start(Stage primaryStage) {
 
-        //GUI gui = new GUI(primaryStage);
-        //ClientController clientController = new ClientController(gui);
+        GUI gui = new GUI(primaryStage);
+        ClientController clientController = new ClientController(gui);
 
-        // GuiScreenBuilder guiScreenBuilder = new GuiScreenBuilder(primaryStage);
+        GuiScreenBuilder guiScreenBuilder = new GuiScreenBuilder(gui, primaryStage);
         switcher = new Switcher(primaryStage);
+
 
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/StartingScreen.fxml"));

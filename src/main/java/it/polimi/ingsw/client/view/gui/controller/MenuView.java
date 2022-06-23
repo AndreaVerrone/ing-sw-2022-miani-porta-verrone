@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MenuView extends GuiScreen implements Initializable{
+public class MenuView implements Initializable{
 
     /**
      * button to create a new game
@@ -31,9 +31,6 @@ public class MenuView extends GuiScreen implements Initializable{
     @FXML
     Button resumeButton;
 
-    protected MenuView(GUI gui) {
-        super(gui);
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,7 +59,6 @@ public class MenuView extends GuiScreen implements Initializable{
         // display wit screen
         // ClientApplication.getSwitcher().goToWaitScreen();
         // ask available games to server
-        getGui().getClientController().getGames();
 
     }
 
