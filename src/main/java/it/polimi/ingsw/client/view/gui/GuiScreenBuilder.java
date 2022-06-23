@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.view.gui.controller.*;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -51,7 +52,15 @@ public class GuiScreenBuilder extends ScreenBuilder {
             screenController.attachTo(gui);
 
             Scene scene = new Scene(root);
-            gui.getStage().setScene(scene);
+
+            Platform.runLater(
+                    () -> {
+                        gui.getStage().setScene(scene);
+                    });
+
+
+            // gui.show();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,7 +114,13 @@ public class GuiScreenBuilder extends ScreenBuilder {
             askNicknameScreen.attachTo(gui);
 
             Scene scene = new Scene(root);
-            gui.getStage().setScene(scene);
+
+            Platform.runLater(
+                    ()->{
+                        gui.getStage().setScene(scene);
+                    }
+            );
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -133,7 +148,16 @@ public class GuiScreenBuilder extends ScreenBuilder {
             chooseGame.attachTo(gui);
 
             Scene scene = new Scene(root);
-            gui.getStage().setScene(scene);
+
+
+            Platform.runLater(()->{
+                        gui.getStage().setScene(scene);
+                        stage.setScene(scene);
+                    }
+                    );
+
+
+            //stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
