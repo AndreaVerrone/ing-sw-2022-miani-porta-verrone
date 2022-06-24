@@ -92,7 +92,6 @@ public class ClientController {
             view.getScreenBuilder().build(ScreenBuilder.Screen.HOME);
         } catch (IOException e) {
             view.displayErrorMessage(Translator.getErrorConnectionMessage());
-            view.getScreenBuilder().build(ScreenBuilder.Screen.SERVER_SPECS);
         }
     }
 
