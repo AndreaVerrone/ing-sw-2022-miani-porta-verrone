@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -12,7 +14,7 @@ import java.util.*;
 /**
  * This class is used to represent the lobby of the match making
  */
-public class LobbyScreen implements Initializable {
+public class LobbyScreen extends GuiScreen implements Initializable {
 
     /**
      * This is the header of the screen.
@@ -51,6 +53,8 @@ public class LobbyScreen implements Initializable {
 
     private Map<String, PlayerView> map = new HashMap<>();
 
+    private int numberOfPlayers;
+
     /**
      * This method is used to set up labels.
      */
@@ -59,11 +63,17 @@ public class LobbyScreen implements Initializable {
         waitLabel.setText("Please wait . . .");
     }
 
-
-    public void setUp(int gameID,int totalNumOfPlayers, String difficulty,List<PlayerView> playerViewList){
+    @Override
+    public void setUp(String gameID,int totalNumOfPlayers, boolean isExpert,List<PlayerView> playerViewList){
+        numberOfPlayers = totalNumOfPlayers;
         gameIDLabel.setText("Identifier of this game:\t"+gameID);
-        numOfPlayersLabel.setText("Number of players:\t"+playerViewList.size() + "/"+ totalNumOfPlayers);
-        difficultyLabel.setText("Difficulty: " + difficulty);
+        numOfPlayersLabel.setText("Number of players:\t"+playerViewList.size() + "/"+ numberOfPlayers);
+        if(isExpert){
+            difficultyLabel.setText("Difficulty: expert");
+        }
+        else {
+            difficultyLabel.setText("Difficulty: normal");
+        }
 
         for(PlayerView playerView: playerViewList){
             map.put(playerView.getNickname(),playerView);
@@ -86,7 +96,7 @@ public class LobbyScreen implements Initializable {
             }
             string.append("\n");
         }
-        playersChoiceLabel.setText(string.toString());
+        Platform.runLater(() -> playersChoiceLabel.setText(string.toString()));
     }
 
     @Override
@@ -104,11 +114,14 @@ public class LobbyScreen implements Initializable {
         setPlayersChoiceLabel();
     }
 
-    public void updatePlayerList(Collection<PlayerView> playerViews){
+    public boolean updatePlayerList(Collection<PlayerView> playerViews){
         map.values().clear();
         for(PlayerView playerView: playerViews){
             map.put(playerView.getNickname(),playerView);
         }
+        Platform.runLater(() -> numOfPlayersLabel.setText("Number of players:\t"+playerViews.size() + "/"+ numberOfPlayers));
+        setPlayersChoiceLabel();
+        return map.size() == numberOfPlayers;
     }
 }
 

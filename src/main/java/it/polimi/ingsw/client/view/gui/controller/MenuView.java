@@ -59,7 +59,6 @@ public class MenuView extends GuiScreen implements Initializable{
 
         // display wit screen
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
-        getGui().run();
 
         // ask available games to server
         getGui().getClientController().getGames();

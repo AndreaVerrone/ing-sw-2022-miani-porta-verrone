@@ -109,7 +109,6 @@ public class CreateGameScreen extends GuiScreen implements Initializable {
 
         // show wait screen
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
-        getGui().run();
         // send message
         getGui().getClientController().createGame(numOfPlayers.getValue(), expertMode);
 

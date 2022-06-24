@@ -103,28 +103,23 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     @Override
     public void build(Screen screen, String gameID) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNickNameScreen.fxml"));
-            Parent root = loader.load();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNicknameScreen.fxml"));
+                Parent root = loader.load();
 
 
-            AskNicknameScreen askNicknameScreen = loader.getController();
-            askNicknameScreen.setGameID(gameID);
-            gui.setCurrentScreen(askNicknameScreen);
-            askNicknameScreen.attachTo(gui);
+                GuiScreen askNicknameScreen = loader.getController();
+                gui.setCurrentScreen(askNicknameScreen);
+                askNicknameScreen.attachTo(gui);
+                askNicknameScreen.setGameID(gameID);
 
-            Scene scene = new Scene(root);
-
-            Platform.runLater(
-                    ()->{
-                        gui.getStage().setScene(scene);
-                    }
-            );
+                Scene scene = new Scene(root);
+                Platform.runLater(() -> gui.getStage().setScene(scene));
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
     }
 

@@ -1,18 +1,18 @@
 package it.polimi.ingsw.client.view.gui;
 
 
-import it.polimi.ingsw.client.view.gui.controller.AssistantCardDeck;
-import it.polimi.ingsw.client.view.gui.controller.CharacterCard;
-import it.polimi.ingsw.client.view.gui.controller.Island;
-import it.polimi.ingsw.client.view.gui.controller.SchoolBoard;
+import it.polimi.ingsw.client.view.gui.controller.*;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public abstract class GuiScreen {
 
@@ -47,6 +47,22 @@ public abstract class GuiScreen {
             askAction();
     }*/
 
+    //METHOD USED BY LOBBY SCREEN
+    public void setUp(String gameID, int totalNumOfPlayers, boolean isExpert, List<PlayerView> playerViewList){
+
+    }
+
+    public void updateTowerType(String nickname, TowerType newTower){
+    }
+
+    public void updateWizard(String nickname, Wizard newWizard){
+    }
+
+    public boolean updatePlayerList(Collection<PlayerView> playerViews){
+        return false;
+    }
+
+    //METHODS USED BY TABLE
 
     /**
      * Allows to save the nickname of the current player and sets the label of the current player as yellow
@@ -187,4 +203,6 @@ public abstract class GuiScreen {
 
     }
 
+    public void setGameID(String gameID) {
+    }
 }

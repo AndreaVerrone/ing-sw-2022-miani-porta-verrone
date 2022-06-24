@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class PlayerView {
 
-    private String nickname;
+    private String nickname = "";
 
     private Optional<Wizard> wizard;
 

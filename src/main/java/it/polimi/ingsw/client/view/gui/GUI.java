@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.view.gui.controller.PlayerView;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -14,6 +15,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class to handle the client GUI.
@@ -33,6 +36,10 @@ public class GUI extends ClientView {
 
     private boolean shouldStop = false;
 
+    private Map<String, PlayerView> playerViewMap;
+
+    private String gameID;
+
     /**
      * The constructor of the class.
      * It will construct the class by taking in input the stage.
@@ -41,6 +48,10 @@ public class GUI extends ClientView {
     public GUI(Stage stage) {
         this.stage=stage;
         setScreenBuilder(new GuiScreenBuilder(this,stage));
+    }
+
+    public void setGameID(String gameID) {
+        this.gameID = gameID;
     }
 
     public Stage getStage() {
@@ -123,10 +134,12 @@ public class GUI extends ClientView {
     public void createMatchmakingView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert, String currentPlayer) {
 
         getClientController().setNickNameCurrentPlayer(currentPlayer);
-        if(getClientController().getNickNameCurrentPlayer().equals(getClientController().getNickNameOwner())){
-            getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
+        playerViewMap = new HashMap<>(numPlayers, 1);
+        for(ReducedPlayerLoginInfo playerLoginInfo : playerLoginInfos){
+            playerViewMap.put(playerLoginInfo.nickname(), new PlayerView(playerLoginInfo.nickname()));
         }
-        getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
+        currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList());
         // getScreenBuilder().build();
         //matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
         // setNextScreen(new LobbyScreen(this));
@@ -141,7 +154,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
-
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
     }
 
     /**
@@ -182,7 +195,13 @@ public class GUI extends ClientView {
      */
     @Override
     public void playersChanged(Collection<ReducedPlayerLoginInfo> players) {
-
+        playerViewMap.clear();
+        for(ReducedPlayerLoginInfo playerLoginInfo : players){
+            playerViewMap.put(playerLoginInfo.nickname(), new PlayerView(playerLoginInfo.nickname()));
+        }
+        boolean lobbyFull = currentScreen.updatePlayerList(playerViewMap.values().stream().toList());
+        if (lobbyFull && getClientController().isInTurn())
+            getClientController().nextPhase();
     }
 
     /**

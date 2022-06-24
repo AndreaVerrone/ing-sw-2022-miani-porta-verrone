@@ -53,8 +53,11 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
         setLabels();
     }
 
+    @Override
     public void setGameID(String gameID){
         this.gameID=gameID;
+        getGui().setGameID(gameID);
+        System.out.println("ID: " + gameID);
     }
 
     /**
@@ -83,7 +86,6 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
             // todo: actual code
             // display lobby screen
             getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE); // todo: it should be lobby, but now it is not available
-            getGui().run();
             // send message to enter the game
             getGui().getClientController().enterGame(nicknameTextField.getText(),gameID);
         }else{

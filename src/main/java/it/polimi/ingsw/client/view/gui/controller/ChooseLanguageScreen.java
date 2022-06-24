@@ -33,6 +33,5 @@ public class ChooseLanguageScreen extends GuiScreen {
 
         // go to screen to choose the server.
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.SERVER_SPECS);
-        getGui().run();
     }
 }
