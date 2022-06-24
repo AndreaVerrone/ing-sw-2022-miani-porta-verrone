@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.view.gui.utils.image_getters.TowerImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.WizardImageType;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -88,6 +89,7 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
      * @param wizardsAvailable list of wizards available
      * @param towersAvailable list of available towers
      */
+    @Override
     public void setUp(List<Wizard> wizardsAvailable, List<TowerType> towersAvailable){
         // WIZARD
         // create the list
@@ -155,8 +157,9 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
         System.out.println("CHOOSEN:" + wizardChosen + " and " + towerTypeChosen); // todo: testing only
         // todo: actual code
         // Go to idle matchmaking
-        getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE); // todo: it should be lobby, but now it is not available
-        getGui().run();
+        Platform.runLater(()->getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS)); // todo: it should be lobby, but now it is not available
+        getGui().getClientController().nextPhase();
+        //getGui().run();
     }
 
     /**
