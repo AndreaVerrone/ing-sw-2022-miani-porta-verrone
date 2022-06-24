@@ -120,7 +120,7 @@ public class GUI extends ClientView {
      */
     @Override
     protected void showErrorMessage(String message) {
-
+        Platform.runLater(()->currentScreen.showErrorMessage(message));
     }
 
     /**
