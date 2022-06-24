@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.net.URL;
@@ -93,7 +94,7 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
             // todo: actual code
             // display lobby screen
             getGui().getClientController().enterGame(nicknameTextField.getText(),gameID);
-            getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS); // todo: it should be lobby, but now it is not available
+            //getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS); // todo: it should be lobby, but now it is not available
             // send message to enter the game
         }else{
             // print error message
