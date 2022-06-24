@@ -66,13 +66,13 @@ public class LobbyScreen extends GuiScreen implements Initializable {
     @Override
     public void setUp(String gameID,int totalNumOfPlayers, boolean isExpert,List<PlayerView> playerViewList){
         numberOfPlayers = totalNumOfPlayers;
-        gameIDLabel.setText("Identifier of this game:\t"+gameID);
-        numOfPlayersLabel.setText("Number of players:\t"+playerViewList.size() + "/"+ numberOfPlayers);
+        Platform.runLater(()->gameIDLabel.setText("Identifier of this game:\t"+gameID));
+        Platform.runLater(()->numOfPlayersLabel.setText("Number of players:\t"+playerViewList.size() + "/"+ numberOfPlayers));
         if(isExpert){
-            difficultyLabel.setText("Difficulty: expert");
+            Platform.runLater(()->difficultyLabel.setText("Difficulty: expert"));
         }
         else {
-            difficultyLabel.setText("Difficulty: normal");
+            Platform.runLater(()->difficultyLabel.setText("Difficulty: normal"));
         }
 
         for(PlayerView playerView: playerViewList){
@@ -104,16 +104,19 @@ public class LobbyScreen extends GuiScreen implements Initializable {
         setLabels();
     }
 
+    @Override
     public void updateTowerType(String nickname, TowerType newTower){
         map.get(nickname).setTowerType(newTower);
         setPlayersChoiceLabel();
     }
 
+    @Override
     public void updateWizard(String nickname, Wizard newWizard){
         map.get(nickname).setWizard(newWizard);
         setPlayersChoiceLabel();
     }
 
+    @Override
     public boolean updatePlayerList(Collection<PlayerView> playerViews){
         map.values().clear();
         for(PlayerView playerView: playerViews){
