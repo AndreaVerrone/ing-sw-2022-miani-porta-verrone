@@ -6,7 +6,10 @@ import it.polimi.ingsw.client.view.Switcher;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 /**
  * The client that is running the game
@@ -33,6 +36,8 @@ public class ClientGui extends javafx.application.Application {
     public void start(Stage primaryStage) {
 
         GUI gui = new GUI(primaryStage);
+        primaryStage.setTitle("Eriantys");
+        primaryStage.getIcons().add(new Image("/assets/logo/eriantys_banner.png"));
         ClientController clientController = new ClientController(gui);
 
         // GuiScreenBuilder guiScreenBuilder = new GuiScreenBuilder(gui, primaryStage);
