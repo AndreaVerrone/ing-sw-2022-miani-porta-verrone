@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -56,11 +57,16 @@ public class ExitScreen extends GuiScreen {
         alert.setContentText(Translator.getAlertContent());
 
         if(alert.showAndWait().get() == ButtonType.OK) {
+            // 1. exit from game
+            getGui().getClientController().closeApplication();
+            // 2. terminate the application
+            //Platform.exit();
+            //System.exit(0);
+            // 3. close the stage
             // set the stage to the current one that we are working with
             Stage stage = (Stage) scenePane.getScene().getWindow();
             // System.out.println("you have successfully logged out");
             stage.close();
-            // getGui().getClientController().quitGame(); // todo: maybe use also the proper method of the controller to exit the game !
         }
     }
 

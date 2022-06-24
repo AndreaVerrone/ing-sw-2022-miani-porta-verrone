@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.Switcher;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
@@ -41,7 +42,7 @@ public class ClientGui extends javafx.application.Application {
         primaryStage.setOnCloseRequest(
                 event -> {
                     event.consume();
-                    logout(primaryStage);
+                    logout(primaryStage,gui);
                 }
         );
 
@@ -51,13 +52,21 @@ public class ClientGui extends javafx.application.Application {
      * This is the method that it called when you try to exit the game closing the window.
      * It allows to exit the game.
      * @param stage the current stage
+     * @param gui the considered gui
      */
-     public void logout(Stage stage) {
+     public void logout(Stage stage, GUI gui) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(Translator.getAlertTitle());
         alert.setHeaderText(Translator.getAlertHeader());
         alert.setContentText(Translator.getAlertContent());
         if (alert.showAndWait().get() == ButtonType.OK) {
+            // exit from game
+            //gui.getClientController().exitFromGame();
+            gui.getClientController().closeApplication();
+            // terminate the application
+            //Platform.exit();
+            //System.exit(0);
+            // close the stage
             stage.close();
         }
     }

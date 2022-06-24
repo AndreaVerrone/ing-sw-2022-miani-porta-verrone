@@ -99,7 +99,9 @@ public class ClientController {
      * Closes all the current tasks and terminates the application
      */
     public void closeApplication(){
-        connectionHandler.closeApplication();
+        if(connectionHandler!=null) {
+            connectionHandler.closeApplication();
+        }
     }
 
     /**
