@@ -85,9 +85,9 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
             // ClientGui.getSwitcher().goToChooseWizardAndTower(List.of(Wizard.values()), List.of(TowerType.values()));
             // todo: actual code
             // display lobby screen
-            getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE); // todo: it should be lobby, but now it is not available
-            // send message to enter the game
             getGui().getClientController().enterGame(nicknameTextField.getText(),gameID);
+            getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS); // todo: it should be lobby, but now it is not available
+            // send message to enter the game
         }else{
             // print error message
             errorLabel.setText(Translator.getMessageWrongNickname());
