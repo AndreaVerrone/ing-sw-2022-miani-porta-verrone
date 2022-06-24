@@ -155,6 +155,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
+        Platform.runLater(()->currentScreen.setUp(new ArrayList<>(wizardsAvailable),new ArrayList<>(towersAvailable)));
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
     }
 
