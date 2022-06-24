@@ -124,7 +124,7 @@ public class CreateGameScreen extends GuiScreen implements Initializable {
      */
     public void goBack() {
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
-        getGui().run();
+        //getGui().run();
     }
 
     /**
