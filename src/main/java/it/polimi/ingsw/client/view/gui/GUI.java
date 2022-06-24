@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
@@ -40,6 +41,12 @@ public class GUI extends ClientView {
 
     private String gameID;
 
+    private FXMLLoader currentLoader;
+
+    private FXMLLoader matchMakingLoader;
+
+    private FXMLLoader controllerLoader;
+
     /**
      * The constructor of the class.
      * It will construct the class by taking in input the stage.
@@ -48,6 +55,10 @@ public class GUI extends ClientView {
     public GUI(Stage stage) {
         this.stage=stage;
         setScreenBuilder(new GuiScreenBuilder(this,stage));
+    }
+
+    public void setMatchMakingLoader(FXMLLoader matchMakingLoader) {
+        this.matchMakingLoader = matchMakingLoader;
     }
 
     public void setGameID(String gameID) {
@@ -138,8 +149,8 @@ public class GUI extends ClientView {
         for(ReducedPlayerLoginInfo playerLoginInfo : playerLoginInfos){
             playerViewMap.put(playerLoginInfo.nickname(), new PlayerView(playerLoginInfo.nickname()));
         }
-        Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
+        Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
 
         // getScreenBuilder().build();
         //matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
@@ -155,8 +166,8 @@ public class GUI extends ClientView {
      */
     @Override
     public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
-        Platform.runLater(()->currentScreen.setUp(new ArrayList<>(wizardsAvailable),new ArrayList<>(towersAvailable)));
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
+        Platform.runLater(()->currentScreen.setUp(new ArrayList<>(wizardsAvailable),new ArrayList<>(towersAvailable)));
     }
 
     /**

@@ -76,4 +76,5 @@ public abstract class ScreenBuilder {
      * Reshow the last screen displayed to the client
      */
     abstract public void rebuild();
+
 }
