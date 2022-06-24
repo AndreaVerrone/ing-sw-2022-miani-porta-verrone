@@ -95,6 +95,8 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
             // todo: only for testing
             System.out.println("connecting to: "+serverIP.getText() + " " + serverPort.getText());
         }else{
+            // there is at least one error --> sound emission
+            System.out.print("\u0007");
             // if the IP is wrong:
             if(!parseIPAddress(ipAddress)) {
                 // display that it is wrong and
