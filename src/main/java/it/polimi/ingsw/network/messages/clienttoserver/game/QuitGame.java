@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
-import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.ExitFromGame;

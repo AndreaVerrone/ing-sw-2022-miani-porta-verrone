@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.EnterGame;

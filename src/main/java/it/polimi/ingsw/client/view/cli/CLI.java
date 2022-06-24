@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
-import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;

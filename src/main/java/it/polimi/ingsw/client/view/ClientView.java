@@ -1,5 +1,7 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.controller.StateType;
 
