@@ -46,7 +46,7 @@ public class MenuView extends GuiScreen implements Initializable{
     public void createNewGame(){
         // go to screen to choose game parameters.
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_GAME_PARAMETERS);
-        getGui().run();
+        //getGui().run();
     }
 
     /**
