@@ -64,8 +64,8 @@ public class ClientGui extends javafx.application.Application {
             //gui.getClientController().exitFromGame();
             gui.getClientController().closeApplication();
             // terminate the application
-            //Platform.exit();
-            //System.exit(0);
+            Platform.exit();
+            System.exit(0);
             // close the stage
             stage.close();
         }
