@@ -11,12 +11,12 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * A class to handle the client GUI.
@@ -138,8 +138,9 @@ public class GUI extends ClientView {
         for(ReducedPlayerLoginInfo playerLoginInfo : playerLoginInfos){
             playerViewMap.put(playerLoginInfo.nickname(), new PlayerView(playerLoginInfo.nickname()));
         }
+        Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
-        currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList());
+
         // getScreenBuilder().build();
         //matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
         // setNextScreen(new LobbyScreen(this));
