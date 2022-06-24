@@ -90,7 +90,7 @@ public class ClientController {
             new Thread(connectionHandler).start();
             view.getScreenBuilder().build(ScreenBuilder.Screen.HOME);
         } catch (IOException e) {
-            System.out.println("Can't connect to server. Try again\n");
+            view.displayErrorMessage(Translator.getErrorConnectionMessage());
             view.getScreenBuilder().build(ScreenBuilder.Screen.SERVER_SPECS);
         }
     }

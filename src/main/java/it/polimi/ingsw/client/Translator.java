@@ -161,6 +161,10 @@ public class Translator {
         return isItalian ? "Il valore non è ammesso" : "The value is out of range";
     }
 
+    public static String getErrorConnectionMessage(){
+        return isItalian ? "Impossibile connettersi al server. Riprova":"Can't connect to server. Try again";
+    }
+
     // ****************** INPUT READER *************************
     public static String getWrongInputErrorMessage(){
         return isItalian ? "Il comando inserito non è corretto.":"The command is not correct.";
