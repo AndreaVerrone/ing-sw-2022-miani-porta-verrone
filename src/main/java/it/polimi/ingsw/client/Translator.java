@@ -594,6 +594,7 @@ public class Translator {
         return isItalian ? "PARITA'":"PARITY";
     }
 
+    // DIALOG SCREENS
     public static String getAlertTitle(){
         return isItalian ? "Esci dal gioco":"Exit from game";
     }
@@ -604,6 +605,14 @@ public class Translator {
 
     public static String getAlertContent(){
         return isItalian ? "Vuoi uscire dal gioco ?":"Do you want to exit the game ?";
+    }
+
+    public static String getHeaderErrorAlert(){
+        return isItalian ? "Errore":"Error";
+    }
+
+    public static String getTextOfCancelButton(){
+        return isItalian ? "Annulla":"Cancel";
     }
 
 }
