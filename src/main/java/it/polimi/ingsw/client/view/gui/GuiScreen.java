@@ -209,4 +209,8 @@ public abstract class GuiScreen {
 
     public void setGameID(String gameID) {
     }
+
+    public void showErrorMessage(String message){
+
+    }
 }
