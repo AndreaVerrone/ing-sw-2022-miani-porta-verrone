@@ -112,7 +112,7 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
     /**
      * This method is used to set all the labels.
      */
-    public void setLabels(){
+    private void setLabels(){
         headerLabel.setText(Translator.getChooseAServer());
         serverIPLabel.setText(Translator.getInsertIPAddress());
         serverPortLabel.setText(Translator.getInsertPortNumber());
