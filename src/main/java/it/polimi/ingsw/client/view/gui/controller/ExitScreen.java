@@ -56,6 +56,10 @@ public class ExitScreen extends GuiScreen {
         alert.setHeaderText(Translator.getAlertHeader());
         alert.setContentText(Translator.getAlertContent());
 
+        // set text of the cancel button since here it is needed translation
+        Button cancelButton = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelButton.setText(Translator.getTextOfCancelButton());
+
         if(alert.showAndWait().get() == ButtonType.OK) {
             // 1. exit from game
             getGui().getClientController().closeApplication();

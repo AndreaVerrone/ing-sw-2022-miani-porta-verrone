@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.Switcher;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -37,6 +38,10 @@ public class ClientGui extends javafx.application.Application {
 
         GUI gui = new GUI(primaryStage);
         primaryStage.setTitle("Eriantys");
+        //primaryStage.setX((primaryStage.getWidth() - primaryStage.getWidth()) / 2);
+        //primaryStage.setY((primaryStage.getHeight() - primaryStage.getHeight()) / 2);
+        //primaryStage.centerOnScreen();
+        //primaryStage.setX(100);
         primaryStage.getIcons().add(new Image("/assets/logo/eriantys_banner.png"));
         ClientController clientController = new ClientController(gui);
 
@@ -64,6 +69,11 @@ public class ClientGui extends javafx.application.Application {
         alert.setTitle(Translator.getAlertTitle());
         alert.setHeaderText(Translator.getAlertHeader());
         alert.setContentText(Translator.getAlertContent());
+
+        // set text of the cancel button since here it is needed translation
+        Button cancelButton = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelButton.setText(Translator.getTextOfCancelButton());
+
         if (alert.showAndWait().get() == ButtonType.OK) {
             // exit from game
             //gui.getClientController().exitFromGame();
