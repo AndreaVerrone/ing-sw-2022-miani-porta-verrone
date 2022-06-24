@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import javafx.scene.control.Alert;
 
 
 import java.util.Collection;
@@ -211,6 +212,8 @@ public abstract class GuiScreen {
     }
 
     public void showErrorMessage(String message){
-
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setContentText(message);
+        errorAlert.showAndWait();
     }
 }

@@ -61,12 +61,12 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
         System.out.println("ID: " + gameID);
     }
 
-    @Override
+    /*@Override
     public void showErrorMessage(String message){
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setContentText(message);
         errorAlert.showAndWait();
-    }
+    }*/
 
     /**
      * This method is used to set the labels.

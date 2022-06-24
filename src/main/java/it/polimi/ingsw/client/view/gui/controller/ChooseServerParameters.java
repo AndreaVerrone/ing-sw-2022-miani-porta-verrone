@@ -157,10 +157,10 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
     }
 
 
-    @Override
+    /*@Override
     public void showErrorMessage(String message){
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setContentText(message);
         errorAlert.showAndWait();
-    }
+    }*/
 }
