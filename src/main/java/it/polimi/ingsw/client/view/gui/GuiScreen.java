@@ -62,6 +62,10 @@ public abstract class GuiScreen {
         return false;
     }
 
+    public void setUp(List<Wizard>wizards, List<TowerType>towerTypes){
+
+    }
+
     //METHODS USED BY TABLE
 
     /**
