@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui;
 
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.controller.*;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -212,7 +213,12 @@ public abstract class GuiScreen {
     }
 
     public void showErrorMessage(String message){
+        // emit an alert sound
+        System.out.print("\u0007");
+
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setTitle(Translator.getHeaderErrorAlert());
+        errorAlert.setHeaderText(Translator.getHeaderErrorAlert());
         errorAlert.setContentText(message);
         errorAlert.showAndWait();
     }
