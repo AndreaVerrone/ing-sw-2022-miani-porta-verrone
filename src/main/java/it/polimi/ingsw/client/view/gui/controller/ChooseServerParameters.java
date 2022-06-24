@@ -5,8 +5,11 @@ import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -86,9 +89,9 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
         // if both IP and port are correct send message
         if(parseIPAddress(ipAddress)&& parsePortNumber(portNumber)){
             // go to idle screen
-            getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
             // create connection
             getGui().getClientController().createConnection(ipAddress, Integer.parseInt(portNumber));
+            //getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
             // todo: only for testing
             System.out.println("connecting to: "+serverIP.getText() + " " + serverPort.getText());
         }else{
@@ -151,5 +154,13 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
      */
     private boolean parsePortNumber(String portNumber){
         return Pattern.matches("\\d{4,5}", portNumber);
+    }
+
+
+    @Override
+    public void showErrorMessage(String message){
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setContentText(message);
+        errorAlert.showAndWait();
     }
 }
