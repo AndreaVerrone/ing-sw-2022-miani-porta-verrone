@@ -44,13 +44,7 @@ public abstract class ClientView implements VirtualView, Runnable {
      * Displays a message of error on the screen
      * @param message a string describing the error
      */
-    public final void displayErrorMessage(String message) {
-        showErrorMessage(message);
-        try {
-            Thread.sleep(2000); //waits a little to make the client see the error
-        }catch (InterruptedException ignore){}
-        screenBuilder.rebuild();
-    }
+    abstract public void displayErrorMessage(String message);
 
     /**
      * This is used only to say how a message of error should be shown on the screen.

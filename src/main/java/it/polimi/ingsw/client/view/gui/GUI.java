@@ -123,6 +123,11 @@ public class GUI extends ClientView {
         Platform.runLater(()->currentScreen.showErrorMessage(message));
     }
 
+    @Override
+    public void displayErrorMessage(String message){
+        showErrorMessage(message);
+    }
+
     /**
      * Displays a generic message on the screen
      *

@@ -156,6 +156,14 @@ public class CLI extends ClientView {
             default -> false;
         };
     }
+    @Override
+    public void displayErrorMessage(String message){
+        showErrorMessage(message);
+        try {
+            Thread.sleep(2000); //waits a little to make the client see the error
+        }catch (InterruptedException ignore){}
+        getScreenBuilder().rebuild();
+    }
 
     @Override
     protected void showErrorMessage(String errorMessage){
