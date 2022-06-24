@@ -505,7 +505,7 @@ public class Translator {
     }
 
     public static String getWrongIPAddressMessage(){
-        return isItalian ? "Indirizzo IP non valido":"IP address not vali";
+        return isItalian ? "Indirizzo IP non valido":"IP address not valid";
     }
 
     public static String getWrongPortNumberMessage(){
