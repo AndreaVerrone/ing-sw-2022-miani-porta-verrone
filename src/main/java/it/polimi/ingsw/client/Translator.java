@@ -61,20 +61,69 @@ public class Translator {
         isItalian = language == Language.ITALIANO;
     }
 
+    /* *************************************************************************************************************** *
+     *                                      COMMON MESSAGES FOR BOTH CLI AND GUI                                       *
+     * **************************************************************************************************************** */
+
+    /* *************************************************************************************************************** *
+     *                                              CLIENT CONTROLLER                                                  *
+     * **************************************************************************************************************** */
+    public static String getItIsNotYourTurnMessage(){
+        return isItalian ? "Non è il tuo turno!" : "It is not your turn!";
+    }
+
+    public static String getWrongMotherNatureMovementMessage(){
+        return isItalian ? "Il valore non può essere negativo!" : "The value cannot be negative!";
+    }
+
+    public static String getInputOutOfRangeMessage(){
+        return isItalian ? "Il valore non è ammesso" : "The value is out of range";
+    }
+
+    public static String getErrorConnectionMessage(){
+        return isItalian ? "Impossibile connettersi al server. Riprova":"Can't connect to server. Try again";
+    }
+
+    /* *************************************************************************************************************** *
+    *                                                    CLI                                                           *
+    * ***************************************************************************************************************  */
+
+    // ********************************************* INPUT READER ******************************************************
+    public static String getWrongInputErrorMessage(){
+        return isItalian ? "Il comando inserito non è corretto.":"The command is not correct.";
+    }
+
+    // ********************************************* CLI SCREENs *******************************************************
+
+    // GENERAL
+    public static String getMessageToExit(){
+        return isItalian ? "esci" : "exit";
+    }
+
+    public static String getMessageCurrentPlayer(){
+        return isItalian ? "giocatore corrente":"current player";
+    }
+
+    public static String getWaitMessage(){
+        return isItalian ? "Per favore aspetta" : "Please wait";
+    }
+
+    public static String getConfirmExit(){
+        return isItalian ? "Sei sicuro di voler uscire dal gioco? [yes/no]"
+                : "Are you sure you want to exit the game? [yes/no]";
+    }
+
+    public static String getExit(){
+        return isItalian ? "Esci" : "Exit";
+    }
+
+    // LAUNCHER
     public static String getGameSubtitle(){
         return isItalian ? "Un magico mondo di isole volanti!" : "A magic world of floating islands!";
     }
 
     public static String getChooseLanguage(){
         return isItalian ? "Scegli una lingua" : "Choose a language";
-    }
-
-    public static String getWaitMessage(){
-        return isItalian ? "Per favore aspetta" : "Please wait";
-    }
-    public static String getConfirmExit(){
-        return isItalian ? "Sei sicuro di voler uscire dal gioco? [yes/no]"
-                : "Are you sure you want to exit the game? [yes/no]";
     }
 
     public static String getConnectionError(){
@@ -88,13 +137,7 @@ public class Translator {
         return isItalian ? "Scegli la porta del server" : "Choose the port of the server";
     }
 
-    public static String getExit(){
-        return isItalian ? "Esci" : "Exit";
-    }
-
-    public static String getBack(){
-        return isItalian ? "Indietro" : "Back";
-    }
+    // MATCH MAKING
 
     public static String getChooseHomeAction(){
         return isItalian ? "Cosa vuoi fare?" + tabHelpIT : "What do you want to do?" + tabHelpEn ;
@@ -144,41 +187,8 @@ public class Translator {
         return isItalian ? "Per favore scegli un nickname" : "Please provide a nickname";
     }
 
-    public static String getIslandName(){
-        return isItalian ? "Isola#" : "Island#";
-    }
-
-    // ****************** CLIENT CONTROLLER  *************************
-    public static String getItIsNotYourTurnMessage(){
-        return isItalian ? "Non è il tuo turno!" : "It is not your turn!";
-    }
-
-    public static String getWrongMotherNatureMovementMessage(){
-        return isItalian ? "Il valore non può essere negativo!" : "The value cannot be negative!";
-    }
-
-    public static String getInputOutOfRangeMessage(){
-        return isItalian ? "Il valore non è ammesso" : "The value is out of range";
-    }
-
-    public static String getErrorConnectionMessage(){
-        return isItalian ? "Impossibile connettersi al server. Riprova":"Can't connect to server. Try again";
-    }
-
-    // ****************** INPUT READER *************************
-    public static String getWrongInputErrorMessage(){
-        return isItalian ? "Il comando inserito non è corretto.":"The command is not correct.";
-    }
-
-    // ****************** CLI SCREENs *************************
-
-    // GENERAL
-    public static String getMessageToExit(){
-        return isItalian ? "esci" : "exit";
-    }
-
-    public static String getMessageCurrentPlayer(){
-        return isItalian ? "giocatore corrente":"current player";
+    public static String getBack(){
+        return isItalian ? "Indietro" : "Back";
     }
 
     // PLANNING PAHSE
@@ -267,7 +277,7 @@ public class Translator {
                 "the game ended in a draw, the winners are";
     }
 
-    // ****************** WIDGETS *************************
+    // *********************************************** WIDGETS *********************************************************
 
     // ASSISTANT CARD
     public static String getValueFieldAssistantCard(){
@@ -286,6 +296,11 @@ public class Translator {
     // CLOUD VIEW
     public static String getCloudNamePrefixCloudView(){
         return isItalian ? "NUVOLA ":"CLOUD ";
+    }
+
+    // ISLAND
+    public static String getIslandName(){
+        return isItalian ? "Isola#" : "Island#";
     }
 
     // COIN COUNTER
@@ -401,7 +416,9 @@ public class Translator {
                 : "Choose the tower and wizard that you want to use during the game" + tabHelpEn;
     }
 
-    // ****************** MANAGEMENT OF ERROR MESSAGES *************************
+    /* *************************************************************************************************************** *
+     *                               MANAGEMENT OF ERROR MESSAGES COMING FROM ERROR CODES                              *
+     * *************************************************************************************************************** */
 
     /**
      * Gets a description of the error occurred passed as a parameter
@@ -476,11 +493,11 @@ public class Translator {
         };
     }
 
-    /* *************************************************************************************************** *
-    *                                             GUI                                                      *
-    * **************************************************************************************************** */
+    /* *************************************************************************************************************** *
+    *                                                    GUI                                                           *
+    * **************************************************************************************************************** */
 
-    // ******************************** MATCHMAKING AND LAUNCHER *******************************************
+    // ***************************************** MATCHMAKING AND LAUNCHER **********************************************
 
     // WAITING SCREEN
     public static String getWaitMessageGui(){
@@ -594,7 +611,7 @@ public class Translator {
         return isItalian ? "PARITA'":"PARITY";
     }
 
-    // DIALOG SCREENS
+    // *************************************** DIALOG SCREENS **********************************************************
     public static String getAlertTitle(){
         return isItalian ? "Esci dal gioco":"Exit from game";
     }
