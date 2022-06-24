@@ -34,18 +34,22 @@ public class GUI extends ClientView {
      */
     private GuiScreen currentScreen;
 
-
     private boolean shouldStop = false;
-
-    private Map<String, PlayerView> playerViewMap;
-
-    private String gameID;
 
     private FXMLLoader currentLoader;
 
     private FXMLLoader matchMakingLoader;
 
     private FXMLLoader controllerLoader;
+
+    // MATCHMAKING
+    private Map<String, PlayerView> playerViewMap;
+
+    private String gameID;
+
+    private int numPlayers;
+
+    private boolean isExpert;
 
     /**
      * The constructor of the class.
@@ -154,6 +158,8 @@ public class GUI extends ClientView {
         for(ReducedPlayerLoginInfo playerLoginInfo : playerLoginInfos){
             playerViewMap.put(playerLoginInfo.nickname(), new PlayerView(playerLoginInfo.nickname()));
         }
+        this.numPlayers=numPlayers;
+        this.isExpert=isExpert;
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
         Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
 
@@ -230,7 +236,9 @@ public class GUI extends ClientView {
      */
     @Override
     public void towerSelected(String player, TowerType tower) {
-
+        playerViewMap.get(player).setTowerType(tower);
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
+        Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
     }
 
     /**
@@ -241,6 +249,9 @@ public class GUI extends ClientView {
      */
     @Override
     public void wizardSelected(String player, Wizard wizard) {
+        playerViewMap.get(player).setWizard(wizard);
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
+        Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
 
     }
 
