@@ -142,11 +142,11 @@ public class MoveStudentsPhaseScreen extends CliScreen {
             }
 
             // if the destination is an island
-            int islandID;
             // take the number of the island from the island name
-            // which is for example Island#1 or Isola#1, so the number of the island is the
-            // last character of the string
-            islandID = Integer.parseInt(secondStringOfInput.substring(secondStringOfInput.length() - 1));
+            // which is for example Island#1 or Isola#10 (in italian Isola#1 or Isola#10),
+            // so the number of the island is/are the characters after the "#"
+            // the ID of the chosen island
+            int islandID = Integer.parseInt(secondStringOfInput.split("#")[1]);
             Position island = new Position(Location.ISLAND);
             island.setField(islandID);
             getCli().getClientController().chooseDestination(island);
