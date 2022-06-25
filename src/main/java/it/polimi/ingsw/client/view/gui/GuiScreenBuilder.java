@@ -29,8 +29,6 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     private String currentViewPath;
 
-    private FXMLLoader currentMatchMakingLoader;
-
     public GuiScreenBuilder(GUI gui,Stage stage) {
         this.gui= gui;
         this.stage=stage;
@@ -44,10 +42,11 @@ public class GuiScreenBuilder extends ScreenBuilder {
 
     /**
      * Method to load the screen specified by the path.
-     * @param loader loader of the fxml file to load.
+     * @param path path of the fxml file to load.
      */
-    public void goToScreen(FXMLLoader loader){
+    public void goToScreen(String path){
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(currentViewPath));
             Parent root = loader.load();
 
             GuiScreen screenController = loader.getController();
@@ -95,17 +94,8 @@ public class GuiScreenBuilder extends ScreenBuilder {
             case CHOOSE_CLOUD -> "/fxml/Table.fxml";
             default -> throw new IllegalArgumentException();
         };
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(currentViewPath));
-        if(screen.equals(Screen.MATCHMAKING_ASK_PARAMS)){
-            if(currentMatchMakingLoader != null){
-                goToScreen(currentMatchMakingLoader);
-                return;
-            }else{
-                gui.setMatchMakingLoader(loader);
-                currentMatchMakingLoader = loader;
-            }
-        }
-        goToScreen(loader);
+
+        goToScreen(currentViewPath);
 
     }
 
