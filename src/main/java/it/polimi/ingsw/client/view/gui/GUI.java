@@ -25,7 +25,7 @@ import java.util.*;
 public class GUI extends ClientView {
 
     /**
-     * The stage
+     * The stage.
      */
     Stage stage;
 
@@ -34,7 +34,6 @@ public class GUI extends ClientView {
      */
     private GuiScreen currentScreen;
 
-    private boolean shouldStop = false;
 
     // MATCHMAKING
     private Map<String, PlayerView> playerViewMap;
@@ -80,30 +79,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void run() {
-        stage.show();
-
-    }
-
-    public void show(){
-        stage.setResizable(false);
-        stage.setOnCloseRequest(
-                event -> {
-                    event.consume();
-                    logout(stage);
-                }
-        );
-        stage.show();
-    }
-
-    private void logout(Stage stage) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Exiting from game");
-        alert.setHeaderText("You're about to exit from game");
-        alert.setContentText("Do you want to exit the game ? ");
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            shouldStop = true;
-            stage.close();
-        }
+        //stage.show();
     }
 
     @Override
@@ -120,6 +96,8 @@ public class GUI extends ClientView {
     public void displayMessage(String message) {
 
     }
+
+    // MATCHMAKING RELATED METHODS
 
     /**
      * Creates the initial view of the game (the matchmaking) using the parameter passed
@@ -163,27 +141,6 @@ public class GUI extends ClientView {
             getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
             Platform.runLater(() -> currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
         }
-    }
-
-    /**
-     * Notifies that the passed card has been used and need to increase it's cost
-     *
-     * @param characterCardsType the card used
-     */
-    @Override
-    public void coinOnCardAdded(CharacterCardsType characterCardsType) {
-
-    }
-
-    /**
-     * Notifies a change in the students on the specified card
-     *
-     * @param characterCardType the card on which the changes happened
-     * @param actualStudents    the students on the card
-     */
-    @Override
-    public void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents) {
-
     }
 
     /**
@@ -236,6 +193,29 @@ public class GUI extends ClientView {
         playerViewMap.get(player).setWizard(wizard);
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
         Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
+
+    }
+
+    // GAME RELATED METHODS
+
+    /**
+     * Notifies that the passed card has been used and need to increase it's cost
+     *
+     * @param characterCardsType the card used
+     */
+    @Override
+    public void coinOnCardAdded(CharacterCardsType characterCardsType) {
+
+    }
+
+    /**
+     * Notifies a change in the students on the specified card
+     *
+     * @param characterCardType the card on which the changes happened
+     * @param actualStudents    the students on the card
+     */
+    @Override
+    public void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents) {
 
     }
 
@@ -431,3 +411,29 @@ public class GUI extends ClientView {
     }
 
 }
+
+/*
+ private boolean shouldStop = false;
+
+    public void show(){
+        stage.setResizable(false);
+        stage.setOnCloseRequest(
+                event -> {
+                    event.consume();
+                    logout(stage);
+                }
+        );
+        stage.show();
+    }
+
+    private void logout(Stage stage) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exiting from game");
+        alert.setHeaderText("You're about to exit from game");
+        alert.setContentText("Do you want to exit the game ? ");
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            shouldStop = true;
+            stage.close();
+        }
+    }
+ */
