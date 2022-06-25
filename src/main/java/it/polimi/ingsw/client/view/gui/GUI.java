@@ -236,7 +236,9 @@ public class GUI extends ClientView {
      */
     @Override
     public void towerSelected(String player, TowerType tower) {
-        getClientController().nextPhase();
+        if(getClientController().isInTurn()) {
+            getClientController().nextPhase();
+        }
 
     }
 
@@ -252,7 +254,9 @@ public class GUI extends ClientView {
         Platform.runLater(()->currentScreen.updateWizard(player, wizard));
         playerViewMap.get(player).setTowerType(towerChosen);
         Platform.runLater(()->currentScreen.updateTowerType(player, towerChosen));
-        getClientController().setTower(towerChosen);
+        if(getClientController().isInTurn()) {
+            getClientController().setTower(towerChosen);
+        }
         //getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
         //Platform.runLater(() -> currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
     }
