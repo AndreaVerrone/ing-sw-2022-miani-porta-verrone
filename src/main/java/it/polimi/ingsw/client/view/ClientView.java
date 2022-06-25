@@ -47,13 +47,6 @@ public abstract class ClientView implements VirtualView, Runnable {
     abstract public void displayErrorMessage(String message);
 
     /**
-     * This is used only to say how a message of error should be shown on the screen.
-     * For actually display an error message, see {@link #displayErrorMessage(String)}.
-     * @param message a string describing the error
-     */
-    abstract protected void showErrorMessage(String message);
-
-    /**
      * Displays a generic message on the screen
      * @param message a string representing the message
      */

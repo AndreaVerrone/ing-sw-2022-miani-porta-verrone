@@ -158,19 +158,14 @@ public class CLI extends ClientView {
     }
     @Override
     public void displayErrorMessage(String message){
-        showErrorMessage(message);
+        // print the message in red
+        printColorMessage(Color.RED,message);
+        // emit a sound
+        System.out.print("\u0007");
         try {
             Thread.sleep(2000); //waits a little to make the client see the error
         }catch (InterruptedException ignore){}
         getScreenBuilder().rebuild();
-    }
-
-    @Override
-    protected void showErrorMessage(String errorMessage){
-        // print the message in red
-        printColorMessage(Color.RED,errorMessage);
-        // emit a sound
-        System.out.print("\u0007");
     }
 
     /**

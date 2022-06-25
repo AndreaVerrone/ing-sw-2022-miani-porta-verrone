@@ -116,20 +116,9 @@ public class GUI extends ClientView {
         }
     }
 
-    /**
-     * This is used only to say how a message of error should be shown on the screen.
-     * For actually display an error message, see {@link #displayErrorMessage(String)}.
-     *
-     * @param message a string describing the error
-     */
-    @Override
-    protected void showErrorMessage(String message) {
-        Platform.runLater(()->currentScreen.showErrorMessage(message));
-    }
-
     @Override
     public void displayErrorMessage(String message){
-        showErrorMessage(message);
+        Platform.runLater(()->currentScreen.showErrorMessage(message));
     }
 
     /**
