@@ -62,7 +62,7 @@ public class SessionController {
      */
     protected void detachFromGame(){
         if (match != null)
-            match.removeClient(view);
+            match.removeClient(nickname);
     }
 
     /**
@@ -97,13 +97,13 @@ public class SessionController {
             throw new NotValidArgumentException(ErrorCode.GAME_NOT_EXIST);
         }
         match.addPlayer(nickname);
-        match.addClient(view);
+        match.addClient(nickname, view);
 
         this.match = match;
         this.nickname = nickname;
         match.notifyGameEntered(view);
 
-        Server.getInstance().addPlayer(user, match);
+        Server.getInstance().addPlayer(user, nickname, match);
     }
 
     /**
@@ -148,6 +148,10 @@ public class SessionController {
      */
     public void resumeGame() throws NotValidArgumentException {
         match = Server.getInstance().resumeGame(user);
+        nickname = Server.getInstance().getNicknameOf(user);
+        view.updateNicknameGameID(nickname, Server.getInstance().getIDOf(match));
+        match.addClient(nickname, view);
+        match.sendResumeInformation(nickname);
     }
 
     /**

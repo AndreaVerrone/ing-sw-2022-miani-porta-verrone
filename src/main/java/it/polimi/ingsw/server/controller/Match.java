@@ -102,6 +102,25 @@ public class Match implements ObserversCommonInterface{
         return matchMaking.getState().getType();
     }
 
+    /**
+     * A method used to send all the information of this match.
+     * This is useful when a user resumes a game he was playing
+     * @param nickname the nickname of the user to notify
+     */
+    public void sendResumeInformation(String nickname) {
+        VirtualView view;
+        synchronized (playersView) {
+            view = playersView.get(nickname);
+        }
+        synchronized (this) {
+            if (matchMaking != null)
+                notifyGameEntered(view);
+            else
+                view.gameCreated(game.getReducedModel(nickname));
+            view.currentPlayerOrStateChanged(getCurrentState(), getCurrentPlayerNickname());
+        }
+    }
+
 
     /**
      * Notifies the requested client that he entered this match

@@ -17,7 +17,7 @@ public class Server {
 
 
     /**
-     * This Map matches each unique nickname of a player with the game he is currently in.
+     * This Map matches each unique user of a player with the game he is currently in.
      */
     private final Map<User, Match> players = new HashMap<>();
 
@@ -25,6 +25,11 @@ public class Server {
      * This Map matches each unique identifier with the corresponding game.
      */
     private final Map<String, Match> games = new HashMap<>();
+
+    /**
+     * This Map matches each unique user of a client with the nickname he has chosen in the game he is currently in.
+     */
+    private final Map<User, String> users = new HashMap<>();
 
     /**
      * The instance of the server.
@@ -106,11 +111,39 @@ public class Server {
      * <p>
      * This is used to save which player is in which game.
      * @param user the user to add
+     * @param nickname the nickname of the player
      * @param match the game chosen
      */
-    public void addPlayer(User user, Match match) {
+    public void addPlayer(User user, String nickname, Match match) {
         synchronized (players){
             players.put(user, match);
+        }
+        synchronized (users) {
+            users.put(user, nickname);
+        }
+    }
+
+    /**
+     * Gets the id of a particular match
+     * @param match the match of which to get the id
+     * @return the id of the match
+     */
+    String getIDOf(Match match) {
+        Set<Map.Entry<String, Match>> matches;
+        synchronized (games) {
+            matches = games.entrySet();
+        }
+        return matches.stream().filter(e -> e.getValue() == match).findFirst().map(Map.Entry::getKey).orElse("");
+    }
+
+    /**
+     * Gets the nickname a user was using in the game he was playing
+     * @param user the user of whom to get the nickname
+     * @return the nickname of the user
+     */
+    String getNicknameOf(User user) {
+        synchronized (users) {
+            return users.get(user);
         }
     }
 
