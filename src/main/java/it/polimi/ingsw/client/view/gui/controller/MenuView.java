@@ -82,9 +82,9 @@ public class MenuView extends GuiScreen implements Initializable{
      * This method is used to set up the text of the buttons.
      */
     private void buttonsSetUp(){
-        newGameButton.setText(Translator.getCreateButton());
-        joinButton.setText(Translator.getJoinButton());
-        resumeButton.setText(Translator.getResumeButton());
+        newGameButton.setText(Translator.getCreate().toUpperCase());
+        joinButton.setText(Translator.getJoin().toUpperCase());
+        resumeButton.setText(Translator.getResume().toUpperCase());
     }
 
 }

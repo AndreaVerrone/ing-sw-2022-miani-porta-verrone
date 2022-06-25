@@ -87,6 +87,19 @@ public class Translator {
                 "Insert Port Number of the server";
     }
 
+    // HOME SCREEN
+    public static String getCreate(){
+        return isItalian ? "Crea" : "Create";
+    }
+
+    public static String getJoin(){
+        return isItalian ? "Unisciti" : "Join";
+    }
+
+    public static String getResume(){
+        return isItalian ? "Riprendi" : "Resume";
+    }
+
     // CREATE GAME
     public static String getChooseNumOfPlayers(){
         return isItalian ? "Scegli il numero di giocatori":"Choose number of players";
@@ -154,18 +167,6 @@ public class Translator {
 
     public static String getChooseHomeAction(){
         return isItalian ? "Cosa vuoi fare?" + tabHelpIT : "What do you want to do?" + tabHelpEn ;
-    }
-
-    public static String getCreate(){
-        return isItalian ? "Crea" : "Create";
-    }
-
-    public static String getJoin(){
-        return isItalian ? "Unisciti" : "Join";
-    }
-
-    public static String getResume(){
-        return isItalian ? "Riprendi" : "Resume";
     }
 
     public static String getCreateGame(){
@@ -510,19 +511,6 @@ public class Translator {
 
     public static String getWrongPortNumberMessage(){
         return isItalian ? "numero di porta non valido":"port number not valid";
-    }
-
-    // HOME SCREEN
-    public static String getCreateButton(){
-        return isItalian ? "NUOVO":"NEW GAME";
-    }
-
-    public static String getJoinButton(){
-        return isItalian ? "UNISCITI":"JOIN";
-    }
-
-    public static String getResumeButton(){
-        return isItalian ? "RIPRENDI":"RESUME";
     }
 
     // CREATE GAME SCREEN
