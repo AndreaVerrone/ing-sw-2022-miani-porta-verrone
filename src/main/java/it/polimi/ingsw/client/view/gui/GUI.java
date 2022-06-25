@@ -169,9 +169,10 @@ public class GUI extends ClientView {
         if(getClientController().isInTurn()) {
             getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
             Platform.runLater(() -> currentScreen.setUp(new ArrayList<>(wizardsAvailable), new ArrayList<>(towersAvailable)));
+        }else {
+            getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
+            Platform.runLater(() -> currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
         }
-        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
-        Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
     }
 
     /**
