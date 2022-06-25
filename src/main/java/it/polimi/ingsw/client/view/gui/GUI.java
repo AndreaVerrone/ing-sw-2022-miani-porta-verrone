@@ -36,12 +36,6 @@ public class GUI extends ClientView {
 
     private boolean shouldStop = false;
 
-    private FXMLLoader currentLoader;
-
-    private FXMLLoader matchMakingLoader;
-
-    private FXMLLoader controllerLoader;
-
     // MATCHMAKING
     private Map<String, PlayerView> playerViewMap;
 
@@ -59,10 +53,6 @@ public class GUI extends ClientView {
     public GUI(Stage stage) {
         this.stage=stage;
         setScreenBuilder(new GuiScreenBuilder(this,stage));
-    }
-
-    public void setMatchMakingLoader(FXMLLoader matchMakingLoader) {
-        this.matchMakingLoader = matchMakingLoader;
     }
 
     public void setGameID(String gameID) {
