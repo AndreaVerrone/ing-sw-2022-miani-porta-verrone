@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.reduced_model;
 
+import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -11,7 +12,7 @@ import java.util.Collection;
 /**
  * A simplified version of a school board, used to store and use the information client side
  */
-public class ReducedSchoolBoard implements Serializable {
+public class ReducedPlayer implements Serializable {
 
     /**
      * the owner of the school board.
@@ -44,6 +45,11 @@ public class ReducedSchoolBoard implements Serializable {
     private int towerNumber;
 
     /**
+     * The last assistant used by this player
+     */
+    private Assistant lastAssistantUsed;
+
+    /**
      * the number of coins in the school board.
      */
     private int coinNumber;
@@ -56,15 +62,17 @@ public class ReducedSchoolBoard implements Serializable {
      * @param studentsInDiningRoom the students in the dining room
      * @param towerType the color of the tower
      * @param towerNumber the number of the tower
+     * @param lastAssistantUsed the last assistant used by this player
      * @param coinNumber the number of coins in the school board
      */
-    public ReducedSchoolBoard(
+    public ReducedPlayer(
             String owner,
             StudentList studentsInEntrance,
             Collection<PawnType> professors,
             StudentList studentsInDiningRoom,
             TowerType towerType,
             int towerNumber,
+            Assistant lastAssistantUsed,
             int coinNumber) {
         this.owner = owner;
         this.studentsInEntrance = studentsInEntrance;
@@ -72,6 +80,7 @@ public class ReducedSchoolBoard implements Serializable {
         this.studentsInDiningRoom = studentsInDiningRoom;
         this.towerType = towerType;
         this.towerNumber = towerNumber;
+        this.lastAssistantUsed = lastAssistantUsed;
         this.coinNumber = coinNumber;
     }
 
@@ -100,6 +109,10 @@ public class ReducedSchoolBoard implements Serializable {
         return towerNumber;
     }
 
+    public Assistant getLastAssistantUsed() {
+        return lastAssistantUsed;
+    }
+
     public int getCoinNumber() {
         return coinNumber;
     }
@@ -120,6 +133,10 @@ public class ReducedSchoolBoard implements Serializable {
 
     public void setTowerNumber(int towerNumber) {
         this.towerNumber = towerNumber;
+    }
+
+    public void setLastAssistantUsed(Assistant lastAssistantUsed) {
+        this.lastAssistantUsed = lastAssistantUsed;
     }
 
     public void setCoinNumber(int coinNumber) {
