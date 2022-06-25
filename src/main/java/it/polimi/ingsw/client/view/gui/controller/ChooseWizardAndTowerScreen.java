@@ -157,8 +157,10 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
         System.out.println("CHOOSEN:" + wizardChosen + " and " + towerTypeChosen); // todo: testing only
         // todo: actual code
         // Go to idle matchmaking
-        Platform.runLater(()->getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS)); // todo: it should be lobby, but now it is not available
-        getGui().getClientController().nextPhase();
+        getGui().setTowerChosen(towerTypeChosen);
+        getGui().getClientController().setWizard(wizardChosen);
+        //Platform.runLater(()->getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS)); // todo: it should be lobby, but now it is not available
+        //getGui().getClientController().nextPhase();
         //getGui().run();
     }
 

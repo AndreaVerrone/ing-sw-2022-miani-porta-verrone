@@ -88,7 +88,7 @@ public class GuiScreenBuilder extends ScreenBuilder {
             case SERVER_SPECS -> "/fxml/ChooseServerParameters.fxml";
             case MATCHMAKING_WAIT_PLAYERS -> "/fxml/LobbyScreen.fxml";
             case MATCHMAKING_ASK_PARAMS -> "/fxml/ChooseWizardAndTowerScreen.fxml";
-            case PLAY_ASSISTANT_CARD -> "";//TODO missing;
+            case PLAY_ASSISTANT_CARD -> "/fxml/WaitScreen.fxml";//TODO missing;
             case MOVE_STUDENT -> "/fxml/Table.fxml";
             case MOVE_MOTHER_NATURE -> "/fxml/Table.fxml";//TODO ITS THE SAME SCREEN, SEE WHAT TO DO
             case CHOOSE_CLOUD -> "/fxml/Table.fxml";
