@@ -21,6 +21,6 @@ public class WaitScreen extends GuiScreen implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        headerLabel.setText(Translator.getWaitMessageGui());
+        headerLabel.setText(Translator.getWaitMessage());
     }
 }
