@@ -239,7 +239,8 @@ public class GUI extends ClientView {
         if(getClientController().isInTurn()) {
             getClientController().nextPhase();
         }
-
+        playerViewMap.get(player).setTowerType(tower);
+        Platform.runLater(() -> currentScreen.updateTowerType(player, tower));
     }
 
     /**
@@ -252,8 +253,6 @@ public class GUI extends ClientView {
     public void wizardSelected(String player, Wizard wizard) {
         playerViewMap.get(player).setWizard(wizard);
         Platform.runLater(()->currentScreen.updateWizard(player, wizard));
-        playerViewMap.get(player).setTowerType(towerChosen);
-        Platform.runLater(()->currentScreen.updateTowerType(player, towerChosen));
         if(getClientController().isInTurn()) {
             getClientController().setTower(towerChosen);
         }
