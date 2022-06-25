@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.cli;
 import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
@@ -199,8 +199,8 @@ public class CLI extends ClientView {
     }
 
     @Override
-    public void gameCreated(TableRecord tableRecord) {
-        this.table = new Table(tableRecord);
+    public void gameCreated(ReducedModel reducedModel) {
+        this.table = new Table(reducedModel);
     }
 
     @Override

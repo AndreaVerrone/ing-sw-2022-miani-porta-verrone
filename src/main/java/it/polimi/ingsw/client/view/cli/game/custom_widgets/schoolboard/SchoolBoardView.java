@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard;
 
 import it.polimi.ingsw.client.Translator;
-import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.BorderType;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.TextStyle;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
@@ -58,7 +58,7 @@ public class SchoolBoardView extends StatefulWidget {
      * create its graphical representation.
      * @param reducedSchoolBoard the reduced school board
      */
-    public SchoolBoardView(ReducedSchoolBoard reducedSchoolBoard) {
+    public SchoolBoardView(ReducedPlayer reducedSchoolBoard) {
         this.entranceStud = reducedSchoolBoard.getStudentsInEntrance();
         this.diningRoomStud = reducedSchoolBoard.getStudentsInDiningRoom();
         this.actualProfessors = reducedSchoolBoard.getProfessors();

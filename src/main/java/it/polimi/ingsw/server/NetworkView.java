@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.network.messages.servertoclient.PlayerOrStateChanged;
@@ -175,7 +175,7 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void gameCreated(TableRecord tableRecord) {
-        sender.sendMessage(new TableCreated(tableRecord));
+    public void gameCreated(ReducedModel reducedModel) {
+        sender.sendMessage(new TableCreated(reducedModel));
     }
 }

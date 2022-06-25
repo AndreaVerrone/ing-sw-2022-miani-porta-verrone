@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.controller.game;
 
 import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
-import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.server.controller.*;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.game.expert.card_observers.CoinOnCardObserver;
@@ -28,7 +28,7 @@ public class Game {
     /**
      * State in which the player is playing an assistant card
      */
-    private final GameState playAssistantState;
+    private final PlayAssistantState playAssistantState;
     /**
      * State in which the player is moving mother nature
      */
@@ -85,15 +85,22 @@ public class Game {
 
     }
 
-    private void createReducedTable(){
-        Collection<Assistant> deck = List.of(Assistant.values());
-        Map<String, Assistant> assistantsUsed = new HashMap<>();
+    /**
+     * Creates a reduced version of the whole model providing only the information relevant
+     * to a specific player
+     * @param nickname the nickname of the player this model is for
+     * @return a reduced version of the model
+     */
+    public ReducedModel getReducedModel(String nickname) {
+        Collection<Assistant> deck =
+                model.getPlayerList().stream().filter(player -> player.getNickname().equals(nickname))
+                        .findFirst().map(Player::getHand).orElse(new ArrayList<>());
+        Collection<Assistant> assistantsUsed = playAssistantState.getAssistantsPlayed();
         Collection<ReducedCloud> clouds = model.getGameTable().createReducedSetOfClouds();
-        Collection<ReducedSchoolBoard> schoolBoards = model.createReducedSetOfSchoolBoards();
+        Collection<ReducedPlayer> players = model.createReducedPlayers();
         Collection<ReducedIsland> islands = model.getGameTable().createReducedSetOfIslands();
-        TableRecord tableRecord = new TableRecord(deck,assistantsUsed,clouds,schoolBoards,
+        return new ReducedModel(deck,assistantsUsed,clouds,players,
                 islands, model.getGameTable().getMotherNaturePosition());
-        notifyGameCreatedObservers(tableRecord);
     }
 
     /**
@@ -367,17 +374,17 @@ public class Game {
         gameCreatedObservers.add(observer);
     }
 
-    public void askGameUpdate(){
-        createReducedTable();
+    public void askGameUpdate(String nickname){
+        notifyGameCreatedObservers(nickname, getReducedModel(nickname));
         notifyChangeCurrentStateObservers();
     }
     /**
      * This method notify all the attached observers that a change has been happened on current state.
      * @param table the table of the game just created
      */
-    private void notifyGameCreatedObservers(TableRecord table){
+    private void notifyGameCreatedObservers(String nickname, ReducedModel table){
         for(GameCreatedObserver observer : gameCreatedObservers)
-            observer.gameCreatedObserverUpdate(table);
+            observer.gameCreatedObserverUpdate(nickname, table);
     }
 
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON CHARACTER CARDS IF ANY
