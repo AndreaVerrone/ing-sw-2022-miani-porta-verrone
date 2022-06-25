@@ -166,8 +166,12 @@ public class GUI extends ClientView {
      */
     @Override
     public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
-        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
-        Platform.runLater(()->currentScreen.setUp(new ArrayList<>(wizardsAvailable),new ArrayList<>(towersAvailable)));
+        if(getClientController().isInTurn()) {
+            getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
+            Platform.runLater(() -> currentScreen.setUp(new ArrayList<>(wizardsAvailable), new ArrayList<>(towersAvailable)));
+        }
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
+        Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
     }
 
     /**
