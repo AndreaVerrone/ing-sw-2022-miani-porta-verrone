@@ -78,6 +78,14 @@ public class ClientController {
         nickNameCurrentPlayer = currentPlayer;
     }
 
+    public void setNickNameOwner(String nickNameOwner) {
+        this.nickNameOwner = nickNameOwner;
+    }
+
+    public void setGameID(String gameID) {
+        this.gameID = gameID;
+    }
+
     /**
      * Tries to connect the client to the server using the specified IP and port number
      * @param ipAddress the IP address of the server

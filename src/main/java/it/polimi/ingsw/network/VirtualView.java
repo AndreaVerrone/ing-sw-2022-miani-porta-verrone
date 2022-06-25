@@ -18,6 +18,14 @@ import java.util.Collection;
 public interface VirtualView {
 
     /**
+     * Resets the nickname and game ID of the client.
+     * This is useful when a client wants to resume a game he was playing.
+     * @param nickname the nickname of the client in the game
+     * @param gameID the ID of the game
+     */
+    void updateNicknameGameID(String nickname, String gameID);
+
+    /**
      * Creates the initial view of the game (the matchmaking) using the parameter passed
      *
      * @param playerLoginInfos the list of players currently in the lobby

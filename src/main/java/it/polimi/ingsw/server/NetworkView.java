@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.network.messages.servertoclient.PlayerOrStateChanged;
 import it.polimi.ingsw.network.messages.servertoclient.game.*;
+import it.polimi.ingsw.network.messages.servertoclient.launcher.UpdateNicknameGameID;
 import it.polimi.ingsw.network.messages.servertoclient.matchmaking.*;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -34,6 +35,11 @@ public class NetworkView implements VirtualView {
      */
     public NetworkView(NetworkSender sender) {
         this.sender = sender;
+    }
+
+    @Override
+    public void updateNicknameGameID(String nickname, String gameID) {
+        sender.sendMessage(new UpdateNicknameGameID(nickname, gameID));
     }
 
     @Override
