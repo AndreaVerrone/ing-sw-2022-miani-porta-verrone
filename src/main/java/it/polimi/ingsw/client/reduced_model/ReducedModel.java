@@ -106,6 +106,16 @@ public class ReducedModel implements Serializable {
                 reducedIslands, motherNaturePosition, new ArrayList<>(), false);
     }
 
+    /**
+     * Creates a reduced representation of all the model for an expert game starting from another reduced model
+     * @param base the model from which to get the data
+     * @param characterCards the list of character cards in the expert game
+     * @return a reduced model with all the data equal to the base except for character cards
+     */
+    static public ReducedModel fromBase(ReducedModel base, Collection<ReducedCharacter> characterCards) {
+        return new ReducedModel(base.assistantsList, base.assistantsUsed, base.clouds,
+                base.playersList, base.reducedIslands, base.motherNaturePosition, characterCards);
+    }
     public Collection<Assistant> getAssistantsList() {
         return assistantsList;
     }
