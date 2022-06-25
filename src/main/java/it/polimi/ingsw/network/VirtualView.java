@@ -51,6 +51,12 @@ public interface VirtualView {
     void currentPlayerOrStateChanged(StateType stateType, String currentPlayer);
 
     /**
+     * Notifies that the corresponding player left the game
+     * @param nickname the nickname of the player
+     */
+    void notifyPlayerLeftGame(String nickname);
+
+    /**
      * Notifies that the passed card has been used and need to increase it's cost
      * @param characterCardsType the card used
      */

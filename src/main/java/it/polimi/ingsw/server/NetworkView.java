@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.VirtualView;
+import it.polimi.ingsw.network.messages.servertoclient.PlayerLeftGame;
 import it.polimi.ingsw.network.messages.servertoclient.PlayerOrStateChanged;
 import it.polimi.ingsw.network.messages.servertoclient.game.*;
 import it.polimi.ingsw.network.messages.servertoclient.launcher.UpdateNicknameGameID;
@@ -50,6 +51,11 @@ public class NetworkView implements VirtualView {
     @Override
     public void currentPlayerOrStateChanged(StateType stateType, String currentPlayer) {
         sender.sendMessage(new PlayerOrStateChanged(currentPlayer, stateType));
+    }
+
+    @Override
+    public void notifyPlayerLeftGame(String nickname) {
+        sender.sendMessage(new PlayerLeftGame(nickname));
     }
 
     @Override
