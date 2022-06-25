@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
@@ -134,26 +135,40 @@ public class CLI extends ClientView {
     }
 
     /**
-     * Prompt the user to confirm that he want to close the application
+     * Prompt the user to confirm that he want to close the application or exit the game
+     * based on the parameter passed
+     * @param needToCloseApp true if this method should close the entire application
      */
-    public void confirmExit(){
+    public void confirmExit(boolean needToCloseApp){
         InputReader inputReader = new InputReader();
         inputReader.addCompleter(new AggregateCompleter(new StringsCompleter("yes"), new StringsCompleter("no")));
         inputReader.setNumOfArgsValidator(Validator.isOfNum(0));
         String input = inputReader.readInput(Translator.getConfirmExit())[0];
-        if (parseBoolean(input)) {
+        if (isNegativeAnswer(input)) {
+            setNextScreen(currentScreen);
+            return;
+        }
+        if (needToCloseApp) {
             shouldStop = true;
             currentScreen.setStop();
             getClientController().closeApplication();
             return;
         }
-        setNextScreen(currentScreen);
+        getClientController().quitGame();
+        getScreenBuilder().build(ScreenBuilder.Screen.HOME);
     }
 
-    private boolean parseBoolean(String bool){
+    /**
+     * Prompt the user to confirm that he want to exit the game
+     */
+    public void confirmExit() {
+        confirmExit(false);
+    }
+
+    private boolean isNegativeAnswer(String bool){
         return switch (bool.toLowerCase(Locale.ROOT)){
-            case "y", "yes", "s", "si" -> true;
-            default -> false;
+            case "y", "yes", "s", "si" -> false;
+            default -> true;
         };
     }
     @Override

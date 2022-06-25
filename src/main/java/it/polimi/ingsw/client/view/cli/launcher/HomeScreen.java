@@ -67,7 +67,7 @@ public class HomeScreen extends CliScreen {
         } else if (command.equals(Translator.getResume())) {
             getCli().getClientController().resumeGame();
         } else if (command.equals(Translator.getMessageToExit())) {
-            getCli().confirmExit();
+            getCli().confirmExit(true);
         }
     }
 
