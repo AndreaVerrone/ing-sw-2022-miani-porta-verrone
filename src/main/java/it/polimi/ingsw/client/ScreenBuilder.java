@@ -26,7 +26,8 @@ public abstract class ScreenBuilder {
         END_GAME,
         CHOOSE_LANGUAGE,
         CHOOSE_GAME_PARAMETERS,
-        IDLE;
+        IDLE,
+        PLAYER_LEFT;
 
         public static Screen parse(StateType stateType) {
             return switch (stateType){
@@ -59,11 +60,12 @@ public abstract class ScreenBuilder {
     abstract public void build(Screen screen);
 
     /**
-     * Builds and shows a content to ask the client a nickname to enter a game
+     * Builds and shows a content to ask the client a nickname to enter a game or
+     * notifies that a player left the game
      * @param screen the content to show
-     * @param gameID the id of the game the client wants to join
+     * @param input the input
      */
-    abstract public void build(Screen screen, String gameID);
+    abstract public void build(Screen screen, String input);
 
     /**
      * Builds and shows a content to display possible games to join or to notify the ending of the game

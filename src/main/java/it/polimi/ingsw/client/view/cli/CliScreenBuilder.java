@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.view.cli.common_screens.PlayerLeftScreen;
 import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
@@ -51,10 +52,12 @@ public class CliScreenBuilder extends ScreenBuilder {
     }
 
     @Override
-    public void build(ScreenBuilder.Screen screen, String gameID) {
-        if (screen != Screen.ASK_NICKNAME)
-            throw new IllegalArgumentException();
-        currentScreen = new RequestNicknameScreen(cli, gameID);
+    public void build(ScreenBuilder.Screen screen, String input) {
+        switch (screen){
+            case ASK_NICKNAME -> currentScreen = new RequestNicknameScreen(cli, input);
+            case PLAYER_LEFT -> currentScreen = new PlayerLeftScreen(cli, input);
+            default -> throw new IllegalArgumentException();
+        }
         show();
     }
 

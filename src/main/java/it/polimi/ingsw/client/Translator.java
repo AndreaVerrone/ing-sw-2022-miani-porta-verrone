@@ -74,6 +74,10 @@ public class Translator {
         return isItalian ? "esci" : "exit";
     }
 
+    public static String getLeftGameMessage(){
+        return isItalian ? " ha lasciato il gioco." : " left the game.";
+    }
+
     // LAUNCHER
     public static String getInsertIPAddress(){
         return isItalian ?
