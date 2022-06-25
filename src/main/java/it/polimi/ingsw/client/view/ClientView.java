@@ -1,5 +1,7 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.controller.StateType;
 
@@ -42,20 +44,7 @@ public abstract class ClientView implements VirtualView, Runnable {
      * Displays a message of error on the screen
      * @param message a string describing the error
      */
-    public final void displayErrorMessage(String message) {
-        showErrorMessage(message);
-        try {
-            Thread.sleep(2000); //waits a little to make the client see the error
-        }catch (InterruptedException ignore){}
-        screenBuilder.rebuild();
-    }
-
-    /**
-     * This is used only to say how a message of error should be shown on the screen.
-     * For actually display an error message, see {@link #displayErrorMessage(String)}.
-     * @param message a string describing the error
-     */
-    abstract protected void showErrorMessage(String message);
+    abstract public void displayErrorMessage(String message);
 
     /**
      * Displays a generic message on the screen

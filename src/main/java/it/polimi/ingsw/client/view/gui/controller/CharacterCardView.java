@@ -1,13 +1,12 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
+import it.polimi.ingsw.client.view.gui.ClientGui;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CoinImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandBanImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -105,7 +104,7 @@ public class CharacterCardView {
      * Exit the view if the exit button is clicked
      */
     public void exitView(){
-        ClientApplication.getSwitcher().goToCreateNewGame();
+        ClientGui.getSwitcher().goToCreateNewGame();
     }
 
     /**

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver;
 
-import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.responses.ErrorCode;

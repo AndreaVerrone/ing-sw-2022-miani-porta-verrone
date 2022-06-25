@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.User;
 import it.polimi.ingsw.network.messages.NetworkMessage;

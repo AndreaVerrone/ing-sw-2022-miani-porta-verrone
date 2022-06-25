@@ -1,16 +1,13 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 
-import it.polimi.ingsw.client.ClientApplication;
+import it.polimi.ingsw.client.view.gui.ClientGui;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CharacterCardImageType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
-import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
-
-import javafx.scene.input.MouseEvent;
 
 /**
  * Class containing all the information of a character card on the view
@@ -57,7 +54,7 @@ public class CharacterCard {
         this.characterCardView = characterCardView;
         this.cost = cardType.getCost();
 
-        characterCardView.setOnMouseClicked(mouseEvent -> ClientApplication.getSwitcher().goToCharacterCardView(CharacterCard.this));
+        characterCardView.setOnMouseClicked(mouseEvent -> ClientGui.getSwitcher().goToCharacterCardView(CharacterCard.this));
 
         try {
             students = new StudentList();

@@ -103,11 +103,11 @@ public class ChooseParametersScreen extends CliScreen {
         }
         inputReader.addCommandValidator(Validator.beginsWith(Translator.getWizardLabel()).and(wizardValidator));
 
-        inputReader.addCommandValidator(Translator.getExit());
+        inputReader.addCommandValidator(Translator.getMessageToExit());
         inputReader.addCommandValidator(Translator.getNextPhase());
         inputReader.addCompleter(new Completers.TreeCompleter(
                 Completers.TreeCompleter.node(Translator.getNextPhase()),
-                Completers.TreeCompleter.node(Translator.getExit()),
+                Completers.TreeCompleter.node(Translator.getMessageToExit()),
                 Completers.TreeCompleter.node(Translator.getTowerLabel(),
                         Completers.TreeCompleter.node(
                                 towersAvailable.stream().map(Translator::getTowerName).toArray())),
@@ -118,7 +118,7 @@ public class ChooseParametersScreen extends CliScreen {
             String[] input = inputReader.readInput(Translator.getAskForInitialParameters());
             String command = input[0];
 
-            if (Translator.getExit().equals(command)) {
+            if (Translator.getMessageToExit().equals(command)) {
                 getCli().confirmExit();
             } else if (Translator.getTowerLabel().equals(command)) {
                 getCli().getClientController().setTower(Translator.parseTowerType(input[1]));

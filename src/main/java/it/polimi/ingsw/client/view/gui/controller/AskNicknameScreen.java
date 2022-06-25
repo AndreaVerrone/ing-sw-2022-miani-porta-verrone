@@ -1,21 +1,21 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
-import it.polimi.ingsw.server.model.player.Wizard;
-import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 /**
  * This class is the controller for the screen to ask a nickname.
  */
-public class AskNicknameScreen implements Initializable {
+public class AskNicknameScreen extends GuiScreen implements Initializable {
 
     /**
      * This is the label of the header.
@@ -47,23 +47,33 @@ public class AskNicknameScreen implements Initializable {
     /**
      * This is the game ID of the game to join.
      */
-    private int gameID;
+    private String gameID;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setLabels();
     }
 
-    public void setGameID(int gameID){
+    @Override
+    public void setGameID(String gameID){
         this.gameID=gameID;
+        getGui().setGameID(gameID);
+        System.out.println("ID: " + gameID);
     }
+
+    /*@Override
+    public void showErrorMessage(String message){
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setContentText(message);
+        errorAlert.showAndWait();
+    }*/
 
     /**
      * This method is used to set the labels.
      */
     private void setLabels(){
-        headerLabel.setText("Choose a nickname");
-        notesOnNickname.setText("it can contains any character except for space");
+        headerLabel.setText(Translator.getAskNickname());
+        notesOnNickname.setText(Translator.getNoteOnNickname());
         errorLabel.setText("");
     }
 
@@ -80,13 +90,15 @@ public class AskNicknameScreen implements Initializable {
             // if the nickname is correct:
             System.out.println("OK"); // todo: only for testing
             // todo: only for testing
-            ClientApplication.getSwitcher().goToChooseWizardAndTower(List.of(Wizard.values()), List.of(TowerType.values()));
+            // ClientGui.getSwitcher().goToChooseWizardAndTower(List.of(Wizard.values()), List.of(TowerType.values()));
             // todo: actual code
-            // getClientController().enterGame(nicknameTextField.getText(),gameID);
             // display lobby screen
+            getGui().getClientController().enterGame(nicknameTextField.getText(),gameID);
+            //getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS); // todo: it should be lobby, but now it is not available
+            // send message to enter the game
         }else{
             // print error message
-            errorLabel.setText("it is not valid: you cannot insert spaces");
+            errorLabel.setText(Translator.getMessageWrongNickname());
         }
     }
 

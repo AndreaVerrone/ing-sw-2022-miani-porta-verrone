@@ -1,14 +1,15 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
+import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
-import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +18,7 @@ import java.util.regex.Pattern;
 /**
  * This class is the controller of the screen used to choose the server.
  */
-public class ChooseServerParameters implements Initializable {
+public class ChooseServerParameters extends GuiScreen implements Initializable  {
 
     /**
      * label for the header of the screen.
@@ -87,26 +88,26 @@ public class ChooseServerParameters implements Initializable {
 
         // if both IP and port are correct send message
         if(parseIPAddress(ipAddress)&& parsePortNumber(portNumber)){
+            // go to idle screen
+            // create connection
+            getGui().getClientController().createConnection(ipAddress, Integer.parseInt(portNumber));
+            //getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
             // todo: only for testing
             System.out.println("connecting to: "+serverIP.getText() + " " + serverPort.getText());
-            ClientApplication.getSwitcher().goToHomeScreen();
-
-            // todo: similar to actual code
-            // go to idle screen
-            // ClientApplication.getSwitcher().goToWaitScreen();
-            // getClientController().createConnection(ipAddress, Integer.parseInt(portNumber));
         }else{
+            // there is at least one error --> sound emission
+            System.out.print("\u0007");
             // if the IP is wrong:
             if(!parseIPAddress(ipAddress)) {
                 // display that it is wrong and
-                wrongIpErrorBox.setText("IP address not valid"); // todo: add translation
+                wrongIpErrorBox.setText(Translator.getWrongIPAddressMessage());
                 // clear the text box
                 serverIP.setText("");
             }
             // if the port is wrong:
             if(!parsePortNumber(portNumber)){
                 // display that it is wrong and
-                wrongPortNumberErrorBox.setText("port number not valid"); // todo: add translation
+                wrongPortNumberErrorBox.setText(Translator.getWrongPortNumberMessage());
                 // clear the text box
                 serverPort.setText("");
             }
@@ -116,11 +117,10 @@ public class ChooseServerParameters implements Initializable {
     /**
      * This method is used to set all the labels.
      */
-    public void setLabels(){
-        // todo: add translation
-        headerLabel.setText("Choose a server");
-        serverIPLabel.setText("Insert IP address of the server");
-        serverPortLabel.setText("Insert Port Number of the server");
+    private void setLabels(){
+        headerLabel.setText(Translator.getChooseAServer());
+        serverIPLabel.setText(Translator.getInsertIPAddress());
+        serverPortLabel.setText(Translator.getInsertPortNumber());
     }
 
     /**
@@ -134,6 +134,7 @@ public class ChooseServerParameters implements Initializable {
                 IPAddress
         );
 
+        // todo: choose one of the 2 methods
         /* ALTERNATIVE METHOD
         if(Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}", IPAddress)){
             String[] elements = IPAddress.split(",",0);
@@ -156,4 +157,12 @@ public class ChooseServerParameters implements Initializable {
     private boolean parsePortNumber(String portNumber){
         return Pattern.matches("\\d{4,5}", portNumber);
     }
+
+
+    /*@Override
+    public void showErrorMessage(String message){
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setContentText(message);
+        errorAlert.showAndWait();
+    }*/
 }

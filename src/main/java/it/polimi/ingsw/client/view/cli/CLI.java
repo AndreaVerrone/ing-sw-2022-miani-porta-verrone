@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
-import it.polimi.ingsw.client.ClientView;
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
@@ -156,13 +156,16 @@ public class CLI extends ClientView {
             default -> false;
         };
     }
-
     @Override
-    protected void showErrorMessage(String errorMessage){
+    public void displayErrorMessage(String message){
         // print the message in red
-        printColorMessage(Color.RED,errorMessage);
+        printColorMessage(Color.RED,message);
         // emit a sound
         System.out.print("\u0007");
+        try {
+            Thread.sleep(2000); //waits a little to make the client see the error
+        }catch (InterruptedException ignore){}
+        getScreenBuilder().rebuild();
     }
 
     /**

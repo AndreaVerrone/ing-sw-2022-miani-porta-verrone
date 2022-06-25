@@ -1,22 +1,24 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ClientApplication;
-import javafx.event.ActionEvent;
+import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.view.gui.ClientGui;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 /**
  * This class is the controller of the screen to create the game.
  * (i.e., the screen that asks the numbers of players and the difficulty)
  */
-public class CreateGameScreen implements Initializable {
+public class CreateGameScreen extends GuiScreen implements Initializable {
 
     /**
      * This is the label of the header.
@@ -69,11 +71,12 @@ public class CreateGameScreen implements Initializable {
     /**
      * This is an array that contains the elements to fill the choice box the difficulty.
      */
-    private final String[] difficultyList = {"easy","expert"}; // todo translate
+    private List<String> difficultyList = new ArrayList<>();
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        difficultyList = Translator.getDifficultyParameters();
         // initialize the choice box for the number of players
         numOfPlayers.getItems().addAll(numOfPlayersList);
         // initialize the choice box for the difficulty.
@@ -94,25 +97,25 @@ public class CreateGameScreen implements Initializable {
 
 
         if(numOfPlayers.getValue()==null){
-            errorNumOfPlayers.setText("it is not optional"); // todo: add translation
+            errorNumOfPlayers.setText(Translator.getMissingParameterError());
         }
 
         if(difficulty.getValue()==null){
-            errorDifficulty.setText("it is not optional"); // todo: add tranlation
+            errorDifficulty.setText(Translator.getMissingParameterError());
             return;
         }
 
-        boolean expertMode = difficulty.getValue().equals("expert"); // todo: add translation
-        // todo: similar to actual code
+        boolean expertMode = difficulty.getValue().equals(Translator.getDifficultyParameters().get(1));
+
         // show wait screen
-        // ClientApplication.getSwitcher().goToWaitScreen();
+        getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
         // send message
-        // getClientController().createGame(numOfPlayers.getValue(), expertMode);
+        getGui().getClientController().createGame(numOfPlayers.getValue(), expertMode);
 
         // todo: only for testing
         System.out.println(numOfPlayers.getValue());
         System.out.println(difficulty.getValue());
-        ClientApplication.getSwitcher().goToAskNicknameScreen(4);
+        // ClientGui.getSwitcher().goToAskNicknameScreen(4);
     }
 
     /**
@@ -120,17 +123,17 @@ public class CreateGameScreen implements Initializable {
      * It allows the player to go back to the home screen.
      */
     public void goBack() {
-        ClientApplication.getSwitcher().goToHomeScreen();
+        getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
+        //getGui().run();
     }
 
     /**
      * This method allow to set the labels of the screen.
      */
     private void setLabels(){
-        // todo: add translation
-        headerLabel.setText("Creation of a new game");
-        numOfPlayersLabel.setText("Choose number of players");
-        difficultyLabel.setText("Choose difficulty");
+        headerLabel.setText(Translator.getHeaderCreateGameScreen());
+        numOfPlayersLabel.setText(Translator.getChooseNumOfPlayers());
+        difficultyLabel.setText(Translator.getChooseDifficultyOfGame());
         errorDifficulty.setText("");
         errorNumOfPlayers.setText("");
     }

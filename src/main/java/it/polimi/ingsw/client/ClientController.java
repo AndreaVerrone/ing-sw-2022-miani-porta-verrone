@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.network.messages.clienttoserver.game.*;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.EnterGame;
@@ -90,8 +91,7 @@ public class ClientController {
             new Thread(connectionHandler).start();
             view.getScreenBuilder().build(ScreenBuilder.Screen.HOME);
         } catch (IOException e) {
-            System.out.println("Can't connect to server. Try again\n");
-            view.getScreenBuilder().build(ScreenBuilder.Screen.SERVER_SPECS);
+            view.displayErrorMessage(Translator.getErrorConnectionMessage());
         }
     }
 
@@ -99,7 +99,9 @@ public class ClientController {
      * Closes all the current tasks and terminates the application
      */
     public void closeApplication(){
-        connectionHandler.closeApplication();
+        if(connectionHandler!=null) {
+            connectionHandler.closeApplication();
+        }
     }
 
     /**

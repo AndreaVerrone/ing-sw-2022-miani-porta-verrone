@@ -1,15 +1,18 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.TowerImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.WizardImageType;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.net.URL;
 import java.util.*;
 
@@ -17,7 +20,7 @@ import java.util.*;
  * This class is the controller of the screen used to ask
  * the user to choose a wizard and a tower.
  */
-public class ChooseWizardAndTowerScreen implements Initializable {
+public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializable {
 
     /**
      * This is the header of the screen.
@@ -86,6 +89,7 @@ public class ChooseWizardAndTowerScreen implements Initializable {
      * @param wizardsAvailable list of wizards available
      * @param towersAvailable list of available towers
      */
+    @Override
     public void setUp(List<Wizard> wizardsAvailable, List<TowerType> towersAvailable){
         // WIZARD
         // create the list
@@ -153,13 +157,16 @@ public class ChooseWizardAndTowerScreen implements Initializable {
         System.out.println("CHOOSEN:" + wizardChosen + " and " + towerTypeChosen); // todo: testing only
         // todo: actual code
         // Go to idle matchmaking
+        Platform.runLater(()->getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS)); // todo: it should be lobby, but now it is not available
+        getGui().getClientController().nextPhase();
+        //getGui().run();
     }
 
     /**
      * This method will set up the label of the screen.
      */
     private void setLabels(){
-        header.setText("Choose the wizard and the tower");
+        header.setText(Translator.getHeaderChooseWizardAndTower());
     }
 
     /**

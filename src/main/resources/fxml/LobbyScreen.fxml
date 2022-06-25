@@ -50,15 +50,5 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="139.0" fitWidth="99.0" layoutX="49.0" layoutY="315.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/wizards/wizard1.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="106.0" fitWidth="115.0" layoutX="136.0" layoutY="356.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/towers/black_tower.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

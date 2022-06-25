@@ -36,14 +36,14 @@ public class AskServerSpecificationScreen extends CliScreen {
         inputReader.addCommandValidator("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
         inputReader.addCommandValidator("localhost");
         inputReader.addCompleter(new StringsCompleter("localhost"));
-        ipAddress = inputReader.readInput(Translator.getChooseIP())[0];
+        ipAddress = inputReader.readInput(Translator.getInsertIPAddress())[0];
     }
 
     private void choosePort(){
         InputReader inputReader = new InputReader();
         inputReader.addCommandValidator("\\d{4,5}");
         while (port == 0) {
-            String sPort = inputReader.readInput(Translator.getChoosePort())[0];
+            String sPort = inputReader.readInput(Translator.getInsertPortNumber())[0];
             port = Integer.parseInt(sPort);
         }
     }

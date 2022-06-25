@@ -23,7 +23,10 @@ public abstract class ScreenBuilder {
         MOVE_STUDENT,
         MOVE_MOTHER_NATURE,
         CHOOSE_CLOUD,
-        END_GAME;
+        END_GAME,
+        CHOOSE_LANGUAGE,
+        CHOOSE_GAME_PARAMETERS,
+        IDLE;
 
         public static Screen parse(StateType stateType) {
             return switch (stateType){
@@ -73,4 +76,5 @@ public abstract class ScreenBuilder {
      * Reshow the last screen displayed to the client
      */
     abstract public void rebuild();
+
 }

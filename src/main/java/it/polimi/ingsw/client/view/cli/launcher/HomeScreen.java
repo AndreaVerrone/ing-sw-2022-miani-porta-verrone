@@ -37,7 +37,7 @@ public class HomeScreen extends CliScreen {
                 spacer,
                 new Text(Translator.getResumeGame()),
                 spacer,
-                new Text(Translator.getExit())
+                new Text(Translator.getMessageToExit())
         ));
         Canvas canvas = getCli().getBaseCanvas();
         canvas.setContent(content);
@@ -49,7 +49,7 @@ public class HomeScreen extends CliScreen {
     private void askForAction(){
         InputReader inputReader = new InputReader();
         Collection<String> commands = List.of(
-                Translator.getCreate(), Translator.getJoin(), Translator.getResume(), Translator.getExit());
+                Translator.getCreate(), Translator.getJoin(), Translator.getResume(), Translator.getMessageToExit());
         Collection<Completer> completers = new ArrayList<>();
         for (String command : commands){
             inputReader.addCommandValidator(command);
@@ -66,7 +66,7 @@ public class HomeScreen extends CliScreen {
             getCli().getClientController().getGames();
         } else if (command.equals(Translator.getResume())) {
             getCli().getClientController().resumeGame();
-        } else if (command.equals(Translator.getExit())) {
+        } else if (command.equals(Translator.getMessageToExit())) {
             getCli().confirmExit();
         }
     }
@@ -75,7 +75,7 @@ public class HomeScreen extends CliScreen {
         InputReader inputReader = new InputReader();
         inputReader.addCompleter(new AggregateCompleter(new StringsCompleter("2"), new StringsCompleter("3")));
         inputReader.addCommandValidator("(2|3)");
-        String input = inputReader.readInput(Translator.getChooseNumPlayers())[0];
+        String input = inputReader.readInput(Translator.getChooseNumOfPlayers())[0];
         return Integer.parseInt(input);
     }
 
@@ -86,7 +86,7 @@ public class HomeScreen extends CliScreen {
                 new StringsCompleter(Translator.getDifficulty(false))));
         inputReader.addCommandValidator(Translator.getDifficulty(true));
         inputReader.addCommandValidator(Translator.getDifficulty(false));
-        String input = inputReader.readInput(Translator.getChooseDifficulty())[0];
+        String input = inputReader.readInput(Translator.getChooseDifficultyOfGame())[0];
         return input.equals(Translator.getDifficulty(true));
     }
 }
