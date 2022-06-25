@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert.cards;
 
+import it.polimi.ingsw.client.reduced_model.ReducedCharacter;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
@@ -43,6 +44,11 @@ public class CharacterCard9 extends CharacterCard {
                 e.printStackTrace();//Cannot happen
             }
         }
+    }
+
+    @Override
+    protected ReducedCharacter reduce() {
+        return new ReducedCharacter(getCardType(), isUsed(), studentsOnCard);
     }
 
     @Override

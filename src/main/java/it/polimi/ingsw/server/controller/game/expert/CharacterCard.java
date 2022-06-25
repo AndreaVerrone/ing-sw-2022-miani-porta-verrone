@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.controller.game.expert;
 
+import it.polimi.ingsw.client.reduced_model.ReducedCharacter;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.server.controller.game.expert.card_observers.CoinOnCardObserver;
 import it.polimi.ingsw.server.controller.game.expert.card_observers.StudentsOnCardObserver;
 
@@ -55,7 +57,7 @@ abstract public class CharacterCard {
         return cardType;
     }
 
-    boolean isUsed(){
+    protected boolean isUsed(){
         return used;
     }
 
@@ -69,6 +71,15 @@ abstract public class CharacterCard {
             cost++;
             notifyCoinOnCardObservers();
         }
+    }
+
+    /**
+     * Creates a reduced version of this character card used to represent it client side.
+     * @return a reduced version of this character card
+     * @see ReducedCharacter
+     */
+    protected ReducedCharacter reduce(){
+        return new ReducedCharacter(cardType, used);
     }
 
     /**
