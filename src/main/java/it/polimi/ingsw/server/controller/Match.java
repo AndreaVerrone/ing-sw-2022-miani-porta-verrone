@@ -180,19 +180,23 @@ public class Match implements ObserversCommonInterface{
     }
 
     /**
-     * Removes the player with the provided nickname from this lobby.
+     * Removes the player with the provided nickname from this game.
      * @param nickname the nickname of the player to remove
-     * @throws NotValidArgumentException if there is no player with the provided nickname
-     * @throws NotValidOperationException if a player can't leave the game in the current state
      */
-    public void removePlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
-        if (matchMaking == null)
-            throw new NotValidOperationException();
+    public void removePlayer(String nickname) {
         synchronized (this) {
-            matchMaking.removePlayer(nickname);
-            removeObserversFromPlayer(nickname);
-            if (matchMaking.getPlayers().isEmpty())
-                Server.getInstance().deleteGame(this);
+            if (matchMaking != null)
+                try {
+                    matchMaking.removePlayer(nickname);
+                    if (matchMaking.getPlayers().isEmpty())
+                        Server.getInstance().deleteGame(this);
+                    return;
+                } catch (NotValidArgumentException | NotValidOperationException ignore) {}
+        }
+        synchronized (playersView) {
+            playersView.remove(nickname);
+            for (VirtualView view : playersView.values())
+                view.notifyPlayerLeftGame(nickname);
         }
     }
 

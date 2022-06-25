@@ -178,13 +178,6 @@ public class ClientController {
     }
 
     /**
-     * Sends a message to the server to exit the game
-     */
-    public void exitFromGame(){
-        connectionHandler.sendMessage(new ExitFromGame(nickNameOwner));
-    }
-
-    /**
      * Sends a message to the server to go to the next phase of the match
      */
     public void nextPhase() {
