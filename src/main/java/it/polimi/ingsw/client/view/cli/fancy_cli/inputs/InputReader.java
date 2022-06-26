@@ -39,7 +39,7 @@ public class InputReader {
     /**
      * A generic message shown when the input is not correct
      */
-    private static final String errorMessage = Color.RED + Translator.getWrongInputErrorMessage();
+    private final String errorMessage = Translator.getWrongInputErrorMessage();
 
     /**
      * The completer that suggests the commands to the user
