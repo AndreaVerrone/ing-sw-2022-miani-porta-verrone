@@ -145,7 +145,7 @@ public class CLI extends ClientView {
         inputReader.setNumOfArgsValidator(Validator.isOfNum(0));
         String input = inputReader.readInput(Translator.getConfirmExit())[0];
         if (isNegativeAnswer(input)) {
-            setNextScreen(currentScreen);
+            getScreenBuilder().rebuild();
             return;
         }
         if (needToCloseApp) {
@@ -210,7 +210,7 @@ public class CLI extends ClientView {
                                       boolean isExpert, String currentPlayer) {
         getClientController().setNickNameCurrentPlayer(currentPlayer);
         matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
-        setNextScreen(new LobbyScreen(this));
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
     }
 
     @Override
@@ -243,19 +243,19 @@ public class CLI extends ClientView {
     public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
         this.towersAvailable = towersAvailable;
         this.wizardsAvailable = wizardsAvailable;
-        setNextScreen(new ChooseParametersScreen(this));
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
     }
 
     @Override
     public void towerSelected(String player, TowerType tower) {
         matchmakingView.modify(player, tower);
-        setNextScreen(new ChooseParametersScreen(this));
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
     }
 
     @Override
     public void wizardSelected(String player, Wizard wizard) {
         matchmakingView.modify(player, wizard);
-        setNextScreen(new ChooseParametersScreen(this));
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
     }
 
     // PLANNING PHASE UPDATES METHODS
@@ -361,6 +361,6 @@ public class CLI extends ClientView {
 
     @Override
     public void gameEnded(Collection<String> winners) {
-        setNextScreen(new EndGameScreen(this,new ArrayList<>(winners)));
+        getScreenBuilder().build(ScreenBuilder.Screen.END_GAME, winners);
     }
 }
