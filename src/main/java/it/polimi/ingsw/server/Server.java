@@ -24,7 +24,12 @@ public class Server {
     /**
      * This Map matches each unique identifier with the corresponding game.
      */
-    private final Map<String, Match> games = new HashMap<>();
+    private final Map<String, Match> gamesMap = new HashMap<>();
+
+    /**
+     * This Map matches each unique game with the corresponding id.
+     */
+    private final Map<Match, String> gamesID = new HashMap<>();
 
     /**
      * This Map matches each unique user of a client with the nickname he has chosen in the game he is currently in.
@@ -70,6 +75,7 @@ public class Server {
 
         try (ServerSocket serverSocket = new ServerSocket(portNumber)){
             while (true){
+                System.out.println("Waiting for clients...");
                 try {
                     Socket socket = serverSocket.accept();
                     socket.setSoTimeout(Server.SOKET_TIME_OUT * 1000);
@@ -91,6 +97,9 @@ public class Server {
      */
     public void deleteGame(Match match){
         makeGameUnavailable(match);
+        synchronized (gamesID) {
+            gamesID.remove(match);
+        }
         synchronized (players){
             players.values().removeIf(game -> game.equals(match));
         }
@@ -101,8 +110,8 @@ public class Server {
      * @param match the game to remove from view
      */
     public void makeGameUnavailable(Match match){
-        synchronized (games) {
-            games.values().removeIf(value -> value.equals(match));
+        synchronized (gamesMap) {
+            gamesMap.values().removeIf(value -> value.equals(match));
         }
     }
 
@@ -129,11 +138,9 @@ public class Server {
      * @return the id of the match
      */
     String getIDOf(Match match) {
-        Set<Map.Entry<String, Match>> matches;
-        synchronized (games) {
-            matches = games.entrySet();
+        synchronized (gamesID) {
+            return gamesID.get(match);
         }
-        return matches.stream().filter(e -> e.getValue() == match).findFirst().map(Map.Entry::getKey).orElse("");
     }
 
     /**
@@ -165,14 +172,20 @@ public class Server {
      * @return the ID associated to the new game
      */
     public String addNewGame(Match match){
-        String gameID = generateGameID();
-        synchronized (games){
-            if (!games.containsKey(gameID)) {
-                games.put(gameID, match);
-                return gameID;
+        while (true) {
+            String gameID = generateGameID();
+            synchronized (gamesMap) {
+                if (gamesMap.containsKey(gameID))
+                    continue;
             }
+            synchronized (gamesMap) {
+                gamesMap.put(gameID, match);
+            }
+            synchronized (gamesID) {
+                gamesID.put(match, gameID);
+            }
+            return gameID;
         }
-        return addNewGame(match);
     }
 
     /**
@@ -183,8 +196,8 @@ public class Server {
      */
     public Match getGame(String gameID) throws NotValidArgumentException {
         Match match;
-        synchronized (games){
-            match = games.get(gameID);
+        synchronized (gamesMap){
+            match = gamesMap.get(gameID);
         }
         if (match == null)
             throw new NotValidArgumentException(ErrorCode.GAME_NOT_EXIST);
@@ -197,8 +210,8 @@ public class Server {
      */
     public Collection<String> getGames(){
         Set<String> gameIDs;
-        synchronized (games){
-            gameIDs = games.keySet();
+        synchronized (gamesMap){
+            gameIDs = gamesMap.keySet();
         }
         return Collections.unmodifiableSet(gameIDs);
     }

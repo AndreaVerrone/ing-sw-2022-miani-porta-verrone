@@ -184,17 +184,22 @@ public class Match implements ObserversCommonInterface{
      * @param nickname the nickname of the player to remove
      */
     public void removePlayer(String nickname) {
+        boolean exitedGracefully = false;
         synchronized (this) {
             if (matchMaking != null)
                 try {
                     matchMaking.removePlayer(nickname);
-                    if (matchMaking.getPlayers().isEmpty())
-                        Server.getInstance().deleteGame(this);
-                    return;
+                    exitedGracefully = true;
                 } catch (NotValidArgumentException | NotValidOperationException ignore) {}
         }
         synchronized (playersView) {
             playersView.remove(nickname);
+            if (playersView.isEmpty()) {
+                Server.getInstance().deleteGame(this);
+                return;
+            }
+            if (exitedGracefully)
+                return;
             for (VirtualView view : playersView.values())
                 view.notifyPlayerLeftGame(nickname);
         }
@@ -259,6 +264,7 @@ public class Match implements ObserversCommonInterface{
         if (matchMaking == null)
             throw new NotValidOperationException();
         Optional<Game> possibleGame = matchMaking.next();
+        Server.getInstance().makeGameUnavailable(this);
         if (possibleGame.isPresent()){
             matchMaking = null;
             game = possibleGame.get();
