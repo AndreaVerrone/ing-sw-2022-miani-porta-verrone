@@ -194,6 +194,7 @@ public class GameTable {
         if (island.getTower() == islandAdjacent.getTower()){
             island.unifyWith(islandAdjacent);
             islands.remove(islandAdjacent);
+            islandsID.remove(islandAdjacent.getID());
             notifyIslandNumberObservers(getNumberOfIslands());
         }
     }
