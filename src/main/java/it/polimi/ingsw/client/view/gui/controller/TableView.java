@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.reduced_model.*;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.*;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.CloudPosition;
@@ -253,9 +254,10 @@ public class TableView extends GuiScreen implements Initializable {
         PlayerLoginInfo player3 = new PlayerLoginInfo("Alessia");
         player3.setTowerType(TowerType.GREY);
         player3.setWizard(Wizard.W3);
+        /**
         createTable(new ArrayList<>(List.of(player1,
                 player2,
-                player3)));
+                player3)));*/
 
         SchoolBoard schoolBoard = schoolboards.get("Giorgio");
         schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
@@ -313,18 +315,31 @@ public class TableView extends GuiScreen implements Initializable {
      * Allows to create the table
      * @param players List of players playing
      */
-    public void createTable(List<PlayerLoginInfo> players){
+    public void createTable(TableRecord tableRecord, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
         table.setBackground(Background.fill(Color.LIGHTBLUE));
         table.toBack();
         scrollPane.toBack();
-        createSchoolBoard(players);
-        createIslands(true);
-        createClouds(players.size());
-        createAssistantDeck(players);
+
         setStateLabelProperties();
-        setUpMessageView(players.get(0).getWizard());
+        setUpMessageView(players.get(0).wizard());
         setNicknames(players);
+
         setCoins(players);
+
+        createSchoolBoard(tableRecord, players);
+
+        createIslands(tableRecord, isExpertMode);
+
+        createClouds(tableRecord);
+
+        createAssistantDeck(players);
+
+        motherNatureIsland = tableRecord.motherNaturePosition();
+        islands.get(tableRecord.motherNaturePosition()).addMotherNature();
+
+        if (isExpertMode){
+            //TODO Add card creation
+        }
     }
 
     /**
@@ -342,20 +357,20 @@ public class TableView extends GuiScreen implements Initializable {
      * Allows to set the nicknames of the players when the game is created
      * @param players list of players playing
      */
-    private void setNicknames(List<PlayerLoginInfo> players){
+    private void setNicknames(List<ReducedPlayerLoginInfo> players){
         for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
             if(playerNumber == 0){
-                nickNameLabelPlayer1.setText(players.get(playerNumber).getNickname());
+                nickNameLabelPlayer1.setText(players.get(playerNumber).nickname());
                 playersLabel.put(nickNameLabelPlayer1.getText(), nickNameLabelPlayer1);
                 setNicknameLabelProperties(nickNameLabelPlayer1);
             }
             if(playerNumber == 1){
-                nickNameLabelPlayer2.setText(players.get(playerNumber).getNickname());
+                nickNameLabelPlayer2.setText(players.get(playerNumber).nickname());
                 playersLabel.put(nickNameLabelPlayer2.getText(), nickNameLabelPlayer2);
                 setNicknameLabelProperties(nickNameLabelPlayer2);
             }
             if(playerNumber == 2){
-                nickNameLabelPlayer3.setText(players.get(playerNumber).getNickname());
+                nickNameLabelPlayer3.setText(players.get(playerNumber).nickname());
                 playersLabel.put(nickNameLabelPlayer3.getText(), nickNameLabelPlayer3);
                 setNicknameLabelProperties(nickNameLabelPlayer3);
             }
@@ -390,7 +405,7 @@ public class TableView extends GuiScreen implements Initializable {
      * Allows to set the coins on the view of the table
      * @param players list of players playing
      */
-    public void setCoins(List<PlayerLoginInfo> players){
+    public void setCoins(List<ReducedPlayerLoginInfo> players){
         Image coinImage = CoinImageType.COIN.getImage();
         for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
             if(playerNumber == 0){
@@ -400,7 +415,7 @@ public class TableView extends GuiScreen implements Initializable {
                 numberOfCoinsPlayer1.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
                 coinsPlayer1.getChildren().add(numberOfCoinsPlayer1);
                 coinsPlayer1.getChildren().add(coinViewPlayer1);
-                playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer1);
+                playersCoinLabels.put(players.get(playerNumber).nickname(), numberOfCoinsPlayer1);
             }
             if(playerNumber == 1){
                 ImageView coinViewPlayer2 = new ImageView(coinImage);
@@ -409,7 +424,7 @@ public class TableView extends GuiScreen implements Initializable {
                 numberOfCoinsPlayer2.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
                 coinsPlayer2.getChildren().add(numberOfCoinsPlayer2);
                 coinsPlayer2.getChildren().add(coinViewPlayer2);
-                playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer2);
+                playersCoinLabels.put(players.get(playerNumber).nickname(), numberOfCoinsPlayer2);
             }
             if(playerNumber == 2){
                 ImageView coinViewPlayer3 = new ImageView(coinImage);
@@ -418,7 +433,7 @@ public class TableView extends GuiScreen implements Initializable {
                 numberOfCoinsPlayer3.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
                 coinsPlayer3.getChildren().add(numberOfCoinsPlayer3);
                 coinsPlayer3.getChildren().add(coinViewPlayer3);
-                playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer3);
+                playersCoinLabels.put(players.get(playerNumber).nickname(), numberOfCoinsPlayer3);
             }
         }
     }
@@ -426,82 +441,94 @@ public class TableView extends GuiScreen implements Initializable {
 
     /**
      * ALlows to create and place the schoolboards on the table
+     * @param tableRecord tableRecord table record of the game
      * @param players List of players playing
      */
-    private void createSchoolBoard(List<PlayerLoginInfo> players){
+    private void createSchoolBoard(TableRecord tableRecord, List<ReducedPlayerLoginInfo> players){
         Image schoolBoardImage;
-        for (PlayerLoginInfo player : players) {
-            if (schoolboards.size() == 0) {
+        for (ReducedSchoolBoard reducedSchoolBoard: tableRecord.schoolBoardList()) {
+            if (reducedSchoolBoard.getOwner().equals(players.get(0).nickname())) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, players.get(0).getTowerType());
-                schoolboards.put(player.getNickname(), schoolBoardPlayer1);
+                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, reducedSchoolBoard.getTowerType());
+                schoolboards.put(reducedSchoolBoard.getOwner(), schoolBoardPlayer1);
                 table.add(schoolBoardPlayer, 1, 4);
                 schoolBoardPlayer.toBack();
                 GridPane.setValignment(schoolBoardPlayer, VPos.BOTTOM);
-                continue;
-            }
-            if (schoolboards.size() == 1) {
+            } else if (reducedSchoolBoard.getOwner().equals(players.get(1).nickname())) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, players.get(1).getTowerType());
-                schoolboards.put(player.getNickname(), schoolBoardPlayer2);
+                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, reducedSchoolBoard.getTowerType());
+                schoolboards.put(reducedSchoolBoard.getOwner(), schoolBoardPlayer2);
                 table.add(schoolBoardPlayer, 1, 0);
                 schoolBoardPlayer.toBack();
                 GridPane.setValignment(schoolBoardPlayer, VPos.TOP);
-                continue;
+            }else {
+                schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
+                ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
+                schoolBoardPlayer.setRotate(-90);
+                SchoolBoard schoolBoardPlayer3 = new SchoolBoard(false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, reducedSchoolBoard.getTowerType());
+                schoolboards.put(reducedSchoolBoard.getOwner(), schoolBoardPlayer3);
+                table.add(schoolBoardPlayer, 0, 2);
+                schoolBoardPlayer.toBack();
+                GridPane.setHalignment(schoolBoardPlayer, HPos.CENTER);
+                GridPane.setValignment(schoolBoardPlayer, VPos.CENTER);
+                schoolBoardPlayer.setTranslateY(24);
             }
-            schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
-            ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-            schoolBoardPlayer.setRotate(-90);
-            SchoolBoard schoolBoardPlayer3 = new SchoolBoard(false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, players.get(2).getTowerType());
-            schoolboards.put(player.getNickname(), schoolBoardPlayer3);
-            table.add(schoolBoardPlayer, 0, 2);
-            schoolBoardPlayer.toBack();
-            GridPane.setHalignment(schoolBoardPlayer, HPos.CENTER);
-            GridPane.setValignment(schoolBoardPlayer, VPos.CENTER);
-            schoolBoardPlayer.setTranslateY(24);
+            updateSchoolboard(reducedSchoolBoard);
         }
+    }
+
+    private void updateSchoolboard(ReducedSchoolBoard reducedSchoolBoard){
+        updateEntranceToPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getStudentsInEntrance());
+        updateDiningRoomToPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getStudentsInDiningRoom());
+        updateTowersOnSchoolBoard(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getTowerNumber());
+        updateProfessorsToPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getProfessors());
+        changeNumberOfCoinsPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getCoinNumber());
     }
 
     /**
      * Allows to create and place the islands on the table
      */
-    private void createIslands(boolean isExpertMode){
+    private void createIslands(TableRecord tableRecord, boolean isExpertMode){
         int row;
         int column;
-        for(int islandID=0; islandID<12; islandID++){
+        for(ReducedIsland islandReduced : tableRecord.reducedIslands()){
             int random = new Random().nextInt(IslandImageType.values().length);
             Image RandomIslandImage = IslandImageType.values()[random].getImage();
             ImageView islandView = new ImageView(RandomIslandImage);
             islandView.setCursor(Cursor.HAND);
-            column= IslandPosition.values()[islandID].getColumn();
-            row=IslandPosition.values()[islandID].getRow();
+            column= IslandPosition.values()[islandReduced.ID()].getColumn();
+            row=IslandPosition.values()[islandReduced.ID()].getRow();
             islandGrid.add(islandView, column, row);
             islandView.toBack();
             GridPane.setValignment(islandView, VPos.CENTER);
             GridPane.setHalignment(islandView, HPos.CENTER);
-            Island island = new Island(islandGrid, islandView, islandID, isExpertMode);
+            Island island = new Island(islandGrid, islandView, islandReduced.ID(), isExpertMode);
             islands.add(island);
+            island.updateStudentsOnIsland(islandReduced.studentList());
+            updateTowerOnIsland(islandReduced.ID(), islandReduced.tower());
+            island.changeNumberOfBans(islandReduced.ban());
         }
     }
 
     /**
      * Allows to create and place the clouds on the table
-     * @param numberOfPlayers number of players playing
+     * @param tableRecord table record of the game
      */
-    private void createClouds(int numberOfPlayers){
+    private void createClouds(TableRecord tableRecord){
         int row;
         int column;
-        for(int i=0;i<numberOfPlayers; i++){
-            Image cloudImage = CloudImageType.values()[i].getImage();
+        for(ReducedCloud reducedCloud: tableRecord.clouds()){
+            Image cloudImage = CloudImageType.values()[reducedCloud.ID()].getImage();
             ImageView cloudView = new ImageView(cloudImage);
-            column = CloudPosition.values()[i].getColumn();
-            row = CloudPosition.values()[i].getRow();
+            column = CloudPosition.values()[reducedCloud.ID()].getColumn();
+            row = CloudPosition.values()[reducedCloud.ID()].getRow();
             islandGrid.add(cloudView, column, row);
             Cloud cloud = new Cloud(cloudView, islandGrid, column, row);
             clouds.add(cloud);
             cloudView.toBack();
+            updateStudentOnCloud(reducedCloud.ID(), reducedCloud.students());
         }
 
     }
@@ -527,15 +554,15 @@ public class TableView extends GuiScreen implements Initializable {
      * Allows to create and place an assistant deck for every player
      * @param players List of players playing
      */
-    private void createAssistantDeck(List<PlayerLoginInfo> players){
-        for(int numberOfPlayers =0 ; numberOfPlayers < players.size(); numberOfPlayers++){
-            String nicknamePlayer = players.get(numberOfPlayers).getNickname();
-            Wizard wizardPlayer = players.get(numberOfPlayers).getWizard();
+    private void createAssistantDeck(List<ReducedPlayerLoginInfo> players){
+        for(ReducedPlayerLoginInfo player: players){
+            String nicknamePlayer = player.nickname();
+            Wizard wizardPlayer = player.wizard();
             AssistantCardDeck deck;
-            if(numberOfPlayers == 0){
+            if(players.indexOf(player) == 0){
                 deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer1, 1);
             }
-            else if(numberOfPlayers == 1){
+            else if(players.indexOf(player) == 1){
                 deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer2, 2);
             }
             else {
@@ -667,7 +694,7 @@ public class TableView extends GuiScreen implements Initializable {
      * @param player player with the porfessor changed
      * @param professors new professors
      */
-    public void updateProfessorsToPlayer(String player, HashSet<PawnType> professors){
+    public void updateProfessorsToPlayer(String player, Collection<PawnType> professors){
         SchoolBoard schoolBoardPlayer = schoolboards.get(player);
         schoolBoardPlayer.updateProfessors(professors);
     }

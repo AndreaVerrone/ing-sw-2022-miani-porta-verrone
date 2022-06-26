@@ -257,7 +257,7 @@ public class SchoolBoard {
      * Method to update the professors in the schoolboard one at a time
      * @param newProfessors new professors on the schoolboard
      */
-    public void updateProfessors(HashSet<PawnType> newProfessors){
+    public void updateProfessors(Collection<PawnType> newProfessors){
        for(Pawn professorOnTable: professors) {
            if(!newProfessors.contains(professorOnTable.getType())) Platform.runLater(() -> removeProfessor(professorOnTable.getType()));
        }
