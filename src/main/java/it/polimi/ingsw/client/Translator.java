@@ -154,6 +154,10 @@ public class Translator {
                 : "Are you sure you want to exit the game? [yes/no]";
     }
 
+    public static String getPressEnterToExit(){
+        return isItalian ? "Premi INVIO per uscire dalla partita" : "Press ENTER to exit the game";
+    }
+
     // LAUNCHER
     public static String getGameSubtitle(){
         return isItalian ? "Un magico mondo di isole volanti!" : "A magic world of floating islands!";

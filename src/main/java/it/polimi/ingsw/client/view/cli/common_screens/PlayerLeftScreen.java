@@ -29,7 +29,8 @@ public class PlayerLeftScreen extends CliScreen {
 
     @Override
     protected void show() {
-        new InputReader().readInput(nicknameLeft+ Translator.getLeftGameMessage());
+        System.out.println(nicknameLeft+ Translator.getLeftGameMessage());
+        new InputReader().readInput(Translator.getPressEnterToExit());
         getCli().getClientController().quitGame();
         getCli().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
     }
