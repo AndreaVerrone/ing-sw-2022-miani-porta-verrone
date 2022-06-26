@@ -113,7 +113,7 @@ public class CLI extends ClientView {
     }
 
     public Canvas getBaseCanvas(){
-        Canvas canvas = new Canvas();
+        Canvas canvas = new Canvas(true, false);
         canvas.setTitle(APP_TITLE);
         canvas.setTitleColor(Color.BRIGHT_CYAN);
         canvas.setSubtitle(Translator.getGameSubtitle());
@@ -216,6 +216,7 @@ public class CLI extends ClientView {
     @Override
     public void gameCreated(ReducedModel reducedModel) {
         this.table = new Table(reducedModel);
+        matchmakingView = null;
     }
 
     @Override
