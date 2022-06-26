@@ -29,6 +29,8 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     private String currentViewPath;
 
+    private  Scene currentScene;
+
     public GuiScreenBuilder(GUI gui,Stage stage) {
         this.gui= gui;
         this.stage=stage;
@@ -54,12 +56,9 @@ public class GuiScreenBuilder extends ScreenBuilder {
             screenController.attachTo(gui);
 
 
-            Scene scene = new Scene(root);
+            currentScene = new Scene(root);
+            gui.setCurrentScene(currentScene);
 
-            Platform.runLater(
-                    () -> {
-                        gui.getStage().setScene(scene);
-                    });
 
 
             // gui.show();
@@ -68,6 +67,13 @@ public class GuiScreenBuilder extends ScreenBuilder {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void show(){
+        Platform.runLater(
+                () -> {
+                    gui.getStage().setScene(currentScene);
+                });
     }
 
 
@@ -96,6 +102,9 @@ public class GuiScreenBuilder extends ScreenBuilder {
         };
 
         goToScreen(currentViewPath);
+        if(screen.equals(Screen.HOME)){
+            gui.show();
+        }
 
     }
 

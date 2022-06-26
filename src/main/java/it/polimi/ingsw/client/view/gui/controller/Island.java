@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
@@ -122,13 +123,15 @@ public class Island {
      * Allows to move mother nature on the island using an animation
      */
     private TranslateTransition translateAnimationTower;
+
     /**
      * This class allows to handle the image of an island on the view of the table, allowing to add a tower, mother nature and students
      * @param gridIsland Grid of the view used to place islands
      * @param islandView {@code ImageView} of the island handled
      * @param islandID ID of the island handled
+     * @param isExpertMode true if the game is in expert mode
      */
-    public Island(GridPane gridIsland, ImageView islandView, int islandID){
+    public Island(GridPane gridIsland, ImageView islandView, int islandID, boolean isExpertMode){
         this.gridIsland = gridIsland;
         this.islandView = islandView;
         this.islandID = islandID;
@@ -137,7 +140,7 @@ public class Island {
          row = IslandPosition.values()[islandID].getRow();
 
 
-        studentOnIslandHandler = new StudentOnIslandHandler(gridIsland, column, row);
+        studentOnIslandHandler = new StudentOnIslandHandler(gridIsland, column, row, isExpertMode);
         islandView.setOnMouseClicked(new LocationListern(Location.ISLAND));
         islandView.setOnMouseEntered(studentOnIslandHandler);
         islandView.setOnMouseExited(studentOnIslandHandler);
@@ -386,11 +389,13 @@ public class Island {
      * @param color color of the student added
      */
     public void addStudent(PawnType color){
-        try {
-            studentOnIslandHandler.getStudents().changeNumOf(color, 1);
-        } catch (NotEnoughStudentException e) {
-            e.printStackTrace(); //Not Possible
-        }
+        Platform.runLater(() -> {
+            try {
+                studentOnIslandHandler.getStudents().changeNumOf(color, 1);
+            } catch (NotEnoughStudentException e) {
+                e.printStackTrace(); //Not Possible
+            }
+        });
     }
 
     /**
@@ -398,11 +403,13 @@ public class Island {
      * @param color of the student removed
      */
     public void removeStudent(PawnType color){
-        try {
-            studentOnIslandHandler.getStudents().changeNumOf(color, -1);
-        } catch (NotEnoughStudentException e) {
-            //Simply do nothing
-        }
+        Platform.runLater( () -> {
+            try {
+                studentOnIslandHandler.getStudents().changeNumOf(color, -1);
+            } catch (NotEnoughStudentException e) {
+                //Simply do nothing
+            }
+        });
     }
 
     /**
@@ -410,9 +417,11 @@ public class Island {
      * @param newNumberOfBans new number of bans on the island
      */
     public void changeNumberOfBans(int newNumberOfBans){
-        studentOnIslandHandler.changeNumberOfBans(newNumberOfBans);
-        if (newNumberOfBans == 0) banView.setVisible(false);
-        if (newNumberOfBans > 0) banView.setVisible(true);
+        Platform.runLater(() -> {
+            studentOnIslandHandler.changeNumberOfBans(newNumberOfBans);
+            if (newNumberOfBans == 0) banView.setVisible(false);
+            if (newNumberOfBans > 0) banView.setVisible(true);
+        });
     }
 
     /**
@@ -438,9 +447,10 @@ public class Island {
     public void translateIsland(double x, double y){
         XTranslation += x;
         YTranslation += y;
-
-        islandView.setTranslateX(XTranslation);
-        islandView.setTranslateY(YTranslation);
+        Platform.runLater( () -> {
+                    islandView.setTranslateX(XTranslation);
+                    islandView.setTranslateY(YTranslation);
+                });
 
         /*
         translateAnimationIsland = new TranslateTransition(Duration.millis(1000), islandView);
@@ -454,10 +464,10 @@ public class Island {
         translateTower();
 
         if(banView != null){
-            banView.setVisible(false);
+            Platform.runLater(() -> banView.setVisible(false));
         }
 
-        studentOnIslandHandler.showStudentsView(false);
+        Platform.runLater(() -> studentOnIslandHandler.showStudentsView(false));
 
     }
 
@@ -466,8 +476,11 @@ public class Island {
      */
     private void translateMotherNature(){
         if(motherNatureView != null) {
-            motherNatureView.setTranslateX(XTranslation);
-            motherNatureView.setTranslateY(YTranslation);
+            Platform.runLater(() -> {
+                motherNatureView.setTranslateX(XTranslation);
+                motherNatureView.setTranslateY(YTranslation);
+            });
+
         }
     }
 
@@ -476,8 +489,10 @@ public class Island {
      */
     private void translateTower(){
         if(towerView != null) {
-            towerView.setTranslateX(XTranslation);
-            towerView.setTranslateY(YTranslation);
+            Platform.runLater(() -> {
+                towerView.setTranslateX(XTranslation);
+                towerView.setTranslateY(YTranslation);
+            });
         }
     }
 

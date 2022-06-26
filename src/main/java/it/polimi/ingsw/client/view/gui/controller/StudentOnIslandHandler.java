@@ -88,7 +88,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
      * @param islandColumn Column of the island of the students on the grid
      * @param islandRow Row of the island of the students on the grid
      */
-    public StudentOnIslandHandler(GridPane islandGrid, int islandColumn, int islandRow){
+    public StudentOnIslandHandler(GridPane islandGrid, int islandColumn, int islandRow, boolean isExpertMode){
 
         this.islandGrid = islandGrid;
         this.column = islandColumn;
@@ -100,6 +100,10 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
 
         paneSetUp();
         animationSetUp();
+
+        if(isExpertMode){
+            setExpertMode();
+        }
     }
 
     /**

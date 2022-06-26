@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.*;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.CloudPosition;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.IslandPosition;
@@ -41,7 +42,7 @@ import java.util.List;
 /**
  * Class to handle the view of the table of the game
  */
-public class TableView implements Initializable {
+public class TableView extends GuiScreen implements Initializable {
 
     /**
      * Pane of the view used to scroll
@@ -317,7 +318,7 @@ public class TableView implements Initializable {
         table.toBack();
         scrollPane.toBack();
         createSchoolBoard(players);
-        createIslands();
+        createIslands(true);
         createClouds(players.size());
         createAssistantDeck(players);
         setStateLabelProperties();
@@ -466,7 +467,7 @@ public class TableView implements Initializable {
     /**
      * Allows to create and place the islands on the table
      */
-    private void createIslands(){
+    private void createIslands(boolean isExpertMode){
         int row;
         int column;
         for(int islandID=0; islandID<12; islandID++){
@@ -480,7 +481,7 @@ public class TableView implements Initializable {
             islandView.toBack();
             GridPane.setValignment(islandView, VPos.CENTER);
             GridPane.setHalignment(islandView, HPos.CENTER);
-            Island island = new Island(islandGrid, islandView, islandID);
+            Island island = new Island(islandGrid, islandView, islandID, isExpertMode);
             islands.add(island);
         }
     }
@@ -560,27 +561,43 @@ public class TableView implements Initializable {
         scrollPane.setCursor(Cursor.OPEN_HAND);
     }
 
-    // METHODS TO MODIFY THE TABLE
+    // METHODS TO UPDATE THE TABLE
+
+        //UPDATE CURRENT PLAYER AND STATE
 
     /**
      * Allows to save the nickname of the current player and sets the label of the current player as yellow
      * @param currentPlayer nickname of the current player
      */
     public void setCurrentPlayer(String currentPlayer){
-        Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
-        labelOldCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
-        Label labelNewCurrentPlayer = playersLabel.get(currentPlayer);
-        labelNewCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+        Platform.runLater(() -> {
+            Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
+            labelOldCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+            Label labelNewCurrentPlayer = playersLabel.get(currentPlayer);
+            labelNewCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+        });
         this.currentPlayer = currentPlayer;
     }
+
+    /**
+     * Method to update the state of the game
+     */
+    public void updateState(){
+        stateLabel.setText("");
+        //TODO: UPDATE STATE
+    }
+
+        //UPDATE ISLANDS
 
     /**
      * Method to move mother nature
      * @param movements new island where mother nature is moved
      */
     public void moveMotherNature(int movements){
-        islands.get(motherNatureIsland).removeMotherNature();
-        islands.get(movements).addMotherNature();
+        Platform.runLater(() -> {
+                    islands.get(motherNatureIsland).removeMotherNature();
+                    islands.get(movements).addMotherNature();
+                });
         motherNatureIsland = movements;
     }
 
@@ -590,8 +607,51 @@ public class TableView implements Initializable {
      * @param numberOfBans new number of bans on the island
      */
     public void changeBansOnIsland(int islandID, int numberOfBans){
-        islands.get(islandID).changeNumberOfBans(numberOfBans);
+        Platform.runLater(() -> islands.get(islandID).changeNumberOfBans(numberOfBans));
     }
+
+    /**
+     * Method to update the students on an island
+     * @param islandID ID of the island with the students changed
+     * @param students new students on the island
+     */
+    public void updateStudentsOnIsland(int islandID, StudentList students){
+        Island island = islands.get(islandID);
+        island.updateStudentsOnIsland(students);
+    }
+
+    /**
+     * Method to update the tower on an island
+     * @param islandID ID of the island with the tower changed
+     * @param newTower type of the new tower
+     */
+    public void updateTowerOnIsland(int islandID, TowerType newTower){
+        Island island = islands.get(islandID);
+        Platform.runLater(() -> island.addTower(newTower));
+    }
+
+    /**
+     * Method to update the students on an cloud
+     * @param cloudID ID of the cloud with the students changed
+     * @param students new students on the cloud
+     */
+    public void updateStudentOnCloud(int cloudID, StudentList students){
+        //TODO update student son cloud one at a time
+    }
+
+        //UPDATE ASSISTANT CARD
+
+    /**
+     * Method to update the assistant card used by a player
+     * @param player player with the assistant changed
+     * @param assistant new assistant used by the player
+     */
+    public void useAssistantCard(String player, Assistant assistant){
+        AssistantCardDeck playerDeck =decks.get(player);
+        Platform.runLater(() -> playerDeck.useAssistantCard(assistant));
+    }
+
+        //UPDATE SCHOOLBOARD
 
     /**
      * Method to change the number of coins of a player
@@ -599,7 +659,7 @@ public class TableView implements Initializable {
      * @param numberOfCoins new number of coins
      */
     public void changeNumberOfCoinsPlayer(String player, int numberOfCoins){
-        playersCoinLabels.get(player).setText(Integer.toString(numberOfCoins));
+        Platform.runLater(() -> playersCoinLabels.get(player).setText(Integer.toString(numberOfCoins)));
     }
 
     /**
@@ -632,49 +692,12 @@ public class TableView implements Initializable {
         schoolBoardPlayer.updateEntrance(students);
     }
 
-    /**
-     * Method to update the students on an island
-     * @param islandID ID of the island with the students changed
-     * @param students new students on the island
-     */
-    public void updateStudentsOnIsland(int islandID, StudentList students){
-        Island island = islands.get(islandID);
-        island.updateStudentsOnIsland(students);
-    }
-
     public void updateTowersOnSchoolBoard(String player, int numberOfTowers){
         SchoolBoard schoolBoardPlayer = schoolboards.get(player);
         schoolBoardPlayer.updateTowers(numberOfTowers);
     }
 
-    /**
-     * Method to update the tower on an island
-     * @param islandID ID of the island with the tower changed
-     * @param newTower type of the new tower
-     */
-    public void updateTowerOnIsland(int islandID, TowerType newTower){
-        Island island = islands.get(islandID);
-        island.addTower(newTower);
-    }
-
-    /**
-     * Method to update the students on an cloud
-     * @param cloudID ID of the cloud with the students changed
-     * @param students new students on the cloud
-     */
-    public void updateStudentOnCloud(int cloudID, StudentList students){
-        //TODO update student son cloud one at a time
-    }
-
-    /**
-     * Method to update the assistant card used by a player
-     * @param player player with the assistant changed
-     * @param assistant new assistant used by the player
-     */
-    public void useAssistantCard(String player, Assistant assistant){
-        AssistantCardDeck playerDeck =decks.get(player);
-        playerDeck.useAssistantCard(assistant);
-    }
+        //UPDATE CHARACTER CARD
 
     /**
      * Method to add a coin on the card
@@ -700,6 +723,8 @@ public class TableView implements Initializable {
             }
         }
     }
+
+        //UPDATE LAST ROUND
 
     /**
      * Method to show on the table that this is the last round
@@ -727,21 +752,17 @@ public class TableView implements Initializable {
         }).start();
     }
 
-    /**
-     * Method to update the state of the game
-     */
-    public void updateState(){
-        stateLabel.setText("");
-        //TODO: UPDATE STATE
-    }
+        //UPDATE MESSAGE
 
     /**
      * Method to show a message to the player
      * @param message message shown to the player
      */
     public void showMessage(String message){
-        messageLabel.setText(message);
+        Platform.runLater( () -> messageLabel.setText(message));
     }
+
+        //UNIFY ISLANDS
 
     /**
      * Method to unify two group of islands
@@ -760,7 +781,7 @@ public class TableView implements Initializable {
         int IDLastIslandCounterCLockWiseToRemove = getLastIslandCounterClockWise(islandToRemove);
         boolean roundClockWise;
 
-       //Find the tow nearest islands in the group
+       //Find the two nearest islands in the group
         if(IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == 1 || IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == -11){
             IDIslandToKeep = IDLastIslandCounterClockWiseToKeep;
             IDIslandToRemove = IDLastIslandClockWiseToRemove;
@@ -848,6 +869,8 @@ public class TableView implements Initializable {
 
     }
 
+
+        //DEBUGGING
 
     /**
      * Method and attribute used only for debugging, remove after

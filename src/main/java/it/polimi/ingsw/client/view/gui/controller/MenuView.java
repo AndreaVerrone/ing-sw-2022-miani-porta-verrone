@@ -46,6 +46,7 @@ public class MenuView extends GuiScreen implements Initializable{
     public void createNewGame(){
         // go to screen to choose game parameters.
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_GAME_PARAMETERS);
+        getGui().show();
         //getGui().run();
     }
 
@@ -59,6 +60,7 @@ public class MenuView extends GuiScreen implements Initializable{
 
         // display wit screen
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
+        getGui().show();
 
         // ask available games to server
         getGui().getClientController().getGames();
@@ -72,7 +74,7 @@ public class MenuView extends GuiScreen implements Initializable{
     public void resumeGameButton(){
         // display wit screen
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
-        getGui().run();
+        getGui().show();
 
         // send message to resume game
         getGui().getClientController().resumeGame();

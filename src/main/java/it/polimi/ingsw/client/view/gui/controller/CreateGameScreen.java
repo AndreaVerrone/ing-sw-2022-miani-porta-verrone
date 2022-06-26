@@ -109,8 +109,10 @@ public class CreateGameScreen extends GuiScreen implements Initializable {
 
         // show wait screen
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
+        getGui().show();
         // send message
         getGui().getClientController().createGame(numOfPlayers.getValue(), expertMode);
+
 
         // todo: only for testing
         System.out.println(numOfPlayers.getValue());
@@ -124,6 +126,7 @@ public class CreateGameScreen extends GuiScreen implements Initializable {
      */
     public void goBack() {
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
+        getGui().show();
         //getGui().run();
     }
 

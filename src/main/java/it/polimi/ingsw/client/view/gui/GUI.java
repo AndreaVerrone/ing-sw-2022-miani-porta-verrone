@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.gui.controller.PlayerView;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
@@ -34,13 +36,9 @@ public class GUI extends ClientView {
      */
     private GuiScreen currentScreen;
 
+    private Scene currentScene;
+
     private boolean shouldStop = false;
-
-    private FXMLLoader currentLoader;
-
-    private FXMLLoader matchMakingLoader;
-
-    private FXMLLoader controllerLoader;
 
     // MATCHMAKING
     private Map<String, PlayerView> playerViewMap;
@@ -67,10 +65,6 @@ public class GUI extends ClientView {
         this.towerChosen = towerChosen;
     }
 
-    public void setMatchMakingLoader(FXMLLoader matchMakingLoader) {
-        this.matchMakingLoader = matchMakingLoader;
-    }
-
     public void setGameID(String gameID) {
         this.gameID = gameID;
     }
@@ -81,6 +75,10 @@ public class GUI extends ClientView {
 
     public void setCurrentScreen(GuiScreen screen){
         currentScreen = screen;
+    }
+
+    public void setCurrentScene(Scene currentScene) {
+        this.currentScene = currentScene;
     }
 
     /**
@@ -96,19 +94,13 @@ public class GUI extends ClientView {
      */
     @Override
     public void run() {
+        show();
         stage.show();
 
     }
 
     public void show(){
-        stage.setResizable(false);
-        stage.setOnCloseRequest(
-                event -> {
-                    event.consume();
-                    logout(stage);
-                }
-        );
-        stage.show();
+        Platform.runLater(() -> stage.setScene(currentScene));
     }
 
     private void logout(Stage stage) {
@@ -120,6 +112,12 @@ public class GUI extends ClientView {
             shouldStop = true;
             stage.close();
         }
+    }
+
+    @Override
+    public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
+        super.currentPlayerOrStateChanged(currentState, currentPlayer);
+        show();
     }
 
     @Override
@@ -157,7 +155,7 @@ public class GUI extends ClientView {
         this.isExpert=isExpert;
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
         Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
-
+        show();
         // getScreenBuilder().build();
         //matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
         // setNextScreen(new LobbyScreen(this));
@@ -179,6 +177,7 @@ public class GUI extends ClientView {
             getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
             Platform.runLater(() -> currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
         }
+        show();
     }
 
     /**

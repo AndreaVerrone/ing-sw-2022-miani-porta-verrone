@@ -15,7 +15,7 @@ public class StartingScreen extends GuiScreen {
     public void startGame(){
         // go to choose language screen
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_LANGUAGE);
-        getGui().run();
+        getGui().show();
 
     }
 }

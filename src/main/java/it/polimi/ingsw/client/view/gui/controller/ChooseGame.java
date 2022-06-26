@@ -62,6 +62,7 @@ public class ChooseGame extends GuiScreen implements Initializable{
         Platform.runLater(() -> {
                     getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
                 });
+        getGui().show();
         // getGui().run();
     }
 

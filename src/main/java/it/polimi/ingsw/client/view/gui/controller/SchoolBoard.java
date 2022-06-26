@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -250,16 +251,18 @@ public class SchoolBoard {
         }
     }
 
+    //METHODS TO UPDATE PAWNS ON THE SCHOOLBOARD
+
     /**
      * Method to update the professors in the schoolboard one at a time
      * @param newProfessors new professors on the schoolboard
      */
     public void updateProfessors(HashSet<PawnType> newProfessors){
        for(Pawn professorOnTable: professors) {
-           if(!newProfessors.contains(professorOnTable.getType())) removeProfessor(professorOnTable.getType());
+           if(!newProfessors.contains(professorOnTable.getType())) Platform.runLater(() -> removeProfessor(professorOnTable.getType()));
        }
        for(PawnType newProfessor: newProfessors){
-           if(!((professors.stream().map(Pawn::getType).toList()).contains(newProfessor))) addProfessor(newProfessor);
+           if(!((professors.stream().map(Pawn::getType).toList()).contains(newProfessor))) Platform.runLater(() -> addProfessor(newProfessor));
        }
     }
 
@@ -272,11 +275,11 @@ public class SchoolBoard {
             int differenceOfStudents = tables.get(student).size() - newStudents.getNumOf(student);
             if(differenceOfStudents > 0){
                 for(int numberOfStudents = 0; numberOfStudents < differenceOfStudents; numberOfStudents ++){
-                    removeStudentFromDiningRoom(student);
+                    Platform.runLater(() -> removeStudentFromDiningRoom(student));
                 }
             } else if (differenceOfStudents < 0) {
                 for(int numberOfStudents = 0; numberOfStudents < Math.abs(differenceOfStudents); numberOfStudents ++){
-                    addStudentToDiningRoom(student);
+                    Platform.runLater(() -> addStudentToDiningRoom(student));
                 }
             }
         }
@@ -291,13 +294,15 @@ public class SchoolBoard {
         for(Pawn studentOnEntrance: entrance){
             if(studentOnEntrance != null) {
                 if (studentsCopy.getNumOf(studentOnEntrance.getType()) == 0) {
-                    removeStudentFromEntrance(studentOnEntrance.getType());
+                    Platform.runLater(() -> removeStudentFromEntrance(studentOnEntrance.getType()));
                 } else {
-                    try {
-                        studentsCopy.changeNumOf(studentOnEntrance.getType(), -1);
-                    } catch (NotEnoughStudentException e) {
-                        throw new RuntimeException(e); //Not possible theoretically
-                    }
+                    Platform.runLater(() -> {
+                        try {
+                            studentsCopy.changeNumOf(studentOnEntrance.getType(), -1);
+                        } catch (NotEnoughStudentException e) {
+                            throw new RuntimeException(e); //Not possible theoretically
+                        }
+                    });
                 }
             }
         }
@@ -310,12 +315,14 @@ public class SchoolBoard {
                     entranceType.remove(student);
                 }
                 else {
-                    addStudentToEntrance(student);
+                    Platform.runLater(() -> addStudentToEntrance(student));
 
                 }
             }
         }
     }
+
+    //METHODS TO UPDATE TOWERS ON THE SCHOOLBOARD
 
     /**
      * Method to update the towers on the schoolboard
@@ -324,8 +331,10 @@ public class SchoolBoard {
     public void updateTowers(int numberOfTowers){
         int differenceNumberOfTowers = towers.size() - numberOfTowers;
         for(int i=0; i < Math.abs(differenceNumberOfTowers); i++){
-            if(differenceNumberOfTowers > 0) removeTower();
-            else addTower();
+            Platform.runLater(() -> {
+                if (differenceNumberOfTowers > 0) removeTower();
+                else addTower();
+            });
         }
 
     }
