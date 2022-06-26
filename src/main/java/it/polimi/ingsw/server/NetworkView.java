@@ -131,8 +131,8 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
-        sender.sendMessage(new IslandUnified(islandID,islandRemovedID,finalSize));
+    public void islandsUnified(int islandID, int islandRemovedID, int sizeIslandRemoved) {
+        sender.sendMessage(new IslandUnified(islandID,islandRemovedID, sizeIslandRemoved));
     }
 
     @Override

@@ -538,9 +538,9 @@ public class Match implements ObserversCommonInterface{
     }
 
     @Override
-    public void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int finalSize) {
+    public void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int sizeIslandRemoved) {
         for(VirtualView playerView: playersView.values()){
-            playerView.islandsUnified(islandID, islandRemovedID, finalSize);
+            playerView.islandsUnified(islandID, islandRemovedID, sizeIslandRemoved);
         }
     }
 

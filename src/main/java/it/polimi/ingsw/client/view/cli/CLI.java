@@ -310,8 +310,8 @@ public class CLI extends ClientView {
     }
 
     @Override
-    public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
-        table.islandUnification(islandID, islandRemovedID, finalSize);
+    public void islandsUnified(int islandID, int islandRemovedID, int sizeIslandRemoved) {
+        table.islandUnification(islandID, islandRemovedID, sizeIslandRemoved);
     }
 
     @Override

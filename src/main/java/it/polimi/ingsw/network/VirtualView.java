@@ -144,9 +144,9 @@ public interface VirtualView {
      * Notifies that two islands have been unified
      * @param islandID the id of the island that remained on the table
      * @param islandRemovedID the id of the island removed from the table
-     * @param finalSize the size of the island removed
+     * @param sizeIslandRemoved the size of the island removed
      */
-    void islandsUnified(int islandID, int islandRemovedID, int finalSize);
+    void islandsUnified(int islandID, int islandRemovedID, int sizeIslandRemoved);
 
     /**
      * Notifies that the last assistant played of a player has changed

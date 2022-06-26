@@ -326,10 +326,10 @@ public class GUI extends ClientView {
      *
      * @param islandID        the id of the island that remained on the table
      * @param islandRemovedID the id of the island removed from the table
-     * @param finalSize       the size of the island removed
+     * @param sizeIslandRemoved       the size of the island removed
      */
     @Override
-    public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
+    public void islandsUnified(int islandID, int islandRemovedID, int sizeIslandRemoved) {
 
     }
 
