@@ -19,10 +19,13 @@ public class GameTable {
      */
     private final int maxStudentPerCloud;
     /**
-     * Mother nature position on the board represented by the index of an island in {@code islands}. At every game starts
-     * from position zero
+     * Mother nature position on the board represented by the id of an island in {@code islands}.
      */
     private int motherNaturePosition  = 0;
+    /**
+     * A list of all the ids of the islands present in the game
+     */
+    private final List<Integer> islandsID = new ArrayList<>();
     /**
      * Islands on the game table
      */
@@ -52,6 +55,7 @@ public class GameTable {
 
         for (int i = 0; i < initialNumberOfIslands; i++){
             islands.add(new Island(i));
+            islandsID.add(i);
         }
         for (int i=0; i < numberOfClouds; i++){
             clouds.add(new Cloud(i));
@@ -125,7 +129,10 @@ public class GameTable {
      */
     public void moveMotherNature(int numberOfIslands){
         assert (numberOfIslands>=0): "Movements cannot be negative!";
-        motherNaturePosition = (numberOfIslands + motherNaturePosition) % getNumberOfIslands();
+
+        int index = islandsID.indexOf(motherNaturePosition);
+        index = (numberOfIslands + index) % islandsID.size();
+        motherNaturePosition = islandsID.get(index);
         notifyMotherNaturePositionObservers(motherNaturePosition);
     }
 
