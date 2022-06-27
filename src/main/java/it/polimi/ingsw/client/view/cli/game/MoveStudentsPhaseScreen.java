@@ -131,7 +131,8 @@ public class MoveStudentsPhaseScreen extends CliScreen {
 
         } else {
             // if it is not exit, take the color of the student to move
-            getCli().getClientController().chooseStudentFromLocation(getPawnType(firstStringOfInput), new Position(Location.ENTRANCE));
+            getCli().getClientController().chooseStudentFromLocation(
+                    Translator.parseColor(firstStringOfInput), new Position(Location.ENTRANCE));
 
             // 2. check the second string of the input
             String secondStringOfInput = inputs[1];
@@ -168,30 +169,5 @@ public class MoveStudentsPhaseScreen extends CliScreen {
      */
     private String regexBuilder(Collection<String> strings){
         return String.join("|", strings);
-    }
-
-    /**
-     * this method will map the color to the pawn type
-     *
-     * @param color the string containing the color (in the chosen language)
-     * @return the corresponding pawn type
-     */
-    private PawnType getPawnType(String color){
-        if(color.equals(Translator.getColor().get(0))){
-            return PawnType.BLUE_UNICORNS;
-        }
-        if(color.equals(Translator.getColor().get(1))){
-            return PawnType.GREEN_FROGS;
-        }
-        if(color.equals(Translator.getColor().get(2))){
-            return PawnType.YELLOW_GNOMES;
-        }
-        if(color.equals(Translator.getColor().get(3))){
-            return PawnType.RED_DRAGONS;
-        }
-        if(color.equals(Translator.getColor().get(4))){
-            return PawnType.PINK_FAIRIES;
-        }
-        return null;
     }
 }

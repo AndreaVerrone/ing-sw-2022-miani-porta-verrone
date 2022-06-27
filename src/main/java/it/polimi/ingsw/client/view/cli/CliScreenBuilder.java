@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.view.cli.character_cards.ChooseCardToPlayScreen;
+import it.polimi.ingsw.client.view.cli.character_cards.UseCard1Screen;
 import it.polimi.ingsw.client.view.cli.common_screens.PlayerLeftScreen;
 import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.launcher.*;
@@ -26,6 +28,11 @@ public class CliScreenBuilder extends ScreenBuilder {
     private CliScreen currentScreen;
 
     /**
+     * The enum representation of the current screen
+     */
+    private Screen screen;
+
+    /**
      * Creates a new ScreenBuilder used to create and show the various screens of the passed cli
      * @param cli the cli this builder is created for
      */
@@ -46,8 +53,18 @@ public class CliScreenBuilder extends ScreenBuilder {
             case MOVE_STUDENT -> new MoveStudentsPhaseScreen(cli);
             case MOVE_MOTHER_NATURE -> new MoveMotherNatureScreen(cli);
             case CHOOSE_CLOUD -> new ChooseCloudScreen(cli);
+            case CHOOSE_CHARACTER_CARD -> new ChooseCardToPlayScreen(cli, this.screen);
+            case USE_CHARACTER_CARD1 -> new UseCard1Screen(cli);
+            case USE_CHARACTER_CARD4 -> null;
+            case USE_CHARACTER_CARD5 -> null;
+            case USE_CHARACTER_CARD8 -> null;
+            case USE_CHARACTER_CARD9 -> null;
+            case USE_CHARACTER_CARD10 -> null;
+            case USE_CHARACTER_CARD11 -> null;
+            case USE_CHARACTER_CARD12 -> null;
             default -> throw new IllegalArgumentException();
         };
+        this.screen = screen;
         show();
     }
 
