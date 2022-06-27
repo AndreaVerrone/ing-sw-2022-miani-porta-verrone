@@ -310,6 +310,10 @@ public class Translator {
         return isItalian ? "Scegli uno studente" : "Choose a student";
     }
 
+    public static String getChooseIsland(){
+        return isItalian ? "Scegli un'isola" : "Choose an island";
+    }
+
     public static String getChooseStudentIsland(){
         return isItalian ? "Scegli uno studente e l'isola su cui metterlo" : "Choose a student and the island to put it on";
     }

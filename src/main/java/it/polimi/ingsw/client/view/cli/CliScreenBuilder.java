@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.cli;
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.view.cli.character_cards.ChooseCardToPlayScreen;
 import it.polimi.ingsw.client.view.cli.character_cards.UseCard1Screen;
+import it.polimi.ingsw.client.view.cli.character_cards.UseCard4Screen;
 import it.polimi.ingsw.client.view.cli.common_screens.PlayerLeftScreen;
 import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.launcher.*;
@@ -55,7 +56,7 @@ public class CliScreenBuilder extends ScreenBuilder {
             case CHOOSE_CLOUD -> new ChooseCloudScreen(cli);
             case CHOOSE_CHARACTER_CARD -> new ChooseCardToPlayScreen(cli, this.screen);
             case USE_CHARACTER_CARD1 -> new UseCard1Screen(cli);
-            case USE_CHARACTER_CARD4 -> null;
+            case USE_CHARACTER_CARD4 -> new UseCard4Screen(cli);
             case USE_CHARACTER_CARD5 -> null;
             case USE_CHARACTER_CARD8 -> null;
             case USE_CHARACTER_CARD9 -> null;

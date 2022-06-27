@@ -37,7 +37,7 @@ public class UseCard1Screen extends CliScreen {
         for(int island : getCli().getTable().getIdOfReducedIslands()){
             String destination = Translator.getIslandName() + island;
             destinationValidator.or(Validator.endsWith(destination));
-            destinations.add(Translator.getIslandName() + island);
+            destinations.add(destination);
         }
         reader.addStrictCommandValidator(studentValidator);
         reader.addStrictCommandValidator(destinationValidator);
