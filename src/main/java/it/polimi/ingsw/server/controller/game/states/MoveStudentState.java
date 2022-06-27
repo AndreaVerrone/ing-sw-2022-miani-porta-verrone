@@ -64,10 +64,10 @@ public class MoveStudentState implements GameState {
     }
 
     @Override
-    public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
+    public void chooseDestination(Position destination)throws NotValidArgumentException{
 
         if (studentToMove == null)
-            throw new NotValidOperationException();
+            return;
         if (destination.isLocation(Location.DINING_ROOM)) {
             moveToDiningRoom();
             updateState();
