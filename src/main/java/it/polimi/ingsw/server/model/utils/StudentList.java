@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * A class used to store list of students
@@ -114,6 +116,14 @@ public class StudentList implements Cloneable, Serializable {
         blue += studentList.blue;
         green += studentList.green;
         pink += studentList.pink;
+    }
+
+    public void forEach(Consumer<PawnType> consumer) {
+        for (PawnType type : PawnType.values()) {
+            for (int i = getNumOf(type); i > 0; i--) {
+                consumer.accept(type);
+            }
+        }
     }
 
     @Override
