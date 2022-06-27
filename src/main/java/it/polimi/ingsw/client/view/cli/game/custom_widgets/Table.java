@@ -238,11 +238,11 @@ public class Table extends StatefulWidget {
     }
 
     public void updateCardCost(CharacterCardsType cardsType) {
-        cards.get(cardsType).setUsed();
+        setState(() -> cards.get(cardsType).setUsed());
     }
 
     public void updateStudentOnCard(CharacterCardsType cardsType, StudentList studentList){
-        cards.get(cardsType).setStudentList(studentList);
+        setState(() -> cards.get(cardsType).setStudentList(studentList));
     }
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
@@ -276,7 +276,7 @@ public class Table extends StatefulWidget {
         CloudsSet cloudsOnTable = new CloudsSet(clouds.values());
         content.add(cloudsOnTable);
 
-        if (!cards.isEmpty()) {
+        if (isExpertGame) {
             Collection<Widget> cardsView = new ArrayList<>();
             for (ReducedCharacter card : cards.values())
                 cardsView.add(new Padding(new CharacterCardView(card), 0, 5));
