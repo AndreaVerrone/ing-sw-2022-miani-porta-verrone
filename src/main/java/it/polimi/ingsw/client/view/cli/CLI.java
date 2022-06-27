@@ -165,6 +165,16 @@ public class CLI extends ClientView {
         confirmExit(false);
     }
 
+    /**
+     * Moves to the screen when the player can choose a character card if the game is expert
+     */
+    public void useCharacterCard() {
+        if (getClientController().isForExpertGame())
+            getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_CHARACTER_CARD);
+        else
+            displayErrorMessage(Translator.getCantUseCard());
+    }
+
     private boolean isNegativeAnswer(String bool){
         return switch (bool.toLowerCase(Locale.ROOT)){
             case "y", "yes", "s", "si" -> false;

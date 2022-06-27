@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.cli.game;
 
-import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
@@ -134,7 +133,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
             return;
         }
         if (firstStringOfInput.equals(Translator.getUseCard())) {
-            getCli().getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_CHARACTER_CARD);
+            getCli().useCharacterCard();
             return;
         }
         // if it is not exit, take the color of the student to move

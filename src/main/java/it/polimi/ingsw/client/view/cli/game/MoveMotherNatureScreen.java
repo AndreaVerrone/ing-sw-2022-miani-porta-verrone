@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.cli.game;
 
-import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
@@ -78,7 +77,7 @@ public class MoveMotherNatureScreen extends CliScreen {
             getCli().confirmExit();
         }
         if (input.equals(Translator.getUseCard())) {
-            getCli().getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_CHARACTER_CARD);
+            getCli().useCharacterCard();
             return;
         }
         int numOfMovements = Integer.parseInt(input);

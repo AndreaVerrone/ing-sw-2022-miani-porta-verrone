@@ -68,6 +68,10 @@ public class ClientController {
         return gameID;
     }
 
+    public boolean isForExpertGame() {
+        return isForExpertGame;
+    }
+
     public String getNickNameCurrentPlayer() {
         return nickNameCurrentPlayer;
     }
@@ -289,8 +293,10 @@ public class ClientController {
     public void useCharacterCard(CharacterCardsType cardsType) {
         if (wrongPlayerTurn())
             return;
-        if (!isForExpertGame)
+        if (!isForExpertGame) {
             view.displayErrorMessage(Translator.getCantUseCard());
+            return;
+        }
         connectionHandler.sendMessage(new UseCharacterCard(cardsType));
     }
 }
