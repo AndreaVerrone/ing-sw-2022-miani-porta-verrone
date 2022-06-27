@@ -26,6 +26,11 @@ public class UseCard4_5Screen extends CliScreen {
 
     @Override
     protected void show() {
+
+    }
+
+    @Override
+    protected void askAction() {
         InputReader inputReader = new InputReader();
         Collection<String> completer = new ArrayList<>();
         for(int island : getCli().getTable().getIdOfReducedIslands()){

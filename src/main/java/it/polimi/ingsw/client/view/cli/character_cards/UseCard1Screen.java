@@ -28,6 +28,11 @@ public class UseCard1Screen extends CliScreen {
 
     @Override
     protected void show() {
+
+    }
+
+    @Override
+    protected void askAction() {
         InputReader reader = new InputReader();
         Validator<String> studentValidator = Validator.contains(Validator.MATCH_ANYTHING).reverse();
         for (String color : Translator.getColor())
@@ -56,5 +61,4 @@ public class UseCard1Screen extends CliScreen {
         island.setField(islandID);
         getCli().getClientController().chooseDestination(island);
     }
-
 }

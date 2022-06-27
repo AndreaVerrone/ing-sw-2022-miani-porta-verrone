@@ -31,6 +31,11 @@ public class UseCard8_11_12Screen extends CliScreen {
 
     @Override
     protected void show() {
+
+    }
+
+    @Override
+    protected void askAction() {
         InputReader inputReader = new InputReader();
         for(String color : Translator.getColor()){
             inputReader.addCommandValidator(color);
