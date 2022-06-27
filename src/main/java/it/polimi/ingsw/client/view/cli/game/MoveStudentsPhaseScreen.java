@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.game;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
@@ -8,7 +9,6 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
-import it.polimi.ingsw.server.model.utils.PawnType;
 import org.jline.reader.Completer;
 import org.jline.reader.impl.completer.ArgumentCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
@@ -81,6 +81,7 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         // OSS: the player can decide also to exit, so the input can be only 1 word if it is the
         // string to exit the game
         commandsFirstInputString.addAll(Translator.getColor());
+        commandsFirstInputString.add(Translator.getUseCard());
 
         // commands for the second string of the input
         Collection<String> commandsSecondInputString = new ArrayList<>();
@@ -115,7 +116,9 @@ public class MoveStudentsPhaseScreen extends CliScreen {
          * the regex string is:
          * "(<string to exit>|((<one color>) (<one destination>)))"
          */
-        inputReader.addCommandValidator(Translator.getMessageToExit() + "|" +"((" + regexFirstInputString + ")" +  " " + "(" + regexSecondInputString + "))");
+        inputReader.addCommandValidator("((" + regexFirstInputString + ")" +  " " + "(" + regexSecondInputString + "))");
+        inputReader.addCommandValidator(Translator.getMessageToExit());
+        inputReader.addCommandValidator(Translator.getUseCard());
 
         // ASK INPUT TO PLAYER
         // prompt the user to enter something and reads the input
@@ -128,30 +131,34 @@ public class MoveStudentsPhaseScreen extends CliScreen {
         if (firstStringOfInput.equals(Translator.getMessageToExit())) {
             // change screen
             getCli().confirmExit();
-
-        } else {
-            // if it is not exit, take the color of the student to move
-            getCli().getClientController().chooseStudentFromLocation(
-                    Translator.parseColor(firstStringOfInput), new Position(Location.ENTRANCE));
-
-            // 2. check the second string of the input
-            String secondStringOfInput = inputs[1];
-            // if the destination is dining room
-            if (secondStringOfInput.equals(Translator.getDiningRoomLocationName())) {
-                getCli().getClientController().chooseDestination(new Position(Location.DINING_ROOM));
-                return;
-            }
-
-            // if the destination is an island
-            // take the number of the island from the island name
-            // which is for example Island#1 or Isola#10 (in italian Isola#1 or Isola#10),
-            // so the number of the island is/are the characters after the "#"
-            // the ID of the chosen island
-            int islandID = Integer.parseInt(secondStringOfInput.split("#")[1]);
-            Position island = new Position(Location.ISLAND);
-            island.setField(islandID);
-            getCli().getClientController().chooseDestination(island);
+            return;
         }
+        if (firstStringOfInput.equals(Translator.getUseCard())) {
+            getCli().getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_CHARACTER_CARD);
+            return;
+        }
+        // if it is not exit, take the color of the student to move
+        getCli().getClientController().chooseStudentFromLocation(
+                Translator.parseColor(firstStringOfInput), new Position(Location.ENTRANCE));
+
+        // 2. check the second string of the input
+        String secondStringOfInput = inputs[1];
+        // if the destination is dining room
+        if (secondStringOfInput.equals(Translator.getDiningRoomLocationName())) {
+            getCli().getClientController().chooseDestination(new Position(Location.DINING_ROOM));
+            return;
+        }
+
+        // if the destination is an island
+        // take the number of the island from the island name
+        // which is for example Island#1 or Isola#10 (in italian Isola#1 or Isola#10),
+        // so the number of the island is/are the characters after the "#"
+        // the ID of the chosen island
+        int islandID = Integer.parseInt(secondStringOfInput.split("#")[1]);
+        Position island = new Position(Location.ISLAND);
+        island.setField(islandID);
+        getCli().getClientController().chooseDestination(island);
+
     }
 
     /**

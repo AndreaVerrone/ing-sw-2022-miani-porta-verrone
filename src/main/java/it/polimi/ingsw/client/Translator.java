@@ -129,6 +129,10 @@ public class Translator {
         return isItalian ? getItalianEffectDescription(card) : getEnglishEffectDescription(card);
     }
 
+    public static String getCardUsedCorrectly(){
+        return isItalian ? "Carta usata correttamente" : "Card used correctly";
+    }
+
     private static String getItalianEffectDescription(CharacterCardsType card) {
         return switch (card) {
             case CARD1 -> "All'inizio della partita, pescate 4 Studenti e piazzateli sopra questa carta.\n" +
@@ -216,6 +220,11 @@ public class Translator {
         return isItalian ? "Impossibile connettersi al server. Riprova":"Can't connect to server. Try again";
     }
 
+    public static String getCantUseCard(){
+        return isItalian ? "Non puoi usare una carta personaggio in una partita normale!"
+                : "You can't use a character card in a standard game!";
+    }
+
     /* *************************************************************************************************************** *
     *                                                    CLI                                                           *
     * ***************************************************************************************************************  */
@@ -301,6 +310,10 @@ public class Translator {
     }
 
     // ACTION PHASE: CHARACTER CARDS
+
+    public static String getUseCard(){
+        return isItalian ? "usa_carta" : "use_card";
+    }
 
     public static String getChooseCard(){
         return isItalian ? "Scegli che carta usare" : "Choose a card to use";
@@ -408,12 +421,6 @@ public class Translator {
     // END OF GAME
     public static String getEndGamePhaseName(){
         return isItalian ? "FINE DEL GIOCO" : "END OF THE GAME";
-    }
-
-    public static String getMessageChooseEndPhase(){
-        return isItalian ?
-                "inserisci \"esci\" per uscire dal gioco":
-                "insert \"exit\" to exit from the game";
     }
 
     public static String getMessageForTheWinner(){

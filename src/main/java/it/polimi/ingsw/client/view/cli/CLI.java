@@ -217,6 +217,7 @@ public class CLI extends ClientView {
     public void gameCreated(ReducedModel reducedModel) {
         this.table = new Table(reducedModel);
         matchmakingView = null;
+        getClientController().setForExpertGame(reducedModel.isExpertGame());
     }
 
     @Override

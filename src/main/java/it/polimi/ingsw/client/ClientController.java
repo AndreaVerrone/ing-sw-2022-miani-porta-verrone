@@ -37,6 +37,11 @@ public class ClientController {
     private String gameID;
 
     /**
+     * If the client is playing an expert game
+     */
+    private boolean isForExpertGame;
+
+    /**
      * Virtual match played by the client
      */
     private ConnectionHandler connectionHandler;
@@ -85,6 +90,10 @@ public class ClientController {
 
     public void setGameID(String gameID) {
         this.gameID = gameID;
+    }
+
+    public void setForExpertGame(boolean forExpertGame) {
+        isForExpertGame = forExpertGame;
     }
 
     /**
@@ -280,6 +289,8 @@ public class ClientController {
     public void useCharacterCard(CharacterCardsType cardsType) {
         if (wrongPlayerTurn())
             return;
+        if (!isForExpertGame)
+            view.displayErrorMessage(Translator.getCantUseCard());
         connectionHandler.sendMessage(new UseCharacterCard(cardsType));
     }
 }
