@@ -1,12 +1,12 @@
 package it.polimi.ingsw.client.view.cli.game;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Text;
-import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.Collection;
 
@@ -76,30 +76,9 @@ public class EndGameScreen extends CliScreen {
         canvas.setTitle(phase);
 
         canvas.show();
-    }
 
-    /**
-     * this method allow the player to close the game when he asks to do that.
-     */
-    @Override
-    protected void askAction(){
-
-        InputReader inputReader = new InputReader();
-
-        // INPUT VALIDATOR
-        // the string to exit
-        inputReader.addCommandValidator(Translator.getMessageToExit());
-
-        // INPUT COMPLETER
-        // the string to exit
-        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit()));
-
-        //prompt the user to enter something and reads the input
-        String[] inputs = inputReader.readInput(Translator.getMessageChooseEndPhase());
-
-        if (inputs[0].equals(Translator.getMessageToExit())) {
-            // change screen
-            getCli().confirmExit();
-        }
+        new InputReader().readInput(Translator.getPressEnterToExit());
+        getCli().getClientController().quitGame();
+        getCli().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
     }
 }

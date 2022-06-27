@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
 import it.polimi.ingsw.client.view.ClientView;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 /**
@@ -10,15 +10,15 @@ import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
  */
 public class TableCreated extends ServerCommandNetMsg {
 
-    private final TableRecord table;
+    private final ReducedModel table;
 
     /**
      * the constructor of the class, it will take as an
      * input the table record.
-     * @param tableRecord the table record
+     * @param reducedModel the table record
      */
-    public TableCreated(TableRecord tableRecord) {
-        table = tableRecord;
+    public TableCreated(ReducedModel reducedModel) {
+        table = reducedModel;
     }
 
     /**

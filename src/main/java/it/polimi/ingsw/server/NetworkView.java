@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.network.NetworkSender;
 import it.polimi.ingsw.network.VirtualView;
+import it.polimi.ingsw.network.messages.servertoclient.PlayerLeftGame;
 import it.polimi.ingsw.network.messages.servertoclient.PlayerOrStateChanged;
 import it.polimi.ingsw.network.messages.servertoclient.game.*;
+import it.polimi.ingsw.network.messages.servertoclient.launcher.UpdateNicknameGameID;
 import it.polimi.ingsw.network.messages.servertoclient.matchmaking.*;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -37,6 +39,11 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
+    public void updateNicknameGameID(String nickname, String gameID) {
+        sender.sendMessage(new UpdateNicknameGameID(nickname, gameID));
+    }
+
+    @Override
     public void createMatchmakingView(Collection<ReducedPlayerLoginInfo> playerLoginInfos, int numPlayers, boolean isExpert, String currentPlayer) {
         sender.sendMessage(new GameEntered(playerLoginInfos, numPlayers, isExpert, currentPlayer));
     }
@@ -44,6 +51,11 @@ public class NetworkView implements VirtualView {
     @Override
     public void currentPlayerOrStateChanged(StateType stateType, String currentPlayer) {
         sender.sendMessage(new PlayerOrStateChanged(currentPlayer, stateType));
+    }
+
+    @Override
+    public void notifyPlayerLeftGame(String nickname) {
+        sender.sendMessage(new PlayerLeftGame(nickname));
     }
 
     @Override
@@ -119,8 +131,8 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
-        sender.sendMessage(new IslandUnified(islandID,islandRemovedID,finalSize));
+    public void islandsUnified(int islandID, int islandRemovedID, int sizeIslandRemoved) {
+        sender.sendMessage(new IslandUnified(islandID,islandRemovedID, sizeIslandRemoved));
     }
 
     @Override
@@ -169,7 +181,7 @@ public class NetworkView implements VirtualView {
     }
 
     @Override
-    public void gameCreated(TableRecord tableRecord) {
-        sender.sendMessage(new TableCreated(tableRecord));
+    public void gameCreated(ReducedModel reducedModel) {
+        sender.sendMessage(new TableCreated(reducedModel));
     }
 }

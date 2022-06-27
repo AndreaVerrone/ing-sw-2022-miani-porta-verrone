@@ -60,7 +60,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
     /**
      * The path where the file containing the identifier of the user should be saved
      */
-    public static final String fileIdentifierPath = "src/main/java/it/polimi/ingsw/client/identifier.txt";
+    public static final String fileIdentifierPath = "identifier.txt";
 
     /**
      * A flag indicating if the client requested to close the application.

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.model.gametable.GameTable;
 import it.polimi.ingsw.server.model.gametable.Island;
@@ -406,15 +406,10 @@ public class GameModel {
 
     // CREATION OF THE REDUCED VERSION
     /**
-     * Creates a reduced version of the set of school boards
-     * it is used to represent it client side.
-     * @return a reduced version of this set of school boards
+     * Creates a reduced version of the players in this game
+     * @return a reduced version of the players
      */
-    public Collection<ReducedSchoolBoard> createReducedSetOfSchoolBoards(){
-        Collection<ReducedSchoolBoard> reducedSchoolBoards= new ArrayList<>();
-        for(Player player: players){
-            reducedSchoolBoards.add(player.createSchoolBoardReduction());
-        }
-        return reducedSchoolBoards;
+    public Collection<ReducedPlayer> createReducedPlayers(){
+        return players.stream().map(Player::reduce).toList();
     }
 }

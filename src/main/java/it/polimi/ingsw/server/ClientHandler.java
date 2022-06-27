@@ -68,18 +68,6 @@ public class ClientHandler implements Runnable, NetworkSender {
             return;
         }
 
-        try {
-            ((SendUserIdentifier) input.readObject()).process(this);
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("An error occurred with identification of client");
-            try {
-                client.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            return;
-        }
-
         long resendDelay = 4000;
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
         executorService.scheduleWithFixedDelay(
@@ -91,6 +79,7 @@ public class ClientHandler implements Runnable, NetworkSender {
             handleConnection();
         } catch (IOException e) {
             System.out.println("An error occurred when handling client " + client.getInetAddress());
+            e.printStackTrace();
         } finally {
             sessionController.detachFromGame();
             executorService.shutdown();
@@ -115,6 +104,7 @@ public class ClientHandler implements Runnable, NetworkSender {
             }
         } catch (ClassNotFoundException | ClassCastException e) {
             System.out.println("A violation of the protocol occurred for " + client.getInetAddress());
+            e.printStackTrace();
         }
     }
 

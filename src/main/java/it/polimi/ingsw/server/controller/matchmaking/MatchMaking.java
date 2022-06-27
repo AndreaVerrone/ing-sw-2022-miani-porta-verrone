@@ -58,8 +58,11 @@ public class MatchMaking{
      * @param isHardMode {@code true} if wanted to start a hard game, {@code false} otherwise
      */
     public MatchMaking(int numPlayers, boolean isHardMode){
+        assert numPlayers == 2 || numPlayers == 3;
         this.numPlayers = numPlayers;
         this.isHardMode = isHardMode;
+        if (numPlayers != 3)
+            towersAvailable.remove(TowerType.GREY);
         setState(new ChangePlayersState(this));
     }
 

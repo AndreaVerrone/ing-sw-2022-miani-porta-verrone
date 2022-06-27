@@ -74,6 +74,10 @@ public class Translator {
         return isItalian ? "esci" : "exit";
     }
 
+    public static String getLeftGameMessage(){
+        return isItalian ? " ha lasciato il gioco." : " left the game.";
+    }
+
     // LAUNCHER
     public static String getInsertIPAddress(){
         return isItalian ?
@@ -148,6 +152,10 @@ public class Translator {
     public static String getConfirmExit(){
         return isItalian ? "Sei sicuro di voler uscire dal gioco? [yes/no]"
                 : "Are you sure you want to exit the game? [yes/no]";
+    }
+
+    public static String getPressEnterToExit(){
+        return isItalian ? "Premi INVIO per uscire dalla partita" : "Press ENTER to exit the game";
     }
 
     // LAUNCHER
