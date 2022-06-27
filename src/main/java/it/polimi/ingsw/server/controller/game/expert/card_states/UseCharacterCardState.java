@@ -36,6 +36,10 @@ abstract class UseCharacterCardState implements GameState {
         this.characterCard = characterCard;
     }
 
+    public ExpertGame getGame() {
+        return game;
+    }
+
     /**
      * This method allow to finalize the usage of the character card.
      */
