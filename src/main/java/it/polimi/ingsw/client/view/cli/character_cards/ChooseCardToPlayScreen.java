@@ -51,7 +51,7 @@ public class ChooseCardToPlayScreen extends CliScreen {
             return;
         }
         int cardNumber = Integer.parseInt(input.split("#")[1]);
-        CharacterCardsType cardsType = CharacterCardsType.values()[cardNumber];
+        CharacterCardsType cardsType = CharacterCardsType.valueOf("CARD"+cardNumber);
         getCli().getClientController().useCharacterCard(cardsType);
     }
 }

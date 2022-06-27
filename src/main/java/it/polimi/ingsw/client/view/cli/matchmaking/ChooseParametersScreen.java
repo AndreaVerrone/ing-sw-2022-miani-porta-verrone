@@ -72,7 +72,7 @@ public class ChooseParametersScreen extends CliScreen {
     }
 
     private Widget createTower(TowerType towerType){
-        Text baseText = new Text(Translator.getTowerName(towerType)).setBackgroundColor(Color.BRIGHT_GREY);
+        Text baseText = new Text(Translator.getTowerName(towerType));
         return switch (towerType){
             case BLACK -> baseText.setForegroundColor(Color.BLACK);
             case WHITE -> baseText.setForegroundColor(Color.WHITE);
@@ -81,7 +81,7 @@ public class ChooseParametersScreen extends CliScreen {
     }
 
     private Widget createWizard(Wizard wizard){
-        Text baseText = new Text(Translator.getWizardName(wizard)).setBackgroundColor(Color.BRIGHT_GREY);
+        Text baseText = new Text(Translator.getWizardName(wizard));
         return switch (wizard){
             case W1 -> baseText.setForegroundColor(Color.BRIGHT_YELLOW);
             case W2 -> baseText.setForegroundColor(Color.BRIGHT_GREEN);
