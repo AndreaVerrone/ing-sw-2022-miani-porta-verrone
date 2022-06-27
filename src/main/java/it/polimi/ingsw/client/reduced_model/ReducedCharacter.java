@@ -81,16 +81,19 @@ public class ReducedCharacter implements Serializable {
         return cost;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
+//    public void setCost(int cost) {
+//        this.cost = cost;
+//    }
 
     public boolean isUsed() {
         return used;
     }
 
     public void setUsed() {
+        if (used)
+            return;
         this.used = true;
+        cost++;
     }
 
     public StudentList getStudentList() {

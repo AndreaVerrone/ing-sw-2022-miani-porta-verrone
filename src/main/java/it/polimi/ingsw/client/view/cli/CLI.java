@@ -346,12 +346,12 @@ public class CLI extends ClientView {
 
     @Override
     public void coinOnCardAdded(CharacterCardsType characterCardsType) {
-        // todo: implement
+        table.updateCardCost(characterCardsType);
     }
 
     @Override
     public void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents) {
-        // todo: implement
+        table.updateStudentOnCard(characterCardType, actualStudents);
     }
 
     // END GAME UPDATE METHODS

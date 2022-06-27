@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedCharacter;
 import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.clouds.CloudsSet;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard.SchoolBoardView;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -45,6 +47,8 @@ public class Table extends StatefulWidget {
      */
     private final IslandsSet islandsSet;
 
+    private final Map<CharacterCardsType, ReducedCharacter> cards = new HashMap<>();
+
     /**
      * the constructor of the class
      * @param reducedModel the recordTable class
@@ -68,6 +72,9 @@ public class Table extends StatefulWidget {
         islandsSet = new IslandsSet(reducedModel.getReducedIslands());
         islandsSet.motherNatureMoved(reducedModel.getMotherNaturePosition());
 
+        if (reducedModel.isExpertGame())
+            for (ReducedCharacter card : reducedModel.getCharacterCards())
+                cards.put(card.getType(), card);
         create();
     }
 
@@ -223,6 +230,13 @@ public class Table extends StatefulWidget {
         islandsSet.unifyIslands(ID,IDIslandRemoved,removedIslandSize);
     }
 
+    public void updateCardCost(CharacterCardsType cardsType) {
+        cards.get(cardsType).setUsed();
+    }
+
+    public void updateStudentOnCard(CharacterCardsType cardsType, StudentList studentList){
+        cards.get(cardsType).setStudentList(studentList);
+    }
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
      * This method is run every time something in the content change or when it should be
@@ -270,14 +284,20 @@ public class Table extends StatefulWidget {
         // 4. clouds
         CloudsSet cloudsOnTable = new CloudsSet(clouds.values());
 
-        return new Column(
-                List.of(
-                    header,
-                    deck,
-                    schoolBoardColumn,
-                    islandsSet,
-                    cloudsOnTable
-            )
-        );
+        Collection<Widget> content = new ArrayList<>(List.of(
+                header,
+                deck,
+                schoolBoardColumn,
+                islandsSet,
+                cloudsOnTable
+        ));
+        if (!cards.isEmpty()) {
+            Collection<Widget> cardsView = new ArrayList<>();
+            for (ReducedCharacter card : cards.values())
+                cardsView.add(new Padding(new CharacterCardView(card), 0, 5));
+            content.add(new Row(cardsView));
+        }
+
+        return new Column(content);
     }
 }
