@@ -10,8 +10,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.util.Objects;
-
 /**
  * The client that is running the game
  */

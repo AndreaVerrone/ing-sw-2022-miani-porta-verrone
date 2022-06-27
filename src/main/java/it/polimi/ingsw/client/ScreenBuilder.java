@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.controller.StateType;
-import it.polimi.ingsw.server.controller.game.expert.cards.CharacterCard5;
 
 import java.util.Collection;
 

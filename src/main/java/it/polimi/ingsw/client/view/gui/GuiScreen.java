@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view.gui;
 
 
 import it.polimi.ingsw.client.Translator;
-import it.polimi.ingsw.client.view.gui.controller.*;
+import it.polimi.ingsw.client.view.gui.controller.PlayerView;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -10,7 +10,6 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.scene.control.Alert;
-
 
 import java.util.Collection;
 import java.util.HashSet;

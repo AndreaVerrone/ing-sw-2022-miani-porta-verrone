@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.gui.utils.image_getters;
 
 import it.polimi.ingsw.server.model.player.Assistant;
-import it.polimi.ingsw.server.model.player.AssistantDeck;
 import javafx.scene.image.Image;
 
 /**
