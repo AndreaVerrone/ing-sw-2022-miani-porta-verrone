@@ -66,7 +66,7 @@ public class MoveMotherNatureScreen extends CliScreen {
 
         // INPUT COMPLETER
         // 1. the string to exit
-        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit(), Translator.getMessageToExit()));
+        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit(), Translator.getUseCard()));
 
 
         //prompt the user to enter something and reads the input
