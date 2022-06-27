@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.*;
@@ -117,7 +118,7 @@ public class Translator {
     // CHARACTER CARDS
 
     public static String getCardLabel(){
-        return isItalian ? "Carta " : "Card ";
+        return isItalian ? "Carta#" : "Card#";
     }
 
     public static String getCostLabel(){
@@ -299,6 +300,20 @@ public class Translator {
                 "enter the number of the assistant card to play";
     }
 
+    // ACTION PHASE: CHARACTER CARDS
+
+    public static String getChooseCard(){
+        return isItalian ? "Scegli che carta usare" : "Choose a card to use";
+    }
+
+    public static String getChooseStudent(){
+        return isItalian ? "Scegli uno studente" : "Choose a student";
+    }
+
+    public static String getChooseStudentIsland(){
+        return isItalian ? "Scegli uno studente e l'isola su cui metterlo" : "Choose a student and the island to put it on";
+    }
+
     // ACTION PHASE: MOVE STUDENTS
     public static String getMoveStudentsPhaseName(){
         return isItalian ?
@@ -328,6 +343,31 @@ public class Translator {
         return isItalian ?
                 new ArrayList<>(List.of("blu", "verde", "giallo", "rosso", "rosa")) :
                 new ArrayList<>(List.of("blue", "green", "yellow", "red", "pink"));
+    }
+
+    /**
+     * this method will map the color to the pawn type
+     *
+     * @param color the string containing the color (in the chosen language)
+     * @return the corresponding pawn type
+     */
+    public static PawnType parseColor(String color){
+        if(color.equals(Translator.getColor().get(0))){
+            return PawnType.BLUE_UNICORNS;
+        }
+        if(color.equals(Translator.getColor().get(1))){
+            return PawnType.GREEN_FROGS;
+        }
+        if(color.equals(Translator.getColor().get(2))){
+            return PawnType.YELLOW_GNOMES;
+        }
+        if(color.equals(Translator.getColor().get(3))){
+            return PawnType.RED_DRAGONS;
+        }
+        if(color.equals(Translator.getColor().get(4))){
+            return PawnType.PINK_FAIRIES;
+        }
+        return null;
     }
 
     // ACTION PHASE: MOVE MOTHER NATURE

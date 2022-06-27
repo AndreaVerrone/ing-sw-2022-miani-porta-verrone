@@ -111,6 +111,10 @@ public class Table extends StatefulWidget {
         return islandsSet.getIslandsID();
     }
 
+    public Collection<CharacterCardsType> getCards() {
+        return Collections.unmodifiableCollection(cards.keySet());
+    }
+
     // SETTERS
 
     /**

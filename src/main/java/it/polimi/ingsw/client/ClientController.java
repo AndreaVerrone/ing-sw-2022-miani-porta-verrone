@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.messages.clienttoserver.launcher.GetGames;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.ResumeGame;
 import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.*;
 import it.polimi.ingsw.server.controller.game.Position;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -270,5 +271,15 @@ public class ClientController {
             return;
         }
         connectionHandler.sendMessage(new TakeStudentsFromCloud(cloudId));
+    }
+
+    /**
+     * Make the client use a character card
+     * @param cardsType the card to use
+     */
+    public void useCharacterCard(CharacterCardsType cardsType) {
+        if (wrongPlayerTurn())
+            return;
+        connectionHandler.sendMessage(new UseCharacterCard(cardsType));
     }
 }
