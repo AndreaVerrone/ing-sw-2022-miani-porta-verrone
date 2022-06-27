@@ -37,7 +37,8 @@ public class AssistantCard extends StatefulWidget {
      */
     @Override
     protected Widget build() {
-
+        if (assistantCard == null)
+            return new SizedBox(0, 0);
         // the name of the card
         Text name = new Text(assistantCard.name()).addTextStyle(TextStyle.BOLD).addTextStyle(TextStyle.ITALIC).setForegroundColor(Color.BRIGHT_GREY);
 

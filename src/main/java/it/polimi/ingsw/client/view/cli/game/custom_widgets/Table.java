@@ -8,7 +8,7 @@ import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.clouds.CloudsSet;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
-import it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard.SchoolBoardView;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard.PlayerView;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -47,6 +47,9 @@ public class Table extends StatefulWidget {
      */
     private final IslandsSet islandsSet;
 
+    /**
+     * The list of character cards present in the game, if any
+     */
     private final Map<CharacterCardsType, ReducedCharacter> cards = new HashMap<>();
 
     /**
@@ -251,50 +254,28 @@ public class Table extends StatefulWidget {
     @Override
     protected Widget build() {
 
+        Collection<Widget> content = new ArrayList<>();
         // header
         Text header = new Text(Translator.getHeaderOfTable());
+        content.add(header);
 
         // 1. deck
         Deck deck = new Deck(assistantsList);
+        content.add(deck);
 
         // 2. school boards and corresponding assistant card used
 
-        Column schoolBoardColumn = new Column();
-
-        for (String nickname : players.keySet()) {
-
-            // create the school board
-            SchoolBoardView schoolBoardView = new SchoolBoardView(players.get(nickname));
-
-            // create the card used (if present)
-            Widget assistantCardUsed;
-            Assistant assistant = players.get(nickname).getLastAssistantUsed();
-            if(assistant != null) {
-                assistantCardUsed = new AssistantCard(assistant);
-            }else{
-                assistantCardUsed = new Text("");
-            }
-
-            // create the row with school board and the card used
-            Row rowSchoolBoardCardUsed = new Row(List.of(schoolBoardView,assistantCardUsed));
-            // add the row to the column
-            schoolBoardColumn.addChild(rowSchoolBoardCardUsed);
-
+        boolean isExpertGame = !cards.isEmpty();
+        for (ReducedPlayer player : players.values()) {
+            content.add(new PlayerView(player, isExpertGame));
         }
 
-        // 3. islands
-//        islandsSet = new IslandsSet(reducedIslands);
+        content.add(islandsSet);
 
         // 4. clouds
         CloudsSet cloudsOnTable = new CloudsSet(clouds.values());
+        content.add(cloudsOnTable);
 
-        Collection<Widget> content = new ArrayList<>(List.of(
-                header,
-                deck,
-                schoolBoardColumn,
-                islandsSet,
-                cloudsOnTable
-        ));
         if (!cards.isEmpty()) {
             Collection<Widget> cardsView = new ArrayList<>();
             for (ReducedCharacter card : cards.values())
