@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.view.gui;
 
 
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
+import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.gui.controller.*;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -10,6 +12,8 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
 
 
 import java.util.Collection;
@@ -69,6 +73,10 @@ public abstract class GuiScreen {
     }
 
     //METHODS USED BY TABLE
+
+    public void createTable(TableRecord tableRecord, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
+
+    }
 
     /**
      * Allows to save the nickname of the current player and sets the label of the current player as yellow

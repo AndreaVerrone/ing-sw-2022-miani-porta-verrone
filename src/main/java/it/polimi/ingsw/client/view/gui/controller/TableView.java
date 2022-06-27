@@ -315,16 +315,22 @@ public class TableView extends GuiScreen implements Initializable {
      * Allows to create the table
      * @param players List of players playing
      */
+    @Override
     public void createTable(TableRecord tableRecord, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
-        table.setBackground(Background.fill(Color.LIGHTBLUE));
-        table.toBack();
-        scrollPane.toBack();
+        Platform.runLater(() -> {
+                    table.setBackground(Background.fill(Color.LIGHTBLUE));
+                    table.toBack();
+                    scrollPane.toBack();
+                });
 
         setStateLabelProperties();
         setUpMessageView(players.get(0).wizard());
         setNicknames(players);
 
-        setCoins(players);
+        if (isExpertMode){
+            //TODO Add card creation
+            setCoins(players);
+        }
 
         createSchoolBoard(tableRecord, players);
 
@@ -337,9 +343,6 @@ public class TableView extends GuiScreen implements Initializable {
         motherNatureIsland = tableRecord.motherNaturePosition();
         islands.get(tableRecord.motherNaturePosition()).addMotherNature();
 
-        if (isExpertMode){
-            //TODO Add card creation
-        }
     }
 
     /**

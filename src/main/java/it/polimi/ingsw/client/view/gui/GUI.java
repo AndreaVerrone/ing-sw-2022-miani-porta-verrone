@@ -13,7 +13,6 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -50,6 +49,11 @@ public class GUI extends ClientView {
     private boolean isExpert;
 
     private TowerType towerChosen;
+
+    private TableRecord tableRecord;
+
+    private Map<String, Wizard> players = new HashMap<>() {
+    };
 
     /**
      * The constructor of the class.
@@ -117,6 +121,13 @@ public class GUI extends ClientView {
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
         super.currentPlayerOrStateChanged(currentState, currentPlayer);
+        if(currentState.equals(StateType.MOVE_STUDENT_STATE)){
+            List<ReducedPlayerLoginInfo> players = new ArrayList<>();
+            for(String player: this.players.keySet()){
+                players.add(new ReducedPlayerLoginInfo(player, null, this.players.get(player)));
+            }
+            currentScreen.createTable(tableRecord, isExpert, players);
+        }
         show();
     }
 
@@ -224,7 +235,10 @@ public class GUI extends ClientView {
         }
         boolean lobbyFull = currentScreen.updatePlayerList(playerViewMap.values().stream().toList());
         if (lobbyFull && getClientController().isInTurn())
-            getClientController().nextPhase();
+            for(ReducedPlayerLoginInfo player: players){;
+                this.players.put(player.nickname(), player.wizard());
+            }
+        getClientController().nextPhase();
     }
 
     /**
@@ -252,6 +266,7 @@ public class GUI extends ClientView {
     public void wizardSelected(String player, Wizard wizard) {
         playerViewMap.get(player).setWizard(wizard);
         Platform.runLater(()->currentScreen.updateWizard(player, wizard));
+        players.replace(player, wizard);
         if(getClientController().isInTurn()) {
             getClientController().setTower(towerChosen);
         }
@@ -351,7 +366,6 @@ public class GUI extends ClientView {
      */
     @Override
     public void lastAssistantUsedChanged(String nickName, Assistant actualLastAssistant) {
-
     }
 
     /**
@@ -447,7 +461,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void gameCreated(TableRecord tableRecord) {
-
+        this.tableRecord = tableRecord;
     }
 
 }

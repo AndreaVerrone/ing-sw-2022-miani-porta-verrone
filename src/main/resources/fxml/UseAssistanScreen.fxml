@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.UseAssistantView">
+   <children>
+      <FlowPane prefHeight="602.0" prefWidth="1280.0" />
+      <Button layoutX="614.0" layoutY="704.0" mnemonicParsing="false" onAction="#useAssistant" text="Button" />
+   </children>
+</AnchorPane>
