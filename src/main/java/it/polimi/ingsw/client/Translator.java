@@ -317,6 +317,20 @@ public class Translator {
     public static String getChooseStudentIsland(){
         return isItalian ? "Scegli uno studente e l'isola su cui metterlo" : "Choose a student and the island to put it on";
     }
+    
+    public static String getChooseCoupleStudents(){
+        return isItalian ? "Scegli una coppia di studenti" : "Choose a couple of students";
+    }
+    
+    public static String getFirstCardSecondEntrance(){
+        return isItalian ? "\nIl primo deve essere sulla carta e il secondo nel tuo ingresso"
+                : "\nThe first one must be on the card, the second one in your entrance";
+    }
+    
+    public static String getFirstDiningRoomSecondEntrance(){
+        return isItalian ? "\nIl primo deve essere nella tua sala, il secondo nel tuo ingresso"
+                : "\nThe first one must be in your dining room, the second in your entrance";
+    }
 
     // ACTION PHASE: MOVE STUDENTS
     public static String getMoveStudentsPhaseName(){

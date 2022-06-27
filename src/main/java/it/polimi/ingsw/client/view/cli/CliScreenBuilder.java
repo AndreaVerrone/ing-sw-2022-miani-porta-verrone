@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.ScreenBuilder;
-import it.polimi.ingsw.client.view.cli.character_cards.ChooseCardToPlayScreen;
-import it.polimi.ingsw.client.view.cli.character_cards.UseCard1Screen;
-import it.polimi.ingsw.client.view.cli.character_cards.UseCard4_5Screen;
-import it.polimi.ingsw.client.view.cli.character_cards.UseCard8_11_12Screen;
+import it.polimi.ingsw.client.view.cli.character_cards.*;
 import it.polimi.ingsw.client.view.cli.common_screens.PlayerLeftScreen;
 import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.launcher.*;
@@ -61,7 +58,8 @@ public class CliScreenBuilder extends ScreenBuilder {
             case USE_CHARACTER_CARD4, USE_CHARACTER_CARD5 -> new UseCard4_5Screen(cli);
             case USE_CHARACTER_CARD8, USE_CHARACTER_CARD12 -> new UseCard8_11_12Screen(cli, CharacterCardsType.CARD12);
             case USE_CHARACTER_CARD11 -> new UseCard8_11_12Screen(cli, CharacterCardsType.CARD11);
-            case USE_CHARACTER_CARD9, USE_CHARACTER_CARD10 -> null;
+            case USE_CHARACTER_CARD9 -> new UseCard9_10Screen(cli, CharacterCardsType.CARD9);
+            case USE_CHARACTER_CARD10 -> new UseCard9_10Screen(cli, CharacterCardsType.CARD10);
             default -> throw new IllegalArgumentException();
         };
         this.screen = screen;
