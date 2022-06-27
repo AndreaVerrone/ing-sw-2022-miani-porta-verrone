@@ -3,13 +3,15 @@ package it.polimi.ingsw.client.view.cli;
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.view.cli.character_cards.ChooseCardToPlayScreen;
 import it.polimi.ingsw.client.view.cli.character_cards.UseCard1Screen;
-import it.polimi.ingsw.client.view.cli.character_cards.UseCard45Screen;
+import it.polimi.ingsw.client.view.cli.character_cards.UseCard4_5Screen;
+import it.polimi.ingsw.client.view.cli.character_cards.UseCard8_11_12Screen;
 import it.polimi.ingsw.client.view.cli.common_screens.PlayerLeftScreen;
 import it.polimi.ingsw.client.view.cli.game.*;
 import it.polimi.ingsw.client.view.cli.launcher.*;
 import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
 import it.polimi.ingsw.client.view.cli.waiting.ConnectionErrorScreen;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 
 import java.util.Collection;
 
@@ -56,12 +58,10 @@ public class CliScreenBuilder extends ScreenBuilder {
             case CHOOSE_CLOUD -> new ChooseCloudScreen(cli);
             case CHOOSE_CHARACTER_CARD -> new ChooseCardToPlayScreen(cli, this.screen);
             case USE_CHARACTER_CARD1 -> new UseCard1Screen(cli);
-            case USE_CHARACTER_CARD4, USE_CHARACTER_CARD5 -> new UseCard45Screen(cli);
-            case USE_CHARACTER_CARD8 -> null;
-            case USE_CHARACTER_CARD9 -> null;
-            case USE_CHARACTER_CARD10 -> null;
-            case USE_CHARACTER_CARD11 -> null;
-            case USE_CHARACTER_CARD12 -> null;
+            case USE_CHARACTER_CARD4, USE_CHARACTER_CARD5 -> new UseCard4_5Screen(cli);
+            case USE_CHARACTER_CARD8, USE_CHARACTER_CARD12 -> new UseCard8_11_12Screen(cli, CharacterCardsType.CARD12);
+            case USE_CHARACTER_CARD11 -> new UseCard8_11_12Screen(cli, CharacterCardsType.CARD11);
+            case USE_CHARACTER_CARD9, USE_CHARACTER_CARD10 -> null;
             default -> throw new IllegalArgumentException();
         };
         this.screen = screen;
