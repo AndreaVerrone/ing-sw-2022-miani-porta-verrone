@@ -201,6 +201,11 @@ public abstract class GuiScreen {
      * @param message message shown to the player
      */
     public void showMessage(String message){
+        Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+        infoAlert.setTitle("INFO");
+        infoAlert.setHeaderText("");
+        infoAlert.setContentText(message);
+        infoAlert.showAndWait();
     }
 
     /**
