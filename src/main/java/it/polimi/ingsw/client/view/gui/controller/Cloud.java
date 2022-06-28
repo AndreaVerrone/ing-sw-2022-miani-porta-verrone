@@ -1,6 +1,10 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.client.view.gui.listeners.CloudListener;
+import it.polimi.ingsw.client.view.gui.listeners.LocationListener;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
+import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import javafx.scene.image.ImageView;
@@ -39,6 +43,8 @@ public class Cloud {
      */
     private final List<Pawn> students;
 
+    private CloudListener cloudListener;
+
     /**
      * This class represents a cloud , allowing to fill it with students and to remove all of them
      * @param cloudView {@code ImageView} of the cloud
@@ -46,13 +52,16 @@ public class Cloud {
      * @param column Column of the grid where the cloud is placed
      * @param row Row of the grid where the cloud is placed
      */
-    public Cloud(ImageView cloudView, GridPane islandGrid, int column, int row){
+    public Cloud(GUI gui, int cloudID, ImageView cloudView, GridPane islandGrid, int column, int row){
         this.cloudView = cloudView;
         this.islandGrid = islandGrid;
         this.column = column;
         this.row = row;
 
         students = new ArrayList<>(3);
+
+        cloudListener = new CloudListener(gui, cloudID);
+        cloudView.setOnMouseClicked(cloudListener);
     }
 
     /**
@@ -90,4 +99,12 @@ public class Cloud {
     public void updateStudents(StudentList students){
         //TODO : update
      }
+
+    public void enableLocationListener(){
+        cloudListener.enableListener();
+    }
+
+    public void disableLocationListener() {
+        cloudListener.disableListener();
+    }
 }

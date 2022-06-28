@@ -1,28 +1,28 @@
 package it.polimi.ingsw.client.view.gui.listeners;
 
 import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
-import it.polimi.ingsw.server.model.utils.PawnType;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
-public class StudentListener implements EventHandler {
-
-    private final PawnType student;
+public class LocationListener implements EventHandler {
 
     private final Location location;
 
     private final GUI gui;
+
+    private int field = 0;
 
     /**
      * True if the listener can send messages
      */
     private boolean enable = true;
 
-    public StudentListener(GUI gui, PawnType student, Location location){
+    public LocationListener(GUI gui, Location location){
+
         this.gui = gui;
-        this.student = student;
         this.location = location;
     }
 
@@ -40,15 +40,23 @@ public class StudentListener implements EventHandler {
         enable = false;
     }
 
+    public void setField(int field) {
+        this.field = field;
+    }
+
     @Override
     public void handle(Event event) {
-        Position position = new Position(location);
         if(enable){
-            gui.getClientController().chooseStudentFromLocation(student, position);
-            System.out.println("Student " + student + " in location " + location); //Debugging
+            Position position = new Position(location);
+            position.setField(field);
+            System.out.println("Location " + location);//Debugging
+            if(gui.getCurrentState().equals(StateType.MOVE_MOTHER_NATURE_STATE)){
+                gui.getClientController().moveMotherNature(field);
+            }else {
+                gui.getClientController().chooseDestination(position);
+            }
         }else{
             System.out.println("Listener disabled in location " + location); //Debugging
         }
-        event.consume();
     }
 }

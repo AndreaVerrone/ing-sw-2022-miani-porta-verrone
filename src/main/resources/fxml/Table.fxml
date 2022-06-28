@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#tryUpdate" onMouseDragged="#setCursorOnMouseDragged" onMousePressed="#setCursorOnMouseDragged" onMouseReleased="#setCursorOnMouseReleased" pannable="true" prefHeight="4001.0" prefWidth="4000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.TableView">
+<ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#setCursorOnMouseDragged" onMousePressed="#setCursorOnMouseDragged" onMouseReleased="#setCursorOnMouseReleased" pannable="true" prefHeight="4001.0" prefWidth="4000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.TableView">
    <content>
       <GridPane fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#setCursorOnMouseDragged" onMouseReleased="#setCursorOnMouseReleased" prefHeight="1678.0" prefWidth="2844.0">
         <columnConstraints>

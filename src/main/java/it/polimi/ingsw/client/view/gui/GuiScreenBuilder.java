@@ -20,7 +20,7 @@ public class GuiScreenBuilder extends ScreenBuilder {
     /**
      * The GUI.
      */
-    private GUI gui;
+    private final GUI gui;
 
     private Stage stage;
 
@@ -58,8 +58,6 @@ public class GuiScreenBuilder extends ScreenBuilder {
 
             currentScene = new Scene(root);
             gui.setCurrentScene(currentScene);
-
-
 
             // gui.show();
 

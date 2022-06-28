@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.gui.controller.*;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -113,7 +114,7 @@ public abstract class GuiScreen {
      * @param player player with the porfessor changed
      * @param professors new professors
      */
-    public void updateProfessorsToPlayer(String player, HashSet<PawnType> professors){
+    public void updateProfessorsToPlayer(String player, Collection<PawnType> professors){
     }
 
     /**
@@ -197,7 +198,7 @@ public abstract class GuiScreen {
     /**
      * Method to update the state of the game
      */
-    public void updateState(){
+    public void updateState(StateType currentState){
     }
 
     /**

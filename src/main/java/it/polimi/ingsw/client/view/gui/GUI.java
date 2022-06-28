@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.view.gui.controller.ChooseGame;
 import it.polimi.ingsw.client.view.gui.controller.PlayerView;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -13,11 +14,14 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -52,6 +56,12 @@ public class GUI extends ClientView {
 
     private TableRecord tableRecord;
 
+    private Scene tableScene;
+
+    private GuiScreen tableScreen;
+
+    private StateType currentState;
+
     private Map<String, Wizard> players = new HashMap<>() {
     };
 
@@ -75,6 +85,10 @@ public class GUI extends ClientView {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public StateType getCurrentState() {
+        return currentState;
     }
 
     public void setCurrentScreen(GuiScreen screen){
@@ -120,16 +134,24 @@ public class GUI extends ClientView {
 
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
-        super.currentPlayerOrStateChanged(currentState, currentPlayer);
+        getClientController().setNickNameCurrentPlayer(currentPlayer);
         if(currentState.equals(StateType.MOVE_STUDENT_STATE)){
-            List<ReducedPlayerLoginInfo> players = new ArrayList<>();
-            for(String player: this.players.keySet()){
-                players.add(new ReducedPlayerLoginInfo(player, null, this.players.get(player)));
-            }
-            currentScreen.createTable(tableRecord, isExpert, players);
+            currentScene = tableScene;
+            currentScreen = tableScreen;
+
+        } else if (currentState.equals(StateType.MOVE_MOTHER_NATURE_STATE)) {
+
+        } else if (currentState.equals(StateType.CHOOSE_CLOUD_STATE)) {
+
+        } else{
+            getScreenBuilder().build(ScreenBuilder.Screen.parse(currentState));
         }
+        this.currentState = currentState;
+        currentScreen.setCurrentPlayer(currentPlayer);
+        currentScreen.updateState(currentState);
         show();
     }
+
 
     @Override
     public void displayErrorMessage(String message){
@@ -235,8 +257,11 @@ public class GUI extends ClientView {
         }
         boolean lobbyFull = currentScreen.updatePlayerList(playerViewMap.values().stream().toList());
         if (lobbyFull && getClientController().isInTurn())
-            for(ReducedPlayerLoginInfo player: players){;
-                this.players.put(player.nickname(), player.wizard());
+            this.players.put(getClientController().getNickNameOwner(),null);
+            for(ReducedPlayerLoginInfo player: players){
+                if(!player.nickname().equals(getClientController().getNickNameOwner())) {
+                    this.players.put(player.nickname(), player.wizard());
+                }
             }
         getClientController().nextPhase();
     }
@@ -282,7 +307,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void numberOfBansOnIslandChanged(int islandIDWithBan, int actualNumOfBans) {
-
+        currentScreen.changeBansOnIsland(islandIDWithBan, actualNumOfBans);
     }
 
     /**
@@ -303,7 +328,6 @@ public class GUI extends ClientView {
      */
     @Override
     public void coinNumberInBagChanged(int actualNumOfCoins) {
-
     }
 
     /**
@@ -314,7 +338,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void coinNumberOfPlayerChanged(String nickNameOfPlayer, int actualNumOfCoins) {
-
+        currentScreen.changeNumberOfCoinsPlayer(nickNameOfPlayer, actualNumOfCoins);
     }
 
     /**
@@ -325,7 +349,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void towerNumberOfPlayerChanged(String nickName, int numOfActualTowers) {
-
+        currentScreen.updateTowersOnSchoolBoard(nickName, numOfActualTowers);
     }
 
     /**
@@ -333,7 +357,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void notifyLastRound() {
-
+        currentScreen.showLastRound();
     }
 
     /**
@@ -355,7 +379,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
-
+        currentScreen.unifyIslands(islandID, islandRemovedID, finalSize);
     }
 
     /**
@@ -366,6 +390,8 @@ public class GUI extends ClientView {
      */
     @Override
     public void lastAssistantUsedChanged(String nickName, Assistant actualLastAssistant) {
+        currentScreen.useAssistantCard(nickName, actualLastAssistant);
+        System.out.println("Update assistant: " + actualLastAssistant);
     }
 
     /**
@@ -375,7 +401,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void motherNaturePositionChanged(int actualMotherNaturePosition) {
-
+        currentScreen.moveMotherNature(actualMotherNaturePosition);
     }
 
     /**
@@ -386,7 +412,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void professorsOfPlayerChanged(String nickName, Collection<PawnType> actualProfessors) {
-
+        currentScreen.updateProfessorsToPlayer(nickName, actualProfessors);
     }
 
     /**
@@ -397,7 +423,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void studentsInDiningRoomChanged(String nickname, StudentList actualStudents) {
-
+        currentScreen.updateDiningRoomToPlayer(nickname, actualStudents);
     }
 
     /**
@@ -408,7 +434,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void studentsOnCloudChanged(int cloudID, StudentList actualStudentList) {
-
+        currentScreen.updateStudentOnCloud(cloudID, actualStudentList);
     }
 
     /**
@@ -419,7 +445,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void studentsOnEntranceChanged(String nickname, StudentList actualStudents) {
-
+        currentScreen.updateEntranceToPlayer(nickname, actualStudents);
     }
 
     /**
@@ -430,7 +456,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void studentsOnIslandChanged(int islandID, StudentList actualStudents) {
-
+        currentScreen.updateStudentsOnIsland(islandID, actualStudents);
     }
 
     /**
@@ -441,7 +467,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void towerOnIslandChanged(int islandIDWithChange, TowerType actualTower) {
-
+        currentScreen.updateTowerOnIsland(islandIDWithChange, actualTower);
     }
 
     /**
@@ -451,7 +477,8 @@ public class GUI extends ClientView {
      */
     @Override
     public void gameEnded(Collection<String> winners) {
-
+        getScreenBuilder().build(ScreenBuilder.Screen.END_GAME, winners);
+        show();
     }
 
     /**
@@ -462,6 +489,26 @@ public class GUI extends ClientView {
     @Override
     public void gameCreated(TableRecord tableRecord) {
         this.tableRecord = tableRecord;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
+            Parent root = null;
+
+            root = loader.load();
+
+            tableScreen = loader.getController();
+            tableScreen.attachTo(this);
+            List<ReducedPlayerLoginInfo> players = new ArrayList<>();
+            for(String player: this.players.keySet()){
+                players.add(new ReducedPlayerLoginInfo(player, null, this.players.get(player)));
+            }
+            tableScreen.createTable(tableRecord, isExpert, players);
+
+
+            tableScene = new Scene(root);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

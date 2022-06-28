@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.view.gui.utils.image_getters.*;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.CloudPosition;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.IslandPosition;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.StateType;
+import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -453,7 +455,7 @@ public class TableView extends GuiScreen implements Initializable {
             if (reducedSchoolBoard.getOwner().equals(players.get(0).nickname())) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, reducedSchoolBoard.getTowerType());
+                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(getGui(), true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, reducedSchoolBoard.getTowerType());
                 schoolboards.put(reducedSchoolBoard.getOwner(), schoolBoardPlayer1);
                 table.add(schoolBoardPlayer, 1, 4);
                 schoolBoardPlayer.toBack();
@@ -461,7 +463,7 @@ public class TableView extends GuiScreen implements Initializable {
             } else if (reducedSchoolBoard.getOwner().equals(players.get(1).nickname())) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, reducedSchoolBoard.getTowerType());
+                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(getGui(), false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, reducedSchoolBoard.getTowerType());
                 schoolboards.put(reducedSchoolBoard.getOwner(), schoolBoardPlayer2);
                 table.add(schoolBoardPlayer, 1, 0);
                 schoolBoardPlayer.toBack();
@@ -470,7 +472,7 @@ public class TableView extends GuiScreen implements Initializable {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
                 schoolBoardPlayer.setRotate(-90);
-                SchoolBoard schoolBoardPlayer3 = new SchoolBoard(false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, reducedSchoolBoard.getTowerType());
+                SchoolBoard schoolBoardPlayer3 = new SchoolBoard(getGui(),false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, reducedSchoolBoard.getTowerType());
                 schoolboards.put(reducedSchoolBoard.getOwner(), schoolBoardPlayer3);
                 table.add(schoolBoardPlayer, 0, 2);
                 schoolBoardPlayer.toBack();
@@ -507,7 +509,7 @@ public class TableView extends GuiScreen implements Initializable {
             islandView.toBack();
             GridPane.setValignment(islandView, VPos.CENTER);
             GridPane.setHalignment(islandView, HPos.CENTER);
-            Island island = new Island(islandGrid, islandView, islandReduced.ID(), isExpertMode);
+            Island island = new Island(getGui(), islandGrid, islandView, islandReduced.ID(), isExpertMode);
             islands.add(island);
             island.updateStudentsOnIsland(islandReduced.studentList());
             updateTowerOnIsland(islandReduced.ID(), islandReduced.tower());
@@ -528,7 +530,7 @@ public class TableView extends GuiScreen implements Initializable {
             column = CloudPosition.values()[reducedCloud.ID()].getColumn();
             row = CloudPosition.values()[reducedCloud.ID()].getRow();
             islandGrid.add(cloudView, column, row);
-            Cloud cloud = new Cloud(cloudView, islandGrid, column, row);
+            Cloud cloud = new Cloud(getGui(), reducedCloud.ID(), cloudView, islandGrid, column, row);
             clouds.add(cloud);
             cloudView.toBack();
             updateStudentOnCloud(reducedCloud.ID(), reducedCloud.students());
@@ -612,8 +614,8 @@ public class TableView extends GuiScreen implements Initializable {
     /**
      * Method to update the state of the game
      */
-    public void updateState(){
-        stateLabel.setText("");
+    public void updateState(StateType currentState){
+        Platform.runLater(() -> stateLabel.setText(currentState.toString()));
         //TODO: UPDATE STATE
     }
 
@@ -627,8 +629,8 @@ public class TableView extends GuiScreen implements Initializable {
         Platform.runLater(() -> {
                     islands.get(motherNatureIsland).removeMotherNature();
                     islands.get(movements).addMotherNature();
-                });
-        motherNatureIsland = movements;
+                    motherNatureIsland = movements;
+        });
     }
 
     /**
@@ -789,9 +791,19 @@ public class TableView extends GuiScreen implements Initializable {
      * @param message message shown to the player
      */
     public void showMessage(String message){
-        Platform.runLater( () -> messageLabel.setText(message));
+        Platform.runLater( () -> {
+            messageLabel.setText(message);
+            messageLabel.setTextFill(Color.BLACK);
+        });
     }
 
+
+    public void showErrorMessage(String message){
+        Platform.runLater( () -> {
+            messageLabel.setText(message);
+            messageLabel.setTextFill(Color.RED);
+        });
+    }
         //UNIFY ISLANDS
 
     /**
@@ -897,6 +909,45 @@ public class TableView extends GuiScreen implements Initializable {
         //Move the island
         islandToRemove.translateIsland(xTranslation, yTranslation);
 
+    }
+
+    //HANDLE LISTENERS
+
+    public void disableAllListeners(){
+        String nicknameOwner = getGui().getClientController().getNickNameOwner();
+        schoolboards.get(nicknameOwner).disableLocationListener(Location.ENTRANCE);
+        schoolboards.get(nicknameOwner).disableLocationListener(Location.DINING_ROOM);
+        schoolboards.get(nicknameOwner).disableStudentListeners(Location.ENTRANCE);
+        schoolboards.get(nicknameOwner).disableStudentListeners(Location.DINING_ROOM);
+        for(Island island: islands){
+            island.disableLocationListener();
+        }
+        for (Cloud cloud: clouds){
+            cloud.disableLocationListener();
+        }
+    }
+
+    public void enableEntranceListeners(){
+        String nicknameOwner = getGui().getClientController().getNickNameOwner();
+        schoolboards.get(nicknameOwner).enableLocationListener(Location.ENTRANCE);
+        schoolboards.get(nicknameOwner).enableStudentListeners(Location.ENTRANCE);
+    }
+
+    public void enableDiningRoomListeners(){
+        String nicknameOwner = getGui().getClientController().getNickNameOwner();
+        schoolboards.get(nicknameOwner).enableLocationListener(Location.DINING_ROOM);
+        schoolboards.get(nicknameOwner).enableStudentListeners(Location.DINING_ROOM);
+    }
+
+    public void enableIslandsListeners(){
+        for(Island island: islands){
+            island.enableLocationListener();
+        }
+    }
+    public void enableCloudsListeners(){
+        for (Cloud cloud: clouds){
+            cloud.enableLocationListener();
+        }
     }
 
 

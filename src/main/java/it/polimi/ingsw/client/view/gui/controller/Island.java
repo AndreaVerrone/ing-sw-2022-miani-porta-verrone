@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.view.gui.listeners.LocationListern;
+import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.client.view.gui.listeners.LocationListener;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandBanImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.MotherNatureImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.TowerImageType;
@@ -124,6 +125,8 @@ public class Island {
      */
     private TranslateTransition translateAnimationTower;
 
+    private LocationListener islandListener;
+
     /**
      * This class allows to handle the image of an island on the view of the table, allowing to add a tower, mother nature and students
      * @param gridIsland Grid of the view used to place islands
@@ -131,7 +134,7 @@ public class Island {
      * @param islandID ID of the island handled
      * @param isExpertMode true if the game is in expert mode
      */
-    public Island(GridPane gridIsland, ImageView islandView, int islandID, boolean isExpertMode){
+    public Island(GUI gui, GridPane gridIsland, ImageView islandView, int islandID, boolean isExpertMode){
         this.gridIsland = gridIsland;
         this.islandView = islandView;
         this.islandID = islandID;
@@ -141,19 +144,14 @@ public class Island {
 
 
         studentOnIslandHandler = new StudentOnIslandHandler(gridIsland, column, row, isExpertMode);
-        islandView.setOnMouseClicked(new LocationListern(Location.ISLAND));
+        islandListener = new LocationListener(gui, Location.ISLAND);
+        islandListener.setField(islandID);
+        islandView.setOnMouseClicked(islandListener);
         islandView.setOnMouseEntered(studentOnIslandHandler);
         islandView.setOnMouseExited(studentOnIslandHandler);
 
         setBan();
 
-    }
-
-    /**
-     * Method to show the number of bans on the island
-     */
-    public void makeBansVisible(){
-        studentOnIslandHandler.setExpertMode();
     }
 
     public int getIslandID() {
@@ -362,6 +360,7 @@ public class Island {
         GridPane.setHalignment(motherNatureView, HPos.CENTER);
         this.motherNatureView = motherNatureView;
         translateMotherNature();
+        System.out.println("Add motherNature in island " + islandID);
     }
 
     /**
@@ -381,6 +380,7 @@ public class Island {
         if(motherNatureView != null) {
             gridIsland.getChildren().remove(motherNatureView);
             motherNatureView = null;
+            System.out.println("remove motherNature in island " + islandID);
         }
     }
 
@@ -494,6 +494,14 @@ public class Island {
                 towerView.setTranslateY(YTranslation);
             });
         }
+    }
+
+    public void enableLocationListener(){
+        islandListener.enableListener();
+    }
+
+    public void disableLocationListener() {
+        islandListener.disableListener();
     }
 
 }
