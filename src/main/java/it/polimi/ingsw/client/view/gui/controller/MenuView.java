@@ -47,7 +47,6 @@ public class MenuView extends GuiScreen implements Initializable{
         // go to screen to choose game parameters.
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_GAME_PARAMETERS);
         getGui().show();
-        //getGui().run();
     }
 
     /**
@@ -72,7 +71,7 @@ public class MenuView extends GuiScreen implements Initializable{
      * It will allow to resume a game.
      */
     public void resumeGameButton(){
-        // display wit screen
+        // display wait screen
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
         getGui().show();
 
