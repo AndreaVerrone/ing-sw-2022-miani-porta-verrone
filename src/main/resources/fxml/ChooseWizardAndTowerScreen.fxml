@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.ChooseWizardAndTowerScreen">
    <children>
-      <ImageView fitHeight="614.0" fitWidth="617.0" layoutX="-6.0" layoutY="-3.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="614.0" fitWidth="617.0" layoutX="-6.0" layoutY="-3.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <image>
             <Image url="@../assets/logo/eriantys_banner.png" />
          </image>
@@ -19,20 +19,17 @@
             <Image url="@../assets/logo/eriantys_logo.png" />
          </image>
       </ImageView>
-      <Label fx:id="wizardIndicator" alignment="CENTER" layoutX="71.0" layoutY="464.0" prefHeight="19.0" prefWidth="181.0" text="Label" textAlignment="CENTER">
+      <Label fx:id="wizardIndicator" alignment="CENTER" layoutX="71.0" layoutY="464.0" prefHeight="19.0" prefWidth="181.0" textAlignment="CENTER">
          <font>
             <Font size="15.0" />
          </font></Label>
       <Button layoutX="40.0" layoutY="459.0" mnemonicParsing="false" onAction="#setPreviousWizard" text="&lt;-" AnchorPane.leftAnchor="70.0" />
-      <Label fx:id="towerIndicator" alignment="CENTER" layoutX="359.0" layoutY="465.0" prefHeight="19.0" prefWidth="181.0" text="Label" textAlignment="CENTER">
+      <Label fx:id="towerIndicator" alignment="CENTER" layoutX="359.0" layoutY="465.0" prefHeight="19.0" prefWidth="181.0" textAlignment="CENTER">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <ImageView fx:id="imageViewWizard" fitHeight="274.0" fitWidth="229.0" layoutX="40.0" layoutY="185.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="152.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="358.0" AnchorPane.topAnchor="185.0">
-         <image>
-            <Image url="@../assets/wizards/motherNature.png" />
-         </image></ImageView>
+      <ImageView fx:id="imageViewWizard" fitHeight="274.0" fitWidth="181.0" layoutX="40.0" layoutY="185.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="152.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="358.0" AnchorPane.topAnchor="185.0" />
       <Button layoutX="238.0" layoutY="460.0" mnemonicParsing="false" onAction="#setNextWizard" text="-&gt;" AnchorPane.rightAnchor="358.0" />
       <Button layoutX="265.0" layoutY="524.0" mnemonicParsing="false" onAction="#confirmChoice" prefHeight="26.0" prefWidth="70.0" text="OK" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="243.0">
          <font>
@@ -41,7 +38,7 @@
       <Button layoutX="358.0" layoutY="459.0" mnemonicParsing="false" onAction="#setPreviousTower" text="&lt;-" AnchorPane.leftAnchor="358.0" />
       <Button layoutX="517.0" layoutY="459.0" mnemonicParsing="false" onAction="#setNextTower" text="-&gt;" AnchorPane.rightAnchor="70.0" />
       <ImageView fx:id="imageViewTower" fitHeight="274.0" fitWidth="181.0" layoutX="358.0" layoutY="268.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="152.0" AnchorPane.leftAnchor="358.0" AnchorPane.rightAnchor="70.0" />
-      <Label fx:id="header" alignment="CENTER" layoutX="2.0" layoutY="53.0" prefHeight="17.0" prefWidth="594.0" text="Label" textFill="#000351" AnchorPane.topAnchor="130.0">
+      <Label fx:id="header" alignment="CENTER" layoutX="2.0" layoutY="53.0" prefHeight="17.0" prefWidth="594.0" textFill="#000351" AnchorPane.topAnchor="130.0">
          <font>
             <Font size="25.0" />
          </font>
