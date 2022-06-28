@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.view.gui.controller.*;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -22,36 +21,8 @@ public class Switcher {
 
     private final Stage stage;
 
-    public Stage getStage() {
-        return stage;
-    }
-
     public Switcher(Stage stage){
         this.stage = stage;
-    }
-
-
-    /**
-     * This method allow to go to the home screen.
-     */
-    public void goToHomeScreen(){
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MenuScene.fxml"));
-            Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            /*stage.setOnShown(event -> {
-                MenuView menu = new MenuView();
-                menu.buttonsSetUp();
-            });*/
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     public void goToCreateNewGame(){
@@ -65,20 +36,6 @@ public class Switcher {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private FXMLLoader loadFXMLProva(String fxmlFilePath){
-        return new FXMLLoader(getClass().getResource(fxmlFilePath));
-    }
-
-    private FXMLLoader loadFXML(ScreenBuilder.Screen screen){
-        String filePath = "";
-        switch (screen){
-            case HOME -> filePath = "/fxml/MenuScene.fxml";
-            case END_GAME -> filePath = "/fxml/ExitScreen.fxml";
-        }
-        return new FXMLLoader(getClass().getResource(filePath));
-
     }
 
     public void goToCharacterCardView(CharacterCard card){
@@ -108,81 +65,6 @@ public class Switcher {
         stage.show();
     }
 
-    public void goToExitScreen(List<String> winners){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ExitScreen.fxml"));
-            Parent root = loader.load();
-            ExitScreen controllerCard = (ExitScreen) loader.getController();
-            controllerCard.setUpExitScreen(winners);
-            // display(root);
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            //stage.setFullScreen(true);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void goToAskServerParameters(){
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseServerParameters.fxml"));
-            Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-    public void goToChooseLanguageScreen(){
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseLanguageScreen.fxml"));
-            Parent root = loader.load();
-
-            // display(root);
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            // stage.setFullScreen(true);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void goToCreateGameScreen() {
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CreateGameScreen.fxml"));
-            Parent root = loader.load();
-
-            // CreateGameScreen createGameScreen = loader.getController();
-            //createGameScreen.setLabels();
-
-            // display(root);
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            // stage.setFullScreen(true);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void goToAskNicknameScreen(int gameID){
 
@@ -249,42 +131,4 @@ public class Switcher {
 
     }
 
-    public void goToChooseGameScreen(Collection<Integer> games){
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
-            Parent root = loader.load();
-            //ChooseGame chooseGame = (ChooseGame) loader.getController();
-            //chooseGame.setListOfGames(List.of("1","2"));
-
-            // display(root);
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void goToWaitScreen(){
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/WaitScreen.fxml"));
-            Parent root = loader.load();
-            //ChooseGame chooseGame = (ChooseGame) loader.getController();
-            //chooseGame.setListOfGames(List.of("1","2"));
-
-            // display(root);
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
