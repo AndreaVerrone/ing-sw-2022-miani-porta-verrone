@@ -192,10 +192,6 @@ public class GUI extends ClientView {
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
         Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
         show();
-        // getScreenBuilder().build();
-        //matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
-        // setNextScreen(new LobbyScreen(this));
-
     }
 
     /**
