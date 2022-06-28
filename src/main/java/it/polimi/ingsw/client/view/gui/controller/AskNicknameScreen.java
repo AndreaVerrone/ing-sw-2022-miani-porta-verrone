@@ -1,11 +1,9 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.net.URL;
@@ -57,16 +55,8 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
     @Override
     public void setGameID(String gameID){
         this.gameID=gameID;
-        getGui().setGameID(gameID);
-        System.out.println("ID: " + gameID);
+        // getGui().setGameID(gameID); // todo: maybe not needed
     }
-
-    /*@Override
-    public void showErrorMessage(String message){
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setContentText(message);
-        errorAlert.showAndWait();
-    }*/
 
     /**
      * This method is used to set the labels.
@@ -77,7 +67,6 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
         errorLabel.setText("");
     }
 
-
     /**
      * This method is called when the OK button is pressed.
      * It allows to take the nickname inserted by the user.
@@ -86,18 +75,11 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
         // reset error label
         errorLabel.setText("");
 
-        if(parseNickname(nicknameTextField.getText())){
-            // if the nickname is correct:
-            System.out.println("OK"); // todo: only for testing
-            // todo: only for testing
-            // ClientGui.getSwitcher().goToChooseWizardAndTower(List.of(Wizard.values()), List.of(TowerType.values()));
-            // todo: actual code
-            // display lobby screen
+        if(nicknameIsValid(nicknameTextField.getText())){
+            // if the nickname is correct --> send message to enter the game
             getGui().getClientController().enterGame(nicknameTextField.getText(),gameID);
-            //getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS); // todo: it should be lobby, but now it is not available
-            // send message to enter the game
         }else{
-            // print error message
+            // otherwise print error message
             errorLabel.setText(Translator.getMessageWrongNickname());
         }
     }
@@ -108,7 +90,7 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
      * @param nickname the nickname inserted by the user.
      * @return true if it respects the requirements, false otherwise.
      */
-    private boolean parseNickname(String nickname){
+    private boolean nicknameIsValid(String nickname){
         return Pattern.matches("[\\H\\S]+",nickname);
     }
 
