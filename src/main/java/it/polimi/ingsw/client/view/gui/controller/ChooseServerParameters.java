@@ -1,16 +1,11 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -88,12 +83,8 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
 
         // if both IP and port are correct send message
         if(parseIPAddress(ipAddress)&& parsePortNumber(portNumber)){
-            // go to idle screen
             // create connection
             getGui().getClientController().createConnection(ipAddress, Integer.parseInt(portNumber));
-            //getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
-            // todo: only for testing
-            System.out.println("connecting to: "+serverIP.getText() + " " + serverPort.getText());
         }else{
             // there is at least one error --> sound emission
             System.out.print("\u0007");
@@ -130,23 +121,9 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
      */
     private boolean parseIPAddress(String IPAddress){
         return Pattern.matches(
-                "(([0-1]?[0-9]{1,2}\\.)|(2[0-4][0-9]\\.)|(25[0-5]\\.)){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))",
+                "(([0-1]?\\d{1,2}\\.)|(2[0-4]\\d\\.)|(25[0-5]\\.)){3}(([0-1]?\\d{1,2})|(2[0-4]\\d)|(25[0-5]))",
                 IPAddress
         );
-
-        // todo: choose one of the 2 methods
-        /* ALTERNATIVE METHOD
-        if(Pattern.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}", IPAddress)){
-            String[] elements = IPAddress.split(",",0);
-            for (String element : elements) {
-                int number = Integer.parseInt(element);
-                if (number < 0 || number > 255) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;*/
     }
 
     /**
@@ -158,11 +135,4 @@ public class ChooseServerParameters extends GuiScreen implements Initializable  
         return Pattern.matches("\\d{4,5}", portNumber);
     }
 
-
-    /*@Override
-    public void showErrorMessage(String message){
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setContentText(message);
-        errorAlert.showAndWait();
-    }*/
 }
