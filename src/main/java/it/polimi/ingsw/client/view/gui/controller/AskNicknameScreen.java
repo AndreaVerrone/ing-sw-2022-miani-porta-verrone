@@ -55,7 +55,7 @@ public class AskNicknameScreen extends GuiScreen implements Initializable {
     @Override
     public void setGameID(String gameID){
         this.gameID=gameID;
-        // getGui().setGameID(gameID); // todo: maybe not needed
+        getGui().setGameID(gameID);
     }
 
     /**
