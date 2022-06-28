@@ -10,7 +10,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.util.Objects;
 
 /**
  * The client that is running the game
@@ -45,8 +44,8 @@ public class ClientGui extends javafx.application.Application {
         //primaryStage.centerOnScreen();
         //primaryStage.setX(100);
 
-        // create the clieny controller
-        ClientController clientController = new ClientController(gui);
+        // create the client controller
+        new ClientController(gui);
 
         switcher = new Switcher(primaryStage); // todo: remove
 
@@ -57,7 +56,7 @@ public class ClientGui extends javafx.application.Application {
         primaryStage.setOnCloseRequest(
                 event -> {
                     event.consume();
-                    logout(primaryStage,gui);
+                    logout(gui);
                 }
         );
 
@@ -66,10 +65,10 @@ public class ClientGui extends javafx.application.Application {
     /**
      * This is the method that it called when you try to exit the game closing the window.
      * It allows to exit the game.
-     * @param stage the current stage
      * @param gui the considered gui
      */
-     public void logout(Stage stage, GUI gui) {
+     public void logout(GUI gui) {
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(Translator.getAlertTitle());
         alert.setHeaderText(Translator.getAlertHeader());
@@ -81,13 +80,9 @@ public class ClientGui extends javafx.application.Application {
 
         if (alert.showAndWait().get() == ButtonType.OK) {
             // exit from game
-            //gui.getClientController().exitFromGame();
             gui.getClientController().closeApplication();
             // terminate the application
             Platform.exit();
-            System.exit(0);
-            // close the stage
-            stage.close();
         }
     }
 
