@@ -331,6 +331,7 @@ public class Island {
      */
     public void addTower(TowerType towerType){
         if(towerView != null) removeTower();
+        if(towerType == null) return;
         ImageView towerView = new ImageView(TowerImageType.typeConverter(towerType).getImage());
         int column= IslandPosition.values()[islandID].getColumn();
         int row=IslandPosition.values()[islandID].getRow();
