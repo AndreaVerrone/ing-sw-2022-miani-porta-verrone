@@ -255,14 +255,16 @@ public class GUI extends ClientView {
             playerViewMap.put(playerLoginInfo.nickname(), new PlayerView(playerLoginInfo.nickname()));
         }
         boolean lobbyFull = currentScreen.updatePlayerList(playerViewMap.values().stream().toList());
-        if (lobbyFull && getClientController().isInTurn()) {
+        if (lobbyFull) {
             this.players.put(getClientController().getNickNameOwner(), null);
             for (ReducedPlayerLoginInfo player : players) {
                 if (!player.nickname().equals(getClientController().getNickNameOwner())) {
                     this.players.put(player.nickname(), player.wizard());
                 }
             }
-            getClientController().nextPhase();
+            if(getClientController().isInTurn()) {
+                getClientController().nextPhase();
+            }
         }
 
     }
