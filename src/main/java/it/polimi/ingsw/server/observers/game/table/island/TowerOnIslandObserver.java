@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.observers;
+package it.polimi.ingsw.server.observers.game.table.island;
 
 import it.polimi.ingsw.server.model.utils.TowerType;
 

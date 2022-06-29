@@ -15,10 +15,10 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
-import it.polimi.ingsw.server.observers.ChangeCoinNumberInBagObserver;
 import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
-import it.polimi.ingsw.server.observers.ConquerIslandObserver;
-import it.polimi.ingsw.server.observers.EmptyStudentBagObserver;
+import it.polimi.ingsw.server.observers.game.table.ChangeCoinNumberInBagObserver;
+import it.polimi.ingsw.server.observers.game.table.EmptyStudentBagObserver;
+import it.polimi.ingsw.server.observers.game.table.island.ConquerIslandObserver;
 
 import java.util.*;
 

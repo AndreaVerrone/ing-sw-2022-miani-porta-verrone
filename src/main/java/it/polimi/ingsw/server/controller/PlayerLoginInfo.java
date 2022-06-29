@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.server.controller.matchmaking.observers.TowerSelectedObserver;
-import it.polimi.ingsw.server.controller.matchmaking.observers.WizardSelectedObserver;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.observers.matchmaking.TowerSelectedObserver;
+import it.polimi.ingsw.server.observers.matchmaking.WizardSelectedObserver;
 
 import java.util.ArrayList;
 import java.util.List;

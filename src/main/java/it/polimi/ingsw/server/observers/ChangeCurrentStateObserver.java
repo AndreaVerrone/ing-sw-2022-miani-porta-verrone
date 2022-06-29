@@ -1,5 +1,6 @@
-package it.polimi.ingsw.server.controller;
+package it.polimi.ingsw.server.observers;
 
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 

@@ -4,10 +4,10 @@ import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
-import it.polimi.ingsw.server.controller.*;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
-import it.polimi.ingsw.server.controller.game.expert.card_observers.CoinOnCardObserver;
-import it.polimi.ingsw.server.controller.game.expert.card_observers.StudentsOnCardObserver;
 import it.polimi.ingsw.server.controller.game.states.*;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.gametable.GameTable;
@@ -18,6 +18,11 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
+import it.polimi.ingsw.server.observers.ChangeCurrentStateObserver;
+import it.polimi.ingsw.server.observers.game.EndOfGameObserver;
+import it.polimi.ingsw.server.observers.game.GameCreatedObserver;
+import it.polimi.ingsw.server.observers.game.card_observers.CoinOnCardObserver;
+import it.polimi.ingsw.server.observers.game.card_observers.StudentsOnCardObserver;
 
 import java.util.*;
 

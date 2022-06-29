@@ -7,7 +7,14 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.CloudNotFoundException;
 import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
-import it.polimi.ingsw.server.observers.*;
+import it.polimi.ingsw.server.observers.game.table.EmptyStudentBagObserver;
+import it.polimi.ingsw.server.observers.game.table.IslandNumberObserver;
+import it.polimi.ingsw.server.observers.game.table.MotherNaturePositionObserver;
+import it.polimi.ingsw.server.observers.game.table.StudentsOnCloudObserver;
+import it.polimi.ingsw.server.observers.game.table.island.BanOnIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.island.IslandUnificationObserver;
+import it.polimi.ingsw.server.observers.game.table.island.StudentsOnIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.island.TowerOnIslandObserver;
 
 import java.util.ArrayList;
 import java.util.Collection;

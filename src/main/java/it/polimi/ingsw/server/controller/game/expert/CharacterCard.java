@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.controller.game.expert;
 
 import it.polimi.ingsw.client.reduced_model.ReducedCharacter;
-import it.polimi.ingsw.server.controller.game.expert.card_observers.CoinOnCardObserver;
-import it.polimi.ingsw.server.controller.game.expert.card_observers.StudentsOnCardObserver;
+import it.polimi.ingsw.server.observers.game.card_observers.CoinOnCardObserver;
+import it.polimi.ingsw.server.observers.game.card_observers.StudentsOnCardObserver;
 
 import java.util.ArrayList;
 import java.util.List;

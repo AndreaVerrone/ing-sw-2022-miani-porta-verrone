@@ -5,10 +5,10 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
-import it.polimi.ingsw.server.observers.BanOnIslandObserver;
-import it.polimi.ingsw.server.observers.IslandUnificationObserver;
-import it.polimi.ingsw.server.observers.StudentsOnIslandObserver;
-import it.polimi.ingsw.server.observers.TowerOnIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.island.BanOnIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.island.IslandUnificationObserver;
+import it.polimi.ingsw.server.observers.game.table.island.StudentsOnIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.island.TowerOnIslandObserver;
 
 import java.util.ArrayList;
 import java.util.List;

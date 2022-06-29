@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller;
+package it.polimi.ingsw.server.observers.game;
 
 import it.polimi.ingsw.client.reduced_model.ReducedModel;
 

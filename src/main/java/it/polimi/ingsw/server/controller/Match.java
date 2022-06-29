@@ -17,13 +17,14 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.observers.game.ObserversCommonInterface;
 
 import java.util.*;
 
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
-public class Match implements ObserversCommonInterface{
+public class Match implements ObserversCommonInterface {
 
     /**
      * The Matchmaking of this match. After the game has started this will be null.

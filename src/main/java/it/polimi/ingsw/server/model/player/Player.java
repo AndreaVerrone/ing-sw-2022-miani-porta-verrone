@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
-import it.polimi.ingsw.server.observers.*;
+import it.polimi.ingsw.server.observers.game.player.*;
 
 import java.util.ArrayList;
 import java.util.Collection;

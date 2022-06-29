@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.matchmaking.observers;
+package it.polimi.ingsw.server.observers.matchmaking;
 
 import it.polimi.ingsw.server.model.player.Wizard;
 

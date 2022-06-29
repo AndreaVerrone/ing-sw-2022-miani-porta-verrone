@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.game.expert.card_observers;
+package it.polimi.ingsw.server.observers.game.card_observers;
 
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 

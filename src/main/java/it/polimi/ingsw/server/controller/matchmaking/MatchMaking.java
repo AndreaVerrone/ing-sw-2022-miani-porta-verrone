@@ -1,12 +1,16 @@
 package it.polimi.ingsw.server.controller.matchmaking;
 
-import it.polimi.ingsw.server.controller.*;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
-import it.polimi.ingsw.server.controller.matchmaking.observers.NumberOfPlayersObserver;
-import it.polimi.ingsw.server.controller.matchmaking.observers.PlayersChangedObserver;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
+import it.polimi.ingsw.server.observers.ChangeCurrentStateObserver;
+import it.polimi.ingsw.server.observers.matchmaking.NumberOfPlayersObserver;
+import it.polimi.ingsw.server.observers.matchmaking.PlayersChangedObserver;
 
 import java.util.*;
 

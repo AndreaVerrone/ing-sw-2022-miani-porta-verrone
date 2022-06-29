@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
-import it.polimi.ingsw.server.observers.StudentsOnCloudObserver;
+import it.polimi.ingsw.server.observers.game.table.StudentsOnCloudObserver;
 
 import java.util.ArrayList;
 import java.util.List;
