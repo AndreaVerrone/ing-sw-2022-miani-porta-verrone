@@ -182,7 +182,7 @@ public class SessionController {
         if (match != null)
             match.setAsOnline(nickname);
     }
-    
+
     /**
      * Sets if the game need to use expert rules.
      *
