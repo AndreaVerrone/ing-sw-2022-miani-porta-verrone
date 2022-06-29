@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.expert.cards.CharacterCardsFactory;
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
+import it.polimi.ingsw.server.observers.game.GameObserver;
 import it.polimi.ingsw.server.observers.game.card_observers.CoinOnCardObserver;
 import it.polimi.ingsw.server.observers.game.card_observers.StudentsOnCardObserver;
 
@@ -47,6 +48,20 @@ public class ExpertGame extends Game {
         super(players);
 
         cards = CharacterCardsFactory.createRandomCards(NUMBER_OF_CHARACTER_CARDS, this);
+    }
+
+    @Override
+    public void addObservers(GameObserver observer) {
+        super.addObservers(observer);
+        for(CharacterCard card: cards.values()){
+            card.addStudentsOnCardObserver(observer);
+            card.addCoinOnCardObserver(observer);
+        }
+        getModel().addChangeCoinNumberInBagObserver(observer);
+        getModel().getGameTable().addBanOnIslandObserver(observer);
+        for(Player player: getModel().getPlayerList()){
+            player.addChangeCoinNumberObserver(observer);
+        }
     }
 
     @Override
@@ -112,31 +127,4 @@ public class ExpertGame extends Game {
         canUseCharacterCard = true;
         super.endOfTurn();
     }
-
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON CHARACTER CARDS IF ANY
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the character cards in expert mode.
-     * @param observer the observer to be added
-     */
-    @Override
-    public void addStudentsOnCardObserver(StudentsOnCardObserver observer){
-        for(CharacterCard card: cards.values()){
-            card.addStudentsOnCardObserver(observer);
-        }
-    }
-
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the character cards in expert mode.
-     * @param observer the observer to be added
-     */
-    @Override
-    public void addCoinOnCardObserver(CoinOnCardObserver observer){
-        for(CharacterCard card: cards.values()){
-            card.addCoinOnCardObserver(observer);
-        }
-    }
-
 }

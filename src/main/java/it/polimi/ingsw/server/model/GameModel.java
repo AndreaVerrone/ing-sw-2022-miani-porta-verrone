@@ -66,6 +66,17 @@ public class GameModel {
     private final CoinsBag coinsBag;
 
     /**
+     * List of the observer on the current player
+     */
+    private final Set<ChangeCurrentPlayerObserver> changeCurrentPlayerObservers = new HashSet<>();
+
+    /**
+     * List of the observers on conquer island invocation when there is a ban on the island.
+     */
+    private final Set<BanRemovedFromIslandObserver> banRemovedFromIslandObservers = new HashSet<>();
+
+
+    /**
      * Constructs a new game model with the {@code players} passed as a parameter.
      * The game is supported for 2, 3, 4 players.
      * @param playersLoginInfo the player playing this game
@@ -337,10 +348,7 @@ public class GameModel {
     }
   
       // MANAGEMENT OF OBSERVERS ON CURRENT PLAYER
-    /**
-     * List of the observer on the current player
-     */
-    private final List<ChangeCurrentPlayerObserver> changeCurrentPlayerObservers = new ArrayList<>();
+
 
     /**
      * This method allows to add the observer, passed as a parameter, on current player.
@@ -360,10 +368,6 @@ public class GameModel {
     }
 
     // MANAGEMENT OF THE OBSERVERS ON CONQUER ISLAND
-    /**
-     * List of the observers on conquer island invocation when there is a ban on the island.
-     */
-    private final List<BanRemovedFromIslandObserver> banRemovedFromIslandObservers = new ArrayList<>();
 
     /**
      * This method allows to add the observer, passed as a parameter, on conquer island
@@ -382,16 +386,6 @@ public class GameModel {
         for(BanRemovedFromIslandObserver observer: banRemovedFromIslandObservers){
             observer.conquerIslandObserverUpdate();
         }
-    }
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON EMPTY STUDENT BAG
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on empty student bag.
-     * @param observer the observer to be added
-     */
-    public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
-        gameTable.addEmptyStudentBagObserver(observer);
     }
 
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON COINS BAG

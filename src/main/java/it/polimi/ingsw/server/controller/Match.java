@@ -135,7 +135,7 @@ public class Match implements GameObserver, MatchmakingObserver {
     private void setGame(Game game) {
         matchMaking = null;
         this.game = game;
-        addObserverToGame();
+        game.addObservers(this);
         synchronized (playersView) {
             for (String nickname : playersView.keySet())
                 game.askGameUpdate(nickname);
@@ -279,30 +279,6 @@ public class Match implements GameObserver, MatchmakingObserver {
         Optional<Game> possibleGame = matchMaking.next();
         Server.getInstance().makeGameUnavailable(this);
         possibleGame.ifPresent(this::setGame);
-    }
-
-    /**
-     * Method to add all the observers to game, both in basic and expert mode
-     */
-    private void addObserverToGame(){
-        game.addChangeCurrentStateObserver(this);
-        game.addGameCreatedObserver(this);
-        game.addStudentsOnCardObserver(this);
-        game.addCoinOnCardObserver(this);
-        game.addEndOfGameObserver(this);
-
-        GameModel model = game.getModel();
-        model.addChangeCurrentPlayerObserver(this);
-        model.addChangeCoinNumberInBagObserver(this);
-
-        GameTable gameTable = model.getGameTable();
-        gameTable.addTableObserver(this);
-        gameTable.addBanOnIslandObserver(this);
-
-        for(Player player: model.getPlayerList()){
-            player.addPlayerObserver(this);
-            player.addChangeCoinNumberObserver(this);
-        }
     }
 
     /**

@@ -85,6 +85,14 @@ public class Player {
     }
 
     /**
+     * This method allows to add the observer, passed as a parameter, on the number of towers deck.
+     * @param observer the observer to be added
+     */
+    public void addChangeTowerNumberObserver(ChangeTowerNumberObserver observer){
+        schoolBoard.addChangeTowerNumberObserver(observer);
+    }
+
+    /**
      * This method allows to add the observer, passed as a parameter, on last assistant.
      * @param observer the observer to be added
      */

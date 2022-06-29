@@ -6,9 +6,7 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
-import it.polimi.ingsw.server.observers.game.player.ChangeCoinNumberObserver;
-import it.polimi.ingsw.server.observers.game.player.SchoolBoardObserver;
-import it.polimi.ingsw.server.observers.game.player.StudentsInDiningRoomObserver;
+import it.polimi.ingsw.server.observers.game.player.*;
 
 import java.util.*;
 
@@ -64,6 +62,11 @@ class SchoolBoard {
     private final Set<SchoolBoardObserver> schoolBoardObservers = new HashSet<>();
 
     /**
+     * List of the observers on the number of towers
+     */
+    private final Set<ChangeTowerNumberObserver> towerNumberObservers = new HashSet<>();
+
+    /**
      * List of the observer on the coin number.
      */
     private final Set<ChangeCoinNumberObserver> changeCoinNumberObservers = new HashSet<>();
@@ -106,7 +109,16 @@ class SchoolBoard {
      */
     void addSchoolBoardObserver(SchoolBoardObserver observer) {
         schoolBoardObservers.add(observer);
+        towerNumberObservers.add(observer);
         diningRoom.addStudentsInDiningRoomObserver(observer);
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the number of towers deck.
+     * @param observer the observer to be added
+     */
+    public void addChangeTowerNumberObserver(ChangeTowerNumberObserver observer){
+        towerNumberObservers.add(observer);
     }
 
     /**
@@ -288,7 +300,7 @@ class SchoolBoard {
      * This method notify all the attached observers that a change has been happened on the tower number.
      */
     private void notifyChangeTowerNumberObservers(){
-        for(SchoolBoardObserver observer : schoolBoardObservers)
+        for(ChangeTowerNumberObserver observer : towerNumberObservers)
             observer.changeTowerNumberUpdate(nickNameOfPlayer, towers);
     }
 
