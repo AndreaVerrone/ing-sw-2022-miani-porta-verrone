@@ -457,19 +457,10 @@ public class Match implements GameObserver, MatchmakingObserver {
 
     @Override
     public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
-
         synchronized (playersView) {
             try {
                 playersView.get(nickName).assistantDeckChanged(nickName, actualDeck);
-            }catch (NullPointerException e) {return;}
-        }
-
-        // check condition of last round : if the player finishes the card, then set last round flag
-        if(actualDeck.isEmpty()){
-            game.setLastRoundFlag();
-            for(VirtualView playerView: playersView.values()){
-                playerView.notifyLastRound();
-            }
+            }catch (NullPointerException ignore) {}
         }
     }
 
@@ -493,7 +484,6 @@ public class Match implements GameObserver, MatchmakingObserver {
 
     @Override
     public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
-
         synchronized (playersView) {
             for (VirtualView playerView : playersView.values()) {
                 playerView.currentPlayerOrStateChanged(getCurrentState(), actualCurrentPlayerNickname);
@@ -507,11 +497,6 @@ public class Match implements GameObserver, MatchmakingObserver {
             for (VirtualView playerView : playersView.values()) {
                 playerView.towerNumberOfPlayerChanged(nickName, numOfActualTowers);
             }
-        }
-
-        // check condition of end of the game
-        if(numOfActualTowers==0){
-            game.setState(new EndState(game));
         }
     }
 
