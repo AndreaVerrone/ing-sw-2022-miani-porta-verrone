@@ -11,9 +11,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 import it.polimi.ingsw.server.observers.game.player.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class represent the player of the game.
@@ -46,6 +44,17 @@ public class Player {
     private final SchoolBoard schoolBoard;
 
     /**
+     * List of the observer on the assistant deck.
+     */
+    private final Set<ChangeAssistantDeckObserver> changeAssistantDeckObservers = new HashSet<>();
+
+    /**
+     * List of the observer on the assistant deck.
+     */
+    private final Set<LastAssistantUsedObserver> lastAssistantUsedObservers = new HashSet<>();
+
+
+    /**
      * The constructor of the class takes in input 3 parameters:
      * <ul>
      *     <li> the corresponding PlayerLoginInfo that was created before the starting of the game </li>
@@ -68,6 +77,33 @@ public class Player {
     }
 
     /**
+     * This method allows to add the observer, passed as a parameter, on the assistant deck.
+     * @param observer the observer to be added
+     */
+    public void addChangeAssistantDeckObserver(ChangeAssistantDeckObserver observer){
+        changeAssistantDeckObservers.add(observer);
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on last assistant.
+     * @param observer the observer to be added
+     */
+    public void addPlayerObserver(PlayerObserver observer){
+        changeAssistantDeckObservers.add(observer);
+        lastAssistantUsedObservers.add(observer);
+        schoolBoard.addSchoolBoardObserver(observer);
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the coin number.
+     * @param observer the observer to be added
+     */
+    public void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+        schoolBoard.addChangeCoinNumberObserver(observer);
+    }
+
+
+    /**
      * This method will use the {@code assistant} passed as parameter.
      * Note that after the calling of this method, the {@code assistant} will not be available anymore from the player's deck.
      *
@@ -76,10 +112,10 @@ public class Player {
     public void useAssistant(Assistant assistant) {
 
         assistantDeck.removeAssistant(assistant);
-        notifyChangeAssistantDeckObservers(this.nickName,getHand());
+        notifyChangeAssistantDeckObservers();
 
         lastUsed = assistant;
-        notifyLastAssistantUsedObservers(this.nickName,getLastAssistant());
+        notifyLastAssistantUsedObservers();
     }
 
     /**
@@ -99,9 +135,6 @@ public class Player {
             schoolBoard.addStudentToEntrance(student);
             throw e;
         }
-
-        // notify change in students in entrance
-        notifyStudentsOnEntranceObservers(this.nickName,getStudentsInEntrance());
     }
 
     /**
@@ -187,7 +220,6 @@ public class Player {
      */
     public void addStudentToEntrance(PawnType type) throws ReachedMaxStudentException {
         schoolBoard.addStudentToEntrance(type);
-        notifyStudentsOnEntranceObservers(this.nickName, getStudentsInEntrance());
     }
 
     /**
@@ -199,7 +231,6 @@ public class Player {
      */
     public void removeStudentFromEntrance(PawnType type) throws NotEnoughStudentException {
         schoolBoard.removeStudentFromEntrance(type);
-        notifyStudentsOnEntranceObservers(this.nickName,getStudentsInEntrance());
     }
 
     /**
@@ -210,7 +241,6 @@ public class Player {
      */
     public void addProfessor(PawnType professor) {
         schoolBoard.addProfessor(professor);
-        notifyProfessorObservers(this.nickName,getProfessors());
     }
 
     /**
@@ -221,7 +251,6 @@ public class Player {
      */
     public void removeProfessor(PawnType professor) {
         schoolBoard.removeProfessor(professor);
-        notifyProfessorObservers(this.nickName,getProfessors());
     }
 
     /**
@@ -236,7 +265,6 @@ public class Player {
      */
     public void changeTowerNumber(int delta) {
         schoolBoard.changeTowerNumber(delta);
-        notifyChangeTowerNumberObservers(this.nickName,getTowerNumbers());
     }
 
     /**
@@ -248,7 +276,6 @@ public class Player {
      */
     public void addStudentToDiningRoom(PawnType student) throws ReachedMaxStudentException {
         schoolBoard.addStudentToDiningRoom(student);
-
     }
 
     /**
@@ -277,145 +304,24 @@ public class Player {
         schoolBoard.removeCoin(cost,putInBag);
     }
 
-    // MANAGEMENT OF OBSERVERS ON TOWER NUMBER
-    /**
-     * List of the observer on the tower number.
-     */
-    private final List<ChangeTowerNumberObserver> changeTowerNumberObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the tower number.
-     * @param observer the observer to be added
-     */
-    public void addChangeTowerNumberObserver(ChangeTowerNumberObserver observer){
-        changeTowerNumberObservers.add(observer);
-    }
-
-    /**
-     * This method notify all the attached observers that a change has been happened on the tower number.
-     * @param nickName the nickname of the player that has the school board on which the changes have been happened.
-     * @param numOfActualTowers the actual number of towers
-     */
-    private void notifyChangeTowerNumberObservers(String nickName, int numOfActualTowers){
-        for(ChangeTowerNumberObserver observer : changeTowerNumberObservers)
-            observer.changeTowerNumberUpdate(nickName, numOfActualTowers);
-    }
-
-    // MANAGEMENT OF OBSERVERS ON STUDENTS ON ENTRANCE
-    /**
-     * List of the observer on the students on entrance.
-     */
-    private final List<StudentsOnEntranceObserver> studentsOnEntranceObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the students on entrance.
-     * @param observer the observer to be added
-     */
-    public void addStudentsOnEntranceObserver(StudentsOnEntranceObserver observer){
-        studentsOnEntranceObservers.add(observer);
-    }
-
-    /**
-     * This method notify all the attached observers that a change has been happened on the students on entrance.
-     * @param nickName the nickname of the player that has the school board on which the changes have been happened
-     * @param actualStudents the actual student list in entrance
-     */
-    private void notifyStudentsOnEntranceObservers(String nickName, StudentList actualStudents){
-        for(StudentsOnEntranceObserver observer : studentsOnEntranceObservers)
-            observer.studentsOnEntranceObserverUpdate(nickName, actualStudents);
-    }
-
-    // MANAGEMENT OF OBSERVERS ON PROFESSOR
-    /**
-     * List of the observer on the assistant deck.
-     */
-    private final List<ProfessorObserver> professorObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the assistant deck.
-     * @param observer the observer to be added
-     */
-    public void addProfessorObserver(ProfessorObserver observer){
-        professorObservers.add(observer);
-    }
-
-    /**
-     * This method notify all the attached observers that a change has been happened on the assistant deck.
-     * @param nickName that has the school board on which the change of professors have been happened
-     * @param actualProfessors the actual professor list in dining room
-     */
-    private void notifyProfessorObservers(String nickName, Collection<PawnType> actualProfessors){
-        for(ProfessorObserver observer : professorObservers)
-            observer.professorObserverUpdate(nickName,actualProfessors);
-    }
-
-    // MANAGEMENT OF OBSERVERS ON ASSISTANT DECK
-    /**
-     * List of the observer on the assistant deck.
-     */
-    private final List<ChangeAssistantDeckObserver> changeAssistantDeckObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the assistant deck.
-     * @param observer the observer to be added
-     */
-    public void addChangeAssistantDeckObserver(ChangeAssistantDeckObserver observer){
-        changeAssistantDeckObservers.add(observer);
-    }
+    // MANAGEMENT OF OBSERVERS
 
     /**
      * This method notify all the attached observers that a change has been happened on last assistant.
-     * @param nickName the nickname of the player that has the deck that has been changed
-     * @param actualDeck the actual deck
      */
-    private void notifyChangeAssistantDeckObservers(String nickName, Collection<Assistant> actualDeck){
+    private void notifyChangeAssistantDeckObservers(){
         for(ChangeAssistantDeckObserver observer : changeAssistantDeckObservers)
-            observer.changeAssistantDeckObserverUpdate(nickName,actualDeck);
-    }
-
-    // MANAGEMENT OF OBSERVERS ON LAST ASSISTANT USED
-    /**
-     * List of the observer on the assistant deck.
-     */
-    private final List<LastAssistantUsedObserver> lastAssistantUsedObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on last assistant.
-     * @param observer the observer to be added
-     */
-    public void addLastAssistantUsedObserver(LastAssistantUsedObserver observer){
-        lastAssistantUsedObservers.add(observer);
+            observer.changeAssistantDeckObserverUpdate(nickName, assistantDeck.getCards());
     }
 
     /**
      * This method notify all the attached observers that a change has been happened on last assistant.
-     * @param nickName the nickname of the player that has the deck that has been changed
-     * @param actualLastAssistant the actual last assistant
      */
-    private void notifyLastAssistantUsedObservers(String nickName, Assistant actualLastAssistant){
+    private void notifyLastAssistantUsedObservers(){
         for(LastAssistantUsedObserver observer : lastAssistantUsedObservers)
-            observer.lastAssistantUsedObserverUpdate(nickName,actualLastAssistant);
+            observer.lastAssistantUsedObserverUpdate(nickName, lastUsed);
     }
 
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON COINS
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the coin number.
-     * @param observer the observer to be added
-     */
-    public void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
-        schoolBoard.addChangeCoinNumberObserver(observer);
-    }
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS IN DINING ROOM
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the students in dining room.
-     * @param observer the observer to be added
-     */
-    public void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
-        schoolBoard.addStudentsInDiningRoomObserver(observer);
-    }
 
     // CREATION OF THE REDUCED VERSION
     /**

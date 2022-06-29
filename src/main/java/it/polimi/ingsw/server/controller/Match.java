@@ -300,13 +300,8 @@ public class Match implements GameObserver, MatchmakingObserver {
         gameTable.addBanOnIslandObserver(this);
 
         for(Player player: model.getPlayerList()){
-            player.addChangeAssistantDeckObserver(this);
+            player.addPlayerObserver(this);
             player.addChangeCoinNumberObserver(this);
-            player.addProfessorObserver(this);
-            player.addChangeTowerNumberObserver(this);
-            player.addLastAssistantUsedObserver(this);
-            player.addStudentsInDiningRoomObserver(this);
-            player.addStudentsOnEntranceObserver(this);
         }
     }
 

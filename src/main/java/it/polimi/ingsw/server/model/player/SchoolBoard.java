@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
 import it.polimi.ingsw.server.observers.game.player.ChangeCoinNumberObserver;
+import it.polimi.ingsw.server.observers.game.player.SchoolBoardObserver;
 import it.polimi.ingsw.server.observers.game.player.StudentsInDiningRoomObserver;
 
 import java.util.*;
@@ -58,6 +59,17 @@ class SchoolBoard {
     private final String nickNameOfPlayer;
 
     /**
+     * List of the observers ont this school board
+     */
+    private final Set<SchoolBoardObserver> schoolBoardObservers = new HashSet<>();
+
+    /**
+     * List of the observer on the coin number.
+     */
+    private final Set<ChangeCoinNumberObserver> changeCoinNumberObservers = new HashSet<>();
+
+
+    /**
      * The constructor for the school board of a player. Based on the number of players, the initial
      * number of towers and the maximum number of student in the entrance changes.
      * @param isThreePlayerGame if the game played is a match between three players or not. According to this,
@@ -88,6 +100,22 @@ class SchoolBoard {
         coins++;
     }
 
+    /**
+     * This method allows to add the observer, passed as a parameter, on this school board.
+     * @param observer the observer to be added
+     */
+    void addSchoolBoardObserver(SchoolBoardObserver observer) {
+        schoolBoardObservers.add(observer);
+        diningRoom.addStudentsInDiningRoomObserver(observer);
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the coin number.
+     * @param observer the observer to be added
+     */
+    void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
+        changeCoinNumberObservers.add(observer);
+    }
 
     /**
      * Gets the students in this school board entrance.
@@ -141,6 +169,7 @@ class SchoolBoard {
         if (entrance.numAllStudents() == maxNumStudentsInEntrance) throw new ReachedMaxStudentException();
         try {
             entrance.changeNumOf(type, 1);
+            notifyStudentsOnEntranceObservers();
         } catch (NotEnoughStudentException e) {
             e.printStackTrace();
         }
@@ -153,6 +182,7 @@ class SchoolBoard {
      */
     void removeStudentFromEntrance(PawnType type) throws NotEnoughStudentException {
         entrance.changeNumOf(type, -1);
+        notifyStudentsOnEntranceObservers();
     }
 
     /**
@@ -161,6 +191,7 @@ class SchoolBoard {
      */
     void addProfessor(PawnType type){
         professorTable.add(type);
+        notifyProfessorObservers();
     }
 
     /**
@@ -169,6 +200,7 @@ class SchoolBoard {
      */
     void removeProfessor(PawnType type){
         professorTable.remove(type);
+        notifyProfessorObservers();
     }
 
     /**
@@ -181,7 +213,7 @@ class SchoolBoard {
         boolean needCoin = diningRoom.addStudentOf(type);
         if (needCoin) {
             takeCoin();
-            notifyChangeCoinNumberObservers(nickNameOfPlayer,getCoins());
+            notifyChangeCoinNumberObservers();
         }
     }
 
@@ -217,7 +249,7 @@ class SchoolBoard {
             // the other should be put on the card used
             coinsBag.addCoins(cost-1);
         }
-        notifyChangeCoinNumberObservers(nickNameOfPlayer,getCoins());
+        notifyChangeCoinNumberObservers();
     }
 
     /**
@@ -231,40 +263,41 @@ class SchoolBoard {
     void changeTowerNumber(int delta){
         assert towers + delta <= maxNumTowers : "The towers added are too much";
         towers += delta;
+        notifyChangeTowerNumberObservers();
     }
 
-    // MANAGEMENT OF OBSERVERS ON COINS
-    /**
-     * List of the observer on the coin number.
-     */
-    private final List<ChangeCoinNumberObserver> changeCoinNumberObservers = new ArrayList<>();
+    // MANAGEMENT OF OBSERVERS
 
     /**
-     * This method allows to add the observer, passed as a parameter, on the coin number.
-     * @param observer the observer to be added
+     * This method notify all the attached observers that a change has been happened on the students on entrance.
      */
-    void addChangeCoinNumberObserver(ChangeCoinNumberObserver observer){
-        changeCoinNumberObservers.add(observer);
+    private void notifyStudentsOnEntranceObservers(){
+        for(SchoolBoardObserver observer : schoolBoardObservers)
+            observer.studentsOnEntranceObserverUpdate(nickNameOfPlayer, entrance.clone());
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the assistant deck.
+     */
+    private void notifyProfessorObservers(){
+        for(SchoolBoardObserver observer : schoolBoardObservers)
+            observer.professorObserverUpdate(nickNameOfPlayer, new HashSet<>(professorTable));
+    }
+
+    /**
+     * This method notify all the attached observers that a change has been happened on the tower number.
+     */
+    private void notifyChangeTowerNumberObservers(){
+        for(SchoolBoardObserver observer : schoolBoardObservers)
+            observer.changeTowerNumberUpdate(nickNameOfPlayer, towers);
     }
 
     /**
      * This method notify all the attached observers that a change has been happened on the coin number.
-     * @param nickNameOfPlayer the nickname of the player associated to this school board
-     * @param actualNumOfCoins the actual num of coins in the school board
      */
-    private void notifyChangeCoinNumberObservers(String nickNameOfPlayer,int actualNumOfCoins){
+    private void notifyChangeCoinNumberObservers(){
         for(ChangeCoinNumberObserver observer : changeCoinNumberObservers)
-            observer.changeCoinNumberObserverUpdate(nickNameOfPlayer,actualNumOfCoins);
-    }
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS IN DINING ROOM
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the students in dining room.
-     * @param observer the observer to be added
-     */
-    void addStudentsInDiningRoomObserver(StudentsInDiningRoomObserver observer){
-        diningRoom.addStudentsInDiningRoomObserver(observer);
+            observer.changeCoinNumberObserverUpdate(nickNameOfPlayer, coins);
     }
 
 }
