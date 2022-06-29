@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.ScreenBuilder;
-import it.polimi.ingsw.client.view.cli.game.EndGameScreen;
 import it.polimi.ingsw.client.view.gui.controller.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -142,7 +141,7 @@ public class GuiScreenBuilder extends ScreenBuilder {
     @Override
     public void build(Screen screen, Collection<String> inputs) {
 
-        if(screen.equals(Screen.CHOOSE_GAME_TO_JOIN)) {
+        if(screen.equals(Screen.GAMES_LIST)) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
                 Parent root = loader.load();
