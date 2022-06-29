@@ -8,9 +8,8 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 public interface StudentsOnIslandObserver {
 
     /**
-     * this method is the {@code update()} method of the observer pattern.
-     * It is called by the subject in order to notify a change to all its attached observers.
-     * @param islandID the islandID of the island on which the student has been added
+     * Notifies that the students on an island have been changed.
+     * @param islandID the id of the island
      * @param actualStudents the actual student list on island
      */
     void studentsOnIslandObserverUpdate(int islandID, StudentList actualStudents);

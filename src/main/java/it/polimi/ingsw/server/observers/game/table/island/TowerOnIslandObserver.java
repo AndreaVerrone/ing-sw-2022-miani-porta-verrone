@@ -8,10 +8,8 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 public interface TowerOnIslandObserver {
 
     /**
-     * this method is the {@code update()} method of the observer pattern.
-     * It is called by the subject in order to notify a change to all its attached observers.
-     *
-     * @param islandIDWithChange the island on which a tower has been put or removed
+     * Notifies that the tower on an island have been changed
+     * @param islandIDWithChange the id of the island
      * @param actualTower the actual tower on the island
      */
     void towerOnIslandObserverUpdate(int islandIDWithChange, TowerType actualTower );

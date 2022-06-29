@@ -8,11 +8,10 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 public interface StudentsOnEntranceObserver {
 
     /**
-     * this method is the {@code update()} method of the observer pattern.
-     * It is called by the subject in order to notify a change to all its attached observers.
+     * Notifies that the students in the entrance of a player has changed.
      *
-     * @param nickname the nickname of the player that has the school board on which the changes have been happened
-     * @param actualStudents the actual student list in entrance
+     * @param nickname the nickname of the player
+     * @param actualStudents the actual students
      */
     void studentsOnEntranceObserverUpdate(String nickname, StudentList actualStudents);
 }

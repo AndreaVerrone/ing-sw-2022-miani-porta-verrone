@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.observers.game.table.island;
 /**
  * Interface to implement the observer pattern.
  */
-public interface ConquerIslandObserver {
+public interface BanRemovedFromIslandObserver {
 
     /**
      * This method is the {@code update()} method of the observer pattern.

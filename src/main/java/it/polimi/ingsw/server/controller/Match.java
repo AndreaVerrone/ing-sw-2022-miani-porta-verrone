@@ -631,10 +631,10 @@ public class Match implements ObserversCommonInterface {
     }
 
     @Override
-    public void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors) {
+    public void professorObserverUpdate(String nickname, Collection<PawnType> actualProfessors) {
         synchronized (playersView) {
             for (VirtualView playerView : playersView.values()) {
-                playerView.professorsOfPlayerChanged(nickName, actualProfessors);
+                playerView.professorsOfPlayerChanged(nickname, actualProfessors);
             }
         }
     }

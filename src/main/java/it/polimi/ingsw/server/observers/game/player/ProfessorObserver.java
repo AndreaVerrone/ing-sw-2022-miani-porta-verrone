@@ -10,10 +10,9 @@ import java.util.Collection;
 public interface ProfessorObserver {
 
     /**
-     * this method is the {@code update()} method of the observer pattern.
-     * It is called by the subject in order to notify a change to all its attached observers.
-     * @param nickName that has the school board on which the change of professors have been happened
-     * @param actualProfessors the actual professor list in dining room
+     * Notifies that the professors controlled by a player has changed.
+     * @param nickname the nickname of the player
+     * @param actualProfessors the actual professors
      */
-    void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors);
+    void professorObserverUpdate(String nickname, Collection<PawnType> actualProfessors);
 }

@@ -8,9 +8,8 @@ import it.polimi.ingsw.server.model.player.Assistant;
 public interface LastAssistantUsedObserver {
 
     /**
-     * this method is the {@code update()} method of the observer pattern.
-     * It is called by the subject in order to notify a change to all its attached observers.
-     * @param nickName the nickname of the player that has the deck that has been changed
+     * Notifies that the last assistant used by a player has changed.
+     * @param nickName the nickname of the player
      * @param actualLastAssistant the actual last assistant
      */
     void lastAssistantUsedObserverUpdate(String nickName, Assistant actualLastAssistant);

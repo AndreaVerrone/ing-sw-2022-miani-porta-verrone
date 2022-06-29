@@ -18,7 +18,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
 import it.polimi.ingsw.server.observers.game.table.ChangeCoinNumberInBagObserver;
 import it.polimi.ingsw.server.observers.game.table.EmptyStudentBagObserver;
-import it.polimi.ingsw.server.observers.game.table.island.ConquerIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.island.BanRemovedFromIslandObserver;
 
 import java.util.*;
 
@@ -363,15 +363,15 @@ public class GameModel {
     /**
      * List of the observers on conquer island invocation when there is a ban on the island.
      */
-    private final List<ConquerIslandObserver> conquerIslandObservers = new ArrayList<>();
+    private final List<BanRemovedFromIslandObserver> banRemovedFromIslandObservers = new ArrayList<>();
 
     /**
      * This method allows to add the observer, passed as a parameter, on conquer island
      * invocation when there is a ban on the island.
      * @param observer the observer to be added
      */
-    public void addConquerIslandObserver(ConquerIslandObserver observer){
-        conquerIslandObservers.add(observer);
+    public void addConquerIslandObserver(BanRemovedFromIslandObserver observer){
+        banRemovedFromIslandObservers.add(observer);
     }
 
     /**
@@ -379,7 +379,7 @@ public class GameModel {
      * a ban on the island.
      */
     private void notifyConquerIslandObserver(){
-        for(ConquerIslandObserver observer: conquerIslandObservers){
+        for(BanRemovedFromIslandObserver observer: banRemovedFromIslandObservers){
             observer.conquerIslandObserverUpdate();
         }
     }
