@@ -22,8 +22,6 @@ import it.polimi.ingsw.server.observers.ChangeCurrentStateObserver;
 import it.polimi.ingsw.server.observers.game.EndOfGameObserver;
 import it.polimi.ingsw.server.observers.game.GameCreatedObserver;
 import it.polimi.ingsw.server.observers.game.GameObserver;
-import it.polimi.ingsw.server.observers.game.card_observers.CoinOnCardObserver;
-import it.polimi.ingsw.server.observers.game.card_observers.StudentsOnCardObserver;
 import it.polimi.ingsw.server.observers.game.player.ChangeAssistantDeckObserver;
 import it.polimi.ingsw.server.observers.game.player.ChangeTowerNumberObserver;
 import it.polimi.ingsw.server.observers.game.table.EmptyStudentBagObserver;

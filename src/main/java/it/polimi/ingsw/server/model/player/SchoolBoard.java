@@ -6,9 +6,13 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
-import it.polimi.ingsw.server.observers.game.player.*;
+import it.polimi.ingsw.server.observers.game.player.ChangeCoinNumberObserver;
+import it.polimi.ingsw.server.observers.game.player.ChangeTowerNumberObserver;
+import it.polimi.ingsw.server.observers.game.player.SchoolBoardObserver;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class representing the school board of a player.

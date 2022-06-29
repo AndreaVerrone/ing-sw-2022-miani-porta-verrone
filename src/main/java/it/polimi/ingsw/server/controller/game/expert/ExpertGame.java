@@ -11,8 +11,6 @@ import it.polimi.ingsw.server.controller.game.expert.cards.CharacterCardsFactory
 import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
 import it.polimi.ingsw.server.observers.game.GameObserver;
-import it.polimi.ingsw.server.observers.game.card_observers.CoinOnCardObserver;
-import it.polimi.ingsw.server.observers.game.card_observers.StudentsOnCardObserver;
 
 import java.util.Collection;
 import java.util.Map;
