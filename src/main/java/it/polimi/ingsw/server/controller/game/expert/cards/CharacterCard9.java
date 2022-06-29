@@ -39,7 +39,7 @@ public class CharacterCard9 extends CharacterCard {
 
         for (int i=0; i<6; i++){
             try {
-                addStudentToCard(game.getModel().getStudentFromBag());
+                addStudentToCard(game.getModel().getGameTable().getStudentFromBag());
             } catch (EmptyBagException e) {
                 e.printStackTrace();//Cannot happen
             }

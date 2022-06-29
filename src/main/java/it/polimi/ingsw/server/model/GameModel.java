@@ -13,7 +13,6 @@ import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitSt
 import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitStrategy;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
 import it.polimi.ingsw.server.observers.game.table.BanRemovedFromIslandObserver;
@@ -123,15 +122,6 @@ public class GameModel {
      */
     public Collection<Player> getPlayerList(){
         return Collections.unmodifiableList(players);
-    }
-
-    /**
-     * This method allow to take one student from the bag and removing it.
-     * @return the PawnType of the student extracted
-     * @throws EmptyBagException if the bag is empty
-     */
-    public PawnType getStudentFromBag() throws EmptyBagException {
-        return gameTable.getStudentFromBag();
     }
 
     /**

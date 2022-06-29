@@ -40,7 +40,7 @@ public class CharacterCard11 extends CharacterCard {
         // add students to the card
         for(int i=0;i<4;i++) {
             try {
-                studentList.changeNumOf(game.getModel().getStudentFromBag(),1);
+                studentList.changeNumOf(game.getModel().getGameTable().getStudentFromBag(),1);
             } catch (EmptyBagException e) {
                 // todo: how to manage ?
                 // it is impossible that happen since the card is built at the begging of the game

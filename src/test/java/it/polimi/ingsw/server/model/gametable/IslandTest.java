@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.gametable;
 
+import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import org.junit.jupiter.api.AfterEach;
@@ -96,5 +97,21 @@ class IslandTest {
 
         assertThrows(AssertionError.class,
                 () -> island1.unifyWith(island2));
+    }
+
+    @Test
+    public void createReduction_ShouldCreateAnExactCopy(){
+        // SETUP
+        island1.addStudentOf(PawnType.BLUE_UNICORNS);
+        island1.addBan();
+
+        ReducedIsland reducedIsland = island1.createReduction();
+
+        assertEquals(island1.getID(), reducedIsland.ID());
+        assertEquals(island1.getSize(), reducedIsland.size());
+        assertEquals(island1.getTower(), reducedIsland.tower());
+        assertEquals(island1.getBan(), reducedIsland.ban());
+        for (PawnType type : PawnType.values())
+            assertEquals(island1.numStudentsOf(type), reducedIsland.studentList().getNumOf(type));
     }
 }

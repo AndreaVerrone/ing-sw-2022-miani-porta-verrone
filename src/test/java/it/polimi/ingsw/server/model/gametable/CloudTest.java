@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.gametable;
 
+import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import org.junit.jupiter.api.AfterEach;
@@ -42,5 +43,16 @@ class CloudTest {
         cloud.addStudent(PawnType.GREEN_FROGS);
         cloud.getAllStudents();
         assertEquals(0, cloud.getAllStudents().numAllStudents());
+    }
+
+    @Test
+    public void createCloudReduction_ShouldCreateACopy(){
+        for (PawnType student : PawnType.values())
+            cloud.addStudent(student);
+
+        ReducedCloud reducedCloud = cloud.createCloudReduction();
+        StudentList studentsOnCloud = cloud.getAllStudents();
+        assertEquals(cloud.getID(), reducedCloud.ID());
+        assertEquals(studentsOnCloud, reducedCloud.students());
     }
 }

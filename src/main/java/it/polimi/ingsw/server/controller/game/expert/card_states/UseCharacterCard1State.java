@@ -107,7 +107,7 @@ public class UseCharacterCard1State extends UseCharacterCardState {
 
         // 3. take a student from the bag and put on the card
         try {
-            characterCard1.addStudentToCard(gameModel.getStudentFromBag());
+            characterCard1.addStudentToCard(gameModel.getGameTable().getStudentFromBag());
         } catch (EmptyBagException e) {
             e.printStackTrace();
         }

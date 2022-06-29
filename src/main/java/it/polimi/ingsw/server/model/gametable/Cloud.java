@@ -100,7 +100,7 @@ class Cloud {
      * @see ReducedCloud
      */
     ReducedCloud createCloudReduction(){
-        return new ReducedCloud(ID,students);
+        return new ReducedCloud(ID,students.clone());
     }
 
 }
