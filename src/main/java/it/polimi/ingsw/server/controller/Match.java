@@ -17,14 +17,15 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import it.polimi.ingsw.server.observers.game.ObserversCommonInterface;
+import it.polimi.ingsw.server.observers.game.GameObserver;
+import it.polimi.ingsw.server.observers.matchmaking.MatchmakingObserver;
 
 import java.util.*;
 
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
-public class Match implements ObserversCommonInterface {
+public class Match implements GameObserver, MatchmakingObserver {
 
     /**
      * The Matchmaking of this match. After the game has started this will be null.
@@ -217,7 +218,7 @@ public class Match implements ObserversCommonInterface {
             throw new NotValidOperationException();
         synchronized (this) {
             matchMaking.addPlayer(nickname);
-            addObserversToPlayer(nickname);
+//            addObserversToPlayer(nickname);
         }
     }
 
@@ -247,31 +248,18 @@ public class Match implements ObserversCommonInterface {
         }
     }
 
-    /**
-     * Method to add observers to a player just added
-     * @param playerNickname nickname of the player just added
-     */
-    private void addObserversToPlayer(String playerNickname){
-        for(PlayerLoginInfo player: matchMaking.getPlayers()){
-            if(player.getNickname().equals(playerNickname)){
-                player.addTowerSelectedObserver(this);
-                player.addWizardSelectedObserver(this);
-            }
-        }
-    }
-
-    /**
-     * Method to remove the observers from a player removed from the game
-     * @param playerNickname nickname of the player removed
-     */
-    private void removeObserversFromPlayer(String playerNickname){
-        for(PlayerLoginInfo player: matchMaking.getPlayers()){
-            if(player.getNickname().equals(playerNickname)){
-                player.removeTowerSelectedObserver(this);
-                player.removeWizardSelectedObserver(this);
-            }
-        }
-    }
+//    /**
+//     * Method to add observers to a player just added
+//     * @param playerNickname nickname of the player just added
+//     */
+//    private void addObserversToPlayer(String playerNickname){
+//        for(PlayerLoginInfo player: matchMaking.getPlayers()){
+//            if(player.getNickname().equals(playerNickname)){
+//                player.addTowerSelectedObserver(this);
+//                player.addWizardSelectedObserver(this);
+//            }
+//        }
+//    }
 
     /**
      * Sets the tower type of the current player in the queue.
@@ -322,13 +310,11 @@ public class Match implements ObserversCommonInterface {
 
         GameModel model = game.getModel();
         model.addChangeCurrentPlayerObserver(this);
-        model.addEmptyStudentBagObserver(this);
         model.addChangeCoinNumberInBagObserver(this);
 
         GameTable gameTable = model.getGameTable();
         gameTable.addMotherNaturePositionObserver(this);
         gameTable.addStudentsOnCloudObserver(this);
-        gameTable.addIslandNumberObserver(this);
         gameTable.addStudentsOnIslandObserver(this);
         gameTable.addTowerOnIslandObserver(this);
         gameTable.addBanOnIslandObserver(this);
@@ -580,30 +566,6 @@ public class Match implements ObserversCommonInterface {
     }
 
     @Override
-    public void emptyStudentBagObserverUpdate() {
-        // set the last round flag
-        game.setLastRoundFlag();
-
-        for(VirtualView playerView: playersView.values()){
-            playerView.notifyLastRound();
-        }
-    }
-
-    @Override
-    public void islandNumberObserverUpdate(int actualNumOfIslands) {
-
-        // check condition of end of the game
-        if(actualNumOfIslands==3){
-            game.setState(new EndState(game));
-        }
-
-        // todo: maybe this is not needed
-        for(VirtualView playerView: playersView.values()){
-            playerView.islandNumberChanged(actualNumOfIslands);
-        }
-    }
-
-    @Override
     public void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int sizeIslandRemoved) {
         synchronized (playersView) {
             for (VirtualView playerView : playersView.values()) {
@@ -703,6 +665,14 @@ public class Match implements ObserversCommonInterface {
     public void gameCreatedObserverUpdate(String nickname, ReducedModel table) {
         synchronized (playersView) {
             playersView.get(nickname).gameCreated(table);
+        }
+    }
+
+    @Override
+    public void notifyLastRound() {
+        synchronized (playersView) {
+            for (VirtualView view : playersView.values())
+                view.notifyLastRound();
         }
     }
 }
