@@ -13,12 +13,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
-
-
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 public abstract class GuiScreen {
@@ -206,6 +201,11 @@ public abstract class GuiScreen {
      * @param message message shown to the player
      */
     public void showMessage(String message){
+        Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+        infoAlert.setTitle("INFO");
+        infoAlert.setHeaderText("");
+        infoAlert.setContentText(message);
+        infoAlert.showAndWait();
     }
 
     /**

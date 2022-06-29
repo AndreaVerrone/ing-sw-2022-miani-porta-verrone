@@ -552,6 +552,43 @@ public class Translator {
                 "Choose the wizard and the tower to play with";
     }
 
+    // LOBBY SCREEN
+    public static String getLobbyHeader(){
+        return isItalian ?
+                "Info della partita":
+                "Info of the game";
+    }
+
+    public static String getGameIdentifier(){
+        return isItalian ?
+                "ID di questa partita:":
+                "Identifier of this game:";
+    }
+
+    public static String getNumOfPlayersString(){
+        return isItalian ?
+                "Numero di giocatori:":
+                "Number of players:";
+    }
+
+    public static String getDifficultyString(){
+        return isItalian ?
+                "Difficoltà:":
+                "Difficulty:";
+    }
+
+    public static String getWizard(){
+        return isItalian ?
+                "Mago":
+                "Wizard";
+    }
+
+    public static String getTower(){
+        return isItalian ?
+                "Torre":
+                "Tower";
+    }
+
     // CHOOSE GAME TO JOIN
     public static String getHeaderChooseGameToJoin(){
         return isItalian ? "Scegli il gioco a cui vuoi unirti":"choose the game to join";

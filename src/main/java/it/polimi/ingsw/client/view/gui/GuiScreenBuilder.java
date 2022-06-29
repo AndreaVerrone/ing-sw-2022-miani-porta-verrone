@@ -22,31 +22,36 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     private final GUI gui;
 
-    private Stage stage;
+    /**
+     * The stage.
+     */
+    private final Stage stage;
 
     /**
      * The path of the fxml file of the current screen.
      */
     private String currentViewPath;
 
+    /**
+     * The current scene.
+     */
     private  Scene currentScene;
 
+    /**
+     * The constructor of the class.
+     * It will create the class taking in input the gui and the stage to be used.
+     * @param gui the considered gui
+     * @param stage the stage that needs to be used
+     */
     public GuiScreenBuilder(GUI gui,Stage stage) {
         this.gui= gui;
-        this.stage=stage;
-
-
-    }
-
-    public void setStage(Stage stage){
         this.stage=stage;
     }
 
     /**
      * Method to load the screen specified by the path.
-     * @param path path of the fxml file to load.
      */
-    public void goToScreen(String path){
+    public void goToScreen(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(currentViewPath));
             Parent root = loader.load();
@@ -55,25 +60,20 @@ public class GuiScreenBuilder extends ScreenBuilder {
             gui.setCurrentScreen(screenController);
             screenController.attachTo(gui);
 
-
             currentScene = new Scene(root);
             gui.setCurrentScene(currentScene);
-
-            // gui.show();
-
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * This method will set the scene on the stage og the gui.
+     */
     public void show(){
-        Platform.runLater(
-                () -> {
-                    gui.getStage().setScene(currentScene);
-                });
+        Platform.runLater(() -> gui.getStage().setScene(currentScene));
     }
-
 
     /**
      * Builds and shows the screen corresponding to the specified input
@@ -99,7 +99,7 @@ public class GuiScreenBuilder extends ScreenBuilder {
             default -> throw new IllegalArgumentException();
         };
 
-        goToScreen(currentViewPath);
+        goToScreen();
         if(screen.equals(Screen.HOME)){
             gui.show();
         }
@@ -114,23 +114,21 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     @Override
     public void build(Screen screen, String gameID) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNicknameScreen.fxml"));
-                Parent root = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNicknameScreen.fxml"));
+            Parent root = loader.load();
 
+            GuiScreen askNicknameScreen = loader.getController();
+            gui.setCurrentScreen(askNicknameScreen);
+            askNicknameScreen.attachTo(gui);
+            askNicknameScreen.setGameID(gameID);
 
-                GuiScreen askNicknameScreen = loader.getController();
-                gui.setCurrentScreen(askNicknameScreen);
-                askNicknameScreen.attachTo(gui);
-                askNicknameScreen.setGameID(gameID);
+            Scene scene = new Scene(root);
+            Platform.runLater(() -> gui.getStage().setScene(scene));
 
-                Scene scene = new Scene(root);
-                Platform.runLater(() -> gui.getStage().setScene(scene));
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -155,15 +153,12 @@ public class GuiScreenBuilder extends ScreenBuilder {
 
             Scene scene = new Scene(root);
 
-
-            Platform.runLater(()->{
+            Platform.runLater(
+                    ()->{
                         gui.getStage().setScene(scene);
                         stage.setScene(scene);
                     }
-                    );
-
-
-            //stage.show();
+            );
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
-import it.polimi.ingsw.client.view.gui.controller.ChooseGame;
 import it.polimi.ingsw.client.view.gui.controller.PlayerView;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -30,20 +29,22 @@ import java.util.*;
 public class GUI extends ClientView {
 
     /**
-     * The stage
+     * The stage.
      */
     Stage stage;
 
     /**
-     * The controller class of the current screen
+     * The current scene.
+     */
+    private Scene currentScene;
+
+    /**
+     * The controller class of the current screen.
      */
     private GuiScreen currentScreen;
 
-    private Scene currentScene;
 
-    private boolean shouldStop = false;
-
-    // MATCHMAKING
+    // MATCHMAKING RELATED ATTRIBUTES
     private Map<String, PlayerView> playerViewMap;
 
     private String gameID;
@@ -117,6 +118,9 @@ public class GUI extends ClientView {
 
     }
 
+    /**
+     * This method will set the scene to the stage.
+     */
     public void show(){
         Platform.runLater(() -> stage.setScene(currentScene));
     }
@@ -127,7 +131,6 @@ public class GUI extends ClientView {
         alert.setHeaderText("You're about to exit from game");
         alert.setContentText("Do you want to exit the game ? ");
         if (alert.showAndWait().get() == ButtonType.OK) {
-            shouldStop = true;
             stage.close();
         }
     }
@@ -189,10 +192,6 @@ public class GUI extends ClientView {
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
         Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
         show();
-        // getScreenBuilder().build();
-        //matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
-        // setNextScreen(new LobbyScreen(this));
-
     }
 
     /**
@@ -256,14 +255,16 @@ public class GUI extends ClientView {
             playerViewMap.put(playerLoginInfo.nickname(), new PlayerView(playerLoginInfo.nickname()));
         }
         boolean lobbyFull = currentScreen.updatePlayerList(playerViewMap.values().stream().toList());
-        if (lobbyFull && getClientController().isInTurn())
-            this.players.put(getClientController().getNickNameOwner(),null);
-            for(ReducedPlayerLoginInfo player: players){
-                if(!player.nickname().equals(getClientController().getNickNameOwner())) {
+        if (lobbyFull && getClientController().isInTurn()) {
+            this.players.put(getClientController().getNickNameOwner(), null);
+            for (ReducedPlayerLoginInfo player : players) {
+                if (!player.nickname().equals(getClientController().getNickNameOwner())) {
                     this.players.put(player.nickname(), player.wizard());
                 }
             }
-        getClientController().nextPhase();
+            getClientController().nextPhase();
+        }
+
     }
 
     /**
@@ -274,11 +275,10 @@ public class GUI extends ClientView {
      */
     @Override
     public void towerSelected(String player, TowerType tower) {
-        if(getClientController().isInTurn()) {
-            getClientController().nextPhase();
-        }
         playerViewMap.get(player).setTowerType(tower);
-        Platform.runLater(() -> currentScreen.updateTowerType(player, tower));
+        if(!getClientController().isInTurn()) {
+            Platform.runLater(() -> currentScreen.updateTowerType(player, tower));
+        }
     }
 
     /**
@@ -290,13 +290,10 @@ public class GUI extends ClientView {
     @Override
     public void wizardSelected(String player, Wizard wizard) {
         playerViewMap.get(player).setWizard(wizard);
-        Platform.runLater(()->currentScreen.updateWizard(player, wizard));
-        players.replace(player, wizard);
-        if(getClientController().isInTurn()) {
-            getClientController().setTower(towerChosen);
+        if(!getClientController().isInTurn()){
+            Platform.runLater(()->currentScreen.updateWizard(player, wizard));
         }
-        //getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
-        //Platform.runLater(() -> currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
+        players.replace(player, wizard);
     }
 
     /**

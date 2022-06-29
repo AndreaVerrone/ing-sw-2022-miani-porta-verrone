@@ -1,13 +1,11 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.TowerImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.WizardImageType;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -36,7 +34,7 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
     ImageView imageViewWizard;
 
     /**
-     * This is the current tower image view on thre screen.
+     * This is the current tower image view on the screen.
      */
     @FXML
     ImageView imageViewTower;
@@ -155,13 +153,16 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
         int numTower = towerImages.indexOf(imageViewTower.getImage());
         TowerType towerTypeChosen = towerTypeMap.get(numTower);
         System.out.println("CHOOSEN:" + wizardChosen + " and " + towerTypeChosen); // todo: testing only
-        // todo: actual code
         // Go to idle matchmaking
-        getGui().setTowerChosen(towerTypeChosen);
         getGui().getClientController().setWizard(wizardChosen);
-        //Platform.runLater(()->getGui().getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS)); // todo: it should be lobby, but now it is not available
-        //getGui().getClientController().nextPhase();
-        //getGui().run();
+        try{
+            Thread.sleep(500);
+        }catch (InterruptedException ignore){}
+        getGui().getClientController().setTower(towerTypeChosen);
+        try{
+            Thread.sleep(500);
+        }catch (InterruptedException ignore){}
+        getGui().getClientController().nextPhase();
     }
 
     /**
@@ -217,7 +218,7 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
      */
     private void creteImageList(List<String> imagePaths, List<Image> images){
         for(String imagePath: imagePaths){
-            images.add(new Image(getClass().getResourceAsStream(imagePath)));
+            images.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath))));
             System.out.println("add"); // todo: testing code
         }
     }

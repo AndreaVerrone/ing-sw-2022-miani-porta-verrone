@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -7,7 +8,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-
 import java.net.URL;
 import java.util.*;
 
@@ -51,7 +51,7 @@ public class LobbyScreen extends GuiScreen implements Initializable {
     @FXML
     private Label waitLabel;
 
-    private Map<String, PlayerView> map = new HashMap<>();
+    private final Map<String, PlayerView> map = new HashMap<>();
 
     private int numberOfPlayers;
 
@@ -59,20 +59,20 @@ public class LobbyScreen extends GuiScreen implements Initializable {
      * This method is used to set up labels.
      */
     private void setLabels(){
-        headerLabel.setText("Info of the game:");
-        waitLabel.setText("Please wait . . .");
+        headerLabel.setText(Translator.getLobbyHeader());
+        waitLabel.setText(Translator.getWaitMessage());
     }
 
     @Override
     public void setUp(String gameID,int totalNumOfPlayers, boolean isExpert,List<PlayerView> playerViewList){
         numberOfPlayers = totalNumOfPlayers;
-        Platform.runLater(()->gameIDLabel.setText("Identifier of this game:\t"+gameID));
-        Platform.runLater(()->numOfPlayersLabel.setText("Number of players:\t"+playerViewList.size() + "/"+ numberOfPlayers));
+        Platform.runLater(()->gameIDLabel.setText(Translator.getGameIdentifier()+"\t"+gameID));
+        Platform.runLater(()->numOfPlayersLabel.setText(Translator.getNumOfPlayersString()+"\t"+playerViewList.size() + "/"+ numberOfPlayers));
         if(isExpert){
-            Platform.runLater(()->difficultyLabel.setText("Difficulty: expert"));
+            Platform.runLater(()->difficultyLabel.setText(Translator.getDifficultyString()+" "+Translator.getDifficultyParameters().get(1)));
         }
         else {
-            Platform.runLater(()->difficultyLabel.setText("Difficulty: normal"));
+            Platform.runLater(()->difficultyLabel.setText(Translator.getDifficultyString()+" "+Translator.getDifficultyParameters().get(0)));
         }
 
         for(PlayerView playerView: playerViewList){
@@ -82,17 +82,16 @@ public class LobbyScreen extends GuiScreen implements Initializable {
 
     }
 
-
     private void setPlayersChoiceLabel(){
         StringBuilder string = new StringBuilder();
 
         for(PlayerView playerView: map.values()){
             string.append(playerView.getNickname()).append(":");
             if(playerView.getWizard()!=null){
-                string.append("\t\t").append("Wizard ").append(playerView.getWizard().get());
+                string.append("\t\t").append(Translator.getWizard()).append(" ").append(playerView.getWizard().get());
             }
             if(playerView.getTowerType()!=null){
-                string.append("\t\t").append("Tower ").append(playerView.getTowerType().get());
+                string.append("\t\t").append(Translator.getTower()).append(" ").append(playerView.getTowerType().get());
             }
             string.append("\n");
         }
@@ -122,16 +121,8 @@ public class LobbyScreen extends GuiScreen implements Initializable {
         for(PlayerView playerView: playerViews){
             map.put(playerView.getNickname(),playerView);
         }
-        Platform.runLater(() -> numOfPlayersLabel.setText("Number of players:\t"+playerViews.size() + "/"+ numberOfPlayers));
+        Platform.runLater(() -> numOfPlayersLabel.setText(Translator.getNumOfPlayersString()+"\t"+playerViews.size() + "/"+ numberOfPlayers));
         setPlayersChoiceLabel();
         return map.size() == numberOfPlayers;
     }
 }
-
-/*
-for(PlayerView playerView: playerViewList){
-            string.append(playerView.getNickname()).append(" ")
-                    .append(playerView.getTowerType()).append(" ")
-                    .append(playerView.getWizard()).append("\n");
-        }
- */
