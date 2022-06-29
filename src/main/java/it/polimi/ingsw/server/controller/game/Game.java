@@ -338,10 +338,6 @@ public class Game implements
         return state;
     }
 
-    public GameState getPlayAssistantState() {
-        return playAssistantState;
-    }
-
     public GameState getMoveMotherNatureState() {
         return moveMotherNatureState;
     }
