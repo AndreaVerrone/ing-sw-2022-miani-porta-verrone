@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.view.cli.game.EndGameScreen;
 import it.polimi.ingsw.client.view.gui.controller.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -141,27 +142,54 @@ public class GuiScreenBuilder extends ScreenBuilder {
     @Override
     public void build(Screen screen, Collection<String> inputs) {
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
-            Parent root = loader.load();
+        if(screen.equals(Screen.CHOOSE_GAME_TO_JOIN)) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
+                Parent root = loader.load();
 
-            ChooseGame chooseGame = loader.getController();
-            chooseGame.setListOfGames(new ArrayList<>(inputs));
+                ChooseGame chooseGame = loader.getController();
+                chooseGame.setListOfGames(new ArrayList<>(inputs));
 
-            gui.setCurrentScreen(chooseGame);
-            chooseGame.attachTo(gui);
+                gui.setCurrentScreen(chooseGame);
+                chooseGame.attachTo(gui);
 
-            Scene scene = new Scene(root);
+                Scene scene = new Scene(root);
 
-            Platform.runLater(
-                    ()->{
-                        gui.getStage().setScene(scene);
-                        stage.setScene(scene);
-                    }
-            );
+                Platform.runLater(
+                        () -> {
+                            gui.getStage().setScene(scene);
+                            stage.setScene(scene);
+                        }
+                );
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(screen.equals(Screen.END_GAME)){
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ExitScreen.fxml"));
+                Parent root = loader.load();
+
+                ExitScreen exitScreen = loader.getController();
+                exitScreen.setUpExitScreen(new ArrayList<>(inputs));
+
+                gui.setCurrentScreen(exitScreen);
+                exitScreen.attachTo(gui);
+
+                Scene scene = new Scene(root);
+
+                Platform.runLater(
+                        () -> {
+                            gui.getStage().setScene(scene);
+                            stage.setScene(scene);
+                        }
+                );
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

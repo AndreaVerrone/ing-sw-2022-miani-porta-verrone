@@ -26,6 +26,7 @@ public abstract class ScreenBuilder {
         END_GAME,
         CHOOSE_LANGUAGE,
         CHOOSE_GAME_PARAMETERS,
+        CHOOSE_GAME_TO_JOIN,
         IDLE;
 
         public static Screen parse(StateType stateType) {

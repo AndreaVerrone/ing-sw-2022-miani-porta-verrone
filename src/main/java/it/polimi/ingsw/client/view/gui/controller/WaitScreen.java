@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * This is the controller of the wiat screen.
+ * This is the controller of the wait screen.
  */
 public class WaitScreen extends GuiScreen implements Initializable {
 
