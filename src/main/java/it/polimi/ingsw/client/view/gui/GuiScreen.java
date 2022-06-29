@@ -70,6 +70,10 @@ public abstract class GuiScreen {
 
     //METHODS USED BY TABLE
 
+    public void setUp(Collection<Assistant> deck){
+
+    }
+
     public void createTable(TableRecord tableRecord, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
 
     }

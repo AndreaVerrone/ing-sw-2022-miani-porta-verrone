@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.reduced_model.*;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.*;
@@ -24,6 +25,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
 import javafx.scene.Cursor;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -216,6 +218,8 @@ public class TableView extends GuiScreen implements Initializable {
      */
     private final HashMap<String, AssistantCardDeck> decks = new HashMap<>(3,1);
 
+    private Collection<Assistant> deck = new ArrayList<>();
+
     /**
      * Map of the nicknames' labels associated to every player
      */
@@ -244,6 +248,19 @@ public class TableView extends GuiScreen implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
+
+    /*public void setUp(Collection<Assistant> deck){
+        getGui().getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
+        Platform.runLater(()->getGui().getCurrentScreen().setUp(deck));
+    }*/
+
+    private void askUseAssistantCard(){
+        getGui().getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
+        setUp(new ArrayList<Assistant>());
+    }
+
+
 
     public void tryCreateTable(){
         PlayerLoginInfo player1 = new PlayerLoginInfo("Giorgio");
@@ -345,6 +362,7 @@ public class TableView extends GuiScreen implements Initializable {
 
         motherNatureIsland = tableRecord.motherNaturePosition();
         islands.get(tableRecord.motherNaturePosition()).addMotherNature();
+        this.deck=tableRecord.assistantsList();
 
     }
 

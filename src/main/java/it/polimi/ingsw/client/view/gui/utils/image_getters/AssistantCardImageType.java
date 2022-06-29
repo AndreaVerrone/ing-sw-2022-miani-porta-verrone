@@ -4,6 +4,9 @@ import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.AssistantDeck;
 import javafx.scene.image.Image;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Class to get the {@code Image} of an assistant card
  */
@@ -38,6 +41,11 @@ public enum AssistantCardImageType {
      */
     public Image getImage(){
         return new Image(path, 320, 320, true, false);
+    }
+
+
+    public String getPath(){
+        return path;
     }
 
     /**

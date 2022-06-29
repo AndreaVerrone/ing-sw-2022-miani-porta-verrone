@@ -65,6 +65,12 @@ public class GUI extends ClientView {
 
     private List<PlayerView> players = new ArrayList<>();
 
+    private Collection<Assistant> deck = new ArrayList<>();
+
+    public List<Assistant> getDeck() {
+        return new ArrayList<>(deck);
+    }
+
     /**
      * The constructor of the class.
      * It will construct the class by taking in input the stage.
@@ -134,9 +140,21 @@ public class GUI extends ClientView {
         }
     }
 
+
+    public GuiScreen getCurrentScreen() {
+        return currentScreen;
+    }
+
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
         getClientController().setNickNameCurrentPlayer(currentPlayer);
+
+        if(currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
+            //currentScene = tableScene;
+            //currentScreen = tableScreen;
+            getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
+            Platform.runLater(()-> currentScreen.setUp(deck));
+        }
         if(currentState.equals(StateType.MOVE_STUDENT_STATE)){
             currentScene = tableScene;
             currentScreen = tableScreen;
@@ -491,6 +509,7 @@ public class GUI extends ClientView {
     @Override
     public void gameCreated(TableRecord tableRecord) {
         this.tableRecord = tableRecord;
+        this.deck = tableRecord.assistantsList();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
             Parent root = null;
