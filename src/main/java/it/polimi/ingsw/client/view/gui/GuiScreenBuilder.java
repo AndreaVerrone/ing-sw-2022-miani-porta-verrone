@@ -86,7 +86,7 @@ public class GuiScreenBuilder extends ScreenBuilder {
             case IDLE -> "/fxml/WaitScreen.fxml";
             case CHOOSE_GAME_PARAMETERS -> "/fxml/CreateGameScreen.fxml";
             case CHOOSE_LANGUAGE -> "/fxml/ChooseLanguageScreen.fxml";
-            case CONNECTION_ERROR -> "";//todo: add screen here??
+            case CONNECTION_ERROR -> "/fxml/ConnectionErrorScreen.fxml";
             case LAUNCHER -> "/fxml/StartingScreen.fxml";
             case HOME -> "/fxml/MenuScene.fxml";
             case SERVER_SPECS -> "/fxml/ChooseServerParameters.fxml";
