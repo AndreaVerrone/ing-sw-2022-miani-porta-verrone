@@ -9,6 +9,9 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller of the screen that it is used to display an error due to connection.
+ */
 public class ConnectionErrorScreen extends GuiScreen implements Initializable {
 
     @FXML
