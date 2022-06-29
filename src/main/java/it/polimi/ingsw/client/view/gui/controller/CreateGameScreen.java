@@ -113,11 +113,6 @@ public class CreateGameScreen extends GuiScreen implements Initializable {
         // send message
         getGui().getClientController().createGame(numOfPlayers.getValue(), expertMode);
 
-
-        // todo: only for testing
-        System.out.println(numOfPlayers.getValue());
-        System.out.println(difficulty.getValue());
-        // ClientGui.getSwitcher().goToAskNicknameScreen(4);
     }
 
     /**
