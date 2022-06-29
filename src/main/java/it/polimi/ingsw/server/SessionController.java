@@ -171,13 +171,18 @@ public class SessionController {
      * Skips the turn of the current player, doing random choices when necessary
      */
     void skipPlayerTurn(){
-        try {
-            checkIfCanDo();
-        } catch (NotValidOperationException e) {
-            return;
-        }
-        match.skipTurn();
+        if (match != null)
+            match.setAsOffline(nickname);
     }
+
+    /**
+     * Signals that this client is returned online
+     */
+    void connectionRestored() {
+        if (match != null)
+            match.setAsOnline(nickname);
+    }
+    
     /**
      * Sets if the game need to use expert rules.
      *

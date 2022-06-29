@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -80,6 +81,7 @@ public class ClientHandler implements Runnable, NetworkSender {
             System.out.println("An error occurred when handling client " + client.getInetAddress());
             e.printStackTrace();
         } finally {
+            sessionController.skipPlayerTurn();
             sessionController.detachFromGame();
             executorService.shutdown();
             try {
@@ -96,9 +98,13 @@ public class ClientHandler implements Runnable, NetworkSender {
             while (true) {
                 try {
                     Object message = input.readObject();
+                    sessionController.connectionRestored();
                     handleMessage(message);
                 } catch (SocketTimeoutException e) {
                     sessionController.skipPlayerTurn();
+                } catch (SocketException e) {
+                    System.out.println("Connection ended for " + client.getInetAddress());
+                    break;
                 }
             }
         } catch (ClassNotFoundException | ClassCastException e) {
