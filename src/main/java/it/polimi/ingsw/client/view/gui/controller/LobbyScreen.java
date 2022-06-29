@@ -91,7 +91,7 @@ public class LobbyScreen extends GuiScreen implements Initializable {
                 string.append("\t\t").append(Translator.getWizard()).append(" ").append(playerView.getWizard().get());
             }
             if(playerView.getTowerType()!=null){
-                string.append("\t\t").append(Translator.getTower()).append(" ").append(playerView.getTowerType().get());
+                string.append("\t\t").append(Translator.getTower()).append(" ").append(Translator.getTowerName(playerView.getTowerType().get()));
             }
             string.append("\n");
         }
