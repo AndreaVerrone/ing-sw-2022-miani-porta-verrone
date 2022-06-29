@@ -59,10 +59,7 @@ public class Match implements GameObserver, MatchmakingObserver {
         matchMaking = new MatchMaking(numOfPlayers, wantExpert);
 
         //ADD OBSERVER TO MATCHMAKING
-        matchMaking.addChangeCurrentPlayerObserver(this);
-        matchMaking.addNumberOfPlayersObserver(this);
-        matchMaking.addPlayersChangedObserver(this);
-        matchMaking.addChangeCurrentStateObserver(this);
+        matchMaking.addMatchmakingObserver(this);
     }
 
     /**

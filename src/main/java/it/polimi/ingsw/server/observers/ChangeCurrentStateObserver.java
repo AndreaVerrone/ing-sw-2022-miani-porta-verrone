@@ -19,5 +19,4 @@ public interface ChangeCurrentStateObserver {
      */
     void changeCurrentStateObserverUpdate(StateType stateType);
 
-    void requestChoosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable);
 }
