@@ -14,6 +14,9 @@ import java.util.ResourceBundle;
  */
 public class ConnectionErrorScreen extends GuiScreen implements Initializable {
 
+    /**
+     * The header of the screen.
+     */
     @FXML
     Label headerLabel;
 
