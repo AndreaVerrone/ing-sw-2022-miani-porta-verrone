@@ -10,15 +10,10 @@ import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.observers.game.table.EmptyStudentBagObserver;
 import it.polimi.ingsw.server.observers.game.table.IslandNumberObserver;
 import it.polimi.ingsw.server.observers.game.table.MotherNaturePositionObserver;
-import it.polimi.ingsw.server.observers.game.table.StudentsOnCloudObserver;
+import it.polimi.ingsw.server.observers.game.table.TableObserver;
 import it.polimi.ingsw.server.observers.game.table.island.BanOnIslandObserver;
-import it.polimi.ingsw.server.observers.game.table.island.IslandUnificationObserver;
-import it.polimi.ingsw.server.observers.game.table.island.StudentsOnIslandObserver;
-import it.polimi.ingsw.server.observers.game.table.island.TowerOnIslandObserver;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class GameTable {
     /**
@@ -43,6 +38,17 @@ public class GameTable {
     private final StudentsBag studentsBag;
 
     /**
+     * List of the observer on the number of islands.
+     */
+    private final Set<IslandNumberObserver> islandNumberObservers = new HashSet<>();
+
+    /**
+     * List of the observer on mother nature position
+     */
+    private final Set<MotherNaturePositionObserver> motherNaturePositionObservers = new HashSet<>();
+
+
+    /**
      * Constructor of the class. Creates a list of clouds and a list of islands. The number of clouds is given and must not be greater than four, while the number of islands starts
      * always from 12. Moreover, the maximum number of students per cloud is saved in a final attribute as it depends on the number of clouds and cannot change
      * @param numberOfClouds number of clouds on the table. It depends on the number of players
@@ -62,6 +68,46 @@ public class GameTable {
         for (int i=0; i < numberOfClouds; i++){
             clouds.add(new Cloud(i));
         }
+    }
+
+    /**
+     * This method allows to add the observer passed as a parameter to the ones watching this table.
+     * @param observer the observer to be added
+     */
+    public void addTableObserver (TableObserver observer) {
+        motherNaturePositionObservers.add(observer);
+        for (Cloud cloud : clouds) {
+            cloud.addStudentsOnCloudObserver(observer);
+        }
+        for (Island island : islands) {
+            island.addIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on the number of islands.
+     * @param observer the observer to be added
+     */
+    public void addIslandNumberObserver(IslandNumberObserver observer){
+        islandNumberObservers.add(observer);
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on ban on island.
+     * @param observer the observer to be added
+     */
+    public void addBanOnIslandObserver(BanOnIslandObserver observer){
+        for (Island island : islands) {
+            island.addBanOnIslandObserver(observer);
+        }
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on tower on empty student bag.
+     * @param observer the observer to be added
+     */
+    public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
+        studentsBag.addEmptyStudentBagObserver(observer);
     }
 
     /**
@@ -206,20 +252,7 @@ public class GameTable {
         studentsBag.fillWith(students);
     }
 
-    // MANAGEMENT OF OBSERVERS ON NUMBER OF ISLANDS
-    /**
-     * List of the observer on the number of islands.
-     */
-    private final List<IslandNumberObserver> islandNumberObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the number of islands.
-     * @param observer the observer to be added
-     */
-    public void addIslandNumberObserver(IslandNumberObserver observer){
-        islandNumberObservers.add(observer);
-     }
-
+    // MANAGEMENT OF OBSERVERS
 
     /**
      * This method notify all the attached observers a change on the number of islands.
@@ -230,20 +263,6 @@ public class GameTable {
             observer.islandNumberObserverUpdate(actualNumOfIslands);
       }
 
-    // MANAGEMENT OF OBSERVERS ON MOTHER NATURE POSITION
-    /**
-     * List of the observer on mother nature position
-     */
-    private final List<MotherNaturePositionObserver> motherNaturePositionObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on mother nature position.
-     * @param observer the observer to be added
-     */
-    public void addMotherNaturePositionObserver(MotherNaturePositionObserver observer){
-        motherNaturePositionObservers.add(observer);
-    }
-
     /**
      * This method notify all the attached observers that a change has been happened on mother nature position.
      * @param actualMotherNaturePosition the actual islandID on which mother nature is
@@ -251,79 +270,6 @@ public class GameTable {
     private void notifyMotherNaturePositionObservers(int actualMotherNaturePosition){
         for(MotherNaturePositionObserver observer : motherNaturePositionObservers)
             observer.motherNaturePositionObserverUpdate(actualMotherNaturePosition);
-    }
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS ON CLOUD OBSERVERS
-    /**
-     * This method allows to add the observer, passed as a parameter, on students on cloud.
-     * @param observer the observer to be added
-     */
-    public void addStudentsOnCloudObserver(StudentsOnCloudObserver observer){
-        for (Cloud cloud : clouds) {
-            cloud.addStudentsOnCloudObserver(observer);
-        }
-    }
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON BAN ON ISLAND
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on ban on island.
-     * @param observer the observer to be added
-     */
-    public void addBanOnIslandObserver(BanOnIslandObserver observer){
-        for (Island island : islands) {
-            island.addBanOnIslandObserver(observer);
-        }
-    }
-
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON STUDENTS ON ISLAND
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the students on island.
-     * @param observer the observer to be added
-     */
-    public void addStudentsOnIslandObserver(StudentsOnIslandObserver observer){
-        for (Island island : islands) {
-            island.addStudentsOnIslandObserver(observer);
-        }
-    }
-
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON UNIFICATION OF ISLANDS
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the unification of islands.
-     * @param observer the observer to be added
-     */
-    public void addUnificationIslandObserver(IslandUnificationObserver observer){
-        for (Island island : islands) {
-            island.addUnificationIslandObserver(observer);
-        }
-    }
-
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON TOWER ON ISLAND
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on tower on island.
-     * @param observer the observer to be added
-     */
-    public void addTowerOnIslandObserver(TowerOnIslandObserver observer){
-        for (Island island : islands) {
-            island.addTowerOnIslandObserver(observer);
-        }
-    }
-
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON EMPTY STUDENT BAG
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on tower on empty student bag.
-     * @param observer the observer to be added
-     */
-    public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
-        studentsBag.addEmptyStudentBagObserver(observer);
     }
 
     // CREATION OF THE REDUCED VERSIONS

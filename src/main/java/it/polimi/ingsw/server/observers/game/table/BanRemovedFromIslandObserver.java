@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.observers.game.table.island;
+package it.polimi.ingsw.server.observers.game.table;
 
 /**
  * Interface to implement the observer pattern.

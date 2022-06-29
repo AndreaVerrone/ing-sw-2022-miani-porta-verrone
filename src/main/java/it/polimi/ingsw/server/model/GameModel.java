@@ -18,7 +18,7 @@ import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
 import it.polimi.ingsw.server.observers.game.table.ChangeCoinNumberInBagObserver;
 import it.polimi.ingsw.server.observers.game.table.EmptyStudentBagObserver;
-import it.polimi.ingsw.server.observers.game.table.island.BanRemovedFromIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.BanRemovedFromIslandObserver;
 
 import java.util.*;
 

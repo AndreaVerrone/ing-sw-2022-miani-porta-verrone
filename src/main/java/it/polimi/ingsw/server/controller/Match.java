@@ -215,7 +215,6 @@ public class Match implements GameObserver, MatchmakingObserver {
             throw new NotValidOperationException();
         synchronized (this) {
             matchMaking.addPlayer(nickname);
-//            addObserversToPlayer(nickname);
         }
     }
 
@@ -244,19 +243,6 @@ public class Match implements GameObserver, MatchmakingObserver {
                 view.notifyPlayerLeftGame(nickname);
         }
     }
-
-//    /**
-//     * Method to add observers to a player just added
-//     * @param playerNickname nickname of the player just added
-//     */
-//    private void addObserversToPlayer(String playerNickname){
-//        for(PlayerLoginInfo player: matchMaking.getPlayers()){
-//            if(player.getNickname().equals(playerNickname)){
-//                player.addTowerSelectedObserver(this);
-//                player.addWizardSelectedObserver(this);
-//            }
-//        }
-//    }
 
     /**
      * Sets the tower type of the current player in the queue.
@@ -310,12 +296,8 @@ public class Match implements GameObserver, MatchmakingObserver {
         model.addChangeCoinNumberInBagObserver(this);
 
         GameTable gameTable = model.getGameTable();
-        gameTable.addMotherNaturePositionObserver(this);
-        gameTable.addStudentsOnCloudObserver(this);
-        gameTable.addStudentsOnIslandObserver(this);
-        gameTable.addTowerOnIslandObserver(this);
+        gameTable.addTableObserver(this);
         gameTable.addBanOnIslandObserver(this);
-        gameTable.addUnificationIslandObserver(this);
 
         for(Player player: model.getPlayerList()){
             player.addChangeAssistantDeckObserver(this);

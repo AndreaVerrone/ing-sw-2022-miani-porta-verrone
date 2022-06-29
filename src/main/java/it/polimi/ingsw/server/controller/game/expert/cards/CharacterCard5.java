@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
 import it.polimi.ingsw.server.controller.game.expert.card_states.UseCharacterCard5State;
-import it.polimi.ingsw.server.observers.game.table.island.BanRemovedFromIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.BanRemovedFromIslandObserver;
 
 public class CharacterCard5 extends CharacterCard implements BanRemovedFromIslandObserver {
 
