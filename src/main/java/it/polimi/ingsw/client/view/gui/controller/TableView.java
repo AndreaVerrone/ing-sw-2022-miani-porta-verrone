@@ -329,9 +329,10 @@ public class TableView extends GuiScreen implements Initializable {
         setUpMessageView(players.get(0).wizard());
         setNicknames(players);
 
+        setCoins(isExpertMode, players);
+
         if (isExpertMode){
             //TODO Add card creation
-            setCoins(players);
         }
 
         createSchoolBoard(tableRecord, players);
@@ -410,7 +411,7 @@ public class TableView extends GuiScreen implements Initializable {
      * Allows to set the coins on the view of the table
      * @param players list of players playing
      */
-    public void setCoins(List<ReducedPlayerLoginInfo> players){
+    public void setCoins(boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
         Image coinImage = CoinImageType.COIN.getImage();
         for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
             if(playerNumber == 0){
@@ -421,6 +422,8 @@ public class TableView extends GuiScreen implements Initializable {
                 coinsPlayer1.getChildren().add(numberOfCoinsPlayer1);
                 coinsPlayer1.getChildren().add(coinViewPlayer1);
                 playersCoinLabels.put(players.get(playerNumber).nickname(), numberOfCoinsPlayer1);
+                coinViewPlayer1.setVisible(isExpertMode);
+                numberOfCoinsPlayer1.setVisible(isExpertMode);
             }
             if(playerNumber == 1){
                 ImageView coinViewPlayer2 = new ImageView(coinImage);
@@ -430,6 +433,8 @@ public class TableView extends GuiScreen implements Initializable {
                 coinsPlayer2.getChildren().add(numberOfCoinsPlayer2);
                 coinsPlayer2.getChildren().add(coinViewPlayer2);
                 playersCoinLabels.put(players.get(playerNumber).nickname(), numberOfCoinsPlayer2);
+                coinViewPlayer2.setVisible(isExpertMode);
+                numberOfCoinsPlayer2.setVisible(isExpertMode);
             }
             if(playerNumber == 2){
                 ImageView coinViewPlayer3 = new ImageView(coinImage);
@@ -439,6 +444,8 @@ public class TableView extends GuiScreen implements Initializable {
                 coinsPlayer3.getChildren().add(numberOfCoinsPlayer3);
                 coinsPlayer3.getChildren().add(coinViewPlayer3);
                 playersCoinLabels.put(players.get(playerNumber).nickname(), numberOfCoinsPlayer3);
+                coinViewPlayer3.setVisible(isExpertMode);
+                numberOfCoinsPlayer3.setVisible(isExpertMode);
             }
         }
     }
@@ -720,8 +727,10 @@ public class TableView extends GuiScreen implements Initializable {
      * @param students new students on the entrance
      */
     public void updateEntranceToPlayer(String player, StudentList students){
-        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
-        schoolBoardPlayer.updateEntrance(students);
+        Platform.runLater(() -> {
+            SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+            schoolBoardPlayer.updateEntrance(students);
+        });
     }
 
     public void updateTowersOnSchoolBoard(String player, int numberOfTowers){

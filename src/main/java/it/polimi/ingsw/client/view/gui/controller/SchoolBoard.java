@@ -377,21 +377,19 @@ public class SchoolBoard {
      */
     public void updateEntrance(StudentList newStudents){
         StudentList studentsCopy = newStudents.clone();
-        Platform.runLater(() -> {
-                    for (Pawn studentOnEntrance : entrance) {
-                        if (studentOnEntrance != null) {
-                            if (studentsCopy.getNumOf(studentOnEntrance.getType()) == 0) {
-                                removeStudentFromEntrance(studentOnEntrance.getType());
-                            } else {
-                                try {
-                                    studentsCopy.changeNumOf(studentOnEntrance.getType(), -1);
-                                } catch (NotEnoughStudentException e) {
-                                    throw new RuntimeException(e); //Not possible theoretically
-                                }
-                            }
-                        }
+        for (Pawn studentOnEntrance : entrance) {
+            if (studentOnEntrance != null) {
+                if (studentsCopy.getNumOf(studentOnEntrance.getType()) == 0) {
+                    removeStudentFromEntrance(studentOnEntrance.getType());
+                } else {
+                    try {
+                        studentsCopy.changeNumOf(studentOnEntrance.getType(), -1);
+                    } catch (NotEnoughStudentException e) {
+                        throw new RuntimeException(e); //Not possible theoretically
                     }
-                });
+                }
+            }
+        }
         List<PawnType> entranceType = entrance.stream().filter(Objects::nonNull).map(Pawn::getType).collect(ArrayList::new,
                 ArrayList::add,
                 ArrayList::addAll);

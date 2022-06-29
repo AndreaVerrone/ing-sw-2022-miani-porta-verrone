@@ -63,8 +63,7 @@ public class GUI extends ClientView {
 
     private StateType currentState;
 
-    private Map<String, Wizard> players = new HashMap<>() {
-    };
+    private List<PlayerView> players = new ArrayList<>();
 
     /**
      * The constructor of the class.
@@ -256,10 +255,10 @@ public class GUI extends ClientView {
         }
         boolean lobbyFull = currentScreen.updatePlayerList(playerViewMap.values().stream().toList());
         if (lobbyFull) {
-            this.players.put(getClientController().getNickNameOwner(), null);
+            this.players.add(new PlayerView(getClientController().getNickNameOwner()));
             for (ReducedPlayerLoginInfo player : players) {
                 if (!player.nickname().equals(getClientController().getNickNameOwner())) {
-                    this.players.put(player.nickname(), player.wizard());
+                    this.players.add(new PlayerView(player.nickname()));
                 }
             }
             if(getClientController().isInTurn()) {
@@ -295,7 +294,11 @@ public class GUI extends ClientView {
         if(!getClientController().isInTurn()){
             Platform.runLater(()->currentScreen.updateWizard(player, wizard));
         }
-        players.replace(player, wizard);
+        for(PlayerView playerView: players){
+            if(playerView.getNickname().equals(player)){
+                playerView.setWizard(wizard);
+            }
+        }
     }
 
     /**
@@ -497,8 +500,8 @@ public class GUI extends ClientView {
             tableScreen = loader.getController();
             tableScreen.attachTo(this);
             List<ReducedPlayerLoginInfo> players = new ArrayList<>();
-            for(String player: this.players.keySet()){
-                players.add(new ReducedPlayerLoginInfo(player, null, this.players.get(player)));
+            for(int i= 0; i < this.players.size(); i++){
+                players.add(new ReducedPlayerLoginInfo(this.players.get(i).getNickname(), null, this.players.get(i).getWizard().get()));
             }
             tableScreen.createTable(tableRecord, isExpert, players);
 
