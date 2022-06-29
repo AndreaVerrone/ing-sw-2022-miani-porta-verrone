@@ -200,6 +200,15 @@ public class MatchMaking{
         return state.next();
     }
 
+    /**
+     * Skips the turn of the current player, doing random choices when necessary
+     * @return {@link Optional#empty()} if no game was meant to be created, or an {@code Optional} containing
+     * the game created
+     */
+    public Optional<Game> skipTurn() {
+        return state.skipTurn();
+    }
+
 
     /**
      * Adds a player in this lobby.

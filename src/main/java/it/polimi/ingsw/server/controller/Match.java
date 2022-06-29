@@ -125,8 +125,22 @@ public class Match implements ObserversCommonInterface{
      * Skips the turn of the current player, doing random choices when necessary
      */
     private void skipTurn() {
-        if (game != null)
+        if (game != null) {
             game.skipTurn();
+            return;
+        }
+        Optional<Game> possibleGame = matchMaking.skipTurn();
+        possibleGame.ifPresent(this::setGame);
+    }
+
+    private void setGame(Game game) {
+        matchMaking = null;
+        this.game = game;
+        addObserverToGame();
+        synchronized (playersView) {
+            for (String nickname : playersView.keySet())
+                game.askGameUpdate(nickname);
+        }
     }
 
     /**
@@ -292,13 +306,7 @@ public class Match implements ObserversCommonInterface{
             throw new NotValidOperationException();
         Optional<Game> possibleGame = matchMaking.next();
         Server.getInstance().makeGameUnavailable(this);
-        if (possibleGame.isPresent()){
-            matchMaking = null;
-            game = possibleGame.get();
-            addObserverToGame();
-            for (String nickname : playersView.keySet())
-                game.askGameUpdate(nickname);
-        }
+        possibleGame.ifPresent(this::setGame);
     }
 
     /**
