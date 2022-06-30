@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.gui.controller.PlayerView;
+import it.polimi.ingsw.client.view.gui.controller.TableView;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -154,6 +155,9 @@ public class GUI extends ClientView {
         getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
         Platform.runLater(()->currentScreen.setUp(deck));
         useAssistantStage.close();
+        stage.setFullScreen(false);
+        stage.setX(0);
+        stage.setY(0);
         useAssistantStage.setScene(currentScene);
         useAssistantStage.show();
     }
@@ -171,7 +175,9 @@ public class GUI extends ClientView {
         if(currentState.equals(StateType.MOVE_STUDENT_STATE)||currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
             currentScene = tableScene;
             currentScreen = tableScreen;
-            //Platform.runLater(() -> stage.setFullScreen(true));
+           //stage.setX(0);
+            //stage.setY(0);
+            Platform.runLater(() -> stage.setFullScreen(true));
 
         } else if (currentState.equals(StateType.MOVE_MOTHER_NATURE_STATE)) {
 

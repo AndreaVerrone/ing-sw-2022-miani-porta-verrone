@@ -608,13 +608,13 @@ public class TableView extends GuiScreen implements Initializable {
             Wizard wizardPlayer = player.wizard();
             AssistantCardDeck deck;
             if(players.indexOf(player) == 0){
-                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer1, 1);
+                deck = new AssistantCardDeck(getGui(), wizardPlayer, assistantCardPanePlayer1, 1);
             }
             else if(players.indexOf(player) == 1){
-                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer2, 2);
+                deck = new AssistantCardDeck(getGui(), wizardPlayer, assistantCardPanePlayer2, 2);
             }
             else {
-                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer3, 3);
+                deck = new AssistantCardDeck(getGui(), wizardPlayer, assistantCardPanePlayer3, 3);
             }
             decks.put(nicknamePlayer, deck);
         }

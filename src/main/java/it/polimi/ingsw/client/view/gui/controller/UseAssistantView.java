@@ -71,6 +71,7 @@ public class UseAssistantView extends GuiScreen {
         Platform.runLater(()->{
             getGui().getUseAssistantStage().close();
             getGui().getClientController().useAssistant(assistantChosen);
+            getGui().getStage().setFullScreen(true);
         });
         // todo: next phase of the game
     }

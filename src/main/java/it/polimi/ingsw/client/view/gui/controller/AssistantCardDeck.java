@@ -1,10 +1,13 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.AssistantCardImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.WizardImageType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
+import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -42,18 +45,28 @@ public class AssistantCardDeck {
     private ArrayList<Assistant> cardsAvailable = new ArrayList<>(List.of(Assistant.values()));
 
     /**
+     * Gui of the game
+     */
+    private GUI gui;
+
+    /**
      * This class handles the deck of the player, allowing him to use an assistant card
+     * @param gui Gui of the game
      * @param wizard wizard selected by the player
      * @param cardPane pane where the card is placed
      * @param numberPlayer represents the number of the player
      */
-    public AssistantCardDeck(Wizard wizard, Pane cardPane, int numberPlayer){
+    public AssistantCardDeck(GUI gui, Wizard wizard, Pane cardPane, int numberPlayer){
+        this.gui = gui;
         this.wizard = wizard;
         this.cardPane = cardPane;
         this.numberPlayer= numberPlayer;
 
         ImageView wizardView = new ImageView(WizardImageType.typeConverter(wizard).getImage());
         cardPane.getChildren().add(wizardView);
+        if(numberPlayer == 1) {
+            wizardView.setOnMouseClicked(mouseEvent -> gui.useAssistantCard());
+        }
     }
 
     /**
@@ -73,6 +86,9 @@ public class AssistantCardDeck {
         ImageView cardView = new ImageView(AssistantCardImageType.typeConverter(card).getImage());
         lastAssistantCard = cardView;
         cardPane.getChildren().add(cardView);
+        if(numberPlayer == 1) {
+            cardView.setOnMouseClicked(mouseEvent -> gui.useAssistantCard());
+        }
         //Remove the card from the ones available
         cardsAvailable.remove(card);
         //If this is the deck of the second player a rotation should be set to the card since it is placed rotated by 180 degrees
