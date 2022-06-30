@@ -61,7 +61,7 @@ public class GUI extends ClientView {
 
     private StateType currentState;
 
-    private List<PlayerView> players = new ArrayList<>();
+    private final List<PlayerView> players = new ArrayList<>();
 
     private Collection<Assistant> deck = new ArrayList<>();
 
@@ -85,6 +85,10 @@ public class GUI extends ClientView {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public GuiScreen getTableScreen() {
+        return tableScreen;
     }
 
     public StateType getCurrentState() {
@@ -159,6 +163,7 @@ public class GUI extends ClientView {
         if(currentState.equals(StateType.MOVE_STUDENT_STATE)||currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
             currentScene = tableScene;
             currentScreen = tableScreen;
+            Platform.runLater(() -> stage.setFullScreen(true));
 
         } else if (currentState.equals(StateType.MOVE_MOTHER_NATURE_STATE)) {
 
@@ -237,7 +242,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void coinOnCardAdded(CharacterCardsType characterCardsType) {
-
+        currentScreen.addCoinOnCard(characterCardsType);
     }
 
     /**
@@ -248,7 +253,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents) {
-
+        currentScreen.updateStudentsOnCard(characterCardType, actualStudents);
     }
 
     /**
@@ -274,12 +279,6 @@ public class GUI extends ClientView {
         }
         boolean lobbyFull = currentScreen.updatePlayerList(playerViewMap.values().stream().toList());
         if (lobbyFull) {
-            this.players.add(new PlayerView(getClientController().getNickNameOwner()));
-            for (ReducedPlayerLoginInfo player : players) {
-                if (!player.nickname().equals(getClientController().getNickNameOwner())) {
-                    this.players.add(new PlayerView(player.nickname()));
-                }
-            }
             if(getClientController().isInTurn()) {
                 getClientController().nextPhase();
             }
@@ -522,8 +521,11 @@ public class GUI extends ClientView {
             tableScreen = loader.getController();
             tableScreen.attachTo(this);
             List<ReducedPlayerLoginInfo> players = new ArrayList<>();
-            for(int i= 0; i < this.players.size(); i++){
-                players.add(new ReducedPlayerLoginInfo(this.players.get(i).getNickname(), null, this.players.get(i).getWizard().get()));
+            players.add(new ReducedPlayerLoginInfo(getClientController().getNickNameOwner(), null, playerViewMap.get(getClientController().getNickNameOwner()).getWizard().get()));
+            for(String nickname: playerViewMap.keySet()){
+                if(!nickname.equals(getClientController().getNickNameOwner())) {
+                    players.add(new ReducedPlayerLoginInfo(nickname, null, playerViewMap.get(nickname).getWizard().get()));
+                }
             }
             tableScreen.createTable(tableRecord, isExpert, players);
 

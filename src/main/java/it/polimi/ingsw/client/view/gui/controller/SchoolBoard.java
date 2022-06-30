@@ -73,9 +73,9 @@ public class SchoolBoard {
 
     private LocationListener diningRoomListener;
 
-    private Set<StudentListener> entranceListeners = new HashSet<>();
+    private final Set<StudentListener> entranceListeners = new HashSet<>();
 
-    private Set<StudentListener> diningRoomListeners = new HashSet<>();
+    private final Set<StudentListener> diningRoomListeners = new HashSet<>();
 
     private final GUI gui;
 
@@ -345,10 +345,10 @@ public class SchoolBoard {
      */
     public void updateProfessors(Collection<PawnType> newProfessors){
        for(Pawn professorOnTable: professors) {
-           if(!newProfessors.contains(professorOnTable.getType())) Platform.runLater(() -> removeProfessor(professorOnTable.getType()));
+           if(!newProfessors.contains(professorOnTable.getType())) removeProfessor(professorOnTable.getType());
        }
        for(PawnType newProfessor: newProfessors){
-           if(!((professors.stream().map(Pawn::getType).toList()).contains(newProfessor))) Platform.runLater(() -> addProfessor(newProfessor));
+           if(!((professors.stream().map(Pawn::getType).toList()).contains(newProfessor))) addProfessor(newProfessor);
        }
     }
 
@@ -361,11 +361,11 @@ public class SchoolBoard {
             int differenceOfStudents = tables.get(student).size() - newStudents.getNumOf(student);
             if(differenceOfStudents > 0){
                 for(int numberOfStudents = 0; numberOfStudents < differenceOfStudents; numberOfStudents ++){
-                    Platform.runLater(() -> removeStudentFromDiningRoom(student));
+                    removeStudentFromDiningRoom(student);
                 }
             } else if (differenceOfStudents < 0) {
                 for(int numberOfStudents = 0; numberOfStudents < Math.abs(differenceOfStudents); numberOfStudents ++){
-                    Platform.runLater(() -> addStudentToDiningRoom(student));
+                    addStudentToDiningRoom(student);
                 }
             }
         }
@@ -399,8 +399,7 @@ public class SchoolBoard {
                     entranceType.remove(student);
                 }
                 else {
-                    Platform.runLater(() -> addStudentToEntrance(student));
-
+                    addStudentToEntrance(student);
                 }
             }
         }
@@ -415,10 +414,8 @@ public class SchoolBoard {
     public void updateTowers(int numberOfTowers){
         int differenceNumberOfTowers = towers.size() - numberOfTowers;
         for(int i=0; i < Math.abs(differenceNumberOfTowers); i++){
-            Platform.runLater(() -> {
-                if (differenceNumberOfTowers > 0) removeTower();
-                else addTower();
-            });
+            if (differenceNumberOfTowers > 0) removeTower();
+            else addTower();
         }
 
     }

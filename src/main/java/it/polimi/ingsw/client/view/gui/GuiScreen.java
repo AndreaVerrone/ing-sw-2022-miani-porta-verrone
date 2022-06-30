@@ -92,6 +92,10 @@ public abstract class GuiScreen {
     public void moveMotherNature(int movements){
     }
 
+    public int getMotherNatureIsland() {
+        return 0;
+    }
+
     /**
      * Method to change the number of bans on an island
      * @param islandID island selected

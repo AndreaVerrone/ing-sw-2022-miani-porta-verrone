@@ -274,7 +274,10 @@ public class TableView extends GuiScreen implements Initializable {
 
     }
 
-
+    @Override
+    public int getMotherNatureIsland() {
+        return motherNatureIsland;
+    }
 
     public void tryCreateTable(){
         PlayerLoginInfo player1 = new PlayerLoginInfo("Giorgio");
@@ -433,6 +436,7 @@ public class TableView extends GuiScreen implements Initializable {
      */
     private void setUpMessageView(Wizard wizard){
         messageLabel.setPadding(new Insets(5));
+        messageLabel.setText("Benvenuto!");
         messageLabel.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
         messageLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(40), BorderStroke.MEDIUM)));
         messageLabel.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(40), Insets.EMPTY)));
@@ -528,7 +532,7 @@ public class TableView extends GuiScreen implements Initializable {
         updateDiningRoomToPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getStudentsInDiningRoom());
         updateTowersOnSchoolBoard(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getTowerNumber());
         updateProfessorsToPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getProfessors());
-        changeNumberOfCoinsPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getCoinNumber());
+        //changeNumberOfCoinsPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getCoinNumber());
     }
 
     /**
@@ -642,12 +646,16 @@ public class TableView extends GuiScreen implements Initializable {
      */
     public void setCurrentPlayer(String currentPlayer){
         Platform.runLater(() -> {
-            Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
-            labelOldCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
-            Label labelNewCurrentPlayer = playersLabel.get(currentPlayer);
-            labelNewCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+            if(!playersLabel.isEmpty()) {
+                if(this.currentPlayer != null) {
+                    Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
+                    labelOldCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(5), Insets.EMPTY)));
+                }
+                Label labelNewCurrentPlayer = playersLabel.get(currentPlayer);
+                labelNewCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+                this.currentPlayer = currentPlayer;
+            }
         });
-        this.currentPlayer = currentPlayer;
     }
 
     /**
@@ -697,8 +705,10 @@ public class TableView extends GuiScreen implements Initializable {
      * @param newTower type of the new tower
      */
     public void updateTowerOnIsland(int islandID, TowerType newTower){
-        Island island = islands.get(islandID);
-        Platform.runLater(() -> island.addTower(newTower));
+        Platform.runLater(() -> {
+            Island island = islands.get(islandID);
+            island.addTower(newTower);
+        });
     }
 
     /**
@@ -707,7 +717,7 @@ public class TableView extends GuiScreen implements Initializable {
      * @param students new students on the cloud
      */
     public void updateStudentOnCloud(int cloudID, StudentList students){
-        //TODO update student son cloud one at a time
+        Platform.runLater(() -> clouds.get(cloudID).updateStudents(students));
     }
 
         //UPDATE ASSISTANT CARD
@@ -734,7 +744,9 @@ public class TableView extends GuiScreen implements Initializable {
      * @param numberOfCoins new number of coins
      */
     public void changeNumberOfCoinsPlayer(String player, int numberOfCoins){
-        Platform.runLater(() -> playersCoinLabels.get(player).setText(Integer.toString(numberOfCoins)));
+        if(playersCoinLabels.size() > 0) {
+            Platform.runLater(() -> playersCoinLabels.get(player).setText(Integer.toString(numberOfCoins)));
+        }
     }
 
     /**
@@ -743,8 +755,10 @@ public class TableView extends GuiScreen implements Initializable {
      * @param professors new professors
      */
     public void updateProfessorsToPlayer(String player, Collection<PawnType> professors){
-        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
-        schoolBoardPlayer.updateProfessors(professors);
+        Platform.runLater(() -> {
+            SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+            schoolBoardPlayer.updateProfessors(professors);
+        });
     }
 
     /**
@@ -753,8 +767,10 @@ public class TableView extends GuiScreen implements Initializable {
      * @param students new students on the dining room
      */
     public void updateDiningRoomToPlayer(String player, StudentList students){
-        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
-        schoolBoardPlayer.updateDiningRoom(students);
+        Platform.runLater(() -> {
+            SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+            schoolBoardPlayer.updateDiningRoom(students);
+        });
     }
 
     /**
@@ -770,8 +786,10 @@ public class TableView extends GuiScreen implements Initializable {
     }
 
     public void updateTowersOnSchoolBoard(String player, int numberOfTowers){
-        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
-        schoolBoardPlayer.updateTowers(numberOfTowers);
+        Platform.runLater(() -> {
+            SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+            schoolBoardPlayer.updateTowers(numberOfTowers);
+        });
     }
 
         //UPDATE CHARACTER CARD
@@ -844,10 +862,19 @@ public class TableView extends GuiScreen implements Initializable {
 
 
     public void showErrorMessage(String message){
-        Platform.runLater( () -> {
-            messageLabel.setText(message);
-            messageLabel.setTextFill(Color.RED);
-        });
+        new Thread(() -> {
+            String oldMessage = messageLabel.getText();
+            Platform.runLater( () -> {
+                messageLabel.setText(message);
+                messageLabel.setTextFill(Color.RED);
+            });
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Platform.runLater(() -> showMessage(oldMessage));
+        }).start();
     }
         //UNIFY ISLANDS
 

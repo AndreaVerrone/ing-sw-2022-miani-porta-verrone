@@ -51,7 +51,7 @@ public class LocationListener implements EventHandler {
             position.setField(field);
             System.out.println("Location " + location);//Debugging
             if(gui.getCurrentState().equals(StateType.MOVE_MOTHER_NATURE_STATE)){
-                gui.getClientController().moveMotherNature(field);
+                gui.getClientController().moveMotherNature((field - gui.getTableScreen().getMotherNatureIsland() + 12)% 12 );
             }else {
                 gui.getClientController().chooseDestination(position);
             }

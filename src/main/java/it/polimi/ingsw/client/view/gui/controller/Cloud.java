@@ -43,7 +43,7 @@ public class Cloud {
      */
     private final List<Pawn> students;
 
-    private CloudListener cloudListener;
+    private final CloudListener cloudListener;
 
     /**
      * This class represents a cloud , allowing to fill it with students and to remove all of them
@@ -97,7 +97,12 @@ public class Cloud {
     }
 
     public void updateStudents(StudentList students){
-        //TODO : update
+        removeAllStudents();
+        for(PawnType pawnType: PawnType.values()){
+            for(int i= 0; i < students.getNumOf(pawnType); i++){
+                addStudent(pawnType);
+            }
+        }
      }
 
     public void enableLocationListener(){

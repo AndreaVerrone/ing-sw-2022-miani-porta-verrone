@@ -8,17 +8,17 @@ import javafx.scene.image.Image;
  */
 public enum CharacterCardImageType {
     CARD1("/assets/characterCards/CarteTOT_front.jpg"),
-    CARD2("/assets/characterCards/CarteTOT_front2.jpg"),
+    CARD2("/assets/characterCards/CarteTOT_front12.jpg"),
     CARD3("/assets/characterCards/CarteTOT_front3.jpg"),
-    CARD4("/assets/characterCards/CarteTOT_front4.jpg"),
-    CARD5("/assets/characterCards/CarteTOT_front5.jpg"),
-    CARD6("/assets/characterCards/CarteTOT_front6.jpg"),
+    CARD4("/assets/characterCards/CarteTOT_front2.jpg"),
+    CARD5("/assets/characterCards/CarteTOT_front4.jpg"),
+    CARD6("/assets/characterCards/CarteTOT_front5.jpg"),
     CARD7("/assets/characterCards/CarteTOT_front7.jpg"),
     CARD8("/assets/characterCards/CarteTOT_front8.jpg"),
-    CARD9("/assets/characterCards/CarteTOT_front9.jpg"),
-    CARD10("/assets/characterCards/CarteTOT_front10.jpg"),
-    CARD11("/assets/characterCards/CarteTOT_front11.jpg"),
-    CARD12("/assets/characterCards/CarteTOT_front12.jpg");
+    CARD9("/assets/characterCards/CarteTOT_front6.jpg"),
+    CARD10("/assets/characterCards/CarteTOT_front9.jpg"),
+    CARD11("/assets/characterCards/CarteTOT_front10.jpg"),
+    CARD12("/assets/characterCards/CarteTOT_front11.jpg");
 
     /**
      * Path of the image
