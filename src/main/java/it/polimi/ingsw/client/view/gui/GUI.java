@@ -53,8 +53,6 @@ public class GUI extends ClientView {
 
     private boolean isExpert;
 
-    private TowerType towerChosen;
-
     private TableRecord tableRecord;
 
     private Scene tableScene;
@@ -79,10 +77,6 @@ public class GUI extends ClientView {
     public GUI(Stage stage) {
         this.stage=stage;
         setScreenBuilder(new GuiScreenBuilder(this,stage));
-    }
-
-    public void setTowerChosen(TowerType towerChosen) {
-        this.towerChosen = towerChosen;
     }
 
     public void setGameID(String gameID) {
@@ -145,17 +139,24 @@ public class GUI extends ClientView {
         return currentScreen;
     }
 
+    public void useAssistantCard(){
+
+        getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
+        Platform.runLater(()->currentScreen.setUp(deck));
+        show();
+    }
+
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
         getClientController().setNickNameCurrentPlayer(currentPlayer);
 
-        if(currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
+        //if(currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
             //currentScene = tableScene;
             //currentScreen = tableScreen;
-            getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
-            Platform.runLater(()-> currentScreen.setUp(deck));
-        }
-        if(currentState.equals(StateType.MOVE_STUDENT_STATE)){
+            //getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
+            //Platform.runLater(()-> currentScreen.setUp(deck));
+        //}
+        if(currentState.equals(StateType.MOVE_STUDENT_STATE)||currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
             currentScene = tableScene;
             currentScreen = tableScreen;
 
@@ -338,7 +339,8 @@ public class GUI extends ClientView {
      */
     @Override
     public void assistantDeckChanged(String nickName, Collection<Assistant> actualDeck) {
-
+        currentScreen=tableScreen;
+        currentScreen.updateDeck(new ArrayList<>(actualDeck));
     }
 
     /**
@@ -410,6 +412,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void lastAssistantUsedChanged(String nickName, Assistant actualLastAssistant) {
+        currentScreen=tableScreen;
         currentScreen.useAssistantCard(nickName, actualLastAssistant);
         System.out.println("Update assistant: " + actualLastAssistant);
     }

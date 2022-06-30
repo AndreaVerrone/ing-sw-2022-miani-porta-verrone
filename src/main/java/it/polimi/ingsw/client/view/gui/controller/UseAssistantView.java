@@ -52,12 +52,15 @@ public class UseAssistantView extends GuiScreen {
      * @param deck the deck (i.e., list of assistant cards available)
      */
     public void setUp(Collection<Assistant>deck){
+        System.out.println("CALLING OF METHOD !");
         // create the list
         createAssistantImageList(new ArrayList<>(deck));
         // set the image
         assistantImageView.setImage(assistantImages.get(0));
+        System.out.println("set first image");
         // set the label
         indicator.setText("1/"+assistantImages.size());
+        System.out.println("set the label");
     }
 
     /**
@@ -75,7 +78,7 @@ public class UseAssistantView extends GuiScreen {
      * It allows to display the next assistant.
      */
     public void setNext() {
-        setNextImage(assistantImages,assistantImageView,indicator);
+        setNextImage(this.assistantImages,assistantImageView,indicator);
     }
 
     /**
@@ -84,7 +87,7 @@ public class UseAssistantView extends GuiScreen {
      * It allows to display the previous assistant.
      */
     public void setPrevious() {
-        setPreviousImage(assistantImages,assistantImageView,indicator);
+        setPreviousImage(this.assistantImages,assistantImageView,indicator);
     }
 
     /**
@@ -107,11 +110,13 @@ public class UseAssistantView extends GuiScreen {
         for(Assistant assistant: deck){
             // add path to the list of paths
             imagePaths.add(AssistantCardImageType.typeConverter(assistant).getPath());
+            System.out.println(AssistantCardImageType.typeConverter(assistant).getPath()); // todo: testing only
             // add element to the map
             map.put(deck.indexOf(assistant),assistant);
         }
         // create the list of images
         creteImageList(imagePaths,this.assistantImages);
+        System.out.println(this.assistantImages);
     }
 
     /**

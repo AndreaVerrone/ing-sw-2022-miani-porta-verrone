@@ -19,12 +19,14 @@ import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -40,6 +42,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -255,9 +258,20 @@ public class TableView extends GuiScreen implements Initializable {
         Platform.runLater(()->getGui().getCurrentScreen().setUp(deck));
     }*/
 
-    private void askUseAssistantCard(){
-        getGui().getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
-        setUp(new ArrayList<Assistant>());
+    public void askUseAssistant(){
+        /*getGui().getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/UseAssistanScreen.fxml"));
+            Parent root = loader.load();
+            UseAssistantView useAssistantView= loader.getController();
+            Platform.runLater(()->useAssistantView.setUp(this.deck));
+            getGui().getStage().setScene(getGui().getStage().getScene());
+            getGui().getStage().show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    getGui().useAssistantCard();
+
     }
 
 
@@ -706,6 +720,10 @@ public class TableView extends GuiScreen implements Initializable {
     public void useAssistantCard(String player, Assistant assistant){
         AssistantCardDeck playerDeck =decks.get(player);
         Platform.runLater(() -> playerDeck.useAssistantCard(assistant));
+    }
+
+    public void updateDeck(List<Assistant> newDeck){
+        this.deck=new ArrayList<>(newDeck);
     }
 
         //UPDATE SCHOOLBOARD

@@ -235,4 +235,8 @@ public abstract class GuiScreen {
         errorAlert.setContentText(message);
         errorAlert.showAndWait();
     }
+
+    public void updateDeck(List<Assistant> deck){
+
+    }
 }

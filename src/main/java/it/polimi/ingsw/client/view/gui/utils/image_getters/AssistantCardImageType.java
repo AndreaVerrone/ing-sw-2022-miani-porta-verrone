@@ -1,26 +1,22 @@
 package it.polimi.ingsw.client.view.gui.utils.image_getters;
 
 import it.polimi.ingsw.server.model.player.Assistant;
-import it.polimi.ingsw.server.model.player.AssistantDeck;
 import javafx.scene.image.Image;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Class to get the {@code Image} of an assistant card
  */
 public enum AssistantCardImageType {
-    CARD1("/assets/assistantCards/Assistente (1).png"),
-    CARD2("/assets/assistantCards/Assistente (2).png"),
-    CARD3("/assets/assistantCards/Assistente (3).png"),
-    CARD4("/assets/assistantCards/Assistente (4).png"),
-    CARD5("/assets/assistantCards/Assistente (5).png"),
-    CARD6("/assets/assistantCards/Assistente (6).png"),
-    CARD7("/assets/assistantCards/Assistente (7).png"),
-    CARD8("/assets/assistantCards/Assistente (8).png"),
-    CARD9("/assets/assistantCards/Assistente (9).png"),
-    CARD10("/assets/assistantCards/Assistente (10).png");
+    CARD1("/assets/assistantCards/Assistente_1.png"),
+    CARD2("/assets/assistantCards/Assistente_2.png"),
+    CARD3("/assets/assistantCards/Assistente_3.png"),
+    CARD4("/assets/assistantCards/Assistente_4.png"),
+    CARD5("/assets/assistantCards/Assistente_5.png"),
+    CARD6("/assets/assistantCards/Assistente_6.png"),
+    CARD7("/assets/assistantCards/Assistente_7.png"),
+    CARD8("/assets/assistantCards/Assistente_8.png"),
+    CARD9("/assets/assistantCards/Assistente_9.png"),
+    CARD10("/assets/assistantCards/Assistente_10.png");
 
     /**
      * Path of the image in the project
