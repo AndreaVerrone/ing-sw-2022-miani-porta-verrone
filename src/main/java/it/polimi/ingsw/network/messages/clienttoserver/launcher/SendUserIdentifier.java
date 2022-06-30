@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.messages.clienttoserver.launcher;
 
 import it.polimi.ingsw.network.User;
-import it.polimi.ingsw.network.messages.NetworkMessage;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;

@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * A class used to store list of students
