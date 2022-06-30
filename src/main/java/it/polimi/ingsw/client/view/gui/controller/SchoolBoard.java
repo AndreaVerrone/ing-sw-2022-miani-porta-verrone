@@ -344,11 +344,12 @@ public class SchoolBoard {
      * @param newProfessors new professors on the schoolboard
      */
     public void updateProfessors(Collection<PawnType> newProfessors){
-       for(Pawn professorOnTable: professors) {
+        Collection<Pawn> professorsCopy = new ArrayList<>(professors);
+       for(Pawn professorOnTable: professorsCopy) {
            if(!newProfessors.contains(professorOnTable.getType())) removeProfessor(professorOnTable.getType());
        }
        for(PawnType newProfessor: newProfessors){
-           if(!((professors.stream().map(Pawn::getType).toList()).contains(newProfessor))) addProfessor(newProfessor);
+           if(!((professorsCopy.stream().map(Pawn::getType).toList()).contains(newProfessor))) addProfessor(newProfessor);
        }
     }
 

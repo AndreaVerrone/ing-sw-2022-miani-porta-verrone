@@ -2,8 +2,8 @@ package it.polimi.ingsw.client.view.gui;
 
 
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.client.view.gui.controller.*;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -74,7 +74,7 @@ public abstract class GuiScreen {
 
     }
 
-    public void createTable(TableRecord tableRecord, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
+    public void createTable(ReducedModel reducedModel, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
 
     }
 

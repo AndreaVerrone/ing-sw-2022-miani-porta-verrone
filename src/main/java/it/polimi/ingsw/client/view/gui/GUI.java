@@ -54,7 +54,7 @@ public class GUI extends ClientView {
 
     private boolean isExpert;
 
-    private TableRecord tableRecord;
+    private ReducedModel reducedModel;
 
     private Scene tableScene;
 
@@ -178,6 +178,9 @@ public class GUI extends ClientView {
            //stage.setX(0);
             //stage.setY(0);
             Platform.runLater(() -> stage.setFullScreen(true));
+            if(tableScreen == null){
+                System.out.println("Error"); //DEBUG
+            }
 
         } else if (currentState.equals(StateType.MOVE_MOTHER_NATURE_STATE)) {
 
@@ -205,7 +208,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void displayMessage(String message) {
-
+        currentScreen.showMessage(message);
     }
 
     /**
@@ -410,7 +413,7 @@ public class GUI extends ClientView {
      *
      * @param islandID        the id of the island that remained on the table
      * @param islandRemovedID the id of the island removed from the table
-     * @param sizeIslandRemoved       the size of the island removed
+     * @param finalSize       the size of the island removed
      */
     @Override
     public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
@@ -523,9 +526,10 @@ public class GUI extends ClientView {
      * @param reducedModel the state of the game at that moment
      */
     @Override
-    public void gameCreated(TableRecord tableRecord) {
-        this.tableRecord = tableRecord;
-        this.deck = tableRecord.assistantsList();
+    public void gameCreated(ReducedModel reducedModel) {
+        this.reducedModel = reducedModel;
+        this.deck = reducedModel.getAssistantsList();
+        System.out.println("Table created");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
             Parent root = null;
@@ -541,7 +545,7 @@ public class GUI extends ClientView {
                     players.add(new ReducedPlayerLoginInfo(nickname, null, playerViewMap.get(nickname).getWizard().get()));
                 }
             }
-            tableScreen.createTable(tableRecord, isExpert, players);
+            tableScreen.createTable(reducedModel, isExpert, players);
 
 
             tableScene = new Scene(root);

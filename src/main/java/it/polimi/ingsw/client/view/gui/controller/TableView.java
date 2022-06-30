@@ -349,10 +349,12 @@ public class TableView extends GuiScreen implements Initializable {
 
     /**
      * Allows to create the table
+     * @param reducedModel model reduced
+     * @param isExpertMode true if the game is in expert mode
      * @param players List of players playing
      */
     @Override
-    public void createTable(TableRecord tableRecord, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
+    public void createTable(ReducedModel reducedModel, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
         Platform.runLater(() -> {
                     table.setBackground(Background.fill(Color.LIGHTBLUE));
                     table.toBack();
@@ -369,17 +371,17 @@ public class TableView extends GuiScreen implements Initializable {
             //TODO Add card creation
         }
 
-        createSchoolBoard(tableRecord, players);
+        createSchoolBoard(reducedModel, players);
 
-        createIslands(tableRecord, isExpertMode);
+        createIslands(reducedModel, isExpertMode);
 
-        createClouds(tableRecord);
+        createClouds(reducedModel);
 
         createAssistantDeck(players);
 
-        motherNatureIsland = tableRecord.motherNaturePosition();
-        islands.get(tableRecord.motherNaturePosition()).addMotherNature();
-        this.deck=tableRecord.assistantsList();
+        motherNatureIsland = reducedModel.getMotherNaturePosition();
+        islands.get(reducedModel.getMotherNaturePosition()).addMotherNature();
+        this.deck=reducedModel.getAssistantsList();
 
     }
 
@@ -445,6 +447,7 @@ public class TableView extends GuiScreen implements Initializable {
 
     /**
      * Allows to set the coins on the view of the table
+     * @param isExpertMode true if the game is in expert mode
      * @param players list of players playing
      */
     public void setCoins(boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
@@ -489,25 +492,25 @@ public class TableView extends GuiScreen implements Initializable {
 
     /**
      * ALlows to create and place the schoolboards on the table
-     * @param tableRecord tableRecord table record of the game
+     * @param  reducedModel model reduced
      * @param players List of players playing
      */
-    private void createSchoolBoard(TableRecord tableRecord, List<ReducedPlayerLoginInfo> players){
+    private void createSchoolBoard(ReducedModel reducedModel, List<ReducedPlayerLoginInfo> players){
         Image schoolBoardImage;
-        for (ReducedSchoolBoard reducedSchoolBoard: tableRecord.schoolBoardList()) {
-            if (reducedSchoolBoard.getOwner().equals(players.get(0).nickname())) {
+        for (ReducedPlayer reducedPlayer: reducedModel.getPlayersList()) {
+            if (reducedPlayer.getOwner().equals(players.get(0).nickname())) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(getGui(), true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, reducedSchoolBoard.getTowerType());
-                schoolboards.put(reducedSchoolBoard.getOwner(), schoolBoardPlayer1);
+                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(getGui(), true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, reducedPlayer.getTowerType());
+                schoolboards.put(reducedPlayer.getOwner(), schoolBoardPlayer1);
                 table.add(schoolBoardPlayer, 1, 4);
                 schoolBoardPlayer.toBack();
                 GridPane.setValignment(schoolBoardPlayer, VPos.BOTTOM);
-            } else if (reducedSchoolBoard.getOwner().equals(players.get(1).nickname())) {
+            } else if (reducedPlayer.getOwner().equals(players.get(1).nickname())) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(getGui(), false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, reducedSchoolBoard.getTowerType());
-                schoolboards.put(reducedSchoolBoard.getOwner(), schoolBoardPlayer2);
+                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(getGui(), false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, reducedPlayer.getTowerType());
+                schoolboards.put(reducedPlayer.getOwner(), schoolBoardPlayer2);
                 table.add(schoolBoardPlayer, 1, 0);
                 schoolBoardPlayer.toBack();
                 GridPane.setValignment(schoolBoardPlayer, VPos.TOP);
@@ -515,33 +518,33 @@ public class TableView extends GuiScreen implements Initializable {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
                 schoolBoardPlayer.setRotate(-90);
-                SchoolBoard schoolBoardPlayer3 = new SchoolBoard(getGui(),false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, reducedSchoolBoard.getTowerType());
-                schoolboards.put(reducedSchoolBoard.getOwner(), schoolBoardPlayer3);
+                SchoolBoard schoolBoardPlayer3 = new SchoolBoard(getGui(),false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, reducedPlayer.getTowerType());
+                schoolboards.put(reducedPlayer.getOwner(), schoolBoardPlayer3);
                 table.add(schoolBoardPlayer, 0, 2);
                 schoolBoardPlayer.toBack();
                 GridPane.setHalignment(schoolBoardPlayer, HPos.CENTER);
                 GridPane.setValignment(schoolBoardPlayer, VPos.CENTER);
                 schoolBoardPlayer.setTranslateY(24);
             }
-            updateSchoolboard(reducedSchoolBoard);
+            updateSchoolboard(reducedPlayer);
         }
     }
 
-    private void updateSchoolboard(ReducedSchoolBoard reducedSchoolBoard){
-        updateEntranceToPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getStudentsInEntrance());
-        updateDiningRoomToPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getStudentsInDiningRoom());
-        updateTowersOnSchoolBoard(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getTowerNumber());
-        updateProfessorsToPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getProfessors());
+    private void updateSchoolboard(ReducedPlayer reducedPlayer){
+        updateEntranceToPlayer(reducedPlayer.getOwner(), reducedPlayer.getStudentsInEntrance());
+        updateDiningRoomToPlayer(reducedPlayer.getOwner(), reducedPlayer.getStudentsInDiningRoom());
+        updateTowersOnSchoolBoard(reducedPlayer.getOwner(), reducedPlayer.getTowerNumber());
+        updateProfessorsToPlayer(reducedPlayer.getOwner(), reducedPlayer.getProfessors());
         //changeNumberOfCoinsPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getCoinNumber());
     }
 
     /**
      * Allows to create and place the islands on the table
      */
-    private void createIslands(TableRecord tableRecord, boolean isExpertMode){
+    private void createIslands(ReducedModel reducedModel, boolean isExpertMode){
         int row;
         int column;
-        for(ReducedIsland islandReduced : tableRecord.reducedIslands()){
+        for(ReducedIsland islandReduced : reducedModel.getReducedIslands()){
             int random = new Random().nextInt(IslandImageType.values().length);
             Image RandomIslandImage = IslandImageType.values()[random].getImage();
             ImageView islandView = new ImageView(RandomIslandImage);
@@ -562,12 +565,12 @@ public class TableView extends GuiScreen implements Initializable {
 
     /**
      * Allows to create and place the clouds on the table
-     * @param tableRecord table record of the game
+     * @param reducedModel model reduced
      */
-    private void createClouds(TableRecord tableRecord){
+    private void createClouds(ReducedModel reducedModel){
         int row;
         int column;
-        for(ReducedCloud reducedCloud: tableRecord.clouds()){
+        for(ReducedCloud reducedCloud: reducedModel.getClouds()){
             Image cloudImage = CloudImageType.values()[reducedCloud.ID()].getImage();
             ImageView cloudView = new ImageView(cloudImage);
             column = CloudPosition.values()[reducedCloud.ID()].getColumn();
