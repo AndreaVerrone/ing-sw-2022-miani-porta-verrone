@@ -68,7 +68,10 @@ public class UseAssistantView extends GuiScreen {
      */
     public void useAssistant(){
         Assistant assistantChosen = assistantOnScreen();
-        Platform.runLater(()->getGui().getClientController().useAssistant(assistantChosen));
+        Platform.runLater(()->{
+            getGui().getUseAssistantStage().close();
+            getGui().getClientController().useAssistant(assistantChosen);
+        });
         // todo: next phase of the game
     }
 

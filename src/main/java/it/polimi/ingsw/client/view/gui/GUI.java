@@ -65,6 +65,8 @@ public class GUI extends ClientView {
 
     private Collection<Assistant> deck = new ArrayList<>();
 
+    private Stage useAssistantStage = new Stage();
+
     public List<Assistant> getDeck() {
         return new ArrayList<>(deck);
     }
@@ -85,6 +87,10 @@ public class GUI extends ClientView {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public Stage getUseAssistantStage() {
+        return useAssistantStage;
     }
 
     public GuiScreen getTableScreen() {
@@ -147,7 +153,9 @@ public class GUI extends ClientView {
 
         getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
         Platform.runLater(()->currentScreen.setUp(deck));
-        show();
+        useAssistantStage.close();
+        useAssistantStage.setScene(currentScene);
+        useAssistantStage.show();
     }
 
     @Override
@@ -163,7 +171,7 @@ public class GUI extends ClientView {
         if(currentState.equals(StateType.MOVE_STUDENT_STATE)||currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
             currentScene = tableScene;
             currentScreen = tableScreen;
-            Platform.runLater(() -> stage.setFullScreen(true));
+            //Platform.runLater(() -> stage.setFullScreen(true));
 
         } else if (currentState.equals(StateType.MOVE_MOTHER_NATURE_STATE)) {
 
