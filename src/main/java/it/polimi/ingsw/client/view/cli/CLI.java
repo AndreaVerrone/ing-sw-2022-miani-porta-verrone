@@ -1,16 +1,19 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.ScreenBuilder;
-import it.polimi.ingsw.client.Translator;
-import it.polimi.ingsw.client.reduced_model.ReducedModel;
-import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.view.ClientView;
+import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
+import it.polimi.ingsw.client.view.cli.game.EndGameScreen;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
+import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
+import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.widgets.MatchmakingView;
 import it.polimi.ingsw.client.view.cli.waiting.IdleScreen;
 import it.polimi.ingsw.server.controller.StateType;

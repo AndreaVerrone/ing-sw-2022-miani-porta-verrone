@@ -1,13 +1,12 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.ScreenBuilder;
-import it.polimi.ingsw.client.view.gui.controller.ChooseGame;
+import it.polimi.ingsw.client.view.gui.controller.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;

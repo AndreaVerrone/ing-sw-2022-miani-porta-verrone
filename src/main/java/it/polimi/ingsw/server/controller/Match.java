@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.game.Game;

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client.view.gui;
 
-import it.polimi.ingsw.client.ScreenBuilder;
-import it.polimi.ingsw.client.reduced_model.ReducedModel;
-import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.view.ClientView;
+import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.view.gui.controller.PlayerView;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -17,10 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A class to handle the client GUI.

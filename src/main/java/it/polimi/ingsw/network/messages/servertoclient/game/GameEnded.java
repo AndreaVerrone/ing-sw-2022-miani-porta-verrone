@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages.servertoclient.game;
 
-import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.view.ClientView;
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 import java.util.Collection;

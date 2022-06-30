@@ -14,6 +14,7 @@ import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
