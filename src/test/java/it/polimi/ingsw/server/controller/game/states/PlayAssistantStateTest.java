@@ -151,7 +151,7 @@ class PlayAssistantStateTest {
 
         // CHECKS
         // 1. the state after the calling of the method is PlayAssistantState
-        assertEquals(game.getPlayAssistantState(),game.getState());
+        assertEquals(StateType.PLAY_ASSISTANT_STATE,game.getState().getType());
         // 2. the next player is correctly set
         assertNotEquals(currentPlayer,game.getModel().getCurrentPlayer());
 

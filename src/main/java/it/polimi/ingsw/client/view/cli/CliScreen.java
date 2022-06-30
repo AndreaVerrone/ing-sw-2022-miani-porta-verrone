@@ -50,7 +50,11 @@ public abstract class CliScreen {
     protected void askAction() {}
 
     final void run() {
-        show();
+        try {
+            show();
+        }catch (NullPointerException e) {
+            return;
+        }
         if (cli.getClientController().isInTurn())
             askAction();
     }

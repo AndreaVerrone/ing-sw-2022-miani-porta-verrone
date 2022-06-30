@@ -97,19 +97,21 @@ public class IslandsSet extends StatefulWidget {
     protected Widget build() {
         Collection<Widget> rows = new ArrayList<>();
         List<IslandView> islandViewList = new ArrayList<>(islands.values());
-        int startIndex = 0;
         for (int i = 0; i < 3; i++) {
-            List<IslandView> subList = islandViewList.subList(startIndex, islandViewList.size());
-            IslandView firstUnused = createRow(i, subList, rows);
-            if (firstUnused == null) //if all the islands are placed
-                break;
-            startIndex = islandViewList.indexOf(firstUnused);
+            islandViewList = createRow(i, islandViewList, rows);
             rows.add(new SizedBox(1f, 1f));
         }
         return new Column(rows);
     }
 
-    private IslandView createRow(int rowNumber, List<IslandView> islandViews, Collection<Widget> rows) {
+    /**
+     * Creates one of the three rows that populates the island set
+     * @param rowNumber the number of row that needs to be created
+     * @param islandViews the list of islands remained to display
+     * @param rows the list of widget representing the three row of this island set
+     * @return the first unused island in the list
+     */
+    private List<IslandView> createRow(int rowNumber, List<IslandView> islandViews, Collection<Widget> rows) {
         if (rowNumber == 0)
             return createFirstRow(islandViews, rows);
         if (rowNumber == 1)
@@ -117,52 +119,60 @@ public class IslandsSet extends StatefulWidget {
         return createThirdRow(islandViews, rows);
     }
 
-    private IslandView createFirstRow(Collection<IslandView> islandViews, Collection<Widget> rows) {
+    private List<IslandView> createFirstRow(Collection<IslandView> islandViews, Collection<Widget> rows) {
         Collection<Widget> islandsInRow = new ArrayList<>();
+        List<IslandView> islandsRemaining = new ArrayList<>(islandViews);
         int rowSize = 0;
         for (IslandView island : islandViews) {
             rowSize += island.getSize();
             if (islandsInRow.isEmpty()) {
                 islandsInRow.add(island);
+                islandsRemaining.remove(island);
                 continue;
             }
             if (rowSize <= 5) {
                 islandsInRow.add(new SizedBox(1f, 1f));
                 islandsInRow.add(island);
+                islandsRemaining.remove(island);
                 continue;
             }
             rows.add(new Row(islandsInRow));
-            return island;
+            return islandsRemaining;
         }
-        return null;
+        return List.of();
     }
 
-    private IslandView createSecondRow(List<IslandView> islandViews, Collection<Widget> rows) {
+    private List<IslandView> createSecondRow(List<IslandView> islandViews, Collection<Widget> rows) {
+        if (islandViews.isEmpty())
+            return List.of();
+
         if (islandViews.size() == 1) {
             rows.add(new Row(new ArrayList<>(islandViews)));
-            return null;
+            return List.of();
         }
         Collection<Widget> islandsInRow = new ArrayList<>();
-        IslandView island1 = islandViews.get(0);
-        IslandView island2 = islandViews.get(1);
-        IslandView lastIsland = island2;
-        islandsInRow.add(island1);
+        List<IslandView> islandsRemaining = new ArrayList<>(islandViews);
+        IslandView island1 = islandsRemaining.remove(0); // take next island to display
+        IslandView island2 = islandsRemaining.get(islandsRemaining.size()-1); // take last island
         if (island1.getSize() + island2.getSize() <= 6) { //if the second island can be added
             int emptySpace = 7 * (4 - island1.getSize()) + 1; //the empty space to put in between
-            islandsInRow.add(new SizedBox(emptySpace, 1f));
             islandsInRow.add(island2);
-            if (islandViews.size() > 2)
-                lastIsland = islandViews.get(2);
-            else
-                lastIsland = null;
-        }
+            islandsInRow.add(new SizedBox(emptySpace, 1f));
+            islandsInRow.add(island1);
+            islandsRemaining.remove(island2);
+        } else
+            islandsInRow.add(island1);
         rows.add(new Row(islandsInRow));
-        return lastIsland;
+        return islandsRemaining;
     }
 
-    private IslandView createThirdRow(Collection<IslandView> islandViews, Collection<Widget> rows) {
+    private List<IslandView> createThirdRow(Collection<IslandView> islandViews, Collection<Widget> rows) {
+        if (islandViews.isEmpty())
+            return List.of();
         Collection<Widget> islandsInRow = new ArrayList<>();
-        for (IslandView island : islandViews) {
+        List<IslandView> islands = new ArrayList<>(islandViews);
+        Collections.reverse(islands);
+        for (IslandView island : islands) {
             if (islandsInRow.isEmpty()) {
                 islandsInRow.add(island);
                 continue;
@@ -171,6 +181,6 @@ public class IslandsSet extends StatefulWidget {
             islandsInRow.add(island);
         }
         rows.add(new Row(islandsInRow));
-        return null;
+        return List.of();
     }
 }

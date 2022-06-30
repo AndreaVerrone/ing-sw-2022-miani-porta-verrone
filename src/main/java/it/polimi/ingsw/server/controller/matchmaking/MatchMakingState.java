@@ -81,4 +81,13 @@ public interface MatchMakingState {
      * @return the type of the state
      */
      StateType getType();
+
+    /**
+     * Skips the turn of the current player, doing random choices when necessary
+     * @return {@link Optional#empty()} if no game was meant to be created, or an {@code Optional} containing
+     * the game created
+     */
+     default Optional<Game> skipTurn() {
+         return Optional.empty();
+     }
 }

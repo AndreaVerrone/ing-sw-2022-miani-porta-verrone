@@ -262,7 +262,7 @@ class MoveStudentStateTest {
         }
 
         // check that the state has been changed into MoveMotherNatureState
-        assertEquals(game.getMoveMotherNatureState(),game.getState());
+        assertEquals(StateType.MOVE_MOTHER_NATURE_STATE,game.getState().getType());
     }
 
     @Test
@@ -316,7 +316,7 @@ class MoveStudentStateTest {
         }
 
         // check that the state has been changed into MoveMotherNatureState
-        assertEquals(game.getMoveMotherNatureState(),game.getState());
+        assertEquals(StateType.MOVE_MOTHER_NATURE_STATE,game.getState().getType());
     }
 
     @Test
@@ -394,6 +394,6 @@ class MoveStudentStateTest {
         }
 
         // check that the state has been changed into MoveMotherNatureState
-        assertEquals(game.getMoveMotherNatureState(), game.getState());
+        assertEquals(StateType.MOVE_MOTHER_NATURE_STATE,game.getState().getType());
     }
 }

@@ -74,8 +74,8 @@ class MoveMotherNatureStateTest {
     void changeState_notLastRound_ShouldGoToChooseCloudState(){
         try {
             game.moveMotherNature(4);
-            assertEquals(game.getChooseCloudState(),
-                    game.getState());
+            assertEquals(StateType.CHOOSE_CLOUD_STATE,
+                    game.getState().getType());
         } catch (NotValidArgumentException | NotValidOperationException e) {
             fail();
         }

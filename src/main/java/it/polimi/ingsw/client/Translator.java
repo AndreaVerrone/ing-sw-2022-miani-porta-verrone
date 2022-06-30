@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Wizard;
+import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.*;
@@ -113,6 +115,92 @@ public class Translator {
     }
 
 
+    // CHARACTER CARDS
+
+    public static String getCardLabel(){
+        return isItalian ? "Carta#" : "Card#";
+    }
+
+    public static String getCostLabel(){
+        return isItalian ? "Costo: " : "Cost: ";
+    }
+
+    public static String getEffectDescription(CharacterCardsType card) {
+        return isItalian ? getItalianEffectDescription(card) : getEnglishEffectDescription(card);
+    }
+
+    public static String getCardUsedCorrectly(){
+        return isItalian ? "Carta usata correttamente" : "Card used correctly";
+    }
+
+    private static String getItalianEffectDescription(CharacterCardsType card) {
+        return switch (card) {
+            case CARD1 -> "All'inizio della partita, pescate 4 Studenti e piazzateli sopra questa carta.\n" +
+                    "EFFETTO: Prendi 1 Studente dalla carta e piazzalo su un'Isola a tua scelta. " +
+                    "Poi, pesca 1 Studente dal sacchetto e mettilo su questa carta.";
+            case CARD2 -> "EFFETTO: Durante questo turno, prendi il controllo dei Professori anche se nella tua Sala" +
+                    " hai lo stesso numero di Studenti del giocatore che li controlla in quel momento.";
+            case CARD3 -> "EFFETTO: Puoi muovere Madre Natura fino a 2 Isole addizionali " +
+                    "rispetto a quanto indicato sulla carta Assistente che hai giocato.";
+            case CARD4 -> "EFFETTO: Scegli un'isola e calcola la maggioranza come se Madre Natura avesse " +
+                    "terminato il suo movimento lì. In questo turno Madre Natura si muoverà come di consueto " +
+                    "e nell'Isola dove terminerà il suo movimento la maggioranza verrà normalmente calcolata.";
+            case CARD5 -> "All'inizio della partita, mettete le 4 tessere Divieto su questa carta.\n" +
+                    "EFFETTO: Piazza una tessera Divieto su un'Isola a tua scelta. La prima volta che Madre Natura " +
+                    "termina il suo movimento lì, rimettete la tessera Divieto sulla carta SENZA calcolare " +
+                    "l'influenza su quell'isola né piazzare Torri.";
+            case CARD6 -> "EFFETTO: Durante il conteggio dell'influenza su un'Isola (o su un gruppo di Isole), " +
+                    "le Torri presenti non vengono calcolate.";
+            case CARD7 -> "EFFETTO: In questo turno, durante il calcolo dell'Influenza " +
+                    "hai 2 punti di influenza addizionali.";
+            case CARD8 -> "EFFETTO: Scegli un colore di Studente; in questo turno, " +
+                    "durante il calcolo dell'influenza quel colore non fornisce influenza.";
+            case CARD9 -> "All'inizio della partita, pescate 6 Studenti e piazzateli su questa carta.\n" +
+                    "EFFETTO: Puoi prendere fino a 3 Studenti da questa carta " +
+                    "e scambiarli con altrettanti Studenti presenti nel tuo ingresso.";
+            case CARD10 -> "EFFETTO: Puoi scambiare fra loro fino a 2 Studenti presenti nella tua Sala e nel tuo Ingresso.";
+            case CARD11 -> "All'inizio della partita, pescate 4 Studenti e piazzateli su questa carta.\n" +
+                    "EFFETTO: Prendi 1 Studente da questa carta e piazzalo nella tua Sala." +
+                    " Poi pesca un nuovo Studente dal sacchetto e posizionalo su questa carta.";
+            case CARD12 -> "EFFETTO: Scegli un colore di Studente; ogni giocatore (incluso te) " +
+                    "deve rimettere nel sacchetto 3 Studenti di quel colore presenti nella sua Sala. " +
+                    "Chi avesse meno di 3 Studenti di quel colore, rimetterà tutti quelli che ha.";
+        };
+    }
+
+    private static String getEnglishEffectDescription(CharacterCardsType card) {
+        return switch (card) {
+            case CARD1 -> "In setup, draw 4 Students and place them on this card.\n" +
+                    "EFFECT: Take 1 Student from this card and place it on an Island of your choice. " +
+                    "Then, draw a new Student from the Bag and place it on this card.";
+            case CARD2 -> "EFFECT: During this turn, you take control of any number of Professors even if you have " +
+                    "the same number of Students as the player who currently controls them.";
+            case CARD3 -> "EFFECT: You may move Mother Nature up to 2 additional Islands than is indicated " +
+                    "by the Assistant card you've played.";
+            case CARD4 -> "EFFECT: Choose an Island and resolve the Island as if Mother Nature had ended her " +
+                    "movement there. Mother Nature will still move and the Island where she ends her movement " +
+                    "will also be resolved.";
+            case CARD5 -> "In Setup, put the 4 No Entry tiles on this card.\n" +
+                    "EFFECT: Place a No Entry tile on an Island of your choice. " +
+                    "The first time Mother Nature ends her movement there, put the No Entry tile back onto this card" +
+                    " DO NOT calculate influence on that Island, or place any Towers.";
+            case CARD6 -> "EFFECT: When resolving a Conquering on an Island, Towers do not count towards influence.";
+            case CARD7 -> "EFFECT: During influence calculation this turn, you count as having 2 more influence.";
+            case CARD8 -> "EFFECT: Choose a color of Student: during the influence calculation this turn, " +
+                    "that color adds no influence.";
+            case CARD9 -> "In Setup, draw 6 Students and place them on this card.\n" +
+                    "EFFECT: You may take up to 3 students from this card and replace them " +
+                    "with the same number of Students from your entrance.";
+            case CARD10 -> "EFFECT: You may exchange up to 2 Students between your Entrance and your Dining Room.";
+            case CARD11 -> "In Setup, draw 4 Students and place them on this card.\n" +
+                    "EFFECT: Take 1 Student from this card and place it in your Dining Room. " +
+                    "Then, draw a new Student from the Bag and place it on this card.";
+            case CARD12 -> "EFFECT: Choose a type of Student: every player (including yourself) must return 3 " +
+                    "Students of that type from their Dining Room to the bag. If any player has fewer than 3 " +
+                    "Students of that type, return as many Students as you have.";
+        };
+    }
+
     /* *************************************************************************************************************** *
      *                                              CLIENT CONTROLLER                                                  *
      * **************************************************************************************************************** */
@@ -130,6 +218,11 @@ public class Translator {
 
     public static String getErrorConnectionMessage(){
         return isItalian ? "Impossibile connettersi al server. Riprova":"Can't connect to server. Try again";
+    }
+
+    public static String getCantUseCard(){
+        return isItalian ? "Non puoi usare una carta personaggio in una partita normale!"
+                : "You can't use a character card in a standard game!";
     }
 
     /* *************************************************************************************************************** *
@@ -216,6 +309,42 @@ public class Translator {
                 "enter the number of the assistant card to play";
     }
 
+    // ACTION PHASE: CHARACTER CARDS
+
+    public static String getUseCard(){
+        return isItalian ? "usa_carta" : "use_card";
+    }
+
+    public static String getChooseCard(){
+        return isItalian ? "Scegli che carta usare" : "Choose a card to use";
+    }
+
+    public static String getChooseStudent(){
+        return isItalian ? "Scegli uno studente" : "Choose a student";
+    }
+
+    public static String getChooseIsland(){
+        return isItalian ? "Scegli un'isola" : "Choose an island";
+    }
+
+    public static String getChooseStudentIsland(){
+        return isItalian ? "Scegli uno studente e l'isola su cui metterlo" : "Choose a student and the island to put it on";
+    }
+    
+    public static String getChooseCoupleStudents(){
+        return isItalian ? "Scegli una coppia di studenti" : "Choose a couple of students";
+    }
+    
+    public static String getFirstCardSecondEntrance(){
+        return isItalian ? "\nIl primo deve essere sulla carta e il secondo nel tuo ingresso"
+                : "\nThe first one must be on the card, the second one in your entrance";
+    }
+    
+    public static String getFirstDiningRoomSecondEntrance(){
+        return isItalian ? "\nIl primo deve essere nella tua sala, il secondo nel tuo ingresso"
+                : "\nThe first one must be in your dining room, the second in your entrance";
+    }
+
     // ACTION PHASE: MOVE STUDENTS
     public static String getMoveStudentsPhaseName(){
         return isItalian ?
@@ -247,6 +376,31 @@ public class Translator {
                 new ArrayList<>(List.of("blue", "green", "yellow", "red", "pink"));
     }
 
+    /**
+     * this method will map the color to the pawn type
+     *
+     * @param color the string containing the color (in the chosen language)
+     * @return the corresponding pawn type
+     */
+    public static PawnType parseColor(String color){
+        if(color.equals(Translator.getColor().get(0))){
+            return PawnType.BLUE_UNICORNS;
+        }
+        if(color.equals(Translator.getColor().get(1))){
+            return PawnType.GREEN_FROGS;
+        }
+        if(color.equals(Translator.getColor().get(2))){
+            return PawnType.YELLOW_GNOMES;
+        }
+        if(color.equals(Translator.getColor().get(3))){
+            return PawnType.RED_DRAGONS;
+        }
+        if(color.equals(Translator.getColor().get(4))){
+            return PawnType.PINK_FAIRIES;
+        }
+        return null;
+    }
+
     // ACTION PHASE: MOVE MOTHER NATURE
     public static String getMoveMotherNaturePhaseName(){
         return isItalian? "FASE D'AZIONE: Spostamento di madre natura": "ACTION PHASE: move mother nature";
@@ -267,12 +421,6 @@ public class Translator {
     // END OF GAME
     public static String getEndGamePhaseName(){
         return isItalian ? "FINE DEL GIOCO" : "END OF THE GAME";
-    }
-
-    public static String getMessageChooseEndPhase(){
-        return isItalian ?
-                "inserisci \"esci\" per uscire dal gioco":
-                "insert \"exit\" to exit from the game";
     }
 
     public static String getMessageForTheWinner(){

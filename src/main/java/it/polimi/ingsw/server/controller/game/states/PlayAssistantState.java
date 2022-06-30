@@ -97,6 +97,7 @@ public class PlayAssistantState implements GameState {
         }else{
         // otherwise set the next current player and continue the planning phase
             gameModel.nextPlayerTurn();
+            game.setState(this);
         }
     }
 

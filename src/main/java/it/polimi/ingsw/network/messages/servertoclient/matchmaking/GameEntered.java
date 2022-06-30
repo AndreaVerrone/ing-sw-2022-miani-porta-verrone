@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.messages.servertoclient.matchmaking;
 
-import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
 import java.util.ArrayList;

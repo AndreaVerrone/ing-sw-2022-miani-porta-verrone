@@ -62,23 +62,27 @@ public class MoveMotherNatureScreen extends CliScreen {
         inputReader.addCommandValidator("[1-7]");
         // 2. the string to exit the game
         inputReader.addCommandValidator(Translator.getMessageToExit());
+        inputReader.addCommandValidator(Translator.getUseCard());
 
         // INPUT COMPLETER
         // 1. the string to exit
-        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit()));
+        inputReader.addCompleter(new StringsCompleter(Translator.getMessageToExit(), Translator.getUseCard()));
 
 
         //prompt the user to enter something and reads the input
-        String[] inputs = inputReader.readInput(Translator.getMessageMoveMotherNaturePhase());
+        String input = inputReader.readInput(Translator.getMessageMoveMotherNaturePhase())[0];
 
-        if (inputs[0].equals(Translator.getMessageToExit())) {
+        if (input.equals(Translator.getMessageToExit())) {
             // change screen
             getCli().confirmExit();
-        }else {
-            int numOfMovements;
-            numOfMovements=Integer.parseInt(inputs[0]);
-            // send message to server
-            getCli().getClientController().moveMotherNature(numOfMovements);
+            return;
         }
+        if (input.equals(Translator.getUseCard())) {
+            getCli().useCharacterCard();
+            return;
+        }
+        int numOfMovements = Integer.parseInt(input);
+        // send message to server
+        getCli().getClientController().moveMotherNature(numOfMovements);
     }
 }
