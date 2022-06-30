@@ -75,6 +75,7 @@ public class MoveMotherNatureScreen extends CliScreen {
         if (input.equals(Translator.getMessageToExit())) {
             // change screen
             getCli().confirmExit();
+            return;
         }
         if (input.equals(Translator.getUseCard())) {
             getCli().useCharacterCard();
