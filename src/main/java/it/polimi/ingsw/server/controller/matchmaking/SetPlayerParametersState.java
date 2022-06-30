@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * In this state all the players has joined the lobby,
@@ -78,6 +79,38 @@ class SetPlayerParametersState implements MatchMakingState{
         matchMaking.nextPlayer();
         matchMaking.setState(new SetPlayerParametersState(matchMaking, playerServing+1));
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Game> skipTurn() {
+        PlayerLoginInfo currentPlayer = matchMaking.getCurrentPlayer();
+        Random random = new Random();
+        if (currentPlayer.getTowerType() == null) {
+            int size = matchMaking.getTowersAvailable().size();
+            while (true) {
+                int randomTower = random.nextInt(size);
+                try {
+                    setTowerOfPlayer(TowerType.values()[randomTower]);
+                    break;
+                } catch (NotValidArgumentException ignore) {}
+            }
+        }
+        if (currentPlayer.getWizard() == null) {
+            int size = matchMaking.getWizardsAvailable().size();
+            while (true) {
+                int randomWizard = random.nextInt(size);
+                try {
+                    setWizardOfPlayer(Wizard.values()[randomWizard]);
+                    break;
+                } catch (NotValidArgumentException ignore) {}
+            }
+        }
+        try {
+            return next();
+        } catch (NotValidOperationException e) {
+            throw new AssertionError(e);
+        }
+
     }
 
     @Override

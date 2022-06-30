@@ -10,10 +10,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This state allows the current player to use the assistant card.
@@ -60,6 +57,10 @@ public class PlayAssistantState implements GameState {
         assistantsPlayed = new ArrayList<>();
     }
 
+    public Collection<Assistant> getAssistantsPlayed() {
+        return Collections.unmodifiableCollection(assistantsPlayed);
+    }
+
     @Override
     public void useAssistant(Assistant assistant) throws NotValidArgumentException {
 
@@ -96,6 +97,7 @@ public class PlayAssistantState implements GameState {
         }else{
         // otherwise set the next current player and continue the planning phase
             gameModel.nextPlayerTurn();
+            game.setState(this);
         }
     }
 

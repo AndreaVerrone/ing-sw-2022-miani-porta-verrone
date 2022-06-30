@@ -75,19 +75,25 @@ public class ChooseCloudScreen extends CliScreen {
         // 2. the string to exit
         inputReader.addCommandValidator(Translator.getMessageToExit()); // validator
         completers.add(new StringsCompleter(Translator.getMessageToExit())); // completer
+
+        inputReader.addCommandValidator(Translator.getUseCard());
+        completers.add(new StringsCompleter(Translator.getUseCard()));
         inputReader.addCompleter(new AggregateCompleter(completers));
 
         //prompt the user to enter something and reads the input
-        String[] inputs = inputReader.readInput(Translator.getMessageChooseCloudPhase());
+        String input = inputReader.readInput(Translator.getMessageChooseCloudPhase())[0];
 
-        if (inputs[0].equals(Translator.getMessageToExit())) {
+        if (input.equals(Translator.getMessageToExit())) {
             // change screen
             getCli().confirmExit();
-        }else {
-            int cloudID;
-             cloudID=Integer.parseInt(inputs[0]);
-            // send message to server
-            getCli().getClientController().takeStudentFromCloud(cloudID);
+            return;
         }
+        if (input.equals(Translator.getUseCard())) {
+            getCli().useCharacterCard();
+            return;
+        }
+        int cloudID = Integer.parseInt(input);
+        // send message to server
+        getCli().getClientController().takeStudentFromCloud(cloudID);
     }
 }

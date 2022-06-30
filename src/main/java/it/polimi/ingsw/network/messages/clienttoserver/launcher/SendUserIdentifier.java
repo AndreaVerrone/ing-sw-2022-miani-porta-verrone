@@ -1,14 +1,14 @@
 package it.polimi.ingsw.network.messages.clienttoserver.launcher;
 
 import it.polimi.ingsw.network.User;
-import it.polimi.ingsw.network.messages.NetworkMessage;
+import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
 
 /**
  * A message sent from client to server to send the unique identifier of a user.
  */
-public class SendUserIdentifier extends NetworkMessage {
+public class SendUserIdentifier extends ClientCommandNetMsg {
 
     /**
      * The unique identifier of a user
@@ -30,7 +30,8 @@ public class SendUserIdentifier extends NetworkMessage {
      * to the client that sent this message.
      * @param clientInServer the client in the server
      */
-    public void process(ClientHandler clientInServer){
+    @Override
+    public void normalProcess(ClientHandler clientInServer){
         clientInServer.setUser(new User(identifier));
         System.out.println("The secret is:\t" + identifier);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));

@@ -87,6 +87,16 @@ public class Text extends Widget {
     }
 
     /**
+     * Creates a Text widget with the provided content that occupies at most the width specified
+     * and uses the default colors of the terminal.
+     * @param text the content to display
+     * @param maxWidth the maximum width that this text should occupy, in character numbers
+     */
+    public Text(String text, int maxWidth){
+        this(text, Color.DEFAULT, Color.DEFAULT, maxWidth);
+    }
+
+    /**
      * Creates a Text widget with the provided content using the foreground and background colors chosen.
      * This Text will be as wide as needed.
      * @param text the content to display

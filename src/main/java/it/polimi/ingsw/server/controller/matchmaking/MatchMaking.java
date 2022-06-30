@@ -58,8 +58,11 @@ public class MatchMaking{
      * @param isHardMode {@code true} if wanted to start a hard game, {@code false} otherwise
      */
     public MatchMaking(int numPlayers, boolean isHardMode){
+        assert numPlayers == 2 || numPlayers == 3;
         this.numPlayers = numPlayers;
         this.isHardMode = isHardMode;
+        if (numPlayers != 3)
+            towersAvailable.remove(TowerType.GREY);
         setState(new ChangePlayersState(this));
     }
 
@@ -195,6 +198,15 @@ public class MatchMaking{
      */
     public Optional<Game> next() throws NotValidOperationException {
         return state.next();
+    }
+
+    /**
+     * Skips the turn of the current player, doing random choices when necessary
+     * @return {@link Optional#empty()} if no game was meant to be created, or an {@code Optional} containing
+     * the game created
+     */
+    public Optional<Game> skipTurn() {
+        return state.skipTurn();
     }
 
 

@@ -1,13 +1,15 @@
 package it.polimi.ingsw.client.view.cli.game.custom_widgets;
 
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedCharacter;
 import it.polimi.ingsw.client.reduced_model.ReducedCloud;
-import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.*;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.clouds.CloudsSet;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.islands.IslandsSet;
-import it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard.SchoolBoardView;
+import it.polimi.ingsw.client.view.cli.game.custom_widgets.schoolboard.PlayerView;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
@@ -26,9 +28,9 @@ public class Table extends StatefulWidget {
     private Collection<Assistant> assistantsList;
 
     /**
-     * map owner - assistant used.
+     * a list of assistant used.
      */
-    private final Map<String, Assistant> assistantsUsed;
+    private final Collection<Assistant> assistantsUsed;
 
     /**
      * a map containing the IDs of the clouds and the corresponding reduced cloud
@@ -36,9 +38,9 @@ public class Table extends StatefulWidget {
     private final Map<Integer, ReducedCloud> clouds = new HashMap<>();
 
     /**
-     * a map containing the owner of the school board and the corresponding reduced school board
+     * a map containing the nickname of the player and the corresponding reduced player
      */
-    private final Map<String,ReducedSchoolBoard> schoolBoards = new HashMap<>();
+    private final Map<String, ReducedPlayer> players = new HashMap<>();
 
     /**
      * the island set that are on the table.
@@ -46,28 +48,36 @@ public class Table extends StatefulWidget {
     private final IslandsSet islandsSet;
 
     /**
-     * the constructor of the class
-     * @param tableRecord the recordTable class
+     * The list of character cards present in the game, if any
      */
-    public Table(TableRecord tableRecord) {
+    private final Map<CharacterCardsType, ReducedCharacter> cards = new HashMap<>();
 
-        this.assistantsList = tableRecord.assistantsList();
+    /**
+     * the constructor of the class
+     * @param reducedModel the recordTable class
+     */
+    public Table(ReducedModel reducedModel) {
 
-        this.assistantsUsed = tableRecord.assistantsUsed();
+        this.assistantsList = reducedModel.getAssistantsList();
+
+        this.assistantsUsed = reducedModel.getAssistantsUsed();
 
         // create the map ID of clouds - student list
-        for (ReducedCloud cloud : tableRecord.clouds()) {
+        for (ReducedCloud cloud : reducedModel.getClouds()) {
             clouds.put(cloud.ID(), cloud);
         }
 
         // create the map between the owner and all the single elements of the school board
-        for(ReducedSchoolBoard schoolBoard: tableRecord.schoolBoardList()){
-            schoolBoards.put(schoolBoard.getOwner(),schoolBoard);
+        for(ReducedPlayer schoolBoard: reducedModel.getPlayersList()){
+            players.put(schoolBoard.getOwner(),schoolBoard);
         }
 
-        islandsSet = new IslandsSet(tableRecord.reducedIslands());
-        islandsSet.motherNatureMoved(tableRecord.motherNaturePosition());
+        islandsSet = new IslandsSet(reducedModel.getReducedIslands());
+        islandsSet.motherNatureMoved(reducedModel.getMotherNaturePosition());
 
+        if (reducedModel.isExpertGame())
+            for (ReducedCharacter card : reducedModel.getCharacterCards())
+                cards.put(card.getType(), card);
         create();
     }
 
@@ -84,8 +94,8 @@ public class Table extends StatefulWidget {
      * this method will return a copy of the map owner - assistant used.
      * @return map owner - assistant used
      */
-    public Map<String, Assistant> getAssistantsUsed() {
-        return new HashMap<>(this.assistantsUsed);
+    public Collection<Assistant> getAssistantsUsed() {
+        return new ArrayList<>(this.assistantsUsed);
     }
 
     /**
@@ -104,6 +114,10 @@ public class Table extends StatefulWidget {
         return islandsSet.getIslandsID();
     }
 
+    public Collection<CharacterCardsType> getCards() {
+        return Collections.unmodifiableCollection(cards.keySet());
+    }
+
     // SETTERS
 
     /**
@@ -120,7 +134,7 @@ public class Table extends StatefulWidget {
      * @param assistantUsed the actual last assistant used
      */
     public void setAssistantsUsed(String owner, Assistant assistantUsed) {
-        setState(()-> assistantsUsed.put(owner,assistantUsed));
+        setState(()-> players.get(owner).setLastAssistantUsed(assistantUsed));
     }
 
     /**
@@ -138,7 +152,7 @@ public class Table extends StatefulWidget {
      * @param studentsInEntrance the actual students on entrance
      */
     public void setEntranceList(String owner, StudentList studentsInEntrance) {
-        setState(()-> schoolBoards.get(owner).setStudentsInEntrance(studentsInEntrance));
+        setState(()-> players.get(owner).setStudentsInEntrance(studentsInEntrance));
     }
 
     /**
@@ -148,7 +162,7 @@ public class Table extends StatefulWidget {
      * @param studentsInDiningRoom the actual students in dining room
      */
     public void setDiningRoomList(String owner, StudentList studentsInDiningRoom) {
-        setState(()-> schoolBoards.get(owner).setStudentsInDiningRoom(studentsInDiningRoom));
+        setState(()-> players.get(owner).setStudentsInDiningRoom(studentsInDiningRoom));
     }
 
     /**
@@ -158,7 +172,7 @@ public class Table extends StatefulWidget {
      * @param professors the actual collection of professors
      */
     public void setProfTableList(String owner, Collection<PawnType> professors) {
-        setState(()-> schoolBoards.get(owner).setProfessors(professors));
+        setState(()-> players.get(owner).setProfessors(professors));
     }
 
     /**
@@ -168,7 +182,7 @@ public class Table extends StatefulWidget {
      * @param numOfTowers the actual number of towers
      */
     public void setTowerNumberList(String owner, int numOfTowers) {
-        setState(()-> schoolBoards.get(owner).setTowerNumber(numOfTowers));
+        setState(()-> players.get(owner).setTowerNumber(numOfTowers));
     }
 
     /**
@@ -178,7 +192,7 @@ public class Table extends StatefulWidget {
      * @param numOfCoins the actual number of coins
      */
     public void setCoinNumberList(String owner, int numOfCoins) {
-        setState(()-> schoolBoards.get(owner).setCoinNumber(numOfCoins));
+        setState(()-> players.get(owner).setCoinNumber(numOfCoins));
     }
 
     /**
@@ -223,6 +237,13 @@ public class Table extends StatefulWidget {
         islandsSet.unifyIslands(ID,IDIslandRemoved,removedIslandSize);
     }
 
+    public void updateCardCost(CharacterCardsType cardsType) {
+        setState(() -> cards.get(cardsType).setUsed());
+    }
+
+    public void updateStudentOnCard(CharacterCardsType cardsType, StudentList studentList){
+        setState(() -> cards.get(cardsType).setStudentList(studentList));
+    }
     /**
      * A method used to define by which Widgets this StatefulWidget is composed.
      * This method is run every time something in the content change or when it should be
@@ -233,50 +254,35 @@ public class Table extends StatefulWidget {
     @Override
     protected Widget build() {
 
+        Collection<Widget> content = new ArrayList<>();
         // header
         Text header = new Text(Translator.getHeaderOfTable());
+        content.add(header);
 
         // 1. deck
         Deck deck = new Deck(assistantsList);
+        content.add(deck);
 
         // 2. school boards and corresponding assistant card used
 
-        Column schoolBoardColumn = new Column();
-
-        for (String nickname : schoolBoards.keySet()) {
-
-            // create the school board
-            SchoolBoardView schoolBoardView = new SchoolBoardView(schoolBoards.get(nickname));
-
-            // create the card used (if present)
-            Widget assistantCardUsed;
-            if(assistantsUsed.containsKey(nickname)) {
-                assistantCardUsed = new AssistantCard(assistantsUsed.get(nickname));
-            }else{
-                assistantCardUsed = new Text("");
-            }
-
-            // create the row with school board and the card used
-            Row rowSchoolBoardCardUsed = new Row(List.of(schoolBoardView,assistantCardUsed));
-            // add the row to the column
-            schoolBoardColumn.addChild(rowSchoolBoardCardUsed);
-
+        boolean isExpertGame = !cards.isEmpty();
+        for (ReducedPlayer player : players.values()) {
+            content.add(new PlayerView(player, isExpertGame));
         }
 
-        // 3. islands
-//        islandsSet = new IslandsSet(reducedIslands);
+        content.add(islandsSet);
 
         // 4. clouds
         CloudsSet cloudsOnTable = new CloudsSet(clouds.values());
+        content.add(cloudsOnTable);
 
-        return new Column(
-                List.of(
-                    header,
-                    deck,
-                    schoolBoardColumn,
-                    islandsSet,
-                    cloudsOnTable
-            )
-        );
+        if (isExpertGame) {
+            Collection<Widget> cardsView = new ArrayList<>();
+            for (ReducedCharacter card : cards.values())
+                cardsView.add(new Padding(new CharacterCardView(card), 0, 5));
+            content.add(new Row(cardsView));
+        }
+
+        return new Column(content);
     }
 }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.network.VirtualView;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.game.Game;
@@ -18,9 +18,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * A class used as a common interface for the Matchmaking and Game
@@ -41,7 +39,12 @@ public class Match implements ObserversCommonInterface{
      * The views of the player in this match. All of this should be notified
      * when something in the match changes
      */
-    private final Collection<VirtualView> playersView = new ArrayList<>();
+    private final Map<String, VirtualView> playersView = new HashMap<>();
+
+    /**
+     * A list of all players that are offline at the moment
+     */
+    private final Set<String> offlinePlayers = new HashSet<>();
 
     /**
      * Creates a new Match for the number of player specified using the expert rules if {@code wantExpert}
@@ -63,13 +66,12 @@ public class Match implements ObserversCommonInterface{
     /**
      * Subscribe the view of a client to be notified of changes in the game.
      * If the client already was subscribed to this, the method actually do nothing.
+     * @param nickname the nickname of the user
      * @param client the view of the client to add
      */
-    public void addClient(VirtualView client){
+    public void addClient(String nickname, VirtualView client){
         synchronized (playersView) {
-            if (playersView.contains(client))
-                return;
-            playersView.add(client);
+            playersView.put(nickname, client);
         }
     }
 
@@ -77,7 +79,7 @@ public class Match implements ObserversCommonInterface{
      * Unsubscribe the view of a client to not receive any more update from this game.
      * @param client the view of the client to remove
      */
-    public void removeClient(VirtualView client){
+    public void removeClient(String client){
         synchronized (playersView) {
             playersView.remove(client);
         }
@@ -92,6 +94,74 @@ public class Match implements ObserversCommonInterface{
             return matchMaking.getCurrentPlayer().getNickname();
         return game.getCurrentPlayerNickname();
     }
+
+    /**
+     * This method will return the current state.
+     * It can be either a state of the game or a state of the creation of it.
+     * @return the current state
+     */
+    private StateType getCurrentState(){
+        if(game!=null){
+            return game.getState().getType();
+        }
+        return matchMaking.getState().getType();
+    }
+
+    public void setAsOffline(String nickname) {
+        synchronized (offlinePlayers) {
+            offlinePlayers.add(nickname);
+        }
+        if (nickname.equals(getCurrentPlayerNickname()))
+            skipTurn();
+    }
+
+    public void setAsOnline(String nickname) {
+        synchronized (offlinePlayers) {
+            offlinePlayers.remove(nickname);
+        }
+    }
+
+    /**
+     * Skips the turn of the current player, doing random choices when necessary
+     */
+    private void skipTurn() {
+        if (game != null) {
+            game.skipTurn();
+            return;
+        }
+        Optional<Game> possibleGame = matchMaking.skipTurn();
+        possibleGame.ifPresent(this::setGame);
+    }
+
+    private void setGame(Game game) {
+        matchMaking = null;
+        this.game = game;
+        addObserverToGame();
+        synchronized (playersView) {
+            for (String nickname : playersView.keySet())
+                game.askGameUpdate(nickname);
+        }
+    }
+
+    /**
+     * A method used to send all the information of this match.
+     * This is useful when a user resumes a game he was playing
+     * @param nickname the nickname of the user to notify
+     */
+    public void sendResumeInformation(String nickname) {
+        VirtualView view;
+        synchronized (playersView) {
+            view = playersView.get(nickname);
+        }
+        synchronized (this) {
+            if (matchMaking != null)
+                notifyGameEntered(view);
+            else
+                view.gameCreated(game.getReducedModel(nickname));
+            view.currentPlayerOrStateChanged(getCurrentState(), getCurrentPlayerNickname());
+        }
+    }
+
 
     /**
      * Notifies the requested client that he entered this match
@@ -151,19 +221,28 @@ public class Match implements ObserversCommonInterface{
     }
 
     /**
-     * Removes the player with the provided nickname from this lobby.
+     * Removes the player with the provided nickname from this game.
      * @param nickname the nickname of the player to remove
-     * @throws NotValidArgumentException if there is no player with the provided nickname
-     * @throws NotValidOperationException if a player can't leave the game in the current state
      */
-    public void removePlayer(String nickname) throws NotValidOperationException, NotValidArgumentException {
-        if (matchMaking == null)
-            throw new NotValidOperationException();
+    public void removePlayer(String nickname) {
+        boolean exitedGracefully = false;
         synchronized (this) {
-            matchMaking.removePlayer(nickname);
-            removeObserversFromPlayer(nickname);
-            if (matchMaking.getPlayers().isEmpty())
+            if (matchMaking != null)
+                try {
+                    matchMaking.removePlayer(nickname);
+                    exitedGracefully = true;
+                } catch (NotValidArgumentException | NotValidOperationException ignore) {}
+        }
+        synchronized (playersView) {
+            playersView.remove(nickname);
+            if (playersView.isEmpty()) {
                 Server.getInstance().deleteGame(this);
+                return;
+            }
+            if (exitedGracefully)
+                return;
+            for (VirtualView view : playersView.values())
+                view.notifyPlayerLeftGame(nickname);
         }
     }
 
@@ -226,12 +305,8 @@ public class Match implements ObserversCommonInterface{
         if (matchMaking == null)
             throw new NotValidOperationException();
         Optional<Game> possibleGame = matchMaking.next();
-        if (possibleGame.isPresent()){
-            matchMaking = null;
-            game = possibleGame.get();
-            addObserverToGame();
-            game.askGameUpdate();
-        }
+        Server.getInstance().makeGameUnavailable(this);
+        possibleGame.ifPresent(this::setGame);
     }
 
     /**
@@ -340,14 +415,6 @@ public class Match implements ObserversCommonInterface{
     }
 
     /**
-     * Skips the turn of the current player, doing random choices when necessary
-     */
-    public void skipTurn() {
-        if (game != null)
-            game.skipTurn();
-    }
-
-    /**
      * Method to use a character card of the specified type
      * @param cardType type of the character card to use
      * @throws NotValidOperationException if the card is used in basic mode or the players hasn't
@@ -362,36 +429,54 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void changeCurrentStateObserverUpdate(StateType stateType) {
-        for(VirtualView playerView: playersView){
-            playerView.currentPlayerOrStateChanged(stateType, getCurrentPlayerNickname());
+        boolean isOffline;
+        synchronized (offlinePlayers) {
+            isOffline = offlinePlayers.contains(getCurrentPlayerNickname());
+        }
+        if (isOffline) {
+            skipTurn();
+            return;
+        }
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.currentPlayerOrStateChanged(stateType, getCurrentPlayerNickname());
+            }
         }
     }
 
     @Override
     public void requestChoosePlayerParameter(
             Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
-        for (VirtualView playerView : playersView)
-            playerView.choosePlayerParameter(towersAvailable, wizardsAvailable);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values())
+                playerView.choosePlayerParameter(towersAvailable, wizardsAvailable);
+        }
     }
 
     @Override
     public void coinOnCardObserverUpdate(CharacterCardsType characterCardsType) {
-        for(VirtualView playerView: playersView){
-            playerView.coinOnCardAdded(characterCardsType);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.coinOnCardAdded(characterCardsType);
+            }
         }
     }
 
     @Override
     public void studentsOnCardObserverUpdate(CharacterCardsType characterCardType, StudentList actualStudents) {
-        for(VirtualView playerView: playersView){
-            playerView.studentsOnCardChanged(characterCardType, actualStudents);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.studentsOnCardChanged(characterCardType, actualStudents);
+            }
         }
     }
 
     @Override
     public void numberOfPlayersObserverUpdate(int numberOfPlayers) {
-        for(VirtualView playerView: playersView){
-            playerView.numberOfPlayersChanged(numberOfPlayers);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.numberOfPlayersChanged(numberOfPlayers);
+            }
         }
     }
 
@@ -399,44 +484,53 @@ public class Match implements ObserversCommonInterface{
     public void playersChangedObserverUpdate(Collection<PlayerLoginInfo> players) {
         Collection<ReducedPlayerLoginInfo> reducedPlayers = players.stream()
                 .map(PlayerLoginInfo::reduce).toList();
-        for(VirtualView playerView: playersView){
-            playerView.playersChanged(reducedPlayers);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.playersChanged(reducedPlayers);
+            }
         }
     }
 
     @Override
     public void towerSelectedObserverUpdate(String player, TowerType tower) {
-        for(VirtualView playerView: playersView){
-            playerView.towerSelected(player, tower);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.towerSelected(player, tower);
+            }
         }
     }
 
     @Override
     public void wizardSelectedObserverUpdate(String player, Wizard wizard) {
-        for(VirtualView playerView: playersView){
-            playerView.wizardSelected(player, wizard);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.wizardSelected(player, wizard);
+            }
         }
     }
 
     @Override
     public void banOnIslandObserverUpdate(int islandIDWithBan, int actualNumOfBans) {
-        for(VirtualView playerView: playersView){
-            playerView.numberOfBansOnIslandChanged(islandIDWithBan, actualNumOfBans);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.numberOfBansOnIslandChanged(islandIDWithBan, actualNumOfBans);
+            }
         }
     }
 
     @Override
     public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
 
-        // todo: maybe send only to the right player ?
-        for(VirtualView playerView: playersView){
-            playerView.assistantDeckChanged(nickName, actualDeck);
+        synchronized (playersView) {
+            try {
+                playersView.get(nickName).assistantDeckChanged(nickName, actualDeck);
+            }catch (NullPointerException e) {return;}
         }
 
         // check condition of last round : if the player finishes the card, then set last round flag
         if(actualDeck.isEmpty()){
             game.setLastRoundFlag();
-            for(VirtualView playerView: playersView){
+            for(VirtualView playerView: playersView.values()){
                 playerView.notifyLastRound();
             }
         }
@@ -444,29 +538,38 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void changeCoinNumberInBagObserverUpdate(int actualNumOfCoins) {
-        for(VirtualView playerView: playersView){
-            playerView.coinNumberInBagChanged(actualNumOfCoins);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.coinNumberInBagChanged(actualNumOfCoins);
+            }
         }
     }
 
     @Override
     public void changeCoinNumberObserverUpdate(String nickNameOfPlayer, int actualNumOfCoins) {
-        for(VirtualView playerView: playersView){
-            playerView.coinNumberOfPlayerChanged(nickNameOfPlayer, actualNumOfCoins);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.coinNumberOfPlayerChanged(nickNameOfPlayer, actualNumOfCoins);
+            }
         }
     }
 
     @Override
     public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
-        for(VirtualView playerView: playersView){
-            playerView.currentPlayerOrStateChanged(getCurrentState(),actualCurrentPlayerNickname);
+
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.currentPlayerOrStateChanged(getCurrentState(), actualCurrentPlayerNickname);
+            }
         }
     }
 
     @Override
     public void changeTowerNumberUpdate(String nickName, int numOfActualTowers) {
-        for(VirtualView playerView: playersView){
-            playerView.towerNumberOfPlayerChanged(nickName, numOfActualTowers);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.towerNumberOfPlayerChanged(nickName, numOfActualTowers);
+            }
         }
 
         // check condition of end of the game
@@ -480,7 +583,7 @@ public class Match implements ObserversCommonInterface{
         // set the last round flag
         game.setLastRoundFlag();
 
-        for(VirtualView playerView: playersView){
+        for(VirtualView playerView: playersView.values()){
             playerView.notifyLastRound();
         }
     }
@@ -494,78 +597,98 @@ public class Match implements ObserversCommonInterface{
         }
 
         // todo: maybe this is not needed
-        for(VirtualView playerView: playersView){
+        for(VirtualView playerView: playersView.values()){
             playerView.islandNumberChanged(actualNumOfIslands);
         }
     }
 
     @Override
-    public void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int finalSize) {
-        for(VirtualView playerView: playersView){
-            playerView.islandsUnified(islandID, islandRemovedID, finalSize);
+    public void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int sizeIslandRemoved) {
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.islandsUnified(islandID, islandRemovedID, sizeIslandRemoved);
+            }
         }
     }
 
     @Override
     public void lastAssistantUsedObserverUpdate(String nickName, Assistant actualLastAssistant) {
-        for(VirtualView playerView: playersView){
-            playerView.lastAssistantUsedChanged(nickName, actualLastAssistant);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.lastAssistantUsedChanged(nickName, actualLastAssistant);
+            }
         }
     }
 
     @Override
     public void motherNaturePositionObserverUpdate(int actualMotherNaturePosition) {
-        for(VirtualView playerView: playersView){
-            playerView.motherNaturePositionChanged(actualMotherNaturePosition);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.motherNaturePositionChanged(actualMotherNaturePosition);
+            }
         }
     }
 
     @Override
     public void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors) {
-        for(VirtualView playerView: playersView){
-            playerView.professorsOfPlayerChanged(nickName, actualProfessors);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.professorsOfPlayerChanged(nickName, actualProfessors);
+            }
         }
     }
 
     @Override
     public void studentsInDiningRoomObserverUpdate(String nickname, StudentList actualStudents) {
-        for(VirtualView playerView: playersView){
-            playerView.studentsInDiningRoomChanged(nickname, actualStudents);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.studentsInDiningRoomChanged(nickname, actualStudents);
+            }
         }
     }
 
     @Override
     public void studentsOnCloudObserverUpdate(int cloudID, StudentList actualStudentList) {
-        for(VirtualView playerView: playersView){
-            playerView.studentsOnCloudChanged(cloudID, actualStudentList);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.studentsOnCloudChanged(cloudID, actualStudentList);
+            }
         }
     }
 
     @Override
     public void studentsOnEntranceObserverUpdate(String nickname, StudentList actualStudents) {
-        for(VirtualView playerView: playersView){
-            playerView.studentsOnEntranceChanged(nickname, actualStudents);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.studentsOnEntranceChanged(nickname, actualStudents);
+            }
         }
     }
 
     @Override
     public void studentsOnIslandObserverUpdate(int islandID, StudentList actualStudents) {
-        for(VirtualView playerView: playersView){
-            playerView.studentsOnIslandChanged(islandID, actualStudents);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.studentsOnIslandChanged(islandID, actualStudents);
+            }
         }
     }
 
     @Override
     public void towerOnIslandObserverUpdate(int islandIDWithChange, TowerType actualTower) {
-        for(VirtualView playerView: playersView){
-            playerView.towerOnIslandChanged(islandIDWithChange, actualTower);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.towerOnIslandChanged(islandIDWithChange, actualTower);
+            }
         }
     }
 
     @Override
     public void endOfGameObserverUpdate(Collection<String> winners){
-        for(VirtualView playerView: playersView){
-            playerView.gameEnded(winners);
+        synchronized (playersView) {
+            for (VirtualView playerView : playersView.values()) {
+                playerView.gameEnded(winners);
+            }
         }
     }
 
@@ -576,21 +699,9 @@ public class Match implements ObserversCommonInterface{
      * @param table the table of the game
      */
     @Override
-    public void gameCreatedObserverUpdate(TableRecord table) {
-        for(VirtualView playerView: playersView){
-            playerView.gameCreated(table);
+    public void gameCreatedObserverUpdate(String nickname, ReducedModel table) {
+        synchronized (playersView) {
+            playersView.get(nickname).gameCreated(table);
         }
-    }
-
-    /**
-     * This method will return the current state.
-     * It can be either a state of the game or a state of the creation of it.
-     * @return the current state
-     */
-    private StateType getCurrentState(){
-        if(game!=null){
-            return game.getState().getType();
-        }
-        return matchMaking.getState().getType();
     }
 }

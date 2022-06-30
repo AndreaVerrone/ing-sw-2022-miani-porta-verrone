@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.cli.launcher;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.cli.CliScreen;
@@ -30,7 +31,7 @@ public class LauncherScreen extends CliScreen {
         canvas.setSubtitle(Translator.getGameSubtitle());
         canvas.show();
 
-        getCli().setNextScreen(new AskServerSpecificationScreen(getCli()));
+        getCli().getScreenBuilder().build(ScreenBuilder.Screen.SERVER_SPECS);
 
     }
 }

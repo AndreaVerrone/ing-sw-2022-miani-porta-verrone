@@ -83,7 +83,7 @@ public class UseCharacterCard1State extends UseCharacterCardState {
         // CHECKS
         // 1. check that the student to move has been set
         if(studentToMove==null){
-            throw new NotValidOperationException();
+            return;
         }
 
         // 2. check that the destination is an island

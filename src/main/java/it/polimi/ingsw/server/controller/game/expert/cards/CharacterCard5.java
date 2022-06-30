@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.game.expert.cards;
 
+import it.polimi.ingsw.client.reduced_model.ReducedCharacter;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
@@ -29,6 +30,11 @@ public class CharacterCard5 extends CharacterCard implements ConquerIslandObserv
 
         // attach the character card 5 to the list of the observers of invocation of conquerIsland method of GameModel
         game.getModel().addConquerIslandObserver(this);
+    }
+
+    @Override
+    protected ReducedCharacter reduce() {
+        return new ReducedCharacter(getCardType(), isUsed(), numOfBans);
     }
 
     @Override

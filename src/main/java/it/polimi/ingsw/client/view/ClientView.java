@@ -55,6 +55,19 @@ public abstract class ClientView implements VirtualView, Runnable {
     @Override
     public void currentPlayerOrStateChanged(StateType stateType, String currentPlayer) {
         clientController.setNickNameCurrentPlayer(currentPlayer);
-        screenBuilder.build(ScreenBuilder.Screen.parse(stateType));
+        ScreenBuilder.Screen screen = ScreenBuilder.Screen.parse(stateType);
+        if (screen != null)
+            screenBuilder.build(screen);
+    }
+
+    @Override
+    public void notifyPlayerLeftGame(String nickname) {
+        screenBuilder.build(ScreenBuilder.Screen.PLAYER_LEFT, nickname);
+    }
+
+    @Override
+    public final void updateNicknameGameID(String nickname, String gameID) {
+        clientController.setNickNameOwner(nickname);
+        clientController.setGameID(gameID);
     }
 }

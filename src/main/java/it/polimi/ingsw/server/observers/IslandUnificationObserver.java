@@ -11,7 +11,7 @@ public interface IslandUnificationObserver {
      *
      * @param islandID the ID of the island kept
      * @param islandRemovedID ID of the island that has been removed
-     * @param finalSize the size of the island after unification
+     * @param sizeIslandRemoved the size of the island to remove
      */
-    void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int finalSize);
+    void islandUnificationObserverUpdate(int islandID, int islandRemovedID, int sizeIslandRemoved);
 }

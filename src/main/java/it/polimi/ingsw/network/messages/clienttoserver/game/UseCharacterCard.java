@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.messages.clienttoserver.game;
 
+import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.network.messages.clienttoserver.ClientCommandNetMsg;
 import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.server.ClientHandler;
@@ -31,4 +33,10 @@ public class UseCharacterCard extends ClientCommandNetMsg {
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
 
+    @Override
+    public void processResponse(ResponseMessage response, ClientView clientView) {
+        super.processResponse(response, clientView);
+        if (response.isSuccess())
+            clientView.displayMessage(Translator.getCardUsedCorrectly());
+    }
 }

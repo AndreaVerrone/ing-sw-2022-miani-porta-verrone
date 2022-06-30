@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.player;
 
-import it.polimi.ingsw.client.reduced_model.ReducedSchoolBoard;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.model.CoinsBag;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -419,11 +419,11 @@ public class Player {
 
     // CREATION OF THE REDUCED VERSION
     /**
-     * Creates a reduced version of this school board used to represent it client side.
-     * @return a reduced version of this school board
-     * @see ReducedSchoolBoard
+     * Creates a reduced version of this player used to represent it client side.
+     * @return a reduced version of this player
+     * @see ReducedPlayer
      */
-    public ReducedSchoolBoard createSchoolBoardReduction(){
+    public ReducedPlayer reduce(){
 
         StudentList studentsInDiningRoom = new StudentList();
         for(PawnType color : PawnType.values()){
@@ -434,13 +434,14 @@ public class Player {
             }
         }
 
-        return new ReducedSchoolBoard(
+        return new ReducedPlayer(
                 nickName,
                 getStudentsInEntrance(),
                 getProfessors(),
                 studentsInDiningRoom,
                 getTowerType(),
                 getTowerNumbers(),
+                lastUsed,
                 getCoins()
         );
     }

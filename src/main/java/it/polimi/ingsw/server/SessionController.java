@@ -62,7 +62,7 @@ public class SessionController {
      */
     protected void detachFromGame(){
         if (match != null)
-            match.removeClient(view);
+            match.removeClient(nickname);
     }
 
     /**
@@ -97,41 +97,25 @@ public class SessionController {
             throw new NotValidArgumentException(ErrorCode.GAME_NOT_EXIST);
         }
         match.addPlayer(nickname);
-        match.addClient(view);
+        match.addClient(nickname, view);
 
         this.match = match;
         this.nickname = nickname;
         match.notifyGameEntered(view);
 
-        Server.getInstance().addPlayer(user, match);
+        Server.getInstance().addPlayer(user, nickname, match);
     }
 
     /**
      * Removes the player from the game. This is used in the matchmaking state to gracefully exit from a game.
-     *
-     * @param nickname the nickname of the player to remove
-     * @throws NotValidArgumentException  if there is no player with the provided nickname
-     * @throws NotValidOperationException if there is no game associated to this or if a player can't leave the game
-     * @apiNote Possible error codes:
-     * <ul>
-     *      <li>
-     *          {@link ErrorCode#GAME_NOT_EXIST}: if the client making the request is not in any game
-     *      </li>
-     *      <li>
-     *          {@link ErrorCode#GENERIC_INVALID_ARGUMENT}: if there is no player with the nickname provided in the game
-     *      </li>
-     *      <li>
-     *          {@link ErrorCode#GENERIC_INVALID_OPERATION}: if the player can't leave the game now
-     *      </li>
-     *  </ul>
      */
-    public void exitFromGame(String nickname)
-            throws NotValidOperationException, NotValidArgumentException {
-        if (match == null)
-            throw new NotValidOperationException(ErrorCode.GAME_NOT_EXIST);
-        match.removePlayer(nickname);
+    public void quitGame() {
+        if (match != null) {
+            match.removePlayer(nickname);
+        }
         detachFromGame();
         Server.getInstance().removePlayer(user);
+        match = null;
     }
 
     /**
@@ -148,6 +132,10 @@ public class SessionController {
      */
     public void resumeGame() throws NotValidArgumentException {
         match = Server.getInstance().resumeGame(user);
+        nickname = Server.getInstance().getNicknameOf(user);
+        view.updateNicknameGameID(nickname, Server.getInstance().getIDOf(match));
+        match.addClient(nickname, view);
+        match.sendResumeInformation(nickname);
     }
 
     /**
@@ -172,15 +160,6 @@ public class SessionController {
         return Server.getInstance().getGames();
     }
 
-    /**
-     * Forces the player to exit the game.
-     */
-    public void quitGame() {
-        detachFromGame();
-        Server.getInstance().removePlayer(user);
-        match = null;
-    }
-
     private void checkIfCanDo() throws NotValidOperationException {
         if (match == null)
             throw new NotValidOperationException(ErrorCode.GAME_NOT_EXIST);
@@ -192,13 +171,18 @@ public class SessionController {
      * Skips the turn of the current player, doing random choices when necessary
      */
     void skipPlayerTurn(){
-        try {
-            checkIfCanDo();
-        } catch (NotValidOperationException e) {
-            return;
-        }
-        match.skipTurn();
+        if (match != null)
+            match.setAsOffline(nickname);
     }
+
+    /**
+     * Signals that this client is returned online
+     */
+    void connectionRestored() {
+        if (match != null)
+            match.setAsOnline(nickname);
+    }
+
     /**
      * Sets if the game need to use expert rules.
      *

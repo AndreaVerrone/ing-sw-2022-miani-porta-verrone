@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.view.gui.controller.PlayerView;
 import it.polimi.ingsw.client.view.gui.controller.TableView;
 import it.polimi.ingsw.server.controller.StateType;
@@ -410,7 +410,7 @@ public class GUI extends ClientView {
      *
      * @param islandID        the id of the island that remained on the table
      * @param islandRemovedID the id of the island removed from the table
-     * @param finalSize       the size of the island removed
+     * @param sizeIslandRemoved       the size of the island removed
      */
     @Override
     public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
@@ -520,7 +520,7 @@ public class GUI extends ClientView {
     /**
      * Notifies that the game has been created
      *
-     * @param tableRecord the state of the game at that moment
+     * @param reducedModel the state of the game at that moment
      */
     @Override
     public void gameCreated(TableRecord tableRecord) {

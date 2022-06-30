@@ -100,7 +100,7 @@ class MoveStudentStateTest {
         }
         try {
             state.chooseDestination(island1);
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -224,7 +224,7 @@ class MoveStudentStateTest {
         }
         try {
             state.chooseDestination(new Position(Location.DINING_ROOM));
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -256,13 +256,13 @@ class MoveStudentStateTest {
             try {
                 state.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
                 state.chooseDestination(island1);
-            } catch (NotValidOperationException | NotValidArgumentException e) {
+            } catch (NotValidArgumentException e) {
                 fail();
             }
         }
 
         // check that the state has been changed into MoveMotherNatureState
-        assertEquals(game.getMoveMotherNatureState(),game.getState());
+        assertEquals(StateType.MOVE_MOTHER_NATURE_STATE,game.getState().getType());
     }
 
     @Test
@@ -285,7 +285,7 @@ class MoveStudentStateTest {
         try {
             state.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
             state.chooseDestination(island1);
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -310,13 +310,13 @@ class MoveStudentStateTest {
             try {
                 state.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
                 state.chooseDestination(new Position(Location.DINING_ROOM));
-            } catch (NotValidOperationException | NotValidArgumentException e) {
+            } catch (NotValidArgumentException e) {
                 fail();
             }
         }
 
         // check that the state has been changed into MoveMotherNatureState
-        assertEquals(game.getMoveMotherNatureState(),game.getState());
+        assertEquals(StateType.MOVE_MOTHER_NATURE_STATE,game.getState().getType());
     }
 
     @Test
@@ -336,7 +336,7 @@ class MoveStudentStateTest {
         try {
             state.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
             state.chooseDestination(new Position(Location.DINING_ROOM));
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -365,7 +365,7 @@ class MoveStudentStateTest {
         try {
             state.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
             state.chooseDestination(new Position(Location.DINING_ROOM));
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -373,7 +373,7 @@ class MoveStudentStateTest {
         try {
             state.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
             state.chooseDestination(island1);
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -381,7 +381,7 @@ class MoveStudentStateTest {
         try {
             state.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
             state.chooseDestination(new Position(Location.DINING_ROOM));
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
@@ -389,11 +389,11 @@ class MoveStudentStateTest {
         try {
             state.choseStudentFromLocation(PawnType.BLUE_UNICORNS,new Position(Location.ENTRANCE));
             state.chooseDestination(new Position(Location.DINING_ROOM));
-        } catch (NotValidOperationException | NotValidArgumentException e) {
+        } catch (NotValidArgumentException e) {
             fail();
         }
 
         // check that the state has been changed into MoveMotherNatureState
-        assertEquals(game.getMoveMotherNatureState(), game.getState());
+        assertEquals(StateType.MOVE_MOTHER_NATURE_STATE,game.getState().getType());
     }
 }

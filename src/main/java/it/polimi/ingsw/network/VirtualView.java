@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -16,6 +16,14 @@ import java.util.Collection;
  * An interface representing the view of the game
  */
 public interface VirtualView {
+
+    /**
+     * Resets the nickname and game ID of the client.
+     * This is useful when a client wants to resume a game he was playing.
+     * @param nickname the nickname of the client in the game
+     * @param gameID the ID of the game
+     */
+    void updateNicknameGameID(String nickname, String gameID);
 
     /**
      * Creates the initial view of the game (the matchmaking) using the parameter passed
@@ -41,6 +49,12 @@ public interface VirtualView {
      * @param currentPlayer the current player
      */
     void currentPlayerOrStateChanged(StateType stateType, String currentPlayer);
+
+    /**
+     * Notifies that the corresponding player left the game
+     * @param nickname the nickname of the player
+     */
+    void notifyPlayerLeftGame(String nickname);
 
     /**
      * Notifies that the passed card has been used and need to increase it's cost
@@ -130,9 +144,9 @@ public interface VirtualView {
      * Notifies that two islands have been unified
      * @param islandID the id of the island that remained on the table
      * @param islandRemovedID the id of the island removed from the table
-     * @param finalSize the size of the island removed
+     * @param sizeIslandRemoved the size of the island removed
      */
-    void islandsUnified(int islandID, int islandRemovedID, int finalSize);
+    void islandsUnified(int islandID, int islandRemovedID, int sizeIslandRemoved);
 
     /**
      * Notifies that the last assistant played of a player has changed
@@ -197,7 +211,7 @@ public interface VirtualView {
 
     /**
      * Notifies that the game has been created
-     * @param tableRecord the state of the game at that moment
+     * @param reducedModel the state of the game at that moment
      */
-    void gameCreated(TableRecord tableRecord);
+    void gameCreated(ReducedModel reducedModel);
 }

@@ -1,18 +1,16 @@
 package it.polimi.ingsw.client.view.cli;
 
-import it.polimi.ingsw.client.view.ClientView;
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
-import it.polimi.ingsw.client.reduced_model.TableRecord;
+import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.InputReader;
 import it.polimi.ingsw.client.view.cli.fancy_cli.inputs.Validator;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.Color;
 import it.polimi.ingsw.client.view.cli.fancy_cli.utils.ConsoleCli;
 import it.polimi.ingsw.client.view.cli.fancy_cli.widgets.Canvas;
-import it.polimi.ingsw.client.view.cli.game.EndGameScreen;
 import it.polimi.ingsw.client.view.cli.game.custom_widgets.Table;
-import it.polimi.ingsw.client.view.cli.matchmaking.ChooseParametersScreen;
-import it.polimi.ingsw.client.view.cli.matchmaking.LobbyScreen;
 import it.polimi.ingsw.client.view.cli.matchmaking.widgets.MatchmakingView;
 import it.polimi.ingsw.client.view.cli.waiting.IdleScreen;
 import it.polimi.ingsw.server.controller.StateType;
@@ -112,7 +110,7 @@ public class CLI extends ClientView {
     }
 
     public Canvas getBaseCanvas(){
-        Canvas canvas = new Canvas();
+        Canvas canvas = new Canvas(true, false);
         canvas.setTitle(APP_TITLE);
         canvas.setTitleColor(Color.BRIGHT_CYAN);
         canvas.setSubtitle(Translator.getGameSubtitle());
@@ -134,26 +132,50 @@ public class CLI extends ClientView {
     }
 
     /**
-     * Prompt the user to confirm that he want to close the application
+     * Prompt the user to confirm that he want to close the application or exit the game
+     * based on the parameter passed
+     * @param needToCloseApp true if this method should close the entire application
      */
-    public void confirmExit(){
+    public void confirmExit(boolean needToCloseApp){
         InputReader inputReader = new InputReader();
         inputReader.addCompleter(new AggregateCompleter(new StringsCompleter("yes"), new StringsCompleter("no")));
         inputReader.setNumOfArgsValidator(Validator.isOfNum(0));
         String input = inputReader.readInput(Translator.getConfirmExit())[0];
-        if (parseBoolean(input)) {
+        if (isNegativeAnswer(input)) {
+            getScreenBuilder().rebuild();
+            return;
+        }
+        if (needToCloseApp) {
             shouldStop = true;
             currentScreen.setStop();
             getClientController().closeApplication();
             return;
         }
-        setNextScreen(currentScreen);
+        getClientController().quitGame();
+        getScreenBuilder().build(ScreenBuilder.Screen.HOME);
     }
 
-    private boolean parseBoolean(String bool){
+    /**
+     * Prompt the user to confirm that he want to exit the game
+     */
+    public void confirmExit() {
+        confirmExit(false);
+    }
+
+    /**
+     * Moves to the screen when the player can choose a character card if the game is expert
+     */
+    public void useCharacterCard() {
+        if (getClientController().isForExpertGame())
+            getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_CHARACTER_CARD);
+        else
+            displayErrorMessage(Translator.getCantUseCard());
+    }
+
+    private boolean isNegativeAnswer(String bool){
         return switch (bool.toLowerCase(Locale.ROOT)){
-            case "y", "yes", "s", "si" -> true;
-            default -> false;
+            case "y", "yes", "s", "si" -> false;
+            default -> true;
         };
     }
     @Override
@@ -195,12 +217,14 @@ public class CLI extends ClientView {
                                       boolean isExpert, String currentPlayer) {
         getClientController().setNickNameCurrentPlayer(currentPlayer);
         matchmakingView = new MatchmakingView(playerLoginInfos, numPlayers, isExpert, getClientController().getGameID());
-        setNextScreen(new LobbyScreen(this));
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
     }
 
     @Override
-    public void gameCreated(TableRecord tableRecord) {
-        this.table = new Table(tableRecord);
+    public void gameCreated(ReducedModel reducedModel) {
+        this.table = new Table(reducedModel);
+        matchmakingView = null;
+        getClientController().setForExpertGame(reducedModel.isExpertGame());
     }
 
     @Override
@@ -228,19 +252,19 @@ public class CLI extends ClientView {
     public void choosePlayerParameter(Collection<TowerType> towersAvailable, Collection<Wizard> wizardsAvailable) {
         this.towersAvailable = towersAvailable;
         this.wizardsAvailable = wizardsAvailable;
-        setNextScreen(new ChooseParametersScreen(this));
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
     }
 
     @Override
     public void towerSelected(String player, TowerType tower) {
         matchmakingView.modify(player, tower);
-        setNextScreen(new ChooseParametersScreen(this));
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
     }
 
     @Override
     public void wizardSelected(String player, Wizard wizard) {
         matchmakingView.modify(player, wizard);
-        setNextScreen(new ChooseParametersScreen(this));
+        getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_ASK_PARAMS);
     }
 
     // PLANNING PHASE UPDATES METHODS
@@ -295,8 +319,8 @@ public class CLI extends ClientView {
     }
 
     @Override
-    public void islandsUnified(int islandID, int islandRemovedID, int finalSize) {
-        table.islandUnification(islandID, islandRemovedID, finalSize);
+    public void islandsUnified(int islandID, int islandRemovedID, int sizeIslandRemoved) {
+        table.islandUnification(islandID, islandRemovedID, sizeIslandRemoved);
     }
 
     @Override
@@ -330,12 +354,12 @@ public class CLI extends ClientView {
 
     @Override
     public void coinOnCardAdded(CharacterCardsType characterCardsType) {
-        // todo: implement
+        table.updateCardCost(characterCardsType);
     }
 
     @Override
     public void studentsOnCardChanged(CharacterCardsType characterCardType, StudentList actualStudents) {
-        // todo: implement
+        table.updateStudentOnCard(characterCardType, actualStudents);
     }
 
     // END GAME UPDATE METHODS
@@ -346,6 +370,6 @@ public class CLI extends ClientView {
 
     @Override
     public void gameEnded(Collection<String> winners) {
-        setNextScreen(new EndGameScreen(this,new ArrayList<>(winners)));
+        getScreenBuilder().build(ScreenBuilder.Screen.END_GAME, winners);
     }
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.controller.game.states;
 
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
-import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.Location;
@@ -64,10 +63,10 @@ public class MoveStudentState implements GameState {
     }
 
     @Override
-    public void chooseDestination(Position destination)throws NotValidOperationException,NotValidArgumentException{
+    public void chooseDestination(Position destination)throws NotValidArgumentException{
 
         if (studentToMove == null)
-            throw new NotValidOperationException();
+            return;
         if (destination.isLocation(Location.DINING_ROOM)) {
             moveToDiningRoom();
             updateState();

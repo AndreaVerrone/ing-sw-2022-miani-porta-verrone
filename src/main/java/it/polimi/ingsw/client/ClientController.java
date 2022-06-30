@@ -6,8 +6,12 @@ import it.polimi.ingsw.network.messages.clienttoserver.launcher.CreateNewGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.EnterGame;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.GetGames;
 import it.polimi.ingsw.network.messages.clienttoserver.launcher.ResumeGame;
-import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.*;
+import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.ChangeNumPlayers;
+import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.NextPhase;
+import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.SetTower;
+import it.polimi.ingsw.network.messages.clienttoserver.matchmaking.SetWizard;
 import it.polimi.ingsw.server.controller.game.Position;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -36,6 +40,11 @@ public class ClientController {
     private String gameID;
 
     /**
+     * If the client is playing an expert game
+     */
+    private boolean isForExpertGame;
+
+    /**
      * Virtual match played by the client
      */
     private ConnectionHandler connectionHandler;
@@ -62,6 +71,10 @@ public class ClientController {
         return gameID;
     }
 
+    public boolean isForExpertGame() {
+        return isForExpertGame;
+    }
+
     public String getNickNameCurrentPlayer() {
         return nickNameCurrentPlayer;
     }
@@ -76,6 +89,18 @@ public class ClientController {
 
     public void setNickNameCurrentPlayer(String currentPlayer) {
         nickNameCurrentPlayer = currentPlayer;
+    }
+
+    public void setNickNameOwner(String nickNameOwner) {
+        this.nickNameOwner = nickNameOwner;
+    }
+
+    public void setGameID(String gameID) {
+        this.gameID = gameID;
+    }
+
+    public void setForExpertGame(boolean forExpertGame) {
+        isForExpertGame = forExpertGame;
     }
 
     /**
@@ -167,13 +192,6 @@ public class ClientController {
             return;
         }
         connectionHandler.sendMessage(new ChangeNumPlayers(newNumberPlayers));
-    }
-
-    /**
-     * Sends a message to the server to exit the game
-     */
-    public void exitFromGame(){
-        connectionHandler.sendMessage(new ExitFromGame(nickNameOwner));
     }
 
     /**
@@ -269,5 +287,19 @@ public class ClientController {
             return;
         }
         connectionHandler.sendMessage(new TakeStudentsFromCloud(cloudId));
+    }
+
+    /**
+     * Make the client use a character card
+     * @param cardsType the card to use
+     */
+    public void useCharacterCard(CharacterCardsType cardsType) {
+        if (wrongPlayerTurn())
+            return;
+        if (!isForExpertGame) {
+            view.displayErrorMessage(Translator.getCantUseCard());
+            return;
+        }
+        connectionHandler.sendMessage(new UseCharacterCard(cardsType));
     }
 }

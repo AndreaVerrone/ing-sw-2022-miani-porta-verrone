@@ -138,7 +138,7 @@ public class Island {
         ban += island.ban;
 
         // notify the changes
-        notifyUnificationIslandObservers(ID, island.ID, this.size);
+        notifyUnificationIslandObservers(ID, island.ID, island.size);
         notifyBanOnIslandObservers(ID,this.ban);
         notifyStudentsOnIslandObservers(ID,this.students.clone());
 
@@ -210,11 +210,11 @@ public class Island {
      * This method notify all the attached observers a change involving the unification of islands.
      * @param islandID  the ID of the island kept
      * @param islandRemovedID ID of the island that has been removed
-     * @param finalSize the size of the island after unification
+     * @param sizeIslandRemoved the size of the island to remove
      */
-    private void notifyUnificationIslandObservers(int islandID, int islandRemovedID, int finalSize){
+    private void notifyUnificationIslandObservers(int islandID, int islandRemovedID, int sizeIslandRemoved){
         for(IslandUnificationObserver observer : unificationIslandObservers)
-            observer.islandUnificationObserverUpdate(islandID, islandRemovedID,finalSize);
+            observer.islandUnificationObserverUpdate(islandID, islandRemovedID,sizeIslandRemoved);
     }
 
     // MANAGEMENT OF OBSERVERS ON TOWER ON ISLAND

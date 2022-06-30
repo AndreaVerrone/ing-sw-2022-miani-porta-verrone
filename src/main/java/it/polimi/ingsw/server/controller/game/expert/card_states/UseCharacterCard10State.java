@@ -97,7 +97,8 @@ public class UseCharacterCard10State extends UseCharacterCardState {
             // EPILOGUE
             finalizeCardUsed();
             returnBack();
-        }
+        } else
+            getGame().setState(this);
     }
 
     /**

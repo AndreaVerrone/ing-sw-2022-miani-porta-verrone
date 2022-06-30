@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.controller.game.expert;
 
+import it.polimi.ingsw.client.reduced_model.ReducedCharacter;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
 import it.polimi.ingsw.server.controller.NotValidOperationException;
@@ -45,6 +47,12 @@ public class ExpertGame extends Game {
         super(players);
 
         cards = CharacterCardsFactory.createRandomCards(NUMBER_OF_CHARACTER_CARDS, this);
+    }
+
+    @Override
+    public ReducedModel getReducedModel(String nickname) {
+        Collection<ReducedCharacter> characters = cards.values().stream().map(CharacterCard::reduce).toList();
+        return ReducedModel.fromBase(super.getReducedModel(nickname), characters);
     }
 
     /**
