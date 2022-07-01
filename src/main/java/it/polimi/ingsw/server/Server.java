@@ -66,12 +66,24 @@ public class Server {
 
     public static void main(String[] args) {
 
-        //code used for initial debugging
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Server port?");
-        int portNumber = Integer.parseInt(scanner.nextLine());
-        //end of code used for initial debugging
+        int portNumber = 0;
+        while (portNumber == 0) {
+            System.out.println("Choose a server port");
+            int port;
+            try {
+                port = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("The server port must be a number between 1024 and 65535");
+                continue;
+            }
+            if (port < 1024 || port > 65535) {
+                System.out.println("The port must be between 1024 and 65535");
+                continue;
+            }
+            portNumber = port;
+        }
 
         try (ServerSocket serverSocket = new ServerSocket(portNumber)){
             while (true){
