@@ -171,11 +171,10 @@ public class GuiScreenBuilder extends ScreenBuilder {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ExitScreen.fxml"));
                 Parent root = loader.load();
 
-                ExitScreen exitScreen = loader.getController();
-                exitScreen.setUpExitScreen(new ArrayList<>(inputs));
-
+                GuiScreen exitScreen = loader.getController();
                 gui.setCurrentScreen(exitScreen);
                 exitScreen.attachTo(gui);
+                exitScreen.setUpExitScreen(new ArrayList<>(inputs));
 
                 Scene scene = new Scene(root);
 
