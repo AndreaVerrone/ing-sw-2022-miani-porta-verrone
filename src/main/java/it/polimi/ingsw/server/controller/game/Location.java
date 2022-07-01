@@ -8,7 +8,9 @@ public enum Location {
     CHARACTER_CARD_1,
     CHARACTER_CARD_9,
     CHARACTER_CARD_11,
+
     ENTRANCE,
     DINING_ROOM,
+
     NONE
 }

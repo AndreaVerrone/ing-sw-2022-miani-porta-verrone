@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.ScreenBuilder;
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.*;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.*;
@@ -243,6 +244,11 @@ public class TableView extends GuiScreen implements Initializable {
      */
     private int motherNatureIsland;
 
+    /**
+     * Current message shown
+     */
+    private String currentMessage = "BENVENUTO!";
+
 
     /**
      *Initialization of the table where schoolboards, islands, clouds and cards are created
@@ -279,73 +285,6 @@ public class TableView extends GuiScreen implements Initializable {
         return motherNatureIsland;
     }
 
-    public void tryCreateTable(){
-        PlayerLoginInfo player1 = new PlayerLoginInfo("Giorgio");
-        this.currentPlayer = "Giorgio";
-        player1.setTowerType(TowerType.BLACK);
-        player1.setWizard(Wizard.W1);
-        PlayerLoginInfo player2 = new PlayerLoginInfo("Andrea");
-        player2.setTowerType(TowerType.WHITE);
-        player2.setWizard(Wizard.W2);
-        PlayerLoginInfo player3 = new PlayerLoginInfo("Alessia");
-        player3.setTowerType(TowerType.GREY);
-        player3.setWizard(Wizard.W3);
-        /**
-        createTable(new ArrayList<>(List.of(player1,
-                player2,
-                player3)));*/
-
-        SchoolBoard schoolBoard = schoolboards.get("Giorgio");
-        schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
-        schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
-        schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
-        schoolBoard.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToEntrance(PawnType.RED_DRAGONS);
-        schoolBoard.addStudentToEntrance(PawnType.PINK_FAIRIES);
-        schoolBoard.addStudentToEntrance(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToEntrance(PawnType.GREEN_FROGS);
-        schoolBoard.addProfessor(PawnType.RED_DRAGONS);
-        schoolBoard.addProfessor(PawnType.BLUE_UNICORNS);
-        schoolBoard.addProfessor(PawnType.YELLOW_GNOMES);
-        schoolBoard.removeStudentFromDiningRoom(PawnType.GREEN_FROGS);
-        schoolBoard.removeStudentFromEntrance(PawnType.PINK_FAIRIES);
-        schoolBoard.removeStudentFromEntrance(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToEntrance(PawnType.YELLOW_GNOMES);
-        schoolBoard.addStudentToEntrance(PawnType.YELLOW_GNOMES);
-        schoolBoard.addStudentToEntrance(PawnType.YELLOW_GNOMES);
-        schoolBoard.addStudentToEntrance(PawnType.PINK_FAIRIES);
-        schoolBoard.removeProfessor(PawnType.BLUE_UNICORNS);
-        schoolBoard.removeTower();
-        schoolBoard.addProfessor(PawnType.GREEN_FROGS);
-
-        islands.get(5).addTower(TowerType.BLACK);
-        islands.get(10).addTower(TowerType.WHITE);
-        clouds.get(1).addStudent(PawnType.YELLOW_GNOMES);
-        clouds.get(1).addStudent(PawnType.RED_DRAGONS);
-        clouds.get(1).addStudent(PawnType.BLUE_UNICORNS);
-
-        islands.get(10).removeTower();
-        islands.get(7).removeMotherNature();
-
-        decks.get("Andrea").useAssistantCard(Assistant.CARD_10);
-        decks.get("Alessia").useAssistantCard(Assistant.CARD_5);
-
-        islands.get(3).addStudent(PawnType.YELLOW_GNOMES);
-        islands.get(3).addStudent(PawnType.GREEN_FROGS);
-        islands.get(3).addStudent(PawnType.YELLOW_GNOMES);
-        islands.get(7).addStudent(PawnType.RED_DRAGONS);
-        islands.get(9).addStudent(PawnType.PINK_FAIRIES);
-        islands.get(1).addStudent(PawnType.BLUE_UNICORNS);
-
-        addCards(new ArrayList<>((List.of(CharacterCardsType.CARD1,
-                CharacterCardsType.CARD5,
-                CharacterCardsType.CARD9))));
-
-        setCurrentPlayer("Giorgio");
-    }
-
 
     /**
      * Allows to create the table
@@ -368,7 +307,7 @@ public class TableView extends GuiScreen implements Initializable {
         setCoins(isExpertMode, players);
 
         if (isExpertMode){
-            //TODO Add card creation
+            addCards(reducedModel.getCharacterCards());
         }
 
         createSchoolBoard(reducedModel, players);
@@ -438,7 +377,7 @@ public class TableView extends GuiScreen implements Initializable {
      */
     private void setUpMessageView(Wizard wizard){
         messageLabel.setPadding(new Insets(5));
-        messageLabel.setText("Benvenuto!");
+        messageLabel.setText("BENVENUTO!");
         messageLabel.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
         messageLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(40), BorderStroke.MEDIUM)));
         messageLabel.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(40), Insets.EMPTY)));
@@ -456,7 +395,7 @@ public class TableView extends GuiScreen implements Initializable {
             if(playerNumber == 0){
                 ImageView coinViewPlayer1 = new ImageView(coinImage);
                 Label numberOfCoinsPlayer1 = new Label();
-                numberOfCoinsPlayer1.setText("0");
+                numberOfCoinsPlayer1.setText("1");
                 numberOfCoinsPlayer1.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
                 coinsPlayer1.getChildren().add(numberOfCoinsPlayer1);
                 coinsPlayer1.getChildren().add(coinViewPlayer1);
@@ -467,7 +406,7 @@ public class TableView extends GuiScreen implements Initializable {
             if(playerNumber == 1){
                 ImageView coinViewPlayer2 = new ImageView(coinImage);
                 Label numberOfCoinsPlayer2 = new Label();
-                numberOfCoinsPlayer2.setText("0");
+                numberOfCoinsPlayer2.setText("1");
                 numberOfCoinsPlayer2.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
                 coinsPlayer2.getChildren().add(numberOfCoinsPlayer2);
                 coinsPlayer2.getChildren().add(coinViewPlayer2);
@@ -478,7 +417,7 @@ public class TableView extends GuiScreen implements Initializable {
             if(playerNumber == 2){
                 ImageView coinViewPlayer3 = new ImageView(coinImage);
                 Label numberOfCoinsPlayer3 = new Label();
-                numberOfCoinsPlayer3.setText("0");
+                numberOfCoinsPlayer3.setText("1");
                 numberOfCoinsPlayer3.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
                 coinsPlayer3.getChildren().add(numberOfCoinsPlayer3);
                 coinsPlayer3.getChildren().add(coinViewPlayer3);
@@ -535,7 +474,6 @@ public class TableView extends GuiScreen implements Initializable {
         updateDiningRoomToPlayer(reducedPlayer.getOwner(), reducedPlayer.getStudentsInDiningRoom());
         updateTowersOnSchoolBoard(reducedPlayer.getOwner(), reducedPlayer.getTowerNumber());
         updateProfessorsToPlayer(reducedPlayer.getOwner(), reducedPlayer.getProfessors());
-        //changeNumberOfCoinsPlayer(reducedSchoolBoard.getOwner(), reducedSchoolBoard.getCoinNumber());
     }
 
     /**
@@ -588,15 +526,22 @@ public class TableView extends GuiScreen implements Initializable {
      * Allows to create and place the character cards on the table
      * @param cards List of {@code CharacterCardsType} randomly choosen to be used
      */
-    private void addCards(Collection<CharacterCardsType> cards){
+    private void addCards(Collection<ReducedCharacter> cards){
         FlowPane grid = new FlowPane(Orientation.HORIZONTAL, 300, 50);
         table.add(grid, 2, 2);
         grid.setTranslateX(500);
-        for(CharacterCardsType card : cards){
-            ImageView cardView = new ImageView(CharacterCardImageType.typeConverter(card).getImage());
-            CharacterCard newCard = new CharacterCard(card, cardView);
+        for(ReducedCharacter card : cards){
+            ImageView cardView = new ImageView(CharacterCardImageType.typeConverter(card.getType()).getImage());
+            CharacterCard newCard = new CharacterCard(getGui(), card.getType(), cardView);
             this.characterCards.add(newCard);
             grid.getChildren().add(cardView);
+            if(card.getBans() != null) {
+                newCard.setNumberOfBans(card.getBans());
+            }
+            if(card.getStudentList() != null){
+                newCard.setStudents(card.getStudentList());
+            }
+            newCard.setCost(card.getCost());
         }
 
     }
@@ -802,11 +747,13 @@ public class TableView extends GuiScreen implements Initializable {
      * @param cardType type of the card with the coin changed
      */
     public void addCoinOnCard(CharacterCardsType cardType){
-        for(CharacterCard card: characterCards){
-            if(card.getCardType().equals(cardType)){
-                card.incrementCost();
+        Platform.runLater(() -> {
+            for (CharacterCard card : characterCards) {
+                if (card.getCardType().equals(cardType)) {
+                    card.incrementCost();
+                }
             }
-        }
+        });
     }
 
     /**
@@ -830,7 +777,6 @@ public class TableView extends GuiScreen implements Initializable {
     public void showLastRound(){
 
         new Thread(() -> {
-            String oldText = messageLabel.getText();
             Platform.runLater(() -> messageLabel.setText("LAST ROUND"));
             for(int blinks = 0; blinks < 3; blinks ++){
                 Platform.runLater(() -> messageLabel.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(40), Insets.EMPTY))));
@@ -846,7 +792,7 @@ public class TableView extends GuiScreen implements Initializable {
                     throw new RuntimeException(e);
                 }
             }
-            Platform.runLater(()-> messageLabel.setText(oldText));
+            Platform.runLater(()-> messageLabel.setText(currentMessage));
         }).start();
     }
 
@@ -860,13 +806,13 @@ public class TableView extends GuiScreen implements Initializable {
         Platform.runLater( () -> {
             messageLabel.setText(message);
             messageLabel.setTextFill(Color.BLACK);
+            currentMessage = message;
         });
     }
 
 
     public void showErrorMessage(String message){
         new Thread(() -> {
-            String oldMessage = messageLabel.getText();
             Platform.runLater( () -> {
                 messageLabel.setText(message);
                 messageLabel.setTextFill(Color.RED);
@@ -876,7 +822,7 @@ public class TableView extends GuiScreen implements Initializable {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            Platform.runLater(() -> showMessage(oldMessage));
+            Platform.runLater(() -> showMessage(currentMessage));
         }).start();
     }
         //UNIFY ISLANDS
@@ -1025,85 +971,6 @@ public class TableView extends GuiScreen implements Initializable {
         }
     }
 
-
-        //DEBUGGING
-
-    /**
-     * Method and attribute used only for debugging, remove after
-     */
-    int clicks = 0;
-    public void tryUpdate(MouseEvent event){
-        clicks ++;
-        StudentList students1 = new StudentList();
-        StudentList students2 = new StudentList();
-        try {
-            students1.changeNumOf(PawnType.RED_DRAGONS, 3);
-            students1.changeNumOf(PawnType.GREEN_FROGS, 6);
-            students1.changeNumOf(PawnType.YELLOW_GNOMES, 2);
-            students2.changeNumOf(PawnType.GREEN_FROGS, 2);
-            students2.changeNumOf(PawnType.PINK_FAIRIES, 1);
-            students2.changeNumOf(PawnType.BLUE_UNICORNS, 1);
-        } catch (NotEnoughStudentException e) {
-            throw new RuntimeException(e);
-        }
-
-        updateDiningRoomToPlayer("Giorgio", students1);
-        updateDiningRoomToPlayer("Andrea", students1);
-        updateEntranceToPlayer("Giorgio", students2);
-        //updateEntranceToPlayer("Andrea", students2);
-        //updateEntranceToPlayer("Alessia", students2);
-
-        updateTowersOnSchoolBoard("Giorgio", 3);
-
-        showLastRound();
-
-        if (clicks == 1) {
-            motherNatureIsland = 6;
-            moveMotherNature(11);
-            updateTowerOnIsland(10, TowerType.WHITE);
-            changeBansOnIsland(10, 1);
-            unifyIslands(10, 11, 1);
-        }
-        if(clicks == 2){
-            moveMotherNature(2);
-            unifyIslands(10, 9, 1);
-        }
-        if(clicks == 3){
-            unifyIslands(9, 8, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 4){
-            unifyIslands(8, 7, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 5){
-            unifyIslands(6, 11, 5);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 6){
-            unifyIslands(0, 8, 6);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 7){
-            unifyIslands(6, 5, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 8){
-            unifyIslands(5, 4, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 9){
-            unifyIslands(4, 3, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-    }
 
 
 }

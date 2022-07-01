@@ -120,7 +120,7 @@ public class UseAssistantView extends GuiScreen {
             return;
         }
         Platform.runLater(()->{
-            getGui().getUseAssistantStage().close();
+            getGui().getUseCardStage().close();
             getGui().getClientController().useAssistant(assistantChosen);
             getGui().getStage().setFullScreen(true);
         });

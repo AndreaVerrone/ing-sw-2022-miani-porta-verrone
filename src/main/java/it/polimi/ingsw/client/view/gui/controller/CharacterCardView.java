@@ -1,10 +1,14 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.view.gui.ClientGui;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
+import it.polimi.ingsw.client.view.gui.listeners.StudentListener;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CoinImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandBanImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
+import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -21,7 +25,7 @@ import javafx.scene.text.TextAlignment;
 /**
  * Class that controls the view of the card when selected
  */
-public class CharacterCardView {
+public class CharacterCardView extends GuiScreen {
 
     /**
      * Pane where the card is located
@@ -92,7 +96,17 @@ public class CharacterCardView {
     private void addExtras(){
         for(PawnType color: PawnType.values()){
             for(int number = 0; number < card.getStudents().getNumOf(color); number++){
-                extras.getChildren().add(new ImageView(StudentImageType.typeConverter(color).getImageBigger()));
+                ImageView studentView = new ImageView(StudentImageType.typeConverter(color).getImageBigger());
+                extras.getChildren().add(studentView);
+                Location cardLocation  = switch (card.getCardType()){
+                    case CARD1 -> Location.CHARACTER_CARD_1;
+                    case CARD9 -> Location.CHARACTER_CARD_9;
+                    case CARD8 -> Location.NONE;
+                    case CARD11 -> Location.CHARACTER_CARD_11;
+                    case CARD12 -> Location.NONE;
+                    default -> null;
+                };
+                studentView.setOnMouseClicked(new StudentListener(getGui(), color, cardLocation));
             }
         }
         for(int numberOfBans=0; numberOfBans < card.getNumberOfBans(); numberOfBans++){
@@ -104,15 +118,22 @@ public class CharacterCardView {
      * Exit the view if the exit button is clicked
      */
     public void exitView(){
-        ClientGui.getSwitcher().goToCreateNewGame();
+        Platform.runLater(() -> {
+            getGui().getUseCardStage().close();
+            getGui().getStage().setFullScreen(true);
+        });
     }
 
     /**
      * Uses the card if the use button is clicked
      */
     public void useCharacterCard(){
-        //TODO: use character card
-        System.out.println("Card used");
+        Platform.runLater(() -> {
+            getGui().getClientController().useCharacterCard(card.getCardType());
+            getGui().getUseCardStage().close();
+            getGui().getStage().setFullScreen(true);
+            System.out.println("Card used");
+        });
     }
 
 

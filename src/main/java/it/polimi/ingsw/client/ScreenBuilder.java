@@ -20,6 +20,8 @@ public abstract class ScreenBuilder {
         MATCHMAKING_WAIT_PLAYERS,
         MATCHMAKING_ASK_PARAMS,
         PLAY_ASSISTANT_CARD,
+
+        CHOOSE_ASSISTANT_CARD,
         MOVE_STUDENT,
         MOVE_MOTHER_NATURE,
         CHOOSE_CLOUD,

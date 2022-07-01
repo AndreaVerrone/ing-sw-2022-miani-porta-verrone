@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.Translator;
-import it.polimi.ingsw.client.view.Switcher;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -15,8 +14,6 @@ import javafx.stage.Stage;
  * The client that is running the game
  */
 public class ClientGui extends javafx.application.Application {
-
-    private static Switcher switcher; // todo: remove
 
     /**
      * The main.
@@ -46,8 +43,6 @@ public class ClientGui extends javafx.application.Application {
 
         // create the client controller
         new ClientController(gui);
-
-        switcher = new Switcher(primaryStage); // todo: remove
 
         // set the stage nor resizable
         primaryStage.setResizable(false);
@@ -88,11 +83,6 @@ public class ClientGui extends javafx.application.Application {
             stage.close();
         }
     }
-
-  // todo: remove
-    public static Switcher getSwitcher() {
-      return switcher;
-  }
 
 }
 

@@ -126,7 +126,7 @@ public class GameTable {
         assert (numberOfIslands>=0): "Movements cannot be negative!";
 
         motherNaturePosition = (motherNaturePosition + numberOfIslands) % islands.size();
-        notifyMotherNaturePositionObservers(motherNaturePosition);
+        notifyMotherNaturePositionObservers(getMotherNaturePosition());
     }
 
     /**

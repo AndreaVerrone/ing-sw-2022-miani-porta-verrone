@@ -9,10 +9,19 @@ import javafx.event.EventHandler;
 
 public class StudentListener implements EventHandler {
 
+    /**
+     * Student listened
+     */
     private final PawnType student;
 
+    /**
+     * Location of the student listened
+     */
     private final Location location;
 
+    /**
+     * Gui of the game
+     */
     private final GUI gui;
 
     /**

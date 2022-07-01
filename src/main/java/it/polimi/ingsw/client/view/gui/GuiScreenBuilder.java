@@ -51,9 +51,9 @@ public class GuiScreenBuilder extends ScreenBuilder {
     /**
      * Method to load the screen specified by the path.
      */
-    public void goToScreen(){
+    public void goToScreen(String path){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(currentViewPath));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
 
             GuiScreen screenController = loader.getController();
@@ -82,28 +82,58 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     @Override
     public void build(Screen screen) {
-        currentViewPath = switch (screen){
-            case IDLE -> "/fxml/WaitScreen.fxml";
-            case CHOOSE_GAME_PARAMETERS -> "/fxml/CreateGameScreen.fxml";
-            case CHOOSE_LANGUAGE -> "/fxml/ChooseLanguageScreen.fxml";
-            case CONNECTION_ERROR -> "/fxml/ConnectionErrorScreen.fxml";
-            case LAUNCHER -> "/fxml/StartingScreen.fxml";
-            case HOME -> "/fxml/MenuScene.fxml";
-            case SERVER_SPECS -> "/fxml/ChooseServerParameters.fxml";
-            case MATCHMAKING_WAIT_PLAYERS -> "/fxml/LobbyScreen.fxml";
-            case MATCHMAKING_ASK_PARAMS -> "/fxml/ChooseWizardAndTowerScreen.fxml";
-            case PLAY_ASSISTANT_CARD -> "/fxml/UseAssistanScreen.fxml";//TODO missing;
-            case MOVE_STUDENT -> "/fxml/Table.fxml";
-            case MOVE_MOTHER_NATURE -> "/fxml/Table.fxml";//TODO ITS THE SAME SCREEN, SEE WHAT TO DO
-            case CHOOSE_CLOUD -> "/fxml/Table.fxml";
+        switch (screen){
+            case IDLE -> goToScreen("/fxml/WaitScreen.fxml");
+            case CHOOSE_GAME_PARAMETERS -> goToScreen("/fxml/CreateGameScreen.fxml");
+            case CHOOSE_LANGUAGE -> goToScreen("/fxml/ChooseLanguageScreen.fxml");
+            case CONNECTION_ERROR -> goToScreen("/fxml/ConnectionErrorScreen.fxml");
+            case LAUNCHER -> goToScreen("/fxml/StartingScreen.fxml");
+            case HOME -> goToScreen("/fxml/MenuScene.fxml");
+            case SERVER_SPECS -> goToScreen("/fxml/ChooseServerParameters.fxml");
+            case MATCHMAKING_WAIT_PLAYERS -> goToScreen("/fxml/LobbyScreen.fxml");
+            case CHOOSE_ASSISTANT_CARD -> goToScreen("/fxml/UseAssistanScreen.fxml");
+            case MATCHMAKING_ASK_PARAMS -> goToScreen("/fxml/ChooseWizardAndTowerScreen.fxml");
+            case PLAY_ASSISTANT_CARD -> goToTable();
+            case MOVE_STUDENT -> goToTable();
+            case CHOOSE_CHARACTER_CARD -> goToChooseCharacterCard();
+            case MOVE_MOTHER_NATURE, USE_CHARACTER_CARD4, USE_CHARACTER_CARD1, USE_CHARACTER_CARD5, USE_CHARACTER_CARD8, USE_CHARACTER_CARD9, USE_CHARACTER_CARD10, USE_CHARACTER_CARD11, USE_CHARACTER_CARD12, CHOOSE_CLOUD -> goToTable();
+            case ASK_NICKNAME -> goToScreen("/fxml/AskNicknameScreen.fxml");
             default -> throw new IllegalArgumentException();
-        };
+        }
 
-        goToScreen();
         if(screen.equals(Screen.HOME)){
             gui.show();
         }
 
+    }
+
+    /**
+     * Method to switch scene to the table view
+     */
+    private void goToTable(){
+        gui.setCurrentScene(gui.getTableScene());
+        gui.setCurrentScreen(gui.getTableScreen());
+        Platform.runLater(() ->gui.getStage().setFullScreen(true));
+    }
+
+    /**
+     * Method to switch scene to the character card view
+     */
+    private void goToChooseCharacterCard(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CharacterCard.fxml"));
+            Parent root = loader.load();
+
+            GuiScreen screenController = loader.getController();
+            gui.setCharacterCardScreen(screenController);
+            screenController.attachTo(gui);
+
+            currentScene = new Scene(root);
+            gui.setCurrentScene(currentScene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.ReducedModel;
+import it.polimi.ingsw.client.view.gui.controller.CharacterCard;
 import it.polimi.ingsw.client.view.gui.controller.PlayerView;
 import it.polimi.ingsw.client.view.gui.controller.TableView;
 import it.polimi.ingsw.server.controller.StateType;
@@ -48,25 +50,60 @@ public class GUI extends ClientView {
     // MATCHMAKING RELATED ATTRIBUTES
     private Map<String, PlayerView> playerViewMap;
 
+    /**
+     * ID of the game
+     */
     private String gameID;
 
+    /**
+     * Number of players in the game
+     */
     private int numPlayers;
 
+    /**
+     * True if the game is in expert mode
+     */
     private boolean isExpert;
 
+    /**
+     * Model reduced of the game
+     */
     private ReducedModel reducedModel;
 
+    /**
+     * Scene containing the table
+     */
     private Scene tableScene;
 
+    /**
+     * Controller of the table view
+     */
     private GuiScreen tableScreen;
 
+    /**
+     * Controller of the character card view
+     */
+    private GuiScreen characterCardScreen;
+
+    /**
+     * Current state of the game
+     */
     private StateType currentState;
 
+    /**
+     * List of players in the game
+     */
     private final List<PlayerView> players = new ArrayList<>();
 
+    /**
+     * Deck of the game
+     */
     private Collection<Assistant> deck = new ArrayList<>();
 
-    private Stage useAssistantStage = new Stage();
+    /**
+     * Stage containing the assistant or the character card view
+     */
+    private final Stage useCardStage = new Stage();
 
     public List<Assistant> getDeck() {
         return new ArrayList<>(deck);
@@ -90,12 +127,16 @@ public class GUI extends ClientView {
         return stage;
     }
 
-    public Stage getUseAssistantStage() {
-        return useAssistantStage;
+    public Stage getUseCardStage() {
+        return useCardStage;
     }
 
     public GuiScreen getTableScreen() {
         return tableScreen;
+    }
+
+    public Scene getTableScene() {
+        return tableScene;
     }
 
     public StateType getCurrentState() {
@@ -104,6 +145,10 @@ public class GUI extends ClientView {
 
     public void setCurrentScreen(GuiScreen screen){
         currentScreen = screen;
+    }
+
+    public void setCharacterCardScreen(GuiScreen characterCardScreen) {
+        this.characterCardScreen = characterCardScreen;
     }
 
     public void setCurrentScene(Scene currentScene) {
@@ -152,15 +197,30 @@ public class GUI extends ClientView {
 
     public void useAssistantCard(){
 
-        getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
+        getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_ASSISTANT_CARD);
         Platform.runLater(()->currentScreen.setUp(deck));
-        useAssistantStage.close();
+        showCard();
+    }
+
+    public void useCharacterCard(CharacterCard card){
+        getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_CHARACTER_CARD);
+        Platform.runLater(() -> characterCardScreen.fillView(card));
+        showCard();
+    }
+
+    /**
+     * method to show and use an assistant or a character card
+     */
+    private void showCard(){
+        useCardStage.close();
         stage.setFullScreen(false);
         stage.setX(0);
         stage.setY(0);
-        useAssistantStage.setScene(currentScene);
-        useAssistantStage.show();
+        useCardStage.setScene(currentScene);
+        useCardStage.show();
     }
+
+    private boolean needToUpdate = false;
 
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
@@ -172,27 +232,16 @@ public class GUI extends ClientView {
             //getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
             //Platform.runLater(()-> currentScreen.setUp(deck));
         //}
-        if(currentState.equals(StateType.MOVE_STUDENT_STATE)||currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
-            currentScene = tableScene;
-            currentScreen = tableScreen;
-           //stage.setX(0);
-            //stage.setY(0);
-            Platform.runLater(() -> stage.setFullScreen(true));
-            if(tableScreen == null){
-                System.out.println("Error"); //DEBUG
-            }
 
-        } else if (currentState.equals(StateType.MOVE_MOTHER_NATURE_STATE)) {
-
-        } else if (currentState.equals(StateType.CHOOSE_CLOUD_STATE)) {
-
-        } else{
-            getScreenBuilder().build(ScreenBuilder.Screen.parse(currentState));
-        }
+        getScreenBuilder().build(ScreenBuilder.Screen.parse(currentState));
         this.currentState = currentState;
-        currentScreen.setCurrentPlayer(currentPlayer);
-        currentScreen.updateState(currentState);
-        show();
+        if(currentScreen == null){
+            needToUpdate = true;
+        }else {
+            currentScreen.setCurrentPlayer(currentPlayer);
+            currentScreen.updateState(currentState);
+            show();
+        }
     }
 
 
@@ -208,7 +257,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void displayMessage(String message) {
-        currentScreen.showMessage(message);
+        tableScreen.showMessage(message);
     }
 
     /**
@@ -229,6 +278,7 @@ public class GUI extends ClientView {
         }
         this.numPlayers=numPlayers;
         this.isExpert=isExpert;
+        getClientController().setForExpertGame(isExpert);
         getScreenBuilder().build(ScreenBuilder.Screen.MATCHMAKING_WAIT_PLAYERS);
         Platform.runLater(()->currentScreen.setUp(gameID, numPlayers, isExpert, playerViewMap.values().stream().toList()));
         show();
@@ -328,11 +378,6 @@ public class GUI extends ClientView {
         playerViewMap.get(player).setWizard(wizard);
         if(!getClientController().isInTurn()){
             Platform.runLater(()->currentScreen.updateWizard(player, wizard));
-        }
-        for(PlayerView playerView: players){
-            if(playerView.getNickname().equals(player)){
-                playerView.setWizard(wizard);
-            }
         }
     }
 
@@ -533,23 +578,36 @@ public class GUI extends ClientView {
         System.out.println("Table created");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
-            Parent root = null;
+            Parent root;
 
             root = loader.load();
 
             tableScreen = loader.getController();
             tableScreen.attachTo(this);
             List<ReducedPlayerLoginInfo> players = new ArrayList<>();
-            players.add(new ReducedPlayerLoginInfo(getClientController().getNickNameOwner(), null, playerViewMap.get(getClientController().getNickNameOwner()).getWizard().get()));
-            for(String nickname: playerViewMap.keySet()){
-                if(!nickname.equals(getClientController().getNickNameOwner())) {
-                    players.add(new ReducedPlayerLoginInfo(nickname, null, playerViewMap.get(nickname).getWizard().get()));
+            Wizard ownerWizard = null;
+            for(ReducedPlayer reducedPlayer: reducedModel.getPlayersList()){
+                if(reducedPlayer.getOwner().equals(getClientController().getNickNameOwner())) {
+                    ownerWizard = reducedPlayer.getWizard();
                 }
             }
-            tableScreen.createTable(reducedModel, isExpert, players);
+            players.add(new ReducedPlayerLoginInfo(getClientController().getNickNameOwner(), null, ownerWizard));
+            for(ReducedPlayer reducedPlayer: reducedModel.getPlayersList()){
+                if(!reducedPlayer.getOwner().equals(getClientController().getNickNameOwner())) {
+                    players.add(new ReducedPlayerLoginInfo(reducedPlayer.getOwner(), null, reducedPlayer.getWizard()));
+                }
+            }
+            Platform.runLater(() -> tableScreen.createTable(reducedModel, reducedModel.isExpertGame(), players));
+            getClientController().setForExpertGame(reducedModel.isExpertGame());
 
 
             tableScene = new Scene(root);
+
+            if(needToUpdate){
+                tableScreen.setCurrentPlayer(getClientController().getNickNameCurrentPlayer());
+                tableScreen.updateState(getCurrentState());
+                show();
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);

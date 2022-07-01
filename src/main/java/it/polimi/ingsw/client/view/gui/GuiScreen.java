@@ -13,6 +13,9 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,23 +36,6 @@ public abstract class GuiScreen {
     public void attachTo(GUI gui){
         this.gui = gui;
     }
-
-    // todo: adapt this for GUI
-    /**
-     * A method to show this screen on the command line
-     */
-    //abstract protected void show();
-
-    /**
-     * A method used to ask the user to enter some input, if necessary
-     */
-    // protected void askAction() {}
-
-    /*final void run() {
-        show();
-        if (gui.getClientController().isInTurn())
-            askAction();
-    }*/
 
     //METHOD USED BY LOBBY SCREEN
     public void setUp(String gameID, int totalNumOfPlayers, boolean isExpert, List<PlayerView> playerViewList){
@@ -242,8 +228,18 @@ public abstract class GuiScreen {
         errorAlert.showAndWait();
     }
 
+    /**
+     * method to update the assistant deck of the owner
+     * @param deck
+     */
     public void updateDeck(List<Assistant> deck){
 
+        /**
+         * Method to fill the Character card with all the features
+         */
+    }
+
+    public void fillView(CharacterCard card){
     }
 
     public void setUpExitScreen(List<String> strings) {

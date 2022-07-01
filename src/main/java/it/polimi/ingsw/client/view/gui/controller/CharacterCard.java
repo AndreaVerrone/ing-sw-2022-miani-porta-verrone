@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui.controller;
 
 
 import it.polimi.ingsw.client.view.gui.ClientGui;
+import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CharacterCardImageType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.utils.PawnType;
@@ -27,47 +28,53 @@ public class CharacterCard {
     /**
      * Students eventually present on the card
      */
-    private StudentList students;
+    private final StudentList students;
 
     /**
-     * Nummber of bans eventually present on the card
+     * Number of bans eventually present on the card
      */
     private int numberOfBans = 0;
 
     /**
      * Cost of the card
      */
-    int cost;
+    private int cost;
 
     /**
      * True if there is a coin on the card
      */
-    boolean coinOnCard;
+    private boolean coinOnCard;
+
+    /**
+     * Gui of the game
+     */
+    private final GUI gui;
 
     /**
      * This lass represents a character card on the view with all its informations
      * @param cardType type of the card on the view
      * @param characterCardView {@code ImageView} of the card
+     * @param gui Gui of the game
      */
-    public CharacterCard(CharacterCardsType cardType, ImageView characterCardView){
+    public CharacterCard(GUI gui, CharacterCardsType cardType, ImageView characterCardView){
+        this.gui = gui;
         this.cardType = cardType;
         this.characterCardView = characterCardView;
         this.cost = cardType.getCost();
+        this.students = new StudentList();
 
-        characterCardView.setOnMouseClicked(mouseEvent -> ClientGui.getSwitcher().goToCharacterCardView(CharacterCard.this));
+        characterCardView.setOnMouseClicked(mouseEvent -> gui.useCharacterCard(this));
 
-        try {
-            students = new StudentList();
-            students.changeNumOf(PawnType.RED_DRAGONS, 4);
-            students.changeNumOf(PawnType.GREEN_FROGS, 1);
-            students.changeNumOf(PawnType.BLUE_UNICORNS, 1);
-            students = new StudentList();
-
-        } catch (NotEnoughStudentException e) {
-            throw new RuntimeException(e);
+        if(cardType.equals(CharacterCardsType.CARD8) || cardType.equals(CharacterCardsType.CARD12)){
+            for (PawnType color: PawnType.values()){
+                try {
+                    students.changeNumOf(color, 1);
+                } catch (NotEnoughStudentException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
-        setNumberOfBans(4);
-        setCoinOnCard(true);
+
     }
 
     public ImageView getCharacterCardView() {
@@ -90,8 +97,20 @@ public class CharacterCard {
         return numberOfBans;
     }
 
+    /**
+     * Returns true if there is a coin on hte card
+     * @return true if there is a coin on the card
+     */
     public boolean isCoinOnCard() {
         return coinOnCard;
+    }
+
+    /**
+     * Method to set the cost of the card
+     * @param cost
+     */
+    public void setCost(int cost){
+        this.cost = cost;
     }
 
     /**

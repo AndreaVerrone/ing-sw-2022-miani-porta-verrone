@@ -82,8 +82,14 @@ public class Cloud {
             studentsView.setTranslateY(-23);
             return;
         }
-        studentsView.setTranslateX(42);
-        studentsView.setTranslateY(33);
+        if(students.size() == 3) {
+            studentsView.setTranslateX(30);
+            studentsView.setTranslateY(33);
+        }
+        if(students.size() == 4){
+            studentsView.setTranslateX(80);
+            studentsView.setTranslateY(20);
+        }
     }
 
     /**
@@ -96,6 +102,10 @@ public class Cloud {
         students.clear();
     }
 
+    /**
+     * Method to update the students on a cloud
+     * @param students new students on the cloud
+     */
     public void updateStudents(StudentList students){
         removeAllStudents();
         for(PawnType pawnType: PawnType.values()){
@@ -105,10 +115,16 @@ public class Cloud {
         }
      }
 
+    /**
+     * Method to enable the listeners on the cloud
+     */
     public void enableLocationListener(){
         cloudListener.enableListener();
     }
 
+    /**
+     * method to disable the listeners on the cloud
+     */
     public void disableLocationListener() {
         cloudListener.disableListener();
     }
