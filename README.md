@@ -1,5 +1,5 @@
 # Software Engineering Project 2021 - 2022
-<img src="https://www.craniocreations.it/wp-content/uploads/2021/06/Eriantys_scatola3Dombra-600x600.png" width=400px height=400px style="float: right;"/>
+<img src="https://www.craniocreations.it/wp-content/uploads/2021/06/Eriantys_scatola3Dombra-600x600.png" width=400px height=400px align="right"/>
 
 **Group:** PSP31
 
