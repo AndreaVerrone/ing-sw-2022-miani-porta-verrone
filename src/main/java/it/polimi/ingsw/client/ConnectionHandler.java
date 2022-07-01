@@ -235,6 +235,7 @@ public class ConnectionHandler implements Runnable, NetworkSender {
      * Closes all the current tasks and terminates the application, causing no more messages to be read or sent.
      */
     public void closeApplication(){
+        sendMessage(new QuitGame());
         wantToClose = true;
         deleteIdentifier();
     }
