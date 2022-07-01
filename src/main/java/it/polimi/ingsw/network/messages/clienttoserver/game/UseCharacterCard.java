@@ -36,7 +36,11 @@ public class UseCharacterCard extends ClientCommandNetMsg {
     @Override
     public void processResponse(ResponseMessage response, ClientView clientView) {
         super.processResponse(response, clientView);
-        if (response.isSuccess())
+        if (response.isSuccess()) {
             clientView.displayMessage(Translator.getCardUsedCorrectly());
+            if (card == CharacterCardsType.CARD2 || card == CharacterCardsType.CARD3 ||
+                card == CharacterCardsType.CARD6 || card == CharacterCardsType.CARD7)
+                clientView.getScreenBuilder().rebuild();
+        }
     }
 }
