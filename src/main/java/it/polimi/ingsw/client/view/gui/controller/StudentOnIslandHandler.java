@@ -87,8 +87,9 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
      * @param islandGrid Grid used to place the students
      * @param islandColumn Column of the island of the students on the grid
      * @param islandRow Row of the island of the students on the grid
+     * @param isExpertMode if the game is an expert game mode
      */
-    public StudentOnIslandHandler(GridPane islandGrid, int islandColumn, int islandRow){
+    public StudentOnIslandHandler(GridPane islandGrid, int islandColumn, int islandRow, boolean isExpertMode){
 
         this.islandGrid = islandGrid;
         this.column = islandColumn;
@@ -100,6 +101,10 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
 
         paneSetUp();
         animationSetUp();
+
+        if(isExpertMode){
+            setExpertMode();
+        }
     }
 
     /**
@@ -154,7 +159,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
 
     /**
      * Method to change the number of bans on the island
-     * @param numberOfBans new numbe rof bans
+     * @param numberOfBans new number of bans
      */
     public void changeNumberOfBans(int numberOfBans){
         this.numberOfBans = numberOfBans;
@@ -240,6 +245,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
 
     /**
      * Method to not show anymore the students on the island
+     * @param show true if the students must be shown
      */
     public void showStudentsView(boolean show){
         this.show = show;

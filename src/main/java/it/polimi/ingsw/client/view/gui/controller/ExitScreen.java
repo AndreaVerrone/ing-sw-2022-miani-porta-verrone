@@ -1,13 +1,14 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 import java.util.List;
 
 /**
@@ -35,14 +36,18 @@ public class ExitScreen extends GuiScreen {
     @FXML
     private Button logoutButton;
 
+    @FXML
+    private AnchorPane background;
+
     /**
      * This method is used to set up this screen.
-     * It will fill the labels with the propert text based on the list of winners and
+     * It will fill the labels with the proper text based on the list of winners and
      * the owner of this GUI.
-     * @param winners the list of the winners.
+     * @param strings the list of the winners.
      */
-    public void setUpExitScreen(List<String> winners) {
-        setDescriptionText(winners);
+    public void setUpExitScreen(List<String> strings) {
+        background.setBackground(Background.fill(Color.LIGHTBLUE));
+        setDescriptionText(strings);
         logoutButton.setText(Translator.getExitButton());
     }
 
@@ -51,7 +56,10 @@ public class ExitScreen extends GuiScreen {
      * It allows to exit the game.
      */
     public void logout(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        getGui().getClientController().quitGame();
+        getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
+
+        /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(Translator.getAlertTitle());
         alert.setHeaderText(Translator.getAlertHeader());
         alert.setContentText(Translator.getAlertContent());
@@ -61,17 +69,12 @@ public class ExitScreen extends GuiScreen {
         cancelButton.setText(Translator.getTextOfCancelButton());
 
         if(alert.showAndWait().get() == ButtonType.OK) {
-            // 1. exit from game
             getGui().getClientController().closeApplication();
-            // 2. terminate the application
-            //Platform.exit();
-            //System.exit(0);
-            // 3. close the stage
             // set the stage to the current one that we are working with
             Stage stage = (Stage) scenePane.getScene().getWindow();
             // System.out.println("you have successfully logged out");
             stage.close();
-        }
+        }*/
     }
 
     /**
@@ -82,7 +85,6 @@ public class ExitScreen extends GuiScreen {
     private void setDescriptionText(List<String> winners){
 
         String ownerPlayer = getGui().getClientController().getNickNameOwner();
-        // String ownerPlayer = "player 1"; // todo: only for testing
 
         int numOfWinners = winners.size();
 
@@ -96,7 +98,7 @@ public class ExitScreen extends GuiScreen {
                 description.setText(Translator.getGameHasEndedMessage()+" \n\n "+ Translator.getMessageForTheWinner());
             } else {
                 // the winner is not the owner
-                description.setText(Translator.getGameHasEndedMessage()+" \n\n"+winners.get(0) + " " + Translator.getHaveWonTheGameMessage());
+                description.setText(Translator.getGameHasEndedMessage()+" \n\n"+winners.get(0) + " " + Translator.getHasWonTheGameMessage());
 
             }
 
@@ -107,7 +109,7 @@ public class ExitScreen extends GuiScreen {
             for (String winner : winners) {
                 message.append(winner).append("\n");
             }
-            message.append("\n ").append(Translator.getGameHasEndedMessage());
+            message.append("\n ").append(Translator.getHaveWonTheGameMessage());
             description.setText(message.toString());
         }
     }

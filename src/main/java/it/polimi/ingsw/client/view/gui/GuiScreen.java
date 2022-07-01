@@ -2,7 +2,10 @@ package it.polimi.ingsw.client.view.gui;
 
 
 import it.polimi.ingsw.client.Translator;
+import it.polimi.ingsw.client.reduced_model.ReducedModel;
+import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.view.gui.controller.*;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
@@ -10,10 +13,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.scene.control.Alert;
-
-
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 public abstract class GuiScreen {
@@ -23,7 +23,6 @@ public abstract class GuiScreen {
      */
     private GUI gui;
 
-
     public GUI getGui() {
         return gui;
     }
@@ -31,23 +30,6 @@ public abstract class GuiScreen {
     public void attachTo(GUI gui){
         this.gui = gui;
     }
-
-    // todo: adapt this for GUI
-    /**
-     * A method to show this screen on the command line
-     */
-    //abstract protected void show();
-
-    /**
-     * A method used to ask the user to enter some input, if necessary
-     */
-    // protected void askAction() {}
-
-    /*final void run() {
-        show();
-        if (gui.getClientController().isInTurn())
-            askAction();
-    }*/
 
     //METHOD USED BY LOBBY SCREEN
     public void setUp(String gameID, int totalNumOfPlayers, boolean isExpert, List<PlayerView> playerViewList){
@@ -70,6 +52,14 @@ public abstract class GuiScreen {
 
     //METHODS USED BY TABLE
 
+    public void setUp(Collection<Assistant> deck){
+
+    }
+
+    public void createTable(ReducedModel reducedModel, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
+
+    }
+
     /**
      * Allows to save the nickname of the current player and sets the label of the current player as yellow
      * @param currentPlayer nickname of the current player
@@ -83,6 +73,20 @@ public abstract class GuiScreen {
      */
     public void moveMotherNature(int movements){
     }
+
+    public int getMotherNatureIsland() {
+        return 0;
+    }
+
+    public  int getLastIslandClockWise(int islandID){
+        return 0;
+    }
+
+
+    public int getLastIslandCounterClockWise(int islandID){
+        return  0;
+    }
+
 
     /**
      * Method to change the number of bans on an island
@@ -105,7 +109,7 @@ public abstract class GuiScreen {
      * @param player player with the porfessor changed
      * @param professors new professors
      */
-    public void updateProfessorsToPlayer(String player, HashSet<PawnType> professors){
+    public void updateProfessorsToPlayer(String player, Collection<PawnType> professors){
     }
 
     /**
@@ -189,7 +193,7 @@ public abstract class GuiScreen {
     /**
      * Method to update the state of the game
      */
-    public void updateState(){
+    public void updateState(String stateString){
     }
 
     /**
@@ -197,6 +201,11 @@ public abstract class GuiScreen {
      * @param message message shown to the player
      */
     public void showMessage(String message){
+        Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+        infoAlert.setTitle("INFO");
+        infoAlert.setHeaderText("");
+        infoAlert.setContentText(message);
+        infoAlert.showAndWait();
     }
 
     /**
@@ -221,5 +230,22 @@ public abstract class GuiScreen {
         errorAlert.setHeaderText(Translator.getHeaderErrorAlert());
         errorAlert.setContentText(message);
         errorAlert.showAndWait();
+    }
+    
+    /**
+     * Method to fill the Character card with all the features
+     */
+    public void fillView(CharacterCard card){
+    }
+
+    public void setUpExitScreen(List<String> strings) {
+
+    }
+
+    /**
+     * Method to set the nickname of a player that has left the game
+     */
+    public void setNicknamePlayerLeft(String nicknamePlayerLeft){
+
     }
 }

@@ -162,8 +162,8 @@ public class ClientController {
      */
     public void enterGame(String nickName, String gameId){
         nickNameOwner = nickName;
-        connectionHandler.sendMessage(new EnterGame(nickName, gameId));
         this.gameID = gameId;
+        connectionHandler.sendMessage(new EnterGame(nickName, gameId));
     }
 
     /**

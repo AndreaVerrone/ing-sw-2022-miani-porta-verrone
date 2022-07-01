@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.view.gui.listeners.LocationListern;
+import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.client.view.gui.listeners.LocationListener;
 import it.polimi.ingsw.client.view.gui.listeners.StudentListener;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.ProfessorImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
@@ -18,22 +19,22 @@ import javafx.scene.layout.GridPane;
 
 import java.util.*;
 /**
- * Class that represents a schoolboard on the table of the game
+ * Class that represents a school board on the table of the game
  */
 public class SchoolBoard {
 
     /**
-     * True if this is the schoolboard of the client
+     * True if this is the school board of the client
      */
     boolean isFirstPlayer;
 
     /**
-     * Grid used tp place the students on the entrance of the schoolbard
+     * Grid used tp place the students on the entrance of the school board
      */
     private final GridPane gridEntrance;
 
     /**
-     * Grid used to place the students on the dining room of the schoolboard
+     * Grid used to place the students on the dining room of the school board
      */
     private final GridPane gridDiningRoom;
 
@@ -53,7 +54,7 @@ public class SchoolBoard {
     private final Map<PawnType, List<Pawn>> tables = new HashMap<>(4,1);
 
     /**
-     * List of professors place on the schoolboard
+     * List of professors place on the school board
      */
     private final List<Pawn> professors = new ArrayList<>();
 
@@ -67,15 +68,27 @@ public class SchoolBoard {
      */
     private final List<ImageView> towers = new ArrayList<>();
 
+    private LocationListener entranceListener;
+
+    private LocationListener diningRoomListener;
+
+    private final Set<StudentListener> entranceListeners = new HashSet<>();
+
+    private final Set<StudentListener> diningRoomListeners = new HashSet<>();
+
+    private final GUI gui;
+
     /**
-     * This class allows to add and remove students and towers on the schoolboard
-     * @param isFirstPlayer true if this is the schoolboard of the client
-     * @param gridEntrance Grid used tp place the students on the entrance of the schoolbard
-     * @param gridDiningRoom Grid used to place the students on the dining room of the schoolboard
+     * This class allows to add and remove students and towers on the school board
+     * @param isFirstPlayer true if this is the school board of the client
+     * @param gridEntrance Grid used tp place the students on the entrance of the school board
+     * @param gridDiningRoom Grid used to place the students on the dining room of the school board
      * @param gridTowers Grid used to place the towers on the tower hall
      * @param towerType Color of the tower used by the player
+     * @param gui the considered gui
      */
-    public SchoolBoard(boolean isFirstPlayer, GridPane gridEntrance, GridPane gridDiningRoom, GridPane gridTowers, TowerType towerType){
+    public SchoolBoard(GUI gui, boolean isFirstPlayer, GridPane gridEntrance, GridPane gridDiningRoom, GridPane gridTowers, TowerType towerType){
+        this.gui = gui;
         this.isFirstPlayer = isFirstPlayer;
         this.towerType = TowerImageType.typeConverter(towerType);
         this.gridEntrance = gridEntrance;
@@ -86,7 +99,6 @@ public class SchoolBoard {
         for(PawnType type : PawnType.values()) {
             tables.put(type, new ArrayList<>());
         }
-        updateTowers(8);
     }
 
     /**
@@ -96,10 +108,11 @@ public class SchoolBoard {
     public void addStudentToDiningRoom(PawnType type){
         if (tables.get(type).size() == 10) return; //If the dining room is full of student of the given color do nothing
         StudentImageType studentType = StudentImageType.typeConverter(type);
-        ImageView student = new ImageView(studentType.getImage());
-        tables.get(type).add(new Pawn(student, type));
+        ImageView studentView = new ImageView(studentType.getImage());
+        Pawn student = new Pawn(studentView, type);
+        tables.get(type).add(student);
         addListenerToPawn(student, type, Location.DINING_ROOM);
-        gridDiningRoom.add(student, tables.get(type).size(), studentType.getTablePosition());
+        gridDiningRoom.add(studentView, tables.get(type).size(), studentType.getTablePosition());
     }
 
     /**
@@ -108,25 +121,26 @@ public class SchoolBoard {
      */
     public void addStudentToEntrance(PawnType type){
         StudentImageType studentType = StudentImageType.typeConverter(type);
-        ImageView student = new ImageView(studentType.getImage());
+        ImageView studentView = new ImageView(studentType.getImage());
         int emptySpot = searchEmptySpotInEntrance();
         if (emptySpot == EntrancePosition.values().length) return;//If the entrance is full do nothing
+        Pawn student = new Pawn(studentView, type);
         if (emptySpot == entrance.size()){
-            entrance.add(new Pawn(student, type));
+            entrance.add(student);
         }
         else{
-            entrance.set(emptySpot, new Pawn(student, type));
+            entrance.set(emptySpot, student);
         }
         addListenerToPawn(student, type, Location.ENTRANCE);
         int row = EntrancePosition.values()[emptySpot].getRow();
         int column = EntrancePosition.values()[emptySpot].getColumn();
-        gridEntrance.add(student, column, row);
-        GridPane.setHalignment(student, HPos.RIGHT);
+        gridEntrance.add(studentView, column, row);
+        GridPane.setHalignment(studentView, HPos.RIGHT);
     }
 
     /**
      * Searches for an empty spot in the entrance where to place a student
-     * @return the index of {@code entrace} where there is an empty spot
+     * @return the index of {@code entrance} where there is an empty spot
      */
     private int searchEmptySpotInEntrance(){
         for(Pawn studentEmpty: entrance){
@@ -144,14 +158,13 @@ public class SchoolBoard {
         ProfessorImageType professorType = ProfessorImageType.typeConverter(type);
         ImageView professor = new ImageView(professorType.getImage());
         professors.add(new Pawn(professor, type));
-        //addListenerToPawn(professor, type, Location.DINING_ROOM); NO NEED TO ADD LISTENER TO PROFESSORS
         gridDiningRoom.add(professor, 12, professorType.getTablePosition());
         GridPane.setHalignment(professor, HPos.CENTER);
     }
 
     /**
      * Fills the tower hall with towers
-     * @param numberOfTowers total possible number of towers on the schoolboard. Depends on the number of players
+     * @param numberOfTowers total possible number of towers on the school board. Depends on the number of players
      */
     private void fillTowers(int numberOfTowers){
         for(int i=0; i<numberOfTowers; i++){
@@ -178,8 +191,10 @@ public class SchoolBoard {
      */
     public void removeStudentFromDiningRoom(PawnType type){
         if (tables.get(type).size() == 0) return;//If the dining room is empty do nothing
-        ImageView studentRemoved = tables.get(type).remove(tables.get(type).size()-1).getImageView();
-        gridDiningRoom.getChildren().remove(studentRemoved);
+        Pawn studentRemoved = tables.get(type).remove(tables.get(type).size()-1);
+        ImageView studentRemovedView = studentRemoved.getImageView();
+        gridDiningRoom.getChildren().remove(studentRemovedView);
+        removeListenerToPawn(studentRemoved, Location.DINING_ROOM);
     }
 
     /**
@@ -195,7 +210,8 @@ public class SchoolBoard {
                 break;
             }
         }
-        if (studentRemoved == null) return;//If the student  given is not present do nothing
+        if (studentRemoved == null) return;//If the student  given is not present, do nothing
+        removeListenerToPawn(studentRemoved, Location.ENTRANCE);
         entrance.set(entrance.indexOf(studentRemoved), null);
         gridEntrance.getChildren().remove(studentRemoved.getImageView());
     }
@@ -212,13 +228,13 @@ public class SchoolBoard {
                 break;
             }
         }
-        if(professorRemoved == null) return;//If the professor is not present do nothing
+        if(professorRemoved == null) return;//If the professor is not present, do nothing
         professors.remove(professorRemoved);
         gridDiningRoom.getChildren().remove(professorRemoved.getImageView());
     }
 
     /**
-     * Allows to remove a tower from the schoolboard
+     * Allows to remove a tower from the school board
      */
     public void removeTower(){
         if (towers.size() == 0) return; //If there are no towers do nothing
@@ -226,40 +242,130 @@ public class SchoolBoard {
         gridTowers.getChildren().remove(towerRemoved);
     }
 
+
+    //METHODS TO HANDLE LISTENERS
+
     /**
      * method to add a listener to a pawn
-     * @param pawn {@code Imageview} of the pawn where to add the listener
+     * @param pawn {@code Pawn} of the student where to add the listener
      * @param type {@code PawnType} of the pawn
      * @param location {@code Location} where the pawn is placed
      */
-    private void addListenerToPawn(ImageView pawn, PawnType type, Location location){
+    private void addListenerToPawn(Pawn pawn, PawnType type, Location location){
         if(isFirstPlayer){
-            pawn.setOnMouseClicked(new StudentListener(type, location));
+            StudentListener listener = new StudentListener(gui, type, location);
+            pawn.getImageView().setOnMouseClicked(listener);
+            if(location.equals(Location.ENTRANCE)){
+                entranceListeners.add(listener);
+            }else{
+                diningRoomListeners.add(listener);
+            }
+            pawn.attachListener(listener);
         }
     }
 
     /**
-     * Method to add a listener to a location  on the schoolboard
+     * method to remove a listener to a pawn
+     * @param pawn {@code Pawn} of the student where to remove the listener
+     * @param location {@code Location} where the pawn is placed
+     */
+    private void removeListenerToPawn(Pawn pawn, Location location){
+        if(isFirstPlayer){
+            StudentListener listener = pawn.getListener();
+            if(location.equals(Location.ENTRANCE)){
+                entranceListeners.remove(listener);
+            }else{
+                diningRoomListeners.remove(listener);
+            }
+        }
+    }
+
+    /**
+     * Method to add a listener to a location  on the school board
      * @param locationView view where to add the listener
      * @param locationType type of location where to add the listener
      */
     private void addListenerToLocation(GridPane locationView,Location locationType){
         if(isFirstPlayer){
-            LocationListern listener = new LocationListern(locationType) ;
+            LocationListener listener = new LocationListener(gui, locationType) ;
             locationView.setOnMouseClicked(listener);
+            if(locationType.equals(Location.ENTRANCE)){
+                entranceListener = listener;
+            }else {
+                diningRoomListener = listener;
+            }
         }
     }
 
     /**
-     * Method to update the professors in the schoolboard one at a time
-     * @param newProfessors new professors on the schoolboard
+     * This method will allow to enable listeners on the considered location
+     * @param location the considered location
      */
-    public void updateProfessors(HashSet<PawnType> newProfessors){
-       for(Pawn professorOnTable: professors) {
+    public void enableLocationListener(Location location){
+        if(location.equals(Location.ENTRANCE)){
+            entranceListener.enableListener();
+        }else {
+            diningRoomListener.enableListener();
+        }
+    }
+
+    /**
+     * This method will allow to disable listeners on the considered location
+     * @param location the considered location
+     */
+    public void disableLocationListener(Location location){
+        if(location.equals(Location.ENTRANCE)){
+            entranceListener.disableListener();
+        }else{
+            diningRoomListener.disableListener();
+        }
+    }
+
+    /**
+     * This method will allow to enable listeners on the students in the considered location
+     * @param location the considered location
+     */
+    public void enableStudentListeners(Location location){
+        if(location.equals(Location.ENTRANCE)){
+            for(StudentListener listener: entranceListeners){
+                listener.enableListener();
+            }
+        }else{
+            for(StudentListener listener: diningRoomListeners){
+                listener.enableListener();
+            }
+        }
+    }
+
+    /**
+     * This method will allow to disable listeners on the students in the considered location
+     * @param location the considered location
+     */
+    public void disableStudentListeners(Location location){
+        if(location.equals(Location.ENTRANCE)){
+            for(StudentListener listener: entranceListeners){
+                listener.disableListener();
+            }
+        }else{
+            for(StudentListener listener: diningRoomListeners){
+                listener.disableListener();
+            }
+        }
+    }
+
+    //METHODS TO UPDATE PAWNS ON THE SCHOOLBOARD
+
+    /**
+     * Method to update the professors in the school board one at a time
+     * @param newProfessors new professors on the school board
+     */
+    public void updateProfessors(Collection<PawnType> newProfessors){
+        Collection<Pawn> professorsCopy = new ArrayList<>(professors);
+       for(Pawn professorOnTable: professorsCopy) {
            if(!newProfessors.contains(professorOnTable.getType())) removeProfessor(professorOnTable.getType());
        }
        for(PawnType newProfessor: newProfessors){
-           if(!((professors.stream().map(Pawn::getType).toList()).contains(newProfessor))) addProfessor(newProfessor);
+           if(!((professorsCopy.stream().map(Pawn::getType).toList()).contains(newProfessor))) addProfessor(newProfessor);
        }
     }
 
@@ -288,8 +394,8 @@ public class SchoolBoard {
      */
     public void updateEntrance(StudentList newStudents){
         StudentList studentsCopy = newStudents.clone();
-        for(Pawn studentOnEntrance: entrance){
-            if(studentOnEntrance != null) {
+        for (Pawn studentOnEntrance : entrance) {
+            if (studentOnEntrance != null) {
                 if (studentsCopy.getNumOf(studentOnEntrance.getType()) == 0) {
                     removeStudentFromEntrance(studentOnEntrance.getType());
                 } else {
@@ -311,20 +417,21 @@ public class SchoolBoard {
                 }
                 else {
                     addStudentToEntrance(student);
-
                 }
             }
         }
     }
 
+    //METHODS TO UPDATE TOWERS ON THE SCHOOLBOARD
+
     /**
-     * Method to update the towers on the schoolboard
-     * @param numberOfTowers new number of towers on the schoolboard
+     * Method to update the towers on the school board
+     * @param numberOfTowers new number of towers on the school board
      */
     public void updateTowers(int numberOfTowers){
         int differenceNumberOfTowers = towers.size() - numberOfTowers;
         for(int i=0; i < Math.abs(differenceNumberOfTowers); i++){
-            if(differenceNumberOfTowers > 0) removeTower();
+            if (differenceNumberOfTowers > 0) removeTower();
             else addTower();
         }
 

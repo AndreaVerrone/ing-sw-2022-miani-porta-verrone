@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 public class StudentsOnCardAdded extends ServerCommandNetMsg {
 
     /**
-     * Card where the coin was added
+     * Card where the students changed
      */
     private final CharacterCardsType card;
 

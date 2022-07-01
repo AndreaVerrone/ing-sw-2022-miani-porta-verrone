@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.reduced_model;
 
 import it.polimi.ingsw.server.model.player.Assistant;
+import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
@@ -55,6 +56,11 @@ public class ReducedPlayer implements Serializable {
     private int coinNumber;
 
     /**
+     * Wizard chosen by the player
+     */
+    private final Wizard wizard;
+
+    /**
      * it will create a simplified version of a school board, used to store and use the information client side
      * @param owner the owner of the school board
      * @param studentsInEntrance the students at the entrance
@@ -64,6 +70,7 @@ public class ReducedPlayer implements Serializable {
      * @param towerNumber the number of the tower
      * @param lastAssistantUsed the last assistant used by this player
      * @param coinNumber the number of coins in the school board
+     * @param wizard wizard chosen by the player
      */
     public ReducedPlayer(
             String owner,
@@ -73,7 +80,7 @@ public class ReducedPlayer implements Serializable {
             TowerType towerType,
             int towerNumber,
             Assistant lastAssistantUsed,
-            int coinNumber) {
+            int coinNumber, Wizard wizard) {
         this.owner = owner;
         this.studentsInEntrance = studentsInEntrance;
         this.professors = new ArrayList<>(professors);
@@ -82,6 +89,7 @@ public class ReducedPlayer implements Serializable {
         this.towerNumber = towerNumber;
         this.lastAssistantUsed = lastAssistantUsed;
         this.coinNumber = coinNumber;
+        this.wizard = wizard;
     }
 
     // GETTER
@@ -115,6 +123,10 @@ public class ReducedPlayer implements Serializable {
 
     public int getCoinNumber() {
         return coinNumber;
+    }
+
+    public Wizard getWizard() {
+        return wizard;
     }
 
     // SETTER

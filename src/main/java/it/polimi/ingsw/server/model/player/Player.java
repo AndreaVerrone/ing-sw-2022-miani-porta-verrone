@@ -442,7 +442,8 @@ public class Player {
                 getTowerType(),
                 getTowerNumbers(),
                 lastUsed,
-                getCoins()
+                getCoins(),
+                assistantDeck.getWizard()
         );
     }
 }

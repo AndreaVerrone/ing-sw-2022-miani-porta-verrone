@@ -708,6 +708,43 @@ public class Translator {
                 "Choose the wizard and the tower to play with";
     }
 
+    // LOBBY SCREEN
+    public static String getLobbyHeader(){
+        return isItalian ?
+                "Info della partita":
+                "Info of the game";
+    }
+
+    public static String getGameIdentifier(){
+        return isItalian ?
+                "ID di questa partita:":
+                "Identifier of this game:";
+    }
+
+    public static String getNumOfPlayersString(){
+        return isItalian ?
+                "Numero di giocatori:":
+                "Number of players:";
+    }
+
+    public static String getDifficultyString(){
+        return isItalian ?
+                "Difficoltà:":
+                "Difficulty:";
+    }
+
+    public static String getWizard(){
+        return isItalian ?
+                "Mago":
+                "Wizard";
+    }
+
+    public static String getTower(){
+        return isItalian ?
+                "Torre":
+                "Tower";
+    }
+
     // CHOOSE GAME TO JOIN
     public static String getHeaderChooseGameToJoin(){
         return isItalian ? "Scegli il gioco a cui vuoi unirti":"choose the game to join";
@@ -724,6 +761,10 @@ public class Translator {
 
     public static String getHaveWonTheGameMessage(){
         return isItalian ? "hanno vinto la partita":"have won the game";
+    }
+
+    public static String getHasWonTheGameMessage(){
+        return isItalian ? "ha vinto la partita":"has won the game";
     }
 
     public static String getParityString(){
@@ -749,6 +790,56 @@ public class Translator {
 
     public static String getTextOfCancelButton(){
         return isItalian ? "Annulla":"Cancel";
+    }
+
+    // ******************************************* GAME SCREENS ********************************************************
+
+    public static String getOpenDeckMessage(){
+        return isItalian ?
+                "Clicca sulla carta assistente per aprire il mazzo":
+                "Click on the assistant to open your deck";
+    }
+
+    public static String getEmptyDeckMessage(){
+        return isItalian ? "Il tuo mazzo è vuoto": "Your deck is empty";
+    }
+
+    public static String getUseCardButton(){
+        return isItalian ? "Usa la carta": "Use card";
+    }
+
+    public static String getMoveStudentMessage(){
+        return isItalian ?
+                "Clicca su uno studente nel tuo ingresso e poi sull'isola o sulla sala per spostarlo":
+                "Click on a student at your entrance and then on the island on in the dining room to move it";
+    }
+
+    public static String getMoveMotherNatureMessage(){
+        return isItalian ?
+                "Clicca sull'isola sulla quale vuoi mettere madre natura":
+                "Click on the island on which you want to put mother nature";
+    }
+
+    public static String getChooseCloudMessage(){
+        return isItalian ?
+                "Clicca sulla nuvola da cui vuoi prendere gli studenti":
+                "Click on cloud from which you want to take the students";
+    }
+
+    public static String getChooseCloudPhaseName(){
+        return isItalian? "FASE D'AZIONE: Scelta della nuvola": "ACTION PHASE: choice of the cloud";
+    }
+
+    public static String getUseAssistantMessage(){
+        return isItalian ?
+                "Clicca sulla carta assistente per visualizzare il mazzo":
+                "Click on on hte assistan card to visualize your deck";
+    }
+
+    public static String getWelcomeMessage(){
+        return isItalian ?
+                "BENVENUTO!":
+                "WELCOME!";
     }
 
 }

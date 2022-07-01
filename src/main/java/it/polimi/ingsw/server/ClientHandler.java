@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.messages.responses.ResponseMessage;
 import it.polimi.ingsw.network.messages.servertoclient.PingMessage;
 import it.polimi.ingsw.network.messages.servertoclient.ServerCommandNetMsg;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -102,7 +103,7 @@ public class ClientHandler implements Runnable, NetworkSender {
                     handleMessage(message);
                 } catch (SocketTimeoutException e) {
                     sessionController.skipPlayerTurn();
-                } catch (SocketException e) {
+                } catch (SocketException | EOFException e) {
                     System.out.println("Connection ended for " + client.getInetAddress());
                     break;
                 }

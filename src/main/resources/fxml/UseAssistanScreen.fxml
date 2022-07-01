@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.UseAssistantView">
+   <children>
+      <Button fx:id="okButton" layoutX="285.0" layoutY="498.0" mnemonicParsing="false" onAction="#useAssistant" text="OK" AnchorPane.leftAnchor="243.0" AnchorPane.rightAnchor="243.0">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <ImageView fx:id="assistantImageView" fitHeight="270.0" fitWidth="184.0" layoutX="208.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="208.0" AnchorPane.rightAnchor="208.0">
+         <image>
+            <Image url="@../assets/assistantCards/Assistente_1.png" />
+         </image></ImageView>
+      <Button fx:id="sxButton" layoutX="208.0" layoutY="422.0" mnemonicParsing="false" onAction="#setPrevious" text="&lt;-" AnchorPane.leftAnchor="208.0" />
+      <Button fx:id="dxButton" layoutX="361.0" layoutY="422.0" mnemonicParsing="false" onAction="#setNext" text="-&gt;" AnchorPane.rightAnchor="208.0" />
+      <Label fx:id="indicator" alignment="CENTER" layoutX="239.0" layoutY="427.0" prefHeight="17.0" prefWidth="127.0" text="Label">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label fx:id="assistantName" alignment="CENTER" layoutX="2.0" layoutY="125.0" prefHeight="19.0" prefWidth="600.0" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="164.0" layoutY="78.0" prefHeight="17.0" prefWidth="154.0" textFill="#8a0000" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

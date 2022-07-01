@@ -1,16 +1,18 @@
 package it.polimi.ingsw.client.view.gui.listeners;
 
 import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.network.messages.servertoclient.game.StudentsOnCardAdded;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
 /**
- * This class is used to handle listener of students
+ * This class is used to handle listener of students on a character card
  */
-public class StudentListener implements EventHandler {
+public class StudentsOnCardListener implements EventHandler {
 
     /**
      * Student listened
@@ -38,7 +40,7 @@ public class StudentListener implements EventHandler {
      * @param student the student type
      * @param location the location of the student
      */
-    public StudentListener(GUI gui, PawnType student, Location location){
+    public StudentsOnCardListener(GUI gui, PawnType student, Location location){
         this.gui = gui;
         this.student = student;
         this.location = location;
@@ -62,10 +64,11 @@ public class StudentListener implements EventHandler {
     public void handle(Event event) {
         Position position = new Position(location);
         if(enable){
-            gui.getClientController().chooseStudentFromLocation(student, position);
-            System.out.println("Student " + student + " in location " + location); //Debugging
-        }else{
-            System.out.println("Listener disabled in location " + location); //Debugging
+            Platform.runLater(() -> {
+                gui.getClientController().chooseStudentFromLocation(student, position);
+                gui.getUseCardStage().close();
+                gui.getStage().setFullScreen(true);
+            });
         }
         event.consume();
     }

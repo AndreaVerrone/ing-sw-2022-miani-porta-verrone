@@ -2,15 +2,12 @@ package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
-import it.polimi.ingsw.client.view.gui.ClientGui;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -68,15 +65,11 @@ public class CreateGameScreen extends GuiScreen implements Initializable {
      */
     private final Integer[] numOfPlayersList = {2,3};
 
-    /**
-     * This is an array that contains the elements to fill the choice box the difficulty.
-     */
-    private List<String> difficultyList = new ArrayList<>();
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        difficultyList = Translator.getDifficultyParameters();
+
+        // This is an array that contains the elements to fill the choice box the difficulty.
+        List<String> difficultyList = Translator.getDifficultyParameters();
         // initialize the choice box for the number of players
         numOfPlayers.getItems().addAll(numOfPlayersList);
         // initialize the choice box for the difficulty.
@@ -95,7 +88,6 @@ public class CreateGameScreen extends GuiScreen implements Initializable {
         errorNumOfPlayers.setText("");
         errorDifficulty.setText("");
 
-
         if(numOfPlayers.getValue()==null){
             errorNumOfPlayers.setText(Translator.getMissingParameterError());
         }
@@ -109,13 +101,10 @@ public class CreateGameScreen extends GuiScreen implements Initializable {
 
         // show wait screen
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.IDLE);
+        getGui().show();
         // send message
         getGui().getClientController().createGame(numOfPlayers.getValue(), expertMode);
 
-        // todo: only for testing
-        System.out.println(numOfPlayers.getValue());
-        System.out.println(difficulty.getValue());
-        // ClientGui.getSwitcher().goToAskNicknameScreen(4);
     }
 
     /**
@@ -124,7 +113,7 @@ public class CreateGameScreen extends GuiScreen implements Initializable {
      */
     public void goBack() {
         getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
-        //getGui().run();
+        getGui().show();
     }
 
     /**

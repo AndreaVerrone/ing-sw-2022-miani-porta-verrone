@@ -77,13 +77,12 @@ public enum StudentImageType {
     }
 
     /**
-     * Method to get a bigget {@code Image} of a student from its path in the project
+     * Method to get a bigger {@code Image} of a student from its path in the project
      * @return {@code Image} of the student bigger
      */
     public Image getImageBigger(){
         return new Image(path, 60, 60, true, false);
     }
-
 
 
     /**

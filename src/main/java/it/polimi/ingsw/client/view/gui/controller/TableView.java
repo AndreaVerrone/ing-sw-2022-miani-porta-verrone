@@ -1,16 +1,18 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.reduced_model.*;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.*;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.CloudPosition;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.IslandPosition;
-import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.StateType;
+import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -23,17 +25,13 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
-
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -41,7 +39,7 @@ import java.util.List;
 /**
  * Class to handle the view of the table of the game
  */
-public class TableView implements Initializable {
+public class TableView extends GuiScreen {
 
     /**
      * Pane of the view used to scroll
@@ -188,7 +186,7 @@ public class TableView implements Initializable {
     private ImageView messageImage;
 
     /**
-     * Map with the schoolboards associated to every student
+     * Map with the school boards associated to every student
      */
     private final HashMap<String, SchoolBoard> schoolboards = new HashMap<>(3,1);
 
@@ -212,6 +210,7 @@ public class TableView implements Initializable {
      */
     private final HashMap<String, AssistantCardDeck> decks = new HashMap<>(3,1);
 
+
     /**
      * Map of the nicknames' labels associated to every player
      */
@@ -232,105 +231,80 @@ public class TableView implements Initializable {
      */
     private int motherNatureIsland;
 
+    /**
+     * Current message shown
+     */
+    private String currentMessage = "BENVENUTO!";
+
+
+    @Override
+    public int getMotherNatureIsland() {
+        return motherNatureIsland;
+    }
 
     /**
-     *Initialization of the table where schoolboards, islands, clouds and cards are created
+     * method to get the islands on the table
+     * @return List of islands on the table
      */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    public List<Island> getIslands() {
+        return islands;
     }
-
-    public void tryCreateTable(){
-        PlayerLoginInfo player1 = new PlayerLoginInfo("Giorgio");
-        this.currentPlayer = "Giorgio";
-        player1.setTowerType(TowerType.BLACK);
-        player1.setWizard(Wizard.W1);
-        PlayerLoginInfo player2 = new PlayerLoginInfo("Andrea");
-        player2.setTowerType(TowerType.WHITE);
-        player2.setWizard(Wizard.W2);
-        PlayerLoginInfo player3 = new PlayerLoginInfo("Alessia");
-        player3.setTowerType(TowerType.GREY);
-        player3.setWizard(Wizard.W3);
-        createTable(new ArrayList<>(List.of(player1,
-                player2,
-                player3)));
-
-        SchoolBoard schoolBoard = schoolboards.get("Giorgio");
-        schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
-        schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
-        schoolBoard.addStudentToDiningRoom(PawnType.GREEN_FROGS);
-        schoolBoard.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToDiningRoom(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToEntrance(PawnType.RED_DRAGONS);
-        schoolBoard.addStudentToEntrance(PawnType.PINK_FAIRIES);
-        schoolBoard.addStudentToEntrance(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToEntrance(PawnType.GREEN_FROGS);
-        schoolBoard.addProfessor(PawnType.RED_DRAGONS);
-        schoolBoard.addProfessor(PawnType.BLUE_UNICORNS);
-        schoolBoard.addProfessor(PawnType.YELLOW_GNOMES);
-        schoolBoard.removeStudentFromDiningRoom(PawnType.GREEN_FROGS);
-        schoolBoard.removeStudentFromEntrance(PawnType.PINK_FAIRIES);
-        schoolBoard.removeStudentFromEntrance(PawnType.BLUE_UNICORNS);
-        schoolBoard.addStudentToEntrance(PawnType.YELLOW_GNOMES);
-        schoolBoard.addStudentToEntrance(PawnType.YELLOW_GNOMES);
-        schoolBoard.addStudentToEntrance(PawnType.YELLOW_GNOMES);
-        schoolBoard.addStudentToEntrance(PawnType.PINK_FAIRIES);
-        schoolBoard.removeProfessor(PawnType.BLUE_UNICORNS);
-        schoolBoard.removeTower();
-        schoolBoard.addProfessor(PawnType.GREEN_FROGS);
-
-        islands.get(5).addTower(TowerType.BLACK);
-        islands.get(10).addTower(TowerType.WHITE);
-        clouds.get(1).addStudent(PawnType.YELLOW_GNOMES);
-        clouds.get(1).addStudent(PawnType.RED_DRAGONS);
-        clouds.get(1).addStudent(PawnType.BLUE_UNICORNS);
-
-        islands.get(10).removeTower();
-        islands.get(7).removeMotherNature();
-
-        decks.get("Andrea").useAssistantCard(Assistant.CARD_10);
-        decks.get("Alessia").useAssistantCard(Assistant.CARD_5);
-
-        islands.get(3).addStudent(PawnType.YELLOW_GNOMES);
-        islands.get(3).addStudent(PawnType.GREEN_FROGS);
-        islands.get(3).addStudent(PawnType.YELLOW_GNOMES);
-        islands.get(7).addStudent(PawnType.RED_DRAGONS);
-        islands.get(9).addStudent(PawnType.PINK_FAIRIES);
-        islands.get(1).addStudent(PawnType.BLUE_UNICORNS);
-
-        addCards(new ArrayList<>((List.of(CharacterCardsType.CARD1,
-                CharacterCardsType.CARD5,
-                CharacterCardsType.CARD9))));
-
-        setCurrentPlayer("Giorgio");
-    }
-
 
     /**
      * Allows to create the table
+     * @param reducedModel model reduced
+     * @param isExpertMode true if the game is in expert mode
      * @param players List of players playing
      */
-    public void createTable(List<PlayerLoginInfo> players){
-        table.setBackground(Background.fill(Color.LIGHTBLUE));
-        table.toBack();
-        scrollPane.toBack();
-        createSchoolBoard(players);
-        createIslands();
-        createClouds(players.size());
-        createAssistantDeck(players);
+    @Override
+    public void createTable(ReducedModel reducedModel, boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
+        Platform.runLater(() -> {
+                    table.setBackground(Background.fill(Color.LIGHTBLUE));
+                    table.toBack();
+                    scrollPane.toBack();
+                });
+
         setStateLabelProperties();
-        setUpMessageView(players.get(0).getWizard());
+        setUpMessageView(players.get(0).wizard());
         setNicknames(players);
-        setCoins(players);
+
+        setCoins(isExpertMode, players);
+
+        if (isExpertMode){
+            addCards(reducedModel.getCharacterCards());
+        }
+
+        createSchoolBoard(reducedModel, players);
+
+        createIslands(reducedModel, isExpertMode);
+
+        createClouds(reducedModel);
+
+        createAssistantDeck(players);
+
+        motherNatureIsland = reducedModel.getMotherNaturePosition();
+        Objects.requireNonNull(getIsland(reducedModel.getMotherNaturePosition())).addMotherNature();
+
+    }
+
+    /**
+     * Method to get an island from its ID
+     * @param islandID ID of the island request
+     * @return island with the ID given
+     */
+    private Island getIsland(int islandID){
+        for(Island island: islands){
+            if(island.getIslandID() == islandID){
+                return island;
+            }
+        }
+        return  null;
     }
 
     /**
      * Method to set the properties of the label that shows the state of the game
      */
     private void setStateLabelProperties(){
-        stateLabel.setTextAlignment(TextAlignment.RIGHT);
         stateLabel.setPadding(new Insets(5));
         stateLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 20));
         stateLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), BorderStroke.MEDIUM)));
@@ -341,20 +315,20 @@ public class TableView implements Initializable {
      * Allows to set the nicknames of the players when the game is created
      * @param players list of players playing
      */
-    private void setNicknames(List<PlayerLoginInfo> players){
+    private void setNicknames(List<ReducedPlayerLoginInfo> players){
         for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
             if(playerNumber == 0){
-                nickNameLabelPlayer1.setText(players.get(playerNumber).getNickname());
+                nickNameLabelPlayer1.setText(players.get(playerNumber).nickname());
                 playersLabel.put(nickNameLabelPlayer1.getText(), nickNameLabelPlayer1);
                 setNicknameLabelProperties(nickNameLabelPlayer1);
             }
             if(playerNumber == 1){
-                nickNameLabelPlayer2.setText(players.get(playerNumber).getNickname());
+                nickNameLabelPlayer2.setText(players.get(playerNumber).nickname());
                 playersLabel.put(nickNameLabelPlayer2.getText(), nickNameLabelPlayer2);
                 setNicknameLabelProperties(nickNameLabelPlayer2);
             }
             if(playerNumber == 2){
-                nickNameLabelPlayer3.setText(players.get(playerNumber).getNickname());
+                nickNameLabelPlayer3.setText(players.get(playerNumber).nickname());
                 playersLabel.put(nickNameLabelPlayer3.getText(), nickNameLabelPlayer3);
                 setNicknameLabelProperties(nickNameLabelPlayer3);
             }
@@ -379,6 +353,7 @@ public class TableView implements Initializable {
      */
     private void setUpMessageView(Wizard wizard){
         messageLabel.setPadding(new Insets(5));
+        messageLabel.setText("BENVENUTO!");
         messageLabel.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
         messageLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(40), BorderStroke.MEDIUM)));
         messageLabel.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(40), Insets.EMPTY)));
@@ -387,137 +362,185 @@ public class TableView implements Initializable {
 
     /**
      * Allows to set the coins on the view of the table
+     * @param isExpertMode true if the game is in expert mode
      * @param players list of players playing
      */
-    public void setCoins(List<PlayerLoginInfo> players){
+    public void setCoins(boolean isExpertMode, List<ReducedPlayerLoginInfo> players){
         Image coinImage = CoinImageType.COIN.getImage();
         for(int playerNumber =0; playerNumber < players.size(); playerNumber++){
             if(playerNumber == 0){
                 ImageView coinViewPlayer1 = new ImageView(coinImage);
                 Label numberOfCoinsPlayer1 = new Label();
-                numberOfCoinsPlayer1.setText("0");
+                numberOfCoinsPlayer1.setText("1");
                 numberOfCoinsPlayer1.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
                 coinsPlayer1.getChildren().add(numberOfCoinsPlayer1);
                 coinsPlayer1.getChildren().add(coinViewPlayer1);
-                playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer1);
+                playersCoinLabels.put(players.get(playerNumber).nickname(), numberOfCoinsPlayer1);
+                coinViewPlayer1.setVisible(isExpertMode);
+                numberOfCoinsPlayer1.setVisible(isExpertMode);
             }
             if(playerNumber == 1){
                 ImageView coinViewPlayer2 = new ImageView(coinImage);
                 Label numberOfCoinsPlayer2 = new Label();
-                numberOfCoinsPlayer2.setText("0");
+                numberOfCoinsPlayer2.setText("1");
                 numberOfCoinsPlayer2.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
                 coinsPlayer2.getChildren().add(numberOfCoinsPlayer2);
                 coinsPlayer2.getChildren().add(coinViewPlayer2);
-                playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer2);
+                playersCoinLabels.put(players.get(playerNumber).nickname(), numberOfCoinsPlayer2);
+                coinViewPlayer2.setVisible(isExpertMode);
+                numberOfCoinsPlayer2.setVisible(isExpertMode);
             }
             if(playerNumber == 2){
                 ImageView coinViewPlayer3 = new ImageView(coinImage);
                 Label numberOfCoinsPlayer3 = new Label();
-                numberOfCoinsPlayer3.setText("0");
+                numberOfCoinsPlayer3.setText("1");
                 numberOfCoinsPlayer3.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 40));
                 coinsPlayer3.getChildren().add(numberOfCoinsPlayer3);
                 coinsPlayer3.getChildren().add(coinViewPlayer3);
-                playersCoinLabels.put(players.get(playerNumber).getNickname(), numberOfCoinsPlayer3);
+                playersCoinLabels.put(players.get(playerNumber).nickname(), numberOfCoinsPlayer3);
+                coinViewPlayer3.setVisible(isExpertMode);
+                numberOfCoinsPlayer3.setVisible(isExpertMode);
             }
         }
     }
 
 
     /**
-     * ALlows to create and place the schoolboards on the table
+     * Allows to create and place the school boards on the table
+     * @param  reducedModel model reduced
      * @param players List of players playing
      */
-    private void createSchoolBoard(List<PlayerLoginInfo> players){
+    private void createSchoolBoard(ReducedModel reducedModel, List<ReducedPlayerLoginInfo> players){
         Image schoolBoardImage;
-        for (PlayerLoginInfo player : players) {
-            if (schoolboards.size() == 0) {
+        for (ReducedPlayer reducedPlayer: reducedModel.getPlayersList()) {
+            if (reducedPlayer.getOwner().equals(players.get(0).nickname())) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, players.get(0).getTowerType());
-                schoolboards.put(player.getNickname(), schoolBoardPlayer1);
+                SchoolBoard schoolBoardPlayer1 = new SchoolBoard(getGui(), true, gridEntrancePlayer1, gridDiningRoomPlayer1, gridTowersPlayer1, reducedPlayer.getTowerType());
+                schoolboards.put(reducedPlayer.getOwner(), schoolBoardPlayer1);
                 table.add(schoolBoardPlayer, 1, 4);
                 schoolBoardPlayer.toBack();
                 GridPane.setValignment(schoolBoardPlayer, VPos.BOTTOM);
-                continue;
-            }
-            if (schoolboards.size() == 1) {
+            } else if (reducedPlayer.getOwner().equals(players.get(1).nickname())) {
                 schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
                 ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, players.get(1).getTowerType());
-                schoolboards.put(player.getNickname(), schoolBoardPlayer2);
+                SchoolBoard schoolBoardPlayer2 = new SchoolBoard(getGui(), false, gridEntrancePlayer2, gridDiningRoomPlayer2, gridTowersPlayer2, reducedPlayer.getTowerType());
+                schoolboards.put(reducedPlayer.getOwner(), schoolBoardPlayer2);
                 table.add(schoolBoardPlayer, 1, 0);
                 schoolBoardPlayer.toBack();
                 GridPane.setValignment(schoolBoardPlayer, VPos.TOP);
-                continue;
+            }else {
+                schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
+                ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
+                schoolBoardPlayer.setRotate(-90);
+                SchoolBoard schoolBoardPlayer3 = new SchoolBoard(getGui(),false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, reducedPlayer.getTowerType());
+                schoolboards.put(reducedPlayer.getOwner(), schoolBoardPlayer3);
+                table.add(schoolBoardPlayer, 0, 2);
+                schoolBoardPlayer.toBack();
+                GridPane.setHalignment(schoolBoardPlayer, HPos.CENTER);
+                GridPane.setValignment(schoolBoardPlayer, VPos.CENTER);
+                schoolBoardPlayer.setTranslateY(24);
             }
-            schoolBoardImage = new Image("/assets/schoolboard/Plancia_DEF_reversed.png", 1500, 420, true, false);
-            ImageView schoolBoardPlayer = new ImageView(schoolBoardImage);
-            schoolBoardPlayer.setRotate(-90);
-            SchoolBoard schoolBoardPlayer3 = new SchoolBoard(false, gridEntrancePlayer3, gridDiningRoomPlayer3, gridTowersPlayer3, players.get(2).getTowerType());
-            schoolboards.put(player.getNickname(), schoolBoardPlayer3);
-            table.add(schoolBoardPlayer, 0, 2);
-            schoolBoardPlayer.toBack();
-            GridPane.setHalignment(schoolBoardPlayer, HPos.CENTER);
-            GridPane.setValignment(schoolBoardPlayer, VPos.CENTER);
-            schoolBoardPlayer.setTranslateY(24);
+            updateSchoolboard(reducedPlayer);
         }
+    }
+
+    private void updateSchoolboard(ReducedPlayer reducedPlayer){
+        updateEntranceToPlayer(reducedPlayer.getOwner(), reducedPlayer.getStudentsInEntrance());
+        updateDiningRoomToPlayer(reducedPlayer.getOwner(), reducedPlayer.getStudentsInDiningRoom());
+        updateTowersOnSchoolBoard(reducedPlayer.getOwner(), reducedPlayer.getTowerNumber());
+        updateProfessorsToPlayer(reducedPlayer.getOwner(), reducedPlayer.getProfessors());
     }
 
     /**
      * Allows to create and place the islands on the table
      */
-    private void createIslands(){
+    private void createIslands(ReducedModel reducedModel, boolean isExpertMode){
         int row;
         int column;
-        for(int islandID=0; islandID<12; islandID++){
+        for(ReducedIsland islandReduced : reducedModel.getReducedIslands()){
             int random = new Random().nextInt(IslandImageType.values().length);
             Image RandomIslandImage = IslandImageType.values()[random].getImage();
             ImageView islandView = new ImageView(RandomIslandImage);
             islandView.setCursor(Cursor.HAND);
-            column= IslandPosition.values()[islandID].getColumn();
-            row=IslandPosition.values()[islandID].getRow();
+            column= IslandPosition.values()[islandReduced.ID()].getColumn();
+            row=IslandPosition.values()[islandReduced.ID()].getRow();
             islandGrid.add(islandView, column, row);
             islandView.toBack();
             GridPane.setValignment(islandView, VPos.CENTER);
             GridPane.setHalignment(islandView, HPos.CENTER);
-            Island island = new Island(islandGrid, islandView, islandID);
+            Island island = new Island(getGui(), islandGrid, islandView, islandReduced.ID(), isExpertMode);
             islands.add(island);
+            island.updateStudentsOnIsland(islandReduced.studentList());
+            updateTowerOnIsland(islandReduced.ID(), islandReduced.tower());
+            island.changeNumberOfBans(islandReduced.ban());
+            if(islandReduced.size() > 1){
+                updateIslandUnified(islandReduced, island, isExpertMode);
+            }
+
+        }
+    }
+
+    void updateIslandUnified(ReducedIsland reducedIsland, Island island, boolean isExpertMode){
+        for(int size = reducedIsland.size(); size > 1; size --){
+            int random = new Random().nextInt(IslandImageType.values().length);
+            Image RandomIslandImage = IslandImageType.values()[random].getImage();
+            ImageView islandView = new ImageView(RandomIslandImage);
+            islandView.setCursor(Cursor.HAND);
+                int column= IslandPosition.values()[island.getIslandID()].getColumn();
+                int row=IslandPosition.values()[island.getIslandID()].getRow();
+                islandGrid.add(islandView, column, row);
+                islandView.toBack();
+                GridPane.setValignment(islandView, VPos.CENTER);
+                GridPane.setHalignment(islandView, HPos.CENTER);
+                Island islandUnified = new Island(getGui(), islandGrid, islandView, island.getIslandID(), isExpertMode);
+                islands.add(island);
+                island.calculateCoordinates();
+                islandUnified.translateIsland(island.getClockWiseXCoordinate(), island.getClockWiseYCoordinate());
         }
     }
 
     /**
      * Allows to create and place the clouds on the table
-     * @param numberOfPlayers number of players playing
+     * @param reducedModel model reduced
      */
-    private void createClouds(int numberOfPlayers){
+    private void createClouds(ReducedModel reducedModel){
         int row;
         int column;
-        for(int i=0;i<numberOfPlayers; i++){
-            Image cloudImage = CloudImageType.values()[i].getImage();
+        for(ReducedCloud reducedCloud: reducedModel.getClouds()){
+            Image cloudImage = CloudImageType.values()[reducedCloud.ID()].getImage();
             ImageView cloudView = new ImageView(cloudImage);
-            column = CloudPosition.values()[i].getColumn();
-            row = CloudPosition.values()[i].getRow();
+            column = CloudPosition.values()[reducedCloud.ID()].getColumn();
+            row = CloudPosition.values()[reducedCloud.ID()].getRow();
             islandGrid.add(cloudView, column, row);
-            Cloud cloud = new Cloud(cloudView, islandGrid, column, row);
+            Cloud cloud = new Cloud(getGui(), reducedCloud.ID(), cloudView, islandGrid, column, row);
             clouds.add(cloud);
             cloudView.toBack();
+            updateStudentOnCloud(reducedCloud.ID(), reducedCloud.students());
         }
 
     }
 
     /**
      * Allows to create and place the character cards on the table
-     * @param cards List of {@code CharacterCardsType} randomly choosen to be used
+     * @param cards List of {@code CharacterCardsType} randomly chosen to be used
      */
-    private void addCards(Collection<CharacterCardsType> cards){
+    private void addCards(Collection<ReducedCharacter> cards){
         FlowPane grid = new FlowPane(Orientation.HORIZONTAL, 300, 50);
         table.add(grid, 2, 2);
         grid.setTranslateX(500);
-        for(CharacterCardsType card : cards){
-            ImageView cardView = new ImageView(CharacterCardImageType.typeConverter(card).getImage());
-            CharacterCard newCard = new CharacterCard(card, cardView);
+        for(ReducedCharacter card : cards){
+            ImageView cardView = new ImageView(CharacterCardImageType.typeConverter(card.getType()).getImage());
+            CharacterCard newCard = new CharacterCard(getGui(), card.getType(), cardView);
             this.characterCards.add(newCard);
             grid.getChildren().add(cardView);
+            if(card.getBans() != null) {
+                newCard.setNumberOfBans(card.getBans());
+            }
+            if(card.getStudentList() != null){
+                newCard.setStudents(card.getStudentList());
+            }
+            newCard.setCost(card.getCost());
         }
 
     }
@@ -526,19 +549,19 @@ public class TableView implements Initializable {
      * Allows to create and place an assistant deck for every player
      * @param players List of players playing
      */
-    private void createAssistantDeck(List<PlayerLoginInfo> players){
-        for(int numberOfPlayers =0 ; numberOfPlayers < players.size(); numberOfPlayers++){
-            String nicknamePlayer = players.get(numberOfPlayers).getNickname();
-            Wizard wizardPlayer = players.get(numberOfPlayers).getWizard();
+    private void createAssistantDeck(List<ReducedPlayerLoginInfo> players){
+        for(ReducedPlayerLoginInfo player: players){
+            String nicknamePlayer = player.nickname();
+            Wizard wizardPlayer = player.wizard();
             AssistantCardDeck deck;
-            if(numberOfPlayers == 0){
-                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer1, 1);
+            if(players.indexOf(player) == 0){
+                deck = new AssistantCardDeck(getGui(), wizardPlayer, assistantCardPanePlayer1, 1);
             }
-            else if(numberOfPlayers == 1){
-                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer2, 2);
+            else if(players.indexOf(player) == 1){
+                deck = new AssistantCardDeck(getGui(), wizardPlayer, assistantCardPanePlayer2, 2);
             }
             else {
-                deck = new AssistantCardDeck(wizardPlayer, assistantCardPanePlayer3, 3);
+                deck = new AssistantCardDeck(getGui(), wizardPlayer, assistantCardPanePlayer3, 3);
             }
             decks.put(nicknamePlayer, deck);
         }
@@ -560,28 +583,47 @@ public class TableView implements Initializable {
         scrollPane.setCursor(Cursor.OPEN_HAND);
     }
 
-    // METHODS TO MODIFY THE TABLE
+    // METHODS TO UPDATE THE TABLE
+
+        //UPDATE CURRENT PLAYER AND STATE
 
     /**
      * Allows to save the nickname of the current player and sets the label of the current player as yellow
      * @param currentPlayer nickname of the current player
      */
     public void setCurrentPlayer(String currentPlayer){
-        Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
-        labelOldCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
-        Label labelNewCurrentPlayer = playersLabel.get(currentPlayer);
-        labelNewCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
-        this.currentPlayer = currentPlayer;
+        Platform.runLater(() -> {
+            if(!playersLabel.isEmpty()) {
+                if(this.currentPlayer != null) {
+                    Label labelOldCurrentPlayer = playersLabel.get(this.currentPlayer);
+                    labelOldCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(5), Insets.EMPTY)));
+                }
+                Label labelNewCurrentPlayer = playersLabel.get(currentPlayer);
+                labelNewCurrentPlayer.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+                this.currentPlayer = currentPlayer;
+            }
+        });
     }
+
+    /**
+     * Method to update the state of the game
+     */
+    public void updateState(String stateString){
+        Platform.runLater(() -> stateLabel.setText(stateString));
+    }
+
+        //UPDATE ISLANDS
 
     /**
      * Method to move mother nature
      * @param movements new island where mother nature is moved
      */
     public void moveMotherNature(int movements){
-        islands.get(motherNatureIsland).removeMotherNature();
-        islands.get(movements).addMotherNature();
-        motherNatureIsland = movements;
+        Platform.runLater(() -> {
+                    Objects.requireNonNull(getIsland(motherNatureIsland)).removeMotherNature();
+                    Objects.requireNonNull(getIsland(movements)).addMotherNature();
+                    motherNatureIsland = movements;
+        });
     }
 
     /**
@@ -590,46 +632,7 @@ public class TableView implements Initializable {
      * @param numberOfBans new number of bans on the island
      */
     public void changeBansOnIsland(int islandID, int numberOfBans){
-        islands.get(islandID).changeNumberOfBans(numberOfBans);
-    }
-
-    /**
-     * Method to change the number of coins of a player
-     * @param player player with the number of coins changed
-     * @param numberOfCoins new number of coins
-     */
-    public void changeNumberOfCoinsPlayer(String player, int numberOfCoins){
-        playersCoinLabels.get(player).setText(Integer.toString(numberOfCoins));
-    }
-
-    /**
-     * Method to update the professor of a player
-     * @param player player with the porfessor changed
-     * @param professors new professors
-     */
-    public void updateProfessorsToPlayer(String player, HashSet<PawnType> professors){
-        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
-        schoolBoardPlayer.updateProfessors(professors);
-    }
-
-    /**
-     * Method to update the students on the dining room of a player
-     * @param player player with the dining room changed
-     * @param students new students on the dining room
-     */
-    public void updateDiningRoomToPlayer(String player, StudentList students){
-        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
-        schoolBoardPlayer.updateDiningRoom(students);
-    }
-
-    /**
-     * Method to update the students on the entrance of a player
-     * @param player player with the entrance changed
-     * @param students new students on the entrance
-     */
-    public void updateEntranceToPlayer(String player, StudentList students){
-        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
-        schoolBoardPlayer.updateEntrance(students);
+        Platform.runLater(() -> Objects.requireNonNull(getIsland(islandID)).changeNumberOfBans(numberOfBans));
     }
 
     /**
@@ -638,13 +641,10 @@ public class TableView implements Initializable {
      * @param students new students on the island
      */
     public void updateStudentsOnIsland(int islandID, StudentList students){
-        Island island = islands.get(islandID);
-        island.updateStudentsOnIsland(students);
-    }
-
-    public void updateTowersOnSchoolBoard(String player, int numberOfTowers){
-        SchoolBoard schoolBoardPlayer = schoolboards.get(player);
-        schoolBoardPlayer.updateTowers(numberOfTowers);
+        Island island = getIsland(islandID);
+        if(island != null) {
+            island.updateStudentsOnIsland(students);
+        }
     }
 
     /**
@@ -653,18 +653,25 @@ public class TableView implements Initializable {
      * @param newTower type of the new tower
      */
     public void updateTowerOnIsland(int islandID, TowerType newTower){
-        Island island = islands.get(islandID);
-        island.addTower(newTower);
+        Platform.runLater(() -> {
+            Island island = getIsland(islandID);
+            if(island != null) {
+
+                island.addTower(newTower);
+            }
+        });
     }
 
     /**
-     * Method to update the students on an cloud
+     * Method to update the students on a cloud
      * @param cloudID ID of the cloud with the students changed
      * @param students new students on the cloud
      */
     public void updateStudentOnCloud(int cloudID, StudentList students){
-        //TODO update student son cloud one at a time
+        Platform.runLater(() -> clouds.get(cloudID).updateStudents(students));
     }
+
+        //UPDATE ASSISTANT CARD
 
     /**
      * Method to update the assistant card used by a player
@@ -673,19 +680,79 @@ public class TableView implements Initializable {
      */
     public void useAssistantCard(String player, Assistant assistant){
         AssistantCardDeck playerDeck =decks.get(player);
-        playerDeck.useAssistantCard(assistant);
+        Platform.runLater(() -> playerDeck.useAssistantCard(assistant));
     }
+
+        //UPDATE SCHOOLBOARD
+
+    /**
+     * Method to change the number of coins of a player
+     * @param player player with the number of coins changed
+     * @param numberOfCoins new number of coins
+     */
+    public void changeNumberOfCoinsPlayer(String player, int numberOfCoins){
+        if(playersCoinLabels.size() > 0) {
+            Platform.runLater(() -> playersCoinLabels.get(player).setText(Integer.toString(numberOfCoins)));
+        }
+    }
+
+    /**
+     * Method to update the professor of a player
+     * @param player player with the professor changed
+     * @param professors new professors
+     */
+    public void updateProfessorsToPlayer(String player, Collection<PawnType> professors){
+        Platform.runLater(() -> {
+            SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+            schoolBoardPlayer.updateProfessors(professors);
+        });
+    }
+
+    /**
+     * Method to update the students on the dining room of a player
+     * @param player player with the dining room changed
+     * @param students new students on the dining room
+     */
+    public void updateDiningRoomToPlayer(String player, StudentList students){
+        Platform.runLater(() -> {
+            SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+            schoolBoardPlayer.updateDiningRoom(students);
+        });
+    }
+
+    /**
+     * Method to update the students on the entrance of a player
+     * @param player player with the entrance changed
+     * @param students new students on the entrance
+     */
+    public void updateEntranceToPlayer(String player, StudentList students){
+        Platform.runLater(() -> {
+            SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+            schoolBoardPlayer.updateEntrance(students);
+        });
+    }
+
+    public void updateTowersOnSchoolBoard(String player, int numberOfTowers){
+        Platform.runLater(() -> {
+            SchoolBoard schoolBoardPlayer = schoolboards.get(player);
+            schoolBoardPlayer.updateTowers(numberOfTowers);
+        });
+    }
+
+        //UPDATE CHARACTER CARD
 
     /**
      * Method to add a coin on the card
      * @param cardType type of the card with the coin changed
      */
     public void addCoinOnCard(CharacterCardsType cardType){
-        for(CharacterCard card: characterCards){
-            if(card.getCardType().equals(cardType)){
-                card.incrementCost();
+        Platform.runLater(() -> {
+            for (CharacterCard card : characterCards) {
+                if (card.getCardType().equals(cardType)) {
+                    card.incrementCost();
+                }
             }
-        }
+        });
     }
 
     /**
@@ -701,13 +768,14 @@ public class TableView implements Initializable {
         }
     }
 
+        //UPDATE LAST ROUND
+
     /**
      * Method to show on the table that this is the last round
      */
     public void showLastRound(){
 
         new Thread(() -> {
-            String oldText = messageLabel.getText();
             Platform.runLater(() -> messageLabel.setText("LAST ROUND"));
             for(int blinks = 0; blinks < 3; blinks ++){
                 Platform.runLater(() -> messageLabel.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(40), Insets.EMPTY))));
@@ -723,25 +791,40 @@ public class TableView implements Initializable {
                     throw new RuntimeException(e);
                 }
             }
-            Platform.runLater(()-> messageLabel.setText(oldText));
+            Platform.runLater(()-> messageLabel.setText(currentMessage));
         }).start();
     }
 
-    /**
-     * Method to update the state of the game
-     */
-    public void updateState(){
-        stateLabel.setText("");
-        //TODO: UPDATE STATE
-    }
+        //UPDATE MESSAGE
 
     /**
      * Method to show a message to the player
      * @param message message shown to the player
      */
     public void showMessage(String message){
-        messageLabel.setText(message);
+        Platform.runLater( () -> {
+            messageLabel.setText(message);
+            messageLabel.setTextFill(Color.BLACK);
+            currentMessage = message;
+        });
     }
+
+
+    public void showErrorMessage(String message){
+        new Thread(() -> {
+            Platform.runLater( () -> {
+                messageLabel.setText(message);
+                messageLabel.setTextFill(Color.RED);
+            });
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Platform.runLater(() -> showMessage(currentMessage));
+        }).start();
+    }
+        //UNIFY ISLANDS
 
     /**
      * Method to unify two group of islands
@@ -750,31 +833,35 @@ public class TableView implements Initializable {
      * @param sizeIslandRemoved number of islands in the group containing the island moving
      */
     public void unifyIslands(int IDIslandToKeep, int IDIslandToRemove, int sizeIslandRemoved){
-        Island islandToKeep = islands.get(IDIslandToKeep);
-        Island islandToRemove = islands.get(IDIslandToRemove);
+        Island islandToKeep = getIsland(IDIslandToKeep);
+        Island islandToRemove = getIsland(IDIslandToRemove);
 
         //Get the last and the first island of each group
-        int IDLastIslandClockWiseToKeep = getLastIslandClockWise(islandToKeep);
-        int IDLastIslandCounterClockWiseToKeep= getLastIslandCounterClockWise(islandToKeep);
-        int IDLastIslandClockWiseToRemove = getLastIslandClockWise(islandToRemove);
-        int IDLastIslandCounterCLockWiseToRemove = getLastIslandCounterClockWise(islandToRemove);
+        int IDLastIslandClockWiseToKeep = getLastIslandClockWise(IDIslandToKeep);
+        int IDLastIslandCounterClockWiseToKeep= getLastIslandCounterClockWise(IDIslandToKeep);
+        int IDLastIslandClockWiseToRemove = getLastIslandClockWise(IDIslandToRemove);
+        int IDLastIslandCounterCLockWiseToRemove = getLastIslandCounterClockWise(IDIslandToRemove);
         boolean roundClockWise;
 
-       //Find the tow nearest islands in the group
+       //Find the two nearest islands in the group
         if(IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == 1 || IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == -11){
             IDIslandToKeep = IDLastIslandCounterClockWiseToKeep;
             IDIslandToRemove = IDLastIslandClockWiseToRemove;
-            islandToKeep = islands.get(IDIslandToKeep);
-            islandToRemove = islands.get(IDIslandToRemove);
-            islandToKeep.setIslandUnitedCounterClockWise(islandToRemove);
-            islandToRemove.setIslandUnitedClockwise(islandToKeep);
+            islandToKeep =  getIsland(IDIslandToKeep);
+            islandToRemove = getIsland(IDIslandToRemove);
+            if(islandToKeep != null && islandToRemove != null) {
+                islandToKeep.setIslandUnitedCounterClockWise(islandToRemove);
+                islandToRemove.setIslandUnitedClockwise(islandToKeep);
+            }
             roundClockWise = true;
         }
         else{
             IDIslandToKeep = IDLastIslandClockWiseToKeep;
             IDIslandToRemove = IDLastIslandCounterCLockWiseToRemove;
-            islandToKeep.setIslandUnitedClockwise(islandToRemove);
-            islandToRemove.setIslandUnitedCounterClockWise(islandToKeep);
+            if(islandToKeep != null && islandToRemove != null) {
+                islandToKeep.setIslandUnitedClockwise(islandToRemove);
+                islandToRemove.setIslandUnitedCounterClockWise(islandToKeep);
+            }
             roundClockWise = false;
         }
 
@@ -795,26 +882,34 @@ public class TableView implements Initializable {
 
     /**
      * Get last island of a group of island moving clockwise
-     * @param island one island of the group
+     * @param islandID ID of one island of the group
      * @return ID of the last island of the group of island moving clockwise
      */
-    private int getLastIslandClockWise(Island island){
-        while (island.getIslandUnitedClockwise() != null){
-            island = island.getIslandUnitedClockwise();
+    public  int getLastIslandClockWise(int islandID){
+        Island island = getIsland(islandID);
+        if(island != null) {
+            while (island.getIslandUnitedClockwise() != null) {
+                island = island.getIslandUnitedClockwise();
+            }
+            return island.getIslandID();
         }
-        return island.getIslandID();
+        return 0;
     }
 
     /**
      * Get last island of a group of island moving counterclockwise
-     * @param island one island of the group
+     * @param islandID ID of one island of the group
      * @return ID of the last island of the group of island moving counterclockwise
      */
-    private int getLastIslandCounterClockWise(Island island){
-        while (island.getIslandUnitedCounterClockWise() != null){
-            island = island.getIslandUnitedCounterClockWise();
+    public int getLastIslandCounterClockWise(int islandID){
+        Island island = getIsland(islandID);
+        if(island != null) {
+            while (island.getIslandUnitedCounterClockWise() != null) {
+                island = island.getIslandUnitedCounterClockWise();
+            }
+            return island.getIslandID();
         }
-        return island.getIslandID();
+        return 0;
     }
 
     /**
@@ -823,15 +918,18 @@ public class TableView implements Initializable {
      * @param IDIslandToRemove ID of the island moving
      */
     public void moveIslands(int IDIslandToKeep, int IDIslandToRemove){
-        Island islandToKeep = islands.get(IDIslandToKeep);
-        Island islandToRemove = islands.get(IDIslandToRemove);
+        Island islandToKeep = getIsland(IDIslandToKeep);
+        Island islandToRemove = getIsland(IDIslandToRemove);
 
         //FInd distance between islands
+        if(islandToKeep == null || islandToRemove == null) {
+            return;
+        }
         double xTranslation = islandToKeep.getXPosition() - islandToRemove.getXPosition();
         double yTranslation = islandToKeep.getYPosition() - islandToRemove.getYPosition();
         islandToKeep.calculateCoordinates();
 
-        //Find the the direction of the movement
+        //Find the direction of the movement
         boolean roundClockWise = ((IDIslandToRemove < IDIslandToKeep) && !(IDIslandToRemove == 0 && IDIslandToKeep == 11)) || (IDIslandToRemove == 11 && IDIslandToKeep == 0);
 
         //Place the island based on the position on the map of the island remaining still
@@ -848,83 +946,59 @@ public class TableView implements Initializable {
 
     }
 
+    //HANDLE LISTENERS
 
     /**
-     * Method and attribute used only for debugging, remove after
+     * This method will allow to disable all the listeners
      */
-    int clicks = 0;
-    public void tryUpdate(MouseEvent event){
-        clicks ++;
-        StudentList students1 = new StudentList();
-        StudentList students2 = new StudentList();
-        try {
-            students1.changeNumOf(PawnType.RED_DRAGONS, 3);
-            students1.changeNumOf(PawnType.GREEN_FROGS, 6);
-            students1.changeNumOf(PawnType.YELLOW_GNOMES, 2);
-            students2.changeNumOf(PawnType.GREEN_FROGS, 2);
-            students2.changeNumOf(PawnType.PINK_FAIRIES, 1);
-            students2.changeNumOf(PawnType.BLUE_UNICORNS, 1);
-        } catch (NotEnoughStudentException e) {
-            throw new RuntimeException(e);
+    public void disableAllListeners(){
+        String nicknameOwner = getGui().getClientController().getNickNameOwner();
+        schoolboards.get(nicknameOwner).disableLocationListener(Location.ENTRANCE);
+        schoolboards.get(nicknameOwner).disableLocationListener(Location.DINING_ROOM);
+        schoolboards.get(nicknameOwner).disableStudentListeners(Location.ENTRANCE);
+        schoolboards.get(nicknameOwner).disableStudentListeners(Location.DINING_ROOM);
+        for(Island island: islands){
+            island.disableLocationListener();
         }
-
-        updateDiningRoomToPlayer("Giorgio", students1);
-        updateDiningRoomToPlayer("Andrea", students1);
-        updateEntranceToPlayer("Giorgio", students2);
-        //updateEntranceToPlayer("Andrea", students2);
-        //updateEntranceToPlayer("Alessia", students2);
-
-        updateTowersOnSchoolBoard("Giorgio", 3);
-
-        showLastRound();
-
-        if (clicks == 1) {
-            motherNatureIsland = 6;
-            moveMotherNature(11);
-            updateTowerOnIsland(10, TowerType.WHITE);
-            changeBansOnIsland(10, 1);
-            unifyIslands(10, 11, 1);
-        }
-        if(clicks == 2){
-            moveMotherNature(2);
-            unifyIslands(10, 9, 1);
-        }
-        if(clicks == 3){
-            unifyIslands(9, 8, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 4){
-            unifyIslands(8, 7, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 5){
-            unifyIslands(6, 11, 5);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 6){
-            unifyIslands(0, 8, 6);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 7){
-            unifyIslands(6, 5, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 8){
-            unifyIslands(5, 4, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
-        }
-        if(clicks == 9){
-            unifyIslands(4, 3, 1);
-            updateTowerOnIsland(10, TowerType.BLACK);
-            moveMotherNature(11);
+        for (Cloud cloud: clouds){
+            cloud.disableLocationListener();
         }
     }
 
+    /**
+     * This method will allow to enable the listeners on the entrance
+     */
+    public void enableEntranceListeners(){
+        String nicknameOwner = getGui().getClientController().getNickNameOwner();
+        schoolboards.get(nicknameOwner).enableLocationListener(Location.ENTRANCE);
+        schoolboards.get(nicknameOwner).enableStudentListeners(Location.ENTRANCE);
+    }
+
+    /**
+     * This method will enable the listeners on the dining room
+     */
+    public void enableDiningRoomListeners(){
+        String nicknameOwner = getGui().getClientController().getNickNameOwner();
+        schoolboards.get(nicknameOwner).enableLocationListener(Location.DINING_ROOM);
+        schoolboards.get(nicknameOwner).enableStudentListeners(Location.DINING_ROOM);
+    }
+
+    /**
+     * This method will enable listeners on the island
+     */
+    public void enableIslandsListeners(){
+        for(Island island: islands){
+            island.enableLocationListener();
+        }
+    }
+
+    /**
+     * This method will enable listeners on the cloud
+     */
+    public void enableCloudsListeners(){
+        for (Cloud cloud: clouds){
+            cloud.enableLocationListener();
+        }
+    }
 
 }

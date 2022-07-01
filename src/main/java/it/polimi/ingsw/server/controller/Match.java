@@ -36,6 +36,11 @@ public class Match implements ObserversCommonInterface{
     private Game game;
 
     /**
+     * Represent if this match is for 2 or 3 players
+     */
+    private int playersInGame;
+
+    /**
      * The views of the player in this match. All of this should be notified
      * when something in the match changes
      */
@@ -55,7 +60,7 @@ public class Match implements ObserversCommonInterface{
      */
     public Match(int numOfPlayers, boolean wantExpert) {
         matchMaking = new MatchMaking(numOfPlayers, wantExpert);
-
+        playersInGame = numOfPlayers;
         //ADD OBSERVER TO MATCHMAKING
         matchMaking.addChangeCurrentPlayerObserver(this);
         matchMaking.addNumberOfPlayersObserver(this);
@@ -203,6 +208,7 @@ public class Match implements ObserversCommonInterface{
         if (matchMaking == null)
             throw new NotValidOperationException();
         matchMaking.changeNumOfPlayers(value);
+        playersInGame = value;
     }
 
     /**
@@ -431,6 +437,8 @@ public class Match implements ObserversCommonInterface{
     public void changeCurrentStateObserverUpdate(StateType stateType) {
         boolean isOffline;
         synchronized (offlinePlayers) {
+            if (offlinePlayers.size() == playersInGame)
+                return;
             isOffline = offlinePlayers.contains(getCurrentPlayerNickname());
         }
         if (isOffline) {

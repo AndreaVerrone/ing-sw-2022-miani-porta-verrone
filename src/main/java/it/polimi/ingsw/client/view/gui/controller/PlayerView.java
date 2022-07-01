@@ -3,16 +3,32 @@ package it.polimi.ingsw.client.view.gui.controller;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
 
-import java.util.Optional;
 
+/**
+ * This class is used to store information regarding a player
+ */
 public class PlayerView {
 
-    private String nickname = "";
+    /**
+     * The nickname.
+     */
+    private String nickname;
 
-    private Optional<Wizard> wizard;
+    /**
+     * The wizard.
+     */
+    private Wizard wizard;
 
-    private Optional<TowerType> towerType;
+    /**
+     * The tower.
+     */
+    private TowerType towerType;
 
+    /**
+     * The constructor of the class.
+     * It will create the class taking in input the nickname of the player
+     * @param nickname the nickname of the player
+     */
     public PlayerView(String nickname) {
         this.nickname = nickname;
     }
@@ -21,11 +37,11 @@ public class PlayerView {
         return nickname;
     }
 
-    public Optional<Wizard> getWizard() {
+    public Wizard getWizard() {
         return wizard;
     }
 
-    public Optional<TowerType> getTowerType() {
+    public TowerType getTowerType() {
         return towerType;
     }
 
@@ -34,10 +50,10 @@ public class PlayerView {
     }
 
     public void setWizard(Wizard wizard) {
-        this.wizard = Optional.ofNullable(wizard);
+        this.wizard = wizard;
     }
 
     public void setTowerType(TowerType towerType) {
-        this.towerType = Optional.ofNullable(towerType);
+        this.towerType = towerType;
     }
 }

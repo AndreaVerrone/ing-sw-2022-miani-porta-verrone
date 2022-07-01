@@ -1,11 +1,12 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.client.view.gui.listeners.CloudListener;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,24 +40,31 @@ public class Cloud {
      */
     private final List<Pawn> students;
 
+    private final CloudListener cloudListener;
+
     /**
      * This class represents a cloud , allowing to fill it with students and to remove all of them
      * @param cloudView {@code ImageView} of the cloud
      * @param islandGrid Grid where the clouds are placed
      * @param column Column of the grid where the cloud is placed
      * @param row Row of the grid where the cloud is placed
+     * @param cloudID the ID of the cloud
+     * @param gui the considered gui
      */
-    public Cloud(ImageView cloudView, GridPane islandGrid, int column, int row){
+    public Cloud(GUI gui, int cloudID, ImageView cloudView, GridPane islandGrid, int column, int row){
         this.cloudView = cloudView;
         this.islandGrid = islandGrid;
         this.column = column;
         this.row = row;
 
         students = new ArrayList<>(3);
+
+        cloudListener = new CloudListener(gui, cloudID);
+        cloudView.setOnMouseClicked(cloudListener);
     }
 
     /**
-     * Mehod to add a student to the cloud
+     * Method to add a student to the cloud
      * @param color color of the student added
      */
     public void addStudent(PawnType color){
@@ -73,8 +81,14 @@ public class Cloud {
             studentsView.setTranslateY(-23);
             return;
         }
-        studentsView.setTranslateX(42);
-        studentsView.setTranslateY(33);
+        if(students.size() == 3) {
+            studentsView.setTranslateX(30);
+            studentsView.setTranslateY(33);
+        }
+        if(students.size() == 4){
+            studentsView.setTranslateX(80);
+            studentsView.setTranslateY(20);
+        }
     }
 
     /**
@@ -87,7 +101,30 @@ public class Cloud {
         students.clear();
     }
 
+    /**
+     * Method to update the students on a cloud
+     * @param students new students on the cloud
+     */
     public void updateStudents(StudentList students){
-        //TODO : update
+        removeAllStudents();
+        for(PawnType pawnType: PawnType.values()){
+            for(int i= 0; i < students.getNumOf(pawnType); i++){
+                addStudent(pawnType);
+            }
+        }
      }
+
+    /**
+     * Method to enable the listeners on the cloud
+     */
+    public void enableLocationListener(){
+        cloudListener.enableListener();
+    }
+
+    /**
+     * method to disable the listeners on the cloud
+     */
+    public void disableLocationListener() {
+        cloudListener.disableListener();
+    }
 }

@@ -20,57 +20,61 @@ public class GuiScreenBuilder extends ScreenBuilder {
     /**
      * The GUI.
      */
-    private GUI gui;
+    private final GUI gui;
 
-    private Stage stage;
+    /**
+     * The stage.
+     */
+    private final Stage stage;
 
     /**
      * The path of the fxml file of the current screen.
      */
     private String currentViewPath;
 
-    private FXMLLoader currentMatchMakingLoader;
+    /**
+     * The current scene.
+     */
+    private  Scene currentScene;
 
+    /**
+     * The constructor of the class.
+     * It will create the class taking in input the gui and the stage to be used.
+     * @param gui the considered gui
+     * @param stage the stage that needs to be used
+     */
     public GuiScreenBuilder(GUI gui,Stage stage) {
         this.gui= gui;
-        this.stage=stage;
-
-
-    }
-
-    public void setStage(Stage stage){
         this.stage=stage;
     }
 
     /**
      * Method to load the screen specified by the path.
-     * @param loader loader of the fxml file to load.
+     * @param path the path of the string to go to
      */
-    public void goToScreen(FXMLLoader loader){
+    public void goToScreen(String path){
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
 
             GuiScreen screenController = loader.getController();
             gui.setCurrentScreen(screenController);
             screenController.attachTo(gui);
 
-
-            Scene scene = new Scene(root);
-
-            Platform.runLater(
-                    () -> {
-                        gui.getStage().setScene(scene);
-                    });
-
-
-            // gui.show();
-
+            currentScene = new Scene(root);
+            gui.setCurrentScene(currentScene);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * This method will set the scene on the stage og the gui.
+     */
+    public void show(){
+        Platform.runLater(() -> gui.getStage().setScene(currentScene));
+    }
 
     /**
      * Builds and shows the screen corresponding to the specified input
@@ -79,61 +83,97 @@ public class GuiScreenBuilder extends ScreenBuilder {
      */
     @Override
     public void build(Screen screen) {
-        currentViewPath = switch (screen){
-            case IDLE -> "/fxml/WaitScreen.fxml";
-            case CHOOSE_GAME_PARAMETERS -> "/fxml/CreateGameScreen.fxml";
-            case CHOOSE_LANGUAGE -> "/fxml/ChooseLanguageScreen.fxml";
-            case CONNECTION_ERROR -> "";//todo: add screen here??
-            case LAUNCHER -> "/fxml/StartingScreen.fxml";
-            case HOME -> "/fxml/MenuScene.fxml";
-            case SERVER_SPECS -> "/fxml/ChooseServerParameters.fxml";
-            case MATCHMAKING_WAIT_PLAYERS -> "/fxml/LobbyScreen.fxml";
-            case MATCHMAKING_ASK_PARAMS -> "/fxml/ChooseWizardAndTowerScreen.fxml";
-            case PLAY_ASSISTANT_CARD -> "";//TODO missing;
-            case MOVE_STUDENT -> "/fxml/Table.fxml";
-            case MOVE_MOTHER_NATURE -> "/fxml/Table.fxml";//TODO ITS THE SAME SCREEN, SEE WHAT TO DO
-            case CHOOSE_CLOUD -> "/fxml/Table.fxml";
+        switch (screen){
+            case IDLE -> goToScreen("/fxml/WaitScreen.fxml");
+            case CHOOSE_GAME_PARAMETERS -> goToScreen("/fxml/CreateGameScreen.fxml");
+            case CHOOSE_LANGUAGE -> goToScreen("/fxml/ChooseLanguageScreen.fxml");
+            case CONNECTION_ERROR -> goToScreen("/fxml/ConnectionErrorScreen.fxml");
+            case LAUNCHER -> goToScreen("/fxml/StartingScreen.fxml");
+            case HOME -> goToScreen("/fxml/MenuScene.fxml");
+            case SERVER_SPECS -> goToScreen("/fxml/ChooseServerParameters.fxml");
+            case MATCHMAKING_WAIT_PLAYERS -> goToScreen("/fxml/LobbyScreen.fxml");
+            case CHOOSE_ASSISTANT_CARD -> goToScreen("/fxml/UseAssistanScreen.fxml");
+            case MATCHMAKING_ASK_PARAMS -> goToScreen("/fxml/ChooseWizardAndTowerScreen.fxml");
+            case PLAY_ASSISTANT_CARD -> goToTable();
+            case MOVE_STUDENT -> goToTable();
+            case CHOOSE_CHARACTER_CARD -> goToChooseCharacterCard();
+            case MOVE_MOTHER_NATURE, USE_CHARACTER_CARD4, USE_CHARACTER_CARD1, USE_CHARACTER_CARD5, USE_CHARACTER_CARD8, USE_CHARACTER_CARD9, USE_CHARACTER_CARD10, USE_CHARACTER_CARD11, USE_CHARACTER_CARD12, CHOOSE_CLOUD -> goToTable();
+            case ASK_NICKNAME -> goToScreen("/fxml/AskNicknameScreen.fxml");
             default -> throw new IllegalArgumentException();
-        };
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(currentViewPath));
-        if(screen.equals(Screen.MATCHMAKING_ASK_PARAMS)){
-            if(currentMatchMakingLoader != null){
-                goToScreen(currentMatchMakingLoader);
-                return;
-            }else{
-                gui.setMatchMakingLoader(loader);
-                currentMatchMakingLoader = loader;
-            }
         }
-        goToScreen(loader);
 
+        if(screen.equals(Screen.HOME)){
+            gui.show();
+        }
+
+    }
+
+    /**
+     * Method to switch scene to the table view
+     */
+    private void goToTable(){
+        gui.setCurrentScene(gui.getTableScene());
+        gui.setCurrentScreen(gui.getTableScreen());
+        Platform.runLater(() ->gui.getStage().setFullScreen(true));
+    }
+
+    /**
+     * Method to switch scene to the character card view
+     */
+    private void goToChooseCharacterCard(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CharacterCard.fxml"));
+            Parent root = loader.load();
+
+            GuiScreen screenController = loader.getController();
+            gui.setCharacterCardScreen(screenController);
+            screenController.attachTo(gui);
+
+            currentScene = new Scene(root);
+            gui.setCurrentScene(currentScene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Builds and shows a content to ask the client a nickname to enter a game
      *
      * @param screen the content to show
-     * @param gameID the id of the game the client wants to join
+     * @param input input give to setup the screen
      */
     @Override
-    public void build(Screen screen, String gameID) {
-            try {
+    public void build(Screen screen, String input) {
+        try {
+            if(screen.equals(Screen.ASK_NICKNAME)) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNicknameScreen.fxml"));
                 Parent root = loader.load();
-
 
                 GuiScreen askNicknameScreen = loader.getController();
                 gui.setCurrentScreen(askNicknameScreen);
                 askNicknameScreen.attachTo(gui);
-                askNicknameScreen.setGameID(gameID);
+                askNicknameScreen.setGameID(input);
+
+                Scene scene = new Scene(root);
+                Platform.runLater(() -> gui.getStage().setScene(scene));
+            } else if (screen.equals(Screen.PLAYER_LEFT)) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PlayerLeftScreen.fxml"));
+                Parent root = loader.load();
+
+                GuiScreen playerLeftScreen = loader.getController();
+                gui.setCurrentScreen(playerLeftScreen);
+                playerLeftScreen.attachTo(gui);
+                playerLeftScreen.setNicknamePlayerLeft(input);
 
                 Scene scene = new Scene(root);
                 Platform.runLater(() -> gui.getStage().setScene(scene));
 
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -146,30 +186,53 @@ public class GuiScreenBuilder extends ScreenBuilder {
     @Override
     public void build(Screen screen, Collection<String> inputs) {
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
-            Parent root = loader.load();
+        if(screen.equals(Screen.GAMES_LIST)) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ChooseGame.fxml"));
+                Parent root = loader.load();
 
-            ChooseGame chooseGame = loader.getController();
-            chooseGame.setListOfGames(new ArrayList<>(inputs));
+                ChooseGame chooseGame = loader.getController();
+                chooseGame.setListOfGames(new ArrayList<>(inputs));
 
-            gui.setCurrentScreen(chooseGame);
-            chooseGame.attachTo(gui);
+                gui.setCurrentScreen(chooseGame);
+                chooseGame.attachTo(gui);
 
-            Scene scene = new Scene(root);
+                Scene scene = new Scene(root);
 
+                Platform.runLater(
+                        () -> {
+                            gui.getStage().setScene(scene);
+                            stage.setScene(scene);
+                        }
+                );
 
-            Platform.runLater(()->{
-                        gui.getStage().setScene(scene);
-                        stage.setScene(scene);
-                    }
-                    );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
+        if(screen.equals(Screen.END_GAME)){
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ExitScreen.fxml"));
+                Parent root = loader.load();
 
-            //stage.show();
+                GuiScreen exitScreen = loader.getController();
+                gui.setCurrentScreen(exitScreen);
+                exitScreen.attachTo(gui);
+                Platform.runLater(()->exitScreen.setUpExitScreen(new ArrayList<>(inputs)));
 
-        } catch (IOException e) {
-            e.printStackTrace();
+                Scene scene = new Scene(root);
+
+                Platform.runLater(
+                        () -> {
+                            gui.getStage().setScene(scene);
+                            gui.getStage().setFullScreen(false);
+                        }
+                );
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

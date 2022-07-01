@@ -72,7 +72,7 @@ public class GameTable {
     public int getNumberOfClouds(){ return clouds.size();}
 
     public int getMotherNaturePosition(){
-        return islands.get(motherNaturePosition).getID();
+        return motherNaturePosition;
     }
 
     /**
@@ -125,7 +125,11 @@ public class GameTable {
     public void moveMotherNature(int numberOfIslands){
         assert (numberOfIslands>=0): "Movements cannot be negative!";
 
-        motherNaturePosition = (motherNaturePosition + numberOfIslands) % islands.size();
+        Island island = islands.stream().filter(island1 -> island1.getID() == motherNaturePosition)
+                .findFirst().orElseThrow();
+        int index = islands.indexOf(island);
+        index = (index + numberOfIslands) % islands.size();
+        motherNaturePosition = islands.get(index).getID();
         notifyMotherNaturePositionObservers(motherNaturePosition);
     }
 
@@ -177,7 +181,6 @@ public class GameTable {
         Island islandAfter = islands.get(indexAfter);
         unify(island, islandBefore);
         unify(island, islandAfter);
-
     }
 
     private void unify(Island island, Island islandAdjacent){

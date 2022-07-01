@@ -1,17 +1,24 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.ClientGui;
+import it.polimi.ingsw.client.view.gui.GuiScreen;
+import it.polimi.ingsw.client.view.gui.listeners.StudentListener;
+import it.polimi.ingsw.client.view.gui.listeners.StudentsOnCardListener;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CoinImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.IslandBanImageType;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
+import it.polimi.ingsw.server.controller.game.Location;
+import it.polimi.ingsw.server.controller.game.Position;
+import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -21,7 +28,7 @@ import javafx.scene.text.TextAlignment;
 /**
  * Class that controls the view of the card when selected
  */
-public class CharacterCardView {
+public class CharacterCardView extends GuiScreen {
 
     /**
      * Pane where the card is located
@@ -48,6 +55,18 @@ public class CharacterCardView {
     AnchorPane backgroundPane;
 
     /**
+     * Button to use a card
+     */
+    @FXML
+    Button useButton;
+
+    /**
+     * Button for cards 9 and 10 when the player is done using the card
+     */
+    @FXML
+    Button doneButton;
+
+    /**
      * Card shown on the view
      */
     CharacterCard card;
@@ -62,6 +81,9 @@ public class CharacterCardView {
         addCard();
         addDescription();
         addExtras();
+        if(card.getCardType().equals(CharacterCardsType.CARD9) || card.getCardType().equals(CharacterCardsType.CARD10)){
+            addDoneButton();
+        }
     }
 
     /**
@@ -80,9 +102,11 @@ public class CharacterCardView {
      * Adds the description of the card to the label
      */
     private void addDescription(){
-        description.setText(card.getCardType().getDescription().toUpperCase() + "\nCOST = " + card.getCost());
+        description.setText(Translator.getEffectDescription(card.getCardType()) + "\n" + Translator.getCostLabel() + card.getCost());
         description.setTextAlignment(TextAlignment.CENTER);
-        description.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        description.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        description.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.MEDIUM)));
+        description.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(5), Insets.EMPTY)));
         description.setWrapText(true);
     }
 
@@ -92,7 +116,16 @@ public class CharacterCardView {
     private void addExtras(){
         for(PawnType color: PawnType.values()){
             for(int number = 0; number < card.getStudents().getNumOf(color); number++){
-                extras.getChildren().add(new ImageView(StudentImageType.typeConverter(color).getImageBigger()));
+                ImageView studentView = new ImageView(StudentImageType.typeConverter(color).getImageBigger());
+                extras.getChildren().add(studentView);
+                Location cardLocation  = switch (card.getCardType()){
+                    case CARD1 -> Location.CHARACTER_CARD_1;
+                    case CARD9 -> Location.CHARACTER_CARD_9;
+                    case CARD8, CARD12 -> Location.NONE;
+                    case CARD11 -> Location.CHARACTER_CARD_11;
+                    default -> null;
+                };
+                studentView.setOnMouseClicked(new StudentsOnCardListener(getGui(), color, cardLocation));
             }
         }
         for(int numberOfBans=0; numberOfBans < card.getNumberOfBans(); numberOfBans++){
@@ -104,15 +137,41 @@ public class CharacterCardView {
      * Exit the view if the exit button is clicked
      */
     public void exitView(){
-        ClientGui.getSwitcher().goToCreateNewGame();
+        Platform.runLater(() -> {
+            getGui().getUseCardStage().close();
+            getGui().getStage().setFullScreen(true);
+        });
     }
 
     /**
      * Uses the card if the use button is clicked
      */
     public void useCharacterCard(){
-        //TODO: use character card
-        System.out.println("Card used");
+        Platform.runLater(() -> {
+            getGui().getClientController().useCharacterCard(card.getCardType());
+            getGui().getUseCardStage().close();
+            getGui().getStage().setFullScreen(true);
+        });
+    }
+
+    /**
+     * Uses the card if the use button is clicked
+     */
+    public void useDoneButton(){
+        Platform.runLater(() -> {
+            getGui().getClientController().chooseStudentFromLocation(PawnType.RED_DRAGONS, new Position(Location.NONE));
+            getGui().getUseCardStage().close();
+            getGui().getStage().setFullScreen(true);
+        });
+    }
+
+    /**
+     * Method use to set the done button for character card 9 and 10
+     */
+    private void addDoneButton(){
+        useButton.setTranslateX(-100);
+        doneButton.setVisible(true);
+        doneButton.setTranslateX(100);
     }
 
 

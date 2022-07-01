@@ -59,10 +59,8 @@ public class ChooseGame extends GuiScreen implements Initializable{
      * It allows to go back to the home screen.
      */
     public void goBack(){
-        Platform.runLater(() -> {
-                    getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
-                });
-        // getGui().run();
+        Platform.runLater(() -> getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME));
+        getGui().show();
     }
 
     /**
@@ -70,14 +68,7 @@ public class ChooseGame extends GuiScreen implements Initializable{
      * It allows to take the game selected by the user.
      */
     public void takeGame() {
-        // todo: testing only
-        System.out.println(listOfGames.getValue());
-        // todo: actual code
-        Platform.runLater(()->{
-            getGui().getScreenBuilder().build(ScreenBuilder.Screen.ASK_NICKNAME, listOfGames.getValue());
-            }
-        );
-        // getGui().run();
+        Platform.runLater(()-> getGui().getScreenBuilder().build(ScreenBuilder.Screen.ASK_NICKNAME, listOfGames.getValue()));
     }
 
 }
