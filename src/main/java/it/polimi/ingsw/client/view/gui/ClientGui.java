@@ -56,7 +56,7 @@ public class ClientGui extends javafx.application.Application {
         primaryStage.setOnCloseRequest(
                 event -> {
                     event.consume();
-                    logout(gui);
+                    logout(primaryStage,gui);
                 }
         );
 
@@ -65,9 +65,10 @@ public class ClientGui extends javafx.application.Application {
     /**
      * This is the method that it called when you try to exit the game closing the window.
      * It allows to exit the game.
+     * @param stage the considered stage.
      * @param gui the considered gui
      */
-     public void logout(GUI gui) {
+     public void logout(Stage stage, GUI gui) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(Translator.getAlertTitle());
@@ -83,6 +84,8 @@ public class ClientGui extends javafx.application.Application {
             gui.getClientController().closeApplication();
             // terminate the application
             Platform.exit();
+            // close the window
+            stage.close();
         }
     }
 
