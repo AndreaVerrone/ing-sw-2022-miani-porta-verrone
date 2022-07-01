@@ -609,8 +609,8 @@ public class TableView extends GuiScreen implements Initializable {
     /**
      * Method to update the state of the game
      */
-    public void updateState(StateType currentState){
-        Platform.runLater(() -> stateLabel.setText(currentState.toString()));
+    public void updateState(String stateString){
+        Platform.runLater(() -> stateLabel.setText(stateString));
         //TODO: UPDATE STATE
     }
 

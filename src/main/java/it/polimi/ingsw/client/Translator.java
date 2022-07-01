@@ -826,5 +826,17 @@ public class Translator {
                 "Click on cloud from which you want to take the students";
     }
 
+    public static String getUseAssistantMessage(){
+        return isItalian ?
+                "Clicca sulla carta assistente per visualizzare il mazzo":
+                "Click on on hte assistan card to visualize your deck";
+    }
+
+    public static String getWelcomeMessage(){
+        return isItalian ?
+                "BENVENUTO!":
+                "WELCOME!";
+    }
+
 }
 

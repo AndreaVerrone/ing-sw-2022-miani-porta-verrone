@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.client.view.ClientView;
 import it.polimi.ingsw.client.ScreenBuilder;
@@ -191,10 +192,6 @@ public class GUI extends ClientView {
     }
 
 
-    public GuiScreen getCurrentScreen() {
-        return currentScreen;
-    }
-
     public void useAssistantCard(){
 
         getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_ASSISTANT_CARD);
@@ -225,22 +222,37 @@ public class GUI extends ClientView {
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
         getClientController().setNickNameCurrentPlayer(currentPlayer);
-
-        //if(currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
-            //currentScene = tableScene;
-            //currentScreen = tableScreen;
-            //getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
-            //Platform.runLater(()-> currentScreen.setUp(deck));
-        //}
-
         getScreenBuilder().build(ScreenBuilder.Screen.parse(currentState));
         this.currentState = currentState;
+
+
         if(currentScreen == null){
             needToUpdate = true;
         }else {
             currentScreen.setCurrentPlayer(currentPlayer);
-            currentScreen.updateState(currentState);
+            showMessageTutorial(currentState);
             show();
+        }
+    }
+
+    private void showMessageTutorial(StateType stateType){
+        switch (stateType){
+            case MOVE_STUDENT_STATE -> {
+                tableScreen.showMessage(Translator.getMoveStudentMessage());
+                tableScreen.updateState(Translator.getMoveStudentsPhaseName());
+            }
+            case PLAY_ASSISTANT_STATE -> {
+                tableScreen.showMessage(Translator.getUseAssistantMessage());
+                tableScreen.updateState(Translator.getPlanningPhaseName());
+            }
+            case MOVE_MOTHER_NATURE_STATE -> {
+                tableScreen.showMessage(Translator.getMoveMotherNatureMessage());
+                tableScreen.updateState(Translator.getMoveMotherNaturePhaseName());
+            }
+            case CHOOSE_CLOUD_STATE -> {
+                tableScreen.showMessage(Translator.getChooseCloudMessage());
+                tableScreen.updateState(Translator.getMessageChooseCloudPhase());
+            }
         }
     }
 
@@ -584,6 +596,10 @@ public class GUI extends ClientView {
 
             tableScreen = loader.getController();
             tableScreen.attachTo(this);
+
+            if(getClientController().getNickNameOwner() == null){
+                System.out.println("Nickname not present");
+            }
             List<ReducedPlayerLoginInfo> players = new ArrayList<>();
             Wizard ownerWizard = null;
             for(ReducedPlayer reducedPlayer: reducedModel.getPlayersList()){
@@ -605,7 +621,7 @@ public class GUI extends ClientView {
 
             if(needToUpdate){
                 tableScreen.setCurrentPlayer(getClientController().getNickNameCurrentPlayer());
-                tableScreen.updateState(getCurrentState());
+                showMessageTutorial(currentState);
                 show();
             }
 

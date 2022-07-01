@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.ClientGui;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.listeners.StudentListener;
@@ -10,12 +11,10 @@ import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -84,9 +83,11 @@ public class CharacterCardView extends GuiScreen {
      * Adds the description of the card to the label
      */
     private void addDescription(){
-        description.setText(card.getCardType().getDescription().toUpperCase() + "\nCOST = " + card.getCost());
+        description.setText(Translator.getEffectDescription(card.getCardType()) + "\n" + Translator.getCostLabel() + card.getCost());
         description.setTextAlignment(TextAlignment.CENTER);
-        description.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        description.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        description.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.MEDIUM)));
+        description.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(5), Insets.EMPTY)));
         description.setWrapText(true);
     }
 

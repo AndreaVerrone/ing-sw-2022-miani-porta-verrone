@@ -189,7 +189,7 @@ public abstract class GuiScreen {
     /**
      * Method to update the state of the game
      */
-    public void updateState(StateType currentState){
+    public void updateState(String stateString){
     }
 
     /**
@@ -232,13 +232,12 @@ public abstract class GuiScreen {
      * method to update the assistant deck of the owner
      * @param deck
      */
-    public void updateDeck(List<Assistant> deck){
-
-        /**
-         * Method to fill the Character card with all the features
-         */
+    public void updateDeck(List<Assistant> deck) {
     }
 
+    /**
+     * Method to fill the Character card with all the features
+     */
     public void fillView(CharacterCard card){
     }
 
