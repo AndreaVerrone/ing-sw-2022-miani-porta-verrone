@@ -47,7 +47,7 @@ public enum AssistantCardImageType {
     /**
      * Method to convert a {@code Assistant} to a {@code AssistantCardImageType}
      * @param card {@code Assistant} type of the assistant card to convert
-     * @return the {@code AsssistantCardImageType} of the same card
+     * @return the {@code AssistantCardImageType} of the same card
      */
     public static AssistantCardImageType typeConverter(Assistant card) {
         return switch (card) {
