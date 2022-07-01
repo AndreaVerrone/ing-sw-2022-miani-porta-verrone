@@ -41,6 +41,5 @@ public class PlayerOrStateChanged extends ServerCommandNetMsg{
     @Override
     public void processMessage(ClientView client) {
         client.currentPlayerOrStateChanged(currentState, currentPlayerNickname);
-        System.out.println(currentState + " " + currentPlayerNickname);
     }
 }

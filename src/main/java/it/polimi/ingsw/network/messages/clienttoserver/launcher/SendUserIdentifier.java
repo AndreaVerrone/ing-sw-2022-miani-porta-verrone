@@ -33,7 +33,6 @@ public class SendUserIdentifier extends ClientCommandNetMsg {
     @Override
     public void normalProcess(ClientHandler clientInServer){
         clientInServer.setUser(new User(identifier));
-        System.out.println("The secret is:\t" + identifier);
         clientInServer.sendMessage(ResponseMessage.newSuccess(this));
     }
 }

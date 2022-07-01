@@ -63,9 +63,6 @@ public class StudentListener implements EventHandler {
         Position position = new Position(location);
         if(enable){
             gui.getClientController().chooseStudentFromLocation(student, position);
-            System.out.println("Student " + student + " in location " + location); //Debugging
-        }else{
-            System.out.println("Listener disabled in location " + location); //Debugging
         }
         event.consume();
     }

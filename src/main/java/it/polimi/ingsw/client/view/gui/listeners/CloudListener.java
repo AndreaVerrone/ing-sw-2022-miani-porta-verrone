@@ -54,8 +54,6 @@ public class CloudListener implements EventHandler {
     public void handle(Event event) {
         if(enable){
             gui.getClientController().takeStudentFromCloud(ID);
-        }else{
-            System.out.println("Listener disabled on cloud:  " + ID); //Debugging
         }
     }
 }

@@ -623,7 +623,6 @@ public class GUI extends ClientView {
     public void gameCreated(ReducedModel reducedModel) {
         this.reducedModel = reducedModel;
         this.deck = reducedModel.getAssistantsList();
-        System.out.println("Table created");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
             Parent root;

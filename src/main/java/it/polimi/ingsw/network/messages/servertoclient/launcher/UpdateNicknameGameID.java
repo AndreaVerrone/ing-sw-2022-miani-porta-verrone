@@ -32,6 +32,5 @@ public class UpdateNicknameGameID extends ServerCommandNetMsg {
     @Override
     public void processMessage(ClientView client) {
         client.updateNicknameGameID(nickname, gameID);
-        System.out.println("Nickname "+ nickname);
     }
 }

@@ -103,11 +103,9 @@ public class UseAssistantView extends GuiScreen {
             createAssistantImageList(new ArrayList<>(deck));
             // set the image
             assistantImageView.setImage(assistantImages.get(0));
-            System.out.println("set first image");
             // set the label
             indicator.setText("1/" + assistantImages.size());
             assistantName.setText(assistantOnScreen().name());
-            System.out.println("set the label");
         }else{
             // disable all buttons
             okButton.setDisable(true);
@@ -188,7 +186,6 @@ public class UseAssistantView extends GuiScreen {
         }
         // create the list of images
         creteImageList(imagePaths,this.assistantImages);
-        System.out.println(this.assistantImages);
     }
 
     /**

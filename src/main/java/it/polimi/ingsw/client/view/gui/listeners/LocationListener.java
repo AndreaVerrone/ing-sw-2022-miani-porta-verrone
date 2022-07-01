@@ -91,14 +91,11 @@ public class LocationListener implements EventHandler {
         if(enable){
             Position position = new Position(location);
             position.setField(field);
-            System.out.println("Location " + location);//Debugging
             if(gui.getCurrentState().equals(StateType.MOVE_MOTHER_NATURE_STATE)){
                 gui.getClientController().moveMotherNature((gui.getTableScreen().getLastIslandCounterClockWise(field) - gui.getTableScreen().getLastIslandClockWise(gui.getTableScreen().getMotherNatureIsland()) + 12)% 12 );
             }else {
                 gui.getClientController().chooseDestination(position);
             }
-        }else{
-            System.out.println("Listener disabled in location " + location); //Debugging
         }
     }
 }
