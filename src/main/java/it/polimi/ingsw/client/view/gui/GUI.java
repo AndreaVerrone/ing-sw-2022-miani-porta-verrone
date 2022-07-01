@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.reduced_model.ReducedPlayerLoginInfo;
 import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.view.gui.controller.CharacterCard;
 import it.polimi.ingsw.client.view.gui.controller.PlayerView;
-import it.polimi.ingsw.client.view.gui.controller.TableView;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.model.player.Assistant;
@@ -22,7 +21,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -195,13 +193,21 @@ public class GUI extends ClientView {
         return currentScreen;
     }
 
+    /**
+     * This method is called to use an assistant card.
+     * It will open a window to allow the player to choose a card
+     */
     public void useAssistantCard(){
-
         getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_ASSISTANT_CARD);
         Platform.runLater(()->currentScreen.setUp(deck));
         showCard();
     }
 
+    /**
+     * This method is called to use a card.
+     * It will open a window to allow the player to choose a card
+     * @param card the character card to use
+     */
     public void useCharacterCard(CharacterCard card){
         getScreenBuilder().build(ScreenBuilder.Screen.CHOOSE_CHARACTER_CARD);
         Platform.runLater(() -> characterCardScreen.fillView(card));
@@ -225,14 +231,6 @@ public class GUI extends ClientView {
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
         getClientController().setNickNameCurrentPlayer(currentPlayer);
-
-        //if(currentState.equals(StateType.PLAY_ASSISTANT_STATE)){
-            //currentScene = tableScene;
-            //currentScreen = tableScreen;
-            //getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
-            //Platform.runLater(()-> currentScreen.setUp(deck));
-        //}
-
         getScreenBuilder().build(ScreenBuilder.Screen.parse(currentState));
         this.currentState = currentState;
         if(currentScreen == null){

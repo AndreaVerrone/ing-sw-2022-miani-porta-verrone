@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.view.gui.ClientGui;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.listeners.StudentListener;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CoinImageType;

@@ -50,6 +50,7 @@ public class GuiScreenBuilder extends ScreenBuilder {
 
     /**
      * Method to load the screen specified by the path.
+     * @param path the path of the string to go to
      */
     public void goToScreen(String path){
         try {

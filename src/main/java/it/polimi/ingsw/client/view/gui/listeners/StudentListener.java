@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
+/**
+ * This class is used to handle listener of students
+ */
 public class StudentListener implements EventHandler {
 
     /**
@@ -29,6 +32,12 @@ public class StudentListener implements EventHandler {
      */
     private boolean enable = true;
 
+    /**
+     * The constructor of the class.
+     * @param gui the considered gui
+     * @param student the student type
+     * @param location the location of the student
+     */
     public StudentListener(GUI gui, PawnType student, Location location){
         this.gui = gui;
         this.student = student;

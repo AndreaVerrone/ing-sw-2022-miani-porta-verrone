@@ -13,7 +13,6 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
-import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;

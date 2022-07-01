@@ -13,11 +13,6 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
-
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,7 +22,6 @@ public abstract class GuiScreen {
      * The GUI of the client
      */
     private GUI gui;
-
 
     public GUI getGui() {
         return gui;

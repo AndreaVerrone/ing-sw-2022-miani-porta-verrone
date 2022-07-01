@@ -2,14 +2,11 @@ package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.listeners.CloudListener;
-import it.polimi.ingsw.client.view.gui.listeners.LocationListener;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.StudentImageType;
-import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +48,8 @@ public class Cloud {
      * @param islandGrid Grid where the clouds are placed
      * @param column Column of the grid where the cloud is placed
      * @param row Row of the grid where the cloud is placed
+     * @param cloudID the ID of the cloud
+     * @param gui the considered gui
      */
     public Cloud(GUI gui, int cloudID, ImageView cloudView, GridPane islandGrid, int column, int row){
         this.cloudView = cloudView;
@@ -65,7 +64,7 @@ public class Cloud {
     }
 
     /**
-     * Mehod to add a student to the cloud
+     * Method to add a student to the cloud
      * @param color color of the student added
      */
     public void addStudent(PawnType color){
