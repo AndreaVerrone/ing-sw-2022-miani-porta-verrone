@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,10 +39,10 @@ public class ExitScreen extends GuiScreen {
      * This method is used to set up this screen.
      * It will fill the labels with the proper text based on the list of winners and
      * the owner of this GUI.
-     * @param winners the list of the winners.
+     * @param strings the list of the winners.
      */
-    public void setUpExitScreen(List<String> winners) {
-        setDescriptionText(winners);
+    public void setUpExitScreen(List<String> strings) {
+        setDescriptionText(strings);
         logoutButton.setText(Translator.getExitButton());
     }
 
@@ -89,7 +90,7 @@ public class ExitScreen extends GuiScreen {
                 description.setText(Translator.getGameHasEndedMessage()+" \n\n "+ Translator.getMessageForTheWinner());
             } else {
                 // the winner is not the owner
-                description.setText(Translator.getGameHasEndedMessage()+" \n\n"+winners.get(0) + " " + Translator.getHaveWonTheGameMessage());
+                description.setText(Translator.getGameHasEndedMessage()+" \n\n"+winners.get(0) + " " + Translator.getHasWonTheGameMessage());
 
             }
 
@@ -100,7 +101,7 @@ public class ExitScreen extends GuiScreen {
             for (String winner : winners) {
                 message.append(winner).append("\n");
             }
-            message.append("\n ").append(Translator.getGameHasEndedMessage());
+            message.append("\n ").append(Translator.getHaveWonTheGameMessage());
             description.setText(message.toString());
         }
     }

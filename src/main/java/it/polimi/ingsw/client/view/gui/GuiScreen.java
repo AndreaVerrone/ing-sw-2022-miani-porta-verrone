@@ -13,6 +13,8 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import javafx.scene.control.Alert;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -241,6 +243,10 @@ public abstract class GuiScreen {
     }
 
     public void updateDeck(List<Assistant> deck){
+
+    }
+
+    public void setUpExitScreen(List<String> strings) {
 
     }
 }
