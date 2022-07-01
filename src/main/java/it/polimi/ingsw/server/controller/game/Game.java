@@ -4,10 +4,10 @@ import it.polimi.ingsw.client.reduced_model.ReducedCloud;
 import it.polimi.ingsw.client.reduced_model.ReducedIsland;
 import it.polimi.ingsw.client.reduced_model.ReducedModel;
 import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
-import it.polimi.ingsw.server.controller.*;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
-import it.polimi.ingsw.server.controller.game.expert.card_observers.CoinOnCardObserver;
-import it.polimi.ingsw.server.controller.game.expert.card_observers.StudentsOnCardObserver;
 import it.polimi.ingsw.server.controller.game.states.*;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.gametable.GameTable;
@@ -18,13 +18,22 @@ import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
+import it.polimi.ingsw.server.observers.ChangeCurrentStateObserver;
+import it.polimi.ingsw.server.observers.game.EndOfGameObserver;
+import it.polimi.ingsw.server.observers.game.GameCreatedObserver;
+import it.polimi.ingsw.server.observers.game.GameObserver;
+import it.polimi.ingsw.server.observers.game.player.ChangeAssistantDeckObserver;
+import it.polimi.ingsw.server.observers.game.player.ChangeTowerNumberObserver;
+import it.polimi.ingsw.server.observers.game.table.EmptyStudentBagObserver;
+import it.polimi.ingsw.server.observers.game.table.IslandNumberObserver;
 
 import java.util.*;
 
 /**
  *A class to handle the various states of the game.It can change the current state and can call operations on it.
  */
-public class Game {
+public class Game implements
+        IslandNumberObserver, ChangeTowerNumberObserver, ChangeAssistantDeckObserver, EmptyStudentBagObserver {
     /**
      * State in which the player is playing an assistant card
      */
@@ -61,6 +70,11 @@ public class Game {
     private Collection<String> winners = null;
 
     /**
+     * List of the observer on the end of the game
+     */
+    private final Set<GameObserver> gameObservers = new HashSet<>();
+
+    /**
      * The constructor of the class.
      * It takes in input a collection of players, and it will construct the class.
      * @param players the player in the game
@@ -83,6 +97,29 @@ public class Game {
         // 3. INITIALIZATION OF THE MODEL
         initializeModel(players.size());
 
+        // ADDING OBSERVERS FOR END GAME SCENARIOS
+        model.getGameTable().addIslandNumberObserver(this);
+        model.getGameTable().addEmptyStudentBagObserver(this);
+
+        for (Player player : model.getPlayerList()) {
+            player.addChangeAssistantDeckObserver(this);
+            player.addChangeTowerNumberObserver(this);
+        }
+
+    }
+
+    public void addObservers(GameObserver observer) {
+        gameObservers.add(observer);
+
+        model.addChangeCurrentPlayerObserver(observer);
+
+        GameTable gameTable = model.getGameTable();
+        gameTable.addTableObserver(observer);
+
+
+        for(Player player: model.getPlayerList()){
+            player.addPlayerObserver(observer);
+        }
     }
 
     /**
@@ -180,7 +217,13 @@ public class Game {
     /**
      * Sets the {@code lastRoundFlag} to true
      */
-    public void setLastRoundFlag(){ lastRoundFlag = true;}
+    public void setLastRoundFlag(){
+        if (lastRoundFlag)
+            return;
+        lastRoundFlag = true;
+        for (GameObserver observer : gameObservers)
+            observer.notifyLastRound();
+    }
 
     /**
      * Set the winners of the game
@@ -295,10 +338,6 @@ public class Game {
         return state;
     }
 
-    public GameState getPlayAssistantState() {
-        return playAssistantState;
-    }
-
     public GameState getMoveMotherNatureState() {
         return moveMotherNatureState;
     }
@@ -316,62 +355,22 @@ public class Game {
         state.skipTurn();
     }
 
-    // MANAGEMENT OF OBSERVERS FOR END OF THE GAME
-    /**
-     * List of the observer on the end of the game
-     */
-    private final List<EndOfGameObserver> endOfGameObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the end of the game.
-     * @param observer the observer to be added
-     */
-    public void addEndOfGameObserver(EndOfGameObserver observer){
-        endOfGameObservers.add(observer);
-    }
+    // MANAGEMENT OF OBSERVERS
 
     /**
      * This method notify all the attached observers that the game has ended.
      */
     private void notifyEndOfGameObservers(){
-        for(EndOfGameObserver observer : endOfGameObservers)
+        for(EndOfGameObserver observer : gameObservers)
             observer.endOfGameObserverUpdate(getWinner());
-    }
-
-    // MANAGEMENT OF OBSERVERS FOR STATE SWITCH
-    /**
-     * List of the observer on the current state
-     */
-    private final List<ChangeCurrentStateObserver> changeCurrentStateObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on current state.
-     * @param observer the observer to be added
-     */
-    public void addChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
-        changeCurrentStateObservers.add(observer);
     }
 
     /**
      * This method notify all the attached observers that a change has been happened on current state.
      */
     private void notifyChangeCurrentStateObservers(){
-        for(ChangeCurrentStateObserver observer : changeCurrentStateObservers)
+        for(ChangeCurrentStateObserver observer : gameObservers)
             observer.changeCurrentStateObserverUpdate(this.state.getType());
-    }
-
-    // MANAGEMENT OF OBSERVERS FOR GAME CREATED
-    /**
-     * List of the observer on the game creation
-     */
-    private final List<GameCreatedObserver> gameCreatedObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on game creation.
-     * @param observer the observer to be added
-     */
-    public void addGameCreatedObserver(GameCreatedObserver observer){
-        gameCreatedObservers.add(observer);
     }
 
     public void askGameUpdate(String nickname){
@@ -383,22 +382,30 @@ public class Game {
      * @param table the table of the game just created
      */
     private void notifyGameCreatedObservers(String nickname, ReducedModel table){
-        for(GameCreatedObserver observer : gameCreatedObservers)
+        for(GameCreatedObserver observer : gameObservers)
             observer.gameCreatedObserverUpdate(nickname, table);
     }
 
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON CHARACTER CARDS IF ANY
+    @Override
+    public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
+        if (actualDeck.isEmpty())
+            setLastRoundFlag();
+    }
 
-    /**
-     * Does nothing in basic mode since there are no character cards.
-     * @param observer the observer to be added if it's expert mode
-     */
-    public void addStudentsOnCardObserver(StudentsOnCardObserver observer){}
+    @Override
+    public void changeTowerNumberUpdate(String nickName, int numOfActualTowers) {
+        if (numOfActualTowers == 0)
+            setState(new EndState(this));
+    }
 
-    /**
-     * Does nothing in basic mode since there are no character cards.
-     * @param observer the observer to be added if it's expert mode
-     */
-    public void addCoinOnCardObserver(CoinOnCardObserver observer){}
+    @Override
+    public void emptyStudentBagObserverUpdate() {
+        setLastRoundFlag();
+    }
 
+    @Override
+    public void islandNumberObserverUpdate(int actualNumOfIslands) {
+        if (actualNumOfIslands == 3)
+            setState(new EndState(this));
+    }
 }

@@ -5,13 +5,10 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
-import it.polimi.ingsw.server.observers.BanOnIslandObserver;
-import it.polimi.ingsw.server.observers.IslandUnificationObserver;
-import it.polimi.ingsw.server.observers.StudentsOnIslandObserver;
-import it.polimi.ingsw.server.observers.TowerOnIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.island.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class representing the island in the game.
@@ -46,6 +43,17 @@ public class Island {
     private int ban;
 
     /**
+     * List of the observer on island
+     */
+    private final Set<IslandObserver> islandObservers = new HashSet<>();
+
+    /**
+     * List of the observer on ban on island
+     */
+    private final Set<BanOnIslandObserver> banOnIslandObservers = new HashSet<>();
+
+
+    /**
      * A class representing the island in the game.
      * @param ID the unique ID of this island
      */
@@ -53,6 +61,21 @@ public class Island {
         this.ID = ID;
     }
 
+    /**
+     * Adds the observer passed as a parameter to the list of ones observing this island
+     * @param islandObserver the observer to add
+     */
+    void addIslandObserver(IslandObserver islandObserver) {
+        islandObservers.add(islandObserver);
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on ban on island.
+     * @param observer the observer to be added
+     */
+    void addBanOnIslandObserver(BanOnIslandObserver observer){
+        banOnIslandObservers.add(observer);
+    }
 
     int getID(){
         return ID;
@@ -144,19 +167,7 @@ public class Island {
 
     }
 
-    // MANAGEMENT OF OBSERVERS ON BAN ON ISLAND
-    /**
-     * List of the observer on ban on island
-     */
-    private final List<BanOnIslandObserver> banOnIslandObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on ban on island.
-     * @param observer the observer to be added
-     */
-    void addBanOnIslandObserver(BanOnIslandObserver observer){
-        banOnIslandObservers.add(observer);
-    }
+    // MANAGEMENT OF OBSERVERS
 
     /**
      * This method notify all the attached observers that a change has been happened on ban on island.
@@ -168,42 +179,14 @@ public class Island {
             observer.banOnIslandObserverUpdate(islandIDWithBan, actualNumOfBans);
     }
 
-    // MANAGEMENT OF OBSERVERS ON STUDENTS ON ISLAND
-    /**
-     * List of the observer on the students on island
-     */
-    private final List<StudentsOnIslandObserver> studentsOnIslandObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the students on island.
-     * @param observer the observer to be added
-     */
-    void addStudentsOnIslandObserver(StudentsOnIslandObserver observer){
-        studentsOnIslandObservers.add(observer);
-    }
-
     /**
      * This method notify all the attached observers that a change has been happened on the students on island.
      * @param islandID the islandID of the island on which the students have been changed
      * @param actualStudents the actual student list on island
      */
     private void notifyStudentsOnIslandObservers(int islandID, StudentList actualStudents){
-        for(StudentsOnIslandObserver observer : studentsOnIslandObservers)
+        for(StudentsOnIslandObserver observer : islandObservers)
             observer.studentsOnIslandObserverUpdate(islandID, actualStudents);
-    }
-
-    // MANAGEMENT OF OBSERVERS ON UNIFICATION OF ISLANDS
-    /**
-     * List of the observer on unification of island
-     */
-    private final List<IslandUnificationObserver> unificationIslandObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the unification of islands.
-     * @param observer the observer to be added
-     */
-    void addUnificationIslandObserver(IslandUnificationObserver observer){
-        unificationIslandObservers.add(observer);
     }
 
     /**
@@ -213,22 +196,8 @@ public class Island {
      * @param sizeIslandRemoved the size of the island to remove
      */
     private void notifyUnificationIslandObservers(int islandID, int islandRemovedID, int sizeIslandRemoved){
-        for(IslandUnificationObserver observer : unificationIslandObservers)
+        for(IslandUnificationObserver observer : islandObservers)
             observer.islandUnificationObserverUpdate(islandID, islandRemovedID,sizeIslandRemoved);
-    }
-
-    // MANAGEMENT OF OBSERVERS ON TOWER ON ISLAND
-    /**
-     * List of the observer on tower on island
-     */
-    private final List<TowerOnIslandObserver> towerOnIslandObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on tower on island.
-     * @param observer the observer to be added
-     */
-    void addTowerOnIslandObserver(TowerOnIslandObserver observer){
-        towerOnIslandObservers.add(observer);
     }
 
     /**
@@ -237,7 +206,7 @@ public class Island {
      * @param actualTower the actual tower on the island
      */
     private void notifyTowerOnIslandObservers(int islandIDWithChange, TowerType actualTower){
-        for(TowerOnIslandObserver observer : towerOnIslandObservers)
+        for(TowerOnIslandObserver observer : islandObservers)
             observer.towerOnIslandObserverUpdate(islandIDWithChange, actualTower);
     }
 

@@ -1,12 +1,14 @@
 package it.polimi.ingsw.server.controller.matchmaking;
 
-import it.polimi.ingsw.server.controller.*;
+import it.polimi.ingsw.server.controller.NotValidArgumentException;
+import it.polimi.ingsw.server.controller.NotValidOperationException;
+import it.polimi.ingsw.server.controller.PlayerLoginInfo;
+import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Game;
-import it.polimi.ingsw.server.controller.matchmaking.observers.NumberOfPlayersObserver;
-import it.polimi.ingsw.server.controller.matchmaking.observers.PlayersChangedObserver;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
+import it.polimi.ingsw.server.observers.matchmaking.MatchmakingObserver;
+import it.polimi.ingsw.server.observers.matchmaking.PlayerLoginInfoObserver;
 
 import java.util.*;
 
@@ -50,6 +52,11 @@ public class MatchMaking{
      */
     private final Set<TowerType> towersAvailable = new HashSet<>(List.of(TowerType.values()));
 
+    /**
+     * List of the observers on this matchmaking
+     */
+    private final Set<MatchmakingObserver> matchmakingObservers = new HashSet<>();
+
 
     /**
      * Creates a new lobby where the players can enter to start a new game. The number of players
@@ -64,6 +71,14 @@ public class MatchMaking{
         if (numPlayers != 3)
             towersAvailable.remove(TowerType.GREY);
         setState(new ChangePlayersState(this));
+    }
+
+    /**
+     * This method allows to add the observer, passed as a parameter, on this matchmaking.
+     * @param observer the observer to be added
+     */
+    public void addMatchmakingObserver(MatchmakingObserver observer) {
+        matchmakingObservers.add(observer);
     }
 
     public int getNumPlayers() {
@@ -219,6 +234,8 @@ public class MatchMaking{
      */
     protected void addPlayer(PlayerLoginInfo playerLoginInfo){
         players.add(playerLoginInfo);
+        for (PlayerLoginInfoObserver observer : matchmakingObservers)
+            playerLoginInfo.addObserver(observer);
         notifyPlayersChangedObserver();
     }
 
@@ -280,95 +297,41 @@ public class MatchMaking{
         wizardsAvailable.remove(wizard);
     }
 
-  // MANAGEMENT OF OBSERVERS FOR STATE SWITCH
-    /**
-     * List of the observer on the current state
-     */
-    private final List<ChangeCurrentStateObserver> changeCurrentStateObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on current state.
-     * @param observer the observer to be added
-     */
-    public void addChangeCurrentStateObserver(ChangeCurrentStateObserver observer){
-        changeCurrentStateObservers.add(observer);
-    }
+  // MANAGEMENT OF OBSERVERS
 
     /**
      * This method notify all the attached observers that a change has been happened on current state.
      */
     private void notifyChangeCurrentStateObservers(){
         StateType state = this.state.getType();
-        for(ChangeCurrentStateObserver observer : changeCurrentStateObservers) {
+        for(MatchmakingObserver observer : matchmakingObservers) {
             observer.changeCurrentStateObserverUpdate(state);
             if (state == StateType.SET_PLAYER_PARAMETER_STATE)
                 observer.requestChoosePlayerParameter(getTowersAvailable(), getWizardsAvailable());
         }
     }
 
-  // MANAGEMENT OF OBSERVERS FOR PLAYERS OF THE MATCH
-    /**
-     * List of the observer on the players of the match
-     */
-    private final List<PlayersChangedObserver> playersChangedObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the players.
-     * @param observer the observer to be added
-     */
-    public void addPlayersChangedObserver(PlayersChangedObserver observer){
-        playersChangedObservers.add(observer);
-    }
-
     /**
      * This method notify all the attached observers that the players of the match have changed.
      */
     private void notifyPlayersChangedObserver(){
-        for(PlayersChangedObserver observer : playersChangedObservers)
+        for(MatchmakingObserver observer : matchmakingObservers)
             observer.playersChangedObserverUpdate(getPlayers());
-    }
-
-    // MANAGEMENT OF OBSERVERS ON CURRENT PLAYER
-    /**
-     * List of the observer on the current player
-     */
-    private final List<ChangeCurrentPlayerObserver> changeCurrentPlayerObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on current player.
-     * @param observer the observer to be added
-     */
-    public void addChangeCurrentPlayerObserver(ChangeCurrentPlayerObserver observer){
-        changeCurrentPlayerObservers.add(observer);
     }
 
     /**
      * This method notify all the attached observers that a change has been happened on current player.
      */
     private void notifyChangeCurrentPlayerObservers(){
-        for(ChangeCurrentPlayerObserver observer : changeCurrentPlayerObservers)
+        for(MatchmakingObserver observer : matchmakingObservers)
             observer.changeCurrentPlayerObserverUpdate(players.get(currentPlayer).getNickname());
-    }
-
-    // MANAGEMENT OF OBSERVERS FOR CHANGING NUMBER OF PLAYERS
-    /**
-     * List of the observer on the number of players
-     */
-    private final List<NumberOfPlayersObserver> numberOfPlayersObservers = new ArrayList<>();
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on the number of players.
-     * @param observer the observer to be added
-     */
-    public void addNumberOfPlayersObserver(NumberOfPlayersObserver observer){
-        numberOfPlayersObservers.add(observer);
     }
 
     /**
      * This method notify all the attached observers that the number of players has been changed
      */
     private void notifyNumberOfPlayersObserver(){
-        for(NumberOfPlayersObserver observer : numberOfPlayersObservers)
+        for(MatchmakingObserver observer : matchmakingObservers)
             observer.numberOfPlayersObserverUpdate(this.numPlayers);
     }
 

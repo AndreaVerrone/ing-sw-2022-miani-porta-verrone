@@ -6,6 +6,9 @@ import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,34 +26,38 @@ class StudentListTest {
         studentList = null;
     }
 
-    @Test
-    public void changeNumOf_GreenWithPositiveValue_ShouldAdd() {
+    @ParameterizedTest
+    @EnumSource
+    public void changeNumOf_WithPositiveValue_ShouldAdd(PawnType type) {
         try {
-            studentList.changeNumOf(PawnType.GREEN_FROGS, 5);
-            int numGreen = studentList.getNumOf(PawnType.GREEN_FROGS);
+            studentList.changeNumOf(type, 5);
+            int numGreen = studentList.getNumOf(type);
             assertEquals(5, numGreen);
         } catch (NotEnoughStudentException e) {
             fail();
         }
     }
 
-    @Test
-    public void changeNumOf_GreenWithNegativeValue_ShouldRemove() {
+    @ParameterizedTest
+    @EnumSource
+    public void changeNumOf_WithNegativeValueAndEnough_ShouldRemove(PawnType type) {
         try {
-            studentList.changeNumOf(PawnType.GREEN_FROGS, 5); // initialize list
+            studentList.changeNumOf(type, 5); // initialize list
 
-            studentList.changeNumOf(PawnType.GREEN_FROGS, -2);
-            int numGreen = studentList.getNumOf(PawnType.GREEN_FROGS);
-            assertEquals(3, numGreen);
+            studentList.changeNumOf(type, -2);
+            int numStudents = studentList.getNumOf(type);
+            assertEquals(3, numStudents);
         } catch (NotEnoughStudentException e) {
+            // enough
             fail();
         }
     }
 
-    @Test
-    public void changeNumOf_GreenWithNegativeValue_ShouldThrowException() {
+    @ParameterizedTest
+    @EnumSource
+    public void changeNumOf_WithNegativeValueAndNotEnough_ShouldThrowException(PawnType type) {
         assertThrows(NotEnoughStudentException.class,
-                () -> studentList.changeNumOf(PawnType.GREEN_FROGS, -2));
+                () -> studentList.changeNumOf(type, -2));
     }
 
     @Test
@@ -80,6 +87,30 @@ class StudentListTest {
         studentList.setAllAs(1);
         studentList.add(newList);
         assertEquals(PawnType.values().length * 3, studentList.numAllStudents());
+    }
+
+    @Test
+    public void twoEquallyFilledList_ShouldBeEquals() {
+        studentList.setAllAs(2);
+        StudentList otherList = new StudentList();
+        otherList.setAllAs(2);
+        assertEquals(studentList, otherList);
+        assertEquals(studentList.hashCode(), otherList.hashCode());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void forEach_ShouldIterateOnEveryStudent(int numStudentPerColor) {
+        studentList.setAllAs(numStudentPerColor);
+        StudentList testList = new StudentList();
+        studentList.forEach(color -> {
+            try {
+                testList.changeNumOf(color, 1);
+            } catch (NotEnoughStudentException e) {
+                fail();
+            }
+        });
+        assertEquals(studentList, testList);
     }
 
 }

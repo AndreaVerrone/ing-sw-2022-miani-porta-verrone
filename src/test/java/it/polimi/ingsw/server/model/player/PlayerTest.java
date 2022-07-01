@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.model.player;
 
+import it.polimi.ingsw.client.reduced_model.ReducedPlayer;
 import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.model.CoinsBag;
 import it.polimi.ingsw.server.model.utils.PawnType;
+import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughCoinsException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import it.polimi.ingsw.server.model.utils.exceptions.ReachedMaxStudentException;
@@ -431,5 +433,27 @@ class PlayerTest {
         }
         // try to remove another coin
         assertThrows(NotEnoughCoinsException.class, ()->player.removeCoins(1,true));
+    }
+
+    @Test
+    public void reduce_ShouldCreateACopyOfPlayer() {
+        ReducedPlayer reducedPlayer = player.reduce();
+        StudentList studentsInDiningRoom = new StudentList();
+        for(PawnType color : PawnType.values()){
+            try {
+                studentsInDiningRoom.changeNumOf(color,player.getNumStudentOf(color));
+            } catch (NotEnoughStudentException e) {
+                fail();
+            }
+        }
+
+        assertEquals(player.getNickname(), reducedPlayer.getOwner());
+        assertIterableEquals(player.getProfessors(), reducedPlayer.getProfessors());
+        assertEquals(player.getStudentsInEntrance(), reducedPlayer.getStudentsInEntrance());
+        assertEquals(studentsInDiningRoom, reducedPlayer.getStudentsInDiningRoom());
+        assertEquals(player.getTowerType(), reducedPlayer.getTowerType());
+        assertEquals(player.getTowerNumbers(), reducedPlayer.getTowerNumber());
+        assertEquals(player.getCoins(), reducedPlayer.getCoinNumber());
+        assertEquals(player.getLastAssistant(), reducedPlayer.getLastAssistantUsed());
     }
 }

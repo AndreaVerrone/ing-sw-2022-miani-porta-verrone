@@ -4,12 +4,12 @@ import it.polimi.ingsw.client.reduced_model.ReducedCharacter;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCard;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
 import it.polimi.ingsw.server.controller.game.expert.ExpertGame;
-import it.polimi.ingsw.server.controller.game.expert.card_observers.StudentsOnCardObserver;
 import it.polimi.ingsw.server.controller.game.expert.card_states.UseCharacterCard1State;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
+import it.polimi.ingsw.server.observers.game.card_observers.StudentsOnCardObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class CharacterCard1 extends CharacterCard {
         // add students to the card
         for(int i=0;i<4;i++) {
             try {
-                studentList.changeNumOf(game.getModel().getStudentFromBag(),1);
+                studentList.changeNumOf(game.getModel().getGameTable().getStudentFromBag(),1);
             } catch (EmptyBagException e) {
                 // it is impossible that happen since the card is built at the begging of the game
                 e.printStackTrace();

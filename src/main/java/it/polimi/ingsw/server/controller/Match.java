@@ -7,23 +7,21 @@ import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.game.Game;
 import it.polimi.ingsw.server.controller.game.Position;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
-import it.polimi.ingsw.server.controller.game.states.EndState;
 import it.polimi.ingsw.server.controller.matchmaking.MatchMaking;
-import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.gametable.GameTable;
 import it.polimi.ingsw.server.model.player.Assistant;
-import it.polimi.ingsw.server.model.player.Player;
 import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
+import it.polimi.ingsw.server.observers.game.GameObserver;
+import it.polimi.ingsw.server.observers.matchmaking.MatchmakingObserver;
 
 import java.util.*;
 
 /**
  * A class used as a common interface for the Matchmaking and Game
  */
-public class Match implements ObserversCommonInterface{
+public class Match implements GameObserver, MatchmakingObserver {
 
     /**
      * The Matchmaking of this match. After the game has started this will be null.
@@ -62,10 +60,7 @@ public class Match implements ObserversCommonInterface{
         matchMaking = new MatchMaking(numOfPlayers, wantExpert);
         playersInGame = numOfPlayers;
         //ADD OBSERVER TO MATCHMAKING
-        matchMaking.addChangeCurrentPlayerObserver(this);
-        matchMaking.addNumberOfPlayersObserver(this);
-        matchMaking.addPlayersChangedObserver(this);
-        matchMaking.addChangeCurrentStateObserver(this);
+        matchMaking.addMatchmakingObserver(this);
     }
 
     /**
@@ -141,7 +136,7 @@ public class Match implements ObserversCommonInterface{
     private void setGame(Game game) {
         matchMaking = null;
         this.game = game;
-        addObserverToGame();
+        game.addObservers(this);
         synchronized (playersView) {
             for (String nickname : playersView.keySet())
                 game.askGameUpdate(nickname);
@@ -222,7 +217,6 @@ public class Match implements ObserversCommonInterface{
             throw new NotValidOperationException();
         synchronized (this) {
             matchMaking.addPlayer(nickname);
-            addObserversToPlayer(nickname);
         }
     }
 
@@ -249,32 +243,6 @@ public class Match implements ObserversCommonInterface{
                 return;
             for (VirtualView view : playersView.values())
                 view.notifyPlayerLeftGame(nickname);
-        }
-    }
-
-    /**
-     * Method to add observers to a player just added
-     * @param playerNickname nickname of the player just added
-     */
-    private void addObserversToPlayer(String playerNickname){
-        for(PlayerLoginInfo player: matchMaking.getPlayers()){
-            if(player.getNickname().equals(playerNickname)){
-                player.addTowerSelectedObserver(this);
-                player.addWizardSelectedObserver(this);
-            }
-        }
-    }
-
-    /**
-     * Method to remove the observers from a player removed from the game
-     * @param playerNickname nickname of the player removed
-     */
-    private void removeObserversFromPlayer(String playerNickname){
-        for(PlayerLoginInfo player: matchMaking.getPlayers()){
-            if(player.getNickname().equals(playerNickname)){
-                player.removeTowerSelectedObserver(this);
-                player.removeWizardSelectedObserver(this);
-            }
         }
     }
 
@@ -313,41 +281,6 @@ public class Match implements ObserversCommonInterface{
         Optional<Game> possibleGame = matchMaking.next();
         Server.getInstance().makeGameUnavailable(this);
         possibleGame.ifPresent(this::setGame);
-    }
-
-    /**
-     * Method to add all the observers to game, both in basic and expert mode
-     */
-    private void addObserverToGame(){
-        game.addChangeCurrentStateObserver(this);
-        game.addGameCreatedObserver(this);
-        game.addStudentsOnCardObserver(this);
-        game.addCoinOnCardObserver(this);
-        game.addEndOfGameObserver(this);
-
-        GameModel model = game.getModel();
-        model.addChangeCurrentPlayerObserver(this);
-        model.addEmptyStudentBagObserver(this);
-        model.addChangeCoinNumberInBagObserver(this);
-
-        GameTable gameTable = model.getGameTable();
-        gameTable.addMotherNaturePositionObserver(this);
-        gameTable.addStudentsOnCloudObserver(this);
-        gameTable.addIslandNumberObserver(this);
-        gameTable.addStudentsOnIslandObserver(this);
-        gameTable.addTowerOnIslandObserver(this);
-        gameTable.addBanOnIslandObserver(this);
-        gameTable.addUnificationIslandObserver(this);
-
-        for(Player player: model.getPlayerList()){
-            player.addChangeAssistantDeckObserver(this);
-            player.addChangeCoinNumberObserver(this);
-            player.addProfessorObserver(this);
-            player.addChangeTowerNumberObserver(this);
-            player.addLastAssistantUsedObserver(this);
-            player.addStudentsInDiningRoomObserver(this);
-            player.addStudentsOnEntranceObserver(this);
-        }
     }
 
     /**
@@ -528,19 +461,10 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void changeAssistantDeckObserverUpdate(String nickName, Collection<Assistant> actualDeck) {
-
         synchronized (playersView) {
             try {
                 playersView.get(nickName).assistantDeckChanged(nickName, actualDeck);
-            }catch (NullPointerException e) {return;}
-        }
-
-        // check condition of last round : if the player finishes the card, then set last round flag
-        if(actualDeck.isEmpty()){
-            game.setLastRoundFlag();
-            for(VirtualView playerView: playersView.values()){
-                playerView.notifyLastRound();
-            }
+            }catch (NullPointerException ignore) {}
         }
     }
 
@@ -564,7 +488,6 @@ public class Match implements ObserversCommonInterface{
 
     @Override
     public void changeCurrentPlayerObserverUpdate(String actualCurrentPlayerNickname) {
-
         synchronized (playersView) {
             for (VirtualView playerView : playersView.values()) {
                 playerView.currentPlayerOrStateChanged(getCurrentState(), actualCurrentPlayerNickname);
@@ -578,35 +501,6 @@ public class Match implements ObserversCommonInterface{
             for (VirtualView playerView : playersView.values()) {
                 playerView.towerNumberOfPlayerChanged(nickName, numOfActualTowers);
             }
-        }
-
-        // check condition of end of the game
-        if(numOfActualTowers==0){
-            game.setState(new EndState(game));
-        }
-    }
-
-    @Override
-    public void emptyStudentBagObserverUpdate() {
-        // set the last round flag
-        game.setLastRoundFlag();
-
-        for(VirtualView playerView: playersView.values()){
-            playerView.notifyLastRound();
-        }
-    }
-
-    @Override
-    public void islandNumberObserverUpdate(int actualNumOfIslands) {
-
-        // check condition of end of the game
-        if(actualNumOfIslands==3){
-            game.setState(new EndState(game));
-        }
-
-        // todo: maybe this is not needed
-        for(VirtualView playerView: playersView.values()){
-            playerView.islandNumberChanged(actualNumOfIslands);
         }
     }
 
@@ -638,10 +532,10 @@ public class Match implements ObserversCommonInterface{
     }
 
     @Override
-    public void professorObserverUpdate(String nickName, Collection<PawnType> actualProfessors) {
+    public void professorObserverUpdate(String nickname, Collection<PawnType> actualProfessors) {
         synchronized (playersView) {
             for (VirtualView playerView : playersView.values()) {
-                playerView.professorsOfPlayerChanged(nickName, actualProfessors);
+                playerView.professorsOfPlayerChanged(nickname, actualProfessors);
             }
         }
     }
@@ -710,6 +604,14 @@ public class Match implements ObserversCommonInterface{
     public void gameCreatedObserverUpdate(String nickname, ReducedModel table) {
         synchronized (playersView) {
             playersView.get(nickname).gameCreated(table);
+        }
+    }
+
+    @Override
+    public void notifyLastRound() {
+        synchronized (playersView) {
+            for (VirtualView view : playersView.values())
+                view.notifyLastRound();
         }
     }
 }

@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
-import it.polimi.ingsw.server.observers.EmptyStudentBagObserver;
+import it.polimi.ingsw.server.observers.game.table.EmptyStudentBagObserver;
 
 import java.util.ArrayList;
 import java.util.List;

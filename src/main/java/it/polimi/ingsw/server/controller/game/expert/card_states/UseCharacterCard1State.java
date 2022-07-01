@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.controller.game.expert.card_states;
 
 import it.polimi.ingsw.network.messages.responses.ErrorCode;
 import it.polimi.ingsw.server.controller.NotValidArgumentException;
-import it.polimi.ingsw.server.controller.NotValidOperationException;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.Position;
@@ -73,12 +72,9 @@ public class UseCharacterCard1State extends UseCharacterCardState {
      * This method allows to put a student on the island specified in the parameter.
      * @param destination the Position
      * @throws NotValidArgumentException if the island does not exist
-     * @throws NotValidOperationException if the location of the position is not an island or the student to move is null
-     *                                    or there are no more student on the card
-     *                                    (this is a rare situation, but it may happen)
      */
     @Override
-    public void chooseDestination(Position destination) throws NotValidArgumentException, NotValidOperationException {
+    public void chooseDestination(Position destination) throws NotValidArgumentException {
 
         // CHECKS
         // 1. check that the student to move has been set
@@ -111,7 +107,7 @@ public class UseCharacterCard1State extends UseCharacterCardState {
 
         // 3. take a student from the bag and put on the card
         try {
-            characterCard1.addStudentToCard(gameModel.getStudentFromBag());
+            characterCard1.addStudentToCard(gameModel.getGameTable().getStudentFromBag());
         } catch (EmptyBagException e) {
             e.printStackTrace();
         }

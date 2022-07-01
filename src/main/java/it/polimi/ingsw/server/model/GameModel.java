@@ -13,12 +13,10 @@ import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitSt
 import it.polimi.ingsw.server.model.strategies.mother_nature.MotherNatureLimitStrategy;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import it.polimi.ingsw.server.model.utils.exceptions.EmptyBagException;
 import it.polimi.ingsw.server.model.utils.exceptions.IslandNotFoundException;
-import it.polimi.ingsw.server.observers.ChangeCoinNumberInBagObserver;
 import it.polimi.ingsw.server.observers.ChangeCurrentPlayerObserver;
-import it.polimi.ingsw.server.observers.ConquerIslandObserver;
-import it.polimi.ingsw.server.observers.EmptyStudentBagObserver;
+import it.polimi.ingsw.server.observers.game.table.BanRemovedFromIslandObserver;
+import it.polimi.ingsw.server.observers.game.table.ChangeCoinNumberInBagObserver;
 
 import java.util.*;
 
@@ -64,6 +62,17 @@ public class GameModel {
      * Add bag for coins
      */
     private final CoinsBag coinsBag;
+
+    /**
+     * List of the observer on the current player
+     */
+    private final Set<ChangeCurrentPlayerObserver> changeCurrentPlayerObservers = new HashSet<>();
+
+    /**
+     * List of the observers on conquer island invocation when there is a ban on the island.
+     */
+    private final Set<BanRemovedFromIslandObserver> banRemovedFromIslandObservers = new HashSet<>();
+
 
     /**
      * Constructs a new game model with the {@code players} passed as a parameter.
@@ -113,15 +122,6 @@ public class GameModel {
      */
     public Collection<Player> getPlayerList(){
         return Collections.unmodifiableList(players);
-    }
-
-    /**
-     * This method allow to take one student from the bag and removing it.
-     * @return the PawnType of the student extracted
-     * @throws EmptyBagException if the bag is empty
-     */
-    public PawnType getStudentFromBag() throws EmptyBagException {
-        return gameTable.getStudentFromBag();
     }
 
     /**
@@ -337,10 +337,7 @@ public class GameModel {
     }
   
       // MANAGEMENT OF OBSERVERS ON CURRENT PLAYER
-    /**
-     * List of the observer on the current player
-     */
-    private final List<ChangeCurrentPlayerObserver> changeCurrentPlayerObservers = new ArrayList<>();
+
 
     /**
      * This method allows to add the observer, passed as a parameter, on current player.
@@ -360,18 +357,14 @@ public class GameModel {
     }
 
     // MANAGEMENT OF THE OBSERVERS ON CONQUER ISLAND
-    /**
-     * List of the observers on conquer island invocation when there is a ban on the island.
-     */
-    private final List<ConquerIslandObserver> conquerIslandObservers = new ArrayList<>();
 
     /**
      * This method allows to add the observer, passed as a parameter, on conquer island
      * invocation when there is a ban on the island.
      * @param observer the observer to be added
      */
-    public void addConquerIslandObserver(ConquerIslandObserver observer){
-        conquerIslandObservers.add(observer);
+    public void addConquerIslandObserver(BanRemovedFromIslandObserver observer){
+        banRemovedFromIslandObservers.add(observer);
     }
 
     /**
@@ -379,19 +372,9 @@ public class GameModel {
      * a ban on the island.
      */
     private void notifyConquerIslandObserver(){
-        for(ConquerIslandObserver observer: conquerIslandObservers){
+        for(BanRemovedFromIslandObserver observer: banRemovedFromIslandObservers){
             observer.conquerIslandObserverUpdate();
         }
-    }
-
-    // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON EMPTY STUDENT BAG
-
-    /**
-     * This method allows to add the observer, passed as a parameter, on empty student bag.
-     * @param observer the observer to be added
-     */
-    public void addEmptyStudentBagObserver(EmptyStudentBagObserver observer){
-        gameTable.addEmptyStudentBagObserver(observer);
     }
 
     // METHODS TO ALLOW ATTACHING AND DETACHING OF OBSERVERS ON COINS BAG
