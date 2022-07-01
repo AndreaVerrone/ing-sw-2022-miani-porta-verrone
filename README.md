@@ -75,3 +75,5 @@ java -jar PSP31-gui.jar
 </td> 
 </tr>
 </table>
+
+> If you run the CLI, we suggest you to set the background color as grey to not interfer with the other colors. Also a command line that support Unicode and UTF-8 is recommended for a correct experience. If you use Windows and you don't have one or you're not sure, we suggest to follow the instructions on this [link](https://akr.am/blog/posts/using-utf-8-in-the-windows-terminal) to get one.
