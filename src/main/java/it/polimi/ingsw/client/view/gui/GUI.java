@@ -422,7 +422,7 @@ public class GUI extends ClientView {
     public void assistantDeckChanged(String nickName, Collection<Assistant> actualDeck) {
         deck = new ArrayList<>(actualDeck);
         currentScreen=tableScreen;
-        currentScreen.updateDeck(new ArrayList<>(actualDeck));
+        // currentScreen.updateDeck(new ArrayList<>(actualDeck));
     }
 
     /**

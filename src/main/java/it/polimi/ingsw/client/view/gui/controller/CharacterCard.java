@@ -72,7 +72,6 @@ public class CharacterCard {
                 }
             }
         }
-
     }
 
     public ImageView getCharacterCardView() {
@@ -105,7 +104,7 @@ public class CharacterCard {
 
     /**
      * Method to set the cost of the card
-     * @param cost
+     * @param cost the actual cost of the card
      */
     public void setCost(int cost){
         this.cost = cost;
@@ -142,6 +141,5 @@ public class CharacterCard {
     public void incrementCost(){
         this.cost ++;
         setCoinOnCard(true);
-
     }
 }

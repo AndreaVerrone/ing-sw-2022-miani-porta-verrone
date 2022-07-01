@@ -40,18 +40,33 @@ public class UseAssistantView extends GuiScreen {
     @FXML
     Label assistantName;
 
+    /**
+     * the button to go to the previous card
+     */
     @FXML
     Button sxButton;
 
+    /**
+     * the button to go to the next card
+     */
     @FXML
     Button dxButton;
 
+    /**
+     * The button to confirm the usage of the card
+     */
     @FXML
     Button okButton;
 
+    /**
+     * The anchor pane of the screen
+     */
     @FXML
     AnchorPane background;
 
+    /**
+     * a label to display an error message.
+     */
     @FXML
     Label errorLabel;
 
@@ -79,8 +94,6 @@ public class UseAssistantView extends GuiScreen {
      * @param deck the deck (i.e., list of assistant cards available)
      */
     public void setUp(Collection<Assistant>deck){
-        System.out.println("CALLING OF METHOD in use assistant view");
-        System.out.println("assistants in input: " + deck);
         // color the background
         background.setBackground(Background.fill(Color.AQUAMARINE));
         // set up the text on the button
@@ -124,7 +137,6 @@ public class UseAssistantView extends GuiScreen {
             getGui().getClientController().useAssistant(assistantChosen);
             getGui().getStage().setFullScreen(true);
         });
-        // todo: next phase of the game
     }
 
     /**
@@ -171,7 +183,6 @@ public class UseAssistantView extends GuiScreen {
         for(Assistant assistant: deck){
             // add path to the list of paths
             imagePaths.add(AssistantCardImageType.typeConverter(assistant).getPath());
-            System.out.println(AssistantCardImageType.typeConverter(assistant).getPath()); // todo: testing only
             // add element to the map
             map.put(deck.indexOf(assistant),assistant);
         }
@@ -188,7 +199,6 @@ public class UseAssistantView extends GuiScreen {
     private void creteImageList(List<String> imagePaths, List<Image> images){
         for(String imagePath: imagePaths){
             images.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath))));
-            System.out.println("add"); // todo: testing code
         }
     }
 

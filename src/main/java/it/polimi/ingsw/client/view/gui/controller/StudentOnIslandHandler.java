@@ -87,6 +87,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
      * @param islandGrid Grid used to place the students
      * @param islandColumn Column of the island of the students on the grid
      * @param islandRow Row of the island of the students on the grid
+     * @param isExpertMode if the game is an expert game mode
      */
     public StudentOnIslandHandler(GridPane islandGrid, int islandColumn, int islandRow, boolean isExpertMode){
 

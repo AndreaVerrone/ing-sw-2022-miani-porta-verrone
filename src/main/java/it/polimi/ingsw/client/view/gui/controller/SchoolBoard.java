@@ -19,22 +19,22 @@ import javafx.scene.layout.GridPane;
 
 import java.util.*;
 /**
- * Class that represents a schoolboard on the table of the game
+ * Class that represents a school board on the table of the game
  */
 public class SchoolBoard {
 
     /**
-     * True if this is the schoolboard of the client
+     * True if this is the school board of the client
      */
     boolean isFirstPlayer;
 
     /**
-     * Grid used tp place the students on the entrance of the schoolbard
+     * Grid used tp place the students on the entrance of the school board
      */
     private final GridPane gridEntrance;
 
     /**
-     * Grid used to place the students on the dining room of the schoolboard
+     * Grid used to place the students on the dining room of the school board
      */
     private final GridPane gridDiningRoom;
 
@@ -54,7 +54,7 @@ public class SchoolBoard {
     private final Map<PawnType, List<Pawn>> tables = new HashMap<>(4,1);
 
     /**
-     * List of professors place on the schoolboard
+     * List of professors place on the school board
      */
     private final List<Pawn> professors = new ArrayList<>();
 
@@ -79,12 +79,13 @@ public class SchoolBoard {
     private final GUI gui;
 
     /**
-     * This class allows to add and remove students and towers on the schoolboard
-     * @param isFirstPlayer true if this is the schoolboard of the client
-     * @param gridEntrance Grid used tp place the students on the entrance of the schoolbard
-     * @param gridDiningRoom Grid used to place the students on the dining room of the schoolboard
+     * This class allows to add and remove students and towers on the school board
+     * @param isFirstPlayer true if this is the school board of the client
+     * @param gridEntrance Grid used tp place the students on the entrance of the school board
+     * @param gridDiningRoom Grid used to place the students on the dining room of the school board
      * @param gridTowers Grid used to place the towers on the tower hall
      * @param towerType Color of the tower used by the player
+     * @param gui the considered gui
      */
     public SchoolBoard(GUI gui, boolean isFirstPlayer, GridPane gridEntrance, GridPane gridDiningRoom, GridPane gridTowers, TowerType towerType){
         this.gui = gui;
@@ -139,7 +140,7 @@ public class SchoolBoard {
 
     /**
      * Searches for an empty spot in the entrance where to place a student
-     * @return the index of {@code entrace} where there is an empty spot
+     * @return the index of {@code entrance} where there is an empty spot
      */
     private int searchEmptySpotInEntrance(){
         for(Pawn studentEmpty: entrance){
@@ -163,7 +164,7 @@ public class SchoolBoard {
 
     /**
      * Fills the tower hall with towers
-     * @param numberOfTowers total possible number of towers on the schoolboard. Depends on the number of players
+     * @param numberOfTowers total possible number of towers on the school board. Depends on the number of players
      */
     private void fillTowers(int numberOfTowers){
         for(int i=0; i<numberOfTowers; i++){
@@ -209,7 +210,7 @@ public class SchoolBoard {
                 break;
             }
         }
-        if (studentRemoved == null) return;//If the student  given is not present do nothing
+        if (studentRemoved == null) return;//If the student  given is not present, do nothing
         removeListenerToPawn(studentRemoved, Location.ENTRANCE);
         entrance.set(entrance.indexOf(studentRemoved), null);
         gridEntrance.getChildren().remove(studentRemoved.getImageView());
@@ -227,13 +228,13 @@ public class SchoolBoard {
                 break;
             }
         }
-        if(professorRemoved == null) return;//If the professor is not present do nothing
+        if(professorRemoved == null) return;//If the professor is not present, do nothing
         professors.remove(professorRemoved);
         gridDiningRoom.getChildren().remove(professorRemoved.getImageView());
     }
 
     /**
-     * Allows to remove a tower from the schoolboard
+     * Allows to remove a tower from the school board
      */
     public void removeTower(){
         if (towers.size() == 0) return; //If there are no towers do nothing
@@ -280,7 +281,7 @@ public class SchoolBoard {
     }
 
     /**
-     * Method to add a listener to a location  on the schoolboard
+     * Method to add a listener to a location  on the school board
      * @param locationView view where to add the listener
      * @param locationType type of location where to add the listener
      */
@@ -296,6 +297,10 @@ public class SchoolBoard {
         }
     }
 
+    /**
+     * This method will allow to enable listeners on the considered location
+     * @param location the considered location
+     */
     public void enableLocationListener(Location location){
         if(location.equals(Location.ENTRANCE)){
             entranceListener.enableListener();
@@ -304,6 +309,10 @@ public class SchoolBoard {
         }
     }
 
+    /**
+     * This method will allow to disable listeners on the considered location
+     * @param location the considered location
+     */
     public void disableLocationListener(Location location){
         if(location.equals(Location.ENTRANCE)){
             entranceListener.disableListener();
@@ -312,6 +321,10 @@ public class SchoolBoard {
         }
     }
 
+    /**
+     * This method will allow to enable listeners on the students in the considered location
+     * @param location the considered location
+     */
     public void enableStudentListeners(Location location){
         if(location.equals(Location.ENTRANCE)){
             for(StudentListener listener: entranceListeners){
@@ -324,6 +337,10 @@ public class SchoolBoard {
         }
     }
 
+    /**
+     * This method will allow to disable listeners on the students in the considered location
+     * @param location the considered location
+     */
     public void disableStudentListeners(Location location){
         if(location.equals(Location.ENTRANCE)){
             for(StudentListener listener: entranceListeners){
@@ -339,8 +356,8 @@ public class SchoolBoard {
     //METHODS TO UPDATE PAWNS ON THE SCHOOLBOARD
 
     /**
-     * Method to update the professors in the schoolboard one at a time
-     * @param newProfessors new professors on the schoolboard
+     * Method to update the professors in the school board one at a time
+     * @param newProfessors new professors on the school board
      */
     public void updateProfessors(Collection<PawnType> newProfessors){
         Collection<Pawn> professorsCopy = new ArrayList<>(professors);
@@ -408,8 +425,8 @@ public class SchoolBoard {
     //METHODS TO UPDATE TOWERS ON THE SCHOOLBOARD
 
     /**
-     * Method to update the towers on the schoolboard
-     * @param numberOfTowers new number of towers on the schoolboard
+     * Method to update the towers on the school board
+     * @param numberOfTowers new number of towers on the school board
      */
     public void updateTowers(int numberOfTowers){
         int differenceNumberOfTowers = towers.size() - numberOfTowers;

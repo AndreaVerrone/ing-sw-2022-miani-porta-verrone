@@ -5,14 +5,31 @@ import it.polimi.ingsw.server.model.utils.TowerType;
 
 import java.util.Optional;
 
+/**
+ * This class is used to store information regarding a player
+ */
 public class PlayerView {
 
+    /**
+     * The nickname.
+     */
     private String nickname = "";
 
+    /**
+     * The wizard.
+     */
     private Optional<Wizard> wizard;
 
+    /**
+     * The tower.
+     */
     private Optional<TowerType> towerType;
 
+    /**
+     * The constructor of the class.
+     * It will create the class taking in input the nickname of the player
+     * @param nickname the nickname of the player
+     */
     public PlayerView(String nickname) {
         this.nickname = nickname;
     }

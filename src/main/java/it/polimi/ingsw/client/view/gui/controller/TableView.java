@@ -186,7 +186,7 @@ public class TableView extends GuiScreen implements Initializable {
     private ImageView messageImage;
 
     /**
-     * Map with the schoolboards associated to every student
+     * Map with the school boards associated to every student
      */
     private final HashMap<String, SchoolBoard> schoolboards = new HashMap<>(3,1);
 
@@ -210,7 +210,6 @@ public class TableView extends GuiScreen implements Initializable {
      */
     private final HashMap<String, AssistantCardDeck> decks = new HashMap<>(3,1);
 
-    private Collection<Assistant> deck = new ArrayList<>();
 
     /**
      * Map of the nicknames' labels associated to every player
@@ -239,32 +238,10 @@ public class TableView extends GuiScreen implements Initializable {
 
 
     /**
-     *Initialization of the table where schoolboards, islands, clouds and cards are created
+     *Initialization of the table where school boards, islands, clouds and cards are created
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
-
-    /*public void setUp(Collection<Assistant> deck){
-        getGui().getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
-        Platform.runLater(()->getGui().getCurrentScreen().setUp(deck));
-    }*/
-
-    public void askUseAssistant(){
-        /*getGui().getScreenBuilder().build(ScreenBuilder.Screen.PLAY_ASSISTANT_CARD);
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/UseAssistanScreen.fxml"));
-            Parent root = loader.load();
-            UseAssistantView useAssistantView= loader.getController();
-            Platform.runLater(()->useAssistantView.setUp(this.deck));
-            getGui().getStage().setScene(getGui().getStage().getScene());
-            getGui().getStage().show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-    getGui().useAssistantCard();
 
     }
 
@@ -308,7 +285,6 @@ public class TableView extends GuiScreen implements Initializable {
 
         motherNatureIsland = reducedModel.getMotherNaturePosition();
         islands.get(reducedModel.getMotherNaturePosition()).addMotherNature();
-        this.deck=reducedModel.getAssistantsList();
 
     }
 
@@ -418,7 +394,7 @@ public class TableView extends GuiScreen implements Initializable {
 
 
     /**
-     * ALlows to create and place the schoolboards on the table
+     * Allows to create and place the school boards on the table
      * @param  reducedModel model reduced
      * @param players List of players playing
      */
@@ -512,7 +488,7 @@ public class TableView extends GuiScreen implements Initializable {
 
     /**
      * Allows to create and place the character cards on the table
-     * @param cards List of {@code CharacterCardsType} randomly choosen to be used
+     * @param cards List of {@code CharacterCardsType} randomly chosen to be used
      */
     private void addCards(Collection<ReducedCharacter> cards){
         FlowPane grid = new FlowPane(Orientation.HORIZONTAL, 300, 50);
@@ -648,7 +624,7 @@ public class TableView extends GuiScreen implements Initializable {
     }
 
     /**
-     * Method to update the students on an cloud
+     * Method to update the students on a cloud
      * @param cloudID ID of the cloud with the students changed
      * @param students new students on the cloud
      */
@@ -668,10 +644,6 @@ public class TableView extends GuiScreen implements Initializable {
         Platform.runLater(() -> playerDeck.useAssistantCard(assistant));
     }
 
-    public void updateDeck(List<Assistant> newDeck){
-        this.deck=new ArrayList<>(newDeck);
-    }
-
         //UPDATE SCHOOLBOARD
 
     /**
@@ -687,7 +659,7 @@ public class TableView extends GuiScreen implements Initializable {
 
     /**
      * Method to update the professor of a player
-     * @param player player with the porfessor changed
+     * @param player player with the professor changed
      * @param professors new professors
      */
     public void updateProfessorsToPlayer(String player, Collection<PawnType> professors){
@@ -903,7 +875,7 @@ public class TableView extends GuiScreen implements Initializable {
         double yTranslation = islandToKeep.getYPosition() - islandToRemove.getYPosition();
         islandToKeep.calculateCoordinates();
 
-        //Find the the direction of the movement
+        //Find the direction of the movement
         boolean roundClockWise = ((IDIslandToRemove < IDIslandToKeep) && !(IDIslandToRemove == 0 && IDIslandToKeep == 11)) || (IDIslandToRemove == 11 && IDIslandToKeep == 0);
 
         //Place the island based on the position on the map of the island remaining still
@@ -922,6 +894,9 @@ public class TableView extends GuiScreen implements Initializable {
 
     //HANDLE LISTENERS
 
+    /**
+     * This method will allow to disable all the listeners
+     */
     public void disableAllListeners(){
         String nicknameOwner = getGui().getClientController().getNickNameOwner();
         schoolboards.get(nicknameOwner).disableLocationListener(Location.ENTRANCE);
@@ -936,29 +911,40 @@ public class TableView extends GuiScreen implements Initializable {
         }
     }
 
+    /**
+     * This method will allow to enable the listeners on the entrance
+     */
     public void enableEntranceListeners(){
         String nicknameOwner = getGui().getClientController().getNickNameOwner();
         schoolboards.get(nicknameOwner).enableLocationListener(Location.ENTRANCE);
         schoolboards.get(nicknameOwner).enableStudentListeners(Location.ENTRANCE);
     }
 
+    /**
+     * This method will enable the listeners on the dining room
+     */
     public void enableDiningRoomListeners(){
         String nicknameOwner = getGui().getClientController().getNickNameOwner();
         schoolboards.get(nicknameOwner).enableLocationListener(Location.DINING_ROOM);
         schoolboards.get(nicknameOwner).enableStudentListeners(Location.DINING_ROOM);
     }
 
+    /**
+     * This method will enable listeners on the island
+     */
     public void enableIslandsListeners(){
         for(Island island: islands){
             island.enableLocationListener();
         }
     }
+
+    /**
+     * This method will enable listeners on the cloud
+     */
     public void enableCloudsListeners(){
         for (Cloud cloud: clouds){
             cloud.enableLocationListener();
         }
     }
-
-
 
 }

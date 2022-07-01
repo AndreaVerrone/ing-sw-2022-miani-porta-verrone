@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.ScreenBuilder;
 import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
