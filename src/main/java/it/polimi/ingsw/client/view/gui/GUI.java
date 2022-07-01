@@ -109,6 +109,12 @@ public class GUI extends ClientView {
     }
 
     /**
+     * If the table creation comes after the {@code PlayerOrStateChanged} there is a need to update
+     * the player and the state again
+     */
+    private boolean needToUpdate = false;
+
+    /**
      * The constructor of the class.
      * It will construct the class by taking in input the stage.
      * @param stage stage used to build the gui
@@ -227,8 +233,6 @@ public class GUI extends ClientView {
         useCardStage.show();
     }
 
-    private boolean needToUpdate = false;
-
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
         getClientController().setNickNameCurrentPlayer(currentPlayer);
@@ -247,22 +251,42 @@ public class GUI extends ClientView {
         }
     }
 
+    /**
+     * Method to show message indicating what to do to the player
+     * @param stateType current state of the game
+     */
     private void showMessageTutorial(StateType stateType){
         switch (stateType){
             case MOVE_STUDENT_STATE -> {
-                tableScreen.showMessage(Translator.getMoveStudentMessage());
+                if(getClientController().isInTurn()) {
+                    tableScreen.showMessage(Translator.getMoveStudentMessage());
+                }else {
+                    tableScreen.showMessage(Translator.getWaitMessage());
+                }
                 tableScreen.updateState(Translator.getMoveStudentsPhaseName());
             }
             case PLAY_ASSISTANT_STATE -> {
-                tableScreen.showMessage(Translator.getUseAssistantMessage());
+                if(getClientController().isInTurn()) {
+                    tableScreen.showMessage(Translator.getUseAssistantMessage());
+                }else {
+                    tableScreen.showMessage(Translator.getWaitMessage());
+                }
                 tableScreen.updateState(Translator.getPlanningPhaseName());
             }
             case MOVE_MOTHER_NATURE_STATE -> {
-                tableScreen.showMessage(Translator.getMoveMotherNatureMessage());
+                if(getClientController().isInTurn()) {
+                    tableScreen.showMessage(Translator.getMoveMotherNatureMessage());
+                }else {
+                    tableScreen.showMessage(Translator.getWaitMessage());
+                }
                 tableScreen.updateState(Translator.getMoveMotherNaturePhaseName());
             }
             case CHOOSE_CLOUD_STATE -> {
-                tableScreen.showMessage(Translator.getChooseCloudMessage());
+                if(getClientController().isInTurn()) {
+                    tableScreen.showMessage(Translator.getChooseCloudMessage());
+                }else {
+                    tableScreen.showMessage(Translator.getWaitMessage());
+                }
                 tableScreen.updateState(Translator.getMessageChooseCloudPhase());
             }
         }

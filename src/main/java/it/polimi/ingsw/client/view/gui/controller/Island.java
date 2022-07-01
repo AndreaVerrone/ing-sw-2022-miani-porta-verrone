@@ -125,7 +125,7 @@ public class Island {
      */
     private TranslateTransition translateAnimationTower;
 
-    private LocationListener islandListener;
+    private final LocationListener islandListener;
 
     /**
      * This class allows to handle the image of an island on the view of the table, allowing to add a tower, mother nature and students
@@ -259,7 +259,7 @@ public class Island {
                     clockWiseXCoordinate = -SPACE_BETWEEN_ISLANDS_DIAGONAL;
                     clockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_DIAGONAL;
                     counterClockWiseXCoordinate = 0;
-                    counterClockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
+                    counterClockWiseYCoordinate = -SPACE_BETWEEN_ISLANDS_LINEAR;//CHECK
                 }else {
                     clockWiseXCoordinate = 0;
                     clockWiseYCoordinate = SPACE_BETWEEN_ISLANDS_LINEAR;
@@ -362,7 +362,6 @@ public class Island {
         GridPane.setHalignment(motherNatureView, HPos.CENTER);
         this.motherNatureView = motherNatureView;
         translateMotherNature();
-        System.out.println("Add motherNature in island " + islandID);
     }
 
     /**
@@ -382,7 +381,6 @@ public class Island {
         if(motherNatureView != null) {
             gridIsland.getChildren().remove(motherNatureView);
             motherNatureView = null;
-            System.out.println("remove motherNature in island " + islandID);
         }
     }
 
@@ -453,13 +451,6 @@ public class Island {
                     islandView.setTranslateX(XTranslation);
                     islandView.setTranslateY(YTranslation);
                 });
-
-        /*
-        translateAnimationIsland = new TranslateTransition(Duration.millis(1000), islandView);
-        translateAnimationIsland.setByX(XTranslation);
-        translateAnimationIsland.setByY(YTranslation);
-        translateAnimationIsland.play(); *///ANIMATION NOT WORKING
-        //TODO: FIX ANIMATION
 
         translateMotherNature();
 

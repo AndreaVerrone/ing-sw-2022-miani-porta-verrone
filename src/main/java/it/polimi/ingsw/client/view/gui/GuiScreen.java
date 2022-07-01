@@ -78,6 +78,16 @@ public abstract class GuiScreen {
         return 0;
     }
 
+    public  int getLastIslandClockWise(int islandID){
+        return 0;
+    }
+
+
+    public int getLastIslandCounterClockWise(int islandID){
+        return  0;
+    }
+
+
     /**
      * Method to change the number of bans on an island
      * @param islandID island selected
@@ -221,14 +231,7 @@ public abstract class GuiScreen {
         errorAlert.setContentText(message);
         errorAlert.showAndWait();
     }
-
-    /**
-     * method to update the assistant deck of the owner
-     * @param deck
-     */
-    public void updateDeck(List<Assistant> deck) {
-    }
-
+    
     /**
      * Method to fill the Character card with all the features
      */
@@ -236,6 +239,13 @@ public abstract class GuiScreen {
     }
 
     public void setUpExitScreen(List<String> strings) {
+
+    }
+
+    /**
+     * Method to set the nickname of a player that has left the game
+     */
+    public void setNicknamePlayerLeft(String nicknamePlayerLeft){
 
     }
 }

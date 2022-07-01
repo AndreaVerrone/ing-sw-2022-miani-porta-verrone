@@ -141,21 +141,35 @@ public class GuiScreenBuilder extends ScreenBuilder {
      * Builds and shows a content to ask the client a nickname to enter a game
      *
      * @param screen the content to show
-     * @param gameID the id of the game the client wants to join
+     * @param input input give to setup the screen
      */
     @Override
-    public void build(Screen screen, String gameID) {
+    public void build(Screen screen, String input) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNicknameScreen.fxml"));
-            Parent root = loader.load();
+            if(screen.equals(Screen.ASK_NICKNAME)) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AskNicknameScreen.fxml"));
+                Parent root = loader.load();
 
-            GuiScreen askNicknameScreen = loader.getController();
-            gui.setCurrentScreen(askNicknameScreen);
-            askNicknameScreen.attachTo(gui);
-            askNicknameScreen.setGameID(gameID);
+                GuiScreen askNicknameScreen = loader.getController();
+                gui.setCurrentScreen(askNicknameScreen);
+                askNicknameScreen.attachTo(gui);
+                askNicknameScreen.setGameID(input);
 
-            Scene scene = new Scene(root);
-            Platform.runLater(() -> gui.getStage().setScene(scene));
+                Scene scene = new Scene(root);
+                Platform.runLater(() -> gui.getStage().setScene(scene));
+            } else if (screen.equals(Screen.PLAYER_LEFT)) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PlayerLeftScreen.fxml"));
+                Parent root = loader.load();
+
+                GuiScreen playerLeftScreen = loader.getController();
+                gui.setCurrentScreen(playerLeftScreen);
+                playerLeftScreen.attachTo(gui);
+                playerLeftScreen.setNicknamePlayerLeft(input);
+
+                Scene scene = new Scene(root);
+                Platform.runLater(() -> gui.getStage().setScene(scene));
+
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

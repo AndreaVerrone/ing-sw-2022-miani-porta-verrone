@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Class to handle the view of the table of the game
  */
-public class TableView extends GuiScreen implements Initializable {
+public class TableView extends GuiScreen {
 
     /**
      * Pane of the view used to scroll
@@ -237,19 +237,18 @@ public class TableView extends GuiScreen implements Initializable {
     private String currentMessage = "BENVENUTO!";
 
 
-    /**
-     *Initialization of the table where school boards, islands, clouds and cards are created
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
     @Override
     public int getMotherNatureIsland() {
         return motherNatureIsland;
     }
 
+    /**
+     * method to get the islands on the table
+     * @return List of islands on the table
+     */
+    public List<Island> getIslands() {
+        return islands;
+    }
 
     /**
      * Allows to create the table
@@ -284,15 +283,28 @@ public class TableView extends GuiScreen implements Initializable {
         createAssistantDeck(players);
 
         motherNatureIsland = reducedModel.getMotherNaturePosition();
-        islands.get(reducedModel.getMotherNaturePosition()).addMotherNature();
+        Objects.requireNonNull(getIsland(reducedModel.getMotherNaturePosition())).addMotherNature();
 
+    }
+
+    /**
+     * Method to get an island from its ID
+     * @param islandID ID of the island request
+     * @return island with the ID given
+     */
+    private Island getIsland(int islandID){
+        for(Island island: islands){
+            if(island.getIslandID() == islandID){
+                return island;
+            }
+        }
+        return  null;
     }
 
     /**
      * Method to set the properties of the label that shows the state of the game
      */
     private void setStateLabelProperties(){
-        stateLabel.setTextAlignment(TextAlignment.RIGHT);
         stateLabel.setPadding(new Insets(5));
         stateLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 20));
         stateLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), BorderStroke.MEDIUM)));
@@ -462,6 +474,29 @@ public class TableView extends GuiScreen implements Initializable {
             island.updateStudentsOnIsland(islandReduced.studentList());
             updateTowerOnIsland(islandReduced.ID(), islandReduced.tower());
             island.changeNumberOfBans(islandReduced.ban());
+            if(islandReduced.size() > 1){
+                updateIslandUnified(islandReduced, island, isExpertMode);
+            }
+
+        }
+    }
+
+    void updateIslandUnified(ReducedIsland reducedIsland, Island island, boolean isExpertMode){
+        for(int size = reducedIsland.size(); size > 1; size --){
+            int random = new Random().nextInt(IslandImageType.values().length);
+            Image RandomIslandImage = IslandImageType.values()[random].getImage();
+            ImageView islandView = new ImageView(RandomIslandImage);
+            islandView.setCursor(Cursor.HAND);
+                int column= IslandPosition.values()[island.getIslandID()].getColumn();
+                int row=IslandPosition.values()[island.getIslandID()].getRow();
+                islandGrid.add(islandView, column, row);
+                islandView.toBack();
+                GridPane.setValignment(islandView, VPos.CENTER);
+                GridPane.setHalignment(islandView, HPos.CENTER);
+                Island islandUnified = new Island(getGui(), islandGrid, islandView, island.getIslandID(), isExpertMode);
+                islands.add(island);
+                island.calculateCoordinates();
+                islandUnified.translateIsland(island.getClockWiseXCoordinate(), island.getClockWiseYCoordinate());
         }
     }
 
@@ -575,7 +610,6 @@ public class TableView extends GuiScreen implements Initializable {
      */
     public void updateState(String stateString){
         Platform.runLater(() -> stateLabel.setText(stateString));
-        //TODO: UPDATE STATE
     }
 
         //UPDATE ISLANDS
@@ -586,8 +620,8 @@ public class TableView extends GuiScreen implements Initializable {
      */
     public void moveMotherNature(int movements){
         Platform.runLater(() -> {
-                    islands.get(motherNatureIsland).removeMotherNature();
-                    islands.get(movements).addMotherNature();
+                    Objects.requireNonNull(getIsland(motherNatureIsland)).removeMotherNature();
+                    Objects.requireNonNull(getIsland(movements)).addMotherNature();
                     motherNatureIsland = movements;
         });
     }
@@ -598,7 +632,7 @@ public class TableView extends GuiScreen implements Initializable {
      * @param numberOfBans new number of bans on the island
      */
     public void changeBansOnIsland(int islandID, int numberOfBans){
-        Platform.runLater(() -> islands.get(islandID).changeNumberOfBans(numberOfBans));
+        Platform.runLater(() -> Objects.requireNonNull(getIsland(islandID)).changeNumberOfBans(numberOfBans));
     }
 
     /**
@@ -607,8 +641,10 @@ public class TableView extends GuiScreen implements Initializable {
      * @param students new students on the island
      */
     public void updateStudentsOnIsland(int islandID, StudentList students){
-        Island island = islands.get(islandID);
-        island.updateStudentsOnIsland(students);
+        Island island = getIsland(islandID);
+        if(island != null) {
+            island.updateStudentsOnIsland(students);
+        }
     }
 
     /**
@@ -618,8 +654,11 @@ public class TableView extends GuiScreen implements Initializable {
      */
     public void updateTowerOnIsland(int islandID, TowerType newTower){
         Platform.runLater(() -> {
-            Island island = islands.get(islandID);
-            island.addTower(newTower);
+            Island island = getIsland(islandID);
+            if(island != null) {
+
+                island.addTower(newTower);
+            }
         });
     }
 
@@ -794,31 +833,35 @@ public class TableView extends GuiScreen implements Initializable {
      * @param sizeIslandRemoved number of islands in the group containing the island moving
      */
     public void unifyIslands(int IDIslandToKeep, int IDIslandToRemove, int sizeIslandRemoved){
-        Island islandToKeep = islands.get(IDIslandToKeep);
-        Island islandToRemove = islands.get(IDIslandToRemove);
+        Island islandToKeep = getIsland(IDIslandToKeep);
+        Island islandToRemove = getIsland(IDIslandToRemove);
 
         //Get the last and the first island of each group
-        int IDLastIslandClockWiseToKeep = getLastIslandClockWise(islandToKeep);
-        int IDLastIslandCounterClockWiseToKeep= getLastIslandCounterClockWise(islandToKeep);
-        int IDLastIslandClockWiseToRemove = getLastIslandClockWise(islandToRemove);
-        int IDLastIslandCounterCLockWiseToRemove = getLastIslandCounterClockWise(islandToRemove);
+        int IDLastIslandClockWiseToKeep = getLastIslandClockWise(IDIslandToKeep);
+        int IDLastIslandCounterClockWiseToKeep= getLastIslandCounterClockWise(IDIslandToKeep);
+        int IDLastIslandClockWiseToRemove = getLastIslandClockWise(IDIslandToRemove);
+        int IDLastIslandCounterCLockWiseToRemove = getLastIslandCounterClockWise(IDIslandToRemove);
         boolean roundClockWise;
 
        //Find the two nearest islands in the group
         if(IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == 1 || IDLastIslandCounterClockWiseToKeep - IDLastIslandClockWiseToRemove == -11){
             IDIslandToKeep = IDLastIslandCounterClockWiseToKeep;
             IDIslandToRemove = IDLastIslandClockWiseToRemove;
-            islandToKeep = islands.get(IDIslandToKeep);
-            islandToRemove = islands.get(IDIslandToRemove);
-            islandToKeep.setIslandUnitedCounterClockWise(islandToRemove);
-            islandToRemove.setIslandUnitedClockwise(islandToKeep);
+            islandToKeep =  getIsland(IDIslandToKeep);
+            islandToRemove = getIsland(IDIslandToRemove);
+            if(islandToKeep != null && islandToRemove != null) {
+                islandToKeep.setIslandUnitedCounterClockWise(islandToRemove);
+                islandToRemove.setIslandUnitedClockwise(islandToKeep);
+            }
             roundClockWise = true;
         }
         else{
             IDIslandToKeep = IDLastIslandClockWiseToKeep;
             IDIslandToRemove = IDLastIslandCounterCLockWiseToRemove;
-            islandToKeep.setIslandUnitedClockwise(islandToRemove);
-            islandToRemove.setIslandUnitedCounterClockWise(islandToKeep);
+            if(islandToKeep != null && islandToRemove != null) {
+                islandToKeep.setIslandUnitedClockwise(islandToRemove);
+                islandToRemove.setIslandUnitedCounterClockWise(islandToKeep);
+            }
             roundClockWise = false;
         }
 
@@ -839,26 +882,34 @@ public class TableView extends GuiScreen implements Initializable {
 
     /**
      * Get last island of a group of island moving clockwise
-     * @param island one island of the group
+     * @param islandID ID of one island of the group
      * @return ID of the last island of the group of island moving clockwise
      */
-    private int getLastIslandClockWise(Island island){
-        while (island.getIslandUnitedClockwise() != null){
-            island = island.getIslandUnitedClockwise();
+    public  int getLastIslandClockWise(int islandID){
+        Island island = getIsland(islandID);
+        if(island != null) {
+            while (island.getIslandUnitedClockwise() != null) {
+                island = island.getIslandUnitedClockwise();
+            }
+            return island.getIslandID();
         }
-        return island.getIslandID();
+        return 0;
     }
 
     /**
      * Get last island of a group of island moving counterclockwise
-     * @param island one island of the group
+     * @param islandID ID of one island of the group
      * @return ID of the last island of the group of island moving counterclockwise
      */
-    private int getLastIslandCounterClockWise(Island island){
-        while (island.getIslandUnitedCounterClockWise() != null){
-            island = island.getIslandUnitedCounterClockWise();
+    public int getLastIslandCounterClockWise(int islandID){
+        Island island = getIsland(islandID);
+        if(island != null) {
+            while (island.getIslandUnitedCounterClockWise() != null) {
+                island = island.getIslandUnitedCounterClockWise();
+            }
+            return island.getIslandID();
         }
-        return island.getIslandID();
+        return 0;
     }
 
     /**
@@ -867,10 +918,13 @@ public class TableView extends GuiScreen implements Initializable {
      * @param IDIslandToRemove ID of the island moving
      */
     public void moveIslands(int IDIslandToKeep, int IDIslandToRemove){
-        Island islandToKeep = islands.get(IDIslandToKeep);
-        Island islandToRemove = islands.get(IDIslandToRemove);
+        Island islandToKeep = getIsland(IDIslandToKeep);
+        Island islandToRemove = getIsland(IDIslandToRemove);
 
         //FInd distance between islands
+        if(islandToKeep == null || islandToRemove == null) {
+            return;
+        }
         double xTranslation = islandToKeep.getXPosition() - islandToRemove.getXPosition();
         double yTranslation = islandToKeep.getYPosition() - islandToRemove.getYPosition();
         islandToKeep.calculateCoordinates();

@@ -28,6 +28,16 @@ public class LocationListener implements EventHandler {
     private int field = 0;
 
     /**
+     * Number of islands clockwise the one listened
+     */
+    private int numberOfIslandsClockwise = 0;
+
+    /**
+     * Number of islands counterclockwise the one listened
+     */
+    private int numberOfIslandsCounterClockwise = 0;
+
+    /**
      * True if the listener can send messages
      */
     private boolean enable = true;
@@ -60,6 +70,22 @@ public class LocationListener implements EventHandler {
         this.field = field;
     }
 
+    /**
+     * Method to set the number of islands CLOCKWISE the one listened
+     * @param numberOfIslandsClockwise number of islands clockwise the one listened
+     */
+    public void setNumberOfIslandsClockwise(int numberOfIslandsClockwise) {
+        this.numberOfIslandsClockwise = numberOfIslandsClockwise;
+    }
+
+    /**
+     * Method to set the number of islands counterclockwise the one listened
+     * @param numberOfIslandsCounterClockwise number of islands counterclockwise the one listened
+     */
+    public void setNumberOfIslandsCounterClockwise(int numberOfIslandsCounterClockwise) {
+        this.numberOfIslandsCounterClockwise = numberOfIslandsCounterClockwise;
+    }
+
     @Override
     public void handle(Event event) {
         if(enable){
@@ -67,7 +93,7 @@ public class LocationListener implements EventHandler {
             position.setField(field);
             System.out.println("Location " + location);//Debugging
             if(gui.getCurrentState().equals(StateType.MOVE_MOTHER_NATURE_STATE)){
-                gui.getClientController().moveMotherNature((field - gui.getTableScreen().getMotherNatureIsland() + 12)% 12 );
+                gui.getClientController().moveMotherNature((gui.getTableScreen().getLastIslandCounterClockWise(field) - gui.getTableScreen().getLastIslandClockWise(gui.getTableScreen().getMotherNatureIsland()) + 12)% 12 );
             }else {
                 gui.getClientController().chooseDestination(position);
             }

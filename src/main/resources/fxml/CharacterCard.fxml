@@ -18,7 +18,7 @@
          </cursor></Label>
       <FlowPane fx:id="extras" hgap="15.0" layoutX="534.0" layoutY="145.0" prefHeight="482.0" prefWidth="111.0" vgap="15.0" />
       <Pane fx:id="cardPane" layoutX="130.0" layoutY="133.0" prefHeight="533.0" prefWidth="358.0" />
-      <Button layoutX="929.0" layoutY="552.0" mnemonicParsing="false" onAction="#useCharacterCard" prefHeight="50.0" prefWidth="102.0" text="USE">
+      <Button fx:id="useButton" layoutX="929.0" layoutY="551.0" mnemonicParsing="false" onAction="#useCharacterCard" prefHeight="50.0" prefWidth="102.0" text="USE">
          <font>
             <Font size="20.0" />
          </font>
@@ -28,5 +28,10 @@
             <Image url="@../assets/exitButton/img.png" />
          </image>
       </ImageView>
+      <Button fx:id="doneButton" layoutX="929.0" layoutY="551.0" mnemonicParsing="false" onAction="#useDoneButton" prefHeight="50.0" prefWidth="102.0" text="DONE" visible="false">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

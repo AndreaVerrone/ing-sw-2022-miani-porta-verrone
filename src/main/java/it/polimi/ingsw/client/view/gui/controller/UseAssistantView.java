@@ -237,4 +237,8 @@ public class UseAssistantView extends GuiScreen {
         assistantName.setText(assistantOnScreen().name());
     }
 
+    @Override
+    public void showErrorMessage(String message) {
+        getGui().getTableScreen().showErrorMessage(message);
+    }
 }
