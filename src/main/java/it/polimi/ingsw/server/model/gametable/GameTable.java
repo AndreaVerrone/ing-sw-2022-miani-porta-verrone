@@ -177,6 +177,7 @@ public class GameTable {
         Island islandAfter = islands.get(indexAfter);
         unify(island, islandBefore);
         unify(island, islandAfter);
+        motherNaturePosition = islands.indexOf(island);
 
     }
 
