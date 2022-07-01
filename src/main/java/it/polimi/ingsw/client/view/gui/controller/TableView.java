@@ -1,13 +1,10 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-import it.polimi.ingsw.client.ScreenBuilder;
-import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.reduced_model.*;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.*;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.CloudPosition;
 import it.polimi.ingsw.client.view.gui.utils.position_getters.IslandPosition;
-import it.polimi.ingsw.server.controller.PlayerLoginInfo;
 import it.polimi.ingsw.server.controller.StateType;
 import it.polimi.ingsw.server.controller.game.Location;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -16,34 +13,25 @@ import it.polimi.ingsw.server.model.player.Wizard;
 import it.polimi.ingsw.server.model.utils.PawnType;
 import it.polimi.ingsw.server.model.utils.StudentList;
 import it.polimi.ingsw.server.model.utils.TowerType;
-import it.polimi.ingsw.server.model.utils.exceptions.NotEnoughStudentException;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.List;

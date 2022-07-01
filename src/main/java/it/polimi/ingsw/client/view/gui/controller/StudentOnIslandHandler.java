@@ -158,7 +158,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
 
     /**
      * Method to change the number of bans on the island
-     * @param numberOfBans new numbe rof bans
+     * @param numberOfBans new number of bans
      */
     public void changeNumberOfBans(int numberOfBans){
         this.numberOfBans = numberOfBans;
@@ -244,6 +244,7 @@ public class StudentOnIslandHandler implements EventHandler<MouseEvent> {
 
     /**
      * Method to not show anymore the students on the island
+     * @param show true if the students must be shown
      */
     public void showStudentsView(boolean show){
         this.show = show;

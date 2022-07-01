@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.gui.utils.position_getters;
 
 /**
- * Class to get the position of the students on the grid of the entrance of each schoolboard of the view
+ * Class to get the position of the students on the grid of the entrance of each school board of the view
  */
 public enum EntrancePosition {
     STUDENT1(1,1),
@@ -25,7 +25,7 @@ public enum EntrancePosition {
     private final int row;
 
     /**
-     * Constructor of the class. Saves the column and the row of the student on the grid of the entrance of each schoolboard
+     * Constructor of the class. Saves the column and the row of the student on the grid of the entrance of each school board
      * @param column number of the column where the student is located
      * @param row number of the row where the student is located
      */

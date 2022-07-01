@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view.gui.utils.position_getters;
 
 /**
- * Class to get the position of the towers on the grid of the tower hall of each schoolboard of the view
+ * Class to get the position of the towers on the grid of the tower hall of each school board of the view
  */
 public enum TowerPosition {
     TOWER1(0,1),
@@ -24,7 +24,7 @@ public enum TowerPosition {
     private final int row;
 
     /**
-     * Constructor of the class. Saves the column and the row of the tower on the grid of the tower hall of each schoolboard
+     * Constructor of the class. Saves the column and the row of the tower on the grid of the tower hall of each school board
      * @param column number of the column where the tower is located
      * @param row number of the row where the tower is located
      */

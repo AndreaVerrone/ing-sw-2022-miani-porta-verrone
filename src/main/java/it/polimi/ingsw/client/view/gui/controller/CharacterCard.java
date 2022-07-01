@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
-
-import it.polimi.ingsw.client.view.gui.ClientGui;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.CharacterCardImageType;
 import it.polimi.ingsw.server.controller.game.expert.CharacterCardsType;
@@ -51,7 +49,7 @@ public class CharacterCard {
     private final GUI gui;
 
     /**
-     * This lass represents a character card on the view with all its informations
+     * This lass represents a character card on the view with all its information
      * @param cardType type of the card on the view
      * @param characterCardView {@code ImageView} of the card
      * @param gui Gui of the game
@@ -123,7 +121,7 @@ public class CharacterCard {
 
     /**
      * Puts a coin on the card
-     * @param coinOnCard true to put acoin on the card
+     * @param coinOnCard true to put a coin on the card
      */
     public void setCoinOnCard(boolean coinOnCard) {
         this.coinOnCard = coinOnCard;

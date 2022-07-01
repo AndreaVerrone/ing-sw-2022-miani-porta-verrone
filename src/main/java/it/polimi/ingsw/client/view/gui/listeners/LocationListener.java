@@ -7,12 +7,24 @@ import it.polimi.ingsw.server.controller.game.Position;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
+/**
+ * This class is used to handle listeners of the location.
+ */
 public class LocationListener implements EventHandler {
 
+    /**
+     * The considered location.
+     */
     private final Location location;
 
+    /**
+     * The considered gui.
+     */
     private final GUI gui;
 
+    /**
+     * The field of the location.
+     */
     private int field = 0;
 
     /**
@@ -20,8 +32,12 @@ public class LocationListener implements EventHandler {
      */
     private boolean enable = true;
 
+    /**
+     * The constructor of the class.
+     * @param gui the considered gui
+     * @param location the considered location.
+     */
     public LocationListener(GUI gui, Location location){
-
         this.gui = gui;
         this.location = location;
     }

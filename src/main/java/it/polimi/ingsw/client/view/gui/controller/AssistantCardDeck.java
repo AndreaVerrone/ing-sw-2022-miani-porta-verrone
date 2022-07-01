@@ -5,11 +5,8 @@ import it.polimi.ingsw.client.view.gui.utils.image_getters.AssistantCardImageTyp
 import it.polimi.ingsw.client.view.gui.utils.image_getters.WizardImageType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import it.polimi.ingsw.server.model.player.Wizard;
-import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-
 import java.util.ArrayList;
 import java.util.List;
 

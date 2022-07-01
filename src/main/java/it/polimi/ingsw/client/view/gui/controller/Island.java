@@ -133,6 +133,7 @@ public class Island {
      * @param islandView {@code ImageView} of the island handled
      * @param islandID ID of the island handled
      * @param isExpertMode true if the game is in expert mode
+     * @param gui the considered gui
      */
     public Island(GUI gui, GridPane gridIsland, ImageView islandView, int islandID, boolean isExpertMode){
         this.gridIsland = gridIsland;
@@ -497,10 +498,16 @@ public class Island {
         }
     }
 
+    /**
+     * This method will allow to enable the listener of the location
+     */
     public void enableLocationListener(){
         islandListener.enableListener();
     }
 
+    /**
+     * This method will allow to disable the listener of the location
+     */
     public void disableLocationListener() {
         islandListener.disableListener();
     }

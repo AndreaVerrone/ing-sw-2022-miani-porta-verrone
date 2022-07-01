@@ -826,6 +826,10 @@ public class Translator {
                 "Click on cloud from which you want to take the students";
     }
 
+    public static String getChooseCloudPhaseName(){
+        return isItalian? "FASE D'AZIONE: Scelta della nuvola": "ACTION PHASE: choice of the cloud";
+    }
+
     public static String getUseAssistantMessage(){
         return isItalian ?
                 "Clicca sulla carta assistente per visualizzare il mazzo":
