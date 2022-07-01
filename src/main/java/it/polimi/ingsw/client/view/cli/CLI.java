@@ -315,7 +315,6 @@ public class CLI extends ClientView {
 
     @Override
     public void islandNumberChanged(int actualNumOfIslands) {
-        // todo: it is not used for the cli
     }
 
     @Override
@@ -339,7 +338,6 @@ public class CLI extends ClientView {
 
     @Override
     public void coinNumberInBagChanged(int actualNumOfCoins) {
-        // todo: it is not shown in cli
     }
 
     @Override

@@ -42,11 +42,9 @@ public class CharacterCard11 extends CharacterCard {
             try {
                 studentList.changeNumOf(game.getModel().getGameTable().getStudentFromBag(),1);
             } catch (EmptyBagException e) {
-                // todo: how to manage ?
                 // it is impossible that happen since the card is built at the begging of the game
                 e.printStackTrace();
             } catch (NotEnoughStudentException e) {
-                // todo: how to manage ?
                 // it is impossible that is thrown since the delta is positive.
                 e.printStackTrace();
             }
@@ -72,7 +70,6 @@ public class CharacterCard11 extends CharacterCard {
         try {
             studentList.changeNumOf(pawnType, 1);
         } catch (NotEnoughStudentException e) {
-            // todo: how to manage ?
             // it is impossible that is thrown since the delta is positive.
             e.printStackTrace();
         }

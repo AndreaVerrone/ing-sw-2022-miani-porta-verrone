@@ -234,6 +234,7 @@ public abstract class GuiScreen {
     
     /**
      * Method to fill the Character card with all the features
+     * @param card card filled
      */
     public void fillView(CharacterCard card){
     }

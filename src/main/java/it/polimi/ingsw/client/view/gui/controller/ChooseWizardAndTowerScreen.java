@@ -152,7 +152,6 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
         // take the tower
         int numTower = towerImages.indexOf(imageViewTower.getImage());
         TowerType towerTypeChosen = towerTypeMap.get(numTower);
-        System.out.println("CHOOSEN:" + wizardChosen + " and " + towerTypeChosen); // todo: testing only
         // Go to idle matchmaking
         getGui().getClientController().setWizard(wizardChosen);
         try{
@@ -186,7 +185,6 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
             wizardImagePaths.add(WizardImageType.typeConverter(wizard).getPath());
             // add element to the map
             wizardMap.put(wizardsAvailable.indexOf(wizard),wizard);
-            System.out.println(WizardImageType.typeConverter(wizard).getPath()); // todo: testing only
         }
         // create the list of images
         creteImageList(wizardImagePaths,this.wizardImages);
@@ -205,7 +203,6 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
             towerImagePaths.add(TowerImageType.typeConverter(towerType).getPath());
             // add element to the map
             towerTypeMap.put(towersAvailable.indexOf(towerType),towerType);
-            System.out.println(TowerImageType.typeConverter(towerType).getPath()); // todo: testing only
         }
         // create the list of images
         creteImageList(towerImagePaths,this.towerImages);
@@ -219,7 +216,6 @@ public class ChooseWizardAndTowerScreen extends GuiScreen implements Initializab
     private void creteImageList(List<String> imagePaths, List<Image> images){
         for(String imagePath: imagePaths){
             images.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath))));
-            System.out.println("add"); // todo: testing code
         }
     }
 

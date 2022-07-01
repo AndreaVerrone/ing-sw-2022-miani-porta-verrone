@@ -125,6 +125,9 @@ public class Island {
      */
     private TranslateTransition translateAnimationTower;
 
+    /**
+     * Listener on the island
+     */
     private final LocationListener islandListener;
 
     /**

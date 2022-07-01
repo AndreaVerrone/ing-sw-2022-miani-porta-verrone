@@ -125,9 +125,6 @@ public class NetworkView implements VirtualView {
 
     @Override
     public void islandNumberChanged(int actualNumOfIslands) {
-        // TODO: send message
-        //  there is not a message since this observer is used to check
-        //  the end of game, it maybe could be useful for the GUI ?
     }
 
     @Override

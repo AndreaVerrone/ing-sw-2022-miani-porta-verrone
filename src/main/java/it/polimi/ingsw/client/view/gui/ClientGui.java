@@ -35,11 +35,6 @@ public class ClientGui extends javafx.application.Application {
         primaryStage.setTitle("Eriantys");
         primaryStage.getIcons().add(new Image("/assets/logo/eriantys_banner.png"));
 
-        // todo: open the window at the center of the screen
-        //primaryStage.setX((primaryStage.getWidth() - primaryStage.getWidth()) / 2);
-        //primaryStage.setY((primaryStage.getHeight() - primaryStage.getHeight()) / 2);
-        //primaryStage.centerOnScreen();
-        //primaryStage.setX(100);
 
         // create the client controller
         new ClientController(gui);
