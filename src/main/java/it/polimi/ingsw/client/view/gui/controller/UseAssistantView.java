@@ -1,13 +1,19 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.Translator;
 import it.polimi.ingsw.client.view.gui.GuiScreen;
 import it.polimi.ingsw.client.view.gui.utils.image_getters.AssistantCardImageType;
 import it.polimi.ingsw.server.model.player.Assistant;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
+
 import java.util.*;
 
 /**
@@ -34,6 +40,21 @@ public class UseAssistantView extends GuiScreen {
     @FXML
     Label assistantName;
 
+    @FXML
+    Button sxButton;
+
+    @FXML
+    Button dxButton;
+
+    @FXML
+    Button okButton;
+
+    @FXML
+    AnchorPane background;
+
+    @FXML
+    Label errorLabel;
+
     /**
      * This is a list containing the images of the assistants.
      */
@@ -45,6 +66,12 @@ public class UseAssistantView extends GuiScreen {
      */
     Map<Integer,Assistant> map = new HashMap<>();
 
+    /*@Override
+    public void showErrorMessage(String message){
+        errorLabel.setText(message);
+    }*/
+
+
     /**
      * This method is used to set up the screen.
      * It will create the list of images of assistant cards
@@ -52,22 +79,46 @@ public class UseAssistantView extends GuiScreen {
      * @param deck the deck (i.e., list of assistant cards available)
      */
     public void setUp(Collection<Assistant>deck){
-        System.out.println("CALLING OF METHOD !");
-        // create the list
-        createAssistantImageList(new ArrayList<>(deck));
-        // set the image
-        assistantImageView.setImage(assistantImages.get(0));
-        System.out.println("set first image");
-        // set the label
-        indicator.setText("1/"+assistantImages.size());
-        System.out.println("set the label");
+        System.out.println("CALLING OF METHOD in use assistant view");
+        System.out.println("assistants in input: " + deck);
+        // color the background
+        background.setBackground(Background.fill(Color.AQUAMARINE));
+        // set up the text on the button
+        okButton.setText(Translator.getUseCardButton());
+        if(deck.size()>0) {
+            // create the list
+            createAssistantImageList(new ArrayList<>(deck));
+            // set the image
+            assistantImageView.setImage(assistantImages.get(0));
+            System.out.println("set first image");
+            // set the label
+            indicator.setText("1/" + assistantImages.size());
+            assistantName.setText(assistantOnScreen().name());
+            System.out.println("set the label");
+        }else{
+            // disable all buttons
+            okButton.setDisable(true);
+            dxButton.setDisable(true);
+            sxButton.setDisable(true);
+            // set the upper label
+            assistantName.setText(Translator.getEmptyDeckMessage());
+            // set the image
+            assistantImageView.setImage(new Image("/assets/wizards/motherNature.png"));
+            // set the lower label
+            indicator.setText("0/0");
+
+        }
     }
 
     /**
      * This method is called when the user
      */
     public void useAssistant(){
+        errorLabel.setText("");
         Assistant assistantChosen = assistantOnScreen();
+        if(assistantChosen==null){
+            return;
+        }
         Platform.runLater(()->{
             getGui().getUseAssistantStage().close();
             getGui().getClientController().useAssistant(assistantChosen);
@@ -82,6 +133,9 @@ public class UseAssistantView extends GuiScreen {
      * It allows to display the next assistant.
      */
     public void setNext() {
+        if(this.assistantImages.size()==0){
+            return;
+        }
         setNextImage(this.assistantImages,assistantImageView,indicator);
     }
 
@@ -91,6 +145,9 @@ public class UseAssistantView extends GuiScreen {
      * It allows to display the previous assistant.
      */
     public void setPrevious() {
+        if(this.assistantImages.size()==0){
+            return;
+        }
         setPreviousImage(this.assistantImages,assistantImageView,indicator);
     }
 

@@ -355,6 +355,7 @@ public class GUI extends ClientView {
      */
     @Override
     public void assistantDeckChanged(String nickName, Collection<Assistant> actualDeck) {
+        deck = new ArrayList<>(actualDeck);
         currentScreen=tableScreen;
         currentScreen.updateDeck(new ArrayList<>(actualDeck));
     }
