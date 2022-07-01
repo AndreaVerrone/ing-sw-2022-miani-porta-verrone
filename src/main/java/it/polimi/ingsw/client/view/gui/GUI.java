@@ -232,7 +232,11 @@ public class GUI extends ClientView {
     @Override
     public void currentPlayerOrStateChanged(StateType currentState, String currentPlayer) {
         getClientController().setNickNameCurrentPlayer(currentPlayer);
-        getScreenBuilder().build(ScreenBuilder.Screen.parse(currentState));
+        ScreenBuilder.Screen screen = ScreenBuilder.Screen.parse(currentState);
+        if (screen != null) {
+            getScreenBuilder().build(screen);
+        }
+        //getScreenBuilder().build(ScreenBuilder.Screen.parse(currentState));
         this.currentState = currentState;
         if(currentScreen == null){
             needToUpdate = true;

@@ -212,6 +212,7 @@ public class GuiScreenBuilder extends ScreenBuilder {
                 Platform.runLater(
                         () -> {
                             gui.getStage().setScene(scene);
+                            stage.setFullScreen(false);
                             stage.setScene(scene);
                         }
                 );
