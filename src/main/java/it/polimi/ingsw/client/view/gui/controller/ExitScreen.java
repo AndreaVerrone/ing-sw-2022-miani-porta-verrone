@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.view.gui.GuiScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.util.List;
 
@@ -34,6 +36,9 @@ public class ExitScreen extends GuiScreen {
     @FXML
     private Button logoutButton;
 
+    @FXML
+    private AnchorPane background;
+
     /**
      * This method is used to set up this screen.
      * It will fill the labels with the proper text based on the list of winners and
@@ -41,6 +46,7 @@ public class ExitScreen extends GuiScreen {
      * @param strings the list of the winners.
      */
     public void setUpExitScreen(List<String> strings) {
+        background.setBackground(Background.fill(Color.LIGHTBLUE));
         setDescriptionText(strings);
         logoutButton.setText(Translator.getExitButton());
     }
@@ -50,7 +56,10 @@ public class ExitScreen extends GuiScreen {
      * It allows to exit the game.
      */
     public void logout(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        getGui().getClientController().quitGame();
+        getGui().getScreenBuilder().build(ScreenBuilder.Screen.HOME);
+
+        /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(Translator.getAlertTitle());
         alert.setHeaderText(Translator.getAlertHeader());
         alert.setContentText(Translator.getAlertContent());
@@ -65,7 +74,7 @@ public class ExitScreen extends GuiScreen {
             Stage stage = (Stage) scenePane.getScene().getWindow();
             // System.out.println("you have successfully logged out");
             stage.close();
-        }
+        }*/
     }
 
     /**

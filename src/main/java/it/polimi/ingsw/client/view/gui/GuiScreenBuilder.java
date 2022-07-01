@@ -205,15 +205,14 @@ public class GuiScreenBuilder extends ScreenBuilder {
                 GuiScreen exitScreen = loader.getController();
                 gui.setCurrentScreen(exitScreen);
                 exitScreen.attachTo(gui);
-                exitScreen.setUpExitScreen(new ArrayList<>(inputs));
+                Platform.runLater(()->exitScreen.setUpExitScreen(new ArrayList<>(inputs)));
 
                 Scene scene = new Scene(root);
 
                 Platform.runLater(
                         () -> {
                             gui.getStage().setScene(scene);
-                            stage.setFullScreen(false);
-                            stage.setScene(scene);
+                            gui.getStage().setFullScreen(false);
                         }
                 );
 
