@@ -88,10 +88,10 @@ public class LobbyScreen extends GuiScreen implements Initializable {
         for(PlayerView playerView: map.values()){
             string.append(playerView.getNickname()).append(":");
             if(playerView.getWizard()!=null){
-                string.append("\t\t").append(Translator.getWizard()).append(" ").append(playerView.getWizard().get());
+                string.append("\t\t").append(Translator.getWizard()).append(" ").append(playerView.getWizard());
             }
             if(playerView.getTowerType()!=null){
-                string.append("\t\t").append(Translator.getTower()).append(" ").append(Translator.getTowerName(playerView.getTowerType().get()));
+                string.append("\t\t").append(Translator.getTower()).append(" ").append(Translator.getTowerName(playerView.getTowerType()));
             }
             string.append("\n");
         }
