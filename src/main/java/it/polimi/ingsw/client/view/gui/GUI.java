@@ -524,7 +524,6 @@ public class GUI extends ClientView {
     public void lastAssistantUsedChanged(String nickName, Assistant actualLastAssistant) {
         currentScreen=tableScreen;
         currentScreen.useAssistantCard(nickName, actualLastAssistant);
-        System.out.println("Update assistant: " + actualLastAssistant);
     }
 
     /**

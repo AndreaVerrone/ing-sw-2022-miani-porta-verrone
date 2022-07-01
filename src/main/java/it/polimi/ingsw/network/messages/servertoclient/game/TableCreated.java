@@ -31,6 +31,5 @@ public class TableCreated extends ServerCommandNetMsg {
     @Override
     public void processMessage(ClientView client) {
         client.gameCreated(table);
-        System.out.println("Process game creation");
     }
 }
